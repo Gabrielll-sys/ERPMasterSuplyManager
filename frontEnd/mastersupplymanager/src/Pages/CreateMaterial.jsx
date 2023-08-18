@@ -1,0 +1,412 @@
+import { useQuery } from "@tanstack/react-query";
+import { Button } from "primereact/button";
+import { useNavigate } from "react-router-dom";
+import Header from "../componentes/Header";
+import { Snackbar } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import { DatePicker } from "@mui/x-date-pickers";
+import { url } from "../contetxs/webApiUrl";
+import CreateIcon from "@mui/icons-material/Create";
+import "dayjs/locale/pt-br";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import "../style/createMaterial.css";
+import MuiAlert from "@mui/material/Alert";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import TextField from "@mui/material/TextField";
+import axios from "axios";
+import dayjs from "dayjs";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+
+import Select from '@mui/material/Select';
+const CreateMaterial = () => {
+  const navigate = useNavigate();
+
+  const [categoria, setCategoria] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [codigo, setCodigo] = useState("");
+  const [marca, setMarca] = useState("");
+  const [tensao, setTensao] = useState("");
+  const [corrente, setCorrente] = useState("");
+  const [unidade, setUnidade] = useState("UN");
+  const [dataentrada, setDataentrada] = useState();
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [messageAlert, setMessageAlert] = useState();
+  const [severidadeAlert, setSeveridadeAlert] = useState();
+  const [object,setObject]= useState([])
+ 
+
+  const [materiais, setMateriais] = useState([]);
+
+  const unidadeMaterial = ["UN", "RL", "PÇ", "MT", "P"];
+  const tensoes = ["","127V","220V","380V","440V","660V"]
+
+  useEffect(() => {
+    //Irá começar a realizar a busca somente quando  a descrição tiver 3 caracteres
+    if (descricao.length>=3) {
+     searchByDescription().then().catch();
+
+    }
+    setMateriais([])
+
+  }, [descricao]);
+
+  useEffect(() => {
+        //Irá começar a realizar a busca somente quando  a categoria tiver 3 caracteres
+    if (categoria.length>=3) {
+      
+      searchByCategory().then().catch();
+
+    }
+    setMateriais([])
+
+  }, [categoria]);
+
+  const searchByDescription = async () => {
+
+   
+    const res = await axios
+      .get(`${url}/Materiais/busca?descricao=${descricao}`)
+      .then( (r)=> {
+       return r.data
+       
+      })
+      .catch();
+      const materialsWithCategory = [];
+
+       for (let i of res) {
+        
+         axios.get(`${url}/Categorias/${i.id}`).then(r=>{
+         
+          materialsWithCategory.push({...i,nomeCategoria:r.data.nomeCategoria})
+       
+         })
+  };
+  setObject(materialsWithCategory)
+  setMateriais(object)
+  
+};
+
+  const searchByCategory = async () => {
+    
+    const res = await axios
+      .get(`${url}/Categorias/busca?categoria=${categoria}`)
+      .then((r) => {
+        return r.data
+      }).catch(e=>console.log(e));
+
+      const materialsWithCategory = [];
+
+      for (let i of res) {
+       
+        axios.get(`${url}/Categorias/${i.id}`).then(r=>{
+        
+         materialsWithCategory.push({...i,nomeCategoria:r.data.nomeCategoria})
+      
+        })
+ };
+ setObject(materialsWithCategory)
+ setMateriais(object)
+
+  };
+  const getAllMateriais = async () => {
+    const res = await axios
+      .get(`${url}/Materiai`)
+      .then((r) => {
+        console.log(r.data);
+      }).catch(e=>console.log(e));
+      
+  };
+
+  const createCategoria = async (idMaterial) => {
+    const category = {
+      nomeCategoria: categoria,
+      materialId: idMaterial,
+      material: {},
+    };
+    await axios
+      .post(`${url}/Categorias`, category)
+      .then((r) => {})
+      .catch((e) => console.log(e));
+  };
+  const createMaterial = async () => {
+    // navigate("/updateMaterial")
+
+    if (!categoria || !descricao || !unidade) {
+      setOpenSnackBar(true);
+      setSeveridadeAlert("warning");
+      setMessageAlert("Prencha todas as informações necessárias");
+    } else {
+      // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
+      const material = {
+        codigo: codigo.trim().replace(/\s\s+/g, " "),
+        descricao: descricao.trim().replace(/\s\s+/g, " "),
+        marca: marca.trim().replace(/\s\s+/g, " "),
+        corrente: corrente.trim().replace(/\s\s+/g, " "),
+        unidade: unidade.trim().replace(/\s\s+/g, " "),
+        tensao: tensao.trim().replace(/\s\s+/g, " "),
+        corrente: corrente.trim().replace(/\s\s+/g, " "),
+
+        dataEntradaNF: dataentrada,
+      };
+
+      const materialCriado = await axios
+        .post(`${url}/Materiais`, material)
+        .then((r) => {
+          createCategoria(r.data.id);
+      
+          setOpenSnackBar(true);
+          setSeveridadeAlert("success");
+          setMessageAlert("Material Criado com sucesso");
+          return r.data
+        })
+        .catch((e) => {
+          console.log(e.response.data.message[0].errorMessage);
+          if (e.response.data.message == "Código já existe") {
+            setOpenSnackBar(true);
+            setSeveridadeAlert("error");
+            setMessageAlert("Já existe um material com este código");
+          } else if (
+            e.response.data.message ==
+            "Um material com essa descrição já existe"
+          ) {
+            setOpenSnackBar(true);
+            setSeveridadeAlert("error");
+            setMessageAlert("Um matérial com esta descrição já existe");
+          }
+        });
+        //Quando criar o material.atualizara a  lista de materias que estao a amostra
+        materiais.push(materialCriado)
+
+      //Quando criar o material,chamara o metodo para atualizar os dados da tabela
+
+    }
+  };
+
+  const deleteMaterial = async (id) => {
+
+    await axios
+      .delete(`${url}/Materiais/${id}`)
+      .then((r) => {
+        setOpenSnackBar(true);
+        setSeveridadeAlert("success");
+        setMessageAlert("Material excluído com sucesso");
+        //realiza um filtro na lista de materias que esta sendo mostrada,para remover o item que acabou de ser excluido, e assim a atualizar os materias que estão a amostra
+        const a = materiais.filter(x=> x.id!=id)
+        setMateriais(a)
+      })
+      .catch((e) => console.log(e));
+  };
+  const getCategoria = async (id) => {
+
+    const res = await axios
+      .get(`${url}/Categorias/${id}`)
+      .then(async(r) => {
+        return await r.data
+      });
+
+    
+  };
+
+  return (
+    <>
+      <Header />
+
+      <h1>Entrada de Materiais</h1>
+
+      <div className="container-inputs">
+        <TextField
+          error={
+            severidadeAlert != "warning" || categoria.length ? false : true
+          }
+          value={categoria}
+          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+          className="inputs"
+          onChange={(e) => setCategoria(e.target.value)}
+          label="Categoria"
+          required
+        />
+
+        <TextField
+          error={severidadeAlert != "warning" || codigo.length ? false : true}
+          value={codigo}
+          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+          className="inputs"
+          onChange={(e) => setCodigo(e.target.value)}
+          label="Código"
+          required
+        />
+
+        <TextField
+          error={
+            severidadeAlert != "warning" || descricao.length ? false : true
+          }
+          value={descricao}
+          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+          className="inputs"
+          onChange={(e) => setDescricao(e.target.value)}
+          label="Descrição"
+          required
+        />
+
+        <TextField
+          value={marca}
+          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+          className="inputs"
+          onChange={(e) => setMarca(e.target.value)}
+          label="Marca"
+        />
+
+      
+ <Select
+     style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px"}}
+     labelId="demo-simple-select-label"
+    value={tensao}
+    label="Tensao"
+    onChange={x=>setTensao(x.target.value)}
+  >
+      {tensoes.map((x)=>(
+        <MenuItem value={x}>{x}</MenuItem>
+        
+      ))}
+    
+  
+  </Select>
+        <TextField
+          value={corrente}
+          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px"}}
+          className="inputs"
+          onChange={(e) => setCorrente(e.target.value)}
+          label="Corrente"
+        />
+
+     
+
+  <Select
+     style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"120px"}}
+     labelId="demo-simple-select-label"
+    value={unidade}
+    label="Unidade"
+    onChange={x=>setUnidade(x.target.value)}
+  >
+      {unidadeMaterial.map((x)=>(
+        <MenuItem value={x}>{x}</MenuItem>
+        
+      ))}
+    
+  
+  </Select>
+        <div style={{ marginTop: "40px", width: "170px",marginLeft:"20px" }}>
+          <LocalizationProvider
+            dateAdapter={AdapterDayjs}
+            adapterLocale="pt-br"
+          >
+            <DatePicker
+              label="Data Entrada NF"
+              value={dataentrada}
+              onChange={(e) => setDataentrada(e)}
+            />
+          </LocalizationProvider>
+        </div>
+      </div>
+      <div className="container-botoes">
+        <Button
+          className="botao"
+          label="Criar Material"
+          onClick={createMaterial}
+        />
+       
+        <div className="card-table">
+          <TableContainer component={Paper}>
+            <Table
+              sx={{ width: "100vw", margin: "auto" }}
+              aria-label="simple table"
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center">Categoria</TableCell>
+                  <TableCell align="center">Codigo</TableCell>
+                  <TableCell align="center">Descrição</TableCell>
+                  <TableCell align="center">Marca</TableCell>
+                  <TableCell align="center">Tensão</TableCell>
+                  <TableCell align="center">Unidade</TableCell>
+                  <TableCell align="center">Corrente</TableCell>
+                  <TableCell align="center">DataEntradaNF</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {materiais.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                
+                    <TableCell align="center" size="medium">{row.nomeCategoria}</TableCell>
+                    <TableCell align="center">{row.codigo}</TableCell>
+                    <TableCell align="center">{row.descricao}</TableCell>
+                    <TableCell align="center">{row.marca}</TableCell>
+                    <TableCell align="center">{row.tensao}</TableCell>
+                    <TableCell align="center" size ="small">{row.unidade}</TableCell>
+                    <TableCell align="center">{row.corrente}</TableCell>
+                    <TableCell align="center">
+                      {dayjs(row.dataEntradaNF).format("DD/MM/YYYY")}
+                    </TableCell>
+
+                    {/* <TableCell align="center">    <Button  className="botao"label="Criar Material"onClick={x=>navigate("/updateMaterial",{state:row.id})} />
+</TableCell> */}
+                    <Button
+                    style={{backgroundColor:'white',marginTop:"7px"}}
+                      onClick={(x) =>
+                        navigate("/updateMaterial", { state: row.id })
+                      }
+                    >
+                      <CreateIcon />
+                    </Button>
+                    <Button
+                      style={{ marginLeft: "15px" ,backgroundColor:'white'}}
+                      onClick={(x) => deleteMaterial(row.id)}
+                    >
+                      <DeleteIcon />
+                    </Button>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          {/* <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        /> */}
+          <Snackbar
+            open={openSnackBar}
+            autoHideDuration={3000}
+            onClose={(e) => setOpenSnackBar(false)}
+          >
+            <MuiAlert
+              onClose={(e) => setOpenSnackBar(false)}
+              severity={severidadeAlert}
+              sx={{ width: "100%" }}
+            >
+              {messageAlert}
+            </MuiAlert>
+          </Snackbar>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default CreateMaterial;
