@@ -6,6 +6,7 @@ namespace SupplyManager.Models
     public class Inventario : IInvetario
     {
         public int Id { get; set; }
+        public DateTime DataAlteracao { get; set; }
 
         public string? Descricao { get; set; }
         public string? Codigo { get; set; }
@@ -17,29 +18,36 @@ namespace SupplyManager.Models
 
         public float? SaldoFinal { get; set; }
 
+        public string? Responsavel { get;set; }
 
-        public Inventario(string? descricao,string? codigo,string? razao,float? estoque,float? movimentacao,float? saldoFinal) { 
+
+        public Inventario(string? descricao,string? codigo,string? razao,float? estoque,float? movimentacao,float? saldoFinal,string? responsavel) { 
+            DataAlteracao= DateTime.Now;
             Descricao = descricao;
             Codigo = codigo;
             Razao = razao;
             Estoque = estoque;
             Movimentacao = movimentacao;
             SaldoFinal = saldoFinal;
+            Responsavel = responsavel;
         
         }
         
-           public string EstoqueMovimentacao(float? movimento)
+           public string EstoqueMovimentacao(float? saldoFinal)
         {
 
-            if (movimento > Estoque)
+            if (saldoFinal > Estoque)
             {
-                Movimentacao= movimento-Estoque;
+                Movimentacao= saldoFinal-Estoque;
+                SaldoFinal= saldoFinal;
           
-                return "Estoque removido com sucesso";
+                return "Estoque adicionado com sucesso";
             } 
-            else if (movimento < Estoque)
+            else if (saldoFinal < Estoque)
             {
-                Movimentacao = Estoque - movimento;
+                Movimentacao = saldoFinal - Estoque;
+                SaldoFinal = saldoFinal;
+
                 return "Estoque removido com sucesso";
 
             }

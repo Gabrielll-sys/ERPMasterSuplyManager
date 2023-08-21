@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import CreateMaterial from "./Pages/CreateMaterial";
 import UpdateMaterial from "./Pages/UpdateMaterial";
-import CreateMaterial from "./Pages/CreateMaterial";
-import UpdateMaterial from "./Pages/UpdateInvetory";
+import CreateInvetory from "./Pages/CreateInvetory";
+import UpdateInvetory from "./Pages/UpdateInventory";
 function App() {
   
   const queryClient = new QueryClient()
@@ -17,10 +17,10 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Router>
           <Routes>
-            <Route path="/" element={<CreateMaterial />} />
+            <Route path="createMaterial" element={<CreateMaterial />} />
             <Route path="/updateMaterial" element={<UpdateMaterial />} />
-            <Route path="/updateMaterial" element={<CreateInventory />} />
-            <Route path="/updateInventory" element={<UpdateInventory />} />
+            <Route path="/" element={<CreateInvetory />} />
+            <Route path="/updateInventory" element={<UpdateInvetory />} />
           </Routes>
         </Router>
       </QueryClientProvider>

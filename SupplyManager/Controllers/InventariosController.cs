@@ -74,7 +74,40 @@ namespace SupplyManager.Controllers
 
 
         }
+        [HttpGet(template: "busca")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<Material>> Busca(string descricao)
+        {
 
+
+            try
+            {
+                var queryMaterial = from query in _context.Inventarios select query;
+
+
+                //Ordena a busca de materia
+
+                queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao)).OrderBy(x => x.Descricao);
+
+
+                return Ok(await queryMaterial.ToListAsync());
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+
+
+        }
         [HttpPost()]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -87,7 +120,7 @@ namespace SupplyManager.Controllers
 
             try
             {
-                Inventario inventario = new Inventario(model.Descricao, model.Codigo, model.Razao, model.Estoque, model.Movimentacao, model.SaldoFinal);
+                Inventario inventario = new Inventario(model.Descricao, model.Codigo, model.Razao, model.Estoque, model.Movimentacao, model.SaldoFinal,model.Responsavel);
 
                 InvetarioPostValidator Inv1 = new InvetarioPostValidator();
 
@@ -135,7 +168,7 @@ namespace SupplyManager.Controllers
             {
                 var inventario = await _context.Inventarios.FirstOrDefaultAsync(x => x.Id == model.Id);
 
-                inventario.EstoqueMovimentacao(model.Estoque);
+                var response= inventario.EstoqueMovimentacao(model.SaldoFinal);
                 _context.Update(inventario);
                 await _context.SaveChangesAsync();
 
