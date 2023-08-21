@@ -113,6 +113,7 @@ const CreateMaterial = () => {
       
         })
  };
+
  setObject(materialsWithCategory)
  setMateriais(object)
 
@@ -138,7 +139,9 @@ const CreateMaterial = () => {
       .catch((e) => console.log(e));
   };
   const createMaterial = async () => {
+    
     // navigate("/updateMaterial")
+
 
     if (!categoria || !descricao || !unidade) {
       setOpenSnackBar(true);
@@ -220,7 +223,7 @@ const CreateMaterial = () => {
     <>
       <Header />
 
-      <h1>Entrada de Materiais</h1>
+      <h1>Criação de Inventário</h1>
 
       <div className="container-inputs">
         <TextField

@@ -20,7 +20,8 @@ namespace SupplyManager.Validations.MateriaisValidations
 
             RuleFor(x => x.Codigo)
                 .NotEmpty()
-                .WithMessage("O código não pode ser vázio");
+                .MinimumLength(4)
+                .WithMessage("O código não pode ser vázio e precisa ter comprimento maior que 3 caracteres");
 
         
         }

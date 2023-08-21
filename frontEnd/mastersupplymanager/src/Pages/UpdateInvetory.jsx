@@ -19,8 +19,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
-
-const UpdateMaterial = ()=>{
+const UpdateInventory = ()=>{
  const navigate = useNavigate()
 
  //Variável que é passada pela rota na tela de criar material,aonde quando clicar no icone de editar,passara o id do material
@@ -210,8 +209,7 @@ const material = {
    
     <TextField   value={marca} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}} 
     className='inputs' onChange={e=>setMarca(e.target.value)}  label='Marca' />
-
-
+   
       
    <Select
      style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px"}}
@@ -280,4 +278,4 @@ const material = {
   );
 }
 
-export default UpdateMaterial;
+export default UpdateInventory;

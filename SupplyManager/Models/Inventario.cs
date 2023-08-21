@@ -18,7 +18,7 @@ namespace SupplyManager.Models
         public float? SaldoFinal { get; set; }
 
 
-        public Inventario(string descricao,string codigo,string razao,float estoque,float movimentacao,float saldoFinal) { 
+        public Inventario(string? descricao,string? codigo,string? razao,float? estoque,float? movimentacao,float? saldoFinal) { 
             Descricao = descricao;
             Codigo = codigo;
             Razao = razao;
@@ -28,12 +28,13 @@ namespace SupplyManager.Models
         
         }
         
-           public string EstoqueMovimentacao(float movimento)
+           public string EstoqueMovimentacao(float? movimento)
         {
 
             if (movimento > Estoque)
             {
                 Movimentacao= movimento-Estoque;
+          
                 return "Estoque removido com sucesso";
             } 
             else if (movimento < Estoque)
