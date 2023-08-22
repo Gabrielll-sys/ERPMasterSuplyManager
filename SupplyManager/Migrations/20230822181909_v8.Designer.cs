@@ -11,7 +11,7 @@ using SupplyManager.App;
 namespace SupplyManager.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20230821135021_v8")]
+    [Migration("20230822181909_v8")]
     partial class v8
     {
         /// <inheritdoc />
@@ -47,9 +47,6 @@ namespace SupplyManager.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    b.Property<string>("Codigo")
-                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("DataAlteracao")
                         .HasColumnType("datetime(6)");

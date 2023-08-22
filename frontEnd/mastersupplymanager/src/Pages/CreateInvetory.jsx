@@ -39,8 +39,7 @@ const CreateInvetory = () => {
 
   const [invetarios, setInventarios] = useState([]);
 
-  const unidadeMaterial = ["UN", "RL", "PÇ", "MT", "P"];
-  const tensoes = ["","127V","220V","380V","440V","660V"]
+
 
   useEffect(() => {
     //Irá começar a realizar a busca somente quando  a descrição tiver 3 caracteres
@@ -59,22 +58,13 @@ const CreateInvetory = () => {
     const res = await axios
       .get(`${url}/Inventarios/busca?descricao=${descricao}`)
       .then( (r)=> {
+
        return r.data
        
       })
       .catch();
-      const materialsWithCategory = [];
-
-       for (let i of res) {
-        
-         axios.get(`${url}/Categorias/${i.id}`).then(r=>{
-         
-          materialsWithCategory.push({...i,nomeCategoria:r.data.nomeCategoria})
-       
-         })
-  };
-  setObject(materialsWithCategory)
-  setInventarios(object)
+      
+  setInventarios(res)
   
 };
 
@@ -100,20 +90,20 @@ const CreateInvetory = () => {
       setMessageAlert("Prencha todas as informações necessárias");
     } else {
       // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
-      const material = {
+      const inventario = {
         descricao: descricao.trim().replace(/\s\s+/g, " "),
-        estoque: estoque.trim().replace(/\s\s+/g, " "),
+        estoque: estoque,
         
       };
 
       const invetarioCriado = await axios
-        .post(`${url}/Inventarios`, material)
+        .post(`${url}/Inventarios`, inventario)
         .then((r) => {
          
       
           setOpenSnackBar(true);
           setSeveridadeAlert("success");
-          setMessageAlert("Material Criado com sucesso");
+          setMessageAlert("Inventário Criado com sucesso");
           return r.data
         })
         .catch((e) => {
@@ -170,7 +160,7 @@ const CreateInvetory = () => {
           error={
             severidadeAlert != "warning" || descricao.length ? false : true
           }
-          value={descricao}
+          value={estoque}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
           className="inputs"
           onChange={(e) => setEstoque(e.target.value)}
@@ -194,7 +184,7 @@ const CreateInvetory = () => {
       <div className="container-botoes">
         <Button
           className="botao"
-          label="Criar Material"
+          label="Criar Item Inventário"
           onClick={CreateInventory}
         />
        
@@ -224,10 +214,10 @@ const CreateInvetory = () => {
                   >
                 
                 <TableCell align="center">
-                      {dayjs(row.dataAlteracao).format("DD/MM/YYYY")}
+                      {dayjs(row.dataAlteracao).format("DD/MM/YYYY [as] HH:mm:ss")} 
                     </TableCell>
                     <TableCell align="center" size="medium">{row.descricao}</TableCell>
-                    <TableCell align="center">{row.estoque}</TableCell>
+                    <TableCell align="center" size="">{row.estoque}</TableCell>
                     <TableCell align="center">{row.movimentacao}</TableCell>
                     <TableCell align="center">{row.saldoFinal}</TableCell>
                     <TableCell align="center">{row.razao}</TableCell>

@@ -12,10 +12,10 @@ namespace SupplyManager.Validations.InventarioValidations
                 .NotEmpty()
                 .WithMessage("A descrição não pode ser vazia");
 
-            RuleFor(x => x.Codigo)
+/*            RuleFor(x => x.Codigo)
             .NotEmpty()
             .MinimumLength(4)
-            .WithMessage("O código não pode ser vázio e precisa ter comprimento maior que 3 caracteres");
+            .WithMessage("O código não pode ser vázio e precisa ter comprimento maior que 3 caracteres");*/
 
         }
 

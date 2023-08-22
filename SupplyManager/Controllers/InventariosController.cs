@@ -120,7 +120,7 @@ namespace SupplyManager.Controllers
 
             try
             {
-                Inventario inventario = new Inventario(model.Descricao, model.Codigo, model.Razao, model.Estoque, model.Movimentacao, model.SaldoFinal,model.Responsavel);
+                Inventario inventario = new Inventario(model.Descricao, model.Razao, model.Estoque, model.Movimentacao, model.SaldoFinal,model.Responsavel);
 
                 InvetarioPostValidator Inv1 = new InvetarioPostValidator();
 
