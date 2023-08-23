@@ -11,17 +11,19 @@ namespace SupplyManager.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "Codigo",
-                table: "Inventarios",
-                newName: "Responsavel");
-
             migrationBuilder.AddColumn<DateTime>(
                 name: "DataAlteracao",
                 table: "Inventarios",
                 type: "datetime(6)",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
+            migrationBuilder.AddColumn<string>(
+                name: "Responsavel",
+                table: "Inventarios",
+                type: "longtext",
+                nullable: true)
+                .Annotation("MySql:CharSet", "utf8mb4");
         }
 
         /// <inheritdoc />
@@ -31,10 +33,9 @@ namespace SupplyManager.Migrations
                 name: "DataAlteracao",
                 table: "Inventarios");
 
-            migrationBuilder.RenameColumn(
+            migrationBuilder.DropColumn(
                 name: "Responsavel",
-                table: "Inventarios",
-                newName: "Codigo");
+                table: "Inventarios");
         }
     }
 }

@@ -132,10 +132,11 @@ namespace SupplyManager.Controllers
                         return StatusCode(StatusCodes.Status400BadRequest, new { message = "Um material com essa descrição já existe" });
 
                     }*/
+
+                
                 Material material = new Material()
                 {
 
-                    Id = model.Id,
                     Codigo = model.Codigo.ToUpper(),
                     Descricao = model.Descricao.ToUpper(),
                     Marca = model.Marca == "" ? "-" : model.Marca.ToUpper(),

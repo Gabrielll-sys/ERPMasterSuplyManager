@@ -45,6 +45,9 @@ namespace SupplyManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Codigo")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime>("DataAlteracao")
                         .HasColumnType("datetime(6)");
 

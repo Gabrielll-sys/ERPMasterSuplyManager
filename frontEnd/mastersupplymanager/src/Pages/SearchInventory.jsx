@@ -10,7 +10,7 @@ import CreateIcon from "@mui/icons-material/Create";
 import "dayjs/locale/pt-br";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import "../style/createMaterial.css";
+import "../style/searchInventory.css";
 import MuiAlert from "@mui/material/Alert";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -23,12 +23,17 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
 import dayjs from "dayjs";
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-const CreateInvetory = () => {
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import NavigationIcon from '@mui/icons-material/Navigation';
+import SearchIcon from '@mui/icons-material/Search';
+const SearchInventory = () => {
   const navigate = useNavigate();
 
   const [descricao, setDescricao] = useState("");
+  const [codigo,setCodigo] = useState("")
   const [estoque, setEstoque] = useState(0);
  
   const [openSnackBar, setOpenSnackBar] = useState(false);
@@ -37,7 +42,7 @@ const CreateInvetory = () => {
   const [object,setObject]= useState([])
  
 
-  const [invetarios, setInventarios] = useState([]);
+  const [inventarios, setInventarios] = useState([]);
 
 
 
@@ -58,7 +63,7 @@ const CreateInvetory = () => {
     const res = await axios
       .get(`${url}/Inventarios/busca?descricao=${descricao}`)
       .then( (r)=> {
-
+        console.log(typeof(r.data.movimentacao))
        return r.data
        
       })
@@ -92,11 +97,12 @@ const CreateInvetory = () => {
       // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
       const inventario = {
         descricao: descricao.trim().replace(/\s\s+/g, " "),
-        estoque: estoque,
+        codigo:codigo.trim().replace(/\s\s+/g, " "),
+        saldoFinal: estoque,
         
       };
 
-      const invetarioCriado = await axios
+      const inventarioCriado = await axios
         .post(`${url}/Inventarios`, inventario)
         .then((r) => {
          
@@ -122,7 +128,7 @@ const CreateInvetory = () => {
           }
         });
         //Quando criar o material.atualizara a  lista de materias que estao a amostra
-        invetarios.push(invetarioCriado)
+        inventarios.push(inventarioCriado)
 
       //Quando criar o material,chamara o metodo para atualizar os dados da tabela
 
@@ -138,7 +144,7 @@ const CreateInvetory = () => {
         setSeveridadeAlert("success");
         setMessageAlert("Material excluído com sucesso");
         //realiza um filtro na lista de materias que esta sendo mostrada,para remover o item que acabou de ser excluido, e assim a atualizar os materias que estão a amostra
-        const a = invetarios.filter(x=> x.id!=id)
+        const a = inventarios.filter(x=> x.id!=id)
         setInventarios(a)
       })
       .catch((e) => console.log(e));
@@ -148,46 +154,49 @@ const CreateInvetory = () => {
   return (
     <>
       <Header />
+      <div className="container-navigation">
 
-      <h1>Criação de Inventário</h1>
+<Fab color="primary" aria-label="add">
+  <AddIcon />
+
+</Fab>
+
+<Fab onClick={()=>navigate("/searchInventory")}>
+  <SearchIcon sx={{ mr: 1 }} />
+</Fab>
+
+</div>
+      <h1>Procurar no inventário</h1>
+    
 
       <div className="container-inputs">
-       
-
       
 
-        <TextField
+      <TextField
           error={
             severidadeAlert != "warning" || descricao.length ? false : true
           }
-          value={estoque}
+          value={codigo}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
           className="inputs"
-          onChange={(e) => setEstoque(e.target.value)}
-          label="Quantidade em Estoque"
+          onChange={(e) => setCodigo(e.target.value)}
+          label="Código"
           required
         />
 
-    
 
         <TextField
           value={descricao}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"420px"}}
           className="inputs"
           onChange={(e) => setDescricao(e.target.value)}
-          label="Descrição"
+          label="Descrição Item"
         />
 
 
      
       </div>
-      <div className="container-botoes">
-        <Button
-          className="botao"
-          label="Criar Item Inventário"
-          onClick={CreateInventory}
-        />
-       
+    
         <div className="card-table">
           <TableContainer component={Paper}>
             <Table
@@ -196,7 +205,7 @@ const CreateInvetory = () => {
             >
               <TableHead>
                 <TableRow>
-                  <TableCell align="center">Data Modificação</TableCell>
+                  <TableCell align="center">Data </TableCell>
                   <TableCell align="center">Descricação</TableCell>
                   <TableCell align="center">Estoque</TableCell>
                   <TableCell align="center">Movimentação</TableCell>
@@ -207,14 +216,15 @@ const CreateInvetory = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {invetarios.map((row) => (
+                {inventarios.map((row) => (
                   <TableRow
                     key={row.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                 
+                  
                 <TableCell align="center">
-                      {dayjs(row.dataAlteracao).format("DD/MM/YYYY [as] HH:mm:ss")} 
+                      {dayjs(row.dataAlteracao).format(`[${row.movimentacao==undefined?" Criado as ":"Editado as "}]DD/MM/YYYY [as] HH:mm:ss`)} 
                     </TableCell>
                     <TableCell align="center" size="medium">{row.descricao}</TableCell>
                     <TableCell align="center" size="">{row.estoque}</TableCell>
@@ -267,9 +277,9 @@ const CreateInvetory = () => {
             </MuiAlert>
           </Snackbar>
         </div>
-      </div>
+     
     </>
   );
 };
 
-export default CreateInvetory;
+export default SearchInventory;

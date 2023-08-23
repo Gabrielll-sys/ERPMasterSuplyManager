@@ -23,102 +23,46 @@ const UpdateInventory = ()=>{
  const navigate = useNavigate()
 
  //Variável que é passada pela rota na tela de criar material,aonde quando clicar no icone de editar,passara o id do material
-  const idMaterial= useLocation()
- const[categoria,setCategoria]=useState("")
+  const idInventario= useLocation()
+
  const [descricao,setDescricao] = useState("")
  const [codigo,setCodigo] = useState("")
- const [marca,setMarca] = useState("")
- const [ tensao,setTensao] = useState("")
- const [corrente,setCorrente] = useState("")
- const [ unidade,setUnidade] = useState("")
+ const [razao,setRazao] = useState("")
+ const [movimento,setMovimento] = useState("")
+
  const[dataentrada,setDataentrada] = useState()
  const [openSnackBar,setOpenSnackBar]= useState(false)
  const [ messageAlert,setMessageAlert] = useState();
  const [ severidadeAlert,setSeveridadeAlert] = useState()
 
- 
- const [materiais, setMateriais] = useState([]);
-
- const unidadeMaterial = ["UN","RL","PÇ","M","P"]
- const tensoes = ["127V","220V","380V","440V","660V"]
-
 
 useEffect(()=>{
 
-  if(descricao.length) {
-  searchByDescription().then().catch()
-
-}
-setMateriais([])
-
-
-},[descricao])
-useEffect(()=>{
-
-    getMaterial(idMaterial.state).then().catch()
-    getCategoria(idMaterial.state).then().catch()
+getItemInventory(idInventario.state)
 
 },[])
-const searchByDescription = async () =>{
-console.log(descricao)
-const res = await axios.get(`${url}/Materiais/busca?descricao=${descricao}`).then(
-r=>{
 
-  
-  setMateriais(r.data)
+ const getItemInventory= async (id)=>{
 
-}
+const item = await axios.get(`${url}/Inventarios/${id}`).then(x=>{
+console.log(x.data.codigo)
+setDescricao(x.data.descricao)
+setCodigo(x.data.codigo)
+setMovimento(x.data.saldoFinal==undefined?0:x.data.saldoFinal)
+setDataentrada(x.data.dataAlteracao)
 
-).catch()
-
-
-}
-  const updateCategoria = async(id)=>{
-
-  const category = {
-    id:id,
-    nomeCategoria :categoria,
-    materialId:id,
-    material:{}
-
-  }
-   await axios.put(`${url}/api/Categorias/${29}`,category).then(r=>navigate('/')).catch(e=>console.log(e))
-   
+})
 
 }
- const getMaterial = async(id)=>{
-
- axios.get(`${url}/Materiais/${id}`).then(r=>{
-  setDataentrada(dayjs(r.data.dataEntradaNF))
-
-setUnidade(r.data.unidade)
-setCodigo(r.data.codigo)
-setCorrente(r.data.corrente)
-setMarca(r.data.marca)
-setDescricao(r.data.descricao)
 
 
 
-setTensao(tensoes[tensoes.findIndex((x)=>x==r.data.tensao)])
-
- })
-
- }
-
-  const getCategoria = async(id)=>{
-
-  
-    await axios.get(`${url}/api/Categorias/${id}`).then(r=>{
-    console.log(r.data.nomeCategoria)
-    setCategoria(r.data.nomeCategoria)
+ 
 
 
-    }).catch(e=>console.log(e))
+const updateInventario=  async ()=>{
 
-}
-const updateMaterial=  async (id)=>{
-
-if(!categoria || !descricao || !unidade){
+if( !descricao || !movimento){
 
   setOpenSnackBar(true)
   setSeveridadeAlert("warning")
@@ -128,32 +72,24 @@ if(!categoria || !descricao || !unidade){
 else{
 
   // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
-const material = {
-    id:id,
+const inventario = {
     codigo:codigo.trim().replace(/\s\s+/g, ' '),
     descricao:descricao.trim().replace(/\s\s+/g, ' '),
-    marca:marca.trim().replace(/\s\s+/g, ' '),
-    corrente:corrente.trim().replace(/\s\s+/g, ' '),
-    unidade:unidade.trim().replace(/\s\s+/g, ' '),
-    tensao:tensao.trim().replace(/\s\s+/g, ' '),
-    corrente:corrente.trim().replace(/\s\s+/g, ' '),
-    dataEntradaNF:dataentrada,
+    razao:razao.trim().replace(/\s\s+/g, ' '),
+    estoque:movimento,
     }
 
-    console.log(id)
+   
 
 
-  const materialAtualizado =  await axios.put(`${url}/Materiais/${id}`,material)
+  const inventarioAtualizado =  await axios.post(`${url}/Inventarios`,inventario)
   .then(r=>
     {  
-      console.log(r)
-      updateCategoria(idMaterial.state)
+
       setOpenSnackBar(true)
       setSeveridadeAlert("success")
-      setMessageAlert("Material Atualizado com sucesso")
-      // setInterval(()=>{
-      //   navigate('/')
-      // },2000)
+      setMessageAlert("Inventário Atualizado com sucesso")
+    
 
 }
     
@@ -188,82 +124,36 @@ const material = {
 
   <Header/>
 
-    <h1>Editando {categoria} {descricao}</h1>
+    <h1>Editando inventário de {descricao}</h1>
   
     <div className="container-inputs">
 
 
-    <TextField  value={categoria} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}  
-    className='inputs' onChange={e=>setCategoria(e.target.value)} label='Categoria' required/>
     
 
 
     <TextField    value={codigo} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
     className='inputs' onChange={e=>setCodigo(e.target.value)} label='Código' required />
 
-   
-    {/* <InputText className='inputs' value={descricao} onChange={e=>setDescricao(e.target.value)} /> */}
-    <TextField   value={descricao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
-     className='inputs'  onChange={(e) => setDescricao(e.target.value)} label='Descrição' required />
+    <TextField    value={descricao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
+    className='inputs' onChange={e=>setDescricao(e.target.value)} label='Descrição' required />
+
+<TextField    value={razao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
+    className='inputs' onChange={e=>setRazao(e.target.value)} label='Razão' required />
+
+    <TextField   value={movimento} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
+     className='inputs'  onChange={(e) => setMovimento(e.target.value)} label='Estoque' required />
+
 
    
-    <TextField   value={marca} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}} 
-    className='inputs' onChange={e=>setMarca(e.target.value)}  label='Marca' />
-   
-      
-   <Select
-     style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px"}}
-     labelId="demo-simple-select-label"
-    value={tensao}
-    label="Tensao"
-    onChange={x=>setTensao(x.target.value)}
-  >
-      {tensoes.map((x)=>(
-        <MenuItem value={x}>{x}</MenuItem>
-        
-      ))}
+
     
   
-  </Select>
-        <TextField
-          value={corrente}
-          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px"}}
-          className="inputs"
-          onChange={(e) => setCorrente(e.target.value)}
-          label="Corrente"
-        />
-
-     
-
-  <Select
-     style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"120px"}}
-     labelId="demo-simple-select-label"
-    value={unidade}
-    label="Unidade"
-    onChange={x=>setUnidade(x.target.value)}
-  >
-      {unidadeMaterial.map((x)=>(
-        <MenuItem value={x}>{x}</MenuItem>
-        
-      ))}
+ 
     
-  
-  </Select>
-
-    <div style={{marginTop:'40px',width:'206px'}}>
-
-    <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="pt-br" >
-    
-        <DatePicker  label="Data Entrada NF"  value={dataentrada} onChange={e=>setDataentrada(e)} />
-    
-    </LocalizationProvider>
-    </div>
-    
-
-  
     </div>
     <div className='container-botoes'>
-    <Button  className="botao"label="Atualizar Material" onClick={x=>updateMaterial(idMaterial.state)} />
+    <Button  className="botao"label="Atualizar Material" onClick={updateInventario} />
     <Snackbar open={openSnackBar} autoHideDuration={3000} onClose={e=>setOpenSnackBar(false)}>
             <MuiAlert onClose={e=>setOpenSnackBar(false)} severity={severidadeAlert} sx={{ width: '100%' }}>
              {messageAlert}
