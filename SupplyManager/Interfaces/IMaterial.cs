@@ -1,6 +1,6 @@
 ﻿namespace SupplyManager.Interfaces
 {
-    public class IMaterial
+    public interface IMaterial
     {
         public string EstoqueMovimentacao(float? saldoFinal);
 

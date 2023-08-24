@@ -124,29 +124,21 @@ namespace SupplyManager.Controllers
 
                     return StatusCode(StatusCodes.Status400BadRequest, new { message = "Código já existe" });
                 }
-
-                /*    var checkDescription = await _context.Materiais.FirstOrDefaultAsync(x=>x.Descricao== model.Descricao);
-
-                    if (checkDescription != null)
-                    {
-                        return StatusCode(StatusCodes.Status400BadRequest, new { message = "Um material com essa descrição já existe" });
-
-                    }*/
-
-                
-                Material material = new Material()
-                {
-
-                    Codigo = model.Codigo.ToUpper(),
-                    Descricao = model.Descricao.ToUpper(),
-                    Marca = model.Marca == "" ? "-" : model.Marca.ToUpper(),
-                    Corrente = model.Corrente == "" ? "-" : model.Corrente.ToUpper(),
-                    Unidade = model.Unidade.ToUpper(),
-                    Tensao = model.Tensao == "" ? "-" : model.Tensao.ToUpper(),
-                    DataEntradaNF = model.DataEntradaNF,
-
-
-                };
+                Material material = new Material(
+                    model.Codigo.ToUpper(),
+                    model.Descricao.ToUpper(),
+                    model.Marca.ToUpper(),
+                    String.IsNullOrEmpty(model.Corrente) ? "-" : model.Corrente.ToUpper(),
+                    model.Unidade,
+                 String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao,
+                     model.DataEntradaNF,
+                     String.IsNullOrEmpty(model.Razao) ? "-" : model.Razao.ToUpper(),
+                     model.Estoque,
+                     model.Movimentacao,
+                     model.SaldoFinal,
+                     model.Responsavel
+                     );
+              
 
                 MateriaisPostValidator m1 = new MateriaisPostValidator();
 

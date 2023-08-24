@@ -29,7 +29,7 @@ const UpdateInventory = ()=>{
  const [codigo,setCodigo] = useState("")
  const [razao,setRazao] = useState("")
  const [movimento,setMovimento] = useState("")
-
+const [categoria,setCategoria] = useState("")
  const[dataentrada,setDataentrada] = useState()
  const [openSnackBar,setOpenSnackBar]= useState(false)
  const [ messageAlert,setMessageAlert] = useState();
@@ -37,21 +37,24 @@ const UpdateInventory = ()=>{
 
 
 useEffect(()=>{
-
+console.log(idInventario.state)
 getItemInventory(idInventario.state)
-
+getCategoria(idInventario.state)
 },[])
 
  const getItemInventory= async (id)=>{
 
-const item = await axios.get(`${url}/Inventarios/${id}`).then(x=>{
-console.log(x.data.codigo)
+const item = await axios.get(`${url}/Materiais/${id}`).then(x=>{
 setDescricao(x.data.descricao)
 setCodigo(x.data.codigo)
 setMovimento(x.data.saldoFinal==undefined?0:x.data.saldoFinal)
 setDataentrada(x.data.dataAlteracao)
-
+return  x.data
 })
+
+
+
+
 
 }
 
@@ -115,7 +118,17 @@ const inventario = {
 }
 }
 
+const getCategoria = async(id)=>{
 
+
+  await axios.get(`${url}/api/Categorias/${id}`).then(r=>{
+  console.log(r.data.nomeCategoria)
+  setCategoria(r.data.nomeCategoria)
+    
+
+  }).catch(e=>console.log(e))
+
+}
 
 
 
@@ -124,7 +137,7 @@ const inventario = {
 
   <Header/>
 
-    <h1>Editando inventário de {descricao}</h1>
+    <h1>Editando inventário de {categoria} {descricao} </h1>
   
     <div className="container-inputs">
 
@@ -132,8 +145,11 @@ const inventario = {
     
 
 
-    <TextField    value={codigo} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
+    <TextField  disabled={true}   value={codigo} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
     className='inputs' onChange={e=>setCodigo(e.target.value)} label='Código' required />
+
+    <TextField  disabled={true}   value={categoria} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
+    className='inputs' onChange={e=>setCategoria(e.target.value)} label='Categoria' required />
 
     <TextField    value={descricao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
     className='inputs' onChange={e=>setDescricao(e.target.value)} label='Descrição' required />

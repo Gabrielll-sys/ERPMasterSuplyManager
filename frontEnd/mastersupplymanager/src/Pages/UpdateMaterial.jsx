@@ -152,15 +152,14 @@ const material = {
       setOpenSnackBar(true)
       setSeveridadeAlert("success")
       setMessageAlert("Material Atualizado com sucesso")
-      // setInterval(()=>{
-      //   navigate('/')
-      // },2000)
+   
 
 }
     
   ).catch(e=>{
     console.log(e)
-    // console.log(e.response.data.message[0].errorMessage)
+ 
+    
     if(e.response.data.message=="Código já existe")
     {
       setOpenSnackBar(true)

@@ -1,10 +1,10 @@
 
 import { Button } from "primereact/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,useRoutes} from "react-router-dom";
 import Header from "../componentes/Header";
 import { Snackbar } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
+
 import { url } from "../contetxs/webApiUrl";
 import CreateIcon from "@mui/icons-material/Create";
 import "dayjs/locale/pt-br";
@@ -25,9 +25,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import NavigationIcon from '@mui/icons-material/Navigation';
+
 import SearchIcon from '@mui/icons-material/Search';
 const SearchInventory = () => {
   const navigate = useNavigate();
@@ -45,7 +43,6 @@ const SearchInventory = () => {
   const [inventarios, setInventarios] = useState([]);
 
 
-
   useEffect(() => {
     //Irá começar a realizar a busca somente quando  a descrição tiver 3 caracteres
     if (descricao.length>=3) {
@@ -61,9 +58,9 @@ const SearchInventory = () => {
 
    
     const res = await axios
-      .get(`${url}/Inventarios/busca?descricao=${descricao}`)
+      .get(`${url}/Materiais/busca?descricao=${descricao}`)
       .then( (r)=> {
-        console.log(typeof(r.data.movimentacao))
+        console.log(r.data.movimentacao)
        return r.data
        
       })
@@ -84,56 +81,7 @@ const SearchInventory = () => {
   };
 
 
-  const CreateInventory = async () => {
-    
-    // navigate("/updateMaterial")
-
-
-    if (!descricao) {
-      setOpenSnackBar(true);
-      setSeveridadeAlert("warning");
-      setMessageAlert("Prencha todas as informações necessárias");
-    } else {
-      // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
-      const inventario = {
-        descricao: descricao.trim().replace(/\s\s+/g, " "),
-        codigo:codigo.trim().replace(/\s\s+/g, " "),
-        saldoFinal: estoque,
-        
-      };
-
-      const inventarioCriado = await axios
-        .post(`${url}/Inventarios`, inventario)
-        .then((r) => {
-         
-      
-          setOpenSnackBar(true);
-          setSeveridadeAlert("success");
-          setMessageAlert("Inventário Criado com sucesso");
-          return r.data
-        })
-        .catch((e) => {
-          console.log(e.response.data.message[0].errorMessage);
-          if (e.response.data.message == "Código já existe") {
-            setOpenSnackBar(true);
-            setSeveridadeAlert("error");
-            setMessageAlert("Já existe um material com este código");
-          } else if (
-            e.response.data.message ==
-            "Um material com essa descrição já existe"
-          ) {
-            setOpenSnackBar(true);
-            setSeveridadeAlert("error");
-            setMessageAlert("Um matérial com esta descrição já existe");
-          }
-        });
-        //Quando criar o material.atualizara a  lista de materias que estao a amostra
-        inventarios.push(inventarioCriado)
-
-      //Quando criar o material,chamara o metodo para atualizar os dados da tabela
-
-    }
-  };
+ 
 
   const deleteInventario = async (id) => {
 
@@ -156,13 +104,13 @@ const SearchInventory = () => {
       <Header />
       <div className="container-navigation">
 
-<Fab color="primary" aria-label="add">
+<Fab onClick={()=>navigate("/createMaterial")} sx={{backgroundColor:"#FCDD74"}}  aria-label="add">
   <AddIcon />
 
 </Fab>
 
-<Fab onClick={()=>navigate("/searchInventory")}>
-  <SearchIcon sx={{ mr: 1 }} />
+<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/")}>
+  <SearchIcon sx={{color:"black"}} />
 </Fab>
 
 </div>
@@ -206,6 +154,7 @@ const SearchInventory = () => {
               <TableHead>
                 <TableRow>
                   <TableCell align="center">Data </TableCell>
+                  <TableCell align="center">Codigo </TableCell>
                   <TableCell align="center">Descricação</TableCell>
                   <TableCell align="center">Estoque</TableCell>
                   <TableCell align="center">Movimentação</TableCell>
@@ -226,11 +175,12 @@ const SearchInventory = () => {
                 <TableCell align="center">
                       {dayjs(row.dataAlteracao).format(`[${row.movimentacao==undefined?" Criado as ":"Editado as "}]DD/MM/YYYY [as] HH:mm:ss`)} 
                     </TableCell>
+                    <TableCell align="center" size="medium">{row.codigo}</TableCell>
                     <TableCell align="center" size="medium">{row.descricao}</TableCell>
-                    <TableCell align="center" size="">{row.estoque}</TableCell>
-                    <TableCell align="center">{row.movimentacao}</TableCell>
-                    <TableCell align="center">{row.saldoFinal}</TableCell>
-                    <TableCell align="center">{row.razao}</TableCell>
+                    <TableCell align="center" size="small">{row.estoque}</TableCell>
+                    <TableCell align="center" size="small">{row.movimentacao}</TableCell>
+                    <TableCell align="center" size="small">{row.saldoFinal}</TableCell>
+                    <TableCell align="center" >{row.razao}</TableCell>
                     <TableCell align="center" size ="small">{row.responsavel}</TableCell>
 
                     

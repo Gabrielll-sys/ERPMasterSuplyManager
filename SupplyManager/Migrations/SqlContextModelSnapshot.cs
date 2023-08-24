@@ -39,41 +39,6 @@ namespace SupplyManager.Migrations
                     b.ToTable("Categorias");
                 });
 
-            modelBuilder.Entity("SupplyManager.Models.Inventario", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Codigo")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("DataAlteracao")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Descricao")
-                        .HasColumnType("longtext");
-
-                    b.Property<float?>("Estoque")
-                        .HasColumnType("float");
-
-                    b.Property<float?>("Movimentacao")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Razao")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Responsavel")
-                        .HasColumnType("longtext");
-
-                    b.Property<float?>("SaldoFinal")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Inventarios");
-                });
-
             modelBuilder.Entity("SupplyManager.Models.Material", b =>
                 {
                     b.Property<int?>("Id")
@@ -86,14 +51,32 @@ namespace SupplyManager.Migrations
                     b.Property<string>("Corrente")
                         .HasColumnType("longtext");
 
+                    b.Property<DateTime?>("DataAlteracao")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<DateTime?>("DataEntradaNF")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Descricao")
                         .HasColumnType("longtext");
 
+                    b.Property<float?>("Estoque")
+                        .HasColumnType("float");
+
                     b.Property<string>("Marca")
                         .HasColumnType("longtext");
+
+                    b.Property<float?>("Movimentacao")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Razao")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Responsavel")
+                        .HasColumnType("longtext");
+
+                    b.Property<float?>("SaldoFinal")
+                        .HasColumnType("float");
 
                     b.Property<string>("Tensao")
                         .HasColumnType("longtext");

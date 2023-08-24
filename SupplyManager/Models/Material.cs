@@ -31,7 +31,7 @@ namespace SupplyManager.Models
         public DateTime? DataEntradaNF { get; set; }
 
 
-        public DateTime DataAlteracao { get; set; }
+        public DateTime? DataAlteracao { get; set; }
         public string? Razao { get; set; }
 
         public float? Estoque { get; set; }
@@ -41,7 +41,7 @@ namespace SupplyManager.Models
 
         public string? Responsavel { get; set; }
 
-        public Material(string? codigo, string? descricao, string? marca, string? corrente, string? unidade, string? tensao, DateTime? dataEntradaNF, DateTime dataAlteracao, string? razao, float? estoque, float? movimentacao, float? saldoFinal, string? responsavel)
+        public Material(string? codigo, string? descricao, string? marca, string? corrente, string? unidade, string? tensao, DateTime? dataEntradaNF,  string? razao, float? estoque, float? movimentacao, float? saldoFinal, string? responsavel)
         {
             Codigo = codigo;
             Descricao = descricao;
@@ -51,7 +51,7 @@ namespace SupplyManager.Models
             Tensao = tensao;
             DataEntradaNF = dataEntradaNF;
             Razao = razao;
-            Estoque = estoque;
+            Estoque =  estoque;
             Movimentacao = movimentacao;
             SaldoFinal = saldoFinal;
             Responsavel = responsavel;

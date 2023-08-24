@@ -23,7 +23,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
 import dayjs from "dayjs";
-import InputLabel from '@mui/material/InputLabel';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+
+import SearchIcon from '@mui/icons-material/Search';
 import MenuItem from '@mui/material/MenuItem';
 
 import Select from '@mui/material/Select';
@@ -143,7 +146,7 @@ const CreateMaterial = () => {
     // navigate("/updateMaterial")
 
 
-    if (!categoria || !descricao || !unidade) {
+    if (!categoria || !descricao || !unidade || !codigo) {
       setOpenSnackBar(true);
       setSeveridadeAlert("warning");
       setMessageAlert("Prencha todas as informações necessárias");
@@ -222,8 +225,19 @@ const CreateMaterial = () => {
   return (
     <>
       <Header />
+      <div className="container-navigation">
 
-      <h1>Criação de Inventário</h1>
+<Fab onClick={()=>navigate("/createMaterial")} sx={{backgroundColor:"#FCDD74"}}  aria-label="add">
+  <AddIcon />
+
+</Fab>
+
+<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/")}>
+  <SearchIcon sx={{color:"black"}} />
+</Fab>
+
+</div>
+      <h1>Criação de Material</h1>
 
       <div className="container-inputs">
         <TextField
@@ -270,7 +284,7 @@ const CreateMaterial = () => {
 
       
  <Select
-     style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px"}}
+     style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px",height:"55px"}}
      labelId="demo-simple-select-label"
     value={tensao}
     label="Tensao"
@@ -294,7 +308,7 @@ const CreateMaterial = () => {
      
 
   <Select
-     style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"120px"}}
+     style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"120px",height:"55px"}}
      labelId="demo-simple-select-label"
     value={unidade}
     label="Unidade"
@@ -356,9 +370,9 @@ const CreateMaterial = () => {
                     <TableCell align="center">{row.codigo}</TableCell>
                     <TableCell align="center">{row.descricao}</TableCell>
                     <TableCell align="center">{row.marca}</TableCell>
-                    <TableCell align="center">{row.tensao}</TableCell>
+                    <TableCell align="center" size ="small">{row.tensao}</TableCell>
                     <TableCell align="center" size ="small">{row.unidade}</TableCell>
-                    <TableCell align="center">{row.corrente}</TableCell>
+                    <TableCell align="center" size ="small">{row.corrente}</TableCell>
                     <TableCell align="center">
                       {dayjs(row.dataEntradaNF).format("DD/MM/YYYY")}
                     </TableCell>
