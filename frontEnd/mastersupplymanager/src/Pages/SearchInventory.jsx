@@ -53,12 +53,20 @@ const SearchInventory = () => {
 
   }, [descricao]);
 
- 
+  useEffect(() => {
+    //Irá começar a realizar a busca somente quando  o código tiver 3 caracteres
+    console.log(codigo)
+    if (descricao.length>=3) {
+     searchByCode().then().catch();
+
+    }
+    setInventarios([])
+
+  }, [codigo]);
   const searchByDescription = async () => {
 
-   
     const res = await axios
-      .get(`${url}/Materiais/busca?descricao=${descricao}`)
+      .get(`${url}/Materiais/buscaDescricao?descricao=${descricao}`)
       .then( (r)=> {
         console.log(r.data.movimentacao)
        return r.data
@@ -69,7 +77,20 @@ const SearchInventory = () => {
   setInventarios(res)
   
 };
+const searchByCode = async () => {
 
+  const res = await axios
+    .get(`${url}/Materiais/buscaCodigo?codigo=${codigo}`)
+    .then( (r)=> {
+
+     return r.data
+     
+    })
+    .catch();
+    
+setInventarios(res)
+
+};
  
   const getAllMateriais = async () => {
     const res = await axios

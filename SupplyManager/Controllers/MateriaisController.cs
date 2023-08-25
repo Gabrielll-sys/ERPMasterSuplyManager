@@ -69,13 +69,13 @@ namespace SupplyManager.Controllers
 
 
 
-        [HttpGet(template: "busca")]
+        [HttpGet(template: "buscaDescricao")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<Material>> Busca(string descricao)
+        public async Task<ActionResult<Material>> BuscaDescricao(string descricao)
         {
             
 
@@ -104,6 +104,40 @@ namespace SupplyManager.Controllers
 
         }
 
+        [HttpGet(template: "buscaCodigo")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+
+        public async Task<ActionResult<Material>> BuscaCodigo(string codigo)
+        {
+
+            try
+            {
+
+                var queryMaterial = from query in _context.Materiais select query;
+
+
+                queryMaterial = queryMaterial.Where(x => x.Codigo.Contains(codigo));
+
+                return Ok (await queryMaterial.ToListAsync());
+
+
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+
+        }
+
         [HttpPost()]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -115,34 +149,72 @@ namespace SupplyManager.Controllers
 
             try
             {
+                MateriaisPostValidator ValidationMaterial = new MateriaisPostValidator();
 
                 //Verifica se o modelo o código digitado do material já existe,caso sim,retornara bad request e uma mensagem de material já existe
                 var checkCode = await _context.Materiais.FirstOrDefaultAsync(x => x.Codigo == model.Codigo);
 
-                if (checkCode != null)
+                //Caso ja exista o codigo e o estoque seja nulo,ou seja quando o usuario esta criando pela primeira vez, retornará que o codigo ja existe
+                if (checkCode != null && model.Estoque==null)
                 {
 
                     return StatusCode(StatusCodes.Status400BadRequest, new { message = "Código já existe" });
                 }
-                Material material = new Material(
-                    model.Codigo.ToUpper(),
-                    model.Descricao.ToUpper(),
-                    model.Marca.ToUpper(),
-                    String.IsNullOrEmpty(model.Corrente) ? "-" : model.Corrente.ToUpper(),
-                    model.Unidade,
+                
+                var AlredyHaveMaterial = await _context.Materiais.FirstOrDefaultAsync(x=>x.Codigo==model.Codigo);
+
+                if (AlredyHaveMaterial == null)
+                {
+
+                    Material m1 = new Material(
+                 model.Codigo.ToUpper(),
+                 model.Descricao.ToUpper(),
+                 model.Marca.ToUpper(),
+                 String.IsNullOrEmpty(model.Corrente) ? "-" : model.Corrente.ToUpper(),
+                 model.Unidade,
                  String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao,
-                     model.DataEntradaNF,
-                     String.IsNullOrEmpty(model.Razao) ? "-" : model.Razao.ToUpper(),
-                     model.Estoque,
-                     model.Movimentacao,
-                     model.SaldoFinal,
-                     model.Responsavel
-                     );
-              
+                  model.DataEntradaNF,
+                  String.IsNullOrEmpty(model.Razao) ? "-" : model.Razao.ToUpper(),
+                  model.Estoque,
+                  model.Movimentacao,
+                  model.SaldoFinal,
+                  model.Responsavel
+                  );
+                    var validationM1 = ValidationMaterial.Validate(m1);
 
-                MateriaisPostValidator m1 = new MateriaisPostValidator();
+                    if (!validationM1.IsValid)
+                    {
 
-                var validationMaterial = m1.Validate(material);
+                        return StatusCode(StatusCodes.Status400BadRequest, new { message = validationM1.Errors });
+                    };
+
+                    await _context.Materiais.AddAsync(m1);
+
+
+
+                    await _context.SaveChangesAsync();
+
+                    return Ok(m1);
+                }
+                //CASO O MATERIAL JA EXISTA ,OU SEJA ,CRIARA OUTRO MAS AGORA COMO É A CRIAÇÃO DOS CAMPO DE INVENTÁRIO,ENTÃO PEGARA AS INFORMAÇÕES DO MATERIAL QUE EXISTE 
+                // E PASSARÁ PARA OS PARAMETROS DO CONSTRUTOR DO NOVO OBJETO
+                Material m2 = new Material
+                    (
+                    AlredyHaveMaterial.Codigo,
+                    AlredyHaveMaterial.Descricao,
+                    AlredyHaveMaterial.Marca,
+                    AlredyHaveMaterial.Corrente,
+                    AlredyHaveMaterial.Unidade,
+                    AlredyHaveMaterial.Tensao,
+                    AlredyHaveMaterial.DataEntradaNF,
+                    AlredyHaveMaterial.Razao,
+                    model.Estoque,
+                    AlredyHaveMaterial.Movimentacao,
+                    AlredyHaveMaterial.SaldoFinal,
+                    AlredyHaveMaterial.Responsavel
+                    );
+
+                var validationMaterial = ValidationMaterial.Validate(m2);
 
                 if (!validationMaterial.IsValid)
                 {
@@ -150,12 +222,15 @@ namespace SupplyManager.Controllers
                     return StatusCode(StatusCodes.Status400BadRequest, new { message = validationMaterial.Errors });
                 };
 
-                await _context.Materiais.AddAsync(material);
+                await _context.Materiais.AddAsync(m2);
 
 
 
                 await _context.SaveChangesAsync();
-                return Ok(material);
+
+                return Ok(m2);
+
+
             }
             catch (Exception exception)
             {

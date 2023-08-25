@@ -27,10 +27,11 @@ margin-top: 10px;
 
 }
 .container-inputs{
+margin-top: 200px;
 display:flex;
 flex-direction:row;
 flex-wrap: wrap;
-width:100vw;
+
 
 
 justify-content:center;

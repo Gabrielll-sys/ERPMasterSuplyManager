@@ -27,7 +27,7 @@ const UpdateInventory = ()=>{
 
  const [descricao,setDescricao] = useState("")
  const [codigo,setCodigo] = useState("")
- const [razao,setRazao] = useState("")
+ const [razao,setRazao] = useState("Antônio trouxe")
  const [movimento,setMovimento] = useState("")
 const [categoria,setCategoria] = useState("")
  const[dataentrada,setDataentrada] = useState()
@@ -37,7 +37,7 @@ const [categoria,setCategoria] = useState("")
 
 
 useEffect(()=>{
-console.log(idInventario.state)
+
 getItemInventory(idInventario.state)
 getCategoria(idInventario.state)
 },[])
@@ -65,7 +65,7 @@ return  x.data
 
 const updateInventario=  async ()=>{
 
-if( !descricao || !movimento){
+if( !razao ||movimento){
 
   setOpenSnackBar(true)
   setSeveridadeAlert("warning")
@@ -76,16 +76,15 @@ else{
 
   // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
 const inventario = {
-    codigo:codigo.trim().replace(/\s\s+/g, ' '),
-    descricao:descricao.trim().replace(/\s\s+/g, ' '),
     razao:razao.trim().replace(/\s\s+/g, ' '),
     estoque:movimento,
+    codigo:codigo,
     }
 
    
 
 
-  const inventarioAtualizado =  await axios.post(`${url}/Inventarios`,inventario)
+  const inventarioAtualizado =  await axios.post(`${url}/Materiais`,inventario)
   .then(r=>
     {  
 
@@ -120,24 +119,22 @@ const inventario = {
 
 const getCategoria = async(id)=>{
 
-
-  await axios.get(`${url}/api/Categorias/${id}`).then(r=>{
+  
+  axios.get(`${url}/Categorias/${id}`).then(r=>{
   console.log(r.data.nomeCategoria)
   setCategoria(r.data.nomeCategoria)
-    
+
 
   }).catch(e=>console.log(e))
 
 }
-
-
 
   return (
     <>
 
   <Header/>
 
-    <h1>Editando inventário de {categoria} {descricao} </h1>
+    <h1>Editando inventário de {categoria} {descricao} (COD:{codigo}) </h1>
   
     <div className="container-inputs">
 
@@ -148,13 +145,14 @@ const getCategoria = async(id)=>{
     <TextField  disabled={true}   value={codigo} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
     className='inputs' onChange={e=>setCodigo(e.target.value)} label='Código' required />
 
-    <TextField  disabled={true}   value={categoria} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
+
+    <TextField  disabled={true}   value={categoria} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
     className='inputs' onChange={e=>setCategoria(e.target.value)} label='Categoria' required />
 
-    <TextField    value={descricao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
+    <TextField    value={descricao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
     className='inputs' onChange={e=>setDescricao(e.target.value)} label='Descrição' required />
 
-<TextField    value={razao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
+<TextField    value={razao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
     className='inputs' onChange={e=>setRazao(e.target.value)} label='Razão' required />
 
     <TextField   value={movimento} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}

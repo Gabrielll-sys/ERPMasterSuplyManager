@@ -77,7 +77,7 @@ const CreateMaterial = () => {
 
    
     const res = await axios
-      .get(`${url}/Materiais/busca?descricao=${descricao}`)
+      .get(`${url}/Materiais/buscaDescricao?descricao=${descricao}`)
       .then( (r)=> {
        return r.data
        
@@ -138,7 +138,9 @@ const CreateMaterial = () => {
     };
     await axios
       .post(`${url}/Categorias`, category)
-      .then((r) => {})
+      .then((r) => {
+        return r.data
+      })
       .catch((e) => console.log(e));
   };
   const createMaterial = async () => {
@@ -168,7 +170,6 @@ const CreateMaterial = () => {
         .post(`${url}/Materiais`, material)
         .then((r) => {
           createCategoria(r.data.id);
-      
           setOpenSnackBar(true);
           setSeveridadeAlert("success");
           setMessageAlert("Material Criado com sucesso");
@@ -190,7 +191,8 @@ const CreateMaterial = () => {
           }
         });
         //Quando criar o material.atualizara a  lista de materias que estao a amostra
-        materiais.push(materialCriado)
+       
+        materiais.push({...materialCriado,nomeCategoria:categoria.toUpperCase()})
 
       //Quando criar o material,chamara o metodo para atualizar os dados da tabela
 

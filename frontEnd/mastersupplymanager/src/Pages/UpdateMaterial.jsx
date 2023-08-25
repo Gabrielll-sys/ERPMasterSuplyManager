@@ -36,7 +36,7 @@ const UpdateMaterial = ()=>{
  const [openSnackBar,setOpenSnackBar]= useState(false)
  const [ messageAlert,setMessageAlert] = useState();
  const [ severidadeAlert,setSeveridadeAlert] = useState()
-
+const date= new Date()
  
  const [materiais, setMateriais] = useState([]);
 
@@ -44,36 +44,14 @@ const UpdateMaterial = ()=>{
  const tensoes = ["127V","220V","380V","440V","660V"]
 
 
-useEffect(()=>{
 
-  if(descricao.length) {
-  searchByDescription().then().catch()
-
-}
-setMateriais([])
-
-
-},[descricao])
 useEffect(()=>{
 
     getMaterial(idMaterial.state).then().catch()
     getCategoria(idMaterial.state).then().catch()
 
 },[])
-const searchByDescription = async () =>{
-console.log(descricao)
-const res = await axios.get(`${url}/Materiais/busca?descricao=${descricao}`).then(
-r=>{
 
-  
-  setMateriais(r.data)
-
-}
-
-).catch()
-
-
-}
   const updateCategoria = async(id)=>{
 
   const category = {
@@ -90,6 +68,7 @@ r=>{
  const getMaterial = async(id)=>{
 
  axios.get(`${url}/Materiais/${id}`).then(r=>{
+ 
   setDataentrada(dayjs(r.data.dataEntradaNF))
 
 setUnidade(r.data.unidade)
@@ -109,8 +88,8 @@ setTensao(tensoes[tensoes.findIndex((x)=>x==r.data.tensao)])
   const getCategoria = async(id)=>{
 
   
-    await axios.get(`${url}/api/Categorias/${id}`).then(r=>{
-    console.log(r.data.nomeCategoria)
+    await axios.get(`${url}/Categorias/${id}`).then(r=>{
+
     setCategoria(r.data.nomeCategoria)
 
 
@@ -188,7 +167,7 @@ const material = {
 
   <Header/>
 
-    <h1>Editando {categoria} {descricao}</h1>
+    <h1>Editando inventário de {categoria} {descricao} (COD:{codigo}) </h1>
   
     <div className="container-inputs">
 
