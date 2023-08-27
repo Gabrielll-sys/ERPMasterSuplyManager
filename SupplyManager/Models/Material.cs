@@ -55,6 +55,11 @@ namespace SupplyManager.Models
             Movimentacao = movimentacao;
             SaldoFinal = saldoFinal;
             Responsavel = responsavel;
+
+            if (estoque != null)
+            {
+                DataAlteracao= DateTime.Now;
+            }
         }
 
 

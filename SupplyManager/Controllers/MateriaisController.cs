@@ -104,6 +104,41 @@ namespace SupplyManager.Controllers
 
         }
 
+        [HttpGet(template: "buscaInventario")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<Material>> BuscaDescricaoInvetario(string descricao)
+        {
+
+
+            try
+            {
+                var queryMaterial = from query in _context.Materiais select query;
+
+
+                //Ordena a busca de materia
+
+                queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao)).OrderBy(x => x.DataAlteracao);
+
+
+
+                return Ok(await queryMaterial.ToListAsync());
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+
+
+        }
         [HttpGet(template: "buscaCodigo")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -207,7 +242,7 @@ namespace SupplyManager.Controllers
                     AlredyHaveMaterial.Unidade,
                     AlredyHaveMaterial.Tensao,
                     AlredyHaveMaterial.DataEntradaNF,
-                    AlredyHaveMaterial.Razao,
+                    model.Razao,
                     model.Estoque,
                     AlredyHaveMaterial.Movimentacao,
                     AlredyHaveMaterial.SaldoFinal,
@@ -221,6 +256,10 @@ namespace SupplyManager.Controllers
 
                     return StatusCode(StatusCodes.Status400BadRequest, new { message = validationMaterial.Errors });
                 };
+
+
+           /*     if(m2.)
+*/
 
                 await _context.Materiais.AddAsync(m2);
 

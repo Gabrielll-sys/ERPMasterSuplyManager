@@ -65,7 +65,7 @@ return  x.data
 
 const updateInventario=  async ()=>{
 
-if( !razao ||movimento){
+if( !razao){
 
   setOpenSnackBar(true)
   setSeveridadeAlert("warning")

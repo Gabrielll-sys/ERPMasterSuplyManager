@@ -66,14 +66,20 @@ const SearchInventory = () => {
   const searchByDescription = async () => {
 
     const res = await axios
-      .get(`${url}/Materiais/buscaDescricao?descricao=${descricao}`)
+      .get(`${url}/Materiais/buscaInventario?descricao=${descricao}`)
       .then( (r)=> {
-        console.log(r.data.movimentacao)
+       
+       
        return r.data
        
       })
       .catch();
       
+
+      for( let i of res){
+
+        console.log(i.dataAlteracao==undefined) 
+      }
   setInventarios(res)
   
 };
@@ -194,7 +200,7 @@ setInventarios(res)
                 
                   
                 <TableCell align="center">
-                      {dayjs(row.dataAlteracao).format(`[${row.movimentacao==undefined?" Criado as ":"Editado as "}]DD/MM/YYYY [as] HH:mm:ss`)} 
+                      {dayjs(row.dataAlteracao).format(`[${row.movimentacao==undefined?" Inventário Criado as ":"Inventário Editado as "}]DD/MM/YYYY [as] HH:mm:ss`)} 
                     </TableCell>
                     <TableCell align="center" size="medium">{row.codigo}</TableCell>
                     <TableCell align="center" size="medium">{row.descricao}</TableCell>
