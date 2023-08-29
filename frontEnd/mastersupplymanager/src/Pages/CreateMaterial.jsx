@@ -162,7 +162,7 @@ const CreateMaterial = () => {
         unidade: unidade.trim().replace(/\s\s+/g, " "),
         tensao: tensao.trim().replace(/\s\s+/g, " "),
         corrente: corrente.trim().replace(/\s\s+/g, " "),
-
+        estoque:0,
         dataEntradaNF: dataentrada,
       };
 

@@ -50,6 +50,9 @@ namespace SupplyManager.Controllers
 
             try
             {
+                var queryMaterial = from query in _context.Materiais select query;
+
+               
                 var material = await _context.Materiais.FindAsync(id);
 
                 return Ok(material);
@@ -68,6 +71,40 @@ namespace SupplyManager.Controllers
           }
 
 
+        [HttpGet("buscaCodigo/{codigo}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<Material>> GetLastMaterial(string codigo)
+        {
+
+            try
+            {
+                var queryMaterial = from query in _context.Materiais select query;
+
+                queryMaterial = queryMaterial.Where(x=>x.Codigo==codigo).OrderBy(x=>x.DataAlteracao);
+                /*  var material = await _context.Materiais.FindAsync(id);*/
+
+           
+                var material =  await queryMaterial.ToListAsync();
+                //Retornara o ultimo item da lista encontrado,no qual o ultimo que teve "atualização" no estoque saldo final etc
+                return Ok(material[material.Count-1]);
+                
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+
+
+        }
 
         [HttpGet(template: "buscaDescricao")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -184,24 +221,28 @@ namespace SupplyManager.Controllers
 
             try
             {
+                var queryMaterial = from query in _context.Materiais select query;
+
                 MateriaisPostValidator ValidationMaterial = new MateriaisPostValidator();
 
                 //Verifica se o modelo o código digitado do material já existe,caso sim,retornara bad request e uma mensagem de material já existe
                 var checkCode = await _context.Materiais.FirstOrDefaultAsync(x => x.Codigo == model.Codigo);
 
                 //Caso ja exista o codigo e o estoque seja nulo,ou seja quando o usuario esta criando pela primeira vez, retornará que o codigo ja existe
-                if (checkCode != null && model.Estoque==null)
+                if (checkCode != null && model.SaldoFinal==null)
                 {
 
                     return StatusCode(StatusCodes.Status400BadRequest, new { message = "Código já existe" });
                 }
                 
-                var AlredyHaveMaterial = await _context.Materiais.FirstOrDefaultAsync(x=>x.Codigo==model.Codigo);
+                queryMaterial = queryMaterial.Where(x=>x.Codigo==model.Codigo);
 
-                if (AlredyHaveMaterial == null)
+                var AlredyHaveMaterial = await queryMaterial.ToListAsync();
+
+                if (AlredyHaveMaterial.Count==0)
                 {
 
-                    Material m1 = new Material(
+                   Material m1 = new Material(
                  model.Codigo.ToUpper(),
                  model.Descricao.ToUpper(),
                  model.Marca.ToUpper(),
@@ -235,18 +276,18 @@ namespace SupplyManager.Controllers
                 // E PASSARÁ PARA OS PARAMETROS DO CONSTRUTOR DO NOVO OBJETO
                 Material m2 = new Material
                     (
-                    AlredyHaveMaterial.Codigo,
-                    AlredyHaveMaterial.Descricao,
-                    AlredyHaveMaterial.Marca,
-                    AlredyHaveMaterial.Corrente,
-                    AlredyHaveMaterial.Unidade,
-                    AlredyHaveMaterial.Tensao,
-                    AlredyHaveMaterial.DataEntradaNF,
+                    AlredyHaveMaterial[AlredyHaveMaterial.Count-1].Codigo,
+                    AlredyHaveMaterial[AlredyHaveMaterial.Count-1].Descricao,
+                    AlredyHaveMaterial[AlredyHaveMaterial.Count-1].Marca,
+                    AlredyHaveMaterial[AlredyHaveMaterial.Count-1].Corrente,
+                    AlredyHaveMaterial[AlredyHaveMaterial.Count-1].Unidade,
+                    AlredyHaveMaterial[AlredyHaveMaterial.Count-1].Tensao,
+                    AlredyHaveMaterial[AlredyHaveMaterial.Count-1].DataEntradaNF,
                     model.Razao,
-                    model.Estoque,
-                    AlredyHaveMaterial.Movimentacao,
-                    AlredyHaveMaterial.SaldoFinal,
-                    AlredyHaveMaterial.Responsavel
+                    AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].SaldoFinal ==null?0: AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].SaldoFinal,
+                    AlredyHaveMaterial[AlredyHaveMaterial.Count-1].Movimentacao,
+                    AlredyHaveMaterial[AlredyHaveMaterial.Count-1].SaldoFinal==null ? 0 : AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].SaldoFinal,
+                    AlredyHaveMaterial[AlredyHaveMaterial.Count-1].Responsavel
                     );
 
                 var validationMaterial = ValidationMaterial.Validate(m2);
@@ -257,9 +298,17 @@ namespace SupplyManager.Controllers
                     return StatusCode(StatusCodes.Status400BadRequest, new { message = validationMaterial.Errors });
                 };
 
+             
 
-           /*     if(m2.)
-*/
+                if (model.SaldoFinal > 0)
+                {
+
+                    var  result= m2.EstoqueMovimentacao(model.SaldoFinal);
+
+
+                    
+                }   
+
 
                 await _context.Materiais.AddAsync(m2);
 

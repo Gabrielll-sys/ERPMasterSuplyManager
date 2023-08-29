@@ -55,7 +55,7 @@ const SearchInventory = () => {
 
   useEffect(() => {
     //Irá começar a realizar a busca somente quando  o código tiver 3 caracteres
-    console.log(codigo)
+  
     if (descricao.length>=3) {
      searchByCode().then().catch();
 
@@ -107,7 +107,19 @@ setInventarios(res)
       
   };
 
-
+  // const createCategoria = async (idMaterial) => {
+  //   const category = {
+  //     nomeCategoria: categoria,
+  //     materialId: idMaterial,
+  //     material: {},
+  //   };
+  //   await axios
+  //     .post(`${url}/Categorias`, category)
+  //     .then((r) => {
+  //       return r.data
+  //     })
+  //     .catch((e) => console.log(e));
+  // };
  
 
   const deleteInventario = async (id) => {
@@ -175,17 +187,18 @@ setInventarios(res)
         <div className="card-table">
           <TableContainer component={Paper}>
             <Table
-              sx={{ width: "100vw", margin: "auto" }}
+              sx={{ width: "97vw", margin: "auto" }}
               aria-label="simple table"
             >
               <TableHead>
                 <TableRow>
-                  <TableCell align="center">Data </TableCell>
                   <TableCell align="center">Codigo </TableCell>
                   <TableCell align="center">Descricação</TableCell>
                   <TableCell align="center">Estoque</TableCell>
                   <TableCell align="center">Movimentação</TableCell>
                   <TableCell align="center">Saldo Final</TableCell>
+                  <TableCell align="center">Data </TableCell>
+
                   <TableCell align="center">Razão</TableCell>
                   <TableCell align="center">Usuario</TableCell>
                  
@@ -199,20 +212,22 @@ setInventarios(res)
                   >
                 
                   
-                <TableCell align="center">
-                      {dayjs(row.dataAlteracao).format(`[${row.movimentacao==undefined?" Inventário Criado as ":"Inventário Editado as "}]DD/MM/YYYY [as] HH:mm:ss`)} 
-                    </TableCell>
+              
                     <TableCell align="center" size="medium">{row.codigo}</TableCell>
                     <TableCell align="center" size="medium">{row.descricao}</TableCell>
                     <TableCell align="center" size="small">{row.estoque}</TableCell>
                     <TableCell align="center" size="small">{row.movimentacao}</TableCell>
                     <TableCell align="center" size="small">{row.saldoFinal}</TableCell>
+                    <TableCell align="center">
+                      {dayjs(row.dataAlteracao).format(`[${row.movimentacao==undefined?" Material Criado as ":"Inventário Editado as "}]DD/MM/YYYY [as] HH:mm:ss`)} 
+                    </TableCell>
                     <TableCell align="center" >{row.razao}</TableCell>
                     <TableCell align="center" size ="small">{row.responsavel}</TableCell>
 
                     
-               
+                    {/* Caso o o item da linha seja o ultimo listado da sequencia de edições do inventário,então permitirá a edição,isso impede de editar estoque e edições passadas */}
                     <Button
+                    disabled={inventarios[inventarios.length-1].id==row.id?false:true}
                     style={{backgroundColor:'white',marginTop:"7px"}}
                       onClick={(x) =>
                         navigate("/updateInventory", { state: row.id })
@@ -220,12 +235,13 @@ setInventarios(res)
                     >
                       <CreateIcon />
                     </Button>
-                    <Button
+                    {/* <Button
+                    
                       style={{ marginLeft: "15px" ,backgroundColor:'white'}}
                       onClick={(x) => deleteInventario(row.id)}
                     >
                       <DeleteIcon />
-                    </Button>
+                    </Button> */}
                   </TableRow>
                 ))}
               </TableBody>

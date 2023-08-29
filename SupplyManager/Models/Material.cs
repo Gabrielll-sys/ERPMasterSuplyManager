@@ -64,7 +64,7 @@ namespace SupplyManager.Models
 
 
 
-        public string EstoqueMovimentacao(float? saldoFinal)
+        public float? EstoqueMovimentacao(float? saldoFinal)
         {
 
             if (saldoFinal > Estoque)
@@ -72,19 +72,26 @@ namespace SupplyManager.Models
                 Movimentacao = saldoFinal - Estoque;
                 SaldoFinal = saldoFinal;
 
-                return "Estoque adicionado com sucesso";
+                return SaldoFinal;
             }
             else if (saldoFinal < Estoque)
             {
                 Movimentacao = saldoFinal - Estoque;
                 SaldoFinal = saldoFinal;
 
-                return "Estoque removido com sucesso";
+                return SaldoFinal;
 
+            }
+            else if(Estoque==0 && saldoFinal>0)
+            {
+                Movimentacao = saldoFinal-Estoque;
+                SaldoFinal = saldoFinal;
+
+                return saldoFinal;
             }
             else
             {
-                return "O valor de movimento é igual ao estoque anterior";
+                return null;
             }
 
 

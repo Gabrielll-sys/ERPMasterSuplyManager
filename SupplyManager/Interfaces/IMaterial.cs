@@ -2,7 +2,7 @@
 {
     public interface IMaterial
     {
-        public string EstoqueMovimentacao(float? saldoFinal);
+        public float? EstoqueMovimentacao(float? saldoFinal);
 
     }
 }

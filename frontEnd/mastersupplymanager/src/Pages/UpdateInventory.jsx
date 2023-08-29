@@ -42,26 +42,31 @@ getItemInventory(idInventario.state)
 getCategoria(idInventario.state)
 },[])
 
+
  const getItemInventory= async (id)=>{
 
 const item = await axios.get(`${url}/Materiais/${id}`).then(x=>{
+
+getLastMaterial(x.data.codigo)
+
+return  x.data
+})
+
+
+
+}
+
+const getLastMaterial = async (code)=>{
+
+const material = await axios.get(`${url}/Materiais/buscaCodigo/${code}`).then(x=>{
 setDescricao(x.data.descricao)
 setCodigo(x.data.codigo)
 setMovimento(x.data.saldoFinal==undefined?0:x.data.saldoFinal)
 setDataentrada(x.data.dataAlteracao)
 return  x.data
 })
-
-
-
-
-
+ console.log(material.estoque)
 }
-
-
-
- 
-
 
 const updateInventario=  async ()=>{
 
@@ -77,7 +82,7 @@ else{
   // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
 const inventario = {
     razao:razao.trim().replace(/\s\s+/g, ' '),
-    estoque:movimento,
+    saldoFinal:movimento,
     codigo:codigo,
     }
 
