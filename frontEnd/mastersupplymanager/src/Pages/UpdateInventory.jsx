@@ -8,7 +8,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import "dayjs/locale/pt-br";
 import { url } from "../contetxs/webApiUrl";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import "../style/updateMaterial.css";
+import  updateInventory from "../style/updateMaterial.module.css";
 import MuiAlert from "@mui/material/Alert";
 import { useLocation } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -102,18 +102,7 @@ const inventario = {
     
   ).catch(e=>{
     console.log(e)
-    // console.log(e.response.data.message[0].errorMessage)
-    if(e.response.data.message=="Código já existe")
-    {
-      setOpenSnackBar(true)
-      setSeveridadeAlert("error")
-      setMessageAlert("Já existe um material com este código")
-    }
-     else if(e.response.data.message=="Um material com essa descrição já existe"){
-      setOpenSnackBar(true)
-      setSeveridadeAlert("error")
-      setMessageAlert("Um matérial com esta descrição já existe")
-     }
+    
     
 
   })
@@ -148,20 +137,20 @@ const getCategoria = async(id)=>{
 
 
     <TextField  disabled={true}   value={codigo} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
-    className='inputs' onChange={e=>setCodigo(e.target.value)} label='Código' required />
+    className={updateInventory.inputs} onChange={e=>setCodigo(e.target.value)} label='Código' required />
 
 
     <TextField  disabled={true}   value={categoria} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
-    className='inputs' onChange={e=>setCategoria(e.target.value)} label='Categoria' required />
+    className={updateInventory.inputs} onChange={e=>setCategoria(e.target.value)} label='Categoria' required />
 
     <TextField    value={descricao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
-    className='inputs' onChange={e=>setDescricao(e.target.value)} label='Descrição' required />
+    className={updateInventory.inputs} onChange={e=>setDescricao(e.target.value)} label='Descrição' required />
 
 <TextField    value={razao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
-    className='inputs' onChange={e=>setRazao(e.target.value)} label='Razão' required />
+    className={updateInventory.inputs} onChange={e=>setRazao(e.target.value)} label='Razão' required />
 
     <TextField   value={movimento} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
-     className='inputs'  onChange={(e) => setMovimento(e.target.value)} label='Estoque' required />
+     className={updateInventory.inputs}  onChange={(e) => setMovimento(e.target.value)} label='Estoque' required />
 
 
    
@@ -171,7 +160,7 @@ const getCategoria = async(id)=>{
  
     
     </div>
-    <div className='container-botoes'>
+    <div className={updateInventory.container_botoes}>
     <Button  className="botao"label="Atualizar Material" onClick={updateInventario} />
     <Snackbar open={openSnackBar} autoHideDuration={3000} onClose={e=>setOpenSnackBar(false)}>
             <MuiAlert onClose={e=>setOpenSnackBar(false)} severity={severidadeAlert} sx={{ width: '100%' }}>

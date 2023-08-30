@@ -10,7 +10,7 @@ import CreateIcon from "@mui/icons-material/Create";
 import "dayjs/locale/pt-br";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import "../style/createMaterial.css";
+import  createMaterial from "../style/createMaterial.module.css"
 import MuiAlert from "@mui/material/Alert";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -35,7 +35,8 @@ const CreateMaterial = () => {
 
   const [categoria, setCategoria] = useState("");
   const [descricao, setDescricao] = useState("");
-  const [codigo, setCodigo] = useState("");
+  const [codigoInterno, setCodigoInterno] = useState("");
+  const [codigoFabricante, setCodigoFabricante] = useState("");
   const [marca, setMarca] = useState("");
   const [tensao, setTensao] = useState("");
   const [corrente, setCorrente] = useState("");
@@ -50,7 +51,7 @@ const CreateMaterial = () => {
   const [materiais, setMateriais] = useState([]);
 
   const unidadeMaterial = ["UN", "RL", "PÇ", "MT", "P"];
-  const tensoes = ["","127V","220V","380V","440V","660V"]
+  const tensoes = ["","12V","24V","127V","220V","380V","440V","660V"]
 
   useEffect(() => {
     //Irá começar a realizar a busca somente quando  a descrição tiver 3 caracteres
@@ -143,19 +144,20 @@ const CreateMaterial = () => {
       })
       .catch((e) => console.log(e));
   };
-  const createMaterial = async () => {
+  const handleCreateMaterial = async () => {
     
     // navigate("/updateMaterial")
 
 
-    if (!categoria || !descricao || !unidade || !codigo) {
+    if (!categoria || !descricao || !unidade || !codigoInterno) {
       setOpenSnackBar(true);
       setSeveridadeAlert("warning");
       setMessageAlert("Prencha todas as informações necessárias");
     } else {
       // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
       const material = {
-        codigo: codigo.trim().replace(/\s\s+/g, " "),
+        codigoInterno: codigoInterno.trim().replace(/\s\s+/g, " "),
+        codigoFabricante: codigoFabricante.trim().replace(/\s\s+/g, " "),
         descricao: descricao.trim().replace(/\s\s+/g, " "),
         marca: marca.trim().replace(/\s\s+/g, " "),
         corrente: corrente.trim().replace(/\s\s+/g, " "),
@@ -227,7 +229,7 @@ const CreateMaterial = () => {
   return (
     <>
       <Header />
-      <div className="container-navigation">
+      <div className={createMaterial.container_navigation}>
 
 <Fab onClick={()=>navigate("/createMaterial")} sx={{backgroundColor:"#FCDD74"}}  aria-label="add">
   <AddIcon />
@@ -241,14 +243,14 @@ const CreateMaterial = () => {
 </div>
       <h1>Criação de Material</h1>
 
-      <div className="container-inputs">
+      <div className={createMaterial.container_inputs}>
         <TextField
           error={
             severidadeAlert != "warning" || categoria.length ? false : true
           }
           value={categoria}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
-          className="inputs"
+          className={createMaterial.inputs}
           onChange={(e) => setCategoria(e.target.value)}
           label="Categoria"
           required
@@ -256,12 +258,22 @@ const CreateMaterial = () => {
 
         <TextField
           error={severidadeAlert != "warning" || codigo.length ? false : true}
-          value={codigo}
+          value={codigoInterno}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
-          className="inputs"
-          onChange={(e) => setCodigo(e.target.value)}
-          label="Código"
+          className={createMaterial.inputs}
+          onChange={(e) => setCodigoInterno(e.target.value)}
+          label="Cod Interno"
           required
+        />
+
+        <TextField
+          error={severidadeAlert != "warning" || codigo.length ? false : true}
+          value={codigoFabricante}
+          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+          className={createMaterial.inputs}
+          onChange={(e) => setCodigoFabricante(e.target.value)}
+          label="Cód Fabricante"
+          
         />
 
         <TextField
@@ -270,7 +282,7 @@ const CreateMaterial = () => {
           }
           value={descricao}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
-          className="inputs"
+          className={createMaterial.inputs}
           onChange={(e) => setDescricao(e.target.value)}
           label="Descrição"
           required
@@ -279,7 +291,7 @@ const CreateMaterial = () => {
         <TextField
           value={marca}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
-          className="inputs"
+          className={createMaterial.inputs}
           onChange={(e) => setMarca(e.target.value)}
           label="Marca"
         />
@@ -302,7 +314,7 @@ const CreateMaterial = () => {
         <TextField
           value={corrente}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px"}}
-          className="inputs"
+          className={createMaterial.inputs}
           onChange={(e) => setCorrente(e.target.value)}
           label="Corrente"
         />
@@ -336,17 +348,17 @@ const CreateMaterial = () => {
           </LocalizationProvider>
         </div>
       </div>
-      <div className="container-botoes">
+      <div className={createMaterial.container_botoes}>
         <Button
-          className="botao"
+          className={createMaterial.botao}
           label="Criar Material"
-          onClick={createMaterial}
+          onClick={handleCreateMaterial}
         />
        
-        <div className="card-table">
-          <TableContainer component={Paper}>
+        <div className={createMaterial.card_table}>
+          <TableContainer component={Paper} sx={{backgroundColor:"#FCDD74"}}>
             <Table
-              sx={{ width: "100vw", margin: "auto" }}
+              sx={{ width: "100vw",  }}
               aria-label="simple table"
             >
               <TableHead>

@@ -11,7 +11,8 @@ namespace SupplyManager.Models
         [Key]
         public int? Id { get; set; }
 
-        public string? Codigo { get; set; }
+        public string? CodigoInterno { get; set; }
+        public string? CodigoFabricante { get; set; }
 
         //EDITÁVEL
         public string? Descricao { get; set; }
@@ -41,9 +42,10 @@ namespace SupplyManager.Models
 
         public string? Responsavel { get; set; }
 
-        public Material(string? codigo, string? descricao, string? marca, string? corrente, string? unidade, string? tensao, DateTime? dataEntradaNF,  string? razao, float? estoque, float? movimentacao, float? saldoFinal, string? responsavel)
+        public Material(string? codigoInterno, string? codigoFabricante, string? descricao, string? marca, string? corrente, string? unidade, string? tensao, DateTime? dataEntradaNF,  string? razao, float? estoque, float? movimentacao, float? saldoFinal, string? responsavel)
         {
-            Codigo = codigo;
+            CodigoInterno = codigoInterno;
+            CodigoFabricante= codigoFabricante;
             Descricao = descricao;
             Marca = marca;
             Corrente = corrente;

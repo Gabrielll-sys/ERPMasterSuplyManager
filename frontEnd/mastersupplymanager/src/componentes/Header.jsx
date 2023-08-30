@@ -8,7 +8,10 @@ const Header= ({props})=>{
 return(
 
     <header >
-    <img  className="image" src={require('../assets/logo.png')}  alt="logo.png"/>
+    <img  style={{width: "120px",
+height: "50px",
+marginLeft:"10px",
+marginTop: "12px"}} src={require('../assets/logo.png')}  alt="logo.png"/>
     </header>
 
 

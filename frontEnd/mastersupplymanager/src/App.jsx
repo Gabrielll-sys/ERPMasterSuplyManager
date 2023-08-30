@@ -17,7 +17,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Router>
           <Routes>
-            <Route path="createMaterial" element={<CreateMaterial />} />
+            <Route path="/createMaterial" element={<CreateMaterial />} />
             <Route path="/updateMaterial" element={<UpdateMaterial />} />
             <Route path="/" element={<SearchInventory />} />
             <Route path="/updateInventory" element={<UpdateInvetory />} />

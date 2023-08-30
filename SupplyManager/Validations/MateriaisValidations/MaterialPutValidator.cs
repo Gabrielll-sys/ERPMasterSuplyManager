@@ -25,7 +25,7 @@ namespace SupplyManager.Validations.MateriaisValidations
                     .NotEmpty()
                     .WithMessage("Unidade não pode ser vazia");
 
-            RuleFor(x => x.Codigo)
+            RuleFor(x => x.CodigoInterno)
                     .NotEmpty()
                     .WithMessage("O código não pode ser vázio");
 

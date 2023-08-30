@@ -8,7 +8,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import "dayjs/locale/pt-br";
 import { url } from "../contetxs/webApiUrl";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import "../style/updateMaterial.css";
+import  updateMaterial from"../style/updateMaterial.module.css";
 import MuiAlert from "@mui/material/Alert";
 import { useLocation } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -96,7 +96,7 @@ setTensao(tensoes[tensoes.findIndex((x)=>x==r.data.tensao)])
     }).catch(e=>console.log(e))
 
 }
-const updateMaterial=  async (id)=>{
+const handleUpdateMaterial=  async (id)=>{
 
 if(!categoria || !descricao || !unidade){
 
@@ -173,21 +173,21 @@ const material = {
 
 
     <TextField  value={categoria} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}  
-    className='inputs' onChange={e=>setCategoria(e.target.value)} label='Categoria' required/>
+    className={updateMaterial.inputs} onChange={e=>setCategoria(e.target.value)} label='Categoria' required/>
     
 
 
     <TextField    value={codigo} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
-    className='inputs' onChange={e=>setCodigo(e.target.value)} label='Código' required />
+    className={updateMaterial.inputs} onChange={e=>setCodigo(e.target.value)} label='Código' required />
 
    
     {/* <InputText className='inputs' value={descricao} onChange={e=>setDescricao(e.target.value)} /> */}
     <TextField   value={descricao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
-     className='inputs'  onChange={(e) => setDescricao(e.target.value)} label='Descrição' required />
+     className={updateMaterial.inputs}  onChange={(e) => setDescricao(e.target.value)} label='Descrição' required />
 
    
     <TextField   value={marca} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}} 
-    className='inputs' onChange={e=>setMarca(e.target.value)}  label='Marca' />
+    className={updateMaterial.inputs} onChange={e=>setMarca(e.target.value)}  label='Marca' />
 
 
       
@@ -208,7 +208,7 @@ const material = {
         <TextField
           value={corrente}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px"}}
-          className="inputs"
+          className={updateMaterial.inputs}
           onChange={(e) => setCorrente(e.target.value)}
           label="Corrente"
         />
@@ -243,7 +243,7 @@ const material = {
   
     </div>
     <div className='container-botoes'>
-    <Button  className="botao"label="Atualizar Material" onClick={x=>updateMaterial(idMaterial.state)} />
+    <Button  className={updateMaterial.botao}label="Atualizar Material" onClick={x=>handleUpdateMaterial(idMaterial.state)} />
     <Snackbar open={openSnackBar} autoHideDuration={3000} onClose={e=>setOpenSnackBar(false)}>
             <MuiAlert onClose={e=>setOpenSnackBar(false)} severity={severidadeAlert} sx={{ width: '100%' }}>
              {messageAlert}

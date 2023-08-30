@@ -77,14 +77,14 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<Material>> GetLastMaterial(string codigo)
+        public async Task<ActionResult<Material>> GetLastMaterial(string codigoInterno)
         {
 
             try
             {
                 var queryMaterial = from query in _context.Materiais select query;
 
-                queryMaterial = queryMaterial.Where(x=>x.Codigo==codigo).OrderBy(x=>x.DataAlteracao);
+                queryMaterial = queryMaterial.Where(x=>x.CodigoInterno==codigoInterno).OrderBy(x=>x.DataAlteracao);
                 /*  var material = await _context.Materiais.FindAsync(id);*/
 
            
@@ -192,7 +192,7 @@ namespace SupplyManager.Controllers
                 var queryMaterial = from query in _context.Materiais select query;
 
 
-                queryMaterial = queryMaterial.Where(x => x.Codigo.Contains(codigo));
+                queryMaterial = queryMaterial.Where(x => x.CodigoInterno.Contains(codigo));
 
                 return Ok (await queryMaterial.ToListAsync());
 
@@ -226,7 +226,7 @@ namespace SupplyManager.Controllers
                 MateriaisPostValidator ValidationMaterial = new MateriaisPostValidator();
 
                 //Verifica se o modelo o código digitado do material já existe,caso sim,retornara bad request e uma mensagem de material já existe
-                var checkCode = await _context.Materiais.FirstOrDefaultAsync(x => x.Codigo == model.Codigo);
+                var checkCode = await _context.Materiais.FirstOrDefaultAsync(x => x.CodigoInterno == model.CodigoInterno);
 
                 //Caso ja exista o codigo e o estoque seja nulo,ou seja quando o usuario esta criando pela primeira vez, retornará que o codigo ja existe
                 if (checkCode != null && model.SaldoFinal==null)
@@ -235,7 +235,7 @@ namespace SupplyManager.Controllers
                     return StatusCode(StatusCodes.Status400BadRequest, new { message = "Código já existe" });
                 }
                 
-                queryMaterial = queryMaterial.Where(x=>x.Codigo==model.Codigo);
+                queryMaterial = queryMaterial.Where(x=>x.CodigoInterno==model.CodigoInterno);
 
                 var AlredyHaveMaterial = await queryMaterial.ToListAsync();
 
@@ -243,7 +243,8 @@ namespace SupplyManager.Controllers
                 {
 
                    Material m1 = new Material(
-                 model.Codigo.ToUpper(),
+                 model.CodigoInterno.ToUpper(),
+                 model.CodigoFabricante.ToUpper(),
                  model.Descricao.ToUpper(),
                  model.Marca.ToUpper(),
                  String.IsNullOrEmpty(model.Corrente) ? "-" : model.Corrente.ToUpper(),
@@ -276,7 +277,9 @@ namespace SupplyManager.Controllers
                 // E PASSARÁ PARA OS PARAMETROS DO CONSTRUTOR DO NOVO OBJETO
                 Material m2 = new Material
                     (
-                    AlredyHaveMaterial[AlredyHaveMaterial.Count-1].Codigo,
+                    AlredyHaveMaterial[AlredyHaveMaterial.Count-1].CodigoInterno,
+                    AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].CodigoFabricante,
+
                     AlredyHaveMaterial[AlredyHaveMaterial.Count-1].Descricao,
                     AlredyHaveMaterial[AlredyHaveMaterial.Count-1].Marca,
                     AlredyHaveMaterial[AlredyHaveMaterial.Count-1].Corrente,
@@ -360,7 +363,8 @@ namespace SupplyManager.Controllers
                 var m1 = await _context.Materiais.FindAsync(model.Id);
 
                 {
-                    m1.Codigo = model.Codigo.ToUpper();
+                    m1.CodigoInterno = model.CodigoInterno.ToUpper();
+                    m1.CodigoFabricante = model.CodigoFabricante.ToUpper();
                     m1.Descricao = model.Descricao.ToUpper();
                     m1.Marca = model.Marca.ToUpper();
                     m1.Corrente = model.Corrente.ToUpper();

@@ -4,13 +4,13 @@ import { useNavigate ,useRoutes} from "react-router-dom";
 import Header from "../componentes/Header";
 import { Snackbar } from "@material-ui/core";
 import { useEffect, useState } from "react";
-
+import searchInventory from "../style/searchInventory.module.css"
 import { url } from "../contetxs/webApiUrl";
 import CreateIcon from "@mui/icons-material/Create";
 import "dayjs/locale/pt-br";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import "../style/searchInventory.css";
+
 import MuiAlert from "@mui/material/Alert";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -43,6 +43,18 @@ const SearchInventory = () => {
   const [inventarios, setInventarios] = useState([]);
 
 
+  
+  useEffect(()=>{
+
+    const searchValue = localStorage.getItem("busca")
+
+    if(searchValue) 
+    {
+      setDescricao(searchValue)
+    }
+
+  },[])
+  
   useEffect(() => {
     //Irá começar a realizar a busca somente quando  a descrição tiver 3 caracteres
     if (descricao.length>=3) {
@@ -56,13 +68,22 @@ const SearchInventory = () => {
   useEffect(() => {
     //Irá começar a realizar a busca somente quando  o código tiver 3 caracteres
   
-    if (descricao.length>=3) {
+    if (codigo.length>=3) {
      searchByCode().then().catch();
 
     }
     setInventarios([])
 
   }, [codigo]);
+
+  const handleChangePageUpdate = (id)=>{
+
+    localStorage.setItem("busca",descricao)
+    navigate("/updateInventory", { state: id })
+
+
+
+  }
   const searchByDescription = async () => {
 
     const res = await axios
@@ -75,11 +96,6 @@ const SearchInventory = () => {
       })
       .catch();
       
-
-      for( let i of res){
-
-        console.log(i.dataAlteracao==undefined) 
-      }
   setInventarios(res)
   
 };
@@ -107,41 +123,15 @@ setInventarios(res)
       
   };
 
-  // const createCategoria = async (idMaterial) => {
-  //   const category = {
-  //     nomeCategoria: categoria,
-  //     materialId: idMaterial,
-  //     material: {},
-  //   };
-  //   await axios
-  //     .post(`${url}/Categorias`, category)
-  //     .then((r) => {
-  //       return r.data
-  //     })
-  //     .catch((e) => console.log(e));
-  // };
+
  
 
-  const deleteInventario = async (id) => {
-
-    await axios
-      .delete(`${url}/Materiais/${id}`)
-      .then((r) => {
-        setOpenSnackBar(true);
-        setSeveridadeAlert("success");
-        setMessageAlert("Material excluído com sucesso");
-        //realiza um filtro na lista de materias que esta sendo mostrada,para remover o item que acabou de ser excluido, e assim a atualizar os materias que estão a amostra
-        const a = inventarios.filter(x=> x.id!=id)
-        setInventarios(a)
-      })
-      .catch((e) => console.log(e));
-  };
 
 
   return (
     <>
       <Header />
-      <div className="container-navigation">
+      <div className={searchInventory.container_navigation}>
 
 <Fab onClick={()=>navigate("/createMaterial")} sx={{backgroundColor:"#FCDD74"}}  aria-label="add">
   <AddIcon />
@@ -156,7 +146,7 @@ setInventarios(res)
       <h1>Procurar no inventário</h1>
     
 
-      <div className="container-inputs">
+      <div className={searchInventory.container_inputs}>
       
 
       <TextField
@@ -184,7 +174,7 @@ setInventarios(res)
      
       </div>
     
-        <div className="card-table">
+        <div className={searchInventory.card_table}>
           <TableContainer component={Paper}>
             <Table
               sx={{ width: "97vw", margin: "auto" }}
@@ -193,13 +183,13 @@ setInventarios(res)
               <TableHead>
                 <TableRow>
                   <TableCell align="center">Codigo </TableCell>
-                  <TableCell align="center">Descricação</TableCell>
+                  <TableCell align="center">Descrição</TableCell>
                   <TableCell align="center">Estoque</TableCell>
                   <TableCell align="center">Movimentação</TableCell>
                   <TableCell align="center">Saldo Final</TableCell>
+                  <TableCell align="center">Razão</TableCell>
                   <TableCell align="center">Data </TableCell>
 
-                  <TableCell align="center">Razão</TableCell>
                   <TableCell align="center">Usuario</TableCell>
                  
                 </TableRow>
@@ -218,10 +208,10 @@ setInventarios(res)
                     <TableCell align="center" size="small">{row.estoque}</TableCell>
                     <TableCell align="center" size="small">{row.movimentacao}</TableCell>
                     <TableCell align="center" size="small">{row.saldoFinal}</TableCell>
+                    <TableCell align="center" >{row.razao}</TableCell>
                     <TableCell align="center">
                       {dayjs(row.dataAlteracao).format(`[${row.movimentacao==undefined?" Material Criado as ":"Inventário Editado as "}]DD/MM/YYYY [as] HH:mm:ss`)} 
                     </TableCell>
-                    <TableCell align="center" >{row.razao}</TableCell>
                     <TableCell align="center" size ="small">{row.responsavel}</TableCell>
 
                     
@@ -230,7 +220,8 @@ setInventarios(res)
                     disabled={inventarios[inventarios.length-1].id==row.id?false:true}
                     style={{backgroundColor:'white',marginTop:"7px"}}
                       onClick={(x) =>
-                        navigate("/updateInventory", { state: row.id })
+                        handleChangePageUpdate(row.id)
+                        
                       }
                     >
                       <CreateIcon />
