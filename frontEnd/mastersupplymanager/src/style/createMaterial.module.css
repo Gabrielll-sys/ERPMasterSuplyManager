@@ -6,11 +6,12 @@ header{
 html{
   height: 100vh;  
 }
-h1{
+.h1{
 
 text-align: center;
 font-family:'Roboto';
-color:#2A2E48
+color:#2A2E48;
+
 
 
 }
@@ -28,7 +29,7 @@ display:flex;
 flex-direction:row;
 flex-wrap: wrap;
 margin: auto;
-width: 60vw;
+width: 70vw;
 justify-content:center;
 text-align:center;
 

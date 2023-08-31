@@ -30,6 +30,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import MenuItem from '@mui/material/MenuItem';
 
 import Select from '@mui/material/Select';
+import UpdateMaterial from "./UpdateMaterial";
 const CreateMaterial = () => {
   const navigate = useNavigate();
 
@@ -146,7 +147,7 @@ const CreateMaterial = () => {
   };
   const handleCreateMaterial = async () => {
     
-    // navigate("/updateMaterial")
+
 
 
     if (!categoria || !descricao || !unidade || !codigoInterno) {
@@ -193,8 +194,12 @@ const CreateMaterial = () => {
           }
         });
         //Quando criar o material.atualizara a  lista de materias que estao a amostra
-       
+        // e se somente o material ter sido criado
+       if(materialCriado)
+       {
         materiais.push({...materialCriado,nomeCategoria:categoria.toUpperCase()})
+
+       }
 
       //Quando criar o material,chamara o metodo para atualizar os dados da tabela
 
@@ -241,7 +246,7 @@ const CreateMaterial = () => {
 </Fab>
 
 </div>
-      <h1>Criação de Material</h1>
+      <h1 className={createMaterial.h1}>Criação de Material</h1>
 
       <div className={createMaterial.container_inputs}>
         <TextField
@@ -257,7 +262,7 @@ const CreateMaterial = () => {
         />
 
         <TextField
-          error={severidadeAlert != "warning" || codigo.length ? false : true}
+          error={severidadeAlert != "warning" || codigoInterno.length ? false : true}
           value={codigoInterno}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
           className={createMaterial.inputs}
@@ -267,7 +272,7 @@ const CreateMaterial = () => {
         />
 
         <TextField
-          error={severidadeAlert != "warning" || codigo.length ? false : true}
+        
           value={codigoFabricante}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
           className={createMaterial.inputs}
@@ -356,7 +361,7 @@ const CreateMaterial = () => {
         />
        
         <div className={createMaterial.card_table}>
-          <TableContainer component={Paper} sx={{backgroundColor:"#FCDD74"}}>
+          <TableContainer component={Paper} >
             <Table
               sx={{ width: "100vw",  }}
               aria-label="simple table"
@@ -364,7 +369,7 @@ const CreateMaterial = () => {
               <TableHead>
                 <TableRow>
                   <TableCell align="center">Categoria</TableCell>
-                  <TableCell align="center">Codigo</TableCell>
+                  <TableCell align="center">Codigo Interno</TableCell>
                   <TableCell align="center">Descrição</TableCell>
                   <TableCell align="center">Marca</TableCell>
                   <TableCell align="center">Tensão</TableCell>
@@ -381,7 +386,7 @@ const CreateMaterial = () => {
                   >
                 
                     <TableCell align="center" size="medium">{row.nomeCategoria}</TableCell>
-                    <TableCell align="center">{row.codigo}</TableCell>
+                    <TableCell align="center">{row.codigoInterno}</TableCell>
                     <TableCell align="center">{row.descricao}</TableCell>
                     <TableCell align="center">{row.marca}</TableCell>
                     <TableCell align="center" size ="small">{row.tensao}</TableCell>

@@ -27,7 +27,8 @@ const UpdateMaterial = ()=>{
   const idMaterial= useLocation()
  const[categoria,setCategoria]=useState("")
  const [descricao,setDescricao] = useState("")
- const [codigo,setCodigo] = useState("")
+ const [codigoInterno,setCodigoInterno] = useState("")
+ const [codigoFabricante,setCodigoFabricante] = useState("")
  const [marca,setMarca] = useState("")
  const [ tensao,setTensao] = useState("")
  const [corrente,setCorrente] = useState("")
@@ -72,7 +73,8 @@ useEffect(()=>{
   setDataentrada(dayjs(r.data.dataEntradaNF))
 
 setUnidade(r.data.unidade)
-setCodigo(r.data.codigo)
+setCodigoInterno(r.data.codigoInterno)
+setCodigoFabricante(r.data.codigoFabricante)
 setCorrente(r.data.corrente)
 setMarca(r.data.marca)
 setDescricao(r.data.descricao)
@@ -110,7 +112,8 @@ else{
   // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
 const material = {
     id:id,
-    codigo:codigo.trim().replace(/\s\s+/g, ' '),
+    codigoInterno:codigoInterno.trim().replace(/\s\s+/g, ' '),
+    codigoFabricante:codigoFabricante.trim().replace(/\s\s+/g, ' '),
     descricao:descricao.trim().replace(/\s\s+/g, ' '),
     marca:marca.trim().replace(/\s\s+/g, ' '),
     corrente:corrente.trim().replace(/\s\s+/g, ' '),
@@ -167,9 +170,9 @@ const material = {
 
   <Header/>
 
-    <h1>Editando inventário de {categoria} {descricao} (COD:{codigo}) </h1>
+    <h1 className={updateMaterial.h1}>Editando inventário de {categoria} {descricao} (COD:{codigoInterno}) </h1>
   
-    <div className="container-inputs">
+    <div className={updateMaterial.container_inputs}>
 
 
     <TextField  value={categoria} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}  
@@ -177,8 +180,11 @@ const material = {
     
 
 
-    <TextField    value={codigo} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
-    className={updateMaterial.inputs} onChange={e=>setCodigo(e.target.value)} label='Código' required />
+    <TextField    value={codigoInterno} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
+    className={updateMaterial.inputs} onChange={e=>setCodigoInterno(e.target.value)} label='Cod Iterno' required />
+
+    <TextField    value={codigoFabricante} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
+    className={updateMaterial.inputs} onChange={e=>setCodigoFabricante(e.target.value)} label='Cod Fabricante'  />
 
    
     {/* <InputText className='inputs' value={descricao} onChange={e=>setDescricao(e.target.value)} /> */}
@@ -242,7 +248,7 @@ const material = {
 
   
     </div>
-    <div className='container-botoes'>
+    <div className={updateMaterial.container_botoes}>
     <Button  className={updateMaterial.botao}label="Atualizar Material" onClick={x=>handleUpdateMaterial(idMaterial.state)} />
     <Snackbar open={openSnackBar} autoHideDuration={3000} onClose={e=>setOpenSnackBar(false)}>
             <MuiAlert onClose={e=>setOpenSnackBar(false)} severity={severidadeAlert} sx={{ width: '100%' }}>

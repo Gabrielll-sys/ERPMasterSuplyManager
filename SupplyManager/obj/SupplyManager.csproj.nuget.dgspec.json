@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[11.6.0, )"
             },
+            "Microsoft.AspNetCore.OData.Versioning.ApiExplorer": {
+              "target": "Package",
+              "version": "[5.1.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.9, )"
@@ -67,6 +71,10 @@
             "MySqlConnector": {
               "target": "Package",
               "version": "[2.2.7, )"
+            },
+            "NPOI": {
+              "target": "Package",
+              "version": "[2.6.1, )"
             },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",

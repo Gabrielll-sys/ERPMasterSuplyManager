@@ -88,27 +88,23 @@ const inventario = {
 
    
 
+try{
 
   const inventarioAtualizado =  await axios.post(`${url}/Materiais`,inventario)
   .then(r=>
-    {  
-
+    {
       setOpenSnackBar(true)
       setSeveridadeAlert("success")
       setMessageAlert("Inventário Atualizado com sucesso")
-    
-
-}
-    
-  ).catch(e=>{
-    console.log(e)
-    
-    
-
-  })
+}).catch()
  
-
 }
+catch(e){
+
+  console.log(e)
+}
+}
+
 }
 
 const getCategoria = async(id)=>{

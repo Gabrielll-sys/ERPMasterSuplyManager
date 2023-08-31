@@ -46,7 +46,7 @@ const SearchInventory = () => {
   
   useEffect(()=>{
 
-    const searchValue = localStorage.getItem("busca")
+    const searchValue = sessionStorage.getItem("busca")
 
     if(searchValue) 
     {
@@ -69,8 +69,15 @@ const SearchInventory = () => {
     //Irá começar a realizar a busca somente quando  o código tiver 3 caracteres
   
     if (codigo.length>=3) {
-     searchByCode().then().catch();
+      try{
 
+        searchByCode().then().catch();
+      }
+      catch(e){
+        console.log(e)
+
+
+      }
     }
     setInventarios([])
 
@@ -78,7 +85,8 @@ const SearchInventory = () => {
 
   const handleChangePageUpdate = (id)=>{
 
-    localStorage.setItem("busca",descricao)
+    sessionStorage.setItem("busca",descricao)
+
     navigate("/updateInventory", { state: id })
 
 
@@ -86,20 +94,33 @@ const SearchInventory = () => {
   }
   const searchByDescription = async () => {
 
-    const res = await axios
-      .get(`${url}/Materiais/buscaInventario?descricao=${descricao}`)
-      .then( (r)=> {
-       
-       
-       return r.data
-       
-      })
-      .catch();
-      
+
+    try{
+
+      const res = await axios
+        .get(`${url}/Materiais/buscaInventario?descricao=${descricao}`)
+        .then( (r)=> {
+         
+         
+         return r.data
+         
+        })
+        .catch();
   setInventarios(res)
+
+    }
+    catch(e){
+      if(e.message =="Network Error")
+      setOpenSnackBar(true);
+      setSeveridadeAlert("error");
+      setMessageAlert("Sem conexão com o servidor");
+      
+    }
   
 };
+
 const searchByCode = async () => {
+try{
 
   const res = await axios
     .get(`${url}/Materiais/buscaCodigo?codigo=${codigo}`)
@@ -111,7 +132,11 @@ const searchByCode = async () => {
     .catch();
     
 setInventarios(res)
+}
+catch(e){
 
+  console.log(e)
+}
 };
  
   const getAllMateriais = async () => {
@@ -119,7 +144,7 @@ setInventarios(res)
       .get(`${url}/Materiai`)
       .then((r) => {
         console.log(r.data);
-      }).catch(e=>console.log(e));
+      }).catch();
       
   };
 

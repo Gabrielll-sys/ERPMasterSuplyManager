@@ -9,8 +9,8 @@ height: 50px;
 margin-left: 10px;
 margin-top: 12px;
 }
-h1{
-margin-top: 50px;
+.h1{
+margin-top: 150px;
 text-align: center;
 font-family:'Roboto';
 color:#2A2E48
@@ -31,6 +31,7 @@ margin-top: 200px;
 display:flex;
 flex-direction:row;
 flex-wrap: wrap;
+width: 70vw;
 
 
 
@@ -58,7 +59,7 @@ box-shadow: 1.5px 1.5px 1.5px black;
     
     
     }
-.container-botoes{
+.container_botoes{
 margin-top: 30px;
 text-align: center;
 }
