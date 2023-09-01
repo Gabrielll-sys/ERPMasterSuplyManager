@@ -8,9 +8,14 @@ using System.Net;
 
 namespace SupplyManager.Controllers
 {
+
+    ///<summary>
+    ///Controlador para gerenciar as Categorias
+    /// </summary>
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
+   
 
     public class CategoriasController : ControllerBase
 
@@ -28,6 +33,13 @@ namespace SupplyManager.Controllers
 
         [HttpGet]
 
+        ///<summary>
+        ///Controlador para gerenciar as Categorias
+        /// </summary>
+        /// <returns>Todas as categorias</returns>
+        /// <response code="200">User found</response>
+        /// <response code="404">User not found</response>
+        /// <response code="500">Server Error</response>
         public async Task<ActionResult<List<Categoria>>> GetAll()
         {
 
@@ -186,7 +198,7 @@ namespace SupplyManager.Controllers
                 //Busca em categorias pelo id do material
                 var c1 = await _context.Categorias.FirstOrDefaultAsync(x => x.MaterialId == id);
                 {
-                    c1.NomeCategoria = categoria.NomeCategoria;
+                    c1.NomeCategoria = categoria.NomeCategoria.ToUpper();
                     c1.Material = material;
                 }
 

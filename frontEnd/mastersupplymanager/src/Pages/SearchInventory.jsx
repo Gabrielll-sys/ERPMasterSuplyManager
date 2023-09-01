@@ -168,7 +168,7 @@ catch(e){
 </Fab>
 
 </div>
-      <h1>Procurar no inventário</h1>
+      <h1 className={searchInventory.h1}>Procurar no inventário</h1>
     
 
       <div className={searchInventory.container_inputs}>
@@ -207,14 +207,13 @@ catch(e){
             >
               <TableHead>
                 <TableRow>
-                  <TableCell align="center">Codigo </TableCell>
+                  <TableCell align="center">Codigo Interno</TableCell>
                   <TableCell align="center">Descrição</TableCell>
                   <TableCell align="center">Estoque</TableCell>
                   <TableCell align="center">Movimentação</TableCell>
                   <TableCell align="center">Saldo Final</TableCell>
                   <TableCell align="center">Razão</TableCell>
                   <TableCell align="center">Data </TableCell>
-
                   <TableCell align="center">Usuario</TableCell>
                  
                 </TableRow>
@@ -228,7 +227,7 @@ catch(e){
                 
                   
               
-                    <TableCell align="center" size="medium">{row.codigo}</TableCell>
+                    <TableCell align="center" size="medium">{row.codigoInterno}</TableCell>
                     <TableCell align="center" size="medium">{row.descricao}</TableCell>
                     <TableCell align="center" size="small">{row.estoque}</TableCell>
                     <TableCell align="center" size="small">{row.movimentacao}</TableCell>
@@ -263,15 +262,7 @@ catch(e){
               </TableBody>
             </Table>
           </TableContainer>
-          {/* <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        /> */}
+         
           <Snackbar
             open={openSnackBar}
             autoHideDuration={3000}

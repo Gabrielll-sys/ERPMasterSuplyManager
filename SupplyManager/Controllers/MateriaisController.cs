@@ -14,7 +14,9 @@ using SupplyManager.App;
 namespace SupplyManager.Controllers
 {
 
-
+    ///<summary>
+    ///Controlador para gerenciar os Materias
+    /// </summary>
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -33,7 +35,13 @@ namespace SupplyManager.Controllers
         }
 
         [HttpGet]
-
+        ///<summary>
+        ///Controlador para gerenciar as Categorias
+        /// </summary>
+        /// <returns>Todas os Materiais</returns>
+        /// <response code="200">User found</response>
+        /// <response code="404">User not found</response>
+        /// <response code="500">Server Error</response>
         public async Task<ActionResult<List<Material>>> GetAll()
         {
 
@@ -169,7 +177,7 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<Material>> BuscaDescricaoInvetario(string descricao)
+        public async Task<ActionResult<Material>> BuscaDescricaoInventario(string descricao)
         {
 
 
@@ -392,7 +400,7 @@ namespace SupplyManager.Controllers
                     m1.Marca = model.Marca.ToUpper();
                     m1.Corrente = model.Corrente.ToUpper();
                     m1.Unidade = model.Unidade.ToUpper();
-                    m1.Tensao = model.Tensao.ToUpper();
+                    m1.Tensao = String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao;
                     m1.DataEntradaNF = model.DataEntradaNF;
 
                 }

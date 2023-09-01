@@ -183,7 +183,7 @@ const CreateMaterial = () => {
           if (e.response.data.message == "Código já existe") {
             setOpenSnackBar(true);
             setSeveridadeAlert("error");
-            setMessageAlert("Já existe um material com este código");
+            setMessageAlert("Já existe um material com este mesmo código interno");
           } else if (
             e.response.data.message ==
             "Um material com essa descrição já existe"
@@ -235,7 +235,7 @@ const CreateMaterial = () => {
     <>
       <Header />
       <div className={createMaterial.container_navigation}>
-
+      
 <Fab onClick={()=>navigate("/createMaterial")} sx={{backgroundColor:"#FCDD74"}}  aria-label="add">
   <AddIcon />
 

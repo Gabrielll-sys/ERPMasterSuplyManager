@@ -37,8 +37,8 @@ const UpdateMaterial = ()=>{
  const [openSnackBar,setOpenSnackBar]= useState(false)
  const [ messageAlert,setMessageAlert] = useState();
  const [ severidadeAlert,setSeveridadeAlert] = useState()
-const date= new Date()
- 
+  const [idCategoria,setIdCategoria] = useState()
+ const[oldCategory,setOldCategory]= useState()
  const [materiais, setMateriais] = useState([]);
 
  const unidadeMaterial = ["UN","RL","PÇ","M","P"]
@@ -49,7 +49,8 @@ const date= new Date()
 useEffect(()=>{
 
     getMaterial(idMaterial.state).then().catch()
-    getCategoria(idMaterial.state).then().catch()
+   getCategoria(idMaterial.state).then().catch()
+
 
 },[])
 
@@ -57,12 +58,12 @@ useEffect(()=>{
 
   const category = {
     id:id,
-    nomeCategoria :categoria,
+    nomeCategoria :oldCategory,
     materialId:id,
     material:{}
 
   }
-   await axios.put(`${url}/api/Categorias/${29}`,category).then(r=>navigate('/')).catch(e=>console.log(e))
+   await axios.put(`${url}/Categorias/${id}`,category).then(r=>navigate('/')).catch(e=>console.log(e))
    
 
 }
@@ -92,8 +93,11 @@ setTensao(tensoes[tensoes.findIndex((x)=>x==r.data.tensao)])
   
     await axios.get(`${url}/Categorias/${id}`).then(r=>{
 
-    setCategoria(r.data.nomeCategoria)
-
+      setIdCategoria(r.data.id)
+      setOldCategory(r.data.nomeCategoria)
+      setCategoria(r.data.nomeCategoria)
+     
+      
 
     }).catch(e=>console.log(e))
 
@@ -117,8 +121,8 @@ const material = {
     descricao:descricao.trim().replace(/\s\s+/g, ' '),
     marca:marca.trim().replace(/\s\s+/g, ' '),
     corrente:corrente.trim().replace(/\s\s+/g, ' '),
-    unidade:unidade.trim().replace(/\s\s+/g, ' '),
-    tensao:tensao.trim().replace(/\s\s+/g, ' '),
+    unidade:unidade,
+    tensao:tensao,
     corrente:corrente.trim().replace(/\s\s+/g, ' '),
     dataEntradaNF:dataentrada,
     }
@@ -129,7 +133,7 @@ const material = {
   const materialAtualizado =  await axios.put(`${url}/Materiais/${id}`,material)
   .then(r=>
     {  
-      console.log(r)
+
       updateCategoria(idMaterial.state)
       setOpenSnackBar(true)
       setSeveridadeAlert("success")
@@ -156,6 +160,10 @@ const material = {
     
 
   })
+  //Se o material foi atualizado ,atua
+  if(materialAtualizado && oldCategory !=categoria){
+    updateCategoria(idCategoria)
+  }
  
 
 }
@@ -175,8 +183,8 @@ const material = {
     <div className={updateMaterial.container_inputs}>
 
 
-    <TextField  value={categoria} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}  
-    className={updateMaterial.inputs} onChange={e=>setCategoria(e.target.value)} label='Categoria' required/>
+    <TextField  value={oldCategory} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}  
+    className={updateMaterial.inputs} onChange={e=>setOldCategory(e.target.value)} label='Categoria' required/>
     
 
 
