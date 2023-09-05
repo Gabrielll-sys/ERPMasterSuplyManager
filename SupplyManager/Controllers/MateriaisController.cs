@@ -100,8 +100,9 @@ namespace SupplyManager.Controllers
 
         }
 
+        [HttpGet("buscaCodigo/{codigoInterno}")]
+     
 
-        [HttpGet("buscaCodigo/{codigo}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -382,33 +383,70 @@ namespace SupplyManager.Controllers
 
             if (id != model.Id) return StatusCode(StatusCodes.Status400BadRequest);
 
+            var queryMaterial = from query in _context.Materiais select query;
+
+            var a = queryMaterial.Where(x => x.CodigoInterno == model.CodigoInterno);
+
+            var invetorys = await a.ToListAsync();
+
 
             try
             {
 
-                MaterialIdValidator material = new MaterialIdValidator();
-
-                var materialValidation = material.Validate(id);
-
-
-                var m1 = await _context.Materiais.FindAsync(model.Id);
-
+                if (invetorys.Count == 1)
                 {
-                    m1.CodigoInterno = model.CodigoInterno.ToUpper();
-                    m1.CodigoFabricante = model.CodigoFabricante.ToUpper();
-                    m1.Descricao = model.Descricao.ToUpper();
-                    m1.Marca = model.Marca.ToUpper();
-                    m1.Corrente = model.Corrente.ToUpper();
-                    m1.Unidade = model.Unidade.ToUpper();
-                    m1.Tensao = String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao;
-                    m1.DataEntradaNF = model.DataEntradaNF;
+                    MaterialIdValidator material = new MaterialIdValidator();
 
+                    var materialValidation = material.Validate(id);
+
+
+                    var m1 = await _context.Materiais.FindAsync(model.Id);
+
+                    {
+                        m1.CodigoInterno = model.CodigoInterno.ToUpper();
+                        m1.CodigoFabricante = model.CodigoFabricante.ToUpper();
+                        m1.Descricao = model.Descricao.ToUpper();
+                        m1.Marca = model.Marca.ToUpper();
+                        m1.Corrente = model.Corrente.ToUpper();
+                        m1.Unidade = model.Unidade.ToUpper();
+                        m1.Tensao = String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao;
+                        m1.DataEntradaNF = model.DataEntradaNF;
+
+                    }
+
+                    var updateMaterial = _context.Materiais.Update(m1);
+
+                    await _context.SaveChangesAsync();
+
+                    return Ok();
                 }
 
-                var updateMaterial = _context.Materiais.Update(m1);
 
-                await _context.SaveChangesAsync();
+                //CASO O MATERIAL TENHA SIDO CRIADO , TAMBEM SEU INVETÁRIO,ENTÃO FICARÁ VARIOS REGISTROS,ASSIM PEGARA TODOS OS ITENS DE INVENTÁRIO E TAMBEM
+                // ATUALIZARÁ TODOS OS CAMPOS DESSES ITENS DE INVENTÁRIO
 
+                foreach(var invetario in invetorys)
+                {
+                    var m1 = await _context.Materiais.FindAsync(invetario.Id);
+
+                    {
+                        m1.CodigoInterno = model.CodigoInterno.ToUpper();
+                        m1.CodigoFabricante = model.CodigoFabricante.ToUpper();
+                        m1.Descricao = model.Descricao.ToUpper();
+                        m1.Marca = model.Marca.ToUpper();
+                        m1.Corrente = model.Corrente.ToUpper();
+                        m1.Unidade = model.Unidade.ToUpper();
+                        m1.Tensao = String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao;
+                        m1.DataEntradaNF = model.DataEntradaNF;
+
+                    }
+
+                    var updateMaterial = _context.Materiais.Update(m1);
+
+                    await _context.SaveChangesAsync();
+
+
+                }
                 return Ok();
 
 

@@ -248,7 +248,7 @@ const material = {
 
     <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="pt-br" >
     
-        <DatePicker  label="Data Entrada NF"  value={dataentrada} onChange={e=>setDataentrada(e)} />
+        <DatePicker  label="Data Entrada NF"  value={dataentrada==undefined?"DD/MM/YYYY":dataentrada} onChange={e=>setDataentrada(e)} />
     
     </LocalizationProvider>
     </div>

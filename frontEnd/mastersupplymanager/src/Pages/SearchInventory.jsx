@@ -50,7 +50,7 @@ const SearchInventory = () => {
 
     if(searchValue) 
     {
-      setDescricao(searchValue)
+      setCodigo(searchValue)
     }
 
   },[])
@@ -85,13 +85,14 @@ const SearchInventory = () => {
 
   const handleChangePageUpdate = (id)=>{
 
-    sessionStorage.setItem("busca",descricao)
+    sessionStorage.setItem("busca",codigo)
 
     navigate("/updateInventory", { state: id })
 
 
 
   }
+  
   const searchByDescription = async () => {
 
 
@@ -120,13 +121,15 @@ const SearchInventory = () => {
 };
 
 const searchByCode = async () => {
-try{
+
+  try{
 
   const res = await axios
     .get(`${url}/Materiais/buscaCodigo?codigo=${codigo}`)
     .then( (r)=> {
 
      return r.data
+    setInventarios(r.data)
      
     })
     .catch();
@@ -209,9 +212,9 @@ catch(e){
                 <TableRow>
                   <TableCell align="center">Codigo Interno</TableCell>
                   <TableCell align="center">Descrição</TableCell>
-                  <TableCell align="center">Estoque</TableCell>
-                  <TableCell align="center">Movimentação</TableCell>
-                  <TableCell align="center">Saldo Final</TableCell>
+                  <TableCell align="center" size="small">Estoque</TableCell>
+                  <TableCell align="center" size="small">Movimentação</TableCell>
+                  <TableCell align="center" size="small">Saldo Final</TableCell>
                   <TableCell align="center">Razão</TableCell>
                   <TableCell align="center">Data </TableCell>
                   <TableCell align="center">Usuario</TableCell>

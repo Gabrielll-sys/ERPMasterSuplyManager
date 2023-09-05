@@ -77,26 +77,33 @@ const CreateMaterial = () => {
 
   const searchByDescription = async () => {
 
-   
+   try{
     const res = await axios
-      .get(`${url}/Materiais/buscaDescricao?descricao=${descricao}`)
-      .then( (r)=> {
-       return r.data
-       
-      })
-      .catch();
-      const materialsWithCategory = [];
+    .get(`${url}/Materiais/buscaDescricao?descricao=${descricao}`)
+    .then( (r)=> {
+     return r.data
+     
+    })
+    .catch();
+    const materialsWithCategory = [];
 
-       for (let i of res) {
-        
-         axios.get(`${url}/Categorias/${i.id}`).then(r=>{
-         
-          materialsWithCategory.push({...i,nomeCategoria:r.data.nomeCategoria})
+     for (let i of res) {
+      
+       axios.get(`${url}/Categorias/${i.id}`).then(r=>{
        
-         })
-  };
-  setObject(materialsWithCategory)
-  setMateriais(object)
+        materialsWithCategory.push({...i,nomeCategoria:r.data.nomeCategoria})
+     
+       })
+};
+setObject(materialsWithCategory)
+setMateriais(object)
+
+   }
+   catch(e) 
+   
+   { 
+console.log(e)
+   }
   
 };
 
@@ -133,18 +140,27 @@ const CreateMaterial = () => {
   };
 
   const createCategoria = async (idMaterial) => {
+    
+    
     const category = {
       nomeCategoria: categoria,
       materialId: idMaterial,
       material: {},
     };
-    await axios
+    try{
+      await axios
       .post(`${url}/Categorias`, category)
       .then((r) => {
         return r.data
       })
-      .catch((e) => console.log(e));
-  };
+      .catch();
+  }
+  catch(e){
+    console.log(e)
+
+  }
+    }
+  
   const handleCreateMaterial = async () => {
     
 
@@ -193,6 +209,7 @@ const CreateMaterial = () => {
             setMessageAlert("Um matérial com esta descrição já existe");
           }
         });
+        console.log(materialCriado)
         //Quando criar o material.atualizara a  lista de materias que estao a amostra
         // e se somente o material ter sido criado
        if(materialCriado)
@@ -393,7 +410,7 @@ const CreateMaterial = () => {
                     <TableCell align="center" size ="small">{row.unidade}</TableCell>
                     <TableCell align="center" size ="small">{row.corrente}</TableCell>
                     <TableCell align="center">
-                      {dayjs(row.dataEntradaNF).format("DD/MM/YYYY")}
+                      {row.dataentradaNF==undefined?"A definir":dayjs(row.dataEntradaNF).format("DD/MM/YYYY")}
                     </TableCell>
 
                     {/* <TableCell align="center">    <Button  className="botao"label="Criar Material"onClick={x=>navigate("/updateMaterial",{state:row.id})} />

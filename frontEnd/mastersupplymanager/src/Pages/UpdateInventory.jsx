@@ -26,7 +26,7 @@ const UpdateInventory = ()=>{
   const idInventario= useLocation()
 
  const [descricao,setDescricao] = useState("")
- const [codigo,setCodigo] = useState("")
+ const [codigoInterno,setCodigoInterno] = useState("")
  const [razao,setRazao] = useState("Antônio trouxe")
  const [movimento,setMovimento] = useState("")
 const [categoria,setCategoria] = useState("")
@@ -45,9 +45,11 @@ getCategoria(idInventario.state)
 
  const getItemInventory= async (id)=>{
 
+
+
 const item = await axios.get(`${url}/Materiais/${id}`).then(x=>{
 
-getLastMaterial(x.data.codigo)
+getLastMaterial(x.data.codigoInterno)
 
 return  x.data
 })
@@ -60,7 +62,7 @@ const getLastMaterial = async (code)=>{
 
 const material = await axios.get(`${url}/Materiais/buscaCodigo/${code}`).then(x=>{
 setDescricao(x.data.descricao)
-setCodigo(x.data.codigo)
+setCodigoInterno(x.data.codigoInterno)
 setMovimento(x.data.saldoFinal==undefined?0:x.data.saldoFinal)
 setDataentrada(x.data.dataAlteracao)
 return  x.data
@@ -83,7 +85,7 @@ else{
 const inventario = {
     razao:razao.trim().replace(/\s\s+/g, ' '),
     saldoFinal:movimento,
-    codigo:codigo,
+    codigoInterno:codigoInterno,
     }
 
    
@@ -96,8 +98,11 @@ try{
       setOpenSnackBar(true)
       setSeveridadeAlert("success")
       setMessageAlert("Inventário Atualizado com sucesso")
+      return r.data
 }).catch()
- 
+
+createCategoria(inventarioAtualizado.id)
+
 }
 catch(e){
 
@@ -118,28 +123,40 @@ const getCategoria = async(id)=>{
   }).catch(e=>console.log(e))
 
 }
-
+const createCategoria = async (idMaterial) => {
+  const category = {
+    nomeCategoria: categoria,
+    materialId: idMaterial,
+    material: {},
+  };
+  await axios
+    .post(`${url}/Categorias`, category)
+    .then((r) => {
+      return r.data
+    })
+    .catch((e) => console.log(e));
+};
   return (
     <>
 
   <Header/>
 
-    <h1>Editando inventário de {categoria} {descricao} (COD:{codigo}) </h1>
+    <h1 className={updateInventory.h1}>Editando inventário de {categoria} {descricao} (COD:{codigoInterno}) </h1>
   
-    <div className="container-inputs">
+    <div className={updateInventory.container_inputs}>
 
 
     
 
 
-    <TextField  disabled={true}   value={codigo} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
-    className={updateInventory.inputs} onChange={e=>setCodigo(e.target.value)} label='Código' required />
+    <TextField  disabled={true}   value={codigoInterno} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
+    className={updateInventory.inputs} onChange={e=>setCodigoInterno(e.target.value)} label='Código' required />
 
 
     <TextField  disabled={true}   value={categoria} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
     className={updateInventory.inputs} onChange={e=>setCategoria(e.target.value)} label='Categoria' required />
 
-    <TextField    value={descricao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
+    <TextField  disabled={true}  value={descricao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
     className={updateInventory.inputs} onChange={e=>setDescricao(e.target.value)} label='Descrição' required />
 
 <TextField    value={razao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
@@ -157,7 +174,7 @@ const getCategoria = async(id)=>{
     
     </div>
     <div className={updateInventory.container_botoes}>
-    <Button  className="botao"label="Atualizar Material" onClick={updateInventario} />
+    <Button  className={updateInventory.botao}label="Atualizar Material" onClick={updateInventario} />
     <Snackbar open={openSnackBar} autoHideDuration={3000} onClose={e=>setOpenSnackBar(false)}>
             <MuiAlert onClose={e=>setOpenSnackBar(false)} severity={severidadeAlert} sx={{ width: '100%' }}>
              {messageAlert}
