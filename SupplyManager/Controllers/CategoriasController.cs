@@ -92,7 +92,9 @@ namespace SupplyManager.Controllers
 
             try
             {
-                List<Material> materiais = new List<Material>(10000);
+                List<Material> materiais = new List<Material>();
+                List<string> codigos = new List<string>();  
+
                 var queryMaterial = from query in _context.Materiais select query;
                 var queryCategoria = from query in _context.Categorias select query;
 
@@ -102,11 +104,21 @@ namespace SupplyManager.Controllers
 
                 foreach ( var item in v)
                 {
+
                     var a = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == item.MaterialId);
 
 
-                    materiais.Add(a);
+                    bool tem = codigos.Contains(a.CodigoInterno);
+                    if(!codigos.Contains(a.CodigoInterno) || !codigos.Contains(a.CodigoFabricante))
+                    {
                     
+                        materiais.Add(a);
+                        codigos.Add(a.CodigoInterno);
+                        codigos.Add(a.CodigoFabricante);
+
+                    }
+
+
                 }
 
 

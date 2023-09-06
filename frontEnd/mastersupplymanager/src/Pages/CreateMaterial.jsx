@@ -108,8 +108,8 @@ console.log(e)
 };
 
   const searchByCategory = async () => {
-    
-    const res = await axios
+    try{
+      const res = await axios
       .get(`${url}/Categorias/busca?categoria=${categoria}`)
       .then((r) => {
         return r.data
@@ -124,10 +124,19 @@ console.log(e)
          materialsWithCategory.push({...i,nomeCategoria:r.data.nomeCategoria})
       
         })
+        
  };
-
+ 
  setObject(materialsWithCategory)
  setMateriais(object)
+ console.log(materiais)
+
+    }
+   catch(e){
+
+    console.log(e)
+   }
+
 
   };
   const getAllMateriais = async () => {

@@ -3,6 +3,9 @@ header{
     background-color: #2A2E48;
     min-height: 80px;
 }
+body{
+  overflow-x: hidden;
+}
 html{
   height: 100vh;  
 }
