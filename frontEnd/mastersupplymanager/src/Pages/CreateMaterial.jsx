@@ -96,6 +96,7 @@ const CreateMaterial = () => {
        })
 };
 setObject(materialsWithCategory)
+console.log(object)
 setMateriais(object)
 
    }
@@ -201,6 +202,7 @@ console.log(e)
           setOpenSnackBar(true);
           setSeveridadeAlert("success");
           setMessageAlert("Material Criado com sucesso");
+          console.log(r.data.dataEntradaNF)
           return r.data
         })
         .catch((e) => {
@@ -419,7 +421,7 @@ console.log(e)
                     <TableCell align="center" size ="small">{row.unidade}</TableCell>
                     <TableCell align="center" size ="small">{row.corrente}</TableCell>
                     <TableCell align="center">
-                      {row.dataentradaNF==undefined?"A definir":dayjs(row.dataEntradaNF).format("DD/MM/YYYY")}
+                      {row.dataentradaNF===null?"A definir":dayjs(row.dataEntradaNF).format("DD/MM/YYYY")}
                     </TableCell>
 
                     {/* <TableCell align="center">    <Button  className="botao"label="Criar Material"onClick={x=>navigate("/updateMaterial",{state:row.id})} />

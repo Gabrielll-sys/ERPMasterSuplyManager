@@ -393,7 +393,7 @@ namespace SupplyManager.Controllers
             try
             {
 
-                if (invetorys.Count == 1)
+                if (invetorys.Count == 0)
                 {
                     MaterialIdValidator material = new MaterialIdValidator();
 

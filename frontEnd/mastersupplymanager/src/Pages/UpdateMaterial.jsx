@@ -33,7 +33,7 @@ const UpdateMaterial = ()=>{
  const [ tensao,setTensao] = useState("")
  const [corrente,setCorrente] = useState("")
  const [ unidade,setUnidade] = useState("")
- const[dataentrada,setDataentrada] = useState()
+ const[dataentrada,setDataentrada] = useState("")
  const [openSnackBar,setOpenSnackBar]= useState(false)
  const [ messageAlert,setMessageAlert] = useState();
  const [ severidadeAlert,setSeveridadeAlert] = useState()

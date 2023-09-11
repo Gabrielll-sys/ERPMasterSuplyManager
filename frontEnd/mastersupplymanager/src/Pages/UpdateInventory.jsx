@@ -27,7 +27,7 @@ const UpdateInventory = ()=>{
 
  const [descricao,setDescricao] = useState("")
  const [codigoInterno,setCodigoInterno] = useState("")
- const [razao,setRazao] = useState("Antônio trouxe")
+ const [razao,setRazao] = useState("")
  const [movimento,setMovimento] = useState("")
 const [categoria,setCategoria] = useState("")
  const[dataentrada,setDataentrada] = useState()
@@ -160,7 +160,8 @@ const createCategoria = async (idMaterial) => {
     className={updateInventory.inputs} onChange={e=>setDescricao(e.target.value)} label='Descrição' required />
 
 <TextField    value={razao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
-    className={updateInventory.inputs} onChange={e=>setRazao(e.target.value)} label='Razão' required />
+          error={severidadeAlert != "warning" || razao.length ? false : true}
+          className={updateInventory.inputs} onChange={e=>setRazao(e.target.value)} label='Razão' required />
 
     <TextField   value={movimento} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
      className={updateInventory.inputs}  onChange={(e) => setMovimento(e.target.value)} label='Estoque' required />

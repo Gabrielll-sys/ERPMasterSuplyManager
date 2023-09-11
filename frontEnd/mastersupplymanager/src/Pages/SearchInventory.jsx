@@ -111,6 +111,7 @@ const SearchInventory = () => {
 
     }
     catch(e){
+      console.log(e)
       if(e.message =="Network Error")
       setOpenSnackBar(true);
       setSeveridadeAlert("error");
