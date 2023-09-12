@@ -41,7 +41,7 @@ const UpdateMaterial = ()=>{
  const[oldCategory,setOldCategory]= useState()
  const [materiais, setMateriais] = useState([]);
 
- const unidadeMaterial = ["UN","RL","PÇ","M","P"]
+ const unidadeMaterial = ["UN","RL","PC","M","P"]
  const tensoes = ["127V","220V","380V","440V","660V"]
 
 
@@ -49,36 +49,23 @@ const UpdateMaterial = ()=>{
 useEffect(()=>{
 
     getMaterial(idMaterial.state).then().catch()
-   getCategoria(idMaterial.state).then().catch()
+    console.log(idMaterial.state)
 
 
 },[])
 
-  const updateCategoria = async(id)=>{
-
-  const category = {
-    id:id,
-    nomeCategoria :oldCategory,
-    materialId:id,
-    material:{}
-
-  }
-   await axios.put(`${url}/Categorias/${id}`,category).then(r=>navigate('/')).catch(e=>console.log(e))
-   
-
-}
  const getMaterial = async(id)=>{
 
  axios.get(`${url}/Materiais/${id}`).then(r=>{
  
   setDataentrada(dayjs(r.data.dataEntradaNF))
-
+setCodigoInterno(r.data.id)
 setUnidade(r.data.unidade)
-setCodigoInterno(r.data.codigoInterno)
 setCodigoFabricante(r.data.codigoFabricante)
 setCorrente(r.data.corrente)
 setMarca(r.data.marca)
 setDescricao(r.data.descricao)
+setCategoria(r.data.categoria)
 
 
 
@@ -88,37 +75,17 @@ setTensao(tensoes[tensoes.findIndex((x)=>x==r.data.tensao)])
 
  }
 
-  const getCategoria = async(id)=>{
 
-  
-    await axios.get(`${url}/Categorias/${id}`).then(r=>{
-
-      setIdCategoria(r.data.id)
-      setOldCategory(r.data.nomeCategoria)
-      setCategoria(r.data.nomeCategoria)
-     
-      
-
-    }).catch(e=>console.log(e))
-
-}
 const handleUpdateMaterial=  async (id)=>{
 
-if(!categoria || !descricao || !unidade){
 
-  setOpenSnackBar(true)
-  setSeveridadeAlert("warning")
-  setMessageAlert("Prencha todas as informações necessárias")
-
-}
-else{
 
   // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
 const material = {
     id:id,
-    codigoInterno:codigoInterno.trim().replace(/\s\s+/g, ' '),
     codigoFabricante:codigoFabricante.trim().replace(/\s\s+/g, ' '),
     descricao:descricao.trim().replace(/\s\s+/g, ' '),
+    categoria: categoria.trim().replace(/\s\s+/g, " "),
     marca:marca.trim().replace(/\s\s+/g, ' '),
     corrente:corrente.trim().replace(/\s\s+/g, ' '),
     unidade:unidade,
@@ -127,14 +94,12 @@ const material = {
     dataEntradaNF:dataentrada,
     }
 
-    console.log(id)
 
 
   const materialAtualizado =  await axios.put(`${url}/Materiais/${id}`,material)
   .then(r=>
     {  
 
-      updateCategoria(idMaterial.state)
       setOpenSnackBar(true)
       setSeveridadeAlert("success")
       setMessageAlert("Material Atualizado com sucesso")
@@ -146,28 +111,25 @@ const material = {
     console.log(e)
  
     
-    if(e.response.data.message=="Código já existe")
-    {
-      setOpenSnackBar(true)
-      setSeveridadeAlert("error")
-      setMessageAlert("Já existe um material com este código")
+    if (e.response.data.message == "Código interno já existe") {
+      setOpenSnackBar(true);
+      setSeveridadeAlert("error");
+      setMessageAlert("Já existe um material com este mesmo código interno");
+    } else if (
+      e.response.data.message ==
+      "Código de fabricante já existe"
+    ) {
+      setOpenSnackBar(true);
+      setSeveridadeAlert("error");
+      setMessageAlert("Já existe um material com este mesmo código de fabricante");
     }
-     else if(e.response.data.message=="Um material com essa descrição já existe"){
-      setOpenSnackBar(true)
-      setSeveridadeAlert("error")
-      setMessageAlert("Um matérial com esta descrição já existe")
-     }
-    
 
   })
-  //Se o material foi atualizado ,atua
-  if(materialAtualizado && oldCategory !=categoria){
-    updateCategoria(idCategoria)
-  }
+ 
  
 
 }
-}
+
 
 
 
@@ -188,8 +150,8 @@ const material = {
     
 
 
-    <TextField    value={codigoInterno} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
-    className={updateMaterial.inputs} onChange={e=>setCodigoInterno(e.target.value)} label='Cod Iterno' required />
+    <TextField disabled={true}   value={codigoInterno} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
+    className={updateMaterial.inputs} onChange={e=>setCodigoInterno(e.target.value)} label='Cod Interno'  />
 
     <TextField    value={codigoFabricante} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
     className={updateMaterial.inputs} onChange={e=>setCodigoFabricante(e.target.value)} label='Cod Fabricante'  />

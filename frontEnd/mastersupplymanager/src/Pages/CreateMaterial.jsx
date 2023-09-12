@@ -51,7 +51,7 @@ const CreateMaterial = () => {
 
   const [materiais, setMateriais] = useState([]);
 
-  const unidadeMaterial = ["UN", "RL", "PÇ", "MT", "P"];
+  const unidadeMaterial = ["UN", "RL", "PC", "MT", "P"];
   const tensoes = ["","12V","24V","127V","220V","380V","440V","660V"]
 
   useEffect(() => {
@@ -100,7 +100,7 @@ console.log(e)
   const searchByCategory = async () => {
     try{
       const res = await axios
-      .get(`${url}/Categorias/busca?categoria=${categoria}`)
+      .get(`${url}/Categorias/Materiais/buscaCategoria?categoria=${categoria}`)
       .then((r) => {
         return r.data
       }).catch(e=>console.log(e));
@@ -380,12 +380,13 @@ console.log(e)
                 <TableRow>
                   <TableCell align="center">Categoria</TableCell>
                   <TableCell align="center">Codigo Interno</TableCell>
+                  <TableCell align="center">Codigo Fabricante</TableCell>
                   <TableCell align="center">Descrição</TableCell>
                   <TableCell align="center">Marca</TableCell>
                   <TableCell align="center">Tensão</TableCell>
                   <TableCell align="center">Unidade</TableCell>
                   <TableCell align="center">Corrente</TableCell>
-                  <TableCell align="center">DataEntradaNF</TableCell>
+                  {/* <TableCell align="center">DataEntradaNF</TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -396,15 +397,16 @@ console.log(e)
                   >
                 
                     <TableCell align="center" size="medium">{row.categoria}</TableCell>
-                    <TableCell align="center">{row.codigoInterno}</TableCell>
+                    <TableCell align="center">{row.id}</TableCell>
+                    <TableCell align="center">{row.codigoFabricante}</TableCell>
                     <TableCell align="center">{row.descricao}</TableCell>
                     <TableCell align="center">{row.marca}</TableCell>
                     <TableCell align="center" size ="small">{row.tensao}</TableCell>
                     <TableCell align="center" size ="small">{row.unidade}</TableCell>
                     <TableCell align="center" size ="small">{row.corrente}</TableCell>
-                    <TableCell align="center">
+                    {/* <TableCell align="center">
                       {row.dataentradaNF===null?"A definir":dayjs(row.dataEntradaNF).format("DD/MM/YYYY")}
-                    </TableCell>
+                    </TableCell> */}
 
                     {/* <TableCell align="center">    <Button  className="botao"label="Criar Material"onClick={x=>navigate("/updateMaterial",{state:row.id})} />
 </TableCell> */}
