@@ -136,7 +136,59 @@ namespace SupplyManager.Controllers
 
 
         }
+        [HttpGet(template: "buscaCategoria")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<Material>> Busca(string categoria)
+        {
 
+
+            try
+            {
+                List<Material> materiais = new List<Material>();
+                List<string> codigos = new List<string>();
+
+                var queryMaterial = from query in _context.Materiais select query;
+           
+
+                //Ordena a busca de materia
+                queryMaterial = queryMaterial.Where(c => c.Categoria.Contains(categoria));
+                var v = queryMaterial.ToList();
+
+                foreach (var item in v)
+                {
+
+                    if (!codigos.Contains(item.CodigoInterno) || !codigos.Contains(item.CodigoFabricante))
+                    {
+
+                        materiais.Add(item);
+                        codigos.Add(item.CodigoInterno);
+                        codigos.Add(item.CodigoFabricante);
+
+                    }
+
+
+                }
+
+
+
+                return Ok(materiais);
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+
+
+        }
         [HttpGet(template: "buscaDescricao")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -207,14 +259,14 @@ namespace SupplyManager.Controllers
 
 
         }
-        [HttpGet(template: "buscaCodigo")]
+        [HttpGet(template: "buscaCodigoInterno")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-        public async Task<ActionResult<Material>> BuscaCodigo(string codigo)
+        public async Task<ActionResult<Material>> BuscaCodigoInterno(string codigo)
         {
 
             try
@@ -240,7 +292,39 @@ namespace SupplyManager.Controllers
             }
 
         }
+        [HttpGet(template: "buscaCodigoFabricante")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
+        public async Task<ActionResult<Material>> BuscaCodigoFabricante(string codigo)
+        {
+
+            try
+            {
+
+                var queryMaterial = from query in _context.Materiais select query;
+
+
+                queryMaterial = queryMaterial.Where(x => x.CodigoFabricante.Contains(codigo));
+
+                return Ok(await queryMaterial.ToListAsync());
+
+
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+
+        }
         [HttpPost()]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -257,13 +341,21 @@ namespace SupplyManager.Controllers
                 MateriaisPostValidator ValidationMaterial = new MateriaisPostValidator();
 
                 //Verifica se o modelo o código digitado do material já existe,caso sim,retornara bad request e uma mensagem de material já existe
-                var checkCode = await _context.Materiais.FirstOrDefaultAsync(x => x.CodigoInterno == model.CodigoInterno);
+                var checkInternCode = await _context.Materiais.FirstOrDefaultAsync(x => x.CodigoInterno == model.CodigoInterno);
+
+                var checkFabricanteCode = await _context.Materiais.FirstOrDefaultAsync(x => x.CodigoFabricante == model.CodigoFabricante);
 
                 //Caso ja exista o codigo e o estoque seja nulo,ou seja quando o usuario esta criando pela primeira vez, retornará que o codigo ja existe
-                if (checkCode != null && model.SaldoFinal == null)
+                if (checkInternCode != null && model.SaldoFinal == null)
                 {
 
-                    return StatusCode(StatusCodes.Status400BadRequest, new { message = "Código já existe" });
+                    return StatusCode(StatusCodes.Status400BadRequest, new { message = "Código interno já existe" });
+                }
+
+                if (checkFabricanteCode != null && model.SaldoFinal == null)
+                {
+
+                    return StatusCode(StatusCodes.Status400BadRequest, new { message = "Código de fabricante já existe" });
                 }
 
                 queryMaterial = queryMaterial.Where(x => x.CodigoInterno == model.CodigoInterno);
@@ -277,6 +369,7 @@ namespace SupplyManager.Controllers
                   model.CodigoInterno.ToUpper(),
                   model.CodigoFabricante.ToUpper(),
                   model.Descricao.ToUpper(),
+                  model.Categoria.ToUpper(),
                   model.Marca.ToUpper(),
                   String.IsNullOrEmpty(model.Corrente) ? "-" : model.Corrente.ToUpper(),
                   model.Unidade,
@@ -312,6 +405,7 @@ namespace SupplyManager.Controllers
                     AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].CodigoFabricante,
 
                     AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].Descricao,
+                    AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].Categoria,
                     AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].Marca,
                     AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].Corrente,
                     AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].Unidade,
@@ -406,6 +500,7 @@ namespace SupplyManager.Controllers
                         m1.CodigoInterno = model.CodigoInterno.ToUpper();
                         m1.CodigoFabricante = model.CodigoFabricante.ToUpper();
                         m1.Descricao = model.Descricao.ToUpper();
+                        m1.Categoria = model.Categoria.ToUpper();
                         m1.Marca = model.Marca.ToUpper();
                         m1.Corrente = model.Corrente.ToUpper();
                         m1.Unidade = model.Unidade.ToUpper();
@@ -433,6 +528,7 @@ namespace SupplyManager.Controllers
                         m1.CodigoInterno = model.CodigoInterno.ToUpper();
                         m1.CodigoFabricante = model.CodigoFabricante.ToUpper();
                         m1.Descricao = model.Descricao.ToUpper();
+                        m1.Categoria = model.Categoria.ToUpper();
                         m1.Marca = model.Marca.ToUpper();
                         m1.Corrente = model.Corrente.ToUpper();
                         m1.Unidade = model.Unidade.ToUpper();

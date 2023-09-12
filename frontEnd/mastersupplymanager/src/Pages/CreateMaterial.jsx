@@ -85,19 +85,8 @@ const CreateMaterial = () => {
      
     })
     .catch();
-    const materialsWithCategory = [];
-
-     for (let i of res) {
-      
-       axios.get(`${url}/Categorias/${i.id}`).then(r=>{
-       
-        materialsWithCategory.push({...i,nomeCategoria:r.data.nomeCategoria})
-     
-       })
-};
-setObject(materialsWithCategory)
-console.log(object)
-setMateriais(object)
+    
+setMateriais(res)
 
    }
    catch(e) 
@@ -116,21 +105,11 @@ console.log(e)
         return r.data
       }).catch(e=>console.log(e));
 
-      const materialsWithCategory = [];
 
-      for (let i of res) {
-       
-        axios.get(`${url}/Categorias/${i.id}`).then(r=>{
-        
-         materialsWithCategory.push({...i,nomeCategoria:r.data.nomeCategoria})
-      
-        })
-        
- };
  
- setObject(materialsWithCategory)
- setMateriais(object)
- console.log(materiais)
+
+ setMateriais(res)
+
 
     }
    catch(e){
@@ -176,7 +155,7 @@ console.log(e)
 
 
 
-    if (!categoria || !descricao || !unidade || !codigoInterno) {
+    if (!descricao || !unidade) {
       setOpenSnackBar(true);
       setSeveridadeAlert("warning");
       setMessageAlert("Prencha todas as informações necessárias");
@@ -186,6 +165,7 @@ console.log(e)
         codigoInterno: codigoInterno.trim().replace(/\s\s+/g, " "),
         codigoFabricante: codigoFabricante.trim().replace(/\s\s+/g, " "),
         descricao: descricao.trim().replace(/\s\s+/g, " "),
+        categoria: categoria.trim().replace(/\s\s+/g, " "),
         marca: marca.trim().replace(/\s\s+/g, " "),
         corrente: corrente.trim().replace(/\s\s+/g, " "),
         unidade: unidade.trim().replace(/\s\s+/g, " "),
@@ -207,17 +187,17 @@ console.log(e)
         })
         .catch((e) => {
           console.log(e.response.data.message[0].errorMessage);
-          if (e.response.data.message == "Código já existe") {
+          if (e.response.data.message == "Código interno já existe") {
             setOpenSnackBar(true);
             setSeveridadeAlert("error");
             setMessageAlert("Já existe um material com este mesmo código interno");
           } else if (
             e.response.data.message ==
-            "Um material com essa descrição já existe"
+            "Código de fabricante já existe"
           ) {
             setOpenSnackBar(true);
             setSeveridadeAlert("error");
-            setMessageAlert("Um matérial com esta descrição já existe");
+            setMessageAlert("Já existe um material com este mesmo código de fabricante");
           }
         });
         console.log(materialCriado)
@@ -304,6 +284,8 @@ console.log(e)
           value={codigoFabricante}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
           className={createMaterial.inputs}
+          error={severidadeAlert != "warning" || !messageAlert=="Já existe um material com este mesmo código de fabricante" ? false : true}
+
           onChange={(e) => setCodigoFabricante(e.target.value)}
           label="Cód Fabricante"
           
@@ -413,7 +395,7 @@ console.log(e)
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                 
-                    <TableCell align="center" size="medium">{row.nomeCategoria}</TableCell>
+                    <TableCell align="center" size="medium">{row.categoria}</TableCell>
                     <TableCell align="center">{row.codigoInterno}</TableCell>
                     <TableCell align="center">{row.descricao}</TableCell>
                     <TableCell align="center">{row.marca}</TableCell>

@@ -5,7 +5,7 @@ using SupplyManager.Interfaces;
 namespace SupplyManager.Models
 {
     [Table("Materiais")]
-    public class Material:IMaterial
+    public class Material : IMaterial
     {
 
         [Key]
@@ -13,6 +13,8 @@ namespace SupplyManager.Models
 
         public string? CodigoInterno { get; set; }
         public string? CodigoFabricante { get; set; }
+
+        public string? Categoria { get; set; }
 
         //EDITÁVEL
         public string? Descricao { get; set; }
@@ -42,11 +44,12 @@ namespace SupplyManager.Models
 
         public string? Responsavel { get; set; }
 
-        public Material(string? codigoInterno, string? codigoFabricante, string? descricao, string? marca, string? corrente, string? unidade, string? tensao, DateTime? dataEntradaNF,  string? razao, float? estoque, float? movimentacao, float? saldoFinal, string? responsavel)
+        public Material(string? codigoInterno, string? codigoFabricante, string? descricao,string? categoria, string? marca, string? corrente, string? unidade, string? tensao, DateTime? dataEntradaNF,  string? razao, float? estoque, float? movimentacao, float? saldoFinal, string? responsavel)
         {
             CodigoInterno = codigoInterno;
             CodigoFabricante= codigoFabricante;
             Descricao = descricao;
+            Categoria= categoria;
             Marca = marca;
             Corrente = corrente;
             Unidade = unidade;

@@ -31,7 +31,8 @@ const SearchInventory = () => {
   const navigate = useNavigate();
 
   const [descricao, setDescricao] = useState("");
-  const [codigo,setCodigo] = useState("")
+  const [codigoInterno,setCodigoInterno] = useState("")
+  const [codigoFabricante,setCodigoFabricante] = useState("")
   const [estoque, setEstoque] = useState(0);
  
   const [openSnackBar, setOpenSnackBar] = useState(false);
@@ -46,32 +47,24 @@ const SearchInventory = () => {
   
   useEffect(()=>{
 
-    const searchValue = sessionStorage.getItem("busca")
+    const searchInternCode = sessionStorage.getItem("buscaCodigoInterno")
+    const searchFabricanteCode = sessionStorage.getItem("buscaCodigoFabricante")
 
-    if(searchValue) 
+    if(searchInternCode) 
     {
-      setCodigo(searchValue)
+      setCodigoInterno(searchInternCode)
     }
 
   },[])
   
-  useEffect(() => {
-    //Irá começar a realizar a busca somente quando  a descrição tiver 3 caracteres
-    if (descricao.length>=3) {
-     searchByDescription().then().catch();
-
-    }
-    setInventarios([])
-
-  }, [descricao]);
 
   useEffect(() => {
     //Irá começar a realizar a busca somente quando  o código tiver 3 caracteres
-  
-    if (codigo.length>=3) {
+  setCodigoFabricante("")
+    if (codigoInterno.length>=3) {
       try{
 
-        searchByCode().then().catch();
+        searchByInternCode().then().catch();
       }
       catch(e){
         console.log(e)
@@ -81,11 +74,31 @@ const SearchInventory = () => {
     }
     setInventarios([])
 
-  }, [codigo]);
+  }, [codigoInterno]);
+
+  useEffect(() => {
+    //Irá começar a realizar a busca somente quando  o código tiver 3 caracteres
+    //Para impedir da busca pelos dois campos,reseta o valor de codigo de fabricante
+  setCodigoInterno("")
+    if (codigoFabricante.length>=3) {
+      try{
+
+        searchByFabricanteCode().then().catch();
+      }
+      catch(e){
+        console.log(e)
+
+
+      }
+    }
+    setInventarios([])
+
+  }, [codigoFabricante]);
 
   const handleChangePageUpdate = (id)=>{
 
-    sessionStorage.setItem("busca",codigo)
+    sessionStorage.setItem("buscaCodigoInterno",codigoInterno)
+    sessionStorage.setItem("buscaCodigoFabricante",codigoFabricante)
 
     navigate("/updateInventory", { state: id })
 
@@ -121,16 +134,15 @@ const SearchInventory = () => {
   
 };
 
-const searchByCode = async () => {
+const searchByInternCode = async () => {
 
   try{
 
   const res = await axios
-    .get(`${url}/Materiais/buscaCodigo?codigo=${codigo}`)
+    .get(`${url}/Materiais/buscaCodigoInterno?codigo=${codigoInterno}`)
     .then( (r)=> {
 
      return r.data
-    setInventarios(r.data)
      
     })
     .catch();
@@ -142,7 +154,30 @@ catch(e){
   console.log(e)
 }
 };
- 
+
+const searchByFabricanteCode = async () => {
+
+  try{
+
+  const res = await axios
+    .get(`${url}/Materiais/buscaCodigoFabricante?codigo=${codigoFabricante}`)
+    .then( (r)=> {
+
+     return r.data
+   
+     
+    })
+    .catch();
+    
+setInventarios(res)
+}
+catch(e){
+
+  console.log(e)
+}
+};
+
+
   const getAllMateriais = async () => {
     const res = await axios
       .get(`${url}/Materiai`)
@@ -179,26 +214,33 @@ catch(e){
       
 
       <TextField
-          error={
-            severidadeAlert != "warning" || descricao.length ? false : true
-          }
-          value={codigo}
+        
+          value={codigoInterno}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
           className="inputs"
-          onChange={(e) => setCodigo(e.target.value)}
-          label="Código"
+          onChange={(e) => setCodigoInterno(e.target.value)}
+          label="Código Interno"
           required
         />
 
+<TextField
+          
+          value={codigoFabricante}
+          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+          className="inputs"
+          onChange={(e) => setCodigoFabricante(e.target.value)}
+          label="Código Fabricante"
+          required
+        />
 
-        <TextField
+        {/* <TextField
           value={descricao}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"420px"}}
           className="inputs"
           onChange={(e) => setDescricao(e.target.value)}
           label="Descrição Item"
         />
-
+ */}
 
      
       </div>

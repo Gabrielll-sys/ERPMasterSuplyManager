@@ -158,8 +158,8 @@ const createCategoria = async (idMaterial) => {
 
     <TextField  disabled={true}  value={descricao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
     className={updateInventory.inputs} onChange={e=>setDescricao(e.target.value)} label='Descrição' required />
-
-<TextField    value={razao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
+  
+    <TextField    value={razao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
           error={severidadeAlert != "warning" || razao.length ? false : true}
           className={updateInventory.inputs} onChange={e=>setRazao(e.target.value)} label='Razão' required />
 
