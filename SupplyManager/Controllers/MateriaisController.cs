@@ -155,7 +155,7 @@ namespace SupplyManager.Controllers
            
 
                 //Ordena a busca de materia
-                queryMaterial = queryMaterial.Where(c => c.Categoria.Contains(categoria));
+                queryMaterial =  queryMaterial.Where(c => c.Categoria.Contains(categoria));
                 var v = queryMaterial.ToList();
 
                 foreach (var item in v)
@@ -479,7 +479,7 @@ namespace SupplyManager.Controllers
 
             var queryMaterial = from query in _context.Materiais select query;
 
-            var a = queryMaterial.Where(x => x.CodigoInterno == model.CodigoInterno);
+            var a = queryMaterial.Where(x => x.CodigoFabricante == model.CodigoFabricante && x.Descricao == model.Descricao); ;
 
             var invetorys = await a.ToListAsync();
 
@@ -525,7 +525,7 @@ namespace SupplyManager.Controllers
                     var m1 = await _context.Materiais.FindAsync(invetario.Id);
 
                     {
-                        m1.CodigoInterno = model.CodigoInterno.ToUpper();
+                     
                         m1.CodigoFabricante = model.CodigoFabricante.ToUpper();
                         m1.Descricao = model.Descricao.ToUpper();
                         m1.Categoria = model.Categoria.ToUpper();

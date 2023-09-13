@@ -81,11 +81,12 @@ const CreateMaterial = () => {
     const res = await axios
     .get(`${url}/Materiais/buscaDescricao?descricao=${descricao}`)
     .then( (r)=> {
+      
      return r.data
      
     })
     .catch();
-    
+    console.log(res)
 setMateriais(res)
 
    }
@@ -100,10 +101,10 @@ console.log(e)
   const searchByCategory = async () => {
     try{
       const res = await axios
-      .get(`${url}/Categorias/Materiais/buscaCategoria?categoria=${categoria}`)
+      .get(`${url}/Materiais/buscaCategoria?categoria=${categoria}`)
       .then((r) => {
         return r.data
-      }).catch(e=>console.log(e));
+      }).catch();
 
 
  
@@ -269,7 +270,7 @@ console.log(e)
           required
         />
 
-        <TextField
+        {/* <TextField
           error={severidadeAlert != "warning" || codigoInterno.length ? false : true}
           value={codigoInterno}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
@@ -277,7 +278,7 @@ console.log(e)
           onChange={(e) => setCodigoInterno(e.target.value)}
           label="Cod Interno"
           required
-        />
+        /> */}
 
         <TextField
         

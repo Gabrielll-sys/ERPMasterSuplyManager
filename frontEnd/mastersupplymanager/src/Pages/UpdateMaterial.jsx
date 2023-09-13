@@ -57,7 +57,7 @@ useEffect(()=>{
  const getMaterial = async(id)=>{
 
  axios.get(`${url}/Materiais/${id}`).then(r=>{
- 
+ console.log(r.data.categoria)
   setDataentrada(dayjs(r.data.dataEntradaNF))
 setCodigoInterno(r.data.id)
 setUnidade(r.data.unidade)
@@ -65,7 +65,7 @@ setCodigoFabricante(r.data.codigoFabricante)
 setCorrente(r.data.corrente)
 setMarca(r.data.marca)
 setDescricao(r.data.descricao)
-setCategoria(r.data.categoria)
+setOldCategory(r.data.categoria)
 
 
 
@@ -85,7 +85,7 @@ const material = {
     id:id,
     codigoFabricante:codigoFabricante.trim().replace(/\s\s+/g, ' '),
     descricao:descricao.trim().replace(/\s\s+/g, ' '),
-    categoria: categoria.trim().replace(/\s\s+/g, " "),
+    categoria: oldCategory.trim().replace(/\s\s+/g, " "),
     marca:marca.trim().replace(/\s\s+/g, ' '),
     corrente:corrente.trim().replace(/\s\s+/g, ' '),
     unidade:unidade,
