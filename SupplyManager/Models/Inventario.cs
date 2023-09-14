@@ -1,16 +1,18 @@
 ﻿using SupplyManager.Interfaces;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SupplyManager.Models
 {
-
-    public class Inventario : IInvetario
+    [Table("Inventarios")]
+    public class Inventario : IInventario
     {
         public int Id { get; set; }
         public DateTime DataAlteracao { get; set; }
 
-        public string? Descricao { get; set; }
-        public string? Codigo { get; set; }
+        public int MaterialId { get; set; }
 
+        [ForeignKey("MaterialId")]
+        public Material Material { get; set; }
         public string? Razao { get; set; }
 
         public float? Estoque { get; set; }
@@ -21,20 +23,54 @@ namespace SupplyManager.Models
         public string? Responsavel { get;set; }
 
 
-        public Inventario(string? descricao,string? codigo,string? razao,float? estoque,float? movimentacao,float? saldoFinal,string? responsavel) { 
-            DataAlteracao= DateTime.Now;
-            Descricao = descricao;
-            Codigo = codigo;
+        public Inventario(string? razao,float? estoque,float? movimentacao,float? saldoFinal,string? responsavel,int materialId) { 
+
+          
             Razao = razao;
             Estoque = estoque;
             Movimentacao = movimentacao;
             SaldoFinal = saldoFinal;
             Responsavel = responsavel;
-        
+            MaterialId = materialId;
+            if (estoque != null)
+            {
+                DataAlteracao = DateTime.Now;
+            }
         }
-        
-          
 
-        
+        public float? EstoqueMovimentacao(float? saldoFinal)
+        {
+
+            if (saldoFinal > Estoque)
+            {
+                Movimentacao = saldoFinal - Estoque;
+                SaldoFinal = saldoFinal;
+
+                return SaldoFinal;
+            }
+            else if (saldoFinal < Estoque)
+            {
+                Movimentacao = saldoFinal - Estoque;
+                SaldoFinal = saldoFinal;
+
+                return SaldoFinal;
+
+            }
+            else if (Estoque == 0 && saldoFinal > 0)
+            {
+                Movimentacao = saldoFinal - Estoque;
+                SaldoFinal = saldoFinal;
+
+                return saldoFinal;
+            }
+            else
+            {
+                return null;
+            }
+
+
+        }
+
+
     }
 }

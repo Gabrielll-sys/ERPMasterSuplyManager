@@ -19,6 +19,40 @@ namespace SupplyManager.Migrations
                 .HasAnnotation("ProductVersion", "7.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("SupplyManager.Models.Inventario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DataAlteracao")
+                        .HasColumnType("datetime");
+
+                    b.Property<float?>("Estoque")
+                        .HasColumnType("float");
+
+                    b.Property<int>("MaterialId")
+                        .HasColumnType("int");
+
+                    b.Property<float?>("Movimentacao")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Razao")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Responsavel")
+                        .HasColumnType("longtext");
+
+                    b.Property<float?>("SaldoFinal")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MaterialId");
+
+                    b.ToTable("Inventarios");
+                });
+
             modelBuilder.Entity("SupplyManager.Models.Material", b =>
                 {
                     b.Property<int?>("Id")
@@ -96,6 +130,17 @@ namespace SupplyManager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuários");
+                });
+
+            modelBuilder.Entity("SupplyManager.Models.Inventario", b =>
+                {
+                    b.HasOne("SupplyManager.Models.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Material");
                 });
 #pragma warning restore 612, 618
         }

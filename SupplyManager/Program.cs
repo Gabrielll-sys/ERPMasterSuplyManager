@@ -12,56 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-
-
-#region TESTE EXCEL
-IWorkbook workbook;
-
-
-workbook = new XSSFWorkbook();
-
-
-
-
-ISheet s1 = workbook.CreateSheet("Sheet1");
-
-
-
-for (int i = 0; i < 2000; i++)
-{
-
-
-    s1.CreateRow(i).CreateCell(i).SetCellValue(i);
-}
-
-
-
-
-
-
-WriteToFile();
-
-
-void WriteToFile()
-{
-    //Write the stream data of workbook to the root directory
-    using (FileStream file = new FileStream(@"Im Trying.xlsx", FileMode.Create))
-    {
-        workbook.Write(file, false);
-    }
-}
-
-#endregion
-
-
-
-
-
-
-
-
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 string mySqlConnection = builder.Configuration.GetConnectionString("SqlConnectionString");

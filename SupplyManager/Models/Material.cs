@@ -34,17 +34,9 @@ namespace SupplyManager.Models
         public DateTime? DataEntradaNF { get; set; }
 
 
-        public DateTime? DataAlteracao { get; set; }
-        public string? Razao { get; set; }
+      
 
-        public float? Estoque { get; set; }
-        public float? Movimentacao { get; set; }
-
-        public float? SaldoFinal { get; set; }
-
-        public string? Responsavel { get; set; }
-
-        public Material(string? codigoInterno, string? codigoFabricante, string? descricao,string? categoria, string? marca, string? corrente, string? unidade, string? tensao, DateTime? dataEntradaNF,  string? razao, float? estoque, float? movimentacao, float? saldoFinal, string? responsavel)
+        public Material(string? codigoInterno, string? codigoFabricante, string? descricao,string? categoria, string? marca, string? corrente, string? unidade, string? tensao, DateTime? dataEntradaNF)
         {
             CodigoInterno = codigoInterno;
             CodigoFabricante= codigoFabricante;
@@ -55,53 +47,15 @@ namespace SupplyManager.Models
             Unidade = unidade;
             Tensao = tensao;
             DataEntradaNF = dataEntradaNF;
-            Razao = razao;
-            Estoque =  estoque;
-            Movimentacao = movimentacao;
-            SaldoFinal = saldoFinal;
-            Responsavel = responsavel;
+     
 
-            if (estoque != null)
-            {
-                DataAlteracao= DateTime.Now;
-            }
         }
 
 
 
-        public float? EstoqueMovimentacao(float? saldoFinal)
-        {
-
-            if (saldoFinal > Estoque)
-            {
-                Movimentacao = saldoFinal - Estoque;
-                SaldoFinal = saldoFinal;
-
-                return SaldoFinal;
-            }
-            else if (saldoFinal < Estoque)
-            {
-                Movimentacao = saldoFinal - Estoque;
-                SaldoFinal = saldoFinal;
-
-                return SaldoFinal;
-
-            }
-            else if(Estoque==0 && saldoFinal>0)
-            {
-                Movimentacao = saldoFinal-Estoque;
-                SaldoFinal = saldoFinal;
-
-                return saldoFinal;
-            }
-            else
-            {
-                return null;
-            }
+       
 
 
         }
 
     }
-
-}

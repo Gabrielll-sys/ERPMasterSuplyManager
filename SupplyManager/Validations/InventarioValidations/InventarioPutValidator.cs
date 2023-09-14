@@ -12,9 +12,7 @@ namespace SupplyManager.Validations.InventarioValidations
                     .NotEmpty()
                     .WithMessage("O id precisa ser maior que 0 e não pode ser vazio");
 
-            RuleFor(x => x.Descricao)
-                .NotEmpty()
-                .WithMessage("A descrição não pode ser vazia");
+           
         
         }
     }

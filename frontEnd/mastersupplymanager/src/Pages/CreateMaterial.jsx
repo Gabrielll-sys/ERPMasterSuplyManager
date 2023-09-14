@@ -129,17 +129,17 @@ console.log(e)
       
   };
 
-  const createCategoria = async (idMaterial) => {
+  const createInventario = async (idMaterial) => {
     
     
     const category = {
-      nomeCategoria: categoria,
       materialId: idMaterial,
+      estoque:0,
       material: {},
     };
     try{
       await axios
-      .post(`${url}/Categorias`, category)
+      .post(`${url}/Inventarios`, category)
       .then((r) => {
         return r.data
       })
@@ -172,14 +172,13 @@ console.log(e)
         unidade: unidade.trim().replace(/\s\s+/g, " "),
         tensao: tensao.trim().replace(/\s\s+/g, " "),
         corrente: corrente.trim().replace(/\s\s+/g, " "),
-        estoque:0,
         dataEntradaNF: dataentrada,
       };
 
       const materialCriado = await axios
         .post(`${url}/Materiais`, material)
         .then((r) => {
-          createCategoria(r.data.id);
+          createInventario(r.data.id);
           setOpenSnackBar(true);
           setSeveridadeAlert("success");
           setMessageAlert("Material Criado com sucesso");

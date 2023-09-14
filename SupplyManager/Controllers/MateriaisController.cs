@@ -10,7 +10,6 @@ using System.IO;
 
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
-using SupplyManager.App;
 namespace SupplyManager.Controllers
 {
 
@@ -115,7 +114,7 @@ namespace SupplyManager.Controllers
             {
                 var queryMaterial = from query in _context.Materiais select query;
 
-                queryMaterial = queryMaterial.Where(x => x.CodigoInterno == codigoInterno).OrderBy(x => x.DataAlteracao);
+                queryMaterial = queryMaterial.Where(x => x.CodigoInterno == codigoInterno).OrderBy(x => x.Id);
                 /*  var material = await _context.Materiais.FindAsync(id);*/
 
 
@@ -241,7 +240,7 @@ namespace SupplyManager.Controllers
 
                 //Ordena a busca de materia
 
-                queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao)).OrderBy(x => x.DataAlteracao);
+                queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao)).OrderBy(x => x.Id);
 
 
 
@@ -346,13 +345,13 @@ namespace SupplyManager.Controllers
                 var checkFabricanteCode = await _context.Materiais.FirstOrDefaultAsync(x => x.CodigoFabricante == model.CodigoFabricante);
 
                 //Caso ja exista o codigo e o estoque seja nulo,ou seja quando o usuario esta criando pela primeira vez, retornará que o codigo ja existe
-                if (checkInternCode != null && model.SaldoFinal == null)
+                if (checkInternCode != null)
                 {
 
                     return StatusCode(StatusCodes.Status400BadRequest, new { message = "Código interno já existe" });
                 }
 
-                if (checkFabricanteCode != null && model.SaldoFinal == null)
+                if (checkFabricanteCode != null)
                 {
 
                     return StatusCode(StatusCodes.Status400BadRequest, new { message = "Código de fabricante já existe" });
@@ -362,8 +361,7 @@ namespace SupplyManager.Controllers
 
                 var AlredyHaveMaterial = await queryMaterial.ToListAsync();
 
-                if (AlredyHaveMaterial.Count == 0)
-                {
+                
 
                     Material m1 = new Material(
                   model.CodigoInterno.ToUpper(),
@@ -374,12 +372,8 @@ namespace SupplyManager.Controllers
                   String.IsNullOrEmpty(model.Corrente) ? "-" : model.Corrente.ToUpper(),
                   model.Unidade,
                   String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao,
-                   model.DataEntradaNF,
-                   String.IsNullOrEmpty(model.Razao) ? "-" : model.Razao.ToUpper(),
-                   model.Estoque,
-                   model.Movimentacao,
-                   model.SaldoFinal,
-                   model.Responsavel
+                   model.DataEntradaNF
+                   
                    );
                     var validationM1 = ValidationMaterial.Validate(m1);
 
@@ -395,59 +389,12 @@ namespace SupplyManager.Controllers
 
                     await _context.SaveChangesAsync();
 
-                    return Ok(m1);
+                   return Ok(m1);
                 }
-                //CASO O MATERIAL JA EXISTA ,OU SEJA ,CRIARA OUTRO MAS AGORA COMO É A CRIAÇÃO DOS CAMPO DE INVENTÁRIO,ENTÃO PEGARA AS INFORMAÇÕES DO MATERIAL QUE EXISTE 
-                // E PASSARÁ PARA OS PARAMETROS DO CONSTRUTOR DO NOVO OBJETO
-                Material m2 = new Material
-                    (
-                    AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].CodigoInterno,
-                    AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].CodigoFabricante,
-
-                    AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].Descricao,
-                    AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].Categoria,
-                    AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].Marca,
-                    AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].Corrente,
-                    AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].Unidade,
-                    AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].Tensao,
-                    AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].DataEntradaNF,
-                    model.Razao,
-                    AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].SaldoFinal == null ? 0 : AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].SaldoFinal,
-                    AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].Movimentacao,
-                    AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].SaldoFinal == null ? 0 : AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].SaldoFinal,
-                    AlredyHaveMaterial[AlredyHaveMaterial.Count - 1].Responsavel
-                    );
-
-                var validationMaterial = ValidationMaterial.Validate(m2);
-
-                if (!validationMaterial.IsValid)
-                {
-
-                    return StatusCode(StatusCodes.Status400BadRequest, new { message = validationMaterial.Errors });
-                };
+               
 
 
-
-                if (model.SaldoFinal > 0)
-                {
-
-                    var result = m2.EstoqueMovimentacao(model.SaldoFinal);
-
-
-
-                }
-
-
-                await _context.Materiais.AddAsync(m2);
-
-
-
-                await _context.SaveChangesAsync();
-
-                return Ok(m2);
-
-
-            }
+            
             catch (Exception exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
