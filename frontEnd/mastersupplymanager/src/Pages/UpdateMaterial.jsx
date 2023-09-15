@@ -41,7 +41,7 @@ const UpdateMaterial = ()=>{
  const[oldCategory,setOldCategory]= useState()
  const [materiais, setMateriais] = useState([]);
 
- const unidadeMaterial = ["UN","RL","PC","M","P"]
+ const unidadeMaterial = ["UN","RL","PC","MT","P"]
  const tensoes = ["127V","220V","380V","440V","660V"]
 
 
@@ -53,23 +53,30 @@ useEffect(()=>{
 
 
 },[])
+//esta função serve para verificar se o item é nulo,aonde quando importamos os dados do excel os dados vem como nulo
+//e para realizar a  edição aqui
+const verifyNull = (item)=>{
+
+  return item==null?"":item
+
+}
+
 
  const getMaterial = async(id)=>{
 
  axios.get(`${url}/Materiais/${id}`).then(r=>{
- console.log(r.data.categoria)
+
   setDataentrada(dayjs(r.data.dataEntradaNF))
 setCodigoInterno(r.data.id)
-setUnidade(r.data.unidade)
-setCodigoFabricante(r.data.codigoFabricante)
-setCorrente(r.data.corrente)
-setMarca(r.data.marca)
-setDescricao(r.data.descricao)
-setOldCategory(r.data.categoria)
+setUnidade(verifyNull(r.data.unidade))
+setCodigoFabricante(verifyNull(r.data.codigoFabricante))
+setCorrente(verifyNull(r.data.corrente))
+setMarca(verifyNull(r.data.marca))
+setDescricao(verifyNull(r.data.descricao))
+setOldCategory(verifyNull(r.data.categoria))
 
 
-
-setTensao(tensoes[tensoes.findIndex((x)=>x==r.data.tensao)])
+setTensao(verifyNull(tensoes[tensoes.findIndex((x)=>x==r.data.tensao)]))
 
  })
 
@@ -92,8 +99,9 @@ const material = {
     tensao:tensao,
     corrente:corrente.trim().replace(/\s\s+/g, ' '),
     dataEntradaNF:dataentrada,
+    codigoInterno:"",
     }
-
+console.log(dataentrada)
 
 
   const materialAtualizado =  await axios.put(`${url}/Materiais/${id}`,material)

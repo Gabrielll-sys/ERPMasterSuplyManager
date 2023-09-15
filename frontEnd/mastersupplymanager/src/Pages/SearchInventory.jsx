@@ -49,7 +49,7 @@ const SearchInventory = () => {
 
     const searchInternCode = sessionStorage.getItem("buscaCodigoInterno")
     const searchFabricanteCode = sessionStorage.getItem("buscaCodigoFabricante")
-
+    console.log(searchInternCode)
     if(searchInternCode) 
     {
       setCodigoInterno(searchInternCode)
@@ -256,6 +256,7 @@ catch(e){
               <TableHead>
                 <TableRow>
                   <TableCell align="center">Codigo Interno</TableCell>
+                  <TableCell align="center">Categoria</TableCell>
                   <TableCell align="center">Descrição</TableCell>
                   <TableCell align="center" size="small">Estoque</TableCell>
                   <TableCell align="center" size="small">Movimentação</TableCell>
@@ -274,6 +275,7 @@ catch(e){
                   >
                 
                     <TableCell align="center" size="medium">{row.material.id}</TableCell>
+                    <TableCell align="center" size="medium">{row.material.categoria}</TableCell>
                     
                     <TableCell align="center" size="medium">{row.material.descricao}</TableCell>
                     <TableCell align="center" size="small">{row.estoque==null?"Ainda não registrado":row.estoque}</TableCell>
@@ -281,7 +283,10 @@ catch(e){
                     <TableCell align="center" size="small">{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal}</TableCell>
                     <TableCell align="center" >{row.razao}</TableCell>
                     <TableCell align="center">
-                      {dayjs(row.dataAlteracao).format(`[${row.movimentacao==undefined?" Material Criado as ":"Inventário Editado as "}]DD/MM/YYYY [as] HH:mm:ss`)} 
+                      {dayjs(row.dataAlteracao).format(`[${row.movimentacao==null &&row.estoque==0?" Material Criado as ":"Inventário Editado as "}]DD/MM/YYYY [as] HH:mm:ss`)} 
+                    </TableCell>
+                    <TableCell align="center">
+                      {console.log(row.length)} 
                     </TableCell>
                     <TableCell align="center" size ="small">{row.responsavel}</TableCell>
 
@@ -291,7 +296,7 @@ catch(e){
                     disabled={inventarios[inventarios.length-1].id==row.id?false:true}
                     style={{backgroundColor:'white',marginTop:"7px"}}
                       onClick={(x) =>
-                        handleChangePageUpdate(row.id)
+                        handleChangePageUpdate(row.material.id)
                         
                       }
                     >

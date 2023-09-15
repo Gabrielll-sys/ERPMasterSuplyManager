@@ -12,6 +12,30 @@ namespace SupplyManager.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "DataAlteracao",
+                table: "Materiais");
+
+            migrationBuilder.DropColumn(
+                name: "Estoque",
+                table: "Materiais");
+
+            migrationBuilder.DropColumn(
+                name: "Movimentacao",
+                table: "Materiais");
+
+            migrationBuilder.DropColumn(
+                name: "Razao",
+                table: "Materiais");
+
+            migrationBuilder.DropColumn(
+                name: "Responsavel",
+                table: "Materiais");
+
+            migrationBuilder.DropColumn(
+                name: "SaldoFinal",
+                table: "Materiais");
+
             migrationBuilder.CreateTable(
                 name: "Inventarios",
                 columns: table => new
@@ -51,6 +75,44 @@ namespace SupplyManager.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Inventarios");
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "DataAlteracao",
+                table: "Materiais",
+                type: "datetime",
+                nullable: true);
+
+            migrationBuilder.AddColumn<float>(
+                name: "Estoque",
+                table: "Materiais",
+                type: "float",
+                nullable: true);
+
+            migrationBuilder.AddColumn<float>(
+                name: "Movimentacao",
+                table: "Materiais",
+                type: "float",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "Razao",
+                table: "Materiais",
+                type: "longtext",
+                nullable: true)
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.AddColumn<string>(
+                name: "Responsavel",
+                table: "Materiais",
+                type: "longtext",
+                nullable: true)
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.AddColumn<float>(
+                name: "SaldoFinal",
+                table: "Materiais",
+                type: "float",
+                nullable: true);
         }
     }
 }

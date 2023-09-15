@@ -9,7 +9,7 @@ namespace SupplyManager.Models
         public int Id { get; set; }
         public DateTime DataAlteracao { get; set; }
 
-        public int MaterialId { get; set; }
+        public int? MaterialId { get; set; }
 
         [ForeignKey("MaterialId")]
         public Material Material { get; set; }
@@ -23,7 +23,7 @@ namespace SupplyManager.Models
         public string? Responsavel { get;set; }
 
 
-        public Inventario(string? razao,float? estoque,float? movimentacao,float? saldoFinal,string? responsavel,int materialId) { 
+        public Inventario(string? razao,float? estoque,float? movimentacao,float? saldoFinal,string? responsavel,int? materialId) { 
 
           
             Razao = razao;
@@ -32,10 +32,8 @@ namespace SupplyManager.Models
             SaldoFinal = saldoFinal;
             Responsavel = responsavel;
             MaterialId = materialId;
-            if (estoque != null)
-            {
-                DataAlteracao = DateTime.Now;
-            }
+            DataAlteracao = DateTime.Now;
+            
         }
 
         public float? EstoqueMovimentacao(float? saldoFinal)

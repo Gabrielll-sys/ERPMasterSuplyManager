@@ -11,7 +11,7 @@ using SupplyManager.App;
 namespace SupplyManager.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20230914112947_v11")]
+    [Migration("20230915182050_v11")]
     partial class v11
     {
         /// <inheritdoc />
@@ -34,7 +34,8 @@ namespace SupplyManager.Migrations
                     b.Property<float?>("Estoque")
                         .HasColumnType("float");
 
-                    b.Property<int>("MaterialId")
+                    b.Property<int?>("MaterialId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<float?>("Movimentacao")
@@ -74,32 +75,14 @@ namespace SupplyManager.Migrations
                     b.Property<string>("Corrente")
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("datetime");
-
                     b.Property<DateTime?>("DataEntradaNF")
                         .HasColumnType("datetime");
 
                     b.Property<string>("Descricao")
                         .HasColumnType("longtext");
 
-                    b.Property<float?>("Estoque")
-                        .HasColumnType("float");
-
                     b.Property<string>("Marca")
                         .HasColumnType("longtext");
-
-                    b.Property<float?>("Movimentacao")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Razao")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Responsavel")
-                        .HasColumnType("longtext");
-
-                    b.Property<float?>("SaldoFinal")
-                        .HasColumnType("float");
 
                     b.Property<string>("Tensao")
                         .HasColumnType("longtext");

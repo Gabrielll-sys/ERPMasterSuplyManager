@@ -205,7 +205,7 @@ namespace SupplyManager.Controllers
 
                 //Ordena a busca de materia
 
-                queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao)).OrderBy(x => x.Descricao);
+                queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao)).OrderBy(x => x.Id);
 
 
                 return Ok(await queryMaterial.ToListAsync());

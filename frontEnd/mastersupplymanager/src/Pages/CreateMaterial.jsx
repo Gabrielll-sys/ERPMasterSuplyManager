@@ -132,14 +132,14 @@ console.log(e)
   const createInventario = async (idMaterial) => {
     
     
-    const category = {
+    const invetario = {
       materialId: idMaterial,
       estoque:0,
       material: {},
     };
     try{
       await axios
-      .post(`${url}/Inventarios`, category)
+      .post(`${url}/Inventarios`, invetario)
       .then((r) => {
         return r.data
       })
@@ -419,6 +419,7 @@ console.log(e)
                       <CreateIcon />
                     </Button>
                     <Button
+                    disabled={true}
                       style={{ marginLeft: "15px" ,backgroundColor:'white'}}
                       onClick={(x) => deleteMaterial(row.id)}
                     >

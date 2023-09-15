@@ -79,14 +79,17 @@ namespace SupplyManager.Controllers
 
 
             try
-            {
-                var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == id);
+            
+                {
+                    
+                   
+                    var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == id);
 
 
 
 
 
-                var listInvetory = await _context.Inventarios.Where(x => x.Id == id).Include(x => x.Material).ToListAsync();
+                var listInvetory = await _context.Inventarios.Where(x => x.MaterialId == id).Include(x => x.Material).ToListAsync();
                 //Ordena a busca de materia
 
 
@@ -123,6 +126,36 @@ namespace SupplyManager.Controllers
             {
                 var queryMaterial = from query in _context.Inventarios select query;
 
+
+                queryMaterial =   queryMaterial.Where(x => x.MaterialId == model.MaterialId).OrderBy(x=>x.Id);
+
+                var b =  await queryMaterial.ToListAsync();
+                //CASO SEJA O PRIMEIRO ITEM DO INVENTÁRIO OU QUANDO FOR CRIAR DE FATO O SEGUNDO ITEM
+                if (b.Count == 0 || b.Count==1)
+                {
+                    InvetarioPostValidator ValidationInvetory = new InvetarioPostValidator();
+
+                    Inventario invetory1 = new Inventario
+                        (
+                        model.Razao,
+                        0,
+                        model.Movimentacao,
+                        model.SaldoFinal,
+                        model.Responsavel,
+                        model.MaterialId
+                        );
+
+
+                    invetory1.EstoqueMovimentacao(model.SaldoFinal);
+                    await _context.Inventarios.AddAsync(invetory1);
+
+
+
+                    await _context.SaveChangesAsync();
+
+                    return Ok(invetory1);
+
+                }
                 InvetarioPostValidator ValidationMaterial = new InvetarioPostValidator();
 
                 Inventario i1 = new Inventario
@@ -135,7 +168,7 @@ namespace SupplyManager.Controllers
                     model.MaterialId
                     );
 
-                i1.EstoqueMovimentacao(model.SaldoFinal);
+                var a = i1.EstoqueMovimentacao(model.SaldoFinal);
 
               
 
@@ -266,9 +299,51 @@ namespace SupplyManager.Controllers
 
 
         }
+        [HttpPost("populate")]
+
+        public async Task PopulateDb()
+        {
+
+
+            var queryMaterialWithNoInvetory = await _context.Materiais.ToListAsync();
+
+           
+
+            foreach( var material in queryMaterialWithNoInvetory)
+            {
+                var findInvetory = await _context.Inventarios.FirstOrDefaultAsync(x=>x.MaterialId==material.Id);
+
+
+                if(findInvetory == null)
+                {
+                    Inventario invetario = new Inventario
+                      (
+                      null,
+                      0,
+                      null,
+                     null,
+                      null,
+                      material.Id
+                      );
+
+
+                    
+                    await _context.Inventarios.AddAsync(invetario);
 
 
 
+
+
+
+                }
+
+
+            }
+
+            await _context.SaveChangesAsync();
+            
+
+        }
 
 
 

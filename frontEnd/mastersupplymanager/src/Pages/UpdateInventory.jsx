@@ -29,6 +29,7 @@ const UpdateInventory = ()=>{
  const [codigoInterno,setCodigoInterno] = useState("")
  const [razao,setRazao] = useState("")
  const [movimento,setMovimento] = useState("")
+ const[estoque,setEstoque] = useState()
 const [categoria,setCategoria] = useState("")
  const[dataentrada,setDataentrada] = useState()
  const [openSnackBar,setOpenSnackBar]= useState(false)
@@ -38,45 +39,45 @@ const [categoria,setCategoria] = useState("")
 
 useEffect(()=>{
 
-getItemInventory(idInventario.state)
-getCategoria(idInventario.state)
+getItemInventory(idInventario.state).then().catch()
+
 },[])
 
 
- const getItemInventory= async (id)=>{
+ 
+const getItemInventory = async (id) => {
+console.log(id)
+  try{
 
+  const res = await axios
+    .get(`${url}/Inventarios/buscaCodigoInventario/${id}`)
+    .then( (r)=> {
 
-
-const item = await axios.get(`${url}/Materiais/${id}`).then(x=>{
-
-getLastMaterial(x.data.codigoInterno)
-
-return  x.data
-})
-
-
+     return r.data
+     
+    })
+    .catch();
+    
+    setDescricao(res[res.length-1].material.descricao)
+    setCategoria(res[res.length-1].material.categoria)
+    setCodigoInterno(res[res.length-1].material.id)
+    setMovimento(res[res.length-1].saldoFinal==undefined?0:res[res.length-1].saldoFinal)
+    setEstoque(res[res.length-1].saldoFinal)
+    setDataentrada(res[res.length-1].dataAlteracao)
 
 }
+catch(e){
 
-const getLastMaterial = async (code)=>{
-
-const material = await axios.get(`${url}/Materiais/buscaCodigo/${code}`).then(x=>{
-setDescricao(x.data.descricao)
-setCodigoInterno(x.data.codigoInterno)
-setMovimento(x.data.saldoFinal==undefined?0:x.data.saldoFinal)
-setDataentrada(x.data.dataAlteracao)
-return  x.data
-})
- console.log(material.estoque)
+  console.log(e)
 }
-
+};
 const updateInventario=  async ()=>{
 
 if( !razao){
 
   setOpenSnackBar(true)
   setSeveridadeAlert("warning")
-  setMessageAlert("Prencha todas as informações necessárias")
+  setMessageAlert("É necessário informar a razão")
 
 }
 else{
@@ -85,7 +86,9 @@ else{
 const inventario = {
     razao:razao.trim().replace(/\s\s+/g, ' '),
     saldoFinal:movimento,
-
+    estoque:estoque,
+    materialId:codigoInterno,
+    material:{}
     }
 
    
@@ -118,7 +121,7 @@ catch(e){
 
   <Header/>
 
-    <h1 className={updateInventory.h1}>Editando inventário de {categoria} {descricao} (COD:{codigoInterno}) </h1>
+    <h1 className={updateInventory.h1}>Editando inventário de {categoria} {descricao} (Codigo interno: {codigoInterno}) </h1>
   
     <div className={updateInventory.container_inputs}>
 
