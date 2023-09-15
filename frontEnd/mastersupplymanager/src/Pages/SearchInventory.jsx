@@ -61,7 +61,7 @@ const SearchInventory = () => {
   useEffect(() => {
     //Irá começar a realizar a busca somente quando  o código tiver 3 caracteres
   setCodigoFabricante("")
-    if (codigoInterno.length>=3) {
+    if (codigoInterno.length) {
       try{
 
         searchByInternCode().then().catch();
@@ -120,7 +120,8 @@ const SearchInventory = () => {
          
         })
         .catch();
-  setInventarios(res)
+        console.log(res)
+  // setInventarios(res)
 
     }
     catch(e){
@@ -139,15 +140,17 @@ const searchByInternCode = async () => {
   try{
 
   const res = await axios
-    .get(`${url}/Materiais/buscaCodigoInterno?codigo=${codigoInterno}`)
+    .get(`${url}/Inventarios/buscaCodigoInventario/${codigoInterno}`)
     .then( (r)=> {
 
      return r.data
      
     })
     .catch();
-    
+
+    console.log(res)
 setInventarios(res)
+
 }
 catch(e){
 
@@ -156,7 +159,6 @@ catch(e){
 };
 
 const searchByFabricanteCode = async () => {
-
   try{
 
   const res = await axios
@@ -271,13 +273,12 @@ catch(e){
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                 
-                  
-              
-                    <TableCell align="center" size="medium">{row.codigoInterno}</TableCell>
-                    <TableCell align="center" size="medium">{row.descricao}</TableCell>
-                    <TableCell align="center" size="small">{row.estoque}</TableCell>
-                    <TableCell align="center" size="small">{row.movimentacao}</TableCell>
-                    <TableCell align="center" size="small">{row.saldoFinal}</TableCell>
+                    <TableCell align="center" size="medium">{row.material.id}</TableCell>
+                    
+                    <TableCell align="center" size="medium">{row.material.descricao}</TableCell>
+                    <TableCell align="center" size="small">{row.estoque==null?"Ainda não registrado":row.estoque}</TableCell>
+                    <TableCell align="center" size="small">{row.movimentacao==null?"Ainda não registrado":row.movimentacao}</TableCell>
+                    <TableCell align="center" size="small">{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal}</TableCell>
                     <TableCell align="center" >{row.razao}</TableCell>
                     <TableCell align="center">
                       {dayjs(row.dataAlteracao).format(`[${row.movimentacao==undefined?" Material Criado as ":"Inventário Editado as "}]DD/MM/YYYY [as] HH:mm:ss`)} 

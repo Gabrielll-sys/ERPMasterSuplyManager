@@ -85,14 +85,14 @@ else{
 const inventario = {
     razao:razao.trim().replace(/\s\s+/g, ' '),
     saldoFinal:movimento,
-    codigoInterno:codigoInterno,
+
     }
 
    
 
 try{
 
-  const inventarioAtualizado =  await axios.post(`${url}/Materiais`,inventario)
+  const inventarioAtualizado =  await axios.post(`${url}/Inventarios`,inventario)
   .then(r=>
     {
       setOpenSnackBar(true)
@@ -101,7 +101,7 @@ try{
       return r.data
 }).catch()
 
-createCategoria(inventarioAtualizado.id)
+
 
 }
 catch(e){
@@ -112,30 +112,7 @@ catch(e){
 
 }
 
-const getCategoria = async(id)=>{
 
-  
-  axios.get(`${url}/Categorias/${id}`).then(r=>{
-  console.log(r.data.nomeCategoria)
-  setCategoria(r.data.nomeCategoria)
-
-
-  }).catch(e=>console.log(e))
-
-}
-const createCategoria = async (idMaterial) => {
-  const category = {
-    nomeCategoria: categoria,
-    materialId: idMaterial,
-    material: {},
-  };
-  await axios
-    .post(`${url}/Categorias`, category)
-    .then((r) => {
-      return r.data
-    })
-    .catch((e) => console.log(e));
-};
   return (
     <>
 
