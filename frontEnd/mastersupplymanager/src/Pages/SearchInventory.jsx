@@ -280,10 +280,10 @@ catch(e){
                     <TableCell align="center" size="medium">{row.material.descricao}</TableCell>
                     <TableCell align="center" size="small">{row.estoque==null?"Ainda não registrado":row.estoque}</TableCell>
                     <TableCell align="center" size="small">{row.movimentacao==null?"Ainda não registrado":row.movimentacao}</TableCell>
-                    <TableCell align="center" size="small">{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal}</TableCell>
+                    <TableCell align="center" size="small">{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal +` ${row.material.unidade}`}</TableCell>
                     <TableCell align="center" >{row.razao}</TableCell>
                     <TableCell align="center">
-                      {dayjs(row.dataAlteracao).format(`[${row.movimentacao==null &&row.estoque==0?" Material Criado as ":"Inventário Editado as "}]DD/MM/YYYY [as] HH:mm:ss`)} 
+                      {dayjs(row.dataAlteracao).format(`[${row.movimentacao==null &&row.estoque==0?" Material Criado as " :"Inventário Editado as "}]DD/MM/YYYY [as] HH:mm:ss`)} 
                     </TableCell>
                     <TableCell align="center">
                       {console.log(row.length)} 

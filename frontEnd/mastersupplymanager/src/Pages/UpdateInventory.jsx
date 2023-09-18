@@ -27,7 +27,7 @@ const UpdateInventory = ()=>{
 
  const [descricao,setDescricao] = useState("")
  const [codigoInterno,setCodigoInterno] = useState("")
- const [razao,setRazao] = useState("")
+ const [razao,setRazao] = useState("Levantamento de estoque")
  const [movimento,setMovimento] = useState("")
  const[estoque,setEstoque] = useState()
 const [categoria,setCategoria] = useState("")
@@ -35,7 +35,7 @@ const [categoria,setCategoria] = useState("")
  const [openSnackBar,setOpenSnackBar]= useState(false)
  const [ messageAlert,setMessageAlert] = useState();
  const [ severidadeAlert,setSeveridadeAlert] = useState()
-
+  const[stateBotao,setStateBotao] = useState(false)
 
 useEffect(()=>{
 
@@ -101,6 +101,7 @@ try{
       setOpenSnackBar(true)
       setSeveridadeAlert("success")
       setMessageAlert("Inventário Atualizado com sucesso")
+      setStateBotao(true)
       return r.data
 }).catch()
 
@@ -155,7 +156,7 @@ catch(e){
     
     </div>
     <div className={updateInventory.container_botoes}>
-    <Button  className={updateInventory.botao}label="Atualizar Material" onClick={updateInventario} />
+    <Button disabled={stateBotao}  className={updateInventory.botao}label="Atualizar Material" onClick={updateInventario} />
     <Snackbar open={openSnackBar} autoHideDuration={3000} onClose={e=>setOpenSnackBar(false)}>
             <MuiAlert onClose={e=>setOpenSnackBar(false)} severity={severidadeAlert} sx={{ width: '100%' }}>
              {messageAlert}
