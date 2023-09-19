@@ -111,17 +111,7 @@ const SearchInventory = () => {
 
     try{
 
-      const res = await axios
-        .get(`${url}/Materiais/buscaInventario?descricao=${descricao}`)
-        .then( (r)=> {
-         
-         
-         return r.data
-         
-        })
-        .catch();
-        console.log(res)
-  // setInventarios(res)
+      
 
     }
     catch(e){
@@ -148,9 +138,10 @@ const searchByInternCode = async () => {
     })
     .catch();
 
-    console.log(res)
-setInventarios(res)
 
+setInventarios(res)
+setObject(res[res.length-1])
+console.log(object)
 }
 catch(e){
 
