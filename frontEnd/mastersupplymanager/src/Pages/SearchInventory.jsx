@@ -10,7 +10,8 @@ import CreateIcon from "@mui/icons-material/Create";
 import "dayjs/locale/pt-br";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import MuiAlert from "@mui/material/Alert";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -39,7 +40,7 @@ const SearchInventory = () => {
   const [messageAlert, setMessageAlert] = useState();
   const [severidadeAlert, setSeveridadeAlert] = useState();
   const [object,setObject]= useState([])
- 
+  const [showAll,setShowAll] = useState(false)
 
   const [inventarios, setInventarios] = useState([]);
 
@@ -125,6 +126,20 @@ const SearchInventory = () => {
   
 };
 
+const handleShowAll = ([itens])=>{
+console.log(itens)
+if(showAll)
+{
+
+
+
+}
+
+
+  
+}
+
+
 const searchByInternCode = async () => {
 
   try{
@@ -140,6 +155,7 @@ const searchByInternCode = async () => {
 
 
 setInventarios(res)
+handleShowAll(inventarios)
 setObject(res[res.length-1])
 console.log(object)
 }
@@ -255,7 +271,11 @@ catch(e){
                   <TableCell align="center">Razão</TableCell>
                   <TableCell align="center">Data </TableCell>
                   <TableCell align="center">Usuario</TableCell>
-                 
+                  <TableCell align="center" size="small"> 
+                  
+                {showAll? <Button style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={handleShowAll}><VisibilityIcon/></Button>:
+                <Button style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={handleShowAll}><VisibilityOffIcon/></Button>}
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -284,8 +304,9 @@ catch(e){
                     
                     {/* Caso o o item da linha seja o ultimo listado da sequencia de edições do inventário,então permitirá a edição,isso impede de editar estoque e edições passadas */}
                     <Button
+                    
                     disabled={inventarios[inventarios.length-1].id==row.id?false:true}
-                    style={{backgroundColor:'white',marginTop:"7px"}}
+                    style={{backgroundColor:'white',marginTop:"13px",borderWidth:"0px"}}
                       onClick={(x) =>
                         handleChangePageUpdate(row.material.id)
                         
