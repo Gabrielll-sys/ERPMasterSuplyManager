@@ -42,7 +42,7 @@ const UpdateMaterial = ()=>{
  const [materiais, setMateriais] = useState([]);
 
  const unidadeMaterial = ["UN","RL","PC","MT","P"]
- const tensoes = ["127V","220V","380V","440V","660V"]
+ const tensoes = ["","12V","24V","127V","220V","380V","440V","660V"]
 
 
 

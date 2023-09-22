@@ -35,13 +35,16 @@ const SearchInventory = () => {
   const [codigoInterno,setCodigoInterno] = useState("")
   const [codigoFabricante,setCodigoFabricante] = useState("")
   const [estoque, setEstoque] = useState(0);
- 
+
+
+
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [messageAlert, setMessageAlert] = useState();
   const [severidadeAlert, setSeveridadeAlert] = useState();
   const [object,setObject]= useState([])
   const [showAll,setShowAll] = useState(false)
-
+  
+  
   const [inventarios, setInventarios] = useState([]);
 
 
@@ -126,15 +129,22 @@ const SearchInventory = () => {
   
 };
 
-const handleShowAll = ([itens])=>{
-console.log(itens)
+const handleShowAll = (itens)=>{
+// console.log(itens)
 if(showAll)
 {
+setShowAll(false)
 
-
+// console.log(itens[itens.length-1])
+setObject([itens[itens.length-1]])
+object.map(x=>console.log(x))
+// setInventarios([itens[itens.length-1]])
 
 }
+else{
 
+  setShowAll(true)
+}
 
   
 }
@@ -156,8 +166,7 @@ const searchByInternCode = async () => {
 
 setInventarios(res)
 handleShowAll(inventarios)
-setObject(res[res.length-1])
-console.log(object)
+
 }
 catch(e){
 
@@ -187,14 +196,6 @@ catch(e){
 };
 
 
-  const getAllMateriais = async () => {
-    const res = await axios
-      .get(`${url}/Materiai`)
-      .then((r) => {
-        console.log(r.data);
-      }).catch();
-      
-  };
 
 
  
@@ -263,7 +264,7 @@ catch(e){
               <TableHead>
                 <TableRow>
                   <TableCell align="center">Codigo Interno</TableCell>
-                  <TableCell align="center">Categoria</TableCell>
+                  <TableCell align="center">Cod Fabricante</TableCell>
                   <TableCell align="center">Descrição</TableCell>
                   <TableCell align="center" size="small">Estoque</TableCell>
                   <TableCell align="center" size="small">Movimentação</TableCell>
@@ -273,20 +274,20 @@ catch(e){
                   <TableCell align="center">Usuario</TableCell>
                   <TableCell align="center" size="small"> 
                   
-                {showAll? <Button style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={handleShowAll}><VisibilityIcon/></Button>:
-                <Button style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={handleShowAll}><VisibilityOffIcon/></Button>}
+                {showAll? <Button style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={x=>handleShowAll(inventarios)}><VisibilityIcon/></Button>:
+                <Button style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={x=>handleShowAll(inventarios)}><VisibilityOffIcon/></Button>}
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {inventarios.map((row) => (
+                { inventarios.map((row) => (
                   <TableRow
                     key={row.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                 
                     <TableCell align="center" size="medium">{row.material.id}</TableCell>
-                    <TableCell align="center" size="medium">{row.material.categoria}</TableCell>
+                    <TableCell align="center" size="medium">{row.material.codigoFabricante}</TableCell>
                     
                     <TableCell align="center" size="medium">{row.material.descricao}</TableCell>
                     <TableCell align="center" size="small">{row.estoque==null?"Ainda não registrado":row.estoque}</TableCell>
@@ -314,15 +315,12 @@ catch(e){
                     >
                       <CreateIcon />
                     </Button>
-                    {/* <Button
-                    
-                      style={{ marginLeft: "15px" ,backgroundColor:'white'}}
-                      onClick={(x) => deleteInventario(row.id)}
-                    >
-                      <DeleteIcon />
-                    </Button> */}
+                
                   </TableRow>
+                  
                 ))}
+
+
               </TableBody>
             </Table>
           </TableContainer>
