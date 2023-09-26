@@ -29,6 +29,8 @@ namespace SupplyManager.Models
 
         public string? Tensao { get; set; }
 
+        public string? Localizacao { get; set; }
+
        
         //Data de entrada da NOTA FISCAL
         public DateTime? DataEntradaNF { get; set; }
@@ -36,7 +38,7 @@ namespace SupplyManager.Models
 
       
 
-        public Material(string? codigoInterno, string? codigoFabricante, string? descricao,string? categoria, string? marca, string? corrente, string? unidade, string? tensao, DateTime? dataEntradaNF)
+        public Material(string? codigoInterno, string? codigoFabricante, string? descricao,string? categoria, string? marca, string? corrente, string? unidade, string? tensao,string? localizacao, DateTime? dataEntradaNF)
         {
             CodigoInterno = codigoInterno;
             CodigoFabricante= codigoFabricante;
@@ -46,6 +48,7 @@ namespace SupplyManager.Models
             Corrente = corrente;
             Unidade = unidade;
             Tensao = tensao;
+            Localizacao = localizacao;
             DataEntradaNF = dataEntradaNF;
      
 

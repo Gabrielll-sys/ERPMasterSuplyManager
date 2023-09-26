@@ -341,8 +341,8 @@ namespace SupplyManager.Controllers
 
                 //Verifica se o modelo o código digitado do material já existe,caso sim,retornara bad request e uma mensagem de material já existe
                 var checkInternCode = await _context.Materiais.FirstOrDefaultAsync(x => x.CodigoInterno == model.CodigoInterno);
-
-                var checkFabricanteCode = await _context.Materiais.FirstOrDefaultAsync(x => x.CodigoFabricante == model.CodigoFabricante);
+                //Busca codigo do fabricante para ver se ja possui ,e tambem poe uma condição para caso seja diferente de vazio,pois a criação de material pode ter o código vazio
+                var checkFabricanteCode = await _context.Materiais.FirstOrDefaultAsync(x => x.CodigoFabricante == model.CodigoFabricante  &&  model.CodigoFabricante!="");
 
                 //Caso ja exista o codigo e o estoque seja nulo,ou seja quando o usuario esta criando pela primeira vez, retornará que o codigo ja existe
                 /*if (checkInternCode != null)
@@ -372,6 +372,8 @@ namespace SupplyManager.Controllers
                   String.IsNullOrEmpty(model.Corrente) ? "-" : model.Corrente.ToUpper(),
                   model.Unidade,
                   String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao,
+                  String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper(),
+
                    model.DataEntradaNF
                    
                    );
@@ -452,6 +454,7 @@ namespace SupplyManager.Controllers
                         m1.Corrente = model.Corrente.ToUpper();
                         m1.Unidade = model.Unidade.ToUpper();
                         m1.Tensao = String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao;
+                        m1.Localizacao = String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper();
                         m1.DataEntradaNF = model.DataEntradaNF;
 
                     }
@@ -480,6 +483,7 @@ namespace SupplyManager.Controllers
                         m1.Corrente = model.Corrente.ToUpper();
                         m1.Unidade = model.Unidade.ToUpper();
                         m1.Tensao = String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao;
+                        m1.Localizacao = String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper();
                         m1.DataEntradaNF = model.DataEntradaNF;
 
                     }

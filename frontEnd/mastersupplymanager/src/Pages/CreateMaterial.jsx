@@ -40,6 +40,7 @@ const CreateMaterial = () => {
   const [codigoFabricante, setCodigoFabricante] = useState("");
   const [marca, setMarca] = useState("");
   const [tensao, setTensao] = useState("");
+  const [localizacao, setLocalizacao] = useState("");
   const [corrente, setCorrente] = useState("");
   const [unidade, setUnidade] = useState("UN");
   const [dataentrada, setDataentrada] = useState();
@@ -53,6 +54,17 @@ const CreateMaterial = () => {
 
   const unidadeMaterial = ["UN", "RL", "PC", "MT", "P"];
   const tensoes = ["","12V","24V","127V","220V","380V","440V","660V"]
+
+
+
+useEffect(()=>{
+
+const description = sessionStorage.getItem("description")
+
+if(description) setDescricao(description)
+console.log(description)
+
+},[])
 
   useEffect(() => {
     //Irá começar a realizar a busca somente quando  a descrição tiver 3 caracteres
@@ -120,12 +132,13 @@ console.log(e)
 
 
   };
-  const getAllMateriais = async () => {
-    const res = await axios
-      .get(`${url}/Materiai`)
-      .then((r) => {
-        console.log(r.data);
-      }).catch(e=>console.log(e));
+  const handleChangeUpdatePage = async (id) => {
+   
+    sessionStorage.setItem("description",descricao)
+
+    navigate("/updateMaterial", { state: id })
+
+
       
   };
 
@@ -171,6 +184,7 @@ console.log(e)
         corrente: corrente.trim().replace(/\s\s+/g, " "),
         unidade: unidade.trim().replace(/\s\s+/g, " "),
         tensao: tensao.trim().replace(/\s\s+/g, " "),
+        localizacao: localizacao.trim().replace(/\s\s+/g, " "),
         corrente: corrente.trim().replace(/\s\s+/g, " "),
         dataEntradaNF: dataentrada,
       };
@@ -310,6 +324,13 @@ console.log(e)
           onChange={(e) => setMarca(e.target.value)}
           label="Marca"
         />
+        <TextField
+          value={localizacao}
+          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+          className={createMaterial.inputs}
+          onChange={(e) => setLocalizacao(e.target.value)}
+          label="Localização"
+        />
 
       
  <Select
@@ -385,12 +406,12 @@ console.log(e)
                   <TableCell align="center">Marca</TableCell>
                   <TableCell align="center">Tensão</TableCell>
                   <TableCell align="center">Unidade</TableCell>
-                  <TableCell align="center">Corrente</TableCell>
+                  <TableCell align="center">Localização</TableCell>
                   {/* <TableCell align="center">DataEntradaNF</TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {materiais.map((row) => (
+                { materiais.length>1 && materiais.map((row) => (
                   <TableRow
                     key={row.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -403,17 +424,12 @@ console.log(e)
                     <TableCell align="center">{row.marca}</TableCell>
                     <TableCell align="center" size ="small">{row.tensao}</TableCell>
                     <TableCell align="center" size ="small">{row.unidade}</TableCell>
-                    <TableCell align="center" size ="small">{row.corrente}</TableCell>
-                    {/* <TableCell align="center">
-                      {row.dataentradaNF===null?"A definir":dayjs(row.dataEntradaNF).format("DD/MM/YYYY")}
-                    </TableCell> */}
-
-                    {/* <TableCell align="center">    <Button  className="botao"label="Criar Material"onClick={x=>navigate("/updateMaterial",{state:row.id})} />
-</TableCell> */}
+                    <TableCell align="center" size ="small">{row.localizacao}</TableCell>
+               
                     <Button
                     style={{backgroundColor:'white',marginTop:"7px"}}
                       onClick={(x) =>
-                        navigate("/updateMaterial", { state: row.id })
+                        handleChangeUpdatePage(row.id)
                       }
                     >
                       <CreateIcon />
@@ -427,6 +443,7 @@ console.log(e)
                     </Button>
                   </TableRow>
                 ))}
+                 
               </TableBody>
             </Table>
           </TableContainer>

@@ -32,6 +32,7 @@ const UpdateMaterial = ()=>{
  const [marca,setMarca] = useState("")
  const [ tensao,setTensao] = useState("")
  const [corrente,setCorrente] = useState("")
+ const [localizacao,setLocalizacao] = useState("")
  const [ unidade,setUnidade] = useState("")
  const[dataentrada,setDataentrada] = useState("")
  const [openSnackBar,setOpenSnackBar]= useState(false)
@@ -74,6 +75,7 @@ setCorrente(verifyNull(r.data.corrente))
 setMarca(verifyNull(r.data.marca))
 setDescricao(verifyNull(r.data.descricao))
 setOldCategory(verifyNull(r.data.categoria))
+setLocalizacao(verifyNull(r.data.localizacao))
 
 
 setTensao(verifyNull(tensoes[tensoes.findIndex((x)=>x==r.data.tensao)]))
@@ -100,8 +102,8 @@ const material = {
     corrente:corrente.trim().replace(/\s\s+/g, ' '),
     dataEntradaNF:dataentrada,
     codigoInterno:"",
+    localizacao:localizacao.trim().replace(/\s\s+/g, ' '),
     }
-console.log(dataentrada)
 
 
   const materialAtualizado =  await axios.put(`${url}/Materiais/${id}`,material)
@@ -173,7 +175,13 @@ console.log(dataentrada)
     <TextField   value={marca} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}} 
     className={updateMaterial.inputs} onChange={e=>setMarca(e.target.value)}  label='Marca' />
 
-
+      <TextField
+          value={localizacao}
+          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+          className={updateMaterial.inputs}
+          onChange={(e) => setLocalizacao(e.target.value)}
+          label="Localização"
+        />
       
    <Select
      style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px"}}

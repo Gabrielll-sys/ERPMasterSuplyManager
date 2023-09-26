@@ -25,7 +25,7 @@ namespace SupplyManager.Controllers
     public class InventariosController : ControllerBase
     {
         private readonly SqlContext _context;
-       
+
 
 
 
@@ -74,16 +74,16 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<Material>> BuscaCodigoInventario (int id)
+        public async Task<ActionResult<Material>> BuscaCodigoInventario(int id)
         {
 
 
             try
-            
-                {
-                    
-                   
-                    var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == id);
+
+            {
+
+
+                var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == id);
 
 
 
@@ -111,9 +111,42 @@ namespace SupplyManager.Controllers
 
 
         }
-        
-       
-        [HttpPost()]
+
+        [HttpGet(template: "buscaDesc")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<Material>> BuscaDescricaoInventario(string descricao)
+        {
+
+
+            try
+            {
+                var queryMaterial = from query in _context.Materiais select query;
+
+
+                //Ordena a busca de materia
+
+                queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao)).OrderBy(x => x.Id);
+
+
+
+                return Ok(await queryMaterial.ToListAsync());
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+
+        }
+    [HttpPost()]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -127,11 +160,11 @@ namespace SupplyManager.Controllers
                 var queryMaterial = from query in _context.Inventarios select query;
 
 
-                queryMaterial =   queryMaterial.Where(x => x.MaterialId == model.MaterialId).OrderBy(x=>x.Id);
+                queryMaterial = queryMaterial.Where(x => x.MaterialId == model.MaterialId).OrderBy(x => x.Id);
 
-                var b =  await queryMaterial.ToListAsync();
+                var b = await queryMaterial.ToListAsync();
                 //CASO SEJA O PRIMEIRO ITEM DO INVENTÁRIO OU QUANDO FOR CRIAR DE FATO O SEGUNDO ITEM
-                if (b.Count == 0 || b.Count==1)
+                if (b.Count == 0 || b.Count == 1)
                 {
                     InvetarioPostValidator ValidationInvetory = new InvetarioPostValidator();
 
@@ -170,7 +203,7 @@ namespace SupplyManager.Controllers
 
                 var a = i1.EstoqueMovimentacao(model.SaldoFinal);
 
-              
+
 
                 await _context.Inventarios.AddAsync(i1);
 
@@ -215,27 +248,27 @@ namespace SupplyManager.Controllers
 
 
 
-            
+
 
 
             try
             {
 
-                
-                    var m1 = await _context.Inventarios.FindAsync(model.Id);
 
-                    {
-           
-                      
+                var m1 = await _context.Inventarios.FindAsync(model.Id);
 
-                    }
-
-                    _context.Inventarios.Update(m1);
-
-                    await _context.SaveChangesAsync();
+                {
 
 
-                
+
+                }
+
+                _context.Inventarios.Update(m1);
+
+                await _context.SaveChangesAsync();
+
+
+
                 return Ok();
 
 
@@ -307,14 +340,14 @@ namespace SupplyManager.Controllers
 
             var queryMaterialWithNoInvetory = await _context.Materiais.ToListAsync();
 
-           
 
-            foreach( var material in queryMaterialWithNoInvetory)
+
+            foreach (var material in queryMaterialWithNoInvetory)
             {
-                var findInvetory = await _context.Inventarios.FirstOrDefaultAsync(x=>x.MaterialId==material.Id);
+                var findInvetory = await _context.Inventarios.FirstOrDefaultAsync(x => x.MaterialId == material.Id);
 
 
-                if(findInvetory == null)
+                if (findInvetory == null)
                 {
                     Inventario invetario = new Inventario
                       (
@@ -327,7 +360,7 @@ namespace SupplyManager.Controllers
                       );
 
 
-                    
+
                     await _context.Inventarios.AddAsync(invetario);
 
 
@@ -341,11 +374,13 @@ namespace SupplyManager.Controllers
             }
 
             await _context.SaveChangesAsync();
-            
+
 
         }
-
-
-
     }
 }
+
+
+
+        
+    

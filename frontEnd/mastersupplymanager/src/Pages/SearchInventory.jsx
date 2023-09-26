@@ -35,7 +35,7 @@ const SearchInventory = () => {
   const [codigoInterno,setCodigoInterno] = useState("")
   const [codigoFabricante,setCodigoFabricante] = useState("")
   const [estoque, setEstoque] = useState(0);
-
+  const[storeAllInventory,setStoreAllInventory] = useState()
 
 
   const [openSnackBar, setOpenSnackBar] = useState(false);
@@ -63,8 +63,8 @@ const SearchInventory = () => {
   
 
   useEffect(() => {
-    //Irá começar a realizar a busca somente quando  o código tiver 3 caracteres
-  setCodigoFabricante("")
+    //Irá começar a realizar a busca somente quando  o código tiver  caracteres
+ 
     if (codigoInterno.length) {
       try{
 
@@ -83,7 +83,7 @@ const SearchInventory = () => {
   useEffect(() => {
     //Irá começar a realizar a busca somente quando  o código tiver 3 caracteres
     //Para impedir da busca pelos dois campos,reseta o valor de codigo de fabricante
-  setCodigoInterno("")
+
     if (codigoFabricante.length>=3) {
       try{
 
@@ -129,21 +129,21 @@ const SearchInventory = () => {
   
 };
 
-const handleShowAll = (itens)=>{
-// console.log(itens)
+const handleShowAll = ()=>{
+
 if(showAll)
 {
 setShowAll(false)
 
-// console.log(itens[itens.length-1])
-setObject([itens[itens.length-1]])
-object.map(x=>console.log(x))
-// setInventarios([itens[itens.length-1]])
+
+
 
 }
 else{
 
   setShowAll(true)
+  setInventarios(storeAllInventory)
+
 }
 
   
@@ -165,7 +165,8 @@ const searchByInternCode = async () => {
 
 
 setInventarios(res)
-handleShowAll(inventarios)
+
+
 
 }
 catch(e){
@@ -319,7 +320,32 @@ catch(e){
                   </TableRow>
                   
                 ))}
-
+ {/* { inventarios.length==1 && !showAll && (
+                  <TableRow
+                    key={inventarios[0].id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                
+                    <TableCell align="center" size="medium">{inventarios[0].categoria}</TableCell>
+                    <TableCell align="center">{inventarios[0].id}</TableCell>
+                    <TableCell align="center">{inventarios[0].codigoFabricante}</TableCell>
+                    <TableCell align="center">{inventarios[0].descricao}</TableCell>
+                    <TableCell align="center">{inventarios[0].marca}</TableCell>
+                    <TableCell align="center" size ="small">{inventarios[0].tensao}</TableCell>
+                    <TableCell align="center" size ="small">{inventarios[0].unidade}</TableCell>
+                    <TableCell align="center" size ="small">{inventarios[0].localizacao}</TableCell>
+               
+                    <Button
+                    style={{backgroundColor:'white',marginTop:"7px"}}
+                      onClick={(x) =>
+                        handleChangePageUpdate(inventarios[0].id)
+                      }
+                    >
+                      <CreateIcon />
+                    </Button>
+                
+                  </TableRow>
+                )} */}
 
               </TableBody>
             </Table>
