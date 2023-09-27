@@ -91,7 +91,7 @@ console.log(description)
 
    try{
     const res = await axios
-    .get(`${url}/Materiais/buscaDescricao?descricao=${descricao}`)
+    .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao}`)
     .then( (r)=> {
       
      return r.data
@@ -99,7 +99,7 @@ console.log(description)
     })
     .catch();
     console.log(res)
-setMateriais(res)
+    setMateriais(res)
 
    }
    catch(e) 
@@ -406,6 +406,8 @@ console.log(e)
                   <TableCell align="center">Marca</TableCell>
                   <TableCell align="center">Tensão</TableCell>
                   <TableCell align="center">Unidade</TableCell>
+                  <TableCell align="center">Estoque</TableCell>
+
                   <TableCell align="center">Localização</TableCell>
                   {/* <TableCell align="center">DataEntradaNF</TableCell> */}
                 </TableRow>
@@ -413,34 +415,35 @@ console.log(e)
               <TableBody>
                 { materiais.length>1 && materiais.map((row) => (
                   <TableRow
-                    key={row.id}
+                    key={row.material.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                 
-                    <TableCell align="center" size="medium">{row.categoria}</TableCell>
-                    <TableCell align="center">{row.id}</TableCell>
-                    <TableCell align="center">{row.codigoFabricante}</TableCell>
-                    <TableCell align="center">{row.descricao}</TableCell>
-                    <TableCell align="center">{row.marca}</TableCell>
-                    <TableCell align="center" size ="small">{row.tensao}</TableCell>
-                    <TableCell align="center" size ="small">{row.unidade}</TableCell>
-                    <TableCell align="center" size ="small">{row.localizacao}</TableCell>
+                    <TableCell align="center" size="medium">{row.material.categoria}</TableCell>
+                    <TableCell align="center">{row.material.id}</TableCell>
+                    <TableCell align="center">{row.material.codigoFabricante}</TableCell>
+                    <TableCell align="center">{row.material.descricao}</TableCell>
+                    <TableCell align="center">{row.material.marca}</TableCell>
+                    <TableCell align="center" size ="small">{row.material.tensao}</TableCell>
+                    <TableCell align="center" size ="small">{row.material.unidade}</TableCell>
+                    <TableCell align="center" size ="small">{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal}</TableCell>
+                    <TableCell align="center" size ="small">{row.material.localizacao}</TableCell>
                
                     <Button
-                    style={{backgroundColor:'white',marginTop:"7px"}}
+                    style={{backgroundColor:'white',marginTop:"7px",marginRight:"15px"}}
                       onClick={(x) =>
-                        handleChangeUpdatePage(row.id)
+                        handleChangeUpdatePage(row.material.id)
                       }
                     >
                       <CreateIcon />
                     </Button>
-                    <Button
+                    {/* <Button
                     disabled={true}
                       style={{ marginLeft: "15px" ,backgroundColor:'white'}}
-                      onClick={(x) => deleteMaterial(row.id)}
+                      onClick={(x) => deleteMaterial(row.material.id)}
                     >
                       <DeleteIcon />
-                    </Button>
+                    </Button> */}
                   </TableRow>
                 ))}
                  

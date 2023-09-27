@@ -112,28 +112,50 @@ namespace SupplyManager.Controllers
 
         }
 
-        [HttpGet(template: "buscaDesc")]
+        [HttpGet(template: "buscaDescricaoInventario")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<Material>> BuscaDescricaoInventario(string descricao)
+        public async Task<ActionResult<Inventario>> BuscaDescricaoInventario(string descricao)
         {
 
 
             try
             {
                 var queryMaterial = from query in _context.Materiais select query;
+                var queryInvetory = await _context.Inventarios.ToListAsync();
+
+                List<Inventario> listInvetory = new List<Inventario>();
 
 
-                //Ordena a busca de materia
-
+                //Realiza uma busca no banco de materias para buscar match na descrição de acordo com a busca
                 queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao)).OrderBy(x => x.Id);
+                var materiais = await queryMaterial.ToListAsync();
+                //Faz um iteração em todos os materiais com aquela descrição
+                foreach(var item in materiais)
+                {
+                    //Realiza um filtro buscando todos os invetários daquele material,ou seja,retornara todos os registros de invetário daquele produto
+                    var inventarios = queryInvetory.Where(x => x.MaterialId == item.Id).ToList();
+                    
+
+                    var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == inventarios[0].MaterialId);
+
+
+                    inventarios[inventarios.Count - 1].Material = material;
 
 
 
-                return Ok(await queryMaterial.ToListAsync());
+                    listInvetory.Add(inventarios[inventarios.Count-1]);
+
+                   
+
+                   
+
+                }
+
+                return Ok( listInvetory);
             }
 
             catch (KeyNotFoundException)
