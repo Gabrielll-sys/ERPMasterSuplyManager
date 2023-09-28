@@ -405,7 +405,7 @@ console.log(e)
                   <TableCell align="center">Descrição</TableCell>
                   <TableCell align="center">Marca</TableCell>
                   <TableCell align="center">Tensão</TableCell>
-                  <TableCell align="center">Unidade</TableCell>
+     
                   <TableCell align="center">Estoque</TableCell>
 
                   <TableCell align="center">Localização</TableCell>
@@ -425,8 +425,8 @@ console.log(e)
                     <TableCell align="center">{row.material.descricao}</TableCell>
                     <TableCell align="center">{row.material.marca}</TableCell>
                     <TableCell align="center" size ="small">{row.material.tensao}</TableCell>
-                    <TableCell align="center" size ="small">{row.material.unidade}</TableCell>
-                    <TableCell align="center" size ="small">{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal}</TableCell>
+  
+                    <TableCell align="center" size ="small">{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal +" "+row.material.unidade}</TableCell>
                     <TableCell align="center" size ="small">{row.material.localizacao}</TableCell>
                
                     <Button

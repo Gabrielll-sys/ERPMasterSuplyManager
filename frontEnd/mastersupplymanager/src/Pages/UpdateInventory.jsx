@@ -27,7 +27,7 @@ const UpdateInventory = ()=>{
 
  const [descricao,setDescricao] = useState("")
  const [codigoInterno,setCodigoInterno] = useState("")
- const [razao,setRazao] = useState("Levantamento de estoque")
+ const [razao,setRazao] = useState("")
  const [movimento,setMovimento] = useState("")
  const[estoque,setEstoque] = useState()
 const [categoria,setCategoria] = useState("")

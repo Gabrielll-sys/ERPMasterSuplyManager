@@ -66,8 +66,8 @@ const verifyNull = (item)=>{
  const getMaterial = async(id)=>{
 
  axios.get(`${url}/Materiais/${id}`).then(r=>{
-
-  setDataentrada(dayjs(r.data.dataEntradaNF))
+console.log(r.data.dataEntradaNF)
+setDataentrada(r.data.dataEntradaNF==null?"":dayjs(r.data.dataEntradaNF))
 setCodigoInterno(r.data.id)
 setUnidade(verifyNull(r.data.unidade))
 setCodigoFabricante(verifyNull(r.data.codigoFabricante))
@@ -150,7 +150,7 @@ const material = {
 
   <Header/>
 
-    <h1 className={updateMaterial.h1}>Editando inventário de {categoria} {descricao} (COD:{codigoInterno}) </h1>
+    <h1 className={updateMaterial.h1}>Editando {descricao}  (Codigo Interno: {codigoInterno}) </h1>
   
     <div className={updateMaterial.container_inputs}>
 
@@ -224,9 +224,9 @@ const material = {
 
     <div style={{marginTop:'40px',width:'206px'}}>
 
-    <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="pt-br" >
+    <LocalizationProvider   dateAdapter={AdapterDayjs} adapterLocale="pt-br" >
     
-        <DatePicker  label="Data Entrada NF"  value={dataentrada==undefined?"DD/MM/YYYY":dataentrada} onChange={e=>setDataentrada(e)} />
+        <DatePicker  label="Data Entrada NF"  value={dataentrada} onChange={e=>setDataentrada(e)} />
     
     </LocalizationProvider>
     </div>

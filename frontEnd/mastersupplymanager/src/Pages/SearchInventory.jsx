@@ -43,7 +43,7 @@ const SearchInventory = () => {
   const [severidadeAlert, setSeveridadeAlert] = useState();
   const [object,setObject]= useState([])
   const [showAll,setShowAll] = useState(false)
-  
+  const [onlyOneItem,setOnlyOneItem] = useState()
   
   const [inventarios, setInventarios] = useState([]);
 
@@ -164,6 +164,10 @@ const searchByInternCode = async () => {
     .catch();
 
 
+setOnlyOneItem(res[res.lenght-1])
+
+console.log(onlyOneItem)
+
 setInventarios(res)
 
 
@@ -218,7 +222,7 @@ catch(e){
 </Fab>
 
 </div>
-      <h1 className={searchInventory.h1}>Procurar no inventário</h1>
+      <h1 className={searchInventory.h1}>Gerenciamento de Inventário</h1>
     
 
       <div className={searchInventory.container_inputs}>
@@ -264,8 +268,8 @@ catch(e){
             >
               <TableHead>
                 <TableRow>
-                  <TableCell align="center">Codigo Interno</TableCell>
-                  <TableCell align="center">Cod Fabricante</TableCell>
+                  <TableCell align="center">Cod.Interno</TableCell>
+                  <TableCell align="center">Cod.Fabricante</TableCell>
                   <TableCell align="center">Descrição</TableCell>
                   <TableCell align="center" size="small">Estoque</TableCell>
                   <TableCell align="center" size="small">Movimentação</TableCell>
@@ -281,7 +285,7 @@ catch(e){
                 </TableRow>
               </TableHead>
               <TableBody>
-                { inventarios.map((row) => (
+                { showAll && inventarios.map((row) => (
                   <TableRow
                     key={row.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -292,7 +296,7 @@ catch(e){
                     
                     <TableCell align="center" size="medium">{row.material.descricao}</TableCell>
                     <TableCell align="center" size="small">{row.estoque==null?"Ainda não registrado":row.estoque}</TableCell>
-                    <TableCell align="center" size="small">{row.movimentacao==null?"Ainda não registrado":row.movimentacao}</TableCell>
+                    <TableCell align="center" size="small">{row.movimentacao==null?"Ainda não registrado":row.movimentacao+` ${row.material.unidade}`}</TableCell>
                     <TableCell align="center" size="small">{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal +` ${row.material.unidade}`}</TableCell>
                     <TableCell align="center" >{row.razao}</TableCell>
                     <TableCell align="center">
@@ -320,25 +324,25 @@ catch(e){
                   </TableRow>
                   
                 ))}
- {/* { inventarios.length==1 && !showAll && (
+ {/* {!showAll && (
                   <TableRow
-                    key={inventarios[0].id}
+                    key={onlyOneItem.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                 
-                    <TableCell align="center" size="medium">{inventarios[0].categoria}</TableCell>
-                    <TableCell align="center">{inventarios[0].id}</TableCell>
-                    <TableCell align="center">{inventarios[0].codigoFabricante}</TableCell>
-                    <TableCell align="center">{inventarios[0].descricao}</TableCell>
-                    <TableCell align="center">{inventarios[0].marca}</TableCell>
-                    <TableCell align="center" size ="small">{inventarios[0].tensao}</TableCell>
-                    <TableCell align="center" size ="small">{inventarios[0].unidade}</TableCell>
-                    <TableCell align="center" size ="small">{inventarios[0].localizacao}</TableCell>
+                    <TableCell align="center" size="medium">{onlyOneItem.categoria}</TableCell>
+                    <TableCell align="center">{onlyOneItem.id}</TableCell>
+                    <TableCell align="center">{onlyOneItem.codigoFabricante}</TableCell>
+                    <TableCell align="center">{onlyOneItem.descricao}</TableCell>
+                    <TableCell align="center">{onlyOneItem.marca}</TableCell>
+                    <TableCell align="center" size ="small">{onlyOneItem.tensao}</TableCell>
+                    <TableCell align="center" size ="small">{onlyOneItem.unidade}</TableCell>
+                    <TableCell align="center" size ="small">{onlyOneItem.localizacao}</TableCell>
                
                     <Button
                     style={{backgroundColor:'white',marginTop:"7px"}}
                       onClick={(x) =>
-                        handleChangePageUpdate(inventarios[0].id)
+                        handleChangePageUpdate(onlyOneItem.id)
                       }
                     >
                       <CreateIcon />
