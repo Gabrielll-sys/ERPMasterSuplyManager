@@ -142,7 +142,7 @@ setShowAll(false)
 else{
 
   setShowAll(true)
-  setInventarios(storeAllInventory)
+
 
 }
 
@@ -164,9 +164,9 @@ const searchByInternCode = async () => {
     .catch();
 
 
-setOnlyOneItem(res[res.lenght-1])
+setOnlyOneItem(res[res.length-1])
 
-console.log(onlyOneItem)
+console.log(res[res.length-1])
 
 setInventarios(res)
 
@@ -324,23 +324,30 @@ catch(e){
                   </TableRow>
                   
                 ))}
- {/* {!showAll && (
+  {!showAll && inventarios.length &&  (
                   <TableRow
-                    key={onlyOneItem.id}
+                    key={onlyOneItem.material.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                 
-                    <TableCell align="center" size="medium">{onlyOneItem.categoria}</TableCell>
-                    <TableCell align="center">{onlyOneItem.id}</TableCell>
-                    <TableCell align="center">{onlyOneItem.codigoFabricante}</TableCell>
-                    <TableCell align="center">{onlyOneItem.descricao}</TableCell>
-                    <TableCell align="center">{onlyOneItem.marca}</TableCell>
-                    <TableCell align="center" size ="small">{onlyOneItem.tensao}</TableCell>
-                    <TableCell align="center" size ="small">{onlyOneItem.unidade}</TableCell>
-                    <TableCell align="center" size ="small">{onlyOneItem.localizacao}</TableCell>
+                <TableCell align="center" size="medium">{onlyOneItem.material.id}</TableCell>
+                    <TableCell align="center" size="medium">{onlyOneItem.material.codigoFabricante}</TableCell>
+                    
+                    <TableCell align="center" size="medium">{onlyOneItem.material.descricao}</TableCell>
+                    <TableCell align="center" size="small">{onlyOneItem.estoque==null?"Ainda não registrado":onlyOneItem.estoque}</TableCell>
+                    <TableCell align="center" size="small">{onlyOneItem.movimentacao==null?"Ainda não registrado":onlyOneItem.movimentacao+` ${onlyOneItem.material.unidade}`}</TableCell>
+                    <TableCell align="center" size="small">{onlyOneItem.saldoFinal==null?"Ainda não registrado":onlyOneItem.saldoFinal +` ${onlyOneItem.material.unidade}`}</TableCell>
+                    <TableCell align="center" >{onlyOneItem.razao}</TableCell>
+                    <TableCell align="center">
+                      {dayjs(onlyOneItem.dataAlteracao).format(`[${onlyOneItem.movimentacao==null &&onlyOneItem.estoque==0?" Material Criado as " :"Inventário Editado as "}]DD/MM/YYYY [as] HH:mm:ss`)} 
+                    </TableCell>
+                    <TableCell align="center">
+                      {console.log(onlyOneItem.length)} 
+                    </TableCell>
+                    <TableCell align="center" size ="small">{onlyOneItem.responsavel}</TableCell>
                
                     <Button
-                    style={{backgroundColor:'white',marginTop:"7px"}}
+                    style={{backgroundColor:'white',marginTop:"13px",borderWidth:"0px"}}
                       onClick={(x) =>
                         handleChangePageUpdate(onlyOneItem.id)
                       }
@@ -349,7 +356,7 @@ catch(e){
                     </Button>
                 
                   </TableRow>
-                )} */}
+                )} 
 
               </TableBody>
             </Table>

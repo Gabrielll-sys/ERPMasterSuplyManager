@@ -283,21 +283,14 @@ console.log(e)
           required
         />
 
-        {/* <TextField
-          error={severidadeAlert != "warning" || codigoInterno.length ? false : true}
-          value={codigoInterno}
-          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
-          className={createMaterial.inputs}
-          onChange={(e) => setCodigoInterno(e.target.value)}
-          label="Cod Interno"
-          required
-        /> */}
+       
 
         <TextField
         
           value={codigoFabricante}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
           className={createMaterial.inputs}
+          
           error={severidadeAlert != "warning" || !messageAlert=="Já existe um material com este mesmo código de fabricante" ? false : true}
 
           onChange={(e) => setCodigoFabricante(e.target.value)}
