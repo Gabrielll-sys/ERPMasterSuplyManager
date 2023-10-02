@@ -100,6 +100,7 @@ console.log(description)
     .catch();
     console.log(res)
     setMateriais(res)
+    console.log(materiais)
 
    }
    catch(e) 
@@ -168,7 +169,11 @@ console.log(e)
     
 
 
-
+/*
+try{
+  
+}
+*/
     if (!descricao || !unidade) {
       setOpenSnackBar(true);
       setSeveridadeAlert("warning");
@@ -219,7 +224,7 @@ console.log(e)
         // e se somente o material ter sido criado
        if(materialCriado)
        {
-        materiais.push({...materialCriado,nomeCategoria:categoria.toUpperCase()})
+        setMateriais(materialCriado)
 
        }
 
@@ -406,13 +411,14 @@ console.log(e)
                 </TableRow>
               </TableHead>
               <TableBody>
-                { materiais.length>1 && materiais.map((row) => (
+                { materiais.length>=1 && materiais.map((row) => (
                   <TableRow
                     key={row.material.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                 
-                    <TableCell align="center" size="medium">{row.material.categoria}</TableCell>
+                <TableCell align="center" size="medium">{row.material.categoria==undefined?"Ainda Não Registrado":row.material.categoria}</TableCell>
+        
                     <TableCell align="center">{row.material.id}</TableCell>
                     <TableCell align="center">{row.material.codigoFabricante}</TableCell>
                     <TableCell align="center">{row.material.descricao}</TableCell>

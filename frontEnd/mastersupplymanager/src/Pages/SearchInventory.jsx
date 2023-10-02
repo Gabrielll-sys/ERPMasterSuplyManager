@@ -349,7 +349,7 @@ catch(e){
                     <Button
                     style={{backgroundColor:'white',marginTop:"13px",borderWidth:"0px"}}
                       onClick={(x) =>
-                        handleChangePageUpdate(onlyOneItem.id)
+                        handleChangePageUpdate(onlyOneItem.material.id)
                       }
                     >
                       <CreateIcon />

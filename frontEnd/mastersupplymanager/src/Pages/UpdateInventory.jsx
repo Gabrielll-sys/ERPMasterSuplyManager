@@ -27,7 +27,7 @@ const UpdateInventory = ()=>{
 
  const [descricao,setDescricao] = useState("")
  const [codigoInterno,setCodigoInterno] = useState("")
- const [razao,setRazao] = useState("")
+ const [razao,setRazao] = useState("Levantamento de Estoque")
  const [movimento,setMovimento] = useState("")
  const[estoque,setEstoque] = useState()
 const [categoria,setCategoria] = useState("")
@@ -38,7 +38,7 @@ const [categoria,setCategoria] = useState("")
   const[stateBotao,setStateBotao] = useState(false)
 
 useEffect(()=>{
-
+console.log(idInventario.state)
 getItemInventory(idInventario.state).then().catch()
 
 },[])
@@ -46,7 +46,7 @@ getItemInventory(idInventario.state).then().catch()
 
  
 const getItemInventory = async (id) => {
-console.log(id)
+
   try{
 
   const res = await axios
@@ -57,7 +57,7 @@ console.log(id)
      
     })
     .catch();
-    
+    console.log(res)
     setDescricao(res[res.length-1].material.descricao)
     setCategoria(res[res.length-1].material.categoria)
     setCodigoInterno(res[res.length-1].material.id)
