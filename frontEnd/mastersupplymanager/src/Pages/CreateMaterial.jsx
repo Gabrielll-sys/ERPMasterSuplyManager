@@ -22,6 +22,8 @@ import Paper from "@mui/material/Paper";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
+import EditIcon from '@mui/icons-material/Edit';
+
 import dayjs from "dayjs";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
@@ -270,6 +272,10 @@ try{
 
 <Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/")}>
   <SearchIcon sx={{color:"black"}} />
+</Fab>
+
+<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/reportEmission")}>
+  <EditIcon sx={{color:"black"}} />
 </Fab>
 
 </div>

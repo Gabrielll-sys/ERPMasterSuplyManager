@@ -26,6 +26,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
 
 import SearchIcon from '@mui/icons-material/Search';
 const SearchInventory = () => {
@@ -219,6 +220,9 @@ catch(e){
 
 <Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/")}>
   <SearchIcon sx={{color:"black"}} />
+</Fab>
+<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/reportEmission")}>
+  <EditIcon sx={{color:"black"}} />
 </Fab>
 
 </div>
