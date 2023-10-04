@@ -50,7 +50,7 @@ const UpdateMaterial = ()=>{
 useEffect(()=>{
 
     getMaterial(idMaterial.state).then().catch()
-    console.log(idMaterial.state)
+    
 
 
 },[])
@@ -66,7 +66,7 @@ const verifyNull = (item)=>{
  const getMaterial = async(id)=>{
 
  axios.get(`${url}/Materiais/${id}`).then(r=>{
-console.log(r.data.dataEntradaNF)
+console.log(r.data)
 setDataentrada(r.data.dataEntradaNF==null?"":dayjs(r.data.dataEntradaNF))
 setCodigoInterno(r.data.id)
 setUnidade(verifyNull(r.data.unidade))
@@ -93,16 +93,16 @@ const handleUpdateMaterial=  async (id)=>{
 const material = {
     id:id,
     codigoFabricante:codigoFabricante.trim().replace(/\s\s+/g, ' '),
-    descricao:descricao.trim().replace(/\s\s+/g, ' '),
+    codigoInterno:"",
     categoria: oldCategory.trim().replace(/\s\s+/g, " "),
+    descricao:descricao.trim().replace(/\s\s+/g, ' '),
     marca:marca.trim().replace(/\s\s+/g, ' '),
     corrente:corrente.trim().replace(/\s\s+/g, ' '),
     unidade:unidade,
     tensao:tensao,
     corrente:corrente.trim().replace(/\s\s+/g, ' '),
-    dataEntradaNF:dataentrada,
-    codigoInterno:"",
     localizacao:localizacao.trim().replace(/\s\s+/g, ' '),
+    dataEntradaNF:dataentrada,
     }
 
 
@@ -136,7 +136,7 @@ const material = {
 
   })
  
- 
+
 
 }
 
