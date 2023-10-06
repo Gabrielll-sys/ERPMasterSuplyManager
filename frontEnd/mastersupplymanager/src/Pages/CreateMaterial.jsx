@@ -45,7 +45,7 @@ const CreateMaterial = () => {
   const [localizacao, setLocalizacao] = useState("");
   const [corrente, setCorrente] = useState("");
   const [unidade, setUnidade] = useState("UN");
-  const [dataentrada, setDataentrada] = useState();
+  const [dataentrada, setDataentrada] = useState(undefined);
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [messageAlert, setMessageAlert] = useState();
   const [severidadeAlert, setSeveridadeAlert] = useState();
@@ -168,7 +168,7 @@ console.log(e)
     }
   
   const handleCreateMaterial = async () => {
-    
+  
 
 
 /*
@@ -398,21 +398,32 @@ try{
         <div className={createMaterial.card_table}>
           <TableContainer component={Paper} >
             <Table
+            stickyHeader
               sx={{ width: "100vw",  }}
               aria-label="simple table"
             >
               <TableHead>
                 <TableRow>
-                  <TableCell align="center">Categoria</TableCell>
-                  <TableCell align="center">Codigo Interno</TableCell>
-                  <TableCell align="center">Codigo Fabricante</TableCell>
-                  <TableCell align="center">Descrição</TableCell>
-                  <TableCell align="center">Marca</TableCell>
-                  <TableCell align="center">Tensão</TableCell>
+                  <TableCell align="center"
+                          sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"  }} >Categoria</TableCell>
+                  <TableCell align="center"
+                   sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>Cod.Interno</TableCell>
+                  <TableCell align="center"
+                   sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>Cod.Fabricante</TableCell>
+                  <TableCell align="center"
+                   sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>Descrição</TableCell>
+                  <TableCell align="center"
+                   sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>Marca</TableCell>
+                  <TableCell align="center"
+                   sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>Tensão</TableCell>
      
-                  <TableCell align="center">Estoque</TableCell>
+                  <TableCell align="center"
+                  sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>Estoque</TableCell>
 
-                  <TableCell align="center">Localização</TableCell>
+                  <TableCell align="center"
+                  sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>Localização</TableCell>
+                  <TableCell align="center"
+                  sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}></TableCell>
                   {/* <TableCell align="center">DataEntradaNF</TableCell> */}
                 </TableRow>
               </TableHead>
@@ -423,25 +434,32 @@ try{
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                 
-                <TableCell align="center" size="medium">{row.material.categoria==undefined?"Ainda Não Registrado":row.material.categoria}</TableCell>
+                <TableCell align="center" size="medium"
+                sx={{ borderWidth:2,fontSize:"15px",borderColor:"black"   }}>{row.material.categoria==undefined?"Ainda Não Registrado":row.material.categoria}</TableCell>
         
-                    <TableCell align="center">{row.material.id}</TableCell>
-                    <TableCell align="center">{row.material.codigoFabricante}</TableCell>
-                    <TableCell align="center">{row.material.descricao}</TableCell>
-                    <TableCell align="center">{row.material.marca}</TableCell>
-                    <TableCell align="center" size ="small">{row.material.tensao}</TableCell>
+                    <TableCell align="center"
+                    sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>{row.material.id}</TableCell>
+                    <TableCell align="center" sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.material.codigoFabricante}</TableCell>
+                    <TableCell align="center" sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>{row.material.descricao}</TableCell>
+                    <TableCell align="center" sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>{row.material.marca}</TableCell>
+                    <TableCell align="center" size ="small" sx={{ borderWidth:2,fontSize:"15px",borderColor:"black"   }}>{row.material.tensao}</TableCell>
   
-                    <TableCell align="center" size ="small">{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal +" "+row.material.unidade}</TableCell>
-                    <TableCell align="center" size ="small">{row.material.localizacao}</TableCell>
-               
-                    <Button
+                    <TableCell align="center" size ="small"
+                    sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal +" "+row.material.unidade}</TableCell>
+                    <TableCell align="center" size ="small"
+                    sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>{row.material.localizacao}</TableCell>
+                    
+                     <TableCell align="center" size ="small"
+                    sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>      <Button
                     style={{backgroundColor:'white',marginTop:"7px",marginRight:"15px"}}
+                    
                       onClick={(x) =>
                         handleChangeUpdatePage(row.material.id)
                       }
                     >
                       <CreateIcon />
-                    </Button>
+                    </Button></TableCell>
+              
                     {/* <Button
                     disabled={true}
                       style={{ marginLeft: "15px" ,backgroundColor:'white'}}

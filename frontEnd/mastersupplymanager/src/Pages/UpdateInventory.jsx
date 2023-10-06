@@ -157,7 +157,7 @@ catch(e){
     </div>
     <div className={updateInventory.container_botoes}>
     <Button disabled={stateBotao}  className={updateInventory.botao}label="Atualizar Material" onClick={updateInventario} />
-    <Snackbar open={openSnackBar} autoHideDuration={3000} onClose={e=>setOpenSnackBar(false)}>
+    <Snackbar open={openSnackBar} autoHideDuration={2500} onClose={e=>setOpenSnackBar(false)}>
             <MuiAlert onClose={e=>setOpenSnackBar(false)} severity={severidadeAlert} sx={{ width: '100%' }}>
              {messageAlert}
            </MuiAlert>

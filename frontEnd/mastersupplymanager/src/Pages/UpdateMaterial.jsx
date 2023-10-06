@@ -34,7 +34,7 @@ const UpdateMaterial = ()=>{
  const [corrente,setCorrente] = useState("")
  const [localizacao,setLocalizacao] = useState("")
  const [ unidade,setUnidade] = useState("")
- const[dataentrada,setDataentrada] = useState("")
+ const[dataentrada,setDataentrada] = useState(undefined)
  const [openSnackBar,setOpenSnackBar]= useState(false)
  const [ messageAlert,setMessageAlert] = useState();
  const [ severidadeAlert,setSeveridadeAlert] = useState()
@@ -66,8 +66,8 @@ const verifyNull = (item)=>{
  const getMaterial = async(id)=>{
 
  axios.get(`${url}/Materiais/${id}`).then(r=>{
-console.log(r.data)
-setDataentrada(r.data.dataEntradaNF==null?"":dayjs(r.data.dataEntradaNF))
+console.log(r.data.dataEntradaNF)
+ setDataentrada(r.data.dataEntradaNF==undefined?undefined:dayjs(r.data.dataEntradaNF))
 setCodigoInterno(r.data.id)
 setUnidade(verifyNull(r.data.unidade))
 setCodigoFabricante(verifyNull(r.data.codigoFabricante))
@@ -77,7 +77,6 @@ setDescricao(verifyNull(r.data.descricao))
 setOldCategory(verifyNull(r.data.categoria))
 setLocalizacao(verifyNull(r.data.localizacao))
 
-
 setTensao(verifyNull(tensoes[tensoes.findIndex((x)=>x==r.data.tensao)]))
 
  })
@@ -86,21 +85,20 @@ setTensao(verifyNull(tensoes[tensoes.findIndex((x)=>x==r.data.tensao)]))
 
 
 const handleUpdateMaterial=  async (id)=>{
-
+console.log(dataentrada)
 
 
   // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
 const material = {
     id:id,
-    codigoFabricante:codigoFabricante.trim().replace(/\s\s+/g, ' '),
     codigoInterno:"",
+    codigoFabricante:codigoFabricante.trim().replace(/\s\s+/g, ' '),
     categoria: oldCategory.trim().replace(/\s\s+/g, " "),
     descricao:descricao.trim().replace(/\s\s+/g, ' '),
     marca:marca.trim().replace(/\s\s+/g, ' '),
     corrente:corrente.trim().replace(/\s\s+/g, ' '),
     unidade:unidade,
     tensao:tensao,
-    corrente:corrente.trim().replace(/\s\s+/g, ' '),
     localizacao:localizacao.trim().replace(/\s\s+/g, ' '),
     dataEntradaNF:dataentrada,
     }
@@ -109,7 +107,7 @@ const material = {
   const materialAtualizado =  await axios.put(`${url}/Materiais/${id}`,material)
   .then(r=>
     {  
-
+      console.log(r)
       setOpenSnackBar(true)
       setSeveridadeAlert("success")
       setMessageAlert("Material Atualizado com sucesso")

@@ -242,7 +242,7 @@ catch(e){
           required
         />
 
-<TextField
+{/* <TextField
           
           value={codigoFabricante}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
@@ -250,7 +250,7 @@ catch(e){
           onChange={(e) => setCodigoFabricante(e.target.value)}
           label="Código Fabricante"
           required
-        />
+        /> */}
 
         {/* <TextField
           value={descricao}
@@ -267,21 +267,31 @@ catch(e){
         <div className={searchInventory.card_table}>
           <TableContainer component={Paper}>
             <Table
-              sx={{ width: "97vw", margin: "auto" }}
+              sx={{ width: "100vw", margin: "auto" }}
               aria-label="simple table"
             >
               <TableHead>
                 <TableRow>
-                  <TableCell align="center">Cod.Interno</TableCell>
-                  <TableCell align="center">Cod.Fabricante</TableCell>
-                  <TableCell align="center">Descrição</TableCell>
-                  <TableCell align="center" size="small">Estoque</TableCell>
-                  <TableCell align="center" size="small">Movimentação</TableCell>
-                  <TableCell align="center" size="small">Saldo Final</TableCell>
-                  <TableCell align="center">Razão</TableCell>
-                  <TableCell align="center">Data </TableCell>
-                  <TableCell align="center">Usuario</TableCell>
-                  <TableCell align="center" size="small"> 
+                  <TableCell align="center"
+                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Cod.Interno</TableCell>
+                  <TableCell align="center"
+                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Cod.Fabricante</TableCell>
+                  <TableCell align="center"
+                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Descrição</TableCell>
+                  <TableCell align="center" size="small"
+                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Estoque</TableCell>
+                  <TableCell align="center" size="small"
+                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Movimentação</TableCell>
+                  <TableCell align="center" size="small"
+                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Saldo Final</TableCell>
+                  <TableCell align="center"
+                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Razão</TableCell>
+                  <TableCell align="center"
+                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Data </TableCell>
+                  <TableCell align="center"
+                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Usuario</TableCell>
+                  <TableCell align="center" size="small"
+                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}> 
                   
                 {showAll? <Button style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={x=>handleShowAll(inventarios)}><VisibilityIcon/></Button>:
                 <Button style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={x=>handleShowAll(inventarios)}><VisibilityOffIcon/></Button>}
@@ -338,7 +348,7 @@ catch(e){
                     <TableCell align="center" size="medium">{onlyOneItem.material.codigoFabricante}</TableCell>
                     
                     <TableCell align="center" size="medium">{onlyOneItem.material.descricao}</TableCell>
-                    <TableCell align="center" size="small">{onlyOneItem.estoque==null?"Ainda não registrado":onlyOneItem.estoque}</TableCell>
+                    <TableCell align="center" size="small">{onlyOneItem.estoque==null?"Ainda não registrado":onlyOneItem.estoque+ ` ${onlyOneItem.material.unidade}`} </TableCell>
                     <TableCell align="center" size="small">{onlyOneItem.movimentacao==null?"Ainda não registrado":onlyOneItem.movimentacao+` ${onlyOneItem.material.unidade}`}</TableCell>
                     <TableCell align="center" size="small">{onlyOneItem.saldoFinal==null?"Ainda não registrado":onlyOneItem.saldoFinal +` ${onlyOneItem.material.unidade}`}</TableCell>
                     <TableCell align="center" >{onlyOneItem.razao}</TableCell>
