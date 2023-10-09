@@ -23,7 +23,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
 import EditIcon from '@mui/icons-material/Edit';
-
+import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import dayjs from "dayjs";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
@@ -275,7 +275,7 @@ try{
 </Fab>
 
 <Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/reportEmission")}>
-  <EditIcon sx={{color:"black"}} />
+  <LocalPrintshopIcon sx={{color:"black"}} />
 </Fab>
 
 </div>
@@ -405,25 +405,25 @@ try{
               <TableHead>
                 <TableRow>
                   <TableCell align="center"
-                          sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"  }} >Categoria</TableCell>
+                          sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"  }} >Categoria</TableCell>
                   <TableCell align="center"
-                   sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>Cod.Interno</TableCell>
+                   sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Cod.Interno</TableCell>
                   <TableCell align="center"
-                   sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>Cod.Fabricante</TableCell>
+                   sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Cod.Fabricante</TableCell>
                   <TableCell align="center"
-                   sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>Descrição</TableCell>
+                   sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Descrição</TableCell>
                   <TableCell align="center"
-                   sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>Marca</TableCell>
+                   sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Marca</TableCell>
                   <TableCell align="center"
-                   sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>Tensão</TableCell>
+                   sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Tensão</TableCell>
      
                   <TableCell align="center"
-                  sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>Estoque</TableCell>
+                  sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Estoque</TableCell>
 
                   <TableCell align="center"
-                  sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>Localização</TableCell>
+                  sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Localização</TableCell>
                   <TableCell align="center"
-                  sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}></TableCell>
+                  sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}></TableCell>
                   {/* <TableCell align="center">DataEntradaNF</TableCell> */}
                 </TableRow>
               </TableHead>
@@ -435,22 +435,22 @@ try{
                   >
                 
                 <TableCell align="center" size="medium"
-                sx={{ borderWidth:2,fontSize:"15px",borderColor:"black"   }}>{row.material.categoria==undefined?"Ainda Não Registrado":row.material.categoria}</TableCell>
+                sx={{ borderWidth:1,fontSize:"15px",borderColor:"black"   }}>{row.material.categoria==undefined?"Ainda Não Registrado":row.material.categoria}</TableCell>
         
                     <TableCell align="center"
-                    sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>{row.material.id}</TableCell>
-                    <TableCell align="center" sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.material.codigoFabricante}</TableCell>
-                    <TableCell align="center" sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>{row.material.descricao}</TableCell>
-                    <TableCell align="center" sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>{row.material.marca}</TableCell>
-                    <TableCell align="center" size ="small" sx={{ borderWidth:2,fontSize:"15px",borderColor:"black"   }}>{row.material.tensao}</TableCell>
+                    sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.material.id}</TableCell>
+                    <TableCell align="center" sx={{ borderWidth:1,fontSize:"16px",borderColor:"black"   }}>{row.material.codigoFabricante}</TableCell>
+                    <TableCell align="center" sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.material.descricao}</TableCell>
+                    <TableCell align="center" sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.material.marca}</TableCell>
+                    <TableCell align="center" size ="small" sx={{ borderWidth:1,fontSize:"15px",borderColor:"black"   }}>{row.material.tensao}</TableCell>
   
                     <TableCell align="center" size ="small"
-                    sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal +" "+row.material.unidade}</TableCell>
+                    sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal +" "+row.material.unidade}</TableCell>
                     <TableCell align="center" size ="small"
-                    sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>{row.material.localizacao}</TableCell>
+                    sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.material.localizacao}</TableCell>
                     
                      <TableCell align="center" size ="small"
-                    sx={{ borderWidth:2,fontSize:"20px",borderColor:"black"   }}>      <Button
+                    sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>      <Button
                     style={{backgroundColor:'white',marginTop:"7px",marginRight:"15px"}}
                     
                       onClick={(x) =>
@@ -458,7 +458,8 @@ try{
                       }
                     >
                       <CreateIcon />
-                    </Button></TableCell>
+                    </Button>
+                    </TableCell>
               
                     {/* <Button
                     disabled={true}

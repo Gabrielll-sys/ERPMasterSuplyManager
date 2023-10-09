@@ -35,7 +35,7 @@ const [categoria,setCategoria] = useState("")
  const [openSnackBar,setOpenSnackBar]= useState(false)
  const [ messageAlert,setMessageAlert] = useState();
  const [ severidadeAlert,setSeveridadeAlert] = useState()
-  const[stateBotao,setStateBotao] = useState(false)
+const[stateBotao,setStateBotao] = useState(false)
 
 useEffect(()=>{
 console.log(idInventario.state)
@@ -131,11 +131,11 @@ catch(e){
 
 
     <TextField  disabled={true}   value={codigoInterno} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
-    className={updateInventory.inputs} onChange={e=>setCodigoInterno(e.target.value)} label='Código' required />
+    className={updateInventory.inputs} onChange={e=>setCodigoInterno(e.target.value)} label='Cod.Interno' required />
 
 
-    <TextField  disabled={true}   value={categoria} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
-    className={updateInventory.inputs} onChange={e=>setCategoria(e.target.value)} label='Categoria' required />
+    {/* <TextField  disabled={true}   value={categoria} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
+    className={updateInventory.inputs} onChange={e=>setCategoria(e.target.value)} label='Categoria' required /> */}
 
     <TextField  disabled={true}  value={descricao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
     className={updateInventory.inputs} onChange={e=>setDescricao(e.target.value)} label='Descrição' required />

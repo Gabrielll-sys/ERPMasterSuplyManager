@@ -12,7 +12,8 @@ namespace SupplyManager.App
         public DbSet<Material> Materiais { get; set; }
         public DbSet<Inventario> Inventarios { get; set; }
 
-/*        public DbSet<Categoria> Categorias { get; set; }
-*/
+        public DbSet<OrdemServico> OrdemServicos { get; set; }
+        public DbSet<Item> Item { get; set; }
+
     }
 }

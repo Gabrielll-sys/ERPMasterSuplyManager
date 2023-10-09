@@ -49,20 +49,7 @@ namespace SupplyManager.Controllers
 
             var s1 = workbook.CreateSheet("Planilha 1");
             var materiais = await _context.Materiais.ToListAsync();
-            /*
-                        foreach( var mat in materiais )
-                        {
-
-                            for(int i = 1; i < 13; i++)
-                            {
-
-                                s1.CreateRow(i).CreateCell(i).SetCellValue(mat.Descricao);
-                            }
-
-                        }
-
-                        workbook.Write(sw);
-                        sw.Close();*/
+          
             return materiais == null ? NotFound() : Ok(materiais);
 
         }
@@ -89,7 +76,7 @@ namespace SupplyManager.Controllers
 
             catch (KeyNotFoundException)
             {
-                return StatusCode(StatusCodes.Status400BadRequest);
+                return StatusCode(StatusCodes.Status404NotFound);
             }
             catch (Exception exception)
             {

@@ -27,6 +27,7 @@ import dayjs from "dayjs";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
+import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 
 import SearchIcon from '@mui/icons-material/Search';
 const SearchInventory = () => {
@@ -222,7 +223,8 @@ catch(e){
   <SearchIcon sx={{color:"black"}} />
 </Fab>
 <Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/reportEmission")}>
-  <EditIcon sx={{color:"black"}} />
+<LocalPrintshopIcon sx={{color:"black"}} />
+
 </Fab>
 
 </div>
@@ -242,24 +244,7 @@ catch(e){
           required
         />
 
-{/* <TextField
-          
-          value={codigoFabricante}
-          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
-          className="inputs"
-          onChange={(e) => setCodigoFabricante(e.target.value)}
-          label="Código Fabricante"
-          required
-        /> */}
 
-        {/* <TextField
-          value={descricao}
-          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"420px"}}
-          className="inputs"
-          onChange={(e) => setDescricao(e.target.value)}
-          label="Descrição Item"
-        />
- */}
 
      
       </div>
@@ -294,7 +279,9 @@ catch(e){
                   sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}> 
                   
                 {showAll? <Button style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={x=>handleShowAll(inventarios)}><VisibilityIcon/></Button>:
-                <Button style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={x=>handleShowAll(inventarios)}><VisibilityOffIcon/></Button>}
+                <Button 
+                sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}
+                style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={x=>handleShowAll(inventarios)}><VisibilityOffIcon/></Button>}
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -305,27 +292,35 @@ catch(e){
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                 
-                    <TableCell align="center" size="medium">{row.material.id}</TableCell>
-                    <TableCell align="center" size="medium">{row.material.codigoFabricante}</TableCell>
+                    <TableCell align="center" size="medium"
+                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.material.id}</TableCell>
+                    <TableCell align="center" size="medium"
+                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.material.codigoFabricante}</TableCell>
                     
-                    <TableCell align="center" size="medium">{row.material.descricao}</TableCell>
-                    <TableCell align="center" size="small">{row.estoque==null?"Ainda não registrado":row.estoque}</TableCell>
-                    <TableCell align="center" size="small">{row.movimentacao==null?"Ainda não registrado":row.movimentacao+` ${row.material.unidade}`}</TableCell>
-                    <TableCell align="center" size="small">{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal +` ${row.material.unidade}`}</TableCell>
-                    <TableCell align="center" >{row.razao}</TableCell>
-                    <TableCell align="center">
+                    <TableCell align="center" size="medium"
+                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.material.descricao}</TableCell>
+                    <TableCell align="center" size="small"
+                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.estoque==null?"Ainda não registrado":row.estoque}</TableCell>
+                    <TableCell align="center" size="small"
+                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.movimentacao==null?"Ainda não registrado":row.movimentacao+` ${row.material.unidade}`}</TableCell>
+                    <TableCell align="center" size="small"
+                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal +` ${row.material.unidade}`}</TableCell>
+                    <TableCell align="center" 
+                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.razao}</TableCell>
+
+                    <TableCell align="center"  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>
                       {dayjs(row.dataAlteracao).format(`[${row.movimentacao==null &&row.estoque==0?" Material Criado as " :"Inventário Editado as "}]DD/MM/YYYY [as] HH:mm:ss`)} 
                     </TableCell>
-                    <TableCell align="center">
-                      {console.log(row.length)} 
-                    </TableCell>
-                    <TableCell align="center" size ="small">{row.responsavel}</TableCell>
+                   
+                    <TableCell align="center" size ="small"  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.responsavel}</TableCell>
+                   
 
                     
                     {/* Caso o o item da linha seja o ultimo listado da sequencia de edições do inventário,então permitirá a edição,isso impede de editar estoque e edições passadas */}
                     <Button
                     
                     disabled={inventarios[inventarios.length-1].id==row.id?false:true}
+                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}
                     style={{backgroundColor:'white',marginTop:"13px",borderWidth:"0px"}}
                       onClick={(x) =>
                         handleChangePageUpdate(row.material.id)
@@ -344,24 +339,32 @@ catch(e){
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                 
-                <TableCell align="center" size="medium">{onlyOneItem.material.id}</TableCell>
-                    <TableCell align="center" size="medium">{onlyOneItem.material.codigoFabricante}</TableCell>
+                <TableCell align="center" size="medium"
+                sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{onlyOneItem.material.id}</TableCell>
+                    <TableCell align="center" size="medium"
+                    sx={{ borderWidth:2,fontSize:"14px",borderColor:"black"   }}>{onlyOneItem.material.codigoFabricante}</TableCell>
                     
-                    <TableCell align="center" size="medium">{onlyOneItem.material.descricao}</TableCell>
-                    <TableCell align="center" size="small">{onlyOneItem.estoque==null?"Ainda não registrado":onlyOneItem.estoque+ ` ${onlyOneItem.material.unidade}`} </TableCell>
-                    <TableCell align="center" size="small">{onlyOneItem.movimentacao==null?"Ainda não registrado":onlyOneItem.movimentacao+` ${onlyOneItem.material.unidade}`}</TableCell>
-                    <TableCell align="center" size="small">{onlyOneItem.saldoFinal==null?"Ainda não registrado":onlyOneItem.saldoFinal +` ${onlyOneItem.material.unidade}`}</TableCell>
-                    <TableCell align="center" >{onlyOneItem.razao}</TableCell>
-                    <TableCell align="center">
+                    <TableCell align="center" size="medium"
+                    sx={{ borderWidth:2,fontSize:"14px",borderColor:"black"   }}>{onlyOneItem.material.descricao}</TableCell>
+                    <TableCell align="center" size="small"
+                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{onlyOneItem.estoque==null?"Ainda não registrado":onlyOneItem.estoque+ ` ${onlyOneItem.material.unidade}`} </TableCell>
+                    <TableCell align="center" size="small"
+                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{onlyOneItem.movimentacao==null?"Ainda não registrado":onlyOneItem.movimentacao+` ${onlyOneItem.material.unidade}`}</TableCell>
+                    <TableCell align="center" size="small"
+                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{onlyOneItem.saldoFinal==null?"Ainda não registrado":onlyOneItem.saldoFinal +` ${onlyOneItem.material.unidade}`}</TableCell>
+                    <TableCell align="center" 
+                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{onlyOneItem.razao}</TableCell>
+                    <TableCell align="center"
+                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>
                       {dayjs(onlyOneItem.dataAlteracao).format(`[${onlyOneItem.movimentacao==null &&onlyOneItem.estoque==0?" Material Criado as " :"Inventário Editado as "}]DD/MM/YYYY [as] HH:mm:ss`)} 
                     </TableCell>
-                    <TableCell align="center">
-                      {console.log(onlyOneItem.length)} 
-                    </TableCell>
-                    <TableCell align="center" size ="small">{onlyOneItem.responsavel}</TableCell>
+                 
+                    <TableCell align="center" size ="small"
+                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{onlyOneItem.responsavel}</TableCell>
                
                     <Button
                     style={{backgroundColor:'white',marginTop:"13px",borderWidth:"0px"}}
+                    
                       onClick={(x) =>
                         handleChangePageUpdate(onlyOneItem.material.id)
                       }
