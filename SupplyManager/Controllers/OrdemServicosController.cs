@@ -33,11 +33,11 @@ namespace SupplyManager.Controllers
 
 
 
-        public async Task <ActionResult<OrdemServico>> Get(int id)
+        public async Task<ActionResult<OrdemServico>> Get(int id)
         {
 
 
-            var a = await _context.OrdemServicos.FirstOrDefaultAsync(x=>x.Id == id);
+            var a = await _context.OrdemServicos.FirstOrDefaultAsync(x => x.Id == id);
 
 
             return Ok(a);
@@ -46,13 +46,18 @@ namespace SupplyManager.Controllers
 
         }
 
-
-        public async Task <ActionResult<OrdemServico>> Create ( OrdemServico model)
+        [HttpPost]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<OrdemServico>> Create(OrdemServico model)
         {
             try
             {
 
-            OrdemServico o1 = new OrdemServico(model.Descricao, model.Responsavel);
+                OrdemServico o1 = new OrdemServico(model.Descricao, model.Responsavel);
 
 
                 return Ok(o1);
@@ -61,8 +66,8 @@ namespace SupplyManager.Controllers
 
             }
 
-           
-            catch(Exception exception)
+
+            catch (Exception exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
             }
@@ -75,40 +80,40 @@ namespace SupplyManager.Controllers
 
 
 
-        [HttpPut("{updateAuthorize/{id}")]
+        [HttpPut("updateAuthorize/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-        public async Task<ActionResult<OrdemServico>> UpdateAuthorize([FromRoute]int id,[FromBody] OrdemServico model) 
+        public async Task<ActionResult<OrdemServico>> UpdateAuthorize([FromRoute] int id, [FromBody] OrdemServico model)
         {
-        
-           if ( model.Id != id) return BadRequest();
+
+            if (model.Id != id) return BadRequest();
 
 
             var itens = await _context.Item.ToListAsync();
 
-           var a = await _context.OrdemServicos.FirstOrDefaultAsync (x=>x.Id == id);
-            return NotFound(a);
+            var a = await _context.OrdemServicos.FirstOrDefaultAsync(x => x.Id == id);
 
+            return NotFound();
             try
             {
 
                 a.AutorizarOs();
 
 
-                foreach(Item item in itens)
+                foreach (Item item in itens)
                 {
-                    if(item.OrdemServicoId == model.Id)
+                    if (item.OrdemServicoId == model.Id)
                     {
 
                         var invetario = await _context.Inventarios.FirstOrDefaultAsync();
 
 
 
-                            return Ok();
+                        return Ok();
 
                     }
 
@@ -118,8 +123,8 @@ namespace SupplyManager.Controllers
 
 
             }
-           
-            catch(KeyNotFoundException)
+
+            catch (KeyNotFoundException)
             {
                 return StatusCode(StatusCodes.Status404NotFound);
             }
@@ -132,7 +137,7 @@ namespace SupplyManager.Controllers
 
 
 
-        
+
         }
 
 

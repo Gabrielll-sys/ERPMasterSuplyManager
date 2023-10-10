@@ -8,7 +8,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { url } from "../contetxs/webApiUrl";
 import CreateIcon from "@mui/icons-material/Create";
 import "dayjs/locale/pt-br";
-import DeleteIcon from "@mui/icons-material/Delete";
+
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import  createMaterial from "../style/createMaterial.module.css"
 import MuiAlert from "@mui/material/Alert";
@@ -22,9 +22,7 @@ import Paper from "@mui/material/Paper";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
-import EditIcon from '@mui/icons-material/Edit';
 import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
-import dayjs from "dayjs";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -54,7 +52,7 @@ const CreateMaterial = () => {
 
   const [materiais, setMateriais] = useState([]);
 
-  const unidadeMaterial = ["UN", "RL", "PC", "MT", "P"];
+  const unidadeMaterial = ["UN", "RL", "MT", "P"];
   const tensoes = ["","12V","24V","127V","220V","380V","440V","660V"]
 
 
@@ -64,7 +62,7 @@ useEffect(()=>{
 const description = sessionStorage.getItem("description")
 
 if(description) setDescricao(description)
-console.log(description)
+getAllMaterials().then().catch()
 
 },[])
 
@@ -80,14 +78,39 @@ console.log(description)
 
   useEffect(() => {
         //Irá começar a realizar a busca somente quando  a categoria tiver 3 caracteres
-    if (categoria.length>=3) {
+    if (codigoFabricante.length>=4) {
       
-      searchByCategory().then().catch();
+      searchByFabricanteCode().then().catch();
 
     }
     setMateriais([])
 
-  }, [categoria]);
+  }, [codigoFabricante]);
+
+  const searchByFabricanteCode = async () => {
+
+    try{
+     const res = await axios
+     .get(`${url}/Inventarios/buscaCodigoFabricante?codigo=${codigoFabricante}`)
+     .then( (r)=> {
+       
+      return r.data
+      
+     })
+     .catch();
+    
+     setMateriais(res)
+ 
+ 
+    }
+    catch(e) 
+    
+    { 
+ console.log(e)
+    }
+   
+ };
+
 
   const searchByDescription = async () => {
 
@@ -100,9 +123,8 @@ console.log(description)
      
     })
     .catch();
-    console.log(res)
+
     setMateriais(res)
-    console.log(materiais)
 
    }
    catch(e) 
@@ -186,7 +208,7 @@ try{
         codigoInterno: codigoInterno.trim().replace(/\s\s+/g, " "),
         codigoFabricante: codigoFabricante.trim().replace(/\s\s+/g, " "),
         descricao: descricao.trim().replace(/\s\s+/g, " "),
-        categoria: categoria.trim().replace(/\s\s+/g, " "),
+        categoria: "",
         marca: marca.trim().replace(/\s\s+/g, " "),
         corrente: corrente.trim().replace(/\s\s+/g, " "),
         unidade: unidade.trim().replace(/\s\s+/g, " "),
@@ -230,35 +252,35 @@ try{
 
        }
 
-      //Quando criar o material,chamara o metodo para atualizar os dados da tabela
+
 
     }
   };
 
-  const deleteMaterial = async (id) => {
+  const getAllMaterials =  async ()=>{
 
-    await axios
-      .delete(`${url}/Materiais/${id}`)
-      .then((r) => {
-        setOpenSnackBar(true);
-        setSeveridadeAlert("success");
-        setMessageAlert("Material excluído com sucesso");
-        //realiza um filtro na lista de materias que esta sendo mostrada,para remover o item que acabou de ser excluido, e assim a atualizar os materias que estão a amostra
-        const a = materiais.filter(x=> x.id!=id)
-        setMateriais(a)
-      })
-      .catch((e) => console.log(e));
-  };
-  const getCategoria = async (id) => {
 
-    const res = await axios
-      .get(`${url}/Categorias/${id}`)
-      .then(async(r) => {
-        return await r.data
-      });
+    const res =  await axios
+    .get(`${url}/Materiais`)
+    .then( (r)=> {
+      
+      
+     return r.data
+     
+    })
+    .catch();
 
     
-  };
+  res.forEach(x=>{
+
+    if(x.descricao.includes("CAIXA")){
+      console.log(x.descricao)
+    }
+    
+  })
+  
+  }
+
 
   return (
     <>
@@ -274,7 +296,7 @@ try{
   <SearchIcon sx={{color:"black"}} />
 </Fab>
 
-<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/reportEmission")}>
+<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/OsManagement")}>
   <LocalPrintshopIcon sx={{color:"black"}} />
 </Fab>
 
@@ -282,7 +304,7 @@ try{
       <h1 className={createMaterial.h1}>Criação de Material</h1>
 
       <div className={createMaterial.container_inputs}>
-        <TextField
+        {/* <TextField
           error={
             severidadeAlert != "warning" || categoria.length ? false : true
           }
@@ -292,7 +314,7 @@ try{
           onChange={(e) => setCategoria(e.target.value)}
           label="Categoria"
           required
-        />
+        /> */}
 
        
 
@@ -314,7 +336,7 @@ try{
             severidadeAlert != "warning" || descricao.length ? false : true
           }
           value={descricao}
-          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px",width:"320px" }}
           className={createMaterial.inputs}
           onChange={(e) => setDescricao(e.target.value)}
           label="Descrição"
@@ -440,7 +462,7 @@ try{
                     <TableCell align="center"
                     sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.material.id}</TableCell>
                     <TableCell align="center" sx={{ borderWidth:1,fontSize:"16px",borderColor:"black"   }}>{row.material.codigoFabricante}</TableCell>
-                    <TableCell align="center" sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.material.descricao}</TableCell>
+                    <TableCell align="center" sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }} onClick={(x)=>setDescricao(row.material.descricao)}>{row.material.descricao}</TableCell>
                     <TableCell align="center" sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.material.marca}</TableCell>
                     <TableCell align="center" size ="small" sx={{ borderWidth:1,fontSize:"15px",borderColor:"black"   }}>{row.material.tensao}</TableCell>
   

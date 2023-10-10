@@ -16,27 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `__efmigrationshistory`
+-- Table structure for table `item`
 --
 
-DROP TABLE IF EXISTS `__efmigrationshistory`;
+DROP TABLE IF EXISTS `item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `__efmigrationshistory` (
-  `MigrationId` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `ProductVersion` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`MigrationId`)
+CREATE TABLE `item` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `MaterialId` int NOT NULL,
+  `OrdemServicoId` int NOT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `IX_Item_MaterialId` (`MaterialId`),
+  KEY `IX_Item_OrdemServicoId` (`OrdemServicoId`),
+  CONSTRAINT `FK_Item_Materiais_MaterialId` FOREIGN KEY (`MaterialId`) REFERENCES `materiais` (`Id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_Item_OrdemServicos_OrdemServicoId` FOREIGN KEY (`OrdemServicoId`) REFERENCES `ordemservicos` (`Id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `__efmigrationshistory`
+-- Dumping data for table `item`
 --
 
-LOCK TABLES `__efmigrationshistory` WRITE;
-/*!40000 ALTER TABLE `__efmigrationshistory` DISABLE KEYS */;
-INSERT INTO `__efmigrationshistory` VALUES ('20230803235036_v1','7.0.9'),('20230804104822_v2','7.0.9'),('20230805171427_v3','7.0.9'),('20230807121840_v4','7.0.9'),('20230808160507_v5','7.0.9'),('20230811110946_v6','7.0.9'),('20230819220341_v7','7.0.9'),('20230824163008_ v8','7.0.9'),('20230830193848_v9','7.0.9'),('20230912174901_v10','7.0.9'),('20230915182050_v11','7.0.9'),('20230926111041_v12','7.0.9');
-/*!40000 ALTER TABLE `__efmigrationshistory` ENABLE KEYS */;
+LOCK TABLES `item` WRITE;
+/*!40000 ALTER TABLE `item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-09 16:58:23
+-- Dump completed on 2023-10-10 16:55:15

@@ -57,7 +57,6 @@ const getItemInventory = async (id) => {
      
     })
     .catch();
-    console.log(res)
     setDescricao(res[res.length-1].material.descricao)
     setCategoria(res[res.length-1].material.categoria)
     setCodigoInterno(res[res.length-1].material.id)

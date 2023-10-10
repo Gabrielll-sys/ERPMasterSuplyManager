@@ -222,7 +222,7 @@ catch(e){
 <Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/")}>
   <SearchIcon sx={{color:"black"}} />
 </Fab>
-<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/reportEmission")}>
+<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/osManagement")}>
 <LocalPrintshopIcon sx={{color:"black"}} />
 
 </Fab>

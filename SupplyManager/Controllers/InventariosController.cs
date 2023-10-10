@@ -13,6 +13,7 @@ using SupplyManager.App;
 using SupplyManager.Models;
 using SupplyManager.Validations.InventarioValidations;
 using SupplyManager.Validations.MateriaisValidations;
+using static NPOI.HSSF.Util.HSSFColor;
 
 namespace SupplyManager.Controllers
 {
@@ -36,7 +37,62 @@ namespace SupplyManager.Controllers
             _context = context;
         }
 
+        [HttpGet()]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<Material>> GetAllInventarios()
+        {
 
+            try
+            {
+                var queryMaterial = from query in _context.Materiais select query;
+                var queryInvetory = await _context.Inventarios.ToListAsync();
+
+                List<Inventario> listInvetory = new List<Inventario>();
+
+
+                //Realiza uma busca no banco de materias para buscar match na descrição de acordo com a busca
+  
+                var materiais = await queryMaterial.ToListAsync();
+                //Faz um iteração em todos os materiais com aquela descrição
+                foreach (var item in materiais)
+                {
+                    //Realiza um filtro buscando todos os invetários daquele material,ou seja,retornara todos os registros de invetário daquele produto
+                    var inventarios = queryInvetory.Where(x => x.MaterialId == item.Id).ToList();
+
+
+                    var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == inventarios[0].MaterialId);
+
+
+                    inventarios[inventarios.Count - 1].Material = material;
+
+
+
+                    listInvetory.Add(inventarios[inventarios.Count - 1]);
+
+
+
+
+
+                }
+
+                return Ok(listInvetory);
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+
+
+        }
 
         [HttpGet("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -111,7 +167,64 @@ namespace SupplyManager.Controllers
 
 
         }
+        //Metodo para trazer a lista de material e inventário junto
+        [HttpGet("buscaCodigoFabricante")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<Material>> BuscaCodigoFabricante(string codigo)
+        {
 
+
+            try
+            {
+                var queryMaterial = from query in _context.Materiais select query;
+                var queryInvetory = await _context.Inventarios.ToListAsync();
+
+                List<Inventario> listInvetory = new List<Inventario>();
+
+
+                //Realiza uma busca no banco de materias para buscar match na descrição de acordo com a busca
+                queryMaterial = queryMaterial.Where(x => x.CodigoFabricante.Contains(codigo)).OrderBy(x => x.Id);
+                var materiais = await queryMaterial.ToListAsync();
+                //Faz um iteração em todos os materiais com aquela descrição
+              foreach (var item in materiais)
+                {
+                    //Realiza um filtro buscando todos os invetários daquele material,ou seja,retornara todos os registros de invetário daquele produto
+                    var inventarios = queryInvetory.Where(x => x.MaterialId == item.Id).ToList();
+
+
+                    var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == inventarios[0].MaterialId);
+
+
+                    inventarios[inventarios.Count - 1].Material = material;
+
+
+
+                    listInvetory.Add(inventarios[inventarios.Count - 1]);
+
+
+
+
+
+                }
+
+                return Ok(listInvetory);
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+
+
+        }
         [HttpGet(template: "buscaDescricaoInventario")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -168,7 +281,7 @@ namespace SupplyManager.Controllers
             }
 
         }
-    [HttpPost()]
+        [HttpPost()]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
