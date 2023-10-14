@@ -6,6 +6,7 @@ import UpdateMaterial from "./Pages/UpdateMaterial";
 import SearchInventory from "./Pages/SearchInventory";
 import UpdateInvetory from "./Pages/UpdateInventory";
 import OsManagement from "./Pages/OsManagement";
+import IncludingMaterialOS from "./Pages/IncludingMaterialOS";
 function App() {
   
   const queryClient = new QueryClient()
@@ -20,8 +21,9 @@ function App() {
           <Routes>
             <Route path="/createMaterial" element={<CreateMaterial />} />
             <Route path="/updateMaterial" element={<UpdateMaterial />} />
-            <Route path="/" element={<SearchInventory />} />
+            <Route path="/searchInvetory" element={<SearchInventory />} />
             <Route path="/updateInventory" element={<UpdateInvetory />} />
+            <Route path="/" element={<IncludingMaterialOS />} />
             <Route path = "/osManagement" element ={<OsManagement/>}/>
           </Routes>
         </Router>
