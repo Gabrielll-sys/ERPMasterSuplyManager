@@ -27,6 +27,12 @@ margin-top: 10px;
 
 
 }
+.container_list{
+  margin: auto;
+
+  text-align: center;
+  width: 30vw;
+}
 .container_materials{
 display: flex;
 flex-direction: row;

@@ -48,6 +48,8 @@ const IncludingMaterialOS = ()=>{
     let[materialsOs,setMaterialsOs] = useState([])
     const [openDialog,setOpenDialog] = useState(false)
     const [quantidadeMaterial,setQuantidadeMaterial] = useState()
+    const [object,setObject] = useState([])
+    
     useEffect(() => {
         //Irá começar a realizar a busca somente quando  a descrição tiver 3 caracteres
         if (descricao.length>=3) {
@@ -84,41 +86,39 @@ const IncludingMaterialOS = ()=>{
 
 
 const handleAddMaterial = ()=>{
-    console.log(quantidadeMaterial)
-    console.log(materialsOs[materialsOs.length-1].saldoFinal)
-    
 
-    materialsOs[materialsOs.length-1].saldoFinal =  materialsOs[materialsOs.length-1].saldoFinal - quantidadeMaterial
+  
+  if(!materialsOs.includes(object)){
 
+          const b =  object.saldoFinal - quantidadeMaterial
 
-    console.log(materialsOs[materialsOs.length-1].saldoFinal)
-    // if(!materialsOs.includes(item)){
-    //     //Adiciona o invetário/material a lista da OS
-    //     console.log(materialsOs.includes(item))
-    //     materialsOs.push(item)
-    //     setOpenSnackBar(true);
-    //     setSeveridadeAlert("success");
-    //     setMessageAlert("Material adiciona a lista da OS");
+          object.saldoFinal = b
+      materialsOs.push(object)
+      setOpenSnackBar(true);
+      setSeveridadeAlert("success");
+      setMessageAlert("Material adiciona a lista da OS");
+  
+  }
+  else{
+      setOpenSnackBar(true);
+      setSeveridadeAlert("warning");
+      setMessageAlert("Este Material Já esta na lista da OS");
+  }
 
-    // }
-    // else{
-    //     setOpenSnackBar(true);
-    //     setSeveridadeAlert("warning");
-    //     setMessageAlert("Este Material Já esta na lista da OS");
-    // }
     setOpenDialog(false)
     setQuantidadeMaterial()
 
 }
-const handleOpenDialog = (item)=>{
-    console.log(item)
- materialsOs.push(item)
-setOpenDialog(true)
-// console.log(materialsOs)
-
+const handleOpenDialog =  (item)=>{
+ 
+  //Esta linha serve para criar uma copia do objeto,pois se eu pegar o item do paramametro direto,esta alterando o objeto da listad e materias
+  // Que é uma lista diferente,e consequentemente alterando o objeto original
+  const a = Object.assign({},item)
+  setObject(a)
+  setOpenDialog(true)
 
 }
-const handleOpenList = ()=>{
+const handleOpenList = (item)=>{
 
 setOpenList(!openList)
 
@@ -174,87 +174,96 @@ return(
           required
         />
 
-<List
-      sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper' }}
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-      subheader={
-        <ListSubheader component="div" id="nested-list-subheader">
-         Materias desta OS
-        </ListSubheader>
-      }
-    >
-      <ListItemButton onClick={handleOpenList}>
-        <ListItemText primary="Inbox" />
-        <ListItemText secondary={`Materias nesta OS: ${materialsOs.length}`} />
-        {openList ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={openList} timeout="auto" unmountOnExit>
-            {materialsOs && materialsOs.map(x=>(
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-
-            <ListItemText  primary={x.material.descricao}  secondary={` Quantidade utilizada ${x.saldoFinal} ${x.material.unidade}`}/>
-    <DeleteIcon onClick={r=>HandleRemoveItemList(x)}/>
-
-          </ListItemButton>
-        </List>
-            ))}
-      </Collapse>
-    </List>
+<div className={includingMaterialOs.container_list}>
+  <List
+        sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper' }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+        subheader={
+          <Typography gutterBottom variant="h6" component="div">
+          Materias OS-2432
+       </Typography>
+        }
+      >
+        <ListItemButton onClick={handleOpenList}>
+          <ListItemText primary="Inbox" />
+          <ListItemText secondary={`Materias nesta OS: ${materialsOs.length}`} />
+          {openList ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={openList} timeout="auto" unmountOnExit>
+              {materialsOs && materialsOs.map(x=>(
+          <List component="div" disablePadding>
+            <ListItemButton sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <StarBorder />
+              </ListItemIcon>
+  
+              <ListItemText  primary={x.material.descricao}  secondary={` Quantidade utilizada ${x.saldoFinal} ${x.material.unidade}`}/>
+      <DeleteIcon onClick={r=>HandleRemoveItemList(x)}/>
+  
+            </ListItemButton>
+          </List>
+              ))}
+        </Collapse>
+      </List>
+</div>
 
 
 <div className={includingMaterialOs.container_materials}>
   { materias && materias.map(item=>(
  
+ <>
  <Card sx={{ maxWidth: 545 ,margin:5,borderRadius:5}}>
  <CardActionArea>
   
    <CardContent sx={{padding:2}} >
-     <Typography gutterBottom variant="h6" component="div">
+     <Typography variant="h6" color="text.primary" sx={{ maxWidth: 350,minWidth:350}}>
+{item.material.descricao}
+     </Typography>
+     <Typography gutterBottom variant="body1" component="div">
         Código Interno: {item.material.id}
      </Typography>
-     <Typography gutterBottom variant="h6" component="div">
+     <Typography gutterBottom variant="body1" component="div">
        Estoque: {item.saldoFinal==null?"Ainda não registrado":`${item.saldoFinal} ${item.material.unidade}`}
-     </Typography>
-     <Typography variant="body1" color="text.secondary">
-{item.material.descricao}
      </Typography>
    </CardContent>
  </CardActionArea>
  <CardActions>
-   <Button size="small" color="primary" onClick={x=>handleOpenDialog(item)}>
+
+  {item.saldoFinal==null || item.saldoFinal == 0 ?<Typography gutterBottom variant="body1" component="div">
+        Não há disponível deste material no estoque
+     </Typography>:<Button size="small" color="primary" onClick={x=>handleOpenDialog(item)}>
      <AddIcon />
-   </Button>
-  {materialsOs.includes(item)  && !openDialog &&(
+   </Button>}
+   
+  {/* {materialsOs.includes(item)  && !openDialog &&(
 
    <Button size="small" color="primary" onClick={x=>HandleRemoveItemList(item)}>
     <DeleteIcon/>
    </Button>
 
-  )}
+  )} */}
  </CardActions>
 </Card>
-  
+
+</>
   ))}
 
-  {materialsOs.length  && (
+ {object!=""&& (
+
     <Dialog open={openDialog} onClose={handleCloseDialog} >
         <DialogTitle>Adicionando Quantidade</DialogTitle>
         <DialogContent >
         <Typography gutterBottom variant="h7" component="div">
-           {quantidadeMaterial>materialsOs[materialsOs.length-1].saldoFinal && materialsOs?`A Quantidade escolhida excede o Estoque De ${materialsOs[materialsOs.length-1].material.descricao}`:`${materialsOs[materialsOs.length-1].material.descricao}` }
+           {quantidadeMaterial>object.saldoFinal && materialsOs?`A Quantidade escolhida excede o Estoque De ${object.material.descricao}`:`${object.material.descricao}` }
            </Typography>
           <Typography gutterBottom variant="h6" component="div">
-            {`Estoque do Material: ${materialsOs[materialsOs.length-1].saldoFinal} ${materialsOs[materialsOs.length-1].material.unidade} `}
+            {`Estoque do Material: ${object.saldoFinal} ${object.material.unidade} `}
               </Typography>
           <FilledInput
-            error={quantidadeMaterial>materialsOs[materialsOs.length-1].saldoFinal && materialsOs?true:false}
+            error={quantidadeMaterial>object.saldoFinal && materialsOs?true:false}
             autoFocus
-            endAdornment={<InputAdornment position="end">{materialsOs[materialsOs.length-1].material.unidade}</InputAdornment>}
+            endAdornment={<InputAdornment position="end">{object.material.unidade}</InputAdornment>}
             onChange={x=>setQuantidadeMaterial(x.target.value)}
             margin="dense"
             id="name"
@@ -268,19 +277,11 @@ return(
         <DialogActions>
           <Button onClick={handleCloseDialog}>Fechar</Button>
           <Button onClick={x=>handleAddMaterial()} 
-          disabled={(quantidadeMaterial>materialsOs[materialsOs.length-1].saldoFinal && materialsOs)|| quantidadeMaterial ==undefined|| quantidadeMaterial==""?true:false}>Adicionar Material</Button>
+          disabled={(quantidadeMaterial>object.saldoFinal && object)|| quantidadeMaterial ==undefined|| quantidadeMaterial==""?true:false}>Adicionar Material</Button>
         </DialogActions>
       </Dialog>
-  )}
-
-
-
-
-
-
-
-
-
+ )}
+  
 
   <Snackbar
             open={openSnackBar}
