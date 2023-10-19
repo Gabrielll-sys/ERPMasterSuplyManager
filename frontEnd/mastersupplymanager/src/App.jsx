@@ -19,11 +19,11 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Router>
           <Routes>
-            <Route path="/createMaterial" element={<CreateMaterial />} />
+            <Route path="/" element={<CreateMaterial />} />
             <Route path="/updateMaterial" element={<UpdateMaterial />} />
-            <Route path="/searchInvetory" element={<SearchInventory />} />
+            <Route path="/searchInventory" element={<SearchInventory />} />
             <Route path="/updateInventory" element={<UpdateInvetory />} />
-            <Route path="/" element={<IncludingMaterialOS />} />
+            <Route path="/includingMaterialOs" element={<IncludingMaterialOS />} />
             <Route path = "/osManagement" element ={<OsManagement/>}/>
           </Routes>
         </Router>

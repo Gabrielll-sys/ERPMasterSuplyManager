@@ -287,16 +287,16 @@ try{
       <Header />
       <div className={createMaterial.container_navigation}>
       
-<Fab onClick={()=>navigate("/createMaterial")} sx={{backgroundColor:"#FCDD74"}}  aria-label="add">
+<Fab onClick={()=>navigate("/")} sx={{backgroundColor:"#FCDD74"}}  aria-label="add">
   <AddIcon />
 
 </Fab>
 
-<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/")}>
+<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/searchInventory")}>
   <SearchIcon sx={{color:"black"}} />
 </Fab>
 
-<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/OsManagement")}>
+<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/includingMaterialOs")}>
   <LocalPrintshopIcon sx={{color:"black"}} />
 </Fab>
 

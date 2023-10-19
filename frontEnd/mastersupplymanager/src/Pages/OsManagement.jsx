@@ -81,16 +81,16 @@ return(
 <Header/>
 <div className={OsManagement.container_navigation}>
     
-<Fab onClick={()=>navigate("/createMaterial")} sx={{backgroundColor:"#FCDD74"}}  aria-label="add">
+<Fab onClick={()=>navigate("/")} sx={{backgroundColor:"#FCDD74"}}  aria-label="add">
   <AddIcon />
 
 </Fab>
 
-<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/searchInvetory")}>
+<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/searchInventory")}>
   <SearchIcon sx={{color:"black"}} />
 </Fab>
 
-<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/reportEmission")}>
+<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/includingMaterialOs")}>
   <EditIcon sx={{color:"black"}} />
 </Fab>
 </div>

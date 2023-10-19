@@ -156,11 +156,11 @@ return(
 
 </Fab>
 
-<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/searchInvetory")}>
+<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/")}>
   <SearchIcon sx={{color:"black"}} />
 </Fab>
 
-<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/reportEmission")}>
+<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/includingMaterialOs")}>
   <EditIcon sx={{color:"black"}} />
 </Fab>
 </div>

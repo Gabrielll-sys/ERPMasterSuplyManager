@@ -214,15 +214,15 @@ catch(e){
       <Header />
       <div className={searchInventory.container_navigation}>
 
-<Fab onClick={()=>navigate("/createMaterial")} sx={{backgroundColor:"#FCDD74"}}  aria-label="add">
+<Fab onClick={()=>navigate("/")} sx={{backgroundColor:"#FCDD74"}}  aria-label="add">
   <AddIcon />
 
 </Fab>
 
-<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/")}>
+<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/searchInventory")}>
   <SearchIcon sx={{color:"black"}} />
 </Fab>
-<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/osManagement")}>
+<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/includingMaterialOs")}>
 <LocalPrintshopIcon sx={{color:"black"}} />
 
 </Fab>
@@ -293,20 +293,20 @@ catch(e){
                   >
                 
                     <TableCell align="center" size="medium"
-                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.material.id}</TableCell>
+                    sx={{ borderWidth:2,fontSize:"18px",borderColor:"black"   }}>{row.material.id}</TableCell>
                     <TableCell align="center" size="medium"
-                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.material.codigoFabricante}</TableCell>
+                    sx={{ borderWidth:2,fontSize:"18px",borderColor:"black"   }}>{row.material.codigoFabricante}</TableCell>
                     
                     <TableCell align="center" size="medium"
-                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.material.descricao}</TableCell>
+                    sx={{ borderWidth:2,fontSize:"18px",borderColor:"black"   }}>{row.material.descricao}</TableCell>
                     <TableCell align="center" size="small"
-                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.estoque==null?"Ainda não registrado":row.estoque}</TableCell>
+                    sx={{ borderWidth:2,fontSize:"18px",borderColor:"black"   }}>{row.estoque==null?"Ainda não registrado":row.estoque}</TableCell>
                     <TableCell align="center" size="small"
-                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.movimentacao==null?"Ainda não registrado":row.movimentacao+` ${row.material.unidade}`}</TableCell>
+                    sx={{ borderWidth:2,fontSize:"18px",borderColor:"black"   }}>{row.movimentacao==null?"Ainda não registrado":row.movimentacao+` ${row.material.unidade}`}</TableCell>
                     <TableCell align="center" size="small"
-                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal +` ${row.material.unidade}`}</TableCell>
+                    sx={{ borderWidth:2,fontSize:"18px",borderColor:"black"   }}>{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal +` ${row.material.unidade}`}</TableCell>
                     <TableCell align="center" 
-                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.razao}</TableCell>
+                    sx={{ borderWidth:2,fontSize:"18px",borderColor:"black"   }}>{row.razao}</TableCell>
 
                     <TableCell align="center"  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>
                       {dayjs(row.dataAlteracao).format(`[${row.movimentacao==null &&row.estoque==0?" Material Criado as " :"Inventário Editado as "}]DD/MM/YYYY [as] HH:mm:ss`)} 
