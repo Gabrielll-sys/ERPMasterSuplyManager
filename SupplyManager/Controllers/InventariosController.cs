@@ -225,6 +225,7 @@ namespace SupplyManager.Controllers
 
 
         }
+
         [HttpGet(template: "buscaDescricaoInventario")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -243,6 +244,8 @@ namespace SupplyManager.Controllers
                 List<Inventario> listInvetory = new List<Inventario>();
 
 
+
+                
                 //Realiza uma busca no banco de materias para buscar match na descrição de acordo com a busca
                 queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao)).OrderBy(x => x.Id);
                 var materiais = await queryMaterial.ToListAsync();
