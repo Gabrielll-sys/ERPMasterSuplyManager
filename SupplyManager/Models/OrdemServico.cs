@@ -18,8 +18,7 @@ namespace SupplyManager.Models
 
         public DateTime? DataAutorizacao { get; set; }
 
-        [ForeignKey("MaterialId")]
-        public Material Material { get; set; }
+     
         public OrdemServico(string descricao, string responsavel)
         {
             Descricao = descricao;

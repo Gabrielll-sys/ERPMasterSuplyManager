@@ -14,7 +14,9 @@ import Avatar from '@mui/material/Avatar';
 import ImageIcon from '@mui/icons-material/Image';
 import WorkIcon from '@mui/icons-material/Work';
 import BeachAccessIcon from '@mui/icons-material/BeachAccess';
-import Divider from '@mui/material/Divider';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+
 import axios from "axios";
 import AddIcon from '@mui/icons-material/Add';
 import { Autocomplete } from "@mui/material";
@@ -23,63 +25,36 @@ import { url } from "../contetxs/webApiUrl";
 
 const OsManagement = ()=>{
     const navigate = useNavigate();
-    const[materias,setMateriais] = useState()
-  const [descricao, setDescricao] = useState("");
     
-
-  const searchByDescription = async () => {
-
-    try{
-     const res = await axios
-     .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao}`)
-     .then( (r)=> {
-       console.log(r.data)
-      return r.data
-      
-     })
-     .catch();
- 
-     setMateriais(res)
- 
-    }
-    catch(e) 
+  const [descricaoOs, setDescricaoOs] = useState("");
     
-    { 
- console.log(e)
-    }
-   
- };
-useEffect(() => {
-  //Irá começar a realizar a busca somente quando  a descrição tiver 3 caracteres
-  if (descricao.length>=3) {
-   searchByDescription().then().catch();
+  const [prefixoOs,setPrefixoOs] = useState(["ME","BR"])
+  const [resposavel,setResposavel] = useState()
 
-  }
-  setMateriais([])
-
-}, [descricao]);
-
-const getAllMaterials =  async ()=>{
+  const [messageAlert, setMessageAlert] = useState();
+  const [severidadeAlert, setSeveridadeAlert] = useState();
 
 
-  const res =  await axios
-  .get(`${url}/Materiais`)
-  .then( (r)=> {
-    setMateriais(r.data)
-    console.log(r.data)
-    
-   return r.data
-   
-  })
-  .catch();
+
+const handleCreateOs = async()=>{
+
+const OS ={
+descricao:prefixoOs+" "
+
+}
+
+const res = axios.post()
+
+
 
 
 }
+
 return(
     <>
 
 <Header/>
-<div className={OsManagement.container_navigation}>
+<div className={osManagement.container_navigation}>
     
 <Fab onClick={()=>navigate("/")} sx={{backgroundColor:"#FCDD74"}}  aria-label="add">
   <AddIcon />
@@ -94,9 +69,53 @@ return(
   <EditIcon sx={{color:"black"}} />
 </Fab>
 </div>
-<div>
+
+<h1 className={osManagement.h1}>Criação de Material</h1>
+
+<div className={osManagement.container_inputs}>
+ 
+ 
+
+  <TextField
+  
+    value={descricaoOs}
+    style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+    className={osManagement.inputs}
+    
+    error={severidadeAlert != "warning" || !messageAlert=="Já existe um material com este mesmo código de fabricante" ? false : true}
+
+    onChange={(e) => setDescricaoOs(e.target.value)}
+    label="Descrição OS"
+    
+  />
+  <TextField
+  
+    value={resposavel}
+    style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+    className={osManagement.inputs}
+    
+    error={severidadeAlert != "warning" || !messageAlert=="Já existe um material com este mesmo código de fabricante" ? false : true}
+
+    onChange={(e) => setResposavel(e.target.value)}
+    label="Responsável"
+    
+  />
 
 
+
+<Select
+style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px",height:"55px"}}
+labelId="demo-simple-select-label"
+value={prefixoOs}
+label="Prefixo Da OS"
+onChange={x=>setPrefixoOs(x.target.value)}
+>
+{prefixoOs.map((x)=>(
+  <MenuItem value={x}>{x}</MenuItem>
+  
+))}
+
+</Select>
 </div>
 
     </>

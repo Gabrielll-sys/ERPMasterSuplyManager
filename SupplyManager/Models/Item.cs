@@ -6,6 +6,7 @@ namespace SupplyManager.Models
     //Classe que pega a referência entre material e OS,aonde uma OS pode ter um ou vários materiáis e 1 material pode pertencer a 1 ou várias OS
     public class Item
     {
+       
         [Key]
         public int Id { get; set; }
 
@@ -23,7 +24,11 @@ namespace SupplyManager.Models
         public OrdemServico OrdemServico { get; set; }
 
 
-        
+       public Item(int materialId,int ordemServicoId)
+        {
+            MaterialId = materialId;
+            OrdemServicoId = ordemServicoId;
+        }
 
 
     }

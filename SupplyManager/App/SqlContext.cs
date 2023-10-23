@@ -13,7 +13,7 @@ namespace SupplyManager.App
         public DbSet<Inventario> Inventarios { get; set; }
 
         public DbSet<OrdemServico> OrdemServicos { get; set; }
-        public DbSet<Item> Item { get; set; }
+        public DbSet<Item> Itens { get; set; }
 
     }
 }
