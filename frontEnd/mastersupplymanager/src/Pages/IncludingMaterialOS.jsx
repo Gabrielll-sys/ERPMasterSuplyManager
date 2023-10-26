@@ -15,6 +15,7 @@ import Header from "../componentes/Header";
 import EditIcon from '@mui/icons-material/Edit';
 import  includingMaterialOs from "../style/includingMaterialOs.module.css"
 import SearchIcon from '@mui/icons-material/Search';
+
 import Fab from '@mui/material/Fab';
 import { useNavigate } from "react-router-dom";
 import Card from '@mui/material/Card';
@@ -36,19 +37,28 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from "@mui/material/TextField";
 import { url } from "../contetxs/webApiUrl";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useLocation } from "react-router-dom";
 
 const IncludingMaterialOS = ()=>{
+     const idOs= useLocation()
+
     const [openSnackBar, setOpenSnackBar] = useState(false);
     const [openList,setOpenList] = useState(true)
+    const [descricaoOs,setDescricaoOs] = useState()
     const [messageAlert, setMessageAlert] = useState();
     const [severidadeAlert, setSeveridadeAlert] = useState();
     const navigate = useNavigate();
     const[materias,setMateriais] = useState()
-  const [descricao, setDescricao] = useState("disju");
+    const [descricao, setDescricao] = useState("disju");
     let[materialsOs,setMaterialsOs] = useState([])
     const [openDialog,setOpenDialog] = useState(false)
     const [quantidadeMaterial,setQuantidadeMaterial] = useState()
     const [object,setObject] = useState([])
+    
+
+
+
+
     
     useEffect(() => {
         //Irá começar a realizar a busca somente quando  a descrição tiver 3 caracteres
@@ -59,6 +69,17 @@ const IncludingMaterialOS = ()=>{
         setMateriais([])
       
       }, [descricao]);
+
+
+      const getOs = async(id)=>{
+
+
+        axios.get(`${url};OrderServicos/${id}`).then(r=>{
+          setDescricaoOs(r.data.descricao)
+
+        })
+
+      }
 
 
   const searchByDescription = async () => {
@@ -181,7 +202,7 @@ return(
         aria-labelledby="nested-list-subheader"
         subheader={
           <Typography gutterBottom variant="h6" component="div">
-          Materias OS-2432
+          Materias {descricaoOs}
        </Typography>
         }
       >

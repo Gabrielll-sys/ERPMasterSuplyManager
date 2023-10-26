@@ -20,6 +20,20 @@ namespace SupplyManager.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+
+        public async Task<List<OrdemServico>> GetAll()
+        {
+
+            return await _context.OrdemServicos.ToListAsync();
+        }
+
+
 
         [HttpGet("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -27,10 +41,6 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-
-
-
-
 
 
         public async Task<ActionResult<OrdemServico>> Get(int id)
@@ -57,7 +67,11 @@ namespace SupplyManager.Controllers
             try
             {
 
-                OrdemServico o1 = new OrdemServico(model.Descricao, model.Responsavel);
+                OrdemServico o1 = new OrdemServico(model.Descricao, model.Responsavel,model.NumeroOs);
+
+                await _context.OrdemServicos.AddAsync(o1);
+
+                await _context.SaveChangesAsync();
 
 
                 return Ok(o1);

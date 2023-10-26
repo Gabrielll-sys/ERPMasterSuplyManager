@@ -6,16 +6,17 @@ import CreateIcon from "@mui/icons-material/Create";
 import SearchIcon from '@mui/icons-material/Search';
 import Fab from '@mui/material/Fab';
 import { useNavigate } from "react-router-dom";
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import ImageIcon from '@mui/icons-material/Image';
 import WorkIcon from '@mui/icons-material/Work';
-import BeachAccessIcon from '@mui/icons-material/BeachAccess';
+import { Button, CardActionArea, CardActions } from '@mui/material';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import createMaterial from "../style/createMaterial.module.css"
 
 import axios from "axios";
 import AddIcon from '@mui/icons-material/Add';
@@ -25,29 +26,61 @@ import { url } from "../contetxs/webApiUrl";
 
 const OsManagement = ()=>{
     const navigate = useNavigate();
-    
+  const [ordemServicos,setOrdemServicos] = useState([])
   const [descricaoOs, setDescricaoOs] = useState("");
-    
+  const[numeroOs,setNumeroOs] = useState()
   const [prefixoOs,setPrefixoOs] = useState(["ME","BR"])
   const [resposavel,setResposavel] = useState()
 
   const [messageAlert, setMessageAlert] = useState();
   const [severidadeAlert, setSeveridadeAlert] = useState();
 
+  const prefixos = ["ME","BR"]
 
+useEffect(()=>
+{
+getAllOs()
+  
+},[])
+  const handleChangeUpdatePage = async (id) => {
+   
+    
+
+    navigate("/includingMaterialOs", { state: id })
+
+
+      
+  };
+
+const getAllOs= async()=>{
+
+const res = await axios.get(`${url}/OrdemServicos`).then().catch()
+
+setOrdemServicos(res.data)
+console.log(res.data)
+}
 
 const handleCreateOs = async()=>{
 
-const OS ={
-descricao:prefixoOs+" "
+const descricaoOsFormated = descricaoOs.trim().replace(/\s\s+/g, " ")
+const reponsavelFormated = resposavel==undefined?"":resposavel.trim().replace(/\s\s+/g, " ")
 
+const OS ={
+descricao:`${prefixoOs}-${descricaoOsFormated}`,
+resposavel:reponsavelFormated,
+numeroOs:numeroOs,
 }
 
-const res = axios.post()
 
 
+ const res = axios.post(`${url}/OrdemServicos`,OS).then(x=>{
 
-
+  return x.data
+ }).catch()
+console.log(res)
+if(res){
+  getAllOs()
+}
 }
 
 return(
@@ -70,11 +103,12 @@ return(
 </Fab>
 </div>
 
-<h1 className={osManagement.h1}>Criação de Material</h1>
+<h1 className={osManagement.h1}>Gerenciamento de OS</h1>
 
 <div className={osManagement.container_inputs}>
  
- 
+
+       
 
   <TextField
   
@@ -100,6 +134,9 @@ return(
     label="Responsável"
     
   />
+   
+   
+
 
 
 
@@ -110,13 +147,71 @@ value={prefixoOs}
 label="Prefixo Da OS"
 onChange={x=>setPrefixoOs(x.target.value)}
 >
-{prefixoOs.map((x)=>(
+{prefixos.map((x)=>(
   <MenuItem value={x}>{x}</MenuItem>
   
 ))}
 
 </Select>
+{ prefixoOs=="BR" && (
+  <TextField
+  
+  value={resposavel}
+  style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+  className={osManagement.inputs}
+  
+  error={severidadeAlert != "warning" || !messageAlert=="Já existe um material com este mesmo código de fabricante" ? false : true}
+
+  onChange={(e) => setResposavel(e.target.value)}
+  label="Numero OS"
+  
+/>
+  )}
 </div>
+<div className={osManagement.container_botoes}>
+   <Button
+          className={osManagement.botao}
+          label="Criar Material"
+          onClick={handleCreateOs}
+        />
+       
+   </div>
+
+{ ordemServicos && ordemServicos.map(item=>(
+ 
+ <>
+ <Card sx={{ maxWidth: 445 ,margin:5,borderRadius:5}}>
+ <CardActionArea>
+  
+   <CardContent sx={{padding:2}} >
+     <Typography variant="h6" color="text.primary" sx={{ maxWidth: 350,minWidth:350}}>
+      {item.descricao}
+     </Typography>
+     
+     <Typography gutterBottom variant="body1" component="div">
+       Status: {item.isAuthorized==0?"Pendente":"Autorizada"}
+     </Typography>
+   </CardContent>
+ </CardActionArea>
+ <CardActions>
+
+ <Button size="small" color="primary" onClick={x=>handleChangeUpdatePage(item.id)}>
+     <CreateIcon />
+   </Button>
+   
+  {/* {materialsOs.includes(item)  && !openDialog &&(
+
+   <Button size="small" color="primary" onClick={x=>HandleRemoveItemList(item)}>
+    <DeleteIcon/>
+   </Button>
+
+  )} */}
+ </CardActions>
+</Card>
+
+</>
+  ))}
+
 
     </>
 )

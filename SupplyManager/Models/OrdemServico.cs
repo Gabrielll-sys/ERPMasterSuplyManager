@@ -19,11 +19,14 @@ namespace SupplyManager.Models
         public DateTime? DataAutorizacao { get; set; }
 
      
-        public OrdemServico(string descricao, string responsavel)
+        public int? NumeroOs { get; set; }
+
+        public OrdemServico(string descricao, string? responsavel, int? numeroOs)
         {
-            Descricao = descricao;
+            Descricao = descricao.ToUpper();
             Responsavel = responsavel;
             IsAutorizhed = false;
+            NumeroOs = numeroOs;
         }
 
         public void AutorizarOs()

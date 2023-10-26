@@ -47,7 +47,7 @@ namespace SupplyManager.Controllers
 
         }
 
-        [HttpPost()]
+        [HttpPost("CreateItem")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]

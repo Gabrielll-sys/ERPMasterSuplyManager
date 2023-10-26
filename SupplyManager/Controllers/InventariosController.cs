@@ -48,7 +48,7 @@ namespace SupplyManager.Controllers
 
             try
             {
-                var queryMaterial = from query in _context.Materiais select query;
+                var queryMaterial = _context.Materiais;
                 var queryInvetory = await _context.Inventarios.ToListAsync();
 
                 List<Inventario> listInvetory = new List<Inventario>();
