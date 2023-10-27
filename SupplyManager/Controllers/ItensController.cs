@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SupplyManager.App;
 using SupplyManager.Models;
+using System.Diagnostics.Metrics;
 using System.Net;
 
 namespace SupplyManager.Controllers
@@ -46,7 +47,49 @@ namespace SupplyManager.Controllers
 
 
         }
+        [HttpGet("GetAllMateriaisOs")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
+        public async Task<ActionResult<Item>> GetAllMateriasOs(int id)
+        {
+
+            List<Item> itensWithMaterial = new List<Item>();
+            var materias = _context.Materiais;
+            var itens = _context.Itens;
+
+
+            foreach (var item in itens)
+            {
+                if (item.OrdemServicoId == id)
+                {
+
+                    var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id==item.MaterialId);
+                    item.Material = material;
+
+                    itens.Add(item);
+
+                }
+                
+
+
+
+
+
+
+            }
+            
+            var a = await _context.Itens.FirstOrDefaultAsync(x => x.Id == id);
+
+
+            return Ok(a);
+
+
+
+        }
         [HttpPost("CreateItem")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -57,7 +100,7 @@ namespace SupplyManager.Controllers
         {
             try
             {
-                Item item = new Item(model.MaterialId, model.OrdemServicoId);
+                Item item = new Item(model.MaterialId, model.OrdemServicoId,model.Quantidade);
 
 
 

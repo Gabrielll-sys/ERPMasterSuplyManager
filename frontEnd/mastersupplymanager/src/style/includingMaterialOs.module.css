@@ -35,8 +35,9 @@ margin-top: 10px;
 }
 .container_materials{
 display: flex;
-flex-direction: row;
+flex-direction:column;
 flex-wrap: wrap;
+
 
 }
 .container_inputs{

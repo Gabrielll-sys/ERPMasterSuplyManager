@@ -24,10 +24,13 @@ namespace SupplyManager.Models
         public OrdemServico OrdemServico { get; set; }
 
 
-       public Item(int materialId,int ordemServicoId)
+        public float? Quantidade { get; set; }
+
+       public Item(int materialId,int ordemServicoId,float? quantidade)
         {
             MaterialId = materialId;
             OrdemServicoId = ordemServicoId;
+            Quantidade = quantidade;
         }
 
 

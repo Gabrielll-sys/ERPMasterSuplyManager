@@ -23,6 +23,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { Autocomplete } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { url } from "../contetxs/webApiUrl";
+import IncludingMaterialOS from "./IncludingMaterialOS";
 
 const OsManagement = ()=>{
     const navigate = useNavigate();
@@ -180,7 +181,8 @@ onChange={x=>setPrefixoOs(x.target.value)}
 { ordemServicos && ordemServicos.map(item=>(
  
  <>
- <Card sx={{ maxWidth: 445 ,margin:5,borderRadius:5}}>
+ <div className={osManagement.container_os}>
+ <Card sx={{ maxWidth: 545 ,margin:5,borderRadius:5}}>
  <CardActionArea>
   
    <CardContent sx={{padding:2}} >
@@ -208,7 +210,7 @@ onChange={x=>setPrefixoOs(x.target.value)}
   )} */}
  </CardActions>
 </Card>
-
+</div>
 </>
   ))}
 

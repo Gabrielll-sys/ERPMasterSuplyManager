@@ -56,7 +56,11 @@ const IncludingMaterialOS = ()=>{
     const [object,setObject] = useState([])
     
 
+  useEffect(()=>{
 
+getOs(idOs.state)
+
+  },[])
 
 
     
@@ -69,19 +73,40 @@ const IncludingMaterialOS = ()=>{
         setMateriais([])
       
       }, [descricao]);
+     
+  const getOs = async(id)=>{
 
 
-      const getOs = async(id)=>{
-
-
-        axios.get(`${url};OrderServicos/${id}`).then(r=>{
+         await axios.get(`${url}/OrdemServicos/${id}`).then(r=>{
           setDescricaoOs(r.data.descricao)
 
         })
 
       }
 
+  const getMateriasOs = async(id)=>{
+//Recebe id da ordem de serviço
+    const res = await axios.get(`${url}/OrdemServicos/${id}`).then(r=>{
+      return r.data
+    })
 
+    setMaterialsOs(res)
+  }
+  const handleCreateItem = async(id)=>
+  {
+    const item = {
+      materialId:id,
+      orderServicoId:idOs.state,
+      quantidade:quantidadeMaterial,
+    }
+
+console.log(item.materialId + " " + item.orderServicoId)
+
+// const res = axios.post(`${url}/Items`,).then(r=>{
+//   return r.data
+// })
+
+  }        
   const searchByDescription = async () => {
 
     try{
@@ -297,7 +322,7 @@ return(
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Fechar</Button>
-          <Button onClick={x=>handleAddMaterial()} 
+          <Button onClick={x=>handleCreateItem(object.material.id)} 
           disabled={(quantidadeMaterial>object.saldoFinal && object)|| quantidadeMaterial ==undefined|| quantidadeMaterial==""?true:false}>Adicionar Material</Button>
         </DialogActions>
       </Dialog>
