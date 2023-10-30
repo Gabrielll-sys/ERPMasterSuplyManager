@@ -331,13 +331,8 @@ namespace SupplyManager.Controllers
                 //Busca codigo do fabricante para ver se ja possui ,e tambem poe uma condição para caso seja diferente de vazio,pois a criação de material pode ter o código vazio
                 var checkFabricanteCode = await _context.Materiais.FirstOrDefaultAsync(x => x.CodigoFabricante == model.CodigoFabricante  &&  model.CodigoFabricante!="");
 
-                //Caso ja exista o codigo e o estoque seja nulo,ou seja quando o usuario esta criando pela primeira vez, retornará que o codigo ja existe
-                /*if (checkInternCode != null)
-                {
+                
 
-                    return StatusCode(StatusCodes.Status400BadRequest, new { message = "Código interno já existe" });
-                }
-*/
                 if (checkFabricanteCode != null)
                 {
 

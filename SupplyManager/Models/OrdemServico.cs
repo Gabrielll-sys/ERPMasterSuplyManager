@@ -21,9 +21,9 @@ namespace SupplyManager.Models
      
         public int? NumeroOs { get; set; }
 
-        public OrdemServico(string descricao, string? responsavel, int? numeroOs)
+        public OrdemServico(string? descricao, string? responsavel, int? numeroOs)
         {
-            Descricao = descricao.ToUpper();
+            Descricao =  descricao;
             Responsavel = responsavel;
             IsAutorizhed = false;
             NumeroOs = numeroOs;

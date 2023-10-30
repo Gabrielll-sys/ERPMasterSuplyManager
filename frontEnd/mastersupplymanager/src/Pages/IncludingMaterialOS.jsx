@@ -94,19 +94,26 @@ getOs(idOs.state)
   }
   const handleCreateItem = async(id)=>
   {
+    console.log(idOs.state)
     const item = {
       materialId:id,
-      orderServicoId:idOs.state,
+      material:{},
+      ordemServicoId:idOs.state,
+      ordemServico:{},
       quantidade:quantidadeMaterial,
+
     }
 
 console.log(item.materialId + " " + item.orderServicoId)
 
-// const res = axios.post(`${url}/Items`,).then(r=>{
-//   return r.data
-// })
-
+const res = axios.post(`${url}/Itens/CreateItem`,item).then(r=>{
+  return r.data
+})
+console.log(res)
+setOpenDialog(false)
+setQuantidadeMaterial()
   }        
+  
   const searchByDescription = async () => {
 
     try{
