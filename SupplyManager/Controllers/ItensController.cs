@@ -35,6 +35,7 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
+
         public async Task<ActionResult<Item>> Get(int id)
         {
 
@@ -47,7 +48,7 @@ namespace SupplyManager.Controllers
 
 
         }
-        [HttpGet("GetAllMateriaisOs")]
+        [HttpGet("GetAllMateriaisOs/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -56,10 +57,12 @@ namespace SupplyManager.Controllers
 
         public async Task<ActionResult<Item>> GetAllMateriasOs(int id)
         {
-
+ 
             List<Item> itensWithMaterial = new List<Item>();
+
             var materias = _context.Materiais;
-            var itens = _context.Itens;
+            var os = _context.OrdemServicos;
+            var itens =  await _context.Itens.ToListAsync();
 
 
             foreach (var item in itens)
@@ -67,10 +70,16 @@ namespace SupplyManager.Controllers
                 if (item.OrdemServicoId == id)
                 {
 
-                    var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id==item.MaterialId);
+                    var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == item.MaterialId);
+
+                    var ordemServico = await _context.OrdemServicos.FirstOrDefaultAsync(x => x.Id == item.OrdemServicoId);
+
                     item.Material = material;
 
-                    itens.Add(item);
+                    item.OrdemServico = ordemServico;
+
+
+                    itensWithMaterial.Add(item);
 
                 }
                 
@@ -81,11 +90,9 @@ namespace SupplyManager.Controllers
 
 
             }
-            
-            var a = await _context.Itens.FirstOrDefaultAsync(x => x.Id == id);
+           
 
-
-            return Ok(a);
+            return Ok(itensWithMaterial);
 
 
 
@@ -108,8 +115,8 @@ namespace SupplyManager.Controllers
 
                 item.Material = material;
                 item.OrdemServico = ordemServico;
-
-                var a = 20;
+                await _context.Itens.AddAsync(item);
+                await _context.SaveChangesAsync();
 
                 return Ok(item);
 
@@ -130,47 +137,8 @@ namespace SupplyManager.Controllers
         }
 
 
-/*
-        [HttpPut("{id}")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-        public async Task<ActionResult<Item>> UpdateAuthorize([FromRoute] int id, [FromBody] OrdemServico model)
-        {
-
-            if (model.Id != id) return BadRequest();
-
-
-            var itens = await _context.Itens.ToListAsync();
-
-            var a = await _context.OrdemServicos.FirstOrDefaultAsync(x => x.Id == id);
-
-            
-            try
-            {
-                return Ok(a);
-
-
-            }
-
-            catch (KeyNotFoundException)
-            {
-                return StatusCode(StatusCodes.Status404NotFound);
-            }
-            catch (Exception exception)
-            {
-
-                return StatusCode(StatusCodes.Status500InternalServerError, exception);
-
-            }
-
-
-
-
-        }*/
+        
 
 
         [HttpPut("{id}")]
@@ -197,7 +165,6 @@ namespace SupplyManager.Controllers
         }
 
         [HttpDelete("{id}")]
-
 
         public async Task<ActionResult> Delete (int id)
         {

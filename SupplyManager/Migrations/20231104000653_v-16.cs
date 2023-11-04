@@ -10,6 +10,11 @@ namespace SupplyManager.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.RenameColumn(
+                name: "IsAutorizhed",
+                table: "OrdemServicos",
+                newName: "IsAuthorized");
+
             migrationBuilder.AddColumn<float>(
                 name: "Quantidade",
                 table: "Itens",
@@ -23,6 +28,11 @@ namespace SupplyManager.Migrations
             migrationBuilder.DropColumn(
                 name: "Quantidade",
                 table: "Itens");
+
+            migrationBuilder.RenameColumn(
+                name: "IsAuthorized",
+                table: "OrdemServicos",
+                newName: "IsAutorizhed");
         }
     }
 }

@@ -11,7 +11,7 @@ using SupplyManager.App;
 namespace SupplyManager.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20231027173733_v16")]
+    [Migration("20231104000653_v-16")]
     partial class v16
     {
         /// <inheritdoc />
@@ -19,7 +19,7 @@ namespace SupplyManager.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("SupplyManager.Models.Inventario", b =>
@@ -134,7 +134,7 @@ namespace SupplyManager.Migrations
                     b.Property<string>("Descricao")
                         .HasColumnType("longtext");
 
-                    b.Property<bool>("IsAutorizhed")
+                    b.Property<bool>("IsAuthorized")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<int?>("NumeroOs")

@@ -50,16 +50,15 @@ const IncludingMaterialOS = ()=>{
     const navigate = useNavigate();
     const[materias,setMateriais] = useState()
     const [descricao, setDescricao] = useState("disju");
-    let[materialsOs,setMaterialsOs] = useState([])
+    const[materiaisOs,setMateriaisOs] = useState([])
     const [openDialog,setOpenDialog] = useState(false)
     const [quantidadeMaterial,setQuantidadeMaterial] = useState()
     const [object,setObject] = useState([])
-    
+    const [os,setOs] = useState()
 
   useEffect(()=>{
-
 getOs(idOs.state)
-
+getMateriasOs(idOs.state)
   },[])
 
 
@@ -75,23 +74,45 @@ getOs(idOs.state)
       }, [descricao]);
      
   const getOs = async(id)=>{
-
-
-         await axios.get(`${url}/OrdemServicos/${id}`).then(r=>{
-          setDescricaoOs(r.data.descricao)
-
+    
+         const res = await axios.get(`${url}/OrdemServicos/${id}`).then(r=>{
+          return r.data
+          
         })
-
+        setOs(res)
       }
+      const searchByDescription = async () => {
 
+        try{
+         const res = await axios
+         .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao}`)
+         .then( (r)=> {
+          
+          return r.data
+          
+         })
+         .catch();
+     
+         setMateriais(res)
+     
+        }
+        catch(e) 
+        
+        { 
+     console.log(e)
+        }
+       
+     };
   const getMateriasOs = async(id)=>{
 //Recebe id da ordem de serviço
-    const res = await axios.get(`${url}/OrdemServicos/${id}`).then(r=>{
+    const res = await axios.get(`${url}/Itens/GetAllMateriaisOs/${id}`).then(r=>{
       return r.data
-    })
+    }).catch(e=>console.log(e))
 
-    setMaterialsOs(res)
+    setMateriaisOs(res)
+
   }
+  
   const handleCreateItem = async(id)=>
   {
     console.log(idOs.state)
@@ -104,62 +125,47 @@ getOs(idOs.state)
 
     }
 
-console.log(item.materialId + " " + item.orderServicoId)
 
 const res = axios.post(`${url}/Itens/CreateItem`,item).then(r=>{
   return r.data
-})
+}).catch(e=>console.log(e))
+
 console.log(res)
 setOpenDialog(false)
 setQuantidadeMaterial()
+
+if(res){
+  
+  setOpenSnackBar(true);
+  setSeveridadeAlert("success");
+  setMessageAlert("Material adiciona a lista da OS");
+  getMateriasOs(idOs.state)
+}
+
+
+
   }        
   
-  const searchByDescription = async () => {
+const handleAuthorizeOs = async ()=>{
 
-    try{
-     const res = await axios
-     .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao}`)
-     .then( (r)=> {
-      
-      return r.data
-      
-     })
-     .catch();
- 
-     setMateriais(res)
- 
-    }
-    catch(e) 
+
+
+
+}
+
+
+const handleRemoveMaterial =  async (id)=>{
+
     
-    { 
- console.log(e)
-    }
-   
- };
 
+  await axios.delete(`${url}/Itens/${id}`).then(r=>{
 
-const handleAddMaterial = ()=>{
-
-  
-  if(!materialsOs.includes(object)){
-
-          const b =  object.saldoFinal - quantidadeMaterial
-
-          object.saldoFinal = b
-      materialsOs.push(object)
-      setOpenSnackBar(true);
-      setSeveridadeAlert("success");
-      setMessageAlert("Material adiciona a lista da OS");
-  
-  }
-  else{
-      setOpenSnackBar(true);
-      setSeveridadeAlert("warning");
-      setMessageAlert("Este Material Já esta na lista da OS");
-  }
-
-    setOpenDialog(false)
-    setQuantidadeMaterial()
+  }).catch(r=>console.log(r))
+  setOpenSnackBar(true);
+  setSeveridadeAlert("success");
+  setMessageAlert("Material Removido da Lista da Os");
+  getMateriasOs(idOs.state)
+  console.log(materiaisOs)
 
 }
 const handleOpenDialog =  (item)=>{
@@ -179,24 +185,11 @@ setOpenList(!openList)
 
 }
 const handleCloseDialog = ()=>{
-   
-    materialsOs.pop()
     setOpenDialog(false)
-    setQuantidadeMaterial("")
+    setQuantidadeMaterial()
 }
 
-const HandleRemoveItemList = (item)=>{
-  
-  
- const newArray = materialsOs.filter(x=>!(x.materialId==item.materialId))
 
- console.log(newArray)
-setMaterialsOs(newArray)
-setOpenSnackBar(true);
-setSeveridadeAlert("success");
-setMessageAlert("Material Removido da Lista da Os");
-
-}
 
 return(
     <>
@@ -217,6 +210,8 @@ return(
   <EditIcon sx={{color:"black"}} />
 </Fab>
 </div>
+<div className={includingMaterialOs.container_inputs}>
+
 <TextField
           
           value={descricao}
@@ -226,34 +221,43 @@ return(
           label="Descrição"
           required
         />
+</div>
 
 <div className={includingMaterialOs.container_list}>
   <List
         sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper' }}
         component="nav"
         aria-labelledby="nested-list-subheader"
+        
         subheader={
           <Typography gutterBottom variant="h6" component="div">
-          Materias {descricaoOs}
+        
+          {/* Materias na OS-{os.descricao}  */}
+          
+         
        </Typography>
         }
       >
         <ListItemButton onClick={handleOpenList}>
           <ListItemText primary="Inbox" />
-          <ListItemText secondary={`Materias nesta OS: ${materialsOs.length}`} />
+          {/* <ListItemText secondary={`Materias nesta OS: ${materiaisOs.length}`} /> */}
+         
           {openList ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={openList} timeout="auto" unmountOnExit>
-              {materialsOs && materialsOs.map(x=>(
+              {materiaisOs && materiaisOs.map(x=>(
           <List component="div" disablePadding>
             <ListItemButton sx={{ pl: 4 }}>
               <ListItemIcon>
                 <StarBorder />
               </ListItemIcon>
   
-              <ListItemText  primary={x.material.descricao}  secondary={` Quantidade utilizada ${x.saldoFinal} ${x.material.unidade}`}/>
-      <DeleteIcon onClick={r=>HandleRemoveItemList(x)}/>
-  
+              <ListItemText  primary={x.material.descricao}  secondary={` Quantidade utilizada ${x.quantidade} ${x.material.unidade}`}/>
+              {!os.isAuthorized && (
+
+                <DeleteIcon onClick={r=>handleRemoveMaterial(x.id)}/>
+                )}
+                  
             </ListItemButton>
           </List>
               ))}
@@ -266,7 +270,7 @@ return(
   { materias && materias.map(item=>(
  
  <>
- <Card sx={{ maxWidth: 545 ,margin:5,borderRadius:5}}>
+ <Card sx={{ maxWidth: 545 ,margin:4,borderRadius:5}}>
  <CardActionArea>
   
    <CardContent sx={{padding:2}} >
@@ -308,13 +312,13 @@ return(
         <DialogTitle>Adicionando Quantidade</DialogTitle>
         <DialogContent >
         <Typography gutterBottom variant="h7" component="div">
-           {quantidadeMaterial>object.saldoFinal && materialsOs?`A Quantidade escolhida excede o Estoque De ${object.material.descricao}`:`${object.material.descricao}` }
+           {quantidadeMaterial>object.saldoFinal && materiaisOs?`A Quantidade escolhida excede o Estoque De ${object.material.descricao}`:`${object.material.descricao}` }
            </Typography>
           <Typography gutterBottom variant="h6" component="div">
             {`Estoque do Material: ${object.saldoFinal} ${object.material.unidade} `}
               </Typography>
           <FilledInput
-            error={quantidadeMaterial>object.saldoFinal && materialsOs?true:false}
+            error={quantidadeMaterial>object.saldoFinal && materiaisOs?true:false}
             autoFocus
             endAdornment={<InputAdornment position="end">{object.material.unidade}</InputAdornment>}
             onChange={x=>setQuantidadeMaterial(x.target.value)}
@@ -329,7 +333,9 @@ return(
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Fechar</Button>
-          <Button onClick={x=>handleCreateItem(object.material.id)} 
+           
+            <Button onClick={x=>handleCreateItem(object.material.id)} 
+         
           disabled={(quantidadeMaterial>object.saldoFinal && object)|| quantidadeMaterial ==undefined|| quantidadeMaterial==""?true:false}>Adicionar Material</Button>
         </DialogActions>
       </Dialog>
@@ -355,33 +361,7 @@ return(
 )
 
 
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -69,7 +69,17 @@ namespace SupplyManager.Models
 
         }
 
+        public void MovimentacaoOrdemServico(float? quantidade,string razao) 
+        
+        {
+            Razao = razao;
+            SaldoFinal -= quantidade;
+            Movimentacao = - quantidade;
 
+
+        
+        
+        }
 
 
 

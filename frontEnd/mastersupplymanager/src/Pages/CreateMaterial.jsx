@@ -203,7 +203,9 @@ try{
       setSeveridadeAlert("warning");
       setMessageAlert("Prencha todas as informações necessárias");
     } else {
+
       // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
+
       const material = {
         codigoInterno: codigoInterno.trim().replace(/\s\s+/g, " "),
         codigoFabricante: codigoFabricante.trim().replace(/\s\s+/g, " "),
@@ -254,6 +256,7 @@ try{
 
 
 
+
     }
   };
 
@@ -262,7 +265,7 @@ try{
 
     const res =  await axios
     .get(`${url}/Materiais`)
-    .then( (r)=> {
+    .then((r)=> {
       
       
      return r.data
@@ -370,8 +373,8 @@ try{
         <MenuItem value={x}>{x}</MenuItem>
         
       ))}
-    
-  
+ 
+
   </Select>
         <TextField
           value={corrente}

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "oSF29xY5BtU5by7X8rt+5cpWaQYF6XSSzUBmAiYH8OzL+7O/1jZG4wYygVnv7T5VZx8xmxxYafi+KKea00+Gdw==",
+  "dgSpecHash": "Fz1ojlDTCZDu6EySCC3DfGckRpmr4afRZ0K6Q8TIIyQZ+oldS5ervcYhFstbOH6Nsi8ZwJ59+wqit7DL8DDlTw==",
   "success": true,
   "projectFilePath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\SupplyManager.csproj",
   "expectedPackageFiles": [
@@ -83,9 +83,9 @@
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.codeanalysis.workspaces.common\\4.0.0\\microsoft.codeanalysis.workspaces.common.4.0.0.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.diasymreader\\1.3.0\\microsoft.diasymreader.1.3.0.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.dotnet.scaffolding.shared\\6.0.16\\microsoft.dotnet.scaffolding.shared.6.0.16.nupkg.sha512",
-    "C:\\Users\\gabri\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.9\\microsoft.entityframeworkcore.7.0.9.nupkg.sha512",
-    "C:\\Users\\gabri\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.9\\microsoft.entityframeworkcore.abstractions.7.0.9.nupkg.sha512",
-    "C:\\Users\\gabri\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.9\\microsoft.entityframeworkcore.analyzers.7.0.9.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.13\\microsoft.entityframeworkcore.7.0.13.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.13\\microsoft.entityframeworkcore.abstractions.7.0.13.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.13\\microsoft.entityframeworkcore.analyzers.7.0.13.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.entityframeworkcore.design\\7.0.9\\microsoft.entityframeworkcore.design.7.0.9.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\7.0.9\\microsoft.entityframeworkcore.relational.7.0.9.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\7.0.9\\microsoft.entityframeworkcore.tools.7.0.9.nupkg.sha512",

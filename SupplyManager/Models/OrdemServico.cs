@@ -12,7 +12,7 @@ namespace SupplyManager.Models
 
         public string? Descricao { get; set; }
         //Campo para definir quando a OS for autorizada e para posteriomente impedir quaisquer modificações
-        public bool IsAutorizhed { get; set; }
+        public bool IsAuthorized { get; set; }
 
         public string? Responsavel { get; set; }
 
@@ -25,17 +25,17 @@ namespace SupplyManager.Models
         {
             Descricao =  descricao;
             Responsavel = responsavel;
-            IsAutorizhed = false;
+            IsAuthorized = false;
             NumeroOs = numeroOs;
         }
 
         public void AutorizarOs()
         {
 
-            if (!IsAutorizhed)
+            if (!IsAuthorized)
             {
 
-                IsAutorizhed = true;
+                IsAuthorized = true;
                 DataAutorizacao = DateTime.Now;
 
             }

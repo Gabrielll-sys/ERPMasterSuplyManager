@@ -17,6 +17,7 @@ import { Button, CardActionArea, CardActions } from '@mui/material';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import createMaterial from "../style/createMaterial.module.css"
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import axios from "axios";
 import AddIcon from '@mui/icons-material/Add';
@@ -29,7 +30,7 @@ const OsManagement = ()=>{
     const navigate = useNavigate();
   const [ordemServicos,setOrdemServicos] = useState([])
   const [descricaoOs, setDescricaoOs] = useState("");
-  const[numeroOs,setNumeroOs] = useState()
+  const [numeroOs,setNumeroOs] = useState()
   const [prefixoOs,setPrefixoOs] = useState(["ME","BR"])
   const [resposavel,setResposavel] = useState()
 
@@ -58,7 +59,10 @@ const getAllOs= async()=>{
 const res = await axios.get(`${url}/OrdemServicos`).then().catch()
 
 setOrdemServicos(res.data)
+
 console.log(res.data)
+
+
 }
 
 const handleCreateOs = async()=>{
@@ -79,6 +83,7 @@ numeroOs:numeroOs,
   return x.data
  }).catch()
 console.log(res)
+
 if(res){
   getAllOs()
 }
@@ -102,6 +107,7 @@ return(
 <Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/includingMaterialOs")}>
   <EditIcon sx={{color:"black"}} />
 </Fab>
+
 </div>
 
 <h1 className={osManagement.h1}>Gerenciamento de OS</h1>
@@ -156,14 +162,13 @@ onChange={x=>setPrefixoOs(x.target.value)}
 </Select>
 { prefixoOs=="BR" && (
   <TextField
-  
-  value={resposavel}
+  value = {numeroOs}
   style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
   className={osManagement.inputs}
   
-  error={severidadeAlert != "warning" || !messageAlert=="Já existe um material com este mesmo código de fabricante" ? false : true}
+  error={severidadeAlert != "warning" || ! messageAlert=="Já existe um material com este mesmo código de fabricante" ? false : true}
 
-  onChange={(e) => setResposavel(e.target.value)}
+  onChange={(e) => setNumeroOs(e.target.value)}
   label="Numero OS"
   
 />
@@ -187,19 +192,26 @@ onChange={x=>setPrefixoOs(x.target.value)}
   
    <CardContent sx={{padding:2}} >
      <Typography variant="h6" color="text.primary" sx={{ maxWidth: 350,minWidth:350}}>
-      {item.descricao}
+     OS-{item.descricao}
      </Typography>
      
      <Typography gutterBottom variant="body1" component="div">
-       Status: {item.isAuthorized==0?"Pendente":"Autorizada"}
+       Status: {!item. isAuthorized?"Pendente":"Autorizada"}
+    {console.log(item)}
      </Typography>
    </CardContent>
  </CardActionArea>
  <CardActions>
 
+{item.isAuthorized ?(
+
  <Button size="small" color="primary" onClick={x=>handleChangeUpdatePage(item.id)}>
-     <CreateIcon />
+     <VisibilityIcon />
    </Button>
+):
+<Button size="small" color="primary" onClick={x=>handleChangeUpdatePage(item.id)}>
+<CreateIcon />
+</Button>}
    
   {/* {materialsOs.includes(item)  && !openDialog &&(
 

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SupplyManager.App;
 using SupplyManager.Models;
+using SupplyManager.Validations.InventarioValidations;
 using System.Net;
 
 namespace SupplyManager.Controllers
@@ -94,47 +95,65 @@ namespace SupplyManager.Controllers
 
 
 
-        [HttpPut("updateAuthorize/{id}")]
+        [HttpPut("updateAuhorize/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-        public async Task<ActionResult<OrdemServico>> UpdateAuthorize([FromRoute] int id, [FromBody] OrdemServico model)
+        public async Task<ActionResult> UpdateAuthorize([FromRoute] int id)
         {
 
-            if (model.Id != id) return BadRequest();
+           /* if (model.Id != id) return BadRequest();*/
 
-
-            var itens = await _context.Itens.ToListAsync();
-
-            var a = await _context.OrdemServicos.FirstOrDefaultAsync(x => x.Id == id);
-
-            return NotFound();
             try
             {
 
-                a.AutorizarOs();
+
+                var itens = await _context.Itens.ToListAsync();
+
+                var inventarios = await _context.Inventarios.ToListAsync();
+
+                var ordemServico = await _context.OrdemServicos.FirstOrDefaultAsync(x => x.Id == id);
+
+                ordemServico.AutorizarOs();
 
 
-                foreach (Item item in itens)
+                foreach (var item in itens)
                 {
-                    if (item.OrdemServicoId == model.Id)
+                    //Quando o item tiver o id da ordem de serviço a ser autorizada 
+                    if(item.OrdemServicoId == id)
                     {
+                        //Busca o material presente no item para pegar a unidade 
+                        var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == item.MaterialId);
 
-                        var invetario = await _context.Inventarios.FirstOrDefaultAsync();
+                        //Procura todos os inventários do material da tabela item,para posteriormente  subtrair do inventário a quantidade a ser utilizad na OS
+                        var inventario = inventarios.Where(x => x.MaterialId == item.MaterialId).ToList();
 
+                        
+                        //Instacia um novo inventário para criar um novo inventário com a atualização de quantidade utilizada na os e o motivo,a descricação da os
+                        Inventario i1 = new Inventario
+                         (
+                        ordemServico.Descricao,
+                        inventario[inventario.Count-1].SaldoFinal,
+                         inventario[inventario.Count - 1].Movimentacao,
+                         inventario[inventario.Count - 1].SaldoFinal,
+                         inventario[inventario.Count - 1].Responsavel,
+                        item.MaterialId
+                    );
+                        //Formatara a string que aparece como a razao da movimentacão do inventário,caso OS seja da master elétrica,utilizará o próprio id
+                        // D os como identificador pois no caso da master toda OS e sequencial,caso seja da brastorno será o numero deles ja vindo deles
+                        string descricaoOsFormated = ordemServico.NumeroOs != null ? $" {item.Quantidade}{material.Unidade} usadas na OS-{ordemServico.NumeroOs}-{ordemServico.Descricao}" : $"Material Utilizado na OS-{ordemServico.Id}-{ordemServico.Descricao}";
 
+                        i1.MovimentacaoOrdemServico(item.Quantidade,descricaoOsFormated);
 
-                        return Ok();
-
+                        await _context.Inventarios.AddAsync(i1);
                     }
 
-
-
                 }
-
+                await _context.SaveChangesAsync();
+                return Ok();
 
             }
 
