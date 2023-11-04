@@ -42,10 +42,10 @@ flex-wrap: wrap;
 }
 .container_inputs{
 display:flex;
-flex-direction:row;
+flex-direction:column;
 flex-wrap: wrap;
 margin: auto;
-width: 70vw;
+
 justify-content:center;
 text-align:center;
 margin-bottom: 20px;

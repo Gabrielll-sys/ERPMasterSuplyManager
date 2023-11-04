@@ -68,7 +68,7 @@ namespace SupplyManager.Controllers
             try
             {
 
-                OrdemServico o1 = new OrdemServico(model.Descricao, model.Responsavel,model.NumeroOs);
+                OrdemServico o1 = new OrdemServico(model.Descricao.ToUpper(), model.Responsavel,model.NumeroOs);
 
                 await _context.OrdemServicos.AddAsync(o1);
 

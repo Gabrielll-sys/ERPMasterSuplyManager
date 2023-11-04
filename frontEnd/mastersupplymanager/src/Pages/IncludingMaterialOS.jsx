@@ -15,7 +15,7 @@ import Header from "../componentes/Header";
 import EditIcon from '@mui/icons-material/Edit';
 import  includingMaterialOs from "../style/includingMaterialOs.module.css"
 import SearchIcon from '@mui/icons-material/Search';
-
+import dayjs from "dayjs";
 import Fab from '@mui/material/Fab';
 import { useNavigate } from "react-router-dom";
 import Card from '@mui/material/Card';
@@ -54,7 +54,7 @@ const IncludingMaterialOS = ()=>{
     const [openDialog,setOpenDialog] = useState(false)
     const [quantidadeMaterial,setQuantidadeMaterial] = useState()
     const [object,setObject] = useState([])
-    const [os,setOs] = useState()
+    const [os,setOs] = useState("")
 
   useEffect(()=>{
 getOs(idOs.state)
@@ -80,6 +80,8 @@ getMateriasOs(idOs.state)
           
         })
         setOs(res)
+
+    
       }
       const searchByDescription = async () => {
 
@@ -126,7 +128,7 @@ getMateriasOs(idOs.state)
     }
 
 
-const res = axios.post(`${url}/Itens/CreateItem`,item).then(r=>{
+const res = await axios.post(`${url}/Itens/CreateItem`,item).then(r=>{
   return r.data
 }).catch(e=>console.log(e))
 
@@ -160,12 +162,12 @@ const handleRemoveMaterial =  async (id)=>{
 
   await axios.delete(`${url}/Itens/${id}`).then(r=>{
 
+    setOpenSnackBar(true);
+    setSeveridadeAlert("success");
+    setMessageAlert("Material Removido da Lista da Os");
+    getMateriasOs(idOs.state)
   }).catch(r=>console.log(r))
-  setOpenSnackBar(true);
-  setSeveridadeAlert("success");
-  setMessageAlert("Material Removido da Lista da Os");
-  getMateriasOs(idOs.state)
-  console.log(materiaisOs)
+  
 
 }
 const handleOpenDialog =  (item)=>{
@@ -211,16 +213,32 @@ return(
 </Fab>
 </div>
 <div className={includingMaterialOs.container_inputs}>
+<>
+<Typography gutterBottom variant="h6" component="div">
+        
+        Materias na OS-{os.numeroOs && os!=undefined ?os.numeroOs:os.id}-{os!=undefined?os.descricao:""} 
+        
+       
+       </Typography>
+</>
+
+{os!=undefined && !os.isAuthorized ?(
+
 
 <TextField
           
           value={descricao}
-          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px",width:"320px" }}
+          style={{  margin:"auto",marginTop:"20px",width:"320px" }}
           
           onChange={(e) => setDescricao(e.target.value)}
           label="Descrição"
           required
         />
+): 
+<Typography gutterBottom variant="h5" component="div">
+        A OS-{os.numeroOs?os.numeroOs:os.id}-{os.descricao} foi autorizada {dayjs(os.dataAutorizacao).format("DD/MM/YYYY [as] HH:mm:ss")} por {os.responsavel}
+
+</Typography>}
 </div>
 
 <div className={includingMaterialOs.container_list}>
@@ -229,18 +247,11 @@ return(
         component="nav"
         aria-labelledby="nested-list-subheader"
         
-        subheader={
-          <Typography gutterBottom variant="h6" component="div">
         
-          {/* Materias na OS-{os.descricao}  */}
-          
-         
-       </Typography>
-        }
       >
         <ListItemButton onClick={handleOpenList}>
-          <ListItemText primary="Inbox" />
-          {/* <ListItemText secondary={`Materias nesta OS: ${materiaisOs.length}`} /> */}
+          <ListItemText primary="Materiais" />
+          <ListItemText secondary={`Materias nesta OS: ${materiaisOs!=undefined?materiaisOs.length:0}`} />
          
           {openList ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
@@ -267,7 +278,7 @@ return(
 
 
 <div className={includingMaterialOs.container_materials}>
-  { materias && materias.map(item=>(
+  {os!=undefined &&  materias  &&!os.isAuthorized &&  materias.map(item=>(
  
  <>
  <Card sx={{ maxWidth: 545 ,margin:4,borderRadius:5}}>
@@ -336,7 +347,7 @@ return(
            
             <Button onClick={x=>handleCreateItem(object.material.id)} 
          
-          disabled={(quantidadeMaterial>object.saldoFinal && object)|| quantidadeMaterial ==undefined|| quantidadeMaterial==""?true:false}>Adicionar Material</Button>
+          disabled={(quantidadeMaterial>object.saldoFinal && object)|| quantidadeMaterial ==undefined || quantidadeMaterial=="" || quantidadeMaterial==0?true:false}>Adicionar Material</Button>
         </DialogActions>
       </Dialog>
  )}

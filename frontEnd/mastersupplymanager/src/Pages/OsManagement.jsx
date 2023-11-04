@@ -56,11 +56,13 @@ getAllOs()
 
 const getAllOs= async()=>{
 
-const res = await axios.get(`${url}/OrdemServicos`).then().catch()
+const res = await axios.get(`${url}/OrdemServicos`).then(r=>{
+  return r.data
+}).catch()
+console.log(res)
+setOrdemServicos(res)
 
-setOrdemServicos(res.data)
 
-console.log(res.data)
 
 
 }
@@ -78,15 +80,15 @@ numeroOs:numeroOs,
 
 
 
- const res = axios.post(`${url}/OrdemServicos`,OS).then(x=>{
+ const res = await axios.post(`${url}/OrdemServicos`,OS).then(x=>{
 
   return x.data
  }).catch()
 console.log(res)
 
-if(res){
+
   getAllOs()
-}
+
 }
 
 return(
@@ -129,22 +131,8 @@ return(
     label="Descrição OS"
     
   />
-  <TextField
+ 
   
-    value={resposavel}
-    style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
-    className={osManagement.inputs}
-    
-    error={severidadeAlert != "warning" || !messageAlert=="Já existe um material com este mesmo código de fabricante" ? false : true}
-
-    onChange={(e) => setResposavel(e.target.value)}
-    label="Responsável"
-    
-  />
-   
-   
-
-
 
 
 <Select
@@ -163,7 +151,7 @@ onChange={x=>setPrefixoOs(x.target.value)}
 { prefixoOs=="BR" && (
   <TextField
   value = {numeroOs}
-  style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+  style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px",width:"200px" }}
   className={osManagement.inputs}
   
   error={severidadeAlert != "warning" || ! messageAlert=="Já existe um material com este mesmo código de fabricante" ? false : true}
@@ -183,16 +171,16 @@ onChange={x=>setPrefixoOs(x.target.value)}
        
    </div>
 
-{ ordemServicos && ordemServicos.map(item=>(
+   <div className={osManagement.container_os}>
+{  ordemServicos!=undefined && ordemServicos.map(item=>(
  
  <>
- <div className={osManagement.container_os}>
  <Card sx={{ maxWidth: 545 ,margin:5,borderRadius:5}}>
  <CardActionArea>
   
    <CardContent sx={{padding:2}} >
      <Typography variant="h6" color="text.primary" sx={{ maxWidth: 350,minWidth:350}}>
-     OS-{item.descricao}
+     OS-{item.numeroOs?item.numeroOs:item.id}-{item.descricao}
      </Typography>
      
      <Typography gutterBottom variant="body1" component="div">
@@ -213,18 +201,11 @@ onChange={x=>setPrefixoOs(x.target.value)}
 <CreateIcon />
 </Button>}
    
-  {/* {materialsOs.includes(item)  && !openDialog &&(
-
-   <Button size="small" color="primary" onClick={x=>HandleRemoveItemList(item)}>
-    <DeleteIcon/>
-   </Button>
-
-  )} */}
  </CardActions>
 </Card>
-</div>
 </>
   ))}
+  </div>
 
 
     </>

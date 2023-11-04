@@ -172,8 +172,8 @@ namespace SupplyManager.Controllers
 
             try
             {
-                _context.Remove(item);
-                _context.SaveChangesAsync();
+                _context.Itens.Remove(item);
+                await _context.SaveChangesAsync();
                 return Ok();
 
             }
