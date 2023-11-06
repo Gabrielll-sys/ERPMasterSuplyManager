@@ -12,12 +12,14 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import ImageIcon from '@mui/icons-material/Image';
-import WorkIcon from '@mui/icons-material/Work';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
+
+import { CardActionArea, CardActions } from '@mui/material';
+import { Button } from "primereact/button";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import createMaterial from "../style/createMaterial.module.css"
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 
 import axios from "axios";
 import AddIcon from '@mui/icons-material/Add';
@@ -25,6 +27,7 @@ import { Autocomplete } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { url } from "../contetxs/webApiUrl";
 import IncludingMaterialOS from "./IncludingMaterialOS";
+import dayjs from "dayjs";
 
 const OsManagement = ()=>{
     const navigate = useNavigate();
@@ -106,8 +109,9 @@ return(
   <SearchIcon sx={{color:"black"}} />
 </Fab>
 
-<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/includingMaterialOs")}>
-  <EditIcon sx={{color:"black"}} />
+<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/osManagement")}>
+<BorderColorTwoToneIcon sx={{color:"black"}} />
+
 </Fab>
 
 </div>
@@ -132,8 +136,7 @@ return(
     
   />
  
-  
-
+ 
 
 <Select
 style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px",height:"55px"}}
@@ -163,41 +166,47 @@ onChange={x=>setPrefixoOs(x.target.value)}
   )}
 </div>
 <div className={osManagement.container_botoes}>
-   <Button
+<Button
           className={osManagement.botao}
-          label="Criar Material"
+          label="Criar OS"
           onClick={handleCreateOs}
         />
+
        
    </div>
 
    <div className={osManagement.container_os}>
-{  ordemServicos!=undefined && ordemServicos.map(item=>(
+{  ordemServicos!=undefined && ordemServicos.map(os=>(
  
  <>
  <Card sx={{ maxWidth: 545 ,margin:5,borderRadius:5}}>
  <CardActionArea>
   
    <CardContent sx={{padding:2}} >
-     <Typography variant="h6" color="text.primary" sx={{ maxWidth: 350,minWidth:350}}>
-     OS-{item.numeroOs?item.numeroOs:item.id}-{item.descricao}
+     <Typography variant="h6" color="text.primary" sx={{ maxWidth: 350,minWidth:350,textAlign:"center",fontWeight:"bold"}}>
+     OS-{os.numeroOs?os.numeroOs:os.id}-{os.descricao}
      </Typography>
      
-     <Typography gutterBottom variant="body1" component="div">
-       Status: {!item. isAuthorized?"Pendente":"Autorizada"}
-    {console.log(item)}
+     <Typography gutterBottom variant="h6" component="div" sx={{textAlign:"center",}}>
+       Status: {!os. isAuthorized?"Pendente":`Autorizada ${dayjs(os.dataAutorizacao).format("DD/MM/YYYY [as] HH:mm:ss")}`}
      </Typography>
+     {os.isAuthorized &&(
+
+     <Typography gutterBottom variant="h6" component="div" sx={{textAlign:"center"}}>
+      Autorizada por {os.responsavel}
+     </Typography>
+     )}
    </CardContent>
  </CardActionArea>
  <CardActions>
 
-{item.isAuthorized ?(
+{os.isAuthorized ?(
 
- <Button size="small" color="primary" onClick={x=>handleChangeUpdatePage(item.id)}>
-     <VisibilityIcon />
+ <Button size="small" color="primary" onClick={x=>handleChangeUpdatePage(os.id)} style={{backgroundColor:'white',borderWidth:"0px"}} >
+     <VisibilityTwoToneIcon  />
    </Button>
 ):
-<Button size="small" color="primary" onClick={x=>handleChangeUpdatePage(item.id)}>
+<Button size="small" color="primary" onClick={x=>handleChangeUpdatePage(os.id)} style={{backgroundColor:'white',marginTop:"13px",borderWidth:"0px"}}>
 <CreateIcon />
 </Button>}
    

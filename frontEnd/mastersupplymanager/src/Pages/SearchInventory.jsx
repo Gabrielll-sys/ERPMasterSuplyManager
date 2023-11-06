@@ -6,12 +6,12 @@ import { Snackbar } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import searchInventory from "../style/searchInventory.module.css"
 import { url } from "../contetxs/webApiUrl";
-import CreateIcon from "@mui/icons-material/Create";
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import "dayjs/locale/pt-br";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
 import MuiAlert from "@mui/material/Alert";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -20,7 +20,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
+
 import TextField from "@mui/material/TextField";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -222,8 +223,8 @@ catch(e){
 <Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/searchInventory")}>
   <SearchIcon sx={{color:"black"}} />
 </Fab>
-<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/includingMaterialOs")}>
-<LocalPrintshopIcon sx={{color:"black"}} />
+<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/osManagement")}>
+<BorderColorTwoToneIcon sx={{color:"black"}} />
 
 </Fab>
 
@@ -278,10 +279,10 @@ catch(e){
                   <TableCell align="center" size="small"
                   sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}> 
                   
-                {showAll? <Button style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={x=>handleShowAll(inventarios)}><VisibilityIcon/></Button>:
+                {showAll? <Button style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={x=>handleShowAll(inventarios)}><VisibilityTwoToneIcon/></Button>:
                 <Button 
                 sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}
-                style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={x=>handleShowAll(inventarios)}><VisibilityOffIcon/></Button>}
+                style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={x=>handleShowAll(inventarios)}><VisibilityOffTwoToneIcon/></Button>}
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -327,7 +328,7 @@ catch(e){
                         
                       }
                     >
-                      <CreateIcon />
+                      <EditTwoToneIcon />
                     </Button>
                 
                   </TableRow>
@@ -369,7 +370,7 @@ catch(e){
                         handleChangePageUpdate(onlyOneItem.material.id)
                       }
                     >
-                      <CreateIcon />
+                      <EditTwoToneIcon />
                     </Button>
                 
                   </TableRow>

@@ -6,7 +6,8 @@ import { Snackbar } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import { url } from "../contetxs/webApiUrl";
-import CreateIcon from "@mui/icons-material/Create";
+import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
 import "dayjs/locale/pt-br";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -190,14 +191,8 @@ console.log(e)
     }
   
   const handleCreateMaterial = async () => {
-  
 
 
-/*
-try{
-  
-}
-*/
     if (!descricao || !unidade) {
       setOpenSnackBar(true);
       setSeveridadeAlert("warning");
@@ -299,8 +294,8 @@ try{
   <SearchIcon sx={{color:"black"}} />
 </Fab>
 
-<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/includingMaterialOs")}>
-  <LocalPrintshopIcon sx={{color:"black"}} />
+<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/osManagement")}>
+  <BorderColorTwoToneIcon sx={{color:"black"}} />
 </Fab>
 
 </div>
@@ -482,7 +477,7 @@ try{
                         handleChangeUpdatePage(row.material.id)
                       }
                     >
-                      <CreateIcon />
+                      <EditTwoToneIcon />
                     </Button>
                     </TableCell>
               

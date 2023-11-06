@@ -30,7 +30,7 @@ namespace SupplyManager.Controllers
 
         public async Task<List<OrdemServico>> GetAll()
         {
-
+            
             return await _context.OrdemServicos.ToListAsync();
         }
 
@@ -102,10 +102,10 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-        public async Task<ActionResult> UpdateAuthorize([FromRoute] int id)
+        public async Task<ActionResult> UpdateAuthorize([FromRoute] int id, [FromBody] OrdemServico model)
         {
 
-           /* if (model.Id != id) return BadRequest();*/
+            if (model.Id != id) return BadRequest();
 
             try
             {
@@ -116,6 +116,14 @@ namespace SupplyManager.Controllers
                 var inventarios = await _context.Inventarios.ToListAsync();
 
                 var ordemServico = await _context.OrdemServicos.FirstOrDefaultAsync(x => x.Id == id);
+
+                {
+                    ordemServico.Responsavel = model.Responsavel.ToUpper();
+
+                }
+
+
+
 
                 ordemServico.AutorizarOs();
 
@@ -144,7 +152,7 @@ namespace SupplyManager.Controllers
                     );
                         //Formatara a string que aparece como a razao da movimentacão do inventário,caso OS seja da master elétrica,utilizará o próprio id
                         // D os como identificador pois no caso da master toda OS e sequencial,caso seja da brastorno será o numero deles ja vindo deles
-                        string descricaoOsFormated = ordemServico.NumeroOs != null ? $" {item.Quantidade}{material.Unidade} usadas na OS-{ordemServico.NumeroOs}-{ordemServico.Descricao}" : $"Material Utilizado na OS-{ordemServico.Id}-{ordemServico.Descricao}";
+                        string descricaoOsFormated = ordemServico.NumeroOs != null ? $" {item.Quantidade} {material.Unidade} {(item.Quantidade>1?"utilizadas":"utilizada")} na OS-{ordemServico.NumeroOs}-{ordemServico.Descricao}" : $"Material Utilizado na OS-{ordemServico.Id}-{ordemServico.Descricao}";
 
                         i1.MovimentacaoOrdemServico(item.Quantidade,descricaoOsFormated);
 
@@ -152,6 +160,9 @@ namespace SupplyManager.Controllers
                     }
 
                 }
+
+
+
                 await _context.SaveChangesAsync();
                 return Ok();
 

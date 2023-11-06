@@ -5,9 +5,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import SendIcon from '@mui/icons-material/Send';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
@@ -22,7 +19,9 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import { CardActionArea, CardActions } from '@mui/material';
+import { Button } from "primereact/button";
+
 import AddIcon from '@mui/icons-material/Add';
 import axios from "axios";
 import { FilledInput, Snackbar } from "@material-ui/core";
@@ -36,7 +35,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from "@mui/material/TextField";
 import { url } from "../contetxs/webApiUrl";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { useLocation } from "react-router-dom";
 
 const IncludingMaterialOS = ()=>{
@@ -52,6 +51,8 @@ const IncludingMaterialOS = ()=>{
     const [descricao, setDescricao] = useState("disju");
     const[materiaisOs,setMateriaisOs] = useState([])
     const [openDialog,setOpenDialog] = useState(false)
+    const [openDialogAuthorize,setOpenDialogAuthorize] = useState(false)
+    const [responsavel,setResponsavel] = useState()
     const [quantidadeMaterial,setQuantidadeMaterial] = useState()
     const [object,setObject] = useState([])
     const [os,setOs] = useState("")
@@ -151,7 +152,15 @@ if(res){
 const handleAuthorizeOs = async ()=>{
 
 
+const ordemServico = {
+  id:os.id,
+  responsavel:responsavel
+}
 
+ await axios.put(`${url}/OrdemServicos/updateAuhorize/${os.id}`,ordemServico)
+  getOs(os.id)
+  handleCloseDialogAuthorize()
+  setResponsavel("")
 
 }
 
@@ -179,6 +188,11 @@ const handleOpenDialog =  (item)=>{
   setOpenDialog(true)
 
 }
+const handleOpenDialogAuthorize = ()=>{
+
+setOpenDialogAuthorize(true)
+
+}
 const handleOpenList = (item)=>{
 
 setOpenList(!openList)
@@ -190,28 +204,17 @@ const handleCloseDialog = ()=>{
     setOpenDialog(false)
     setQuantidadeMaterial()
 }
-
+const handleCloseDialogAuthorize = ()=>{
+    setOpenDialogAuthorize(false)
+    
+}
 
 
 return(
     <>
 
 <Header/>
-<div className={includingMaterialOs.container_navigation}>
-    
-<Fab onClick={()=>navigate("/createMaterial")} sx={{backgroundColor:"#FCDD74"}}  aria-label="add">
-  <AddIcon />
 
-</Fab>
-
-<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/")}>
-  <SearchIcon sx={{color:"black"}} />
-</Fab>
-
-<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>navigate("/includingMaterialOs")}>
-  <EditIcon sx={{color:"black"}} />
-</Fab>
-</div>
 <div className={includingMaterialOs.container_inputs}>
 <>
 <Typography gutterBottom variant="h6" component="div">
@@ -224,7 +227,7 @@ return(
 
 {os!=undefined && !os.isAuthorized ?(
 
-
+<>
 <TextField
           
           value={descricao}
@@ -234,9 +237,16 @@ return(
           label="Descrição"
           required
         />
+
+        <Button
+        className={includingMaterialOs.botao}
+        label="Autorizar OS"
+        onClick={handleOpenDialogAuthorize}
+      />
+      </>
 ): 
 <Typography gutterBottom variant="h5" component="div">
-        A OS-{os.numeroOs?os.numeroOs:os.id}-{os.descricao} foi autorizada {dayjs(os.dataAutorizacao).format("DD/MM/YYYY [as] HH:mm:ss")} por {os.responsavel}
+        A OS-{os.numeroOs?os.numeroOs:os.id}-{os.descricao} foi autorizada dia {dayjs(os.dataAutorizacao).format("DD/MM/YYYY [as] HH:mm:ss")} por {os.responsavel}
 
 </Typography>}
 </div>
@@ -266,7 +276,7 @@ return(
               <ListItemText  primary={x.material.descricao}  secondary={` Quantidade utilizada ${x.quantidade} ${x.material.unidade}`}/>
               {!os.isAuthorized && (
 
-                <DeleteIcon onClick={r=>handleRemoveMaterial(x.id)}/>
+                <DeleteTwoToneIcon onClick={r=>handleRemoveMaterial(x.id)}/>
                 )}
                   
             </ListItemButton>
@@ -300,7 +310,8 @@ return(
 
   {item.saldoFinal==null || item.saldoFinal == 0 ?<Typography gutterBottom variant="body1" component="div">
         Não há disponível deste material no estoque
-     </Typography>:<Button size="small" color="primary" onClick={x=>handleOpenDialog(item)}>
+     </Typography>:
+     <Button size="small" color="primary" onClick={x=>handleOpenDialog(item)}   style={{backgroundColor:'white',borderWidth:"0px"}}>
      <AddIcon />
    </Button>}
    
@@ -320,7 +331,7 @@ return(
  {object!=""&& (
 
     <Dialog open={openDialog} onClose={handleCloseDialog} >
-        <DialogTitle>Adicionando Quantidade</DialogTitle>
+        <DialogTitle sx={{textAlign:"center"}}>Adicionando Quantidade</DialogTitle>
         <DialogContent >
         <Typography gutterBottom variant="h7" component="div">
            {quantidadeMaterial>object.saldoFinal && materiaisOs?`A Quantidade escolhida excede o Estoque De ${object.material.descricao}`:`${object.material.descricao}` }
@@ -351,7 +362,38 @@ return(
         </DialogActions>
       </Dialog>
  )}
-  
+   <Dialog open={openDialogAuthorize} onClose={handleCloseDialogAuthorize} >
+        <DialogTitle sx={{textAlign:"center",fontWeight:"bold"}}>Autorização da OS-{os.numeroOs && os!=undefined ?os.numeroOs:os.id}-{os!=undefined?os.descricao:""} </DialogTitle>
+        <DialogContent >
+        <Typography gutterBottom variant="h5" component="div" sx={{color:"red",textAlign:"center",fontWeight:"bold"}} >
+          ATENÇÃO
+           </Typography>
+           <Typography gutterBottom variant="h5" component="div" sx={{fontWeight:"bold",textAlign:"center"}} >
+           Após autorizar a OS,o ato NÃO podera ser revertido
+           </Typography>
+          <Typography gutterBottom variant="h6" component="div">
+          
+              </Typography>
+          <FilledInput
+            autoFocus            
+            onChange={x=>setResponsavel(x.target.value)}
+            margin="dense"
+            id="name"
+            label="Responsável pela OS"
+            type="email"
+            fullWidth
+            variant="standard"
+            value={responsavel}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialogAuthorize}>Fechar</Button>
+           
+            <Button onClick={handleAuthorizeOs} 
+         
+          disabled={!responsavel || materiaisOs.length==0}>Autorizar OS</Button>
+        </DialogActions>
+      </Dialog>
 
   <Snackbar
             open={openSnackBar}
