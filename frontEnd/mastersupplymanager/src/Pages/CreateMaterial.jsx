@@ -49,7 +49,8 @@ const CreateMaterial = () => {
   const [messageAlert, setMessageAlert] = useState();
   const [severidadeAlert, setSeveridadeAlert] = useState();
   const [object,setObject]= useState([])
- 
+ const[precoCusto,setPrecoCusto] = useState()
+ const[markup,setMarkup] = useState()
 
   const [materiais, setMateriais] = useState([]);
 
@@ -213,6 +214,8 @@ console.log(e)
         localizacao: localizacao.trim().replace(/\s\s+/g, " "),
         corrente: corrente.trim().replace(/\s\s+/g, " "),
         dataEntradaNF: dataentrada,
+        precoCusto:precoCusto,
+        markup:markup
       };
 
       const materialCriado = await axios
@@ -355,7 +358,20 @@ console.log(e)
           onChange={(e) => setLocalizacao(e.target.value)}
           label="Localização"
         />
-
+        <TextField
+        value={precoCusto}
+        style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+        className={createMaterial.inputs}
+        onChange={(e) => setPrecoCusto(e.target.value)}
+        label="Preço Custo"
+      />
+      <TextField
+          value={markup}
+          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+          className={createMaterial.inputs}
+          onChange={(e) => setMarkup(e.target.value)}
+          label="Markup"
+        />
       
  <Select
      style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px",height:"55px"}}
@@ -424,8 +440,8 @@ console.log(e)
             >
               <TableHead>
                 <TableRow>
-                  <TableCell align="center"
-                          sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"  }} >Categoria</TableCell>
+                  {/* <TableCell align="center"
+                          sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"  }} >Categoria</TableCell> */}
                   <TableCell align="center"
                    sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Cod.Interno</TableCell>
                   <TableCell align="center"
@@ -443,6 +459,10 @@ console.log(e)
                   <TableCell align="center"
                   sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Localização</TableCell>
                   <TableCell align="center"
+                  sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Preço Custo</TableCell>
+                  <TableCell align="center"
+                  sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Preço venda</TableCell>
+                  <TableCell align="center"
                   sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}></TableCell>
                   {/* <TableCell align="center">DataEntradaNF</TableCell> */}
                 </TableRow>
@@ -454,8 +474,8 @@ console.log(e)
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                 
-                <TableCell align="center" size="medium"
-                sx={{ borderWidth:1,fontSize:"15px",borderColor:"black"   }}>{row.material.categoria==undefined?"Ainda Não Registrado":row.material.categoria}</TableCell>
+                {/* <TableCell align="center" size="medium"
+                sx={{ borderWidth:1,fontSize:"15px",borderColor:"black"   }}>{row.material.categoria==undefined?"Ainda Não Registrado":row.material.categoria}</TableCell> */}
         
                     <TableCell align="center"
                     sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.material.id}</TableCell>
@@ -468,7 +488,10 @@ console.log(e)
                     sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal +" "+row.material.unidade}</TableCell>
                     <TableCell align="center" size ="small"
                     sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.material.localizacao}</TableCell>
-                    
+                    <TableCell align="center" size ="small"
+                    sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.material.precoCusto==null?"Ainda não registrado":"R$ "+row.material.precoCusto.toFixed(2)}</TableCell>
+                    <TableCell align="center" size ="small"
+                    sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.material.precoVenda==null?"Ainda não registrado":"R$ "+row.material.precoVenda.toFixed(2)}</TableCell>
                      <TableCell align="center" size ="small"
                     sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>      <Button
                     style={{backgroundColor:'white',marginTop:"7px",marginRight:"15px"}}

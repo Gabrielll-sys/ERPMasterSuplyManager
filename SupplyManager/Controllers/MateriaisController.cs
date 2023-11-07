@@ -356,7 +356,9 @@ namespace SupplyManager.Controllers
                   String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao,
                   String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper(),
 
-                   model.DataEntradaNF
+                   model.DataEntradaNF,
+                   model.PrecoCusto,
+                   model.Markup
                    
                    );
                     var validationM1 = ValidationMaterial.Validate(m1);
@@ -371,9 +373,9 @@ namespace SupplyManager.Controllers
 
 
 
-                    await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-                   return Ok(m1);
+                return Ok(m1);
                 }
                
 
@@ -438,9 +440,14 @@ namespace SupplyManager.Controllers
                         m1.Tensao = String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao;
                         m1.Localizacao = String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper();
                         m1.DataEntradaNF = model.DataEntradaNF;
+                        m1.PrecoCusto = model.PrecoCusto;
+                        m1.Markup = model.Markup;
+
 
                     }
+                    m1.CalcularPrecoVenda();
 
+                    
                     var updateMaterial = _context.Materiais.Update(m1);
 
                     await _context.SaveChangesAsync();
@@ -467,8 +474,13 @@ namespace SupplyManager.Controllers
                         m1.Tensao = String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao;
                         m1.Localizacao = String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper();
                         m1.DataEntradaNF = model.DataEntradaNF;
+                        m1.PrecoCusto = model.PrecoCusto;
+                        m1.Markup = model.Markup;
 
                     }
+
+                    m1.CalcularPrecoVenda();
+
 
                     var updateMaterial = _context.Materiais.Update(m1);
 

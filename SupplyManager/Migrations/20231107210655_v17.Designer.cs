@@ -11,8 +11,8 @@ using SupplyManager.App;
 namespace SupplyManager.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20231107134044_v18")]
-    partial class v18
+    [Migration("20231107210655_v17")]
+    partial class v17
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

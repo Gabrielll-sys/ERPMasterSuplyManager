@@ -41,6 +41,8 @@ const UpdateMaterial = ()=>{
   const [idCategoria,setIdCategoria] = useState()
  const[oldCategory,setOldCategory]= useState()
  const [materiais, setMateriais] = useState([]);
+ const[precoCusto,setPrecoCusto] = useState()
+ const[markup,setMarkup] = useState()
 
  const unidadeMaterial = ["UN","RL","PC","MT","P"]
  const tensoes = ["","12V","24V","127V","220V","380V","440V","660V"]
@@ -76,6 +78,8 @@ setMarca(verifyNull(r.data.marca))
 setDescricao(verifyNull(r.data.descricao))
 setOldCategory(verifyNull(r.data.categoria))
 setLocalizacao(verifyNull(r.data.localizacao))
+setPrecoCusto(verifyNull(r.data.precoCusto))
+setMarkup(verifyNull(r.data.markup))
 
 setTensao(verifyNull(tensoes[tensoes.findIndex((x)=>x==r.data.tensao)]))
 
@@ -101,6 +105,8 @@ const material = {
     tensao:tensao,
     localizacao:localizacao.trim().replace(/\s\s+/g, ' '),
     dataEntradaNF:dataentrada,
+    precoCusto:precoCusto,
+    markup:markup,
     }
 
 
@@ -180,7 +186,20 @@ const material = {
           onChange={(e) => setLocalizacao(e.target.value)}
           label="Localização"
         />
-      
+          <TextField
+        value={precoCusto}
+        style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+        className={updateMaterial.inputs}
+        onChange={(e) => setPrecoCusto(e.target.value)}
+        label="Preço Custo"
+      />
+      <TextField
+          value={markup}
+          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+          className={updateMaterial.inputs}
+          onChange={(e) => setMarkup(e.target.value)}
+          label="Markup"
+        />
    <Select
      style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px"}}
      labelId="demo-simple-select-label"
