@@ -16,27 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `__efmigrationshistory`
+-- Table structure for table `itens`
 --
 
-DROP TABLE IF EXISTS `__efmigrationshistory`;
+DROP TABLE IF EXISTS `itens`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `__efmigrationshistory` (
-  `MigrationId` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `ProductVersion` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`MigrationId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `itens` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `MaterialId` int NOT NULL,
+  `OrdemServicoId` int NOT NULL,
+  `Quantidade` float DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `IX_Itens_OrdemServicoId` (`OrdemServicoId`),
+  KEY `IX_Itens_MaterialId` (`MaterialId`),
+  CONSTRAINT `FK_Itens_Materiais_MaterialId` FOREIGN KEY (`MaterialId`) REFERENCES `materiais` (`Id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_Itens_OrdemServicos_OrdemServicoId` FOREIGN KEY (`OrdemServicoId`) REFERENCES `ordemservicos` (`Id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `__efmigrationshistory`
+-- Dumping data for table `itens`
 --
 
-LOCK TABLES `__efmigrationshistory` WRITE;
-/*!40000 ALTER TABLE `__efmigrationshistory` DISABLE KEYS */;
-INSERT INTO `__efmigrationshistory` VALUES ('20230803235036_v1','7.0.13'),('20230804104822_v2','7.0.13'),('20230805171427_v3','7.0.13'),('20230807121840_v4','7.0.13'),('20230808160507_v5','7.0.13'),('20230811110946_v6','7.0.13'),('20230819220341_v7','7.0.13'),('20230824163008_ v8','7.0.13'),('20230830193848_v9','7.0.13'),('20230912174901_v10','7.0.13'),('20230915182050_v11','7.0.13'),('20230926111041_v12','7.0.13'),('20231010102947_v13','7.0.13'),('20231023184719_v14','7.0.13'),('20231026161426_v15','7.0.13'),('20231104000653_v-16','7.0.13'),('20231107112734_v17','7.0.13'),('20231107134044_v18','7.0.13');
-/*!40000 ALTER TABLE `__efmigrationshistory` ENABLE KEYS */;
+LOCK TABLES `itens` WRITE;
+/*!40000 ALTER TABLE `itens` DISABLE KEYS */;
+INSERT INTO `itens` VALUES (28,88,2,2),(31,61,3,1),(33,99,3,2),(34,180,3,1),(36,135,3,4),(37,273,3,3),(38,236,3,2),(39,480,3,6),(40,481,3,1),(41,12,3,6),(42,132,4,1),(43,74,4,1),(44,15,4,1),(45,134,4,1),(46,10,4,6),(47,11,4,2),(48,136,4,1),(49,120,4,2),(50,186,4,1),(51,99,4,1),(52,177,4,1),(53,150,4,1),(54,16,4,1),(55,236,4,1);
+/*!40000 ALTER TABLE `itens` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

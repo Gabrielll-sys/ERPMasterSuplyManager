@@ -42,7 +42,7 @@ const IncludingMaterialOS = ()=>{
      const idOs= useLocation()
 
     const [openSnackBar, setOpenSnackBar] = useState(false);
-    const [openList,setOpenList] = useState(true)
+    const [openList,setOpenList] = useState(false)
     const [descricaoOs,setDescricaoOs] = useState()
     const [messageAlert, setMessageAlert] = useState();
     const [severidadeAlert, setSeveridadeAlert] = useState();
@@ -50,6 +50,7 @@ const IncludingMaterialOS = ()=>{
     const[materias,setMateriais] = useState()
     const [descricao, setDescricao] = useState("disju");
     const[materiaisOs,setMateriaisOs] = useState([])
+    const [openDialogUpdateQuantity,setOpenDialogUpdateQuantity] = useState(false)
     const [openDialog,setOpenDialog] = useState(false)
     const [openDialogAuthorize,setOpenDialogAuthorize] = useState(false)
     const [responsavel,setResponsavel] = useState()
@@ -164,6 +165,25 @@ const ordemServico = {
 
 }
 
+const handleEditQuantidade = async (item)=>{
+console.log(item)
+//   const item = {
+//     materialId:item.id,
+//     material:{},
+//     ordemServicoId:idOs.state,
+//     ordemServico:{},
+//     quantidade:quantidadeMaterial,
+
+//   }
+// await axios.put(`${url}/Itens/${id}`,item)
+
+
+setOpenDialogUpdateQuantity(false)
+setQuantidadeMaterial()
+getOs(os.id)
+
+
+}
 
 const handleRemoveMaterial =  async (id)=>{
 
@@ -193,6 +213,18 @@ const handleOpenDialogAuthorize = ()=>{
 setOpenDialogAuthorize(true)
 
 }
+const handleOpenDialogEditQuantity = ()=>{
+
+  setOpenDialogUpdateQuantity(true)
+
+  
+  }
+  const handleCloseDialogEditQuantity = ()=>{
+
+    setOpenDialogUpdateQuantity(false)
+    
+    
+    }
 const handleOpenList = (item)=>{
 
 setOpenList(!openList)
@@ -267,9 +299,9 @@ return(
         </ListItemButton>
         <Collapse in={openList} timeout="auto" unmountOnExit>
               {materiaisOs && materiaisOs.map(x=>(
-          <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
+          <List component="div" disablePadding onClick={a=>handleOpenDialogEditQuantity(x.id)}>
+            <ListItemButton sx={{ pl: 4 }} >
+              <ListItemIcon >
                 <StarBorder />
               </ListItemIcon>
   
@@ -362,7 +394,7 @@ return(
         </DialogActions>
       </Dialog>
  )}
-   <Dialog open={openDialogAuthorize} onClose={handleCloseDialogAuthorize} >
+   <Dialog open={openDialogAuthorize} onClose={handleCloseDialog} >
         <DialogTitle sx={{textAlign:"center",fontWeight:"bold"}}>Autorização da OS-{os.numeroOs && os!=undefined ?os.numeroOs:os.id}-{os!=undefined?os.descricao:""} </DialogTitle>
         <DialogContent >
         <Typography gutterBottom variant="h5" component="div" sx={{color:"red",textAlign:"center",fontWeight:"bold"}} >
@@ -394,6 +426,41 @@ return(
           disabled={!responsavel || materiaisOs.length==0}>Autorizar OS</Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog open={openDialogUpdateQuantity} onClose={handleCloseDialogEditQuantity} >
+        <DialogTitle sx={{textAlign:"center",fontWeight:"bold"}}>Autorização da OS-{os.numeroOs && os!=undefined ?os.numeroOs:os.id}-{os!=undefined?os.descricao:""} </DialogTitle>
+        <DialogContent >
+        <Typography gutterBottom variant="h5" component="div" sx={{textAlign:"center",fontWeight:"bold"}} >
+         Alteração de quantidade
+           </Typography>
+           <Typography gutterBottom variant="h5" component="div" sx={{fontWeight:"bold",textAlign:"center"}} >
+          Digite a nova quantidade do material
+           </Typography>
+          <Typography gutterBottom variant="h6" component="div">
+          
+              </Typography>
+          <FilledInput
+            autoFocus            
+            onChange={x=>setQuantidadeMaterial(x.target.value)}
+            margin="dense"
+            id="name"
+            label="Responsável pela OS"
+            type="email"
+            fullWidth
+            variant="standard"
+            value={quantidadeMaterial}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialogEditQuantity}>Fechar</Button>
+           
+            <Button onClick={handleEditQuantidade} 
+         
+          disabled={!quantidadeMaterial || materiaisOs.length==0}>Editar quantidade</Button>
+        </DialogActions>
+      </Dialog>
+
+
 
   <Snackbar
             open={openSnackBar}

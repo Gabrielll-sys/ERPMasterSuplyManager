@@ -153,8 +153,11 @@ namespace SupplyManager.Controllers
 
             if (model.Id != id) return BadRequest();
 
-            var a = await _context.OrdemServicos.FirstOrDefaultAsync(x => x.Id == id);
+            var item = await _context.Itens.FirstOrDefaultAsync(x => x.Id == id);
 
+            item.Quantidade = model.Quantidade;
+
+            var a = 20;
             return Ok();
 
 

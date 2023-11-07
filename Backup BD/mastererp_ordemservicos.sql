@@ -25,12 +25,12 @@ DROP TABLE IF EXISTS `ordemservicos`;
 CREATE TABLE `ordemservicos` (
   `Id` int NOT NULL AUTO_INCREMENT,
   `Descricao` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `IsAutorizhed` tinyint(1) NOT NULL,
+  `IsAuthorized` tinyint(1) NOT NULL,
   `Responsavel` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `DataAutorizacao` datetime DEFAULT NULL,
   `NumeroOs` int DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `ordemservicos` (
 
 LOCK TABLES `ordemservicos` WRITE;
 /*!40000 ALTER TABLE `ordemservicos` DISABLE KEYS */;
-INSERT INTO `ordemservicos` VALUES (1,'BR-LOOP CICLONAGEM',0,NULL,NULL,NULL),(2,'BR-PENEIRADOR SUSPENSO',0,NULL,NULL,NULL);
+INSERT INTO `ordemservicos` VALUES (1,'BR-QUARTEADOR COM CORREIA',0,NULL,NULL,3786),(2,'BR-CELULA',0,'WARLLEY','2023-11-06 10:40:38',3785),(3,'ME-PONTE ROLANTE JOÃO CNC',0,NULL,NULL,NULL),(4,'BR-FILTRO A VÁCUO CANAÃ',0,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `ordemservicos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-27 14:33:55
+-- Dump completed on 2023-11-07 16:43:52

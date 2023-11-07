@@ -35,8 +35,12 @@ namespace SupplyManager.Models
         //Data de entrada da NOTA FISCAL
         public DateTime? DataEntradaNF { get; set; }
 
+    /*    public float? PrecoCusto { get; set; }
+        public float? Markup { get; set; }
+        public float? PrecoVenda { get; set; }*/
 
-      
+
+
 
         public Material(string? codigoInterno, string? codigoFabricante, string? descricao,string? categoria, string? marca, string? corrente, string? unidade, string? tensao,string? localizacao, DateTime? dataEntradaNF)
         {
