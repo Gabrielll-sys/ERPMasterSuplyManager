@@ -8,7 +8,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import "dayjs/locale/pt-br";
 import { url } from "../contetxs/webApiUrl";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import  updateInventory from "../style/updateMaterial.module.css";
+import  updateInventory from "../style/updateInventory.module.css";
 import MuiAlert from "@mui/material/Alert";
 import { useLocation } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -120,8 +120,11 @@ catch(e){
     <>
 
   <Header/>
+    <div className={updateInventory.container_titles}>
+    <h1 className={updateInventory.h1}>Editando inventário de  {descricao} </h1>
+    <h1 className={updateInventory.h1}>Codigo interno: {codigoInterno} </h1>
 
-    <h1 className={updateInventory.h1}>Editando inventário de {categoria} {descricao} (Codigo interno: {codigoInterno}) </h1>
+    </div>
   
     <div className={updateInventory.container_inputs}>
 
@@ -129,8 +132,7 @@ catch(e){
     
 
 
-    <TextField  disabled={true}   value={codigoInterno} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
-    className={updateInventory.inputs} onChange={e=>setCodigoInterno(e.target.value)} label='Cod.Interno' required />
+    
 
 
     {/* <TextField  disabled={true}   value={categoria} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}

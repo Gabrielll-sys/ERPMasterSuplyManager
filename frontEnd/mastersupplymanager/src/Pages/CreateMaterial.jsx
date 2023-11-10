@@ -51,7 +51,7 @@ const CreateMaterial = () => {
   const [object,setObject]= useState([])
  const[precoCusto,setPrecoCusto] = useState()
  const[markup,setMarkup] = useState()
-
+const [precoVenda,setPrecoVenda] = useState()
   const [materiais, setMateriais] = useState([]);
 
   const unidadeMaterial = ["UN", "RL", "MT", "P"];
@@ -192,7 +192,7 @@ console.log(e)
     }
   
   const handleCreateMaterial = async () => {
-
+console.log(precoVenda=="")
 
     if (!descricao || !unidade) {
       setOpenSnackBar(true);
@@ -215,7 +215,8 @@ console.log(e)
         corrente: corrente.trim().replace(/\s\s+/g, " "),
         dataEntradaNF: dataentrada,
         precoCusto:precoCusto,
-        markup:markup
+        markup:markup == ""?null:markup,
+        
       };
 
       const materialCriado = await axios
@@ -248,7 +249,8 @@ console.log(e)
         // e se somente o material ter sido criado
        if(materialCriado)
        {
-        setMateriais(materialCriado)
+         await searchByDescription()
+       
 
        }
 
@@ -370,8 +372,9 @@ console.log(e)
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
           className={createMaterial.inputs}
           onChange={(e) => setMarkup(e.target.value)}
-          label="Markup"
+          label="Markup %"
         />
+    
       
  <Select
      style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px",height:"55px"}}
@@ -489,9 +492,9 @@ console.log(e)
                     <TableCell align="center" size ="small"
                     sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.material.localizacao}</TableCell>
                     <TableCell align="center" size ="small"
-                    sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.material.precoCusto==null?"Ainda não registrado":"R$ "+row.material.precoCusto.toFixed(2)}</TableCell>
+                    sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2)}</TableCell>
                     <TableCell align="center" size ="small"
-                    sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.material.precoVenda==null?"Ainda não registrado":"R$ "+row.material.precoVenda.toFixed(2)}</TableCell>
+                    sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2)}</TableCell>
                      <TableCell align="center" size ="small"
                     sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>      <Button
                     style={{backgroundColor:'white',marginTop:"7px",marginRight:"15px"}}

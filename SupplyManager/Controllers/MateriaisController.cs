@@ -359,6 +359,8 @@ namespace SupplyManager.Controllers
                    model.DataEntradaNF,
                    model.PrecoCusto,
                    model.Markup
+                  
+                  
                    
                    );
                     var validationM1 = ValidationMaterial.Validate(m1);

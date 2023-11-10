@@ -90,8 +90,13 @@ setTensao(verifyNull(tensoes[tensoes.findIndex((x)=>x==r.data.tensao)]))
 
 const handleUpdateMaterial=  async (id)=>{
 console.log(dataentrada)
-
-
+console.log(precoCusto)
+console.log(markup)
+if(precoCusto == undefined && markup==undefined){
+  console.log("FOI")
+  setPrecoCusto(0)
+  setMarkup(0)
+}
   // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
 const material = {
     id:id,
@@ -105,8 +110,8 @@ const material = {
     tensao:tensao,
     localizacao:localizacao.trim().replace(/\s\s+/g, ' '),
     dataEntradaNF:dataentrada,
-    precoCusto:precoCusto,
-    markup:markup,
+    precoCusto:precoCusto==""?null:precoCusto,
+    markup:markup==""?null:markup,
     }
 
 
@@ -198,7 +203,7 @@ const material = {
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
           className={updateMaterial.inputs}
           onChange={(e) => setMarkup(e.target.value)}
-          label="Markup"
+          label="Markup %"
         />
    <Select
      style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px"}}

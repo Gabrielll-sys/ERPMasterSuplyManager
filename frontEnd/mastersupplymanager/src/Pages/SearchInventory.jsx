@@ -274,8 +274,8 @@ catch(e){
                   sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Razão</TableCell>
                   <TableCell align="center"
                   sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Data </TableCell>
-                  <TableCell align="center"
-                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Usuario</TableCell>
+                  {/* <TableCell align="center"
+                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Usuario</TableCell> */}
                   <TableCell align="center" size="small"
                   sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}> 
                   
@@ -313,23 +313,27 @@ catch(e){
                       {dayjs(row.dataAlteracao).format(`[${row.movimentacao==null &&row.estoque==0?" Material Criado as " :"Inventário Editado as "}]DD/MM/YYYY [as] HH:mm:ss`)} 
                     </TableCell>
                    
-                    <TableCell align="center" size ="small"  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.responsavel}</TableCell>
+                    {/* <TableCell align="center" size ="small"  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{row.responsavel}</TableCell> */}
                    
 
-                    
-                    {/* Caso o o item da linha seja o ultimo listado da sequencia de edições do inventário,então permitirá a edição,isso impede de editar estoque e edições passadas */}
+                    <TableCell align="center" size ="small"  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>
+
+ {/* Caso o o item da linha seja o ultimo listado da sequencia de edições do inventário,então permitirá a edição,isso impede de editar estoque e edições passadas */}
+                    {inventarios[inventarios.length-1].id==row.id && (
+
                     <Button
-                    
-                    disabled={inventarios[inventarios.length-1].id==row.id?false:true}
                     sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}
                     style={{backgroundColor:'white',marginTop:"13px",borderWidth:"0px"}}
-                      onClick={(x) =>
-                        handleChangePageUpdate(row.material.id)
-                        
-                      }
-                    >
-                      <EditTwoToneIcon />
+                    onClick={(x) =>
+                    handleChangePageUpdate(row.material.id)
+                    }>
+                    <EditTwoToneIcon />
                     </Button>
+)}
+
+                    </TableCell>
+                    
+                   
                 
                   </TableRow>
                   
