@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import {NextUIProvider} from "@nextui-org/react";
+import Providers from '@/contexts/Providers'
+import Header from './componentes/Header'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -16,14 +17,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      
-      <body className={inter.className}>
-        <NextUIProvider>
-        {children}
-        </NextUIProvider>
-        
-        </body>
-    </html>
 
+      <Providers>
+      <Header/>
+     {children}
+      </Providers>
+    </html>
   )
 }
