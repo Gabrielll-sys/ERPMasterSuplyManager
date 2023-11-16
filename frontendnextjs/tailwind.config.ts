@@ -21,7 +21,8 @@ const config: Config = {
         dark: "#100C08",
         green: "#3d9970",
         grey: "#3b4849",
-        master_color:"#2A2E48"
+        master_black:"#2A2E48",
+        master_yellow:"#FCDD74"
       },
       fontFamily: {
         sans: ['Roboto', 'Sans-serif'],

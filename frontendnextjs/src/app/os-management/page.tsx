@@ -1,8 +1,15 @@
 "use client"
-
+import NavBar from "../componentes/NavBar"
 export default function OsManagement(){
+    
+    
+    
+    
     return(
-        <p>Os Management</p>
+<>
+<NavBar/>
 
+        <p>Os Management</p>
+        </>
     )
 }

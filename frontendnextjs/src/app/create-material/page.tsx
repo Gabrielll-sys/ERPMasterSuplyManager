@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import * as React from 'react';
 import { useRouter } from "next/navigation";
 
@@ -14,7 +14,7 @@ import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
 import "dayjs/locale/pt-br";
 import { Snackbar } from '@mui/material';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-
+import { Input } from '@nextui-org/react';
 import MuiAlert from "@mui/material/Alert";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -26,7 +26,7 @@ import Paper from "@mui/material/Paper";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
-import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
+import NavBar from '../componentes/NavBar';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -119,6 +119,7 @@ getAllMaterials().then().catch()
 
   const searchByDescription = async () => {
 
+    console.log("Foi")
    try{
     const res = await axios
     .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao}`)
@@ -128,8 +129,8 @@ getAllMaterials().then().catch()
      
     })
     .catch();
-
-    setMateriais(res)
+    console.log(res)
+    // setMateriais(res)
 
    }
    catch(e) 
@@ -195,7 +196,7 @@ console.log(e)
     }
   
   const handleCreateMaterial = async () => {
-console.log(precoVenda=="")
+    
 
     if (!descricao || !unidade) {
       setOpenSnackBar(true);
@@ -276,13 +277,7 @@ console.log(precoVenda=="")
     .catch();
 
     
-  res.forEach(x=>{
-
-    if(x.descricao.includes("CAIXA")){
-      console.log(x.descricao)
-    }
-    
-  })
+  
   
   }
     return(
@@ -291,34 +286,12 @@ console.log(precoVenda=="")
    
       <div>
       
-<Fab onClick={()=>route.push("/update-material")} sx={{backgroundColor:"#FCDD74"}}  aria-label="add">
-  <AddIcon />
-
-</Fab>
-
-<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>route.push("/searchInventory")}>
-  <SearchIcon sx={{color:"black"}} />
-</Fab>
-
-<Fab  sx={{backgroundColor:"#FCDD74"}}onClick={()=>route.push("/osManagement")}>
-  <BorderColorTwoToneIcon sx={{color:"black"}} />
-</Fab>
+<NavBar/>
 
 </div>
-      <h1 >Criação de Material</h1>
+      <h1  className='text-center font-bold text-2xl mt-6'>Criação de Material</h1>
 
-      <div className=' flex flex-row w-36 '>
-        {/* <TextField
-          error={
-            severidadeAlert != "warning" || categoria.length ? false : true
-          }
-          value={categoria}
-          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
-          className={createMaterial.inputs}
-          onChange={(e) => setCategoria(e.target.value)}
-          label="Categoria"
-          required
-        /> */}
+      <div className=' w-full flex flex-row justify-center mt-6 '>
 
        
 
@@ -361,6 +334,9 @@ console.log(precoVenda=="")
           onChange={(e) => setLocalizacao(e.target.value)}
           label="Localização"
         />
+          </div>
+      <div className=' w-full flex flex-row justify-center'>
+
         <TextField
         value={precoCusto}
         style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
@@ -428,14 +404,14 @@ console.log(precoVenda=="")
           </LocalizationProvider>
         </div>
       </div>
-      <div>
-        <Button
-        
-   
-          onClick={handleCreateMaterial}
-        />
-       
-        <div >
+
+      <div className='text-center mt-8'>
+      <Button  onClick={x=>console.log("Teste")} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl '>
+        Criar Material
+      </Button>
+      </div>
+
+        <div className='mt-16' >
           <TableContainer component={Paper} >
             <Table
             stickyHeader
@@ -444,30 +420,29 @@ console.log(precoVenda=="")
             >
               <TableHead>
                 <TableRow>
-                  {/* <TableCell align="center"
-                          sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"  }} >Categoria</TableCell> */}
-                  <TableCell align="center"
-                   sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Cod.Interno</TableCell>
-                  <TableCell align="center"
-                   sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Cod.Fabricante</TableCell>
-                  <TableCell align="center"
-                   sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Descrição</TableCell>
-                  <TableCell align="center"
-                   sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Marca</TableCell>
-                  <TableCell align="center"
-                   sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Tensão</TableCell>
-     
-                  <TableCell align="center"
-                  sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Estoque</TableCell>
 
                   <TableCell align="center"
-                  sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Localização</TableCell>
+                   className="text-xl ">Cod.Interno</TableCell>
                   <TableCell align="center"
-                  sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Preço Custo</TableCell>
+                  className="text-xl">Cod.Fabricante</TableCell>
                   <TableCell align="center"
-                  sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>Preço venda</TableCell>
+                  className="text-xl ">Descrição</TableCell>
                   <TableCell align="center"
-                  sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}></TableCell>
+                   className="text-xl ">Marca</TableCell>
+                  <TableCell align="center"
+                   className="text-xl ">Tensão</TableCell>
+     
+                  <TableCell align="center"
+                  className="text-xl ">Estoque</TableCell>
+
+                  <TableCell align="center"
+                  className="text-xl ">Localização</TableCell>
+                  <TableCell align="center"
+                  className="text-xl ">Preço Custo</TableCell>
+                  <TableCell align="center"
+                  className="text-xl ">Preço venda</TableCell>
+                  <TableCell align="center"
+                  className="text-xl "></TableCell>
                   {/* <TableCell align="center">DataEntradaNF</TableCell> */}
                 </TableRow>
               </TableHead>
@@ -475,12 +450,10 @@ console.log(precoVenda=="")
                 { materiais.length>=1 && materiais.map((row) => (
                   <TableRow
                     key={row.material.id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                   
                   >
                 
-                {/* <TableCell align="center" size="medium"
-                sx={{ borderWidth:1,fontSize:"15px",borderColor:"black"   }}>{row.material.categoria==undefined?"Ainda Não Registrado":row.material.categoria}</TableCell> */}
-        
+               
                     <TableCell align="center"
                     sx={{ borderWidth:1,fontSize:"20px",borderColor:"black"   }}>{row.material.id}</TableCell>
                     <TableCell align="center" sx={{ borderWidth:1,fontSize:"16px",borderColor:"black"   }}>{row.material.codigoFabricante}</TableCell>
@@ -508,28 +481,14 @@ console.log(precoVenda=="")
                     </Button>
                     </TableCell>
               
-                    {/* <Button
-                    disabled={true}
-                      style={{ marginLeft: "15px" ,backgroundColor:'white'}}
-                      onClick={(x) => deleteMaterial(row.material.id)}
-                    >
-                      <DeleteIcon />
-                    </Button> */}
+                   
                   </TableRow>
                 ))}
                  
               </TableBody>
             </Table>
           </TableContainer>
-          {/* <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        /> */}
+      
           <Snackbar
             open={openSnackBar}
             autoHideDuration={3000}
@@ -544,7 +503,6 @@ console.log(precoVenda=="")
             </MuiAlert>
           </Snackbar>
         </div>
-      </div>
     </>
 
 
