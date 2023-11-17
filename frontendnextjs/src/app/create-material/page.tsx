@@ -1,5 +1,5 @@
 "use client";
-import * as React from 'react';
+
 import { useRouter } from "next/navigation";
 
 import { Button } from "@nextui-org/react";
@@ -67,7 +67,7 @@ useEffect(()=>{
 const description = sessionStorage.getItem("description")
 
 if(description) setDescricao(description)
-getAllMaterials().then().catch()
+
 
 },[])
 
@@ -141,28 +141,7 @@ console.log(e)
   
 };
 
-  const searchByCategory = async () => {
-    try{
-      const res = await axios
-      .get(`${url}/Materiais/buscaCategoria?categoria=${categoria}`)
-      .then((r) => {
-        return r.data
-      }).catch();
 
-
- 
-
- setMateriais(res)
-
-
-    }
-   catch(e){
-
-    console.log(e)
-   }
-
-
-  };
   const handleChangeUpdatePage = async (id:number) => {
    
     sessionStorage.setItem("description",descricao)
@@ -263,23 +242,7 @@ console.log(e)
     }
   };
 
-  const getAllMaterials =  async ()=>{
-
-
-    const res =  await axios
-    .get(`${url}/Materiais`)
-    .then((r)=> {
-      
-      
-     return r.data
-     
-    })
-    .catch();
-
-    
   
-  
-  }
     return(
        
       <>
@@ -405,8 +368,8 @@ console.log(e)
         </div>
       </div>
 
-      <div className='text-center mt-8'>
-      <Button  onClick={x=>console.log("Teste")} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl '>
+      <div className='text-center mt-8 pointer-events-auto'>
+      <Button  onClick={handleCreateMaterial} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl '>
         Criar Material
       </Button>
       </div>

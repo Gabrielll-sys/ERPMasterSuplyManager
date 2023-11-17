@@ -1,6 +1,6 @@
 "use client"
 import NavBar from "../componentes/NavBar"
-import { Button } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import Header from "../componentes/Header";
 import { useRouter } from "next/navigation";
 
@@ -117,24 +117,7 @@ export default function SearchInvetory(){
 
   }
   
-  const searchByDescription = async () => {
 
-
-    try{
-
-      
-
-    }
-    catch(e){
-      console.log(e)
-      if(e.message =="Network Error")
-      setOpenSnackBar(true);
-      setSeveridadeAlert("error");
-      setMessageAlert("Sem conexão com o servidor");
-      
-    }
-  
-};
 
 const handleShowAll = ()=>{
 
@@ -187,6 +170,8 @@ catch(e){
 };
 
 const searchByFabricanteCode = async () => {
+ 
+ console.log("Chamou")
   try{
 
   const res = await axios
@@ -236,7 +221,11 @@ catch(e){
           label="Código Interno"
           required
         />
-
+  <Input
+  autoFocus
+  value={codigoInterno}
+      onChange={(e) => console.log(e)}
+  /> 
 
 
      
@@ -250,26 +239,26 @@ catch(e){
             >
               <TableHead>
                 <TableRow>
-                  <TableCell align="center"
-                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Cod.Interno</TableCell>
-                  <TableCell align="center"
-                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Cod.Fabricante</TableCell>
-                  <TableCell align="center"
-                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Descrição</TableCell>
-                  <TableCell align="center" size="small"
-                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Estoque</TableCell>
-                  <TableCell align="center" size="small"
-                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Movimentação</TableCell>
-                  <TableCell align="center" size="small"
-                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Saldo Final</TableCell>
-                  <TableCell align="center"
-                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Razão</TableCell>
-                  <TableCell align="center"
-                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Data </TableCell>
+                  <TableCell align="center" className="text-base"
+                  >Cod.Interno</TableCell>
+                  <TableCell align="center" className="text-base"
+                  >Cod.Fabricante</TableCell>
+                  <TableCell align="center" className="text-base"
+                  >Descrição</TableCell>
+                  <TableCell align="center" size="small" className="text-base"
+                  >Estoque</TableCell>
+                  <TableCell align="center" size="small" className="text-base"
+                  >Movimentação</TableCell>
+                  <TableCell align="center" size="small" className="text-base"
+                  >Saldo Final</TableCell>
+                  <TableCell align="center" className="text-base"
+                  >Razão</TableCell>
+                  <TableCell align="center" className="text-base"
+                  >Data </TableCell>
                   {/* <TableCell align="center"
                   sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>Usuario</TableCell> */}
-                  <TableCell align="center" size="small"
-                  sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}> 
+                  <TableCell align="center" size="small" className="text-base"
+                  > 
                   
                 {showAll? <Button style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={x=>handleShowAll(inventarios)}><VisibilityTwoToneIcon/></Button>:
                 <Button 
@@ -279,7 +268,7 @@ catch(e){
                 </TableRow>
               </TableHead>
               <TableBody>
-                { showAll && inventarios.map((row) => (
+                { showAll && inventarios.map((row :any) => (
                   <TableRow
                     key={row.id}
                   
@@ -313,9 +302,8 @@ catch(e){
  {/* Caso o o item da linha seja o ultimo listado da sequencia de edições do inventário,então permitirá a edição,isso impede de editar estoque e edições passadas */}
                     {inventarios[inventarios.length-1].id==row.id && (
 
-                    <Button
-                    sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}
-                    style={{backgroundColor:'white',marginTop:"13px",borderWidth:"0px"}}
+                    <Button  
+      
                     onClick={(x) =>
                     handleChangePageUpdate(row.material.id)
                     }>
@@ -360,8 +348,7 @@ catch(e){
                     sx={{ borderWidth:2,fontSize:"16px",borderColor:"black"   }}>{onlyOneItem.responsavel}</TableCell>
                
                     <Button
-                    style={{backgroundColor:'white',marginTop:"13px",borderWidth:"0px"}}
-                    
+                                
                       onClick={(x) =>
                         handleChangePageUpdate(onlyOneItem.material.id)
                       }

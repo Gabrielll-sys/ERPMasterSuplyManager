@@ -449,7 +449,11 @@ namespace SupplyManager.Controllers
                     }
                     m1.CalcularPrecoVenda();
 
-                    
+                    if (m1.PrecoCusto == 0)
+                    {
+                        m1.PrecoVenda = 0;
+                    }
+
                     var updateMaterial = _context.Materiais.Update(m1);
 
                     await _context.SaveChangesAsync();
@@ -461,12 +465,12 @@ namespace SupplyManager.Controllers
                 //CASO O MATERIAL TENHA SIDO CRIADO , TAMBEM SEU INVETÁRIO,ENTÃO FICARÁ VARIOS REGISTROS,ASSIM PEGARA TODOS OS ITENS DE INVENTÁRIO E TAMBEM
                 // ATUALIZARÁ TODOS OS CAMPOS DESSES ITENS DE INVENTÁRIO
 
-                foreach(var invetario in invetorys)
+                foreach (var invetario in invetorys)
                 {
                     var m1 = await _context.Materiais.FindAsync(invetario.Id);
 
                     {
-                     
+
                         m1.CodigoFabricante = model.CodigoFabricante.ToUpper();
                         m1.Descricao = model.Descricao.ToUpper();
                         m1.Categoria = model.Categoria.ToUpper();
@@ -483,6 +487,10 @@ namespace SupplyManager.Controllers
 
                     m1.CalcularPrecoVenda();
 
+                    if (m1.PrecoCusto == 0)
+                    {
+                        m1.PrecoVenda = 0;
+                    }                    
 
                     var updateMaterial = _context.Materiais.Update(m1);
 
