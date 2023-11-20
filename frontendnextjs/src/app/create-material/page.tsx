@@ -16,7 +16,7 @@ import "dayjs/locale/pt-br";
 import { Snackbar } from '@mui/material';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Input } from '@nextui-org/react';
-import MuiAlert from "@mui/material/Alert";
+import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -35,26 +35,27 @@ import SearchIcon from '@mui/icons-material/Search';
 import MenuItem from '@mui/material/MenuItem';
 
 import Select from '@mui/material/Select';
+import dayjs from "dayjs";
 export default function CreateMaterial(){
   const route = useRouter()
 
   
   const [categoria, setCategoria] = useState<string>("");
   const [descricao, setDescricao] = useState<string>("");
-  const [codigoInterno, setCodigoInterno] = useState("");
-  const [codigoFabricante, setCodigoFabricante] = useState("");
+  const [codigoInterno, setCodigoInterno] = useState<string>("");
+  const [codigoFabricante, setCodigoFabricante] = useState<string>("");
   const [marca, setMarca] = useState<string>("");
   const [tensao, setTensao] = useState<string>("");
   const [localizacao, setLocalizacao] = useState<string>("");
   const [corrente, setCorrente] = useState<string>("");
   const [unidade, setUnidade] = useState<string>("UN");
-  const [dataentrada, setDataentrada] = useState(undefined);
+  const [dataentrada, setDataentrada] = useState<any>(undefined);
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [messageAlert, setMessageAlert] = useState<string>();
-  const [severidadeAlert, setSeveridadeAlert] = useState<string>();
+  const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
   const [object,setObject]= useState([])
- const[precoCusto,setPrecoCusto] = useState()
- const[markup,setMarkup] = useState()
+ const[precoCusto,setPrecoCusto] = useState<number | undefined>()
+ const[markup,setMarkup] = useState<number>(0)
 const [precoVenda,setPrecoVenda] = useState<number>()
   const [materiais, setMateriais] = useState([]);
 
@@ -198,7 +199,7 @@ console.log(e)
         localizacao: localizacao.trim().replace(/\s\s+/g, " "),
         dataEntradaNF: dataentrada,
         precoCusto:precoCusto,
-        markup:markup == ""?null:markup,
+        markup:markup == 0 ?null:markup,
         
       };
 
@@ -305,14 +306,14 @@ console.log(e)
         value={precoCusto}
         style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
       
-        onChange={(e) => setPrecoCusto(e.target.value)}
+        onChange={(e) => setPrecoCusto(Number(e.target.value))}
         label="Preço Custo"
       />
       <TextField
           value={markup}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
           
-          onChange={(e) => setMarkup(e.target.value)}
+          onChange={(e) => setMarkup(Number(e.target.value))}
           label="Markup %"
         />
     

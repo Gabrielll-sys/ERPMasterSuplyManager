@@ -10,7 +10,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import "dayjs/locale/pt-br";
 import { url } from "../../api/webApiUrl";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import MuiAlert from "@mui/material/Alert";
+import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import { useRouter } from "next/router";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
@@ -24,27 +24,29 @@ export default function UpdateMaterial({params}:any){
     //Variável que é passada pela rota na tela de criar material,aonde quando clicar no icone de editar,passara o id do material
     // const route = useRouter()
 
-  const[categoria,setCategoria]=useState("")
-  const [descricao,setDescricao] = useState("")
-  const [codigoInterno,setCodigoInterno] = useState("")
-  const [codigoFabricante,setCodigoFabricante] = useState("")
-  const [marca,setMarca] = useState("")
-  const [ tensao,setTensao] = useState("")
-  const [corrente,setCorrente] = useState("")
-  const [localizacao,setLocalizacao] = useState("")
-  const [ unidade,setUnidade] = useState("")
-  const[dataentrada,setDataentrada] = useState(undefined)
+
+
+  const[categoria,setCategoria]=useState<string>("")
+  const [descricao,setDescricao] = useState<string>("")
+  const [codigoInterno,setCodigoInterno] = useState<string>("")
+  const [codigoFabricante,setCodigoFabricante] = useState<string>("")
+  const [marca,setMarca] = useState<string>("")
+  const [ tensao,setTensao] = useState<string>("")
+  const [corrente,setCorrente] = useState<string>("")
+  const [localizacao,setLocalizacao] = useState<string>("")
+  const [ unidade,setUnidade] = useState<string>("")
+  const[dataentrada,setDataentrada] = useState<any>(undefined)
   const [openSnackBar,setOpenSnackBar]= useState(false)
-  const [ messageAlert,setMessageAlert] = useState();
-  const [ severidadeAlert,setSeveridadeAlert] = useState()
-   const [idCategoria,setIdCategoria] = useState()
-  const[oldCategory,setOldCategory]= useState()
-  const [materiais, setMateriais] = useState([]);
-  const[precoCusto,setPrecoCusto] = useState()
-  const[markup,setMarkup] = useState()
+  const [ messageAlert,setMessageAlert] = useState<string>();
+  const [ severidadeAlert,setSeveridadeAlert] = useState<AlertColor>()
+   const [idCategoria,setIdCategoria] = useState<number>()
+  const[oldCategory,setOldCategory]= useState<string>("")
+  const [materiais, setMateriais] = useState<any>([]);
+  const[precoCusto,setPrecoCusto] = useState<number>()
+  const[markup,setMarkup] = useState<number>(0)
  
-  const unidadeMaterial = ["UN","RL","PC","MT","P"]
-  const tensoes = ["","12V","24V","127V","220V","380V","440V","660V"]
+  const unidadeMaterial: string[] = ["UN","RL","PC","MT","P"]
+  const tensoes : string[] = ["","12V","24V","127V","220V","380V","440V","660V"]
  
  
  
@@ -58,14 +60,14 @@ export default function UpdateMaterial({params}:any){
  },[])
  //esta função serve para verificar se o item é nulo,aonde quando importamos os dados do excel os dados vem como nulo
  //e para realizar a  edição aqui
- const verifyNull = (item)=>{
+ const verifyNull = (item:any)=>{
  
    return item==null?"":item
  
  }
  
  
-  const getMaterial = async(id)=>{
+  const getMaterial = async(id:number)=>{
  
   axios.get(`${url}/Materiais/${id}`).then(r=>{
  console.log(r.data.dataEntradaNF)
@@ -88,12 +90,10 @@ export default function UpdateMaterial({params}:any){
   }
  
  
- const handleUpdateMaterial=  async (id)=>{
- console.log(dataentrada)
- console.log(precoCusto)
- console.log(markup)
+ const handleUpdateMaterial=  async (id:number)=>{
+ 
  if(precoCusto == undefined && markup==undefined){
-   console.log("FOI")
+
    setPrecoCusto(0)
    setMarkup(0)
  }
@@ -110,8 +110,8 @@ export default function UpdateMaterial({params}:any){
      tensao:tensao,
      localizacao:localizacao.trim().replace(/\s\s+/g, ' '),
      dataEntradaNF:dataentrada,
-     precoCusto:precoCusto==""?null:precoCusto,
-     markup:markup==""?null:markup,
+     precoCusto:precoCusto==0?null:precoCusto,
+     markup:markup==0?null:markup,
      }
  
  
@@ -198,14 +198,14 @@ export default function UpdateMaterial({params}:any){
          value={precoCusto}
          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
         
-         onChange={(e) => setPrecoCusto(e.target.value)}
+         onChange={(e) => setPrecoCusto(Number(e.target.value))}
          label="Preço Custo"
        />
        <TextField
            value={markup}
            style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
       
-           onChange={(e) => setMarkup(e.target.value)}
+           onChange={(e) => setMarkup(Number(e.target.value))}
            label="Markup %"
          />
     <Select

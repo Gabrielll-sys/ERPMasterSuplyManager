@@ -27,7 +27,7 @@ import { Snackbar } from '@mui/material';
 import { FilledInput } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import axios from "axios";
-import MuiAlert from "@mui/material/Alert";
+import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import Stack from '@mui/material/Stack';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -43,21 +43,21 @@ import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 export default function IncludingMaterialOs({params}:any){
 
     const route = useRouter()
-    const [openSnackBar, setOpenSnackBar] = useState(false);
-    const [openList,setOpenList] = useState(false)
-    const [descricaoOs,setDescricaoOs] = useState()
-    const [messageAlert, setMessageAlert] = useState();
-    const [severidadeAlert, setSeveridadeAlert] = useState();
-    const[materias,setMateriais] = useState()
-    const [descricao, setDescricao] = useState("disju");
-    const[materiaisOs,setMateriaisOs] = useState([])
-    const [openDialogUpdateQuantity,setOpenDialogUpdateQuantity] = useState(false)
-    const [openDialog,setOpenDialog] = useState(false)
-    const [openDialogAuthorize,setOpenDialogAuthorize] = useState(false)
+    const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
+    const [openList,setOpenList] = useState<boolean>(false)
+    const [descricaoOs,setDescricaoOs] = useState<string>()
+    const [messageAlert, setMessageAlert] = useState<string>();
+    const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
+    const[materias,setMateriais] = useState<any>()
+    const [descricao, setDescricao] = useState<string>("disju");
+    const[materiaisOs,setMateriaisOs] = useState<any>([])
+    const [openDialogUpdateQuantity,setOpenDialogUpdateQuantity] = useState<boolean>(false)
+    const [openDialog,setOpenDialog] = useState<boolean>(false)
+    const [openDialogAuthorize,setOpenDialogAuthorize] = useState<boolean>(false)
     const [responsavel,setResponsavel] = useState<string>()
-    const [quantidadeMaterial,setQuantidadeMaterial] = useState()
-    const [object,setObject] = useState([])
-    const [os,setOs] = useState("")
+    const [quantidadeMaterial,setQuantidadeMaterial] = useState<number | undefined>()
+    const [object,setObject] = useState<any>([])
+    const [os,setOs] = useState<any>("")
 
   useEffect(()=>{
 getOs(params.osId)
@@ -76,7 +76,7 @@ getMateriasOs(params.osId)
       
       }, [descricao]);
      
-  const getOs = async(id)=>{
+  const getOs = async(id:number)=>{
     
          const res = await axios.get(`${url}/OrdemServicos/${id}`).then(r=>{
           return r.data
@@ -108,7 +108,7 @@ getMateriasOs(params.osId)
         }
        
      };
-  const getMateriasOs = async(id)=>{
+  const getMateriasOs = async(id:number)=>{
 //Recebe id da ordem de serviço
     const res = await axios.get(`${url}/Itens/GetAllMateriaisOs/${id}`).then(r=>{
       return r.data
@@ -137,7 +137,7 @@ const res = await axios.post(`${url}/Itens/CreateItem`,item).then(r=>{
 
 console.log(res)
 setOpenDialog(false)
-setQuantidadeMaterial()
+setQuantidadeMaterial(0)
 
 if(res){
   
@@ -166,7 +166,7 @@ const ordemServico = {
 
 }
 
-const handleEditQuantidade = async (item)=>{
+const handleEditQuantidade = async (item:any)=>{
 console.log(item)
 //   const item = {
 //     materialId:item.id,
@@ -180,7 +180,7 @@ console.log(item)
 
 
 setOpenDialogUpdateQuantity(false)
-setQuantidadeMaterial()
+setQuantidadeMaterial(0)
 getOs(params.osId)
 
 
@@ -200,7 +200,7 @@ const handleRemoveMaterial =  async (id:number)=>{
   
 
 }
-const handleOpenDialog =  (item)=>{
+const handleOpenDialog =  (item:any)=>{
  
   //Esta linha serve para criar uma copia do objeto,pois se eu pegar o item do paramametro direto,esta alterando o objeto da listad e materias
   // Que é uma lista diferente,e consequentemente alterando o objeto original
@@ -226,7 +226,7 @@ const handleOpenDialogEditQuantity = ()=>{
     
     
     }
-const handleOpenList = (item)=>{
+const handleOpenList = (item:any)=>{
 
 setOpenList(!openList)
 
@@ -235,7 +235,7 @@ setOpenList(!openList)
 }
 const handleCloseDialog = ()=>{
     setOpenDialog(false)
-    setQuantidadeMaterial()
+    setQuantidadeMaterial(0)
 }
 const handleCloseDialogAuthorize = ()=>{
     setOpenDialogAuthorize(false)
@@ -322,7 +322,7 @@ return(
 
 
 <div className="  flex flex-row flex-wrap">
-  {os!=undefined &&  materias  &&!os.isAuthorized &&  materias.map(item=>(
+  {os!=undefined &&  materias  &&!os.isAuthorized &&  materias.map((item:any)=>(
  
  <>
  <Card sx={{ maxWidth: 545 ,margin:4,borderRadius:5}}>
@@ -345,7 +345,7 @@ return(
   {item.saldoFinal==null || item.saldoFinal == 0 ?<Typography gutterBottom variant="body1" component="div">
         Não há disponível deste material no estoque
      </Typography>:
-     <Button size="small" color="primary" onClick={x=>handleOpenDialog(item)}   style={{backgroundColor:'white',borderWidth:"0px"}}>
+     <Button size="sm" color="primary" onClick={x=>handleOpenDialog(item)}   style={{backgroundColor:'white',borderWidth:"0px"}}>
      <AddIcon />
    </Button>}
    
@@ -362,7 +362,7 @@ return(
 </>
   ))}
 
- {object!=""&& (
+ {object!=""&& quantidadeMaterial!=undefined && (
 
     <Dialog open={openDialog} onClose={handleCloseDialog} >
         <DialogTitle sx={{textAlign:"center"}}>Adicionando Quantidade</DialogTitle>
@@ -377,7 +377,7 @@ return(
             error={quantidadeMaterial>object.saldoFinal && materiaisOs?true:false}
             autoFocus
             endAdornment={<InputAdornment position="end">{object.material.unidade}</InputAdornment>}
-            onChange={x=>setQuantidadeMaterial(x.target.value)}
+            onChange={x=>setQuantidadeMaterial(Number(x.target.value))}
             margin="dense"
             id="name"
             label="Quantidade de Material"
@@ -392,7 +392,7 @@ return(
            
             <Button onClick={x=>handleCreateItem(object.material.id)} 
          
-          disabled={(quantidadeMaterial>object.saldoFinal && object)|| quantidadeMaterial ==undefined || quantidadeMaterial=="" || quantidadeMaterial==0?true:false}>Adicionar Material</Button>
+          disabled={(quantidadeMaterial > object.saldoFinal && object)|| quantidadeMaterial ==undefined || quantidadeMaterial==0 || quantidadeMaterial==0?true:false}>Adicionar Material</Button>
         </DialogActions>
       </Dialog>
  )}
@@ -443,7 +443,7 @@ return(
               </Typography>
           <FilledInput
             autoFocus            
-            onChange={x=>setQuantidadeMaterial(x.target.value)}
+            onChange={x=>setQuantidadeMaterial(Number(x.target.value))}
             margin="dense"
             id="name"
             label="Responsável pela OS"

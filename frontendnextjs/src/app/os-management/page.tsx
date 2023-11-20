@@ -32,16 +32,27 @@ import dayjs from "dayjs";
 
 import NavBar from "../componentes/NavBar"
 export default function OsManagement(){
+   
+    type Os = {
+      id:number,
+      numeroOs?:number,
+      descricao?:string,
+      responsavel?:string,
+      isAuthorized?:boolean,
+      dataAutorizacao?:any,
+    }
+  
+  
     const route = useRouter()
   
     const [ordemServicos,setOrdemServicos] = useState([])
-    const [descricaoOs, setDescricaoOs] = useState("");
-    const [numeroOs,setNumeroOs] = useState()
-    const [prefixoOs,setPrefixoOs] = useState(["ME","BR"])
-    const [resposavel,setResposavel] = useState()
+    const [descricaoOs, setDescricaoOs] = useState<string>("");
+    const [numeroOs,setNumeroOs] = useState<number>()
+    const [prefixoOs,setPrefixoOs] = useState<any>(["ME","BR"])
+    const [resposavel,setResposavel] = useState<string>()
   
     const [messageAlert, setMessageAlert] = useState();
-    const [severidadeAlert, setSeveridadeAlert] = useState();
+    
   
     const prefixos = ["ME","BR"]
   
@@ -50,7 +61,7 @@ export default function OsManagement(){
   getAllOs()
     
   },[])
-    const handleChangeUpdatePage = async (id) => {
+    const handleChangeUpdatePage = async (id:number) => {
      
       
     route.push(`/including-materialOs/${id}`)
@@ -120,7 +131,7 @@ export default function OsManagement(){
       style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
     
       
-      error={severidadeAlert != "warning" || !messageAlert=="Já existe um material com este mesmo código de fabricante" ? false : true}
+    
   
       onChange={(e) => setDescricaoOs(e.target.value)}
       label="Descrição OS"
@@ -148,9 +159,9 @@ export default function OsManagement(){
     style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px",width:"200px" }}
     
     
-    error={severidadeAlert != "warning" || ! messageAlert=="Já existe um material com este mesmo código de fabricante" ? false : true}
+    
   
-    onChange={(e) => setNumeroOs(e.target.value)}
+    onChange={(e) => setNumeroOs(Number(e.target.value))}
     label="Numero OS"
     
   />
@@ -162,7 +173,7 @@ export default function OsManagement(){
       </Button>
       </div>
      <div className=" flex flex-row flex-wrap" >
-  {  ordemServicos!=undefined && ordemServicos.map(os=>(
+  {  ordemServicos!=undefined && ordemServicos.map((os:Os)=>(
    
    <>
    <Card sx={{ maxWidth: 545 ,margin:5,borderRadius:5}}>
@@ -188,11 +199,11 @@ export default function OsManagement(){
   
   {os.isAuthorized ?(
   
-   <Button size="small" color="primary" onClick={x=>handleChangeUpdatePage(os.id)} style={{backgroundColor:'white',borderWidth:"0px"}} >
+   <Button size="sm" color="primary" onClick={x=>handleChangeUpdatePage(os.id)} style={{backgroundColor:'white',borderWidth:"0px"}} >
        <VisibilityTwoToneIcon  />
      </Button>
   ):
-  <Button size="small" color="primary" onClick={x=>handleChangeUpdatePage(os.id)} style={{backgroundColor:'white',marginTop:"13px",borderWidth:"0px"}}>
+  <Button size="sm" color="primary" onClick={x=>handleChangeUpdatePage(os.id)} style={{backgroundColor:'white',marginTop:"13px",borderWidth:"0px"}}>
   <CreateIcon />
   </Button>}
      
@@ -212,3 +223,5 @@ export default function OsManagement(){
   
   
 }
+
+

@@ -50,7 +50,7 @@ export default function SearchInvetory(){
   const [severidadeAlert, setSeveridadeAlert] = useState();
   const [object,setObject]= useState([])
   const [showAll,setShowAll] = useState(false)
-  const [onlyOneItem,setOnlyOneItem] = useState()
+  const [onlyOneItem,setOnlyOneItem] = useState<any|undefined>()
   
   const [inventarios, setInventarios] = useState([]);
 
@@ -255,10 +255,10 @@ catch(e){
                   <TableCell align="center" size="small" className="text-base"
                   > 
                   
-                {showAll? <Button style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={x=>handleShowAll(inventarios)}><VisibilityTwoToneIcon/></Button>:
+                {showAll? <Button style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={x=>handleShowAll()}><VisibilityTwoToneIcon/></Button>:
                 <Button 
               
-                style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={x=>handleShowAll(inventarios)}><VisibilityOffTwoToneIcon/></Button>}
+                style={{borderWidth:0,backgroundColor:"white",marginTop:"10px"}}  onClick={x=>handleShowAll()}><VisibilityOffTwoToneIcon/></Button>}
                   </TableCell>
                 </TableRow>
               </TableHead>

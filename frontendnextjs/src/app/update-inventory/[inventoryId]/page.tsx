@@ -10,7 +10,7 @@ import "dayjs/locale/pt-br";
 import { url } from "@/app/api/webApiUrl";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import  updateInventory from "../style/updateInventory.module.css";
-import MuiAlert from "@mui/material/Alert";
+import MuiAlert, { AlertColor } from "@mui/material/Alert";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
@@ -25,17 +25,17 @@ export default function UpdateInventory({params}:any){
     //Variável que é passada pela rota na tela de criar material,aonde quando clicar no icone de editar,passara o id do material
 
    
-    const [descricao,setDescricao] = useState("")
-    const [codigoInterno,setCodigoInterno] = useState("")
-    const [razao,setRazao] = useState("Levantamento de Estoque")
-    const [movimento,setMovimento] = useState("")
-    const[estoque,setEstoque] = useState()
-   const [categoria,setCategoria] = useState("")
-    const[dataentrada,setDataentrada] = useState()
-    const [openSnackBar,setOpenSnackBar]= useState(false)
-    const [ messageAlert,setMessageAlert] = useState();
-    const [ severidadeAlert,setSeveridadeAlert] = useState()
-   const[stateBotao,setStateBotao] = useState(false)
+    const [descricao,setDescricao] = useState<string>("")
+    const [codigoInterno,setCodigoInterno] = useState<string>("")
+    const [razao,setRazao] = useState<string>("Levantamento de Estoque")
+    const [movimento,setMovimento] = useState<string>("")
+    const[estoque,setEstoque] = useState<number>()
+   const [categoria,setCategoria] = useState<string>("")
+    const[dataentrada,setDataentrada] = useState<any>()
+    const [openSnackBar,setOpenSnackBar]= useState<boolean>(false)
+    const [ messageAlert,setMessageAlert] = useState<string>();
+    const [ severidadeAlert,setSeveridadeAlert] = useState<AlertColor>()
+   const[stateBotao,setStateBotao] = useState<boolean>(false)
    
    useEffect(()=>{
 
