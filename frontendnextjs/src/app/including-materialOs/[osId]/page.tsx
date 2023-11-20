@@ -42,6 +42,24 @@ import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 
 export default function IncludingMaterialOs({params}:any){
 
+
+
+    type item = 
+    {
+      id:number,
+      quantidade:number,
+      
+      material:{
+        descricao:string,
+        unidade:string,
+      }
+
+    }
+
+
+
+
+
     const route = useRouter()
     const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
     const [openList,setOpenList] = useState<boolean>(false)
@@ -300,7 +318,7 @@ return(
           {openList ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Collapse in={openList} timeout="auto" unmountOnExit>
-              {materiaisOs && materiaisOs.map(x=>(
+              {materiaisOs && materiaisOs.map((x:item)=>(
           <List key={x.id} component="div" disablePadding>
             <ListItemButton sx={{ pl: 4 }} >
               <ListItemIcon >
