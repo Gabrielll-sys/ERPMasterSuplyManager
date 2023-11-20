@@ -283,7 +283,6 @@ return(
           
           value={descricao}
           style={{  margin:"auto",marginTop:"20px",width:"320px" }}
-          
           onChange={(e) => setDescricao(e.target.value)}
           label="Descrição"
           required
@@ -385,7 +384,7 @@ return(
     <Dialog open={openDialog} onClose={handleCloseDialog} >
         <DialogTitle sx={{textAlign:"center"}}>Adicionando Quantidade</DialogTitle>
         <DialogContent >
-        <Typography gutterBottom variant="h7" component="div">
+        <Typography gutterBottom component="div">
            {quantidadeMaterial>object.saldoFinal && materiaisOs?`A Quantidade escolhida excede o Estoque De ${object.material.descricao}`:`${object.material.descricao}` }
            </Typography>
           <Typography gutterBottom variant="h6" component="div">
@@ -398,10 +397,9 @@ return(
             onChange={x=>setQuantidadeMaterial(Number(x.target.value))}
             margin="dense"
             id="name"
-            label="Quantidade de Material"
             type="email"
             fullWidth
-            variant="standard"
+           
             value={quantidadeMaterial}
           />
         </DialogContent>
@@ -431,10 +429,9 @@ return(
             onChange={x=>setResponsavel(x.target.value)}
             margin="dense"
             id="name"
-            label="Responsável pela OS"
+
             type="email"
             fullWidth
-            variant="standard"
             value={responsavel}
           />
         </DialogContent>
@@ -464,10 +461,8 @@ return(
             onChange={x=>setQuantidadeMaterial(Number(x.target.value))}
             margin="dense"
             id="name"
-            label="Responsável pela OS"
             type="email"
             fullWidth
-            variant="standard"
             value={quantidadeMaterial}
           />
         </DialogContent>
