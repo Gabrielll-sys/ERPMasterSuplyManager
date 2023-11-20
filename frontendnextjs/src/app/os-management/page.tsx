@@ -137,7 +137,7 @@ export default function OsManagement(){
   onChange={x=>setPrefixoOs(x.target.value)}
   >
   {prefixos.map((x)=>(
-    <MenuItem value={x}>{x}</MenuItem>
+    <MenuItem key={x} value={x}>{x}</MenuItem>
     
   ))}
   
