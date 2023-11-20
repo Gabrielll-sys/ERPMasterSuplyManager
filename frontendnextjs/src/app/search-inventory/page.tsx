@@ -35,6 +35,28 @@ import SearchIcon from '@mui/icons-material/Search';
 import Snackbar from "@mui/material/Snackbar";
 export default function SearchInvetory(){
     
+
+  type Inventario = {
+    id:number,
+    movimentacao:number,
+    estoque:number,
+    saldoFinal:number,
+    razao:string,
+    dataAlteracao:any,
+    material:{
+      id:number,
+      codigoFabricante:number,
+      descricao:string,
+      unidade:string,
+    }
+
+
+
+
+  }
+
+
+
     const route = useRouter()
 
 
@@ -52,7 +74,7 @@ export default function SearchInvetory(){
   const [showAll,setShowAll] = useState(false)
   const [onlyOneItem,setOnlyOneItem] = useState<any|undefined>()
   
-  const [inventarios, setInventarios] = useState([]);
+  const [inventarios, setInventarios] = useState<Inventario[]>([]);
 
 
   
@@ -263,7 +285,7 @@ catch(e){
                 </TableRow>
               </TableHead>
               <TableBody>
-                { showAll && inventarios.map((row :any) => (
+                { showAll && inventarios.map((row :Inventario) => (
                   <TableRow
                     key={row.id}
                   
