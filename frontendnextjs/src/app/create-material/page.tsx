@@ -325,7 +325,7 @@ console.log(e)
     onChange={x=>setTensao(x.target.value)}
   >
       {tensoes.map((x)=>(
-        <MenuItem value={x}>{x}</MenuItem>
+        <MenuItem key={x} value={x}>{x}</MenuItem>
         
       ))}
  
@@ -349,7 +349,7 @@ console.log(e)
     onChange={x=>setUnidade(x.target.value)}
   >
       {unidadeMaterial.map((x:any)=>(
-        <MenuItem value={x}>{x}</MenuItem>
+        <MenuItem  key={x} value={x}>{x}</MenuItem>
         
       ))}
     

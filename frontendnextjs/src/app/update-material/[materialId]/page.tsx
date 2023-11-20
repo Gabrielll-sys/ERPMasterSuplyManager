@@ -216,7 +216,7 @@ export default function UpdateMaterial({params}:any){
      onChange={x=>setTensao(x.target.value)}
    >
        {tensoes.map((x)=>(
-         <MenuItem value={x}>{x}</MenuItem>
+         <MenuItem  key = {x} value={x}>{x}</MenuItem>
          
        ))}
      
@@ -240,7 +240,7 @@ export default function UpdateMaterial({params}:any){
      onChange={x=>setUnidade(x.target.value)}
    >
        {unidadeMaterial.map((x)=>(
-         <MenuItem value={x}>{x}</MenuItem>
+         <MenuItem  key ={x} value={x}>{x}</MenuItem>
          
        ))}
      

@@ -301,7 +301,7 @@ return(
         </ListItemButton>
         <Collapse in={openList} timeout="auto" unmountOnExit>
               {materiaisOs && materiaisOs.map(x=>(
-          <List component="div" disablePadding>
+          <List key={x.id} component="div" disablePadding>
             <ListItemButton sx={{ pl: 4 }} >
               <ListItemIcon >
                 <StarBorder />
