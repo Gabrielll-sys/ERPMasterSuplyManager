@@ -408,9 +408,9 @@ console.log(e)
                   className="text-xl ">Preço Custo</TableCell>
                   <TableCell align="center"
                   className="text-xl ">Preço venda</TableCell>
+                   <TableCell align="center" className="text-xl">Preço Total</TableCell> 
                   <TableCell align="center"
                   className="text-xl "></TableCell>
-                  {/* <TableCell align="center">DataEntradaNF</TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -437,6 +437,8 @@ console.log(e)
                     className="text-base">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2)}</TableCell>
                     <TableCell align="center" size ="small"
                     className="text-base">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2)}</TableCell>
+                    <TableCell align="center" size ="small"
+                    className="text-base">{row.material.precoVenda==null?"Sem registro":"R$ "+(row.material.precoCusto*row.saldoFinal).toFixed(2)}</TableCell>
                      <TableCell align="center" size ="small"
                    className="text-base">      <Button
                     style={{backgroundColor:'white',marginTop:"7px",marginRight:"15px"}}
