@@ -50,7 +50,7 @@ export default function UpdateInventory({params}:any){
      try{
    
      const res = await axios
-       .get(`${url}/Inventarios/buscaCodigoInventario/${id}`)
+       .get(`${process.env.URL_API}/Inventarios/buscaCodigoInventario/${id}`)
        .then( (r)=> {
    
         return r.data
@@ -94,7 +94,7 @@ export default function UpdateInventory({params}:any){
    
    try{
    
-     const inventarioAtualizado =  await axios.post(`${url}/Inventarios`,inventario)
+     const inventarioAtualizado =  await axios.post(`${process.env.URL_API}/Inventarios`,inventario)
      .then(r=>
        {
          setOpenSnackBar(true)

@@ -9,7 +9,6 @@ import Link from "next/link";
 import Header from "../componentes/Header";
 import { useEffect, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
-import { url } from '../api/webApiUrl';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
 import "dayjs/locale/pt-br";
@@ -98,7 +97,7 @@ if(description) setDescricao(description)
 
     try{
      const res = await axios
-     .get(`${url}/Inventarios/buscaCodigoFabricante?codigo=${codigoFabricante}`)
+     .get(`${process.env.URL_API_API}/Inventarios/buscaCodigoFabricante?codigo=${codigoFabricante}`)
      .then( (r)=> {
        
       return r.data
@@ -124,7 +123,7 @@ if(description) setDescricao(description)
     console.log("Foi")
    try{
     const res = await axios
-    .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao}`)
+    .get(`${process.env.URL_API}/Inventarios/buscaDescricaoInventario?descricao=${descricao}`)
     .then( (r)=> {
       
      return r.data
@@ -164,7 +163,7 @@ console.log(e)
     };
     try{
       await axios
-      .post(`${url}/Inventarios`, invetario)
+      .post(`${process.env.URL_API}/Inventarios`, invetario)
       .then((r) => {
         return r.data
       })
@@ -204,7 +203,7 @@ console.log(e)
       };
 
       const materialCriado = await axios
-        .post(`${url}/Materiais`, material)
+        .post(`${process.env.URL_API}/Materiais`, material)
         .then((r) => {
           createInventario(r.data.id);
           setOpenSnackBar(true);

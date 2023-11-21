@@ -96,7 +96,7 @@ getMateriasOs(params.osId)
      
   const getOs = async(id:number)=>{
     
-         const res = await axios.get(`${url}/OrdemServicos/${id}`).then(r=>{
+         const res = await axios.get(`${process.env.URL_API}/OrdemServicos/${id}`).then(r=>{
           return r.data
           
         })
@@ -108,7 +108,7 @@ getMateriasOs(params.osId)
 
         try{
          const res = await axios
-         .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao}`)
+         .get(`${process.env.URL_API}/Inventarios/buscaDescricaoInventario?descricao=${descricao}`)
          .then( (r)=> {
           
           return r.data
@@ -128,7 +128,7 @@ getMateriasOs(params.osId)
      };
   const getMateriasOs = async(id:number)=>{
 //Recebe id da ordem de serviço
-    const res = await axios.get(`${url}/Itens/GetAllMateriaisOs/${id}`).then(r=>{
+    const res = await axios.get(`${process.env.URL_API}/Itens/GetAllMateriaisOs/${id}`).then(r=>{
       return r.data
     }).catch(e=>console.log(e))
 
@@ -149,7 +149,7 @@ getMateriasOs(params.osId)
     }
 
 
-const res = await axios.post(`${url}/Itens/CreateItem`,item).then(r=>{
+const res = await axios.post(`${process.env.URL_API}/Itens/CreateItem`,item).then(r=>{
   return r.data
 }).catch(e=>console.log(e))
 
@@ -177,7 +177,7 @@ const ordemServico = {
   responsavel:responsavel
 }
 
- await axios.put(`${url}/OrdemServicos/updateAuhorize/${params.osId}`,ordemServico)
+ await axios.put(`${process.env.URL_API}/OrdemServicos/updateAuhorize/${params.osId}`,ordemServico)
   getOs(params.osId)
   handleCloseDialogAuthorize()
   setResponsavel("")
