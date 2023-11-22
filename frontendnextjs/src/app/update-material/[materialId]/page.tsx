@@ -69,7 +69,7 @@ export default function UpdateMaterial({params}:any){
  
   const getMaterial = async(id:number)=>{
  
-  axios.get(`${process.env.URL_API}/Materiais/${id}`).then(r=>{
+  axios.get(`${url}/Materiais/${id}`).then(r=>{
  console.log(r.data.dataEntradaNF)
   setDataentrada(r.data.dataEntradaNF==undefined?undefined:dayjs(r.data.dataEntradaNF))
  setCodigoInterno(r.data.id)
@@ -115,7 +115,7 @@ export default function UpdateMaterial({params}:any){
      }
  
  
-   const materialAtualizado =  await axios.put(`${process.env.URL_API}/Materiais/${id}`,material)
+   const materialAtualizado =  await axios.put(`${url}/Materiais/${id}`,material)
    .then(r=>
      {  
        console.log(r)
@@ -198,14 +198,14 @@ export default function UpdateMaterial({params}:any){
          value={precoCusto}
          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
         
-         onChange={(e) => setPrecoCusto(Number(e.target.value))}
+         onChange={(e) => setPrecoCusto(e.target.value)}
          label="Preço Custo"
        />
        <TextField
            value={markup}
            style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
       
-           onChange={(e) => setMarkup(Number(e.target.value))}
+           onChange={(e) => setMarkup(e.target.value)}
            label="Markup %"
          />
     <Select

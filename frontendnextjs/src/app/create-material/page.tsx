@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
-
+import { url } from "../api/webApiUrl";
 
 import Header from "../componentes/Header";
 import { useEffect, useState } from "react";
@@ -74,6 +74,8 @@ if(description) setDescricao(description)
 
   useEffect(() => {
     //Irá começar a realizar a busca somente quando  a descrição tiver 3 caracteres
+    
+    console.log(process.env.NEXT_PUBLIC_SEGREDO)
     if (descricao.length>=3) {
      searchByDescription().then().catch();
 
@@ -97,7 +99,7 @@ if(description) setDescricao(description)
 
     try{
      const res = await axios
-     .get(`${process.env.URL_API_API}/Inventarios/buscaCodigoFabricante?codigo=${codigoFabricante}`)
+     .get(`${url}/Inventarios/buscaCodigoFabricante?codigo=${codigoFabricante}`)
      .then( (r)=> {
        
       return r.data
@@ -123,7 +125,7 @@ if(description) setDescricao(description)
     console.log("Foi")
    try{
     const res = await axios
-    .get(`${process.env.URL_API}/Inventarios/buscaDescricaoInventario?descricao=${descricao}`)
+    .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao}`)
     .then( (r)=> {
       
      return r.data
@@ -163,7 +165,7 @@ console.log(e)
     };
     try{
       await axios
-      .post(`${process.env.URL_API}/Inventarios`, invetario)
+      .post(`${url}/Inventarios`, invetario)
       .then((r) => {
         return r.data
       })
@@ -203,7 +205,7 @@ console.log(e)
       };
 
       const materialCriado = await axios
-        .post(`${process.env.URL_API}/Materiais`, material)
+        .post(`${url}/Materiais`, material)
         .then((r) => {
           createInventario(r.data.id);
           setOpenSnackBar(true);
@@ -433,11 +435,11 @@ console.log(e)
                     <TableCell align="center" size ="small"
                     className="text-base">{row.material.localizacao}</TableCell>
                     <TableCell align="center" size ="small"
-                    className="text-base">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2)}</TableCell>
+                    className="text-base">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</TableCell>
                     <TableCell align="center" size ="small"
-                    className="text-base">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2)}</TableCell>
+                    className="text-base">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</TableCell>
                     <TableCell align="center" size ="small"
-                    className="text-base">{row.material.precoVenda==null?"Sem registro":"R$ "+(row.material.precoCusto*row.saldoFinal).toFixed(2)}</TableCell>
+                    className="text-base">{row.material.precoVenda==null?"Sem registro":"R$ "+(row.material.precoCusto*row.saldoFinal).toFixed(2).toString().replace(".",",")}</TableCell>
                      <TableCell align="center" size ="small"
                    className="text-base">      <Button
                     style={{backgroundColor:'white',marginTop:"7px",marginRight:"15px"}}

@@ -74,7 +74,7 @@ export default function OsManagement(){
   
   const getAllOs= async()=>{
   
-  const res = await axios.get(`${process.env.URL_API}/OrdemServicos`).then(r=>{
+  const res = await axios.get(`${url}/OrdemServicos`).then(r=>{
     return r.data
   }).catch()
   console.log(res)
@@ -98,7 +98,7 @@ export default function OsManagement(){
   
   
   
-   const res = await axios.post(`${process.env.URL_API}/OrdemServicos`,OS).then(x=>{
+   const res = await axios.post(`${url}/OrdemServicos`,OS).then(x=>{
   
     return x.data
    }).catch()

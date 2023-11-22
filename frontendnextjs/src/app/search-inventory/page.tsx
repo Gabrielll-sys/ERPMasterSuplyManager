@@ -168,7 +168,7 @@ const searchByInternCode = async () => {
   try{
 
   const res = await axios
-    .get(`${process.env.URL_API}/Inventarios/buscaCodigoInventario/${codigoInterno}`)
+    .get(`${url}/Inventarios/buscaCodigoInventario/${codigoInterno}`)
     .then( (r)=> {
 
      return r.data
@@ -198,7 +198,7 @@ const searchByFabricanteCode = async () => {
   try{
 
   const res = await axios
-    .get(`${process.env.URL_API}/Materiais/buscaCodigoFabricante?codigo=${codigoFabricante}`)
+    .get(`${url}/Materiais/buscaCodigoFabricante?codigo=${codigoFabricante}`)
     .then( (r)=> {
 
      return r.data
