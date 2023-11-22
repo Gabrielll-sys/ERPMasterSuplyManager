@@ -42,8 +42,8 @@ export default function UpdateMaterial({params}:any){
    const [idCategoria,setIdCategoria] = useState<number>()
   const[oldCategory,setOldCategory]= useState<string>("")
   const [materiais, setMateriais] = useState<any>([]);
-  const[precoCusto,setPrecoCusto] = useState<number>()
-  const[markup,setMarkup] = useState<number>(0)
+  const[precoCusto,setPrecoCusto] = useState<number | string>()
+  const[markup,setMarkup] = useState<number | string>(0)
  
   const unidadeMaterial: string[] = ["UN","RL","PC","MT","P"]
   const tensoes : string[] = ["","12V","24V","127V","220V","380V","440V","660V"]

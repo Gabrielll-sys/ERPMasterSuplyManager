@@ -53,9 +53,9 @@ export default function CreateMaterial(){
   const [messageAlert, setMessageAlert] = useState<string>();
   const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
   const [object,setObject]= useState([])
- const[precoCusto,setPrecoCusto] = useState<number | undefined>()
- const[markup,setMarkup] = useState<number>(0)
-const [precoVenda,setPrecoVenda] = useState<number>()
+ const[precoCusto,setPrecoCusto] = useState<number | string>()
+ const[markup,setMarkup] = useState<number | string>(0)
+const [precoVenda,setPrecoVenda] = useState<number | string>()
   const [materiais, setMateriais] = useState([]);
 
   const unidadeMaterial = ["UN", "RL", "MT", "P"];
@@ -122,7 +122,7 @@ if(description) setDescricao(description)
 
   const searchByDescription = async () => {
 
-    console.log("Foi")
+
    try{
     const res = await axios
     .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao}`)
@@ -307,14 +307,14 @@ console.log(e)
         value={precoCusto}
         style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
       
-        onChange={(e) => setPrecoCusto(Number(e.target.value))}
+        onChange={(e) => setPrecoCusto(e.target.value)}
         label="Preço Custo"
       />
       <TextField
           value={markup}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
           
-          onChange={(e) => setMarkup(Number(e.target.value))}
+          onChange={(e) => setMarkup(e.target.value)}
           label="Markup %"
         />
     
