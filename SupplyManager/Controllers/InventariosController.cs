@@ -248,7 +248,9 @@ namespace SupplyManager.Controllers
                 
                 //Realiza uma busca no banco de materias para buscar match na descrição de acordo com a busca
                 queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao)).OrderBy(x => x.Id);
+
                 var materiais = await queryMaterial.ToListAsync();
+
                 //Faz um iteração em todos os materiais com aquela descrição
                 foreach(var item in materiais)
                 {
