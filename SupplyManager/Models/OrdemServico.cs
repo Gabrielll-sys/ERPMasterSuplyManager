@@ -29,12 +29,13 @@ namespace SupplyManager.Models
 
 
 
-        public OrdemServico(string? descricao, string? responsavel, int? numeroOs)
+        public OrdemServico(string? descricao, string? responsavel,string osBrastorno)
         {
             Descricao =  descricao;
             ResponsavelAutorizacao = responsavel;
             IsAuthorized = false;
             DataAbertura = DateTime.Now;
+            OsBrastorno = osBrastorno;
         }
 
         public void AutorizarOs()

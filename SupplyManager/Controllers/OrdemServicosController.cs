@@ -68,7 +68,7 @@ namespace SupplyManager.Controllers
             try
             {
 
-                OrdemServico o1 = new OrdemServico(model.Descricao.ToUpper(), model.Responsavel,model.NumeroOs);
+                OrdemServico o1 = new OrdemServico(descricao: model.Descricao.ToUpper(), responsavel: model.ResponsavelAutorizacao,osBrastorno:model.OsBrastorno);
 
                 await _context.OrdemServicos.AddAsync(o1);
 
@@ -118,7 +118,7 @@ namespace SupplyManager.Controllers
                 var ordemServico = await _context.OrdemServicos.FirstOrDefaultAsync(x => x.Id == id);
 
                 {
-                    ordemServico.Responsavel = model.Responsavel.ToUpper();
+                    ordemServico.ResponsavelAutorizacao = model.ResponsavelAutorizacao.ToUpper();
 
                 }
 
@@ -152,9 +152,9 @@ namespace SupplyManager.Controllers
                     );
                         //Formatara a string que aparece como a razao da movimentacão do inventário,caso OS seja da master elétrica,utilizará o próprio id
                         // D os como identificador pois no caso da master toda OS e sequencial,caso seja da brastorno será o numero deles ja vindo deles
-                        string descricaoOsFormated = ordemServico.NumeroOs != null ? $" {item.Quantidade} {material.Unidade} {(item.Quantidade>1?"utilizadas":"utilizada")} na OS-{ordemServico.NumeroOs}-{ordemServico.Descricao}" : $"Material Utilizado na OS-{ordemServico.Id}-{ordemServico.Descricao}";
+                       /* string descricaoOsFormated = ordemServico.NumeroOs != null ? $" {item.Quantidade} {material.Unidade} {(item.Quantidade>1?"utilizadas":"utilizada")} na OS-{ordemServico.NumeroOs}-{ordemServico.Descricao}" : $"Material Utilizado na OS-{ordemServico.Id}-{ordemServico.Descricao}";*/
 
-                        i1.MovimentacaoOrdemServico(item.Quantidade,descricaoOsFormated);
+                        /*i1.MovimentacaoOrdemServico(item.Quantidade,descricaoOsFormated);*/
 
                         await _context.Inventarios.AddAsync(i1);
                     }
