@@ -75,7 +75,6 @@ if(description) setDescricao(description)
   useEffect(() => {
     //Irá começar a realizar a busca somente quando  a descrição tiver 3 caracteres
     
-    console.log(process.env.NEXT_PUBLIC_SEGREDO)
     if (descricao.length>=3) {
      searchByDescription().then().catch();
 
@@ -151,7 +150,7 @@ console.log(e)
 
     // navigate("/updateMaterial", { state: id })
 
-
+    
       
   };
 

@@ -3,6 +3,8 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SupplyManager.Interfaces;
+using SixLabors.ImageSharp.Processing.Processors.Transforms;
+
 namespace SupplyManager.Models
 {
     public class OrdemServico
@@ -14,6 +16,7 @@ namespace SupplyManager.Models
         //Campo para definir quando a OS for autorizada e para posteriomente impedir quaisquer modificações
         public bool IsAuthorized { get; set; }
 
+        public string? ResponsavelExecucao { get; set; }
         public string? ResponsavelAutorizacao { get; set; }
 
         public DateTime? DataAutorizacao { get; set; }
@@ -24,26 +27,28 @@ namespace SupplyManager.Models
 
         public string? OsBrastorno { get; set; }
 
-        public string Usuario { get; set; }
+
+        public decimal PrecoTotalEquipamentosOs { get; set; }
 
 
 
 
-        public OrdemServico(string? descricao, string? responsavel,string osBrastorno)
+        public OrdemServico(string? descricao, string? responsavelExecucao,string osBrastorno)
         {
             Descricao =  descricao;
-            ResponsavelAutorizacao = responsavel;
+            ResponsavelExecucao = responsavelExecucao;
             IsAuthorized = false;
             DataAbertura = DateTime.Now;
             OsBrastorno = osBrastorno;
         }
 
-        public void AutorizarOs()
+        public void AutorizarOs(string responsavelAutorizacao)
         {
 
 
             if (!IsAuthorized)
             {
+                ResponsavelAutorizacao = responsavelAutorizacao;
                 IsAuthorized = true;
                 DataAutorizacao = DateTime.Now;
 

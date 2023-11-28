@@ -68,7 +68,7 @@ namespace SupplyManager.Controllers
             try
             {
 
-                OrdemServico o1 = new OrdemServico(descricao: model.Descricao.ToUpper(), responsavel: model.ResponsavelAutorizacao,osBrastorno:model.OsBrastorno);
+                OrdemServico o1 = new OrdemServico(descricao: model.Descricao.ToUpper(), model.ResponsavelExecucao,model.OsBrastorno);
 
                 await _context.OrdemServicos.AddAsync(o1);
 
@@ -125,7 +125,7 @@ namespace SupplyManager.Controllers
 
 
 
-                ordemServico.AutorizarOs();
+                ordemServico.AutorizarOs(model.ResponsavelAutorizacao);
 
 
                 foreach (var item in itens)
