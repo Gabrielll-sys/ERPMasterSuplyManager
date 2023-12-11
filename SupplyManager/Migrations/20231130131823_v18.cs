@@ -33,24 +33,31 @@ namespace SupplyManager.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
+                name: "Observacao",
+                table: "OrdemServicos",
+                type: "longtext",
+                nullable: true)
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.AddColumn<string>(
                 name: "OsBrastorno",
                 table: "OrdemServicos",
                 type: "longtext",
                 nullable: true)
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.AddColumn<decimal>(
+                name: "PrecoTotalEquipamentosOs",
+                table: "OrdemServicos",
+                type: "decimal(65,30)",
+                nullable: false,
+                defaultValue: 0m);
+
             migrationBuilder.AddColumn<string>(
                 name: "ResponsavelAutorizacao",
                 table: "OrdemServicos",
                 type: "longtext",
                 nullable: true)
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.AddColumn<string>(
-                name: "Usuario",
-                table: "OrdemServicos",
-                type: "longtext",
-                nullable: false)
                 .Annotation("MySql:CharSet", "utf8mb4");
         }
 
@@ -66,15 +73,19 @@ namespace SupplyManager.Migrations
                 table: "OrdemServicos");
 
             migrationBuilder.DropColumn(
+                name: "Observacao",
+                table: "OrdemServicos");
+
+            migrationBuilder.DropColumn(
                 name: "OsBrastorno",
                 table: "OrdemServicos");
 
             migrationBuilder.DropColumn(
-                name: "ResponsavelAutorizacao",
+                name: "PrecoTotalEquipamentosOs",
                 table: "OrdemServicos");
 
             migrationBuilder.DropColumn(
-                name: "Usuario",
+                name: "ResponsavelAutorizacao",
                 table: "OrdemServicos");
 
             migrationBuilder.RenameColumn(

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import { url } from "../api/webApiUrl";
-
+import {Spinner} from "@nextui-org/react";
 import Header from "../componentes/Header";
 import { useEffect, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -35,11 +35,14 @@ import MenuItem from '@mui/material/MenuItem';
 
 import Select from '@mui/material/Select';
 import dayjs from "dayjs";
+import { signIn } from "next-auth/react";
+import GoogleIcon from "../assets/icons/GoogleIcon";
 export default function CreateMaterial(){
   const route = useRouter()
 
-  
+  const [loading,setLoading] = useState<boolean>(false)  
   const [categoria, setCategoria] = useState<string>("");
+
   const [descricao, setDescricao] = useState<string>("");
   const [codigoInterno, setCodigoInterno] = useState<string>("");
   const [codigoFabricante, setCodigoFabricante] = useState<string>("");
@@ -60,6 +63,7 @@ const [precoVenda,setPrecoVenda] = useState<number | string>()
 
   const unidadeMaterial = ["UN", "RL", "MT", "P"];
   const tensoes = ["","12V","24V","127V","220V","380V","440V","660V"]
+  
 
 
 
@@ -186,7 +190,7 @@ console.log(e)
     } else {
 
       // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
-
+      setLoading(true)
       const material = {
         codigoInterno: codigoInterno.trim().replace(/\s\s+/g, " "),
         codigoFabricante: codigoFabricante.trim().replace(/\s\s+/g, " "),
@@ -207,6 +211,7 @@ console.log(e)
         .post(`${url}/Materiais`, material)
         .then((r) => {
           createInventario(r.data.id);
+          setLoading(false)
           setOpenSnackBar(true);
           setSeveridadeAlert("success");
           setMessageAlert("Material Criado com sucesso");
@@ -265,7 +270,7 @@ console.log(e)
           value={codigoFabricante}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
          
-          
+          className="shadow-lg"
           error={severidadeAlert != "warning" ? false : true}
 
           onChange={(e) => setCodigoFabricante(e.target.value)}
@@ -279,7 +284,7 @@ console.log(e)
           }
           value={descricao}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px",width:"320px" }}
-       
+          className="shadow-lg"
           onChange={(e) => setDescricao(e.target.value)}
           label="Descrição"
           required
@@ -288,14 +293,14 @@ console.log(e)
         <TextField
           value={marca}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
-          
+          className="shadow-lg"
           onChange={(e) => setMarca(e.target.value)}
           label="Marca"
         />
         <TextField
           value={localizacao}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
-         
+          className="shadow-lg"
           onChange={(e) => setLocalizacao(e.target.value)}
           label="Localização"
         />
@@ -305,23 +310,23 @@ console.log(e)
         <TextField
         value={precoCusto}
         style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
-      
+        className="shadow-lg"
         onChange={(e) => setPrecoCusto(e.target.value)}
         label="Preço Custo"
       />
       <TextField
           value={markup}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
-          
+          className="shadow-lg"
           onChange={(e) => setMarkup(e.target.value)}
           label="Markup %"
         />
-    
-      
+  
  <Select
      style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px",height:"55px"}}
      labelId="demo-simple-select-label"
     value={tensao}
+    className="shadow-lg"
     label="Tensao"
     onChange={x=>setTensao(x.target.value)}
   >
@@ -335,7 +340,7 @@ console.log(e)
         <TextField
           value={corrente}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px"}}
-         
+          className="shadow-lg"
           onChange={(e) => setCorrente(e.target.value)}
           label="Corrente"
         />
@@ -345,6 +350,7 @@ console.log(e)
   <Select
      style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"120px",height:"55px"}}
      labelId="demo-simple-select-label"
+     className="shadow-lg"
     value={unidade}
     label="Unidade"
     onChange={x=>setUnidade(x.target.value)}
@@ -363,6 +369,7 @@ console.log(e)
           >
             <DatePicker
               label="Data Entrada NF"
+              className="shadow-lg"
               value={dataentrada}
               onChange={(e) => setDataentrada(e)}
             />
@@ -371,9 +378,10 @@ console.log(e)
       </div>
 
       <div className='text-center mt-8 '>
-      <Button  onPress={handleCreateMaterial} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl '>
-        Criar Material
+      <Button  onPress={handleCreateMaterial} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
+          {loading?<Spinner color="danger"/>:"Criar Material"}
       </Button>
+   
       </div>
 
    

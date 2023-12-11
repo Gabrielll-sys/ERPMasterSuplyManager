@@ -149,17 +149,19 @@ namespace SupplyManager.Migrations
                     b.Property<bool>("IsAuthorized")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<string>("Observacao")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("OsBrastorno")
                         .HasColumnType("longtext");
+
+                    b.Property<decimal>("PrecoTotalEquipamentosOs")
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("ResponsavelAutorizacao")
                         .HasColumnType("longtext");
 
                     b.Property<string>("ResponsavelExecucao")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Usuario")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
