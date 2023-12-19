@@ -1,14 +1,46 @@
 "use client"
-import React from "react";
-import Image from "next/image";
+import React, { useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { Avatar ,Button} from "@nextui-org/react";
+import CartIcon from "../assets/icons/CartIcon";
+import OrdersIcon from "../assets/icons/OrdersIcon";
+import HelpIcon from "../assets/icons/HelpIcon";
 import Link from "next/link";
+import Image from "next/image";
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  DropdownItem,
+  DropdownTrigger,
+  Dropdown,
+  DropdownMenu,
+  Avatar,
+  Button,
+  NavbarItem,
+} from "@nextui-org/react";
+
+
+import { useRouter } from "next/navigation";
+import IconExit from "../assets/icons/IconExit";
+import AvatarLogin from "./AvatarLogin";
+import IconUser from "../assets/icons/IconUser";
 
 const Header= ()=>{
     const { data: session } = useSession();
+    const route = useRouter()
+    const [isClicked, setIsClicked] = useState(false);
+    const iconClasses = "h-4 text-2xl";
+  
+    const handleClick = () => {
+      setIsClicked(!isClicked);
+  
+      route.push("/");
+    };
+  
 
 return(
+  <>
+
 
     <header  className=" h-24 bg-master_black">
 
@@ -17,26 +49,55 @@ return(
     <Image  className="py-5 hover:scale-90" src={require('../assets/logo.png')} width={132} height={123} alt="logo master" />
     </Link>
 
-{session && session.user ?(
-<>
-<div className="justify-end flex flex-row gap-4 mr-6 p-0">
-<Avatar
-className="hover:scale-110"
-isBordered
-
-radius="md"
-name={session.user.name ?? ""}
-src={session.user.image ?? ""}
-/>
 
 
-<Button className="text-white w-12 h-5 my-auto rounded-md hover:scale-x-110" variant="ghost" onClick={() => signOut()}>
-                Sair
-              </Button>
 
-</div>
+{session && session.user ? (
+  
+ 
+  <Dropdown className="p-0 rounded-md shadow-none">
+  <DropdownTrigger>
+   
+     <Image
+        
 
-              </>
+  width={65}
+  height={22}
+  alt="Foto do Produto"
+  className="rounded-full h-16 mr-6 mt-2 hover:scale-110  ring-2 ring-gray-400"
+  src={session.user.image ?? ""}
+/>   
+  </DropdownTrigger>
+  <DropdownMenu
+    aria-label="Profile Actions"
+    variant="bordered"
+    className="bg-light mt-2 border-2 border-black  shadow-inner"
+    color="success"
+    disabledKeys={["profile"]}
+  >
+    <DropdownItem
+      key="profile"
+      className="text-start"
+      color="default"
+      endContent={<IconUser className = {iconClasses} />}
+
+    >
+      <p className="font-semibold text-base p-5">
+        {session.user.name}
+      </p>
+    </DropdownItem>
+    
+    
+    <DropdownItem
+      key="logout"
+      color="danger"
+      endContent={<IconExit className = {iconClasses} />}
+      onClick={() => signOut()}
+    >
+      <p className="text-base p-1 hover:underline">Sair</p>
+    </DropdownItem>
+  </DropdownMenu>
+</Dropdown>
 
 )
 
@@ -47,11 +108,11 @@ src={session.user.image ?? ""}
                 Entrar
               </Button>)
 }
-
 </div>
 
-    </header>
+                </header>
 
+                </>
 )
 
 

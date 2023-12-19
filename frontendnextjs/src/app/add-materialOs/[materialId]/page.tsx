@@ -136,7 +136,7 @@ export default function AddMaterialOs({params}:any){
     
       <TextField    value={razao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
             error={severidadeAlert != "warning" || razao.length ? false : true}
-             onChange={e=>setRazao(e.target.value)} label='Razão' required />
+             onChange={e=>setRazao(e.target.value)} label='Ordem de Serviço' required />
   
       <TextField   value={movimento} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
         onChange={(e) => setMovimento(e.target.value)} label='Estoque' required />
@@ -165,7 +165,7 @@ export default function AddMaterialOs({params}:any){
       <Button // Continuar com Google
       variant="flat"
       
-      className="hover:opacity-80 p-10 hover:bg-red-500 hover:text-white border-2 border-black rounded-md shadow-md" 
+      className="hover:opacity-90 hover:scale-105  p-10 bg-red-800 text-white border-2 border-black rounded-md shadow-md" 
       onClick={() => signIn("google")}
     >
       <div className="flex gap-3">

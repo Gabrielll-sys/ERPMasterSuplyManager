@@ -7,7 +7,7 @@ import { Snackbar } from '@mui/material';
 import { useEffect, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import "dayjs/locale/pt-br";
-import { url } from "@/app/api/webApiUrl";
+import { url } from '@/app/api/webApiUrl';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import  updateInventory from "../style/updateInventory.module.css";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";

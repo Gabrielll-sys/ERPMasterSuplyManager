@@ -3,6 +3,10 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Providers from '@/contexts/Providers'
 import Header from './componentes/Header'
+import Script from "next/script";
+
+import Footer from './componentes/Footer'
+import { usePathname } from 'next/navigation'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -12,6 +16,7 @@ export const metadata: Metadata = {
 
 }
 
+const rotasWithFooter = ["/update-material"]
 export default function RootLayout({
   children,
 }: {
@@ -21,9 +26,28 @@ export default function RootLayout({
     <html lang="pt-br">
       <body className='min-h-screen ' suppressHydrationWarning={true}>
       <Providers>
+      <Script
+            strategy="lazyOnload"
+            src={`https://www.googletagmanager.com/gtag/js?id=G-19VJCQS2H4`}
+          />
+
+          <Script strategy="lazyOnload" id="gtag-script">
+            {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', 'G-19VJCQS2H4', {
+                    page_path: window.location.pathname,
+                    });
+                `}
+          </Script>
       <Header/>
-      
-     {children}
+      <div>
+        
+             {children}
+      </div>
+
+     {/* <Footer/> */}
       </Providers>
       </body>
     </html>

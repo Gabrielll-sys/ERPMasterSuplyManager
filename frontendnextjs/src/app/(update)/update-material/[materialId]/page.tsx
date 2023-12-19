@@ -1,17 +1,18 @@
 "use client"
+import { useRouter } from "next/navigation";
 
 import { Button } from "@nextui-org/react";
 
-import Header from "../../componentes/Header";
-import { Snackbar } from '@mui/material';
+
+import { InputAdornment, Snackbar } from '@mui/material';
 
 import { useEffect, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import "dayjs/locale/pt-br";
-import { url } from "../../api/webApiUrl";
+import { url } from "@/app/api/webApiUrl";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import { useRouter } from "next/router";
+
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
@@ -21,10 +22,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
 export default function UpdateMaterial({params}:any){
-    //Variável que é passada pela rota na tela de criar material,aonde quando clicar no icone de editar,passara o id do material
-    // const route = useRouter()
-
-
+  const route = useRouter()
 
   const[categoria,setCategoria]=useState<string>("")
   const [descricao,setDescricao] = useState<string>("")
@@ -42,8 +40,9 @@ export default function UpdateMaterial({params}:any){
    const [idCategoria,setIdCategoria] = useState<number>()
   const[oldCategory,setOldCategory]= useState<string>("")
   const [materiais, setMateriais] = useState<any>([]);
-  const[precoCusto,setPrecoCusto] = useState<number | string>()
-  const[markup,setMarkup] = useState<number | string>(0)
+  const[precoCusto,setPrecoCusto] = useState<string | null>()
+  const[precoVenda,setPrecoVenda] = useState<string | null>()
+  const[markup,setMarkup] = useState< string | null>()
  
   const unidadeMaterial: string[] = ["UN","RL","PC","MT","P"]
   const tensoes : string[] = ["","12V","24V","127V","220V","380V","440V","660V"]
@@ -81,6 +80,7 @@ export default function UpdateMaterial({params}:any){
  setOldCategory(verifyNull(r.data.categoria))
  setLocalizacao(verifyNull(r.data.localizacao))
  setPrecoCusto(verifyNull(r.data.precoCusto))
+ setPrecoVenda(verifyNull(r.data.precoVenda))
  setMarkup(verifyNull(r.data.markup))
  
  setTensao(verifyNull(tensoes[tensoes.findIndex((x)=>x==r.data.tensao)]))
@@ -92,10 +92,10 @@ export default function UpdateMaterial({params}:any){
  
  const handleUpdateMaterial=  async (id:number)=>{
  
- if(precoCusto == undefined && markup==undefined){
+ if(precoCusto == "" && markup==""){
 
-   setPrecoCusto(0)
-   setMarkup(0)
+   setPrecoCusto("0")
+   setMarkup("0")
  }
    // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
  const material = {
@@ -110,10 +110,11 @@ export default function UpdateMaterial({params}:any){
      tensao:tensao,
      localizacao:localizacao.trim().replace(/\s\s+/g, ' '),
      dataEntradaNF:dataentrada,
-     precoCusto:precoCusto==0?null:precoCusto,
-     markup:markup==0?null:markup,
+     precoCusto:Number(precoCusto)==0?0:Number(precoCusto?.toString().replace(',','.')),
+     precoVenda:Number(precoVenda)==0?0:Number(precoVenda?.toString().replace(',','.')),
+     markup:Number(markup)==0?null:Number(markup?.toString().replace(',','.')),
      }
- 
+ console.log(material)
  
    const materialAtualizado =  await axios.put(`${url}/Materiais/${id}`,material)
    .then(r=>
@@ -122,7 +123,10 @@ export default function UpdateMaterial({params}:any){
        setOpenSnackBar(true)
        setSeveridadeAlert("success")
        setMessageAlert("Material Atualizado com sucesso")
-    
+       //Contará um tempo depois que atualizar o material e voltara para a tela de materias
+      setTimeout(()=>{
+        route.back()
+      },1200)
  
  }
      
@@ -159,12 +163,15 @@ export default function UpdateMaterial({params}:any){
  
 
  
-     <h1  className='text-center font-bold text-2xl mt-6'>Editando {descricao}  (Codigo Interno: {codigoInterno}) </h1>
+     <h1  className='text-center font-bold text-2xl mt-20'>Editando {descricao}  (Codigo Interno: {codigoInterno}) </h1>
    
-     <div className=' w-full flex flex-row justify-center mt-6 ' >
+     <div className=' w-full flex flex-row justify-center mt-20 ' >
  
  
-     <TextField  value={oldCategory} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}  
+     <TextField  
+         variant="filled"
+     
+     value={oldCategory} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}  
    onChange={e=>setOldCategory(e.target.value)} label='Categoria' required/>
      
  
@@ -172,21 +179,28 @@ export default function UpdateMaterial({params}:any){
      {/* <TextField disabled={true}   value={codigoInterno} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
      className={updateMaterial.inputs} onChange={e=>setCodigoInterno(e.target.value)} label='Cod Interno'  /> */}
  
-     <TextField    value={codigoFabricante} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
-      onChange={e=>setCodigoFabricante(e.target.value)} label='Cod Fabricante'  />
+     <TextField   
+      value={codigoFabricante} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
+         variant="filled"
+         onChange={e=>setCodigoFabricante(e.target.value)}  label='Cod Fabricante'  />
  
     
      {/* <InputText className='inputs' value={descricao} onChange={e=>setDescricao(e.target.value)} /> */}
      <TextField   value={descricao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
-        onChange={(e) => setDescricao(e.target.value)} label='Descrição' required />
+         variant="filled"
+         onChange={(e) => setDescricao(e.target.value)} label='Descrição'  required />
  
     
-     <TextField   value={marca} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}} 
+     <TextField   
+         variant="filled"
+     
+     value={marca} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}} 
       onChange={e=>setMarca(e.target.value)}  label='Marca' />
  
        <TextField
            value={localizacao}
            style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+         variant="filled"
            
            onChange={(e) => setLocalizacao(e.target.value)}
            label="Localização"
@@ -200,20 +214,46 @@ export default function UpdateMaterial({params}:any){
         
          onChange={(e) => setPrecoCusto(e.target.value)}
          label="Preço Custo"
+         InputLabelProps={{ shrink: true }}
+         variant="filled"
+         
+         InputProps={{
+          startAdornment: <InputAdornment position="start">R$</InputAdornment>,
+        }}
        />
        <TextField
            value={markup}
-           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px",boxShadow:"20px" }}
+           variant="filled"
       
            onChange={(e) => setMarkup(e.target.value)}
-           label="Markup %"
+           label="Markup "
+           InputLabelProps={{ shrink: true }}
+           InputProps={{
+            startAdornment: <InputAdornment position="start">%</InputAdornment>,
+          }}
+         />
+       <TextField
+           value={precoVenda}
+           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
+           variant="filled"
+      autoFocus
+           onChange={(e) => setPrecoVenda(e.target.value)}
+           label="Preço Venda"
+           InputLabelProps={{ shrink: true }}
+           InputProps={{
+            startAdornment: <InputAdornment position="start">R$</InputAdornment>,
+          }}
          />
     <Select
       style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px"}}
       labelId="demo-simple-select-label"
+      variant="filled"
+
      value={tensao}
      label="Tensao"
      onChange={x=>setTensao(x.target.value)}
+    
    >
        {tensoes.map((x)=>(
          <MenuItem  key = {x} value={x}>{x}</MenuItem>
@@ -225,6 +265,7 @@ export default function UpdateMaterial({params}:any){
          <TextField
            value={corrente}
            style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px"}}
+           variant="filled"
          
            onChange={(e) => setCorrente(e.target.value)}
            label="Corrente"
@@ -236,6 +277,8 @@ export default function UpdateMaterial({params}:any){
       style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"120px"}}
       labelId="demo-simple-select-label"
      value={unidade}
+     variant="filled"
+
      label="Unidade"
      onChange={x=>setUnidade(x.target.value)}
    >
@@ -248,9 +291,14 @@ export default function UpdateMaterial({params}:any){
    </Select>
      <div style={{marginTop:'40px',width:'206px'}}>
  
-     <LocalizationProvider   dateAdapter={AdapterDayjs} adapterLocale="pt-br" >
+     <LocalizationProvider 
+        dateAdapter={AdapterDayjs} adapterLocale="pt-br" >
      
-         <DatePicker  label="Data Entrada NF"  value={dataentrada} onChange={e=>setDataentrada(e)} />
+         <DatePicker  
+         slotProps={{ textField: { variant: 'filled' }}}
+         label="Data Entrada NF"  
+         value={dataentrada} 
+         onChange={e=>setDataentrada(e)} />
      
      </LocalizationProvider>
      </div>

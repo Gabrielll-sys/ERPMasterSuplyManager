@@ -5,16 +5,18 @@ import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import { url } from "../api/webApiUrl";
-import {Spinner} from "@nextui-org/react";
 import Header from "../componentes/Header";
 import { useEffect, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
 import "dayjs/locale/pt-br";
-import { Snackbar } from '@mui/material';
+import { InputAdornment, Snackbar } from '@mui/material';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { Input } from '@nextui-org/react';
+import { Input,
+  Spinner,
+  Avatar
+ } from '@nextui-org/react';
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -35,12 +37,14 @@ import MenuItem from '@mui/material/MenuItem';
 
 import Select from '@mui/material/Select';
 import dayjs from "dayjs";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import GoogleIcon from "../assets/icons/GoogleIcon";
+import SpinnerForButton from "../componentes/SpinnerButton";
 export default function CreateMaterial(){
   const route = useRouter()
 
-  const [loading,setLoading] = useState<boolean>(false)  
+  const [loadingButton,setLoadingButton] = useState<boolean>(false)  
+  const [loadingMateriais,setLoadingMateriais] = useState<boolean>(false)  
   const [categoria, setCategoria] = useState<string>("");
 
   const [descricao, setDescricao] = useState<string>("");
@@ -63,7 +67,16 @@ const [precoVenda,setPrecoVenda] = useState<number | string>()
 
   const unidadeMaterial = ["UN", "RL", "MT", "P"];
   const tensoes = ["","12V","24V","127V","220V","380V","440V","660V"]
+  const { data: session } = useSession();
   
+  const columns = [
+    { name: "Número Pedido", uid: "numpedido" },
+    { name: "Data", uid: "data" },
+    { name: "Itens", uid: "item" },
+    { name: "Total", uid: "total" },
+    { name: "Preco", uid: "preço" },
+  ];
+
 
 
 
@@ -88,7 +101,7 @@ if(description) setDescricao(description)
   }, [descricao]);
 
   useEffect(() => {
-        //Irá começar a realizar a busca somente quando  a categoria tiver 3 caracteres
+        //Irá começar a realizar a busca somente quando  a categoria tiver 4 caracteres
     if (codigoFabricante.length>=4) {
       
       searchByFabricanteCode().then().catch();
@@ -125,23 +138,27 @@ if(description) setDescricao(description)
 
   const searchByDescription = async () => {
 
-
+    setLoadingMateriais(true)
+console.log(loadingMateriais)
    try{
     const res = await axios
     .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao}`)
     .then( (r)=> {
-      
+      setLoadingMateriais(false)
      return r.data
      
     })
     .catch();
     console.log(res)
-     setMateriais(res)
+
+    setMateriais(res)
 
    }
    catch(e) 
    
    { 
+    setLoadingMateriais(false)
+
 console.log(e)
    }
   
@@ -152,8 +169,9 @@ console.log(e)
    
     sessionStorage.setItem("description",descricao)
 
-    // navigate("/updateMaterial", { state: id })
 
+    route.push(`update-material/${id}`)
+    
     
       
   };
@@ -190,7 +208,7 @@ console.log(e)
     } else {
 
       // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
-      setLoading(true)
+      setLoadingButton(true)
       const material = {
         codigoInterno: codigoInterno.trim().replace(/\s\s+/g, " "),
         codigoFabricante: codigoFabricante.trim().replace(/\s\s+/g, " "),
@@ -211,7 +229,7 @@ console.log(e)
         .post(`${url}/Materiais`, material)
         .then((r) => {
           createInventario(r.data.id);
-          setLoading(false)
+          setLoadingButton(false)
           setOpenSnackBar(true);
           setSeveridadeAlert("success");
           setMessageAlert("Material Criado com sucesso");
@@ -259,13 +277,14 @@ console.log(e)
 <NavBar/>
 
 </div>
-      <h1  className='text-center font-bold text-2xl mt-6'>Criação de Material</h1>
+
 
       <div className=' w-full flex flex-row justify-center mt-6 '>
 
        
 
         <TextField
+         variant="filled"
         
           value={codigoFabricante}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
@@ -282,6 +301,8 @@ console.log(e)
           error={
             severidadeAlert != "warning" || descricao.length ? false : true
           }
+         variant="filled"
+
           value={descricao}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px",width:"320px" }}
           className="shadow-lg"
@@ -289,15 +310,19 @@ console.log(e)
           label="Descrição"
           required
         />
-
+ 
         <TextField
           value={marca}
+         variant="filled"
+
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
           className="shadow-lg"
           onChange={(e) => setMarca(e.target.value)}
           label="Marca"
         />
         <TextField
+         variant="filled"
+
           value={localizacao}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
           className="shadow-lg"
@@ -308,21 +333,35 @@ console.log(e)
       <div className=' w-full flex flex-row justify-center'>
 
         <TextField
+         variant="filled"
+
         value={precoCusto}
         style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
         className="shadow-lg"
+        InputLabelProps={{ shrink: true }}
+
         onChange={(e) => setPrecoCusto(e.target.value)}
         label="Preço Custo"
+        InputProps={{
+          startAdornment: <InputAdornment position="start">R$</InputAdornment>,
+        }}
       />
       <TextField
+         variant="filled"
+         InputLabelProps={{ shrink: true }}
+
           value={markup}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
-          className="shadow-lg"
+          className="shadow-xl"
           onChange={(e) => setMarkup(e.target.value)}
-          label="Markup %"
+          label="Markup"
+          InputProps={{
+            startAdornment: <InputAdornment position="start">%</InputAdornment>,
+          }}
         />
-  
+   
  <Select
+      variant="filled"
      style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px",height:"55px"}}
      labelId="demo-simple-select-label"
     value={tensao}
@@ -338,6 +377,8 @@ console.log(e)
 
   </Select>
         <TextField
+         variant="filled"
+
           value={corrente}
           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px"}}
           className="shadow-lg"
@@ -348,6 +389,7 @@ console.log(e)
      
 
   <Select
+      variant="filled"
      style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"120px",height:"55px"}}
      labelId="demo-simple-select-label"
      className="shadow-lg"
@@ -362,7 +404,8 @@ console.log(e)
     
   
   </Select>
-        <div style={{ marginTop: "40px", width: "170px",marginLeft:"20px" }}>
+  
+        <div style={{ marginTop: "40px", width: "190px",marginLeft:"20px" }}>
           <LocalizationProvider
             dateAdapter={AdapterDayjs}
             adapterLocale="pt-br"
@@ -372,119 +415,149 @@ console.log(e)
               className="shadow-lg"
               value={dataentrada}
               onChange={(e) => setDataentrada(e)}
+              slotProps={{ textField: { variant: 'filled' }}}
             />
           </LocalizationProvider>
         </div>
       </div>
 
+        {session &&(
+<>
       <div className='text-center mt-8 '>
       <Button  onPress={handleCreateMaterial} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
-          {loading?<Spinner color="danger"/>:"Criar Material"}
+          {loadingButton?<SpinnerForButton w={10} h={10} />:"Criar Material"}
       </Button>
-   
-      </div>
-
-   
-        <div className='mt-16' >
-          <TableContainer component={Paper} >
-            <Table
-            stickyHeader
-              sx={{ width: "100vw",  }}
-              aria-label="simple table"
-            >
-              <TableHead>
-                <TableRow>
-
-                  <TableCell
-                   align="center"
-                   className="text-xl ">Cod.Interno</TableCell>
-                  <TableCell align="center"
-                  className="text-xl">Cod.Fabricante</TableCell>
-                  <TableCell align="center"
-                  className="text-xl ">Descrição</TableCell>
-                  <TableCell align="center"
-                   className="text-xl ">Marca</TableCell>
-                  <TableCell align="center"
-                   className="text-xl ">Tensão</TableCell>
-     
-                  <TableCell align="center"
-                  className="text-xl ">Estoque</TableCell>
-
-                  <TableCell align="center"
-                  className="text-xl ">Localização</TableCell>
-                  <TableCell align="center"
-                  className="text-xl ">Preço Custo</TableCell>
-                  <TableCell align="center"
-                  className="text-xl ">Preço venda</TableCell>
-                   <TableCell align="center" className="text-xl">Preço Total</TableCell> 
-                  <TableCell align="center"
-                  className="text-xl "></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                { materiais.length>=1 && materiais.map((row:any) => (
-                  <TableRow
-                    key={row.material.id}
-                   className="hover:bg-master_yellow border-2 border-black"
-                  >
-                
-               
-                    <TableCell align="center"
-                    className="text-base"
-                    >{row.material.id}</TableCell>
-                    <TableCell align="center" className="text-base">{row.material.codigoFabricante}</TableCell>
-                    <TableCell align="center" className="text-base" onClick={(x)=>setDescricao(row.material.descricao)}>{row.material.descricao}</TableCell>
-                    <TableCell align="center" className="text-base">{row.material.marca}</TableCell>
-                    <TableCell align="center" size ="small" className="text-base">{row.material.tensao}</TableCell>
-  
-                    <TableCell align="center" size ="small"
-                    className="text-base">{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal +" "+row.material.unidade}</TableCell>
-                    <TableCell align="center" size ="small"
-                    className="text-base">{row.material.localizacao}</TableCell>
-                    <TableCell align="center" size ="small"
-                    className="text-base">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</TableCell>
-                    <TableCell align="center" size ="small"
-                    className="text-base">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</TableCell>
-                    <TableCell align="center" size ="small"
-                    className="text-base">{row.material.precoVenda==null?"Sem registro":"R$ "+(row.material.precoCusto*row.saldoFinal).toFixed(2).toString().replace(".",",")}</TableCell>
-                     <TableCell align="center" size ="small"
-                   className="text-base">      <Button
-                    style={{backgroundColor:'white',marginTop:"7px",marginRight:"15px"}}
-                    
-                      onClick={(x) =>
-                        route.push(`update-material/${row.material.id}`)
-                      }
-                    >
-                      <EditTwoToneIcon />
-                    </Button>
-                    </TableCell>
-              
-                   
-                  </TableRow>
-                ))}
-                 
-              </TableBody>
-            </Table>
-          </TableContainer>
       
-          <Snackbar
-            open={openSnackBar}
-            autoHideDuration={3000}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'center'
-            }}
-            onClose={(e) => setOpenSnackBar(false)}
+      </div>
+      </>
+        )}
+ 
+
+   
+        <div className='mt-16 flex ' >
+       
+
+
+          {materiais.length>0?
+          <>
+          <TableContainer component={Paper} >
+          <Table
+          stickyHeader
+            sx={{ width: "100vw",  }}
+            aria-label="simple table"
           >
-            <MuiAlert
-              onClose={(e) => setOpenSnackBar(false)}
-              severity={severidadeAlert}
-              sx={{ width: "100%" }}
-            >
-              {messageAlert}
-            </MuiAlert>
-          </Snackbar>
+            <TableHead>
+              <TableRow>
+
+                <TableCell
+                 align="center"
+                 className="text-xl ">Cod.Interno</TableCell>
+                <TableCell align="center"
+                className="text-xl">Cod.Fabricante</TableCell>
+                <TableCell align="center"
+                className="text-xl ">Descrição</TableCell>
+                <TableCell align="center"
+                 className="text-xl ">Marca</TableCell>
+                <TableCell align="center"
+                 className="text-xl ">Tensão</TableCell>
+   
+                <TableCell align="center"
+                className="text-xl ">Estoque</TableCell>
+
+                <TableCell align="center"
+                className="text-xl ">Localização</TableCell>
+                <TableCell align="center"
+                className="text-xl ">Preço Custo</TableCell>
+                <TableCell align="center"
+                className="text-xl ">Preço venda</TableCell>
+                 <TableCell align="center" className="text-xl">Preço Total</TableCell> 
+                 {session && (
+
+                <TableCell align="center"
+                className="text-xl "></TableCell>
+                 )}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              { materiais.length>=1 && materiais.map((row:any) => (
+                <TableRow
+                  key={row.material.id}
+                 className=""
+                >
+              
+             
+                  <TableCell align="center"
+                  className="text-base hover:border-1 hover:border-black hover:font-bold hover:shadow-xl hover:rounded-lg"
+                  >{row.material.id}</TableCell>
+                  <TableCell align="center" className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg">{row.material.codigoFabricante}</TableCell>
+                  <TableCell align="center" className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg" onClick={(x)=>setDescricao(row.material.descricao)}>{row.material.descricao}</TableCell>
+                  <TableCell align="center" className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg">{row.material.marca}</TableCell>
+                  <TableCell align="center" size ="small" className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg">{row.material.tensao}</TableCell>
+
+                  <TableCell align="center" size ="small"
+                  className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg">{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal +" "+row.material.unidade}</TableCell>
+                  <TableCell align="center" size ="small"
+                  className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg">{row.material.localizacao}</TableCell>
+                  <TableCell align="center" size ="small"
+                  className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</TableCell>
+                  <TableCell align="center" size ="small"
+                  className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</TableCell>
+                  <TableCell align="center" size ="small"
+                  className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg">{row.material.precoVenda==null?"Sem registro":"R$ "+(row.material.precoCusto*row.saldoFinal).toFixed(2).toString().replace(".",",")}</TableCell>
+                  
+                  {session && (
+                   <TableCell align="center" size ="small"
+                 className="text-base hover:border-1 hover:border-black hover:font-bold">      <Button
+                  style={{backgroundColor:'white',marginTop:"7px",marginRight:"15px"}}
+                  
+                    onClick={(x) =>
+                      handleChangeUpdatePage(row.material.id)
+                    }
+                  >
+                    <EditTwoToneIcon />
+                  </Button>
+                  </TableCell>
+                  )}
+            
+                 
+                </TableRow>
+              ))}
+               
+            </TableBody>
+          </Table>
+        </TableContainer>
+    
+        <Snackbar
+          open={openSnackBar}
+          autoHideDuration={3000}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center'
+          }}
+          onClose={(e) => setOpenSnackBar(false)}
+        >
+          <MuiAlert
+            onClose={(e) => setOpenSnackBar(false)}
+            severity={severidadeAlert}
+            sx={{ width: "100%" }}
+          >
+            {messageAlert}
+          </MuiAlert>
+        </Snackbar>
+        </>
+          
+          
+          :  
+          loadingMateriais &&(
+
+            <div className="w-full flex flex-row justify-center mt-16">
+              <SpinnerForButton w={20} h={20} />
+            </div>
+          )
+          }
+          
         </div>
+        
     </>
 
 

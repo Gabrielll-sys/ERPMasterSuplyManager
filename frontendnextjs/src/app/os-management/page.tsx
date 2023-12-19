@@ -15,7 +15,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
 
 import { CardActionArea, CardActions } from '@mui/material';
-import { Button } from "@nextui-org/react";
+import { AvatarIcon, Button } from "@nextui-org/react";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import createMaterial from "../style/createMaterial.module.css"
@@ -31,6 +31,7 @@ import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
 
 import NavBar from "../componentes/NavBar"
+import { useSession } from "next-auth/react";
 export default function OsManagement(){
    
     type Os = {
@@ -44,6 +45,7 @@ export default function OsManagement(){
   
   
     const route = useRouter()
+    const { data: session } = useSession();
   
     const [ordemServicos,setOrdemServicos] = useState([])
     const [descricaoOs, setDescricaoOs] = useState<string>("");
@@ -137,7 +139,7 @@ export default function OsManagement(){
       label="Descrição OS"
       
     />
-   
+ 
    
   
   <Select
@@ -153,6 +155,8 @@ export default function OsManagement(){
   ))}
   
   </Select>
+  
+ 
   { prefixoOs=="BR" && (
     <TextField
     value = {numeroOs}
