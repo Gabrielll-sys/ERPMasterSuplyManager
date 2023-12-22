@@ -442,22 +442,20 @@ namespace SupplyManager.Controllers
                         m1.Tensao = String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao;
                         m1.Localizacao = String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper();
                         m1.DataEntradaNF = model.DataEntradaNF;
-                        m1.PrecoCusto = model.PrecoCusto != m1.PrecoCusto ? model.PrecoCusto : m1.PrecoCusto;
-                        m1.PrecoVenda = model.PrecoVenda != m1.PrecoVenda ? model.PrecoVenda : m1.PrecoVenda;
+                        m1.PrecoCusto =  model.PrecoCusto;
+                        m1.PrecoVenda = model.PrecoVenda;
 
                         m1.Markup = model.Markup;
 
 
                     }
 
-                    if (model.PrecoVenda != null && model.PrecoCusto != null && model.Markup != null)
-                    {
-
-                    m1.CalcularMarkup(markup:model.Markup,precoCusto:model.PrecoCusto,precoVenda:model.PrecoVenda);
+                   
+              
 
                     m1.CalcularPrecoVenda();
 
-                    }
+                    
 
 
                     if (m1.PrecoCusto == 0)
@@ -492,17 +490,14 @@ namespace SupplyManager.Controllers
                         m1.Tensao = String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao;
                         m1.Localizacao = String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper();
                         m1.DataEntradaNF = model.DataEntradaNF;
-                        m1.PrecoCusto = model.PrecoCusto != m1.PrecoCusto ? m1.PrecoCusto : model.PrecoCusto;
-                        m1.PrecoVenda =  model.PrecoVenda != m1.PrecoVenda ? m1.PrecoVenda:model.PrecoVenda;
+                        m1.PrecoCusto =  model.PrecoCusto;
+                        m1.PrecoVenda =  model.PrecoVenda;
                         m1.Markup = model.Markup;
 
                     }
 
                   
-                    
-
-                    model.CalcularMarkup(markup: m1.Markup, precoCusto: model.PrecoCusto, precoVenda: model.PrecoVenda);
-                   
+            
                     m1.CalcularPrecoVenda();
                     
 

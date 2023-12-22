@@ -92,11 +92,15 @@ export default function OsManagement(){
   const descricaoOsFormated = descricaoOs.trim().replace(/\s\s+/g, " ")
   const reponsavelFormated = resposavel==undefined?"":resposavel.trim().replace(/\s\s+/g, " ")
   
-  const OS ={
+  const OS =
+  {
+    
   descricao:`${prefixoOs}-${descricaoOsFormated}`,
   resposavel:reponsavelFormated,
   numeroOs:numeroOs,
+
   }
+
   
   
   

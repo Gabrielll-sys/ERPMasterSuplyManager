@@ -1,7 +1,7 @@
 "use client"
 import { useRouter } from "next/navigation";
 
-import { Button } from "@nextui-org/react";
+import { Button, Link } from "@nextui-org/react";
 
 
 import { InputAdornment, Snackbar } from '@mui/material';
@@ -20,6 +20,7 @@ import dayjs from "dayjs";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import ArrowLeft from "@/app/assets/icons/ArrowLeft";
 
 export default function UpdateMaterial({params}:any){
   const route = useRouter()
@@ -54,9 +55,42 @@ export default function UpdateMaterial({params}:any){
     console.log(params.materialId)
     getMaterial(params.materialId).then().catch()
      
- 
- 
+
  },[])
+
+ useEffect(()=>{
+
+  if(precoCusto!="")
+  {
+  
+    let markupCalculado = calcularMarkup(precoVenda ,precoCusto)
+    
+    if(Number.isNaN(markupCalculado)|| precoVenda =="")
+    {
+    
+    setMarkup("")
+
+    }
+    else{
+
+      setMarkup(markupCalculado.toFixed(2).toString().toString().replace('.',','))
+    }
+
+  }
+
+
+
+
+ },[precoVenda])
+
+ //Função para calcular o markup ja trocando as virgulas por pontos,pois a variável é string,para permitir usar , ao invés de .
+ const  calcularMarkup= (x:string |undefined | null, y: string | undefined |null )=>
+ {
+
+  return Number((Number(x?.toString().replace(`,`,`.`))/Number(y?.toString().replace(`,`,`.`))-1).toFixed(4))*100
+
+ }
+
  //esta função serve para verificar se o item é nulo,aonde quando importamos os dados do excel os dados vem como nulo
  //e para realizar a  edição aqui
  const verifyNull = (item:any)=>{
@@ -64,8 +98,7 @@ export default function UpdateMaterial({params}:any){
    return item==null?"":item
  
  }
- 
- 
+
   const getMaterial = async(id:number)=>{
  
   axios.get(`${url}/Materiais/${id}`).then(r=>{
@@ -114,7 +147,7 @@ export default function UpdateMaterial({params}:any){
      precoVenda:Number(precoVenda)==0?0:Number(precoVenda?.toString().replace(',','.')),
      markup:Number(markup)==0?null:Number(markup?.toString().replace(',','.')),
      }
- console.log(material)
+
  
    const materialAtualizado =  await axios.put(`${url}/Materiais/${id}`,material)
    .then(r=>
@@ -163,10 +196,20 @@ export default function UpdateMaterial({params}:any){
  
 
  
-     <h1  className='text-center font-bold text-2xl mt-20'>Editando {descricao}  (Codigo Interno: {codigoInterno}) </h1>
+     <Link
+        size="sm"
+        as="button"
+        className="p-3 mt-4 text-base tracking-wide text-dark hover:text-success border border-transparent hover:border-success transition-all duration-200"
+        onClick={() => route.back()}
+      >
+        <ArrowLeft /> Retornar
+      </Link>
+     <h1  className='text-center font-bold text-2xl mt-10'>Editando {descricao}  (Codigo Interno: {codigoInterno}) </h1>
    
-     <div className=' w-full flex flex-row justify-center mt-20 ' >
+     <div className=' w-full flex flex-row justify-center mt-10 ' >
  
+
+
  
      <TextField  
          variant="filled"
@@ -307,7 +350,7 @@ export default function UpdateMaterial({params}:any){
    
      </div>
 
-     <div className='text-center mt-8'>
+     <div className='text-center mt-12'>
      <Button  onPress={x=>handleUpdateMaterial(params.materialId)} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl '>
        Atualizar Material
       </Button>

@@ -58,6 +58,7 @@ var app = builder.Build();
 }
 */
 
+
 app.UseCors(option => option.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseHttpsRedirection();

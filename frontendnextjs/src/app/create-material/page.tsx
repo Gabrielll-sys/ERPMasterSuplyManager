@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 
 import { Button } from "@nextui-org/react";
+
 import Link from "next/link";
 import { url } from "../api/webApiUrl";
 import Header from "../componentes/Header";
@@ -11,7 +12,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
 import "dayjs/locale/pt-br";
-import { InputAdornment, Snackbar } from '@mui/material';
+import { InputAdornment, Snackbar, TableFooter, TablePagination } from '@mui/material';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Input,
   Spinner,
@@ -42,6 +43,7 @@ import GoogleIcon from "../assets/icons/GoogleIcon";
 import SpinnerForButton from "../componentes/SpinnerButton";
 export default function CreateMaterial(){
   const route = useRouter()
+  const [page, setPage] = useState(5);
 
   const [loadingButton,setLoadingButton] = useState<boolean>(false)  
   const [loadingMateriais,setLoadingMateriais] = useState<boolean>(false)  
@@ -137,9 +139,9 @@ if(description) setDescricao(description)
 
 
   const searchByDescription = async () => {
-
+    
     setLoadingMateriais(true)
-console.log(loadingMateriais)
+
    try{
     const res = await axios
     .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao}`)
@@ -199,6 +201,7 @@ console.log(e)
     }
   
   const handleCreateMaterial = async () => {
+    setMateriais([])
 
 
     if (!descricao || !unidade) {
@@ -233,7 +236,9 @@ console.log(e)
           setOpenSnackBar(true);
           setSeveridadeAlert("success");
           setMessageAlert("Material Criado com sucesso");
-          console.log(r.data.dataEntradaNF)
+         setDescricao(r.data.descricao)
+ 
+      
           return r.data
         })
         .catch((e) => {
@@ -251,15 +256,17 @@ console.log(e)
             setMessageAlert("Já existe um material com este mesmo código de fabricante");
           }
         });
-        console.log(materialCriado)
-        //Quando criar o material.atualizara a  lista de materias que estao a amostra
-        // e se somente o material ter sido criado
-       if(materialCriado)
-       {
-         await searchByDescription()
+
        
 
-       }
+          
+        
+      
+        //Quando criar o material.atualizara a  lista de materias que estao a amostra
+        // e se somente o material ter sido criado
+       
+       
+
 
 
 
@@ -424,8 +431,8 @@ console.log(e)
         {session &&(
 <>
       <div className='text-center mt-8 '>
-      <Button  onPress={handleCreateMaterial} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
-          {loadingButton?<SpinnerForButton w={10} h={10} />:"Criar Material"}
+      <Button  onPress={handleCreateMaterial} className='bg-master_black text-white p-7 rounded-lg font-bold text-2xl shadow-lg '>
+          {loadingButton?<Spinner size="md" color="warning"/>:"Criar Material"}
       </Button>
       
       </div>
@@ -507,7 +514,7 @@ console.log(e)
                   
                   {session && (
                    <TableCell align="center" size ="small"
-                 className="text-base hover:border-1 hover:border-black hover:font-bold">      <Button
+                 className="text-base hover:border-1 ">      <Button
                   style={{backgroundColor:'white',marginTop:"7px",marginRight:"15px"}}
                   
                     onClick={(x) =>
@@ -524,6 +531,8 @@ console.log(e)
               ))}
                
             </TableBody>
+      
+    
           </Table>
         </TableContainer>
     
@@ -551,7 +560,7 @@ console.log(e)
           loadingMateriais &&(
 
             <div className="w-full flex flex-row justify-center mt-16">
-              <SpinnerForButton w={20} h={20} />
+              <Spinner size="lg"/>
             </div>
           )
           }

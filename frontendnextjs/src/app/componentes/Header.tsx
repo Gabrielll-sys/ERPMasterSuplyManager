@@ -30,7 +30,7 @@ const Header= ()=>{
     const route = useRouter()
     const [isClicked, setIsClicked] = useState(false);
     const iconClasses = "h-4 text-2xl";
-  
+    const emails:string[] = ["gabrielpuneco@gmail.com"]
     const handleClick = () => {
       setIsClicked(!isClicked);
   
@@ -64,16 +64,16 @@ return(
   width={65}
   height={22}
   alt="Foto do Produto"
-  className="rounded-full h-16 mr-6 mt-2 hover:scale-110  ring-2 ring-gray-400"
+  className="rounded-full h-16 mr-6 mt-2 hover:scale-110  ring-1 ring-master_yellow"
   src={session.user.image ?? ""}
 />   
   </DropdownTrigger>
   <DropdownMenu
     aria-label="Profile Actions"
     variant="bordered"
-    className="bg-light mt-2 border-2 border-black  shadow-inner"
+    className="bg-light mt-2 border-2 border-black  "
     color="success"
-    disabledKeys={["profile"]}
+    disabledKeys={[""]}
   >
     <DropdownItem
       key="profile"
@@ -84,6 +84,19 @@ return(
     >
       <p className="font-semibold text-base p-5">
         {session.user.name}
+      </p>
+    </DropdownItem>
+
+    <DropdownItem
+      key="QrCodeMaterial"
+      
+      className="text-start"
+      color="default"
+      onClick={()=>route.push('/generateMaterialQrcode')}
+
+    >
+      <p className="font-semibold text-base p-5">
+        Gerador código QR Code
       </p>
     </DropdownItem>
     
@@ -104,9 +117,9 @@ return(
 :
 
 (
-<Button className="mr-11 text-lg text-white rounded-md hover:scale-x-110" variant="ghost" onClick={() => signIn("google")}>
+<Link className="mr-11 text-lg text-white rounded-md hover:scale-x-110 hover:underline my-auto" href="" onClick={() => signIn("google")}>
                 Entrar
-              </Button>)
+              </Link>)
 }
 </div>
 

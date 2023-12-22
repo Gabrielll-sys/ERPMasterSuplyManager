@@ -1,12 +1,14 @@
 import React from "react";
 
 function SpinnerForButton(props:any) {
+const classButton = "animate-spin h-10 w-10 text-current"
+const classSpinnerForSearch = "animate-spin h-40 w-40 text-current"
 
   return (
     
     
     <svg
-      className={`animate-spin h-${props.h} w-${props.w} text-current`}
+      className={props.tipo=="botao"?classButton:classSpinnerForSearch}
       fill="none"
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
