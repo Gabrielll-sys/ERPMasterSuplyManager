@@ -74,26 +74,6 @@ namespace SupplyManager.Models
 
         }
 
-        public void CalcularMarkup(float? markup, float? precoVenda, float? precoCusto)
-        {
-
-            if (PrecoVenda != null && PrecoVenda !=null)
-            {
-
-                if (markup != Markup || (precoCusto != PrecoCusto || precoVenda!=PrecoVenda))
-                {
-                var markupPercentage = (precoVenda / precoCusto) - 1;
-
-                Markup = (float)Math.Round((decimal)markupPercentage * 100, 2);
-
-                
-            
-                }
-
-            }   
-
-
-        }
 
     }
 }

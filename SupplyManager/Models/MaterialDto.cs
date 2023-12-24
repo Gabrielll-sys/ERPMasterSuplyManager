@@ -1,8 +1,7 @@
-﻿namespace SupplyManager.Interfaces
+﻿namespace SupplyManager.Models
 {
-    public interface IMaterial
+    public class MaterialDto
     {
-        public int? Id { get; set; }
 
         public string? CodigoInterno { get; set; }
         public string? CodigoFabricante { get; set; }
@@ -31,12 +30,5 @@
         public float? PrecoCusto { get; set; }
         public float? Markup { get; set; }
         public float? PrecoVenda { get; set; }
-
-
-
-        public void CalcularPrecoVenda();
-
-
-
     }
 }

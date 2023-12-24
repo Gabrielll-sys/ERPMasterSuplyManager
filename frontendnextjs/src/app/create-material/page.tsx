@@ -14,9 +14,10 @@ import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
 import "dayjs/locale/pt-br";
 import { InputAdornment, Snackbar, TableFooter, TablePagination } from '@mui/material';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { Input,
+import { 
   Spinner,
-  Avatar
+  Avatar,
+  Input
  } from '@nextui-org/react';
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import Table from "@mui/material/Table";
@@ -71,14 +72,7 @@ const [precoVenda,setPrecoVenda] = useState<number | string>()
   const tensoes = ["","12V","24V","127V","220V","380V","440V","660V"]
   const { data: session } = useSession();
   
-  const columns = [
-    { name: "Número Pedido", uid: "numpedido" },
-    { name: "Data", uid: "data" },
-    { name: "Itens", uid: "item" },
-    { name: "Total", uid: "total" },
-    { name: "Preco", uid: "preço" },
-  ];
-
+  
 
 
 
@@ -286,10 +280,10 @@ console.log(e)
 </div>
 
 
+ 
       <div className=' w-full flex flex-row justify-center mt-6 '>
 
        
-
         <TextField
          variant="filled"
         
@@ -366,7 +360,7 @@ console.log(e)
             startAdornment: <InputAdornment position="start">%</InputAdornment>,
           }}
         />
-   
+ 
  <Select
       variant="filled"
      style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px",height:"55px"}}
@@ -493,7 +487,9 @@ console.log(e)
                 >
               
              
-                  <TableCell align="center"
+                  <TableCell 
+                  
+                  align="center"
                   className="text-base hover:border-1 hover:border-black hover:font-bold hover:shadow-xl hover:rounded-lg"
                   >{row.material.id}</TableCell>
                   <TableCell align="center" className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg">{row.material.codigoFabricante}</TableCell>

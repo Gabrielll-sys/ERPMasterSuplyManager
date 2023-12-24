@@ -229,8 +229,9 @@ export default function UpdateMaterial({params}:any){
  
     
      {/* <InputText className='inputs' value={descricao} onChange={e=>setDescricao(e.target.value)} /> */}
-     <TextField   value={descricao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
+     <TextField   value={descricao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',}}
          variant="filled"
+         className="w-96"
          onChange={(e) => setDescricao(e.target.value)} label='Descrição'  required />
  
     
@@ -351,7 +352,7 @@ export default function UpdateMaterial({params}:any){
      </div>
 
      <div className='text-center mt-12'>
-     <Button  onPress={x=>handleUpdateMaterial(params.materialId)} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl '>
+     <Button  onPress={x=>handleUpdateMaterial(params.materialId)} className='bg-master_black text-white p-6 rounded-lg font-bold text-2xl  '>
        Atualizar Material
       </Button>
       </div>

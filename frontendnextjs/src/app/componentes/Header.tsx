@@ -1,9 +1,7 @@
 "use client"
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
-import CartIcon from "../assets/icons/CartIcon";
-import OrdersIcon from "../assets/icons/OrdersIcon";
-import HelpIcon from "../assets/icons/HelpIcon";
+import { useReactToPrint } from 'react-to-print';
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -19,6 +17,7 @@ import {
   NavbarItem,
 } from "@nextui-org/react";
 
+import IconQrCode from '@/app/assets/icons/IconQrCode';
 
 import { useRouter } from "next/navigation";
 import IconExit from "../assets/icons/IconExit";
@@ -92,6 +91,7 @@ return(
       
       className="text-start"
       color="default"
+      endContent={<IconQrCode/>}
       onClick={()=>route.push('/generateMaterialQrcode')}
 
     >

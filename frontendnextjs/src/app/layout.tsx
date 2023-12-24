@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 }
 
-const rotasWithFooter = ["/update-material"]
+
 export default function RootLayout({
   children,
 }: {

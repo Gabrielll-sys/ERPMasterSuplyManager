@@ -57,7 +57,7 @@ namespace SupplyManager.Controllers
 
         }
 
-        [HttpPost]
+ /*       [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -68,7 +68,7 @@ namespace SupplyManager.Controllers
             try
             {
 
-                OrdemServico o1 = new OrdemServico(descricao: model.Descricao.ToUpper(), model.ResponsavelExecucao,model.OsBrastorno);
+                OrdemServico o1 = new OrdemServico(descricao: model.Descricao.ToUpper(), model.ResponsavelExecucao,model.OsBrastorno,responsavelAbertura:model.ResponsavelAbertura);
 
                 await _context.OrdemServicos.AddAsync(o1);
 
@@ -91,7 +91,7 @@ namespace SupplyManager.Controllers
 
 
 
-        }
+        }*/
 
 
 
@@ -203,21 +203,7 @@ namespace SupplyManager.Controllers
 
 
 
-
-
-
         }
-
-
-
-
-
-
-
-
-
-
-
 
 
     }

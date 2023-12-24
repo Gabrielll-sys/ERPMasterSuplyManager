@@ -7,7 +7,7 @@ using SixLabors.ImageSharp.Processing.Processors.Transforms;
 
 namespace SupplyManager.Models
 {
-    public class OrdemServico
+    public class OrdemServico : IOrderServico
     {
         [Key]
         public int Id { get; set; }
@@ -16,6 +16,8 @@ namespace SupplyManager.Models
         //Campo para definir quando a OS for autorizada e para posteriomente impedir quaisquer modificações
         public bool IsAuthorized { get; set; }
 
+        //Funcionário que executou o serviço/OS
+        public string? ResponsavelAbertura { get; set; }
         public string? ResponsavelExecucao { get; set; }
         public string? ResponsavelAutorizacao { get; set; }
 
@@ -34,9 +36,10 @@ namespace SupplyManager.Models
 
 
 
-        public OrdemServico(string? descricao, string? responsavelExecucao,string osBrastorno)
+        public OrdemServico(string? descricao,string? responsavelAbertura, string? responsavelExecucao,string osBrastorno)
         {
             Descricao =  descricao;
+            ResponsavelAbertura = responsavelAbertura;
             ResponsavelExecucao = responsavelExecucao;
             IsAuthorized = false;
             DataAbertura = DateTime.Now;

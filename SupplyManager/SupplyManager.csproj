@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Compile Remove="Models\Categoria.cs" />
+    <Compile Remove="Validations\CategoriaPostValidation.cs" />
   </ItemGroup>
 
   <ItemGroup>
