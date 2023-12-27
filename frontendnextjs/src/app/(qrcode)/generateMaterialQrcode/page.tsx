@@ -195,7 +195,7 @@ Imprimir
        
        </div>
   
-       <div className='flex justify-center mt-8 flex-row flex-wrap gap-10 w-full ' ref={componentRef}>
+       <div className='flex justify-center mt-12 flex-row flex-wrap gap-12 w-full  ' ref={componentRef}>
     {qrCodes?.map((material:Inventario)=>(
   <div className='flex flex-row'>
 

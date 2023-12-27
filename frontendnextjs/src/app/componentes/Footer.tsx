@@ -9,7 +9,7 @@ import Link from "next/link";
 export default function Footer({ children, ...props }: any) {
   const route = useRouter();
   return (
-    <footer className="fixed  left-0 bottom-0 w-screen " {...props}>
+    <footer className="fixed  bottom-0  left-0 w-screen " {...props}>
       <div className="grid grid-cols-2  bg-master_black text-light text-tiny h-32">
         <div className=" ml-2 p-6">
           <h3>

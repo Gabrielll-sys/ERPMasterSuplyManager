@@ -7,9 +7,11 @@ using SupplyManager.Validations.MateriaisValidations;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.IO;
-
+using SupplyManager.Extensions;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
+using System.ComponentModel;
+
 namespace SupplyManager.Controllers
 {
 
@@ -85,7 +87,64 @@ namespace SupplyManager.Controllers
 
 
         }
+        [HttpPost("filter-material")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<Material>> FilterSearch([FromBody]FilterMaterial model)
+        {
 
+            try
+            {
+                DateTime date = DateTime.Now;
+
+                var ass = model.DataEntradaNF.Teste();
+
+              
+                var queryMaterial = from query in _context.Materiais select query;
+
+
+                if (model.PrecoVendaMin.HasValue)
+                {
+
+                    var filterResult = await queryMaterial.Where(x => x.PrecoVenda > model.PrecoVendaMin).ToListAsync();
+
+                    return Ok(filterResult);
+                }
+
+                if (model.PrecoVendaMax.HasValue)
+                {
+
+                    var filterResult = await queryMaterial.Where(x => x.PrecoVenda < model.PrecoVendaMax).ToListAsync();
+
+                    return Ok(filterResult);
+                }
+
+
+
+                if (model.PrecoVendaMax.HasValue && model.PrecoVendaMin.HasValue)
+                {
+
+                    var filterResult = await queryMaterial.Where(x => x.PrecoVenda < model.PrecoVendaMax && x.PrecoVenda> model.PrecoVendaMin).ToListAsync();
+                    return Ok(filterResult);
+
+                }
+
+
+                return Ok();
+
+            }
+
+  
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+
+
+        }
         [HttpGet("buscaCodigo/{codigoInterno}")]
      
 
@@ -224,6 +283,7 @@ namespace SupplyManager.Controllers
             {
                 var queryMaterial = from query in _context.Materiais select query;
 
+              
 
                 //Ordena a busca de materia
 

@@ -42,7 +42,7 @@ export default function RootLayout({
                 `}
           </Script>
       <Header/>
-      <div>
+      <div className='min-h-screen'>
         
              {children}
       </div>

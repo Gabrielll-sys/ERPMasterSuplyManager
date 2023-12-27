@@ -113,7 +113,7 @@ export default function UpdateMaterial({params}:any){
  setOldCategory(verifyNull(r.data.categoria))
  setLocalizacao(verifyNull(r.data.localizacao))
  setPrecoCusto(verifyNull(r.data.precoCusto))
- setPrecoVenda(verifyNull(r.data.precoVenda))
+ setPrecoVenda(verifyNull(r.data.precoVenda.toFixed(2)))
  setMarkup(verifyNull(r.data.markup))
  
  setTensao(verifyNull(tensoes[tensoes.findIndex((x)=>x==r.data.tensao)]))

@@ -182,7 +182,6 @@ namespace SupplyManager.Controllers
             {
                 var queryMaterial = from query in _context.Materiais select query;
                 var queryInvetory = await _context.Inventarios.ToListAsync();
-
                 List<Inventario> listInvetory = new List<Inventario>();
 
 
@@ -210,7 +209,7 @@ namespace SupplyManager.Controllers
 
 
                 }
-
+              
                 return Ok(listInvetory);
             }
 
@@ -241,6 +240,7 @@ namespace SupplyManager.Controllers
                 var queryMaterial = from query in _context.Materiais select query;
             /*    var queryMaterial = await _context.Materiais.ToListAsync();*/
                 var queryInvetory = await _context.Inventarios.ToListAsync();
+  /*              var b = await queryMaterial.Where(x => x.PrecoCusto > 1000 && x.Marca == "WEG").ToListAsync();*/
 
                 List<Inventario> listInvetory = new List<Inventario>();
 

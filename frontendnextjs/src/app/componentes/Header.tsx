@@ -23,6 +23,7 @@ import { useRouter } from "next/navigation";
 import IconExit from "../assets/icons/IconExit";
 import AvatarLogin from "./AvatarLogin";
 import IconUser from "../assets/icons/IconUser";
+import TodoListPen from "../assets/icons/TodoListPen";
 
 const Header= ()=>{
     const { data: session } = useSession();
@@ -86,6 +87,21 @@ return(
       </p>
     </DropdownItem>
 
+  
+    <DropdownItem
+      key="MaterialsRelatory"
+      
+      className="text-start"
+      color="default"
+      endContent={<TodoListPen/>}
+      onClick={()=>route.push('/materials-relatory')}
+
+    >
+      <p className="font-semibold text-base p-5">
+       Emissão relatório de materiais
+      </p>
+    </DropdownItem>
+    
     <DropdownItem
       key="QrCodeMaterial"
       
@@ -99,7 +115,6 @@ return(
         Gerador código QR Code
       </p>
     </DropdownItem>
-    
     
     <DropdownItem
       key="logout"

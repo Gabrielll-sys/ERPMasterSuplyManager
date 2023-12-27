@@ -7,7 +7,7 @@ import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import { url } from "../api/webApiUrl";
 import Header from "../componentes/Header";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
@@ -36,15 +36,17 @@ import AddIcon from '@mui/icons-material/Add';
 
 import SearchIcon from '@mui/icons-material/Search';
 import MenuItem from '@mui/material/MenuItem';
+import { useReactToPrint } from 'react-to-print';
 
 import Select from '@mui/material/Select';
 import dayjs from "dayjs";
 import { signIn, useSession } from "next-auth/react";
 import GoogleIcon from "../assets/icons/GoogleIcon";
 import SpinnerForButton from "../componentes/SpinnerButton";
+
 export default function CreateMaterial(){
   const route = useRouter()
-  const [page, setPage] = useState(5);
+
 
   const [loadingButton,setLoadingButton] = useState<boolean>(false)  
   const [loadingMateriais,setLoadingMateriais] = useState<boolean>(false)  
@@ -62,17 +64,23 @@ export default function CreateMaterial(){
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [messageAlert, setMessageAlert] = useState<string>();
   const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
-  const [object,setObject]= useState([])
  const[precoCusto,setPrecoCusto] = useState<number | string>()
- const[markup,setMarkup] = useState<number | string>(0)
-const [precoVenda,setPrecoVenda] = useState<number | string>()
+  const[markup,setMarkup] = useState<number | string>(0)
+  const [precoVenda,setPrecoVenda] = useState<number | string>()
   const [materiais, setMateriais] = useState([]);
 
   const unidadeMaterial = ["UN", "RL", "MT", "P"];
   const tensoes = ["","12V","24V","127V","220V","380V","440V","660V"]
   const { data: session } = useSession();
   
-  
+  const componentRef: any = useRef();
+
+  const handlePrint = useReactToPrint({
+   content: () => componentRef.current,
+   documentTitle: 'Visitor Pass',
+   onAfterPrint: () => console.log('Printed PDF successfully!'),
+  });
+    
 
 
 
@@ -428,14 +436,17 @@ console.log(e)
       <Button  onPress={handleCreateMaterial} className='bg-master_black text-white p-7 rounded-lg font-bold text-2xl shadow-lg '>
           {loadingButton?<Spinner size="md" color="warning"/>:"Criar Material"}
       </Button>
-      
+      <Button className="text-white bg-master_black p-4 font-bold ml-5" onClick={()=>handlePrint()}>
+      Limpar
+      </Button>
+     
       </div>
       </>
         )}
  
 
    
-        <div className='mt-16 flex ' >
+        <div className='mt-16 flex '  ref={componentRef}>
        
 
 
