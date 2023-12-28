@@ -36,15 +36,15 @@ return(
     }
     )}>Gerenciamento de Inventário</p>
 </Link>
-<Link href="/os-management">
+{/* <Link href="/managing-os">
 
     <p className={clsx(
         "text-lg font-bold   ",
     {
-        "underline font-extrabold":rota=="/os-management"
+        "underline font-extrabold":rota=="/managing-os"
     }
     )}>Gerenciamento de OS</p>
-</Link>
+</Link> */}
 
 
    </div>

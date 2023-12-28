@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from "react";
-import Header from "../componentes/Header";
+import Header from "../../componentes/Header";
 import EditIcon from '@mui/icons-material/Edit';
 import CreateIcon from "@mui/icons-material/Create";
 import SearchIcon from '@mui/icons-material/Search';
@@ -25,12 +25,12 @@ import axios from "axios";
 import AddIcon from '@mui/icons-material/Add';
 import { Autocomplete } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import { url } from "../api/webApiUrl";
+import { url } from "../../api/webApiUrl";
 import { useRouter } from "next/navigation";
 
 import dayjs from "dayjs";
 
-import NavBar from "../componentes/NavBar"
+import NavBar from "../../componentes/NavBar"
 import { useSession } from "next-auth/react";
 export default function OsManagement(){
    

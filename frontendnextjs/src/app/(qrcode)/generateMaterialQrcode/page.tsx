@@ -160,7 +160,7 @@ export default function UpdateInventory({params}:any){
          
        >
        
-       { materiais.map((item:Inventario) => (
+       {materiais.map((item:Inventario) => (
         
           <AutocompleteItem
            key={item.id} 

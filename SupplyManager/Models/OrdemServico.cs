@@ -16,9 +16,9 @@ namespace SupplyManager.Models
         //Campo para definir quando a OS for autorizada e para posteriomente impedir quaisquer modificações
         public bool IsAuthorized { get; set; }
 
-        //Funcionário que executou o serviço/OS
         public string? ResponsavelAbertura { get; set; }
-        public string? ResponsavelExecucao { get; set; }
+        //Funcionário que executou o serviço/OS
+        public string ResponsaveisExecucao { get; set; }
         public string? ResponsavelAutorizacao { get; set; }
 
         public string? Observacao { get; set; }
@@ -28,7 +28,8 @@ namespace SupplyManager.Models
 
         public DateTime? DataFechamento { get; set; }
 
-        public string? OsBrastorno { get; set; }
+        //Caso seja OS da brastorno,ira exigirr que o usuário que está criando digite o numero,caso seja master elétrica,irá pegar pelo id da ordem de serviço criada
+        public string? NumeroOs { get; set; }
 
 
         public decimal PrecoTotalEquipamentosOs { get; set; }
@@ -36,16 +37,16 @@ namespace SupplyManager.Models
 
 
 
-        public OrdemServico(string? descricao,string? responsavelAbertura, string? responsavelExecucao,string osBrastorno)
+     /*   public OrdemServico(string? descricao,string? responsavelAbertura, string? responsavelExecucao,string? numeroOs)
         {
             Descricao =  descricao;
             ResponsavelAbertura = responsavelAbertura;
-            ResponsavelExecucao = responsavelExecucao;
+            ResponsaveisExecucao.Add(responsavelExecucao);
             IsAuthorized = false;
             DataAbertura = DateTime.Now;
-            OsBrastorno = osBrastorno;
+            NumeroOs = numeroOs;
         }
-
+*/
         public void AutorizarOs(string responsavelAutorizacao)
         {
 

@@ -20,7 +20,7 @@ export default function QrCodeMaterial(props: any) {
       
       <QRCode
         
-        value={`http://192.168.100.216:3000/update-material/${props.material.material.id}`}
+        value={`http://192.168.100.216:3000/linking-material-os/${props.material.material.id}`}
         size={size}
         eyeRadius={10}
         quietZone={7}

@@ -55,7 +55,7 @@ return(
 {session && session.user ? (
   
  
-  <Dropdown className="p-0 rounded-md shadow-none">
+  <Dropdown className="p-0 rounded-md shadow-none border-2 border-black">
   <DropdownTrigger>
    
      <Image
@@ -71,7 +71,7 @@ return(
   <DropdownMenu
     aria-label="Profile Actions"
     variant="bordered"
-    className="bg-light mt-2 border-2 border-black  "
+    className="bg-light mt-2   "
     color="success"
     disabledKeys={[""]}
   >
@@ -87,11 +87,23 @@ return(
       </p>
     </DropdownItem>
 
-  
+    <DropdownItem
+      key="ManagingOs"
+      
+      className="text-start hover:underline"
+      color="default"
+      endContent={<TodoListPen/>}
+      onClick={()=>route.push('/managing-os')}
+
+    >
+      <p className="font-semibold text-base p-5">
+       Gerenciamento de OS
+      </p>
+    </DropdownItem>
     <DropdownItem
       key="MaterialsRelatory"
       
-      className="text-start"
+      className="text-start hover:underline"
       color="default"
       endContent={<TodoListPen/>}
       onClick={()=>route.push('/materials-relatory')}
@@ -105,7 +117,7 @@ return(
     <DropdownItem
       key="QrCodeMaterial"
       
-      className="text-start"
+      className="text-start hover:underline"
       color="default"
       endContent={<IconQrCode/>}
       onClick={()=>route.push('/generateMaterialQrcode')}

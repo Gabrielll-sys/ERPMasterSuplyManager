@@ -57,23 +57,41 @@ namespace SupplyManager.Controllers
 
         }
 
- /*       [HttpPost]
+        [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<OrdemServico>> Create(OrdemServico model)
+        public async Task<ActionResult<OrdemServico>> Create(OrdemServicoDto model)
         {
             try
             {
 
-                OrdemServico o1 = new OrdemServico(descricao: model.Descricao.ToUpper(), model.ResponsavelExecucao,model.OsBrastorno,responsavelAbertura:model.ResponsavelAbertura);
+                OrdemServico o1 = new OrdemServico
+                {
+                    Descricao = model.Descricao.ToUpper(),
+                    ResponsavelAbertura = model.ResponsavelAbertura,
+                    ResponsaveisExecucao = model.ResponsavelExecucao,
+                    IsAuthorized = false,
+                    DataAbertura = DateTime.Now,
+                    NumeroOs = model.NumeroOs,
+                };
 
+                //Caso não tenha sido informado o numero da os,quer dizer que se trata de uma os da master ao inves da brastorno
+                if (String.IsNullOrEmpty(o1.NumeroOs))
+                {
+                   var a = await _context.OrdemServicos.ToListAsync();
+
+                    o1.NumeroOs = (a.Count+1).ToString();
+      
+                }
+
+                o1.Descricao = "OS-"+o1.NumeroOs+"-"+o1.Descricao;
                 await _context.OrdemServicos.AddAsync(o1);
-
+              
                 await _context.SaveChangesAsync();
-
+       
 
                 return Ok(o1);
 
@@ -91,7 +109,7 @@ namespace SupplyManager.Controllers
 
 
 
-        }*/
+        }
 
 
 

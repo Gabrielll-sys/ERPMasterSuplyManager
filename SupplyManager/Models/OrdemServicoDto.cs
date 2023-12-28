@@ -1,16 +1,15 @@
-﻿namespace SupplyManager.Interfaces
+﻿namespace SupplyManager.Models
 {
-    public interface IOrderServico
+    public class OrdemServicoDto
     {
-        public int Id { get; set; }
 
         public string? Descricao { get; set; }
         //Campo para definir quando a OS for autorizada e para posteriomente impedir quaisquer modificações
         public bool IsAuthorized { get; set; }
+
         public string? ResponsavelAbertura { get; set; }
-
-        public string ResponsaveisExecucao { get; set; }
-
+        //Funcionário que executou o serviço/OS
+        public string? ResponsavelExecucao { get; set; }
         public string? ResponsavelAutorizacao { get; set; }
 
         public string? Observacao { get; set; }
@@ -23,13 +22,7 @@
         public string? NumeroOs { get; set; }
 
 
-
         public decimal PrecoTotalEquipamentosOs { get; set; }
-
-
-
-        public void AutorizarOs(string responsavelAutorizacao);
-        
 
 
 

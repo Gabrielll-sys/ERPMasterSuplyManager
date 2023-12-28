@@ -30,8 +30,6 @@ export default function MaterialRelatory(params:any){
 
   const [descricao,setDescricao] = useState<string>()
   const [marca,setMarca] = useState<string>()
-  const [markup,setMarkup] = useState<string>()
-  const [dataEntradaNF,setDataentradaNF] = useState<any>()
   const [precoVendaMin,setPrecoVendaMin] = useState<string>()
   const [precoVendaMax,setPrecoVendaMax] = useState<string>()
   const [precoCustoMin,setPrecoCustoMin] = useState<string>()
@@ -45,7 +43,7 @@ export default function MaterialRelatory(params:any){
 
  const verifyNumberIsEmpty = (item:string | undefined)=>{
  
-  return item==""?null:Number(item?.replace(',','.')).toFixed(2)
+  return !item?.length ? null: Number(item?.replace(',','.')).toFixed(2)
 
 }
 
@@ -54,20 +52,20 @@ const generateRelatory = async()=>{
 const filtro  = {
     descricao: null,
     marca: null,
-    markup: null,
+
     precoVendaMin:verifyNumberIsEmpty(precoVendaMin),
     precoVendaMax:verifyNumberIsEmpty(precoVendaMax),
     precoCustoMin:verifyNumberIsEmpty(precoCustoMin),
     precoCustoMax:verifyNumberIsEmpty(precoCustoMax),
-    dataEntradaNF:dataEntradaNF,
+
 
 
 }
-
+console.log(filtro)
   const materialCriado = await axios
   .post(`${url}/Materiais/filter-material`,filtro)
   .then((r) => {
-
+    console.log(r.data)
     return  r.data
   })
 
@@ -115,18 +113,7 @@ const filtro  = {
          
         />
   
-   <LocalizationProvider
-            dateAdapter={AdapterDayjs}
-            adapterLocale="pt-br"
-          >
-            <DatePicker
-              label="Data Entrada NF"
-              className="shadow-lg"
-              value={dataEntradaNF}
-              onChange={(e) => setDataentradaNF(e)}
-              slotProps={{ textField: { variant: 'filled' }}}
-            />
-          </LocalizationProvider>
+
      </div>
 
        <div className=' w-full flex flex-row justify-center mt-12 ga-4 items-center '>

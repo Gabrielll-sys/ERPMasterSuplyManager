@@ -11,6 +11,7 @@ using SupplyManager.Extensions;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System.ComponentModel;
+using System.Linq;
 
 namespace SupplyManager.Controllers
 {
@@ -98,39 +99,161 @@ namespace SupplyManager.Controllers
 
             try
             {
-                DateTime date = DateTime.Now;
-
-                var ass = model.DataEntradaNF.Teste();
-
               
+                
                 var queryMaterial = from query in _context.Materiais select query;
 
+                //Caso tenha só tenha preço venda min
 
-                if (model.PrecoVendaMin.HasValue)
+                if (
+                   model.PrecoVendaMin.HasValue &&
+                   !model.PrecoVendaMax.HasValue &&
+                   !model.PrecoCustoMin.HasValue &&
+                   !model.PrecoCustoMax.HasValue &&
+           String.IsNullOrEmpty(model.Descricao) &&
+           String.IsNullOrEmpty(model.Marca)
+
+
+                    )
                 {
 
-                    var filterResult = await queryMaterial.Where(x => x.PrecoVenda > model.PrecoVendaMin).ToListAsync();
+                    var filterResult = await _context.Inventarios.Include(s => s.Material).Where(x => x.Material.PrecoVenda > model.PrecoVendaMin).ToListAsync();
 
-                    return Ok(filterResult);
+                    List<Inventario> list = new List<Inventario>();
+
+                    /*          Após o filtro ser feito,ira realizar outro filtro agora no resultado
+                              de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
+                    foreach (var item in filterResult)
+                    {
+                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+
+                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        {
+                            list.Add(invetario[invetario.Count - 1]);
+
+
+                        }
+
+                    }
+                    return Ok(list);
                 }
 
-                if (model.PrecoVendaMax.HasValue)
+                //Caso tenha só tenha preço venda max
+                if (
+                    model.PrecoVendaMax.HasValue &&
+                   !model.PrecoVendaMin.HasValue &&
+                   !model.PrecoCustoMin.HasValue &&
+                   !model.PrecoCustoMax.HasValue &&
+                   String.IsNullOrEmpty(model.Descricao) &&
+                   String.IsNullOrEmpty(model.Marca)
+
+                    )
                 {
 
-                    var filterResult = await queryMaterial.Where(x => x.PrecoVenda < model.PrecoVendaMax).ToListAsync();
+                 
+                    var filterResult = await _context.Inventarios.Include(s => s.Material).Where(x => x.Material.PrecoVenda < model.PrecoVendaMax).ToListAsync();
 
-                    return Ok(filterResult);
+                    List<Inventario> list = new List<Inventario>();
+
+          /*          Após o filtro ser feito,ira realizar outro filtro agora no resultado
+                    de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
+                    foreach (var item in filterResult)
+                    {
+                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+
+                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        {
+                            list.Add(invetario[invetario.Count - 1]);
+                       
+
+                        }
+                     
+                    }
+                        
+                    return Ok(list);
                 }
 
 
-
-                if (model.PrecoVendaMax.HasValue && model.PrecoVendaMin.HasValue)
+                //Caso tenha o preço de venda minimo e preço de venda máximo
+                if (
+                    model.PrecoVendaMax.HasValue && 
+                    model.PrecoVendaMin.HasValue &&
+                   !model.PrecoCustoMin.HasValue &&
+                   !model.PrecoCustoMax.HasValue &&
+                   String.IsNullOrEmpty(model.Descricao) &&
+                   String.IsNullOrEmpty(model.Marca)
+                                              
+                    )
                 {
 
-                    var filterResult = await queryMaterial.Where(x => x.PrecoVenda < model.PrecoVendaMax && x.PrecoVenda> model.PrecoVendaMin).ToListAsync();
-                    return Ok(filterResult);
+                    var filterResult = await _context.Inventarios.Include(s => s.Material).Where(x => x.Material.PrecoVenda < model.PrecoVendaMax && x.Material.PrecoVenda> model.PrecoVendaMin).ToListAsync();
+                    List<Inventario> list = new List<Inventario>();
 
+                    /*          Após o filtro ser feito,ira realizar outro filtro agora no resultado
+                              de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
+                    foreach (var item in filterResult)
+                    {
+                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+
+                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        {
+                            list.Add(invetario[invetario.Count - 1]);
+
+
+                        }
+
+                    }
+
+                    return Ok(list);
                 }
+                if (
+                    model.PrecoVendaMax.HasValue &&
+                    model.PrecoVendaMin.HasValue &&
+                   !model.PrecoCustoMin.HasValue &&
+                   !model.PrecoCustoMax.HasValue &&
+                   String.IsNullOrEmpty(model.Descricao) &&
+                   String.IsNullOrEmpty(model.Marca)
+
+                    )
+                {
+
+                    var filterResult = await _context.Inventarios.Include(s => s.Material).Where(x => x.Material.PrecoVenda < model.PrecoVendaMax && x.Material.PrecoVenda > model.PrecoVendaMin).ToListAsync();
+                    List<Inventario> list = new List<Inventario>();
+
+                    /*          Após o filtro ser feito,ira realizar outro filtro agora no resultado
+                              de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
+                    foreach (var item in filterResult)
+                    {
+                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+
+                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        {
+                            list.Add(invetario[invetario.Count - 1]);
+
+
+                        }
+
+                    }
+
+                    return Ok(list);
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                 return Ok();
