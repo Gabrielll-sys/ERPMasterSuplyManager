@@ -18,13 +18,26 @@ namespace SupplyManager.Migrations
             migrationBuilder.RenameColumn(
                 name: "OsBrastorno",
                 table: "OrdemServicos",
-                newName: "NumeroOs");
+                newName: "ResponsaveisExecucao");
+
+            migrationBuilder.RenameColumn(
+                name: "Observacao",
+                table: "OrdemServicos",
+                newName: "Observacoes");
+
+            migrationBuilder.AlterColumn<decimal>(
+                name: "PrecoTotalEquipamentosOs",
+                table: "OrdemServicos",
+                type: "decimal(65,30)",
+                nullable: true,
+                oldClrType: typeof(decimal),
+                oldType: "decimal(65,30)");
 
             migrationBuilder.AddColumn<string>(
-                name: "ResponsaveisExecucao",
+                name: "NumeroOs",
                 table: "OrdemServicos",
                 type: "longtext",
-                nullable: false)
+                nullable: true)
                 .Annotation("MySql:CharSet", "utf8mb4");
         }
 
@@ -32,7 +45,7 @@ namespace SupplyManager.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ResponsaveisExecucao",
+                name: "NumeroOs",
                 table: "OrdemServicos");
 
             migrationBuilder.RenameColumn(
@@ -41,9 +54,24 @@ namespace SupplyManager.Migrations
                 newName: "ResponsavelExecucao");
 
             migrationBuilder.RenameColumn(
-                name: "NumeroOs",
+                name: "ResponsaveisExecucao",
                 table: "OrdemServicos",
                 newName: "OsBrastorno");
+
+            migrationBuilder.RenameColumn(
+                name: "Observacoes",
+                table: "OrdemServicos",
+                newName: "Observacao");
+
+            migrationBuilder.AlterColumn<decimal>(
+                name: "PrecoTotalEquipamentosOs",
+                table: "OrdemServicos",
+                type: "decimal(65,30)",
+                nullable: false,
+                defaultValue: 0m,
+                oldClrType: typeof(decimal),
+                oldType: "decimal(65,30)",
+                oldNullable: true);
         }
     }
 }

@@ -153,10 +153,11 @@ export default function UpdateInventory({params}:any){
          label="Material "
          isDisabled={!materiais}
          placeholder="Procure um material"
-         className="max-w-2xl"
-         description="Material para ser gerado o QRCode"
+         className="max-w-2xl  border-1 border-black rounded-xl shadow-sm shadow-black"
          onInputChange={onInputChange}
          value={stateBotao}
+
+
          
        >
        

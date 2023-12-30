@@ -24,6 +24,7 @@ import IconExit from "../assets/icons/IconExit";
 import AvatarLogin from "./AvatarLogin";
 import IconUser from "../assets/icons/IconUser";
 import TodoListPen from "../assets/icons/TodoListPen";
+import IconFilter from "../assets/icons/IconFilter";
 
 const Header= ()=>{
     const { data: session } = useSession();
@@ -105,7 +106,7 @@ return(
       
       className="text-start hover:underline"
       color="default"
-      endContent={<TodoListPen/>}
+      endContent={<IconFilter/>}
       onClick={()=>route.push('/materials-relatory')}
 
     >

@@ -76,13 +76,22 @@ namespace SupplyManager.Controllers
                     IsAuthorized = false,
                     DataAbertura = DateTime.Now,
                     NumeroOs = model.NumeroOs,
+                    Observacoes = model.Observacoes,
                 };
 
+                var a = await _context.OrdemServicos.ToListAsync();
+
+                var findNumeroOs = a.FirstOrDefault(x => x.NumeroOs == model.NumeroOs);
+
+               /* if (findNumeroOs != null) 
+                {
+                return Ok(new { message = "Já existe OS com este número" });
+
+                }*/
                 //Caso não tenha sido informado o numero da os,quer dizer que se trata de uma os da master ao inves da brastorno
                 if (String.IsNullOrEmpty(o1.NumeroOs))
                 {
-                   var a = await _context.OrdemServicos.ToListAsync();
-
+                    var s = a.FirstOrDefault(o1 => o1.NumeroOs == model.NumeroOs);
                     o1.NumeroOs = (a.Count+1).ToString();
       
                 }

@@ -91,12 +91,12 @@ console.log(filtro)
 
    
       
-     <div className=' w-full flex flex-row justify-center mt-12 ga-4 items-center '>
+     <div className=' w-full flex flex-row justify-center mt-12 gap-6 items-center '>
 
      <Input
        
           label="Descricao do Material"
-          className="w-[400px]"
+          className="w-[400px] border-1 border-black rounded-xl shadow-sm shadow-black"
           placeholder="0,00"
           labelPlacement="outside"
           value={descricao}
@@ -105,7 +105,7 @@ console.log(filtro)
         />
      <Input
           label="Marca"
-          className="w-32"
+          className="w-32 border-1 border-black rounded-xl shadow-sm shadow-black"
           placeholder="Ex: WEG"
           labelPlacement="outside"
           value={marca}
@@ -116,12 +116,12 @@ console.log(filtro)
 
      </div>
 
-       <div className=' w-full flex flex-row justify-center mt-12 ga-4 items-center '>
+       <div className=' w-full flex flex-row justify-center mt-12 gap-4 items-center '>
    
        <Input
           type="number"
           label="Preço custo min"
-          className="w-32"
+          className="w-32 border-1 border-black rounded-xl shadow-sm shadow-black"
           value={precoCustoMin}
           onValueChange={setPrecoCustoMin}
           placeholder="0,00"
@@ -136,7 +136,7 @@ console.log(filtro)
     <Input
           type="number"
           label="Preço custo max"
-          className="w-32"
+          className="w-32 border-1 border-black rounded-xl shadow-sm shadow-black"
           placeholder="0,00"
           labelPlacement="outside"
           value={precoCustoMax}
@@ -151,7 +151,7 @@ console.log(filtro)
        <Input
           type="number"
           label="Preço venda min"
-          className="w-32"
+          className="w-32 border-1 border-black rounded-xl shadow-sm shadow-black"
           placeholder="0,00" 
           value={precoVendaMin}
           onValueChange={setPrecoVendaMin}
@@ -165,7 +165,7 @@ console.log(filtro)
      <Input
           type="number"
           label="Preço venda max"
-          className="w-32"
+          className="w-32 border-1 border-black rounded-xl shadow-sm shadow-black"
           value={precoVendaMax}
        
           onValueChange={setPrecoVendaMax}

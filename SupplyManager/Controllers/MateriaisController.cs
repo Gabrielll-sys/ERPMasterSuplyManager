@@ -88,6 +88,41 @@ namespace SupplyManager.Controllers
 
 
         }
+
+        [HttpGet("getMaterialWithInvetory/{id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<Material>> GetMaterialwithInvetory(int id)
+        {
+
+            try
+            {
+                var materialWithInventory = await _context.Inventarios.Include(s => s.Material).Where(x =>x.MaterialId==id).ToListAsync();
+
+             
+
+                return Ok(materialWithInventory[materialWithInventory.Count-1]);
+
+             
+
+      
+            }
+              
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+
+
+        }
+
         [HttpPost("filter-material")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]

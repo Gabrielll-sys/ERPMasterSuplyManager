@@ -22,7 +22,8 @@ const config: Config = {
         green: "#3d9970",
         grey: "#3b4849",
         master_black:"#2A2E48",
-        master_yellow:"#FCDD74"
+        master_yellow:"#FCDD74",
+        cardbg_color:"#404040",
       },
       fontFamily: {
         sans: ['Roboto', 'Sans-serif'],

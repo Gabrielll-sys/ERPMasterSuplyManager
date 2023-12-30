@@ -11,7 +11,7 @@ using SupplyManager.App;
 namespace SupplyManager.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20231227195210_v19")]
+    [Migration("20231229190900_v19")]
     partial class v19
     {
         /// <inheritdoc />
@@ -155,14 +155,13 @@ namespace SupplyManager.Migrations
                     b.Property<string>("NumeroOs")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Observacao")
+                    b.Property<string>("Observacoes")
                         .HasColumnType("longtext");
 
-                    b.Property<decimal>("PrecoTotalEquipamentosOs")
+                    b.Property<decimal?>("PrecoTotalEquipamentosOs")
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("ResponsaveisExecucao")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("ResponsavelAbertura")

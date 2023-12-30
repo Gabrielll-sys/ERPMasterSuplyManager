@@ -152,14 +152,13 @@ namespace SupplyManager.Migrations
                     b.Property<string>("NumeroOs")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Observacao")
+                    b.Property<string>("Observacoes")
                         .HasColumnType("longtext");
 
-                    b.Property<decimal>("PrecoTotalEquipamentosOs")
+                    b.Property<decimal?>("PrecoTotalEquipamentosOs")
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("ResponsaveisExecucao")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("ResponsavelAbertura")

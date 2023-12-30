@@ -18,10 +18,10 @@ namespace SupplyManager.Models
 
         public string? ResponsavelAbertura { get; set; }
         //Funcionário que executou o serviço/OS
-        public string ResponsaveisExecucao { get; set; }
+        public string? ResponsaveisExecucao { get; set; }
         public string? ResponsavelAutorizacao { get; set; }
 
-        public string? Observacao { get; set; }
+        public string? Observacoes { get; set; }
         public DateTime? DataAutorizacao { get; set; }
 
         public DateTime? DataAbertura { get; set; }
@@ -32,7 +32,7 @@ namespace SupplyManager.Models
         public string? NumeroOs { get; set; }
 
 
-        public decimal PrecoTotalEquipamentosOs { get; set; }
+        public decimal? PrecoTotalEquipamentosOs { get; set; }
 
 
 

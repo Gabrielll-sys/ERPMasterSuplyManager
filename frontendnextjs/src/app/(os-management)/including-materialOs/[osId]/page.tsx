@@ -43,12 +43,10 @@ import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 export default function IncludingMaterialOs({params}:any){
 
 
-
     type item = 
     {
       id:number,
       quantidade:number,
-      
       material:{
         descricao:string,
         unidade:string,
@@ -78,8 +76,8 @@ export default function IncludingMaterialOs({params}:any){
     const [os,setOs] = useState<any>("")
 
   useEffect(()=>{
-getOs(params.osId)
-getMateriasOs(params.osId)
+    getOs(params.osId)
+    getMateriasOs(params.osId)
   },[])
 
 
@@ -148,22 +146,22 @@ getMateriasOs(params.osId)
 
     }
 
+console.log(item)
+// const res = await axios.post(`${url}/Itens/CreateItem`,item).then(r=>{
+//   return r.data
+// }).catch(e=>console.log(e))
 
-const res = await axios.post(`${url}/Itens/CreateItem`,item).then(r=>{
-  return r.data
-}).catch(e=>console.log(e))
+// console.log(res)
+// setOpenDialog(false)
+// setQuantidadeMaterial(0)
 
-console.log(res)
-setOpenDialog(false)
-setQuantidadeMaterial(0)
-
-if(res){
+// if(res){
   
-  setOpenSnackBar(true);
-  setSeveridadeAlert("success");
-  setMessageAlert("Material adiciona a lista da OS");
-  getMateriasOs(params.osId)
-}
+//   setOpenSnackBar(true);
+//   setSeveridadeAlert("success");
+//   setMessageAlert("Material adiciona a lista da OS");
+//   getMateriasOs(params.osId)
+// }
 
 
 
@@ -260,6 +258,10 @@ const handleCloseDialogAuthorize = ()=>{
     
 }
 
+
+  function HandleRemoveItemList(item: any): void {
+    throw new Error("Function not implemented.");
+  }
 
 return(
     <>
@@ -366,13 +368,13 @@ return(
      <AddIcon />
    </Button>}
    
-  {/* {materialsOs.includes(item)  && !openDialog &&(
+  {materiaisOs.includes(item)  && !openDialog &&(
 
-   <Button size="small" color="primary" onClick={x=>HandleRemoveItemList(item)}>
-    <DeleteIcon/>
+   <Button size="md" color="primary" onClick={x=>HandleRemoveItemList(item)}>
+   Deeltaer
    </Button>
 
-  )} */}
+  )}
  </CardActions>
 </Card>
 

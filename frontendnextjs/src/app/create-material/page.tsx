@@ -244,7 +244,7 @@ console.log(e)
           return r.data
         })
         .catch((e) => {
-          console.log(e.response.data.message[0].errorMessage);
+          console.log(e.response.data.message);
           if (e.response.data.message == "Código interno já existe") {
             setOpenSnackBar(true);
             setSeveridadeAlert("error");
@@ -289,7 +289,7 @@ console.log(e)
 
 
  
-      <div className=' w-full flex flex-row justify-center mt-6 '>
+      <div className=' w-full flex flex-row flex-wrap justify-center mt-6 '>
 
        
         <TextField
@@ -339,7 +339,7 @@ console.log(e)
           label="Localização"
         />
           </div>
-      <div className=' w-full flex flex-row justify-center'>
+      <div className=' w-full flex flex-row flex-wrap justify-center'>
 
         <TextField
          variant="filled"

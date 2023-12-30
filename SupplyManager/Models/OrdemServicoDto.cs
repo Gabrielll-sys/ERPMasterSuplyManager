@@ -12,7 +12,7 @@
         public string? ResponsavelExecucao { get; set; }
         public string? ResponsavelAutorizacao { get; set; }
 
-        public string? Observacao { get; set; }
+        public string? Observacoes { get; set; }
         public DateTime? DataAutorizacao { get; set; }
 
         public DateTime? DataAbertura { get; set; }

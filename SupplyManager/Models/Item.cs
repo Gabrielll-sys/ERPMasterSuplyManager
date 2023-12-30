@@ -14,14 +14,14 @@ namespace SupplyManager.Models
 
 
         [ForeignKey("MaterialId")]
-       public  Material Material { get; set; }
+       public  Material? Material { get; set; }
 
 
        public int OrdemServicoId { get; set; }
 
         [ForeignKey("OrdemServicoId")]
 
-        public OrdemServico OrdemServico { get; set; }
+        public OrdemServico? OrdemServico { get; set; }
 
 
         public float? Quantidade { get; set; }
