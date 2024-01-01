@@ -62,11 +62,14 @@ export default function UpdateMaterial({params}:any){
 
 const getAllOs = async()=>{
 
- await axios.get(`${url}/OrdemServicos`).then((r:any)=>{
-  setOrdemServicos(r.data)
-})
+  const res = await axios.get(`${url}/OrdemServicos`).then((r:any)=>{
+  return r.data
+  })
 
-}
+  const filteredOs = res.filter((x:IOrderServico)=>!x.isAuthorized)
+    //Ira setar no autocomplete somente as Ordem de serviços que ainda não foram autorizadas
+  setOrdemServicos(filteredOs)
+  }
  
 
  //esta função serve para verificar se o item é nulo,aonde quando importamos os dados do excel os dados vem como nulo
@@ -133,12 +136,14 @@ catch(error){
   console.log()
 }
 
-
-
-
-
   } 
  
+const removeMaterialInvetario = ()=>
+{
+
+}
+
+
 
   const onValueChange = (value:any)=>
   {
@@ -162,10 +167,10 @@ catch(error){
    <Input
         type="number"
         label="Quantidade"
-        className="w-32"
+        className="w-32 border-1 border-black rounded-xl shadow-sm shadow-black "
         max={estoque}
         min={1}
-        placeholder="0,00" 
+        placeholder="0" 
         value={quantidade}
         onValueChange={onValueChange}
         labelPlacement="inside"
@@ -180,10 +185,10 @@ catch(error){
 <Autocomplete
        label="Material "
        placeholder="Procure um material"
-       className="max-w-[380px]"
-       description="Escolha qual OS o material será adicionado"
+       className="max-w-[480px] border-1 border-black rounded-xl shadow-sm shadow-black"
+        
        selectedKey={ordemServicoEscolhida}
-      onSelectionChange={setOrdemServicoEscolhida}
+        onSelectionChange={setOrdemServicoEscolhida}
 
        
      >
@@ -193,10 +198,10 @@ catch(error){
         <AutocompleteItem
          key={item.id} 
          aria-label='teste'
-         
+        
          endContent={
          <>
-         <p className='text-xs'>{item.descricao}</p>
+         <p className='text-xs'>Aberta: {dayjs(item.dataAbertura).format("DD/MM/YYYY")}</p>
          </>
          }
       
@@ -213,8 +218,12 @@ catch(error){
    </div>
 
    <div className='text-center mt-12'>
-   <Button  onPress={()=>handleCreateItem(ordemServicoEscolhida)} className='bg-master_black text-white p-6 rounded-lg font-bold text-2xl  '>
+   <Button 
+   onPress={()=>handleCreateItem(ordemServicoEscolhida)} 
+   className='bg-master_black text-white p-6 rounded-lg font-bold text-2xl  '>
+
      Adicionar material a OS
+
     </Button>
     </div>
   
