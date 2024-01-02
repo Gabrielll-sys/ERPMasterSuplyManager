@@ -9,15 +9,15 @@ import Link from "next/link";
 export default function Footer({ children, ...props }: any) {
   const route = useRouter();
   return (
-    <footer className="fixed  bottom-0  left-0 w-screen " {...props}>
+    <footer className="fixed  bottom-0 max-sm:h-20 left-0 w-screen " {...props}>
       <div className="grid grid-cols-2  bg-master_black text-light text-tiny h-32">
-        <div className=" ml-2 p-6">
-          <h3>
+        <div className=" ml-2 p-6 max-sm:p-[10px] flex flex-col">
+          <p className="max-sm:min-w-[120px]">
             <strong>MASTER ELÉTRICA</strong>
-          </h3>
+          </p>
           <br />
-          <p className="py-1">Feito em Santa Luzia, Minas Gerais</p>
-          <p className="py-1">&copy; 2018-2023</p>
+          <p className="max-sm:pt-[-20px] max-sm:min-w-[200px]  ">Feito em Santa Luzia, Minas Gerais</p>
+          <p className=" max-sm:min-w-[200px] max-sm:ml-10 ">&copy; 2018-2023</p>
         </div>
        
    

@@ -301,7 +301,6 @@ console.log(e)
         />
 
         <Input
-    
           value={descricao}
           className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[400px]"
           onValueChange={setDescricao}
@@ -311,8 +310,6 @@ console.log(e)
  
         <Input
           value={marca}
-
-  
           className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
           onValueChange={setMarca}
           label="Marca"
@@ -327,22 +324,22 @@ console.log(e)
       <div className=' w-full flex flex-row flex-wrap justify-center'>
 
         <Input
-        
         value={precoCusto}
-        style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
         className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
         onValueChange={setPrecoCusto}
         label="Preço Custo"
+        startContent={
+          <span>R$</span>
+        }
        
       />
       <Input
- 
-  
-
           value={markup}
-          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
           className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
           onValueChange={setMarkup}
+          endContent={
+            <span>%</span>
+          }
           label="Markup"
         
         />

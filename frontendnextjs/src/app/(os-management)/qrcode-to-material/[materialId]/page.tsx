@@ -1,5 +1,5 @@
 "use client"
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 import { Autocomplete, AutocompleteItem, Button, Input, Link } from "@nextui-org/react";
 
@@ -36,7 +36,7 @@ export default function UpdateMaterial({params}:any){
   const [marca,setMarca] = useState<string>("")
   const [ tensao,setTensao] = useState<string>("")
   const [corrente,setCorrente] = useState<string>("")
-  const [ordemServicoEscolhida,setOrdemServicoEscolhida] = useState<any>("sd")
+  const [ordemServicoEscolhida,setOrdemServicoEscolhida] = useState<IOrderServico>()
   const [estoque,setEstoque] = useState<string>()
   const [unidade,setUnidade] = useState<string>("")
   const[quantidade,setQuantidade] = useState<string>("1")
@@ -100,7 +100,7 @@ const getAllOs = async()=>{
   }
  
  
-  const handleCreateItem = async(id:number)=>
+  const handleCreateItem = async(id:number | undefined)=>
   {
 try{
 
@@ -144,6 +144,7 @@ catch(error){
 const removeQtdMaterialInvetario = async ()=>
 {
 
+
   const inventario = {
     razao:`${session?.user?.name} Removeu do inventário`,
     saldoFinal:movimento,
@@ -160,7 +161,14 @@ const removeQtdMaterialInvetario = async ()=>
       return r.data
 }).catch()
 }
+const setValue = (id:any)=>{
+  console.log(ordemServicoEscolhida?.descricao)
+  const osFinded = ordemServicos.find(x=>x.id==id)
+  setOrdemServicoEscolhida(osFinded)
 
+
+
+}
 
 
   const onValueChange = (value:any)=>
@@ -175,17 +183,20 @@ const removeQtdMaterialInvetario = async ()=>
      <>
  
 
- {session && session.user ?(
+ {session  && session.user?(
   <>
-  <h1  className='text-center font-bold text-2xl mt-28'>{codigoInterno} - {descricao} ({marca})</h1>
+  <h1  className='text-center font-bold text-2xl mt-20 max-sm:text-base'>{codigoInterno} - {descricao}</h1>
+  {marca!=""&& (<h1 className='text-center font-bold text-2xl  max-sm:text-lg'>{marca}</h1>)}
    
-   <div className=' w-full flex flex-row justify-center mt-20 gap-4  ' >
+   <div className=' w-full flex sm:flex-row   justify-center mt-20 max-sm:mt-5 gap-4 max-sm: flex-col   ' >
 
 
    <Input
         type="number"
         label="Quantidade"
-        className="w-32 border-1 border-black rounded-xl shadow-sm shadow-black "
+        isRequired
+        radius="md"
+        className="w-32  max-sm:mx-auto border-1 border-black rounded-md shadow-sm shadow-black  "
         max={estoque}
         min={1}
         placeholder="0" 
@@ -201,12 +212,12 @@ const removeQtdMaterialInvetario = async ()=>
 
   
 <Autocomplete
-       label="Material "
-       placeholder="Procure um material"
-       className="max-w-[480px] border-1 border-black rounded-xl shadow-sm shadow-black"
-        
-       selectedKey={ordemServicoEscolhida}
-        onSelectionChange={setOrdemServicoEscolhida}
+       label="Ordem de Serviço "
+       placeholder="Procure uma OS"
+       className="max-sm:w-[350px] max-sm:mx-auto  max-w-[480px] border-1 border-black rounded-md shadow-sm shadow-black"
+       radius="md"
+       value={ordemServicoEscolhida?.descricao}
+       onSelectionChange={setValue}
 
        
      >
@@ -215,8 +226,7 @@ const removeQtdMaterialInvetario = async ()=>
       
         <AutocompleteItem
          key={item.id} 
-         aria-label='teste'
-        
+         aria-label='ttttttt'
          endContent={
          <>
          <p className='text-xs'>Aberta: {dayjs(item.dataAbertura).format("DD/MM/YYYY")}</p>
@@ -235,12 +245,22 @@ const removeQtdMaterialInvetario = async ()=>
  
    </div>
 
-   <div className='text-center mt-12'>
+   <div className='text-center mt-12 ml-4 flex flex-row  max-sm:justify-evenly gap-3   justify-center'>
    <Button 
-   onPress={()=>handleCreateItem(ordemServicoEscolhida)} 
-   className='bg-master_black text-white p-6 rounded-lg font-bold text-2xl  '>
+   onPress={()=>handleCreateItem(ordemServicoEscolhida?.id)} 
+   isDisabled={quantidade=="0"|| quantidade==""}
+
+   className='bg-master_black text-white p-3 rounded-lg font-bold  max-sm:text-sm max-sm:w-[160px] text-2xl  '>
 
      Adicionar material a OS
+
+    </Button>
+   <Button 
+   onPress={removeQtdMaterialInvetario} 
+   isDisabled={quantidade=="0" || quantidade==""}
+   className='bg-master_black text-white p-3 rounded-lg font-bold  max-sm:text-sm max-sm:w-[160px] text-2xl  '>
+
+    Remover quantidade
 
     </Button>
     </div>
@@ -259,17 +279,16 @@ const removeQtdMaterialInvetario = async ()=>
   </>
  ):(
  
-  <div className='flex flex-col items-center mt-56 content-center  '>
-  <p className='text-2xl p-6'>Você precisa estar logado para realizar esta ação</p>
+  <div className='flex flex-col items-center max-sm:mt-24 mt-56 content-center text-center  '>
+  <p className='text-2xl max-sm:text-xl p-6'>Você precisa estar logado para realizar esta ação</p>
         <Button // Continuar com Google
         variant="flat"
-        
-        className="hover:opacity-90 hover:scale-105  p-10 bg-red-800 text-white border-2 border-black rounded-md shadow-md" 
+        className="hover:opacity-90 hover:scale-105  p-10 bg-red-600 max-sm:bg-red-600 text-white border-2 border-black rounded-md shadow-md" 
         onClick={() => signIn("google")}
       >
         <div className="flex gap-3">
         <GoogleIcon className="text-2xl mt-1" />
-        <p className="text-2xl self-center " >Continuar com Google</p>
+        <p className="text-2xl max-sm:text-lg self-center " >Continuar com Google</p>
         </div>
       </Button>
       </div>

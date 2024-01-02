@@ -102,8 +102,6 @@ namespace SupplyManager.Controllers
             {
                 var materialWithInventory = await _context.Inventarios.Include(s => s.Material).Where(x =>x.MaterialId==id).ToListAsync();
 
-             
-
                 return Ok(materialWithInventory[materialWithInventory.Count-1]);
 
              

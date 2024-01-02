@@ -238,30 +238,16 @@ namespace SupplyManager.Controllers
             try
             {
                 var queryMaterial = from query in _context.Materiais select query;
-            /*    var queryMaterial = await _context.Materiais.ToListAsync();*/
+            
                 var queryInvetory = await _context.Inventarios.ToListAsync();
-  /*              var b = await queryMaterial.Where(x => x.PrecoCusto > 1000 && x.Marca == "WEG").ToListAsync();*/
 
                 List<Inventario> listInvetory = new List<Inventario>();
 
-
-
-                if (descricao.ToUpper() == "TUDO")
-                {
-
-                queryMaterial =   queryMaterial.Where(_=>true).OrderByDescending(x=>x.Id);
-
-                }
-                //Realiza uma busca no banco de materias para buscar match na descrição de acordo com a busca
-
-                if (descricao.ToUpper() != "TUDO")
-                {
-
+                queryMaterial = descricao.ToUpper() == "TUDO" ?
+                    queryMaterial = queryMaterial.Where(_ => true).OrderByDescending(x => x.Id).ThenBy(x=>x.PrecoCusto):
                     queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao)).OrderBy(x => x.Id);
 
-
-                }
-
+               
                 var materiais = await queryMaterial.ToListAsync();
 
                 //Faz um iteração em todos os materiais com aquela descrição
@@ -280,9 +266,7 @@ namespace SupplyManager.Controllers
 
                     listInvetory.Add(inventarios[inventarios.Count-1]);
 
-                   
-
-                   
+           
 
                 }
 

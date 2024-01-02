@@ -47,7 +47,7 @@ return(
 
 <div className="ml-1  flex flex-row justify-between ">
     <Link href="/create-material">
-    <Image  className="py-5 hover:scale-90" src={require('../assets/logo.png')} width={132} height={123} alt="logo master" />
+    <Image  className="py-5 hover:scale-90 max-sm:mt-1 max-sm:w-[100px] max-sm:h-[80px] w-[120px] h-[90px]" src={require('../assets/logo.png')}  alt="logo master" />
     </Link>
 
 
@@ -65,7 +65,7 @@ return(
   width={65}
   height={22}
   alt="Foto do Produto"
-  className="rounded-full h-16 mr-6 mt-2 hover:scale-110  ring-1 ring-master_yellow"
+  className="rounded-full h-16 mr-6 mt-2 hover:scale-110  ring-2 ring-gray-400"
   src={session.user.image ?? ""}
 />   
   </DropdownTrigger>
@@ -145,7 +145,7 @@ return(
 :
 
 (
-<Link className="mr-11 text-lg text-white rounded-md hover:scale-x-110 hover:underline my-auto" href="" onClick={() => signIn("google")}>
+<Link className="mr-11 max-sm:mr-6 max-sm:text-base text-lg text-white rounded-md hover:scale-x-110 hover:underline my-auto" href="" onClick={() => signIn("google")}>
                 Entrar
               </Link>)
 }
