@@ -138,9 +138,27 @@ catch(error){
 
   } 
  
-const removeMaterialInvetario = ()=>
+
+
+
+const removeQtdMaterialInvetario = async ()=>
 {
 
+  const inventario = {
+    razao:`${session?.user?.name} Removeu do inventário`,
+    saldoFinal:movimento,
+    estoque:estoque,
+    materialId:codigoInterno,
+    material:{}
+    }
+
+
+  const inventarioAtualizado =  await axios.post(`${url}/Inventarios`,inventario)
+  .then(r=>
+    {
+    
+      return r.data
+}).catch()
 }
 
 
