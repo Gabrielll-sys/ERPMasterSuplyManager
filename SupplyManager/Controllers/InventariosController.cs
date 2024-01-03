@@ -359,6 +359,46 @@ namespace SupplyManager.Controllers
             }
 
         }
+
+        [HttpPost("remove_from_qr_code")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult>RemoverQuantidadeInventario ([FromBody] Inventario model)
+        {
+
+            try
+            {
+
+                Inventario i1 = new Inventario
+                    (
+                    model.Razao,
+                    model.Estoque,
+                    model.Movimentacao,
+                    model.SaldoFinal,
+                    model.Responsavel,
+                    model.MaterialId
+                    );
+
+                await _context.Inventarios.AddAsync(i1);
+
+
+
+                await _context.SaveChangesAsync();
+
+                return Ok(i1);
+
+
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+
+            }
+
+        }
         /// <summary>
         /// Atualizar o Material pelo Id
         /// </summary>

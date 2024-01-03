@@ -1,19 +1,14 @@
 export interface IInventario  {
     id: number,
-    codigoInterno: string,
-    codigoFabricante: string,
-    categoria: string,
-    descricao: string,
-    marca: string,
-    corrente: string,
-    unidade: string,
-    tensao: string,
-    localizacao: string,
-    dataEntradaNF: any,
-    precoCusto: number,
-    markup: number,
-    precoVenda: number
-    material:{
+    dataAlteracao:any,
+    materialId:number,
+    razao:string,
+    estoque:number,
+    movimentacao:number,
+    saldoFinal?:number | undefined,
+    responsavel:string,
+    material:
+    {
       id:string | number,
       categoria?: string
       codigoFabricante?: string
@@ -22,7 +17,7 @@ export interface IInventario  {
       dataEntradaNF? : any,
       descricao?: string,
       localizacao?: string,
-      marca?: number,
+      marca?: string,
       markup?: number ,
       precoCusto?: number,
       precoVenda?: number,

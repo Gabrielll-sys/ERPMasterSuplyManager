@@ -30,15 +30,10 @@ export default function UpdateMaterial({params}:any){
   const route = useRouter()
 
   const[ordemServicos,setOrdemServicos] = useState<IOrderServico[]>([])
-  const [descricao,setDescricao] = useState<string>("")
   const [codigoInterno,setCodigoInterno] = useState<string>("")
-  const [codigoFabricante,setCodigoFabricante] = useState<string>("")
-  const [marca,setMarca] = useState<string>("")
-  const [ tensao,setTensao] = useState<string>("")
-  const [corrente,setCorrente] = useState<string>("")
+  const [material,setMaterial] = useState<IInventario>()
   const [ordemServicoEscolhida,setOrdemServicoEscolhida] = useState<IOrderServico>()
-  const [estoque,setEstoque] = useState<string>()
-  const [unidade,setUnidade] = useState<string>("")
+
   const[quantidade,setQuantidade] = useState<string>("1")
   const [openSnackBar,setOpenSnackBar]= useState(false)
   const [ messageAlert,setMessageAlert] = useState<string>();
@@ -84,16 +79,9 @@ const getAllOs = async()=>{
  
   await axios.get(`${url}/Materiais/getMaterialWithInvetory/${id}`).then(r=>{
 
- setCodigoInterno(r.data.material.id)
- setUnidade(verifyNull(r.data.material.unidade))
- setCodigoFabricante(verifyNull(r.data.material.codigoFabricante))
- setCorrente(verifyNull(r.data.material.corrente))
- setMarca(verifyNull(r.data.material.marca))
- setDescricao(verifyNull(r.data.material.descricao))
- setEstoque(verifyNull(r.data.saldoFinal))
-
+    setMaterial(r.data)
+  
  
- setTensao(verifyNull(tensoes[tensoes.findIndex((x)=>x==r.data.material.tensao)]))
  
   })
  
@@ -144,23 +132,34 @@ catch(error){
 const removeQtdMaterialInvetario = async ()=>
 {
 
+  const saldoFinal:number = material?.saldoFinal!=undefined?material.saldoFinal-Number(quantidade):0
+ 
 
   const inventario = {
     razao:`${session?.user?.name} Removeu do inventário`,
-    saldoFinal:movimento,
-    estoque:estoque,
-    materialId:codigoInterno,
-    material:{}
+    saldoFinal:saldoFinal,
+    estoque:material?.saldoFinal,
+    materialId:material?.material.id,
+    material:{},
+    movimentacao:-Number(quantidade)
     }
 
 
-  const inventarioAtualizado =  await axios.post(`${url}/Inventarios`,inventario)
+  const inventarioAtualizado =  await axios.post(`${url}/Inventarios/remove_from_qr_code`,inventario)
   .then(r=>
     {
-    
+
       return r.data
 }).catch()
+
+  if(inventarioAtualizado){
+    setOpenSnackBar(true);
+    setSeveridadeAlert("success");
+    setMessageAlert(`${quantidade} ${material?.material.unidade} de ${material?.material.descricao} removido com sucesso`);
+  }
+
 }
+
 const setValue = (id:any)=>{
   console.log(ordemServicoEscolhida?.descricao)
   const osFinded = ordemServicos.find(x=>x.id==id)
@@ -173,7 +172,7 @@ const setValue = (id:any)=>{
 
   const onValueChange = (value:any)=>
   {
-    if(value>=Number(estoque)) setQuantidade((Number(estoque)).toString())
+    if(value>=Number(material?.saldoFinal)) setQuantidade((Number(material?.saldoFinal)).toString())
      else{
     setQuantidade(value)
   }
@@ -185,8 +184,8 @@ const setValue = (id:any)=>{
 
  {session  && session.user?(
   <>
-  <h1  className='text-center font-bold text-2xl mt-20 max-sm:text-base'>{codigoInterno} - {descricao}</h1>
-  {marca!=""&& (<h1 className='text-center font-bold text-2xl  max-sm:text-lg'>{marca}</h1>)}
+  <h1  className='text-center font-bold text-2xl mt-20 max-sm:text-base'>{material?.material.id} - {material?.material.descricao}</h1>
+  {material?.material.marca!=""&& (<h1 className='text-center font-bold text-2xl  max-sm:text-lg'>({material?.material.marca})</h1>)}
    
    <div className=' w-full flex sm:flex-row   justify-center mt-20 max-sm:mt-5 gap-4 max-sm: flex-col   ' >
 
@@ -197,7 +196,7 @@ const setValue = (id:any)=>{
         isRequired
         radius="md"
         className="w-32  max-sm:mx-auto border-1 border-black rounded-md shadow-sm shadow-black  "
-        max={estoque}
+        max={material?.saldoFinal}
         min={1}
         placeholder="0" 
         value={quantidade}
@@ -205,7 +204,7 @@ const setValue = (id:any)=>{
         labelPlacement="inside"
         endContent={
           <div className="pointer-events-none flex items-center">
-            <span className="text-default-400 text-small">{unidade}</span>
+            <span className="text-default-400 text-small">{material?.material.unidade}</span>
           </div>
         }
       />
@@ -222,7 +221,7 @@ const setValue = (id:any)=>{
        
      >
      
-     { ordemServicos.map((item:IOrderServico) => (
+     {ordemServicos.map((item:IOrderServico) => (
       
         <AutocompleteItem
          key={item.id} 

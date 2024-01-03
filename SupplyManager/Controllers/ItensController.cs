@@ -107,7 +107,7 @@ namespace SupplyManager.Controllers
         {
             try
             {
-                Item item = new Item(model.MaterialId, model.OrdemServicoId,model.Quantidade);
+                Item item = new Item(model.MaterialId, model.OrdemServicoId,model.Quantidade,model.Responsavel);
                  
                 var material = await _context.Materiais.FirstOrDefaultAsync(x=>x.Id==model.MaterialId);
 
