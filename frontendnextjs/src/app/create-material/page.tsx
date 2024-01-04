@@ -64,7 +64,7 @@ export default function CreateMaterial(){
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [messageAlert, setMessageAlert] = useState<string>();
   const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
- const[precoCusto,setPrecoCusto] = useState< string>()
+ const[precoCusto,setPrecoCusto] = useState<string>()
   const[markup,setMarkup] = useState<string>("")
   const [precoVenda,setPrecoVenda] = useState< string>()
   const [materiais, setMateriais] = useState([]);
@@ -324,6 +324,7 @@ console.log(e)
       <div className=' w-full flex flex-row flex-wrap justify-center'>
 
         <Input
+        type="number"
         value={precoCusto}
         className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
         onValueChange={setPrecoCusto}
@@ -334,6 +335,7 @@ console.log(e)
        
       />
       <Input
+          type="number"
           value={markup}
           className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
           onValueChange={setMarkup}
@@ -348,6 +350,7 @@ console.log(e)
        label="Unidade "
        placeholder="EX:127V"
        className="max-w-[180px] border-1 border-black rounded-xl shadow-sm shadow-black h-14 mt-10 ml-5 mr-5 w"
+       allowsCustomValue
         
      >
      
@@ -381,7 +384,8 @@ console.log(e)
        label="Unidade "
        placeholder="EX:MT"
        className="max-w-[180px] border-1 border-black rounded-xl shadow-sm shadow-black h-14 mt-10 ml-5 mr-5 w"
-        
+        value={unidade}
+        onValueChange={setUnidade}
      >
      
      {unidadeMaterial.map((item:any) => (

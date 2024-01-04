@@ -34,7 +34,7 @@ export default function MaterialRelatory(params:any){
   const [precoVendaMax,setPrecoVendaMax] = useState<string>()
   const [precoCustoMin,setPrecoCustoMin] = useState<string>()
   const [precoCustoMax,setPrecoCustoMax] = useState<string>()
-
+  const filtrosProntos = ["Materias com maior quantidade em estoque","Materias com maior taxa de saída","Materiais com menor taxa de saída"]
  const handlePrint = useReactToPrint({
   content: () => componentRef.current,
   documentTitle: 'Visitor Pass',

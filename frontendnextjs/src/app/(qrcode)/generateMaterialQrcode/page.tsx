@@ -152,6 +152,7 @@ export default function UpdateInventory({params}:any){
          <Autocomplete
          label="Material "
          isDisabled={!materiais}
+         isLoading={!materiais.length}
          placeholder="Procure um material"
          className="max-w-2xl  border-1 border-black rounded-xl shadow-sm shadow-black"
          onInputChange={onInputChange}

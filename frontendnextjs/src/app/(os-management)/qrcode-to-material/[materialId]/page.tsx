@@ -97,13 +97,14 @@ try{
 
   const item = {
     materialId:Number(params.materialId),
+    responsavel:session?.user?.name,
     material:null,
     ordemServicoId:os?.id,
     ordemServico:null,
     quantidade:Number(quantidade),
 
   }
-
+console.log(item)
 
  const res = await axios.post(`${url}/Itens/CreateItem`,item).then(r=>{
    return r.data
@@ -215,6 +216,7 @@ const setValue = (id:any)=>{
        placeholder="Procure uma OS"
        className="max-sm:w-[350px] max-sm:mx-auto  max-w-[480px] border-1 border-black rounded-md shadow-sm shadow-black"
        radius="md"
+
        value={ordemServicoEscolhida?.descricao}
        onSelectionChange={setValue}
 

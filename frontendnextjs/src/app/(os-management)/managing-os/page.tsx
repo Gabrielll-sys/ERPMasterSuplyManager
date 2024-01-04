@@ -21,6 +21,7 @@ import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
 import IconCheckCircle from "@/app/assets/icons/IconCheckCircle";
 import IconEdit from "@/app/assets/icons/IconEdit";
+import { IOrderServico } from "@/app/interfaces/IOrderServico";
 export default function OsManagement(){
    
     type Os = {
@@ -41,11 +42,11 @@ export default function OsManagement(){
     const { data: session } = useSession();
   
     const [ordemServicos,setOrdemServicos] = useState([])
-    const [descricaoOs, setDescricaoOs] = useState<string>("");
+    const [descricaoOs, setDescricaoOs] = useState<string>("ssss");
 
     const [numeroOs,setNumeroOs] = useState<string>()
     const [openModal,setOpenModal] = useState<boolean>(false)
-    const[stateBotao,setStateBotao] = useState<any>()
+    const[numerosOs,setNumerosOs] = useState<any>()
 
   
     const [messageAlert, setMessageAlert] = useState();
@@ -58,6 +59,11 @@ export default function OsManagement(){
   getAllOs()
     
   },[])
+  useEffect(()=>
+  {
+  console.log(numeroOs)
+    
+  },[numeroOs])
  
   const handleModal = (value:Os|undefined)=>{
 
@@ -73,14 +79,24 @@ export default function OsManagement(){
     }
   }
   const getAllOs= async()=>{
-  
+    const listNumerosOs:string[] =[]
+
     const res = await axios.get(`${url}/OrdemServicos`).then(r=>{
+
       return r.data
     }).catch()
-    console.log(res)
+ 
+
+    for(let ordemServico of res){
+
+      listNumerosOs.push(ordemServico.numeroOs)
+
+    }
+    listNumerosOs.sort()
+
+    setNumerosOs(listNumerosOs)
     setOrdemServicos(res)
-    
-  
+
   
   
   }
@@ -119,25 +135,40 @@ export default function OsManagement(){
   <div className=' w-full flex flex-row justify-center mt-6 gap-2 '>
    
   
-  <Input
-        type="number"
-        label="Numero Da Os"
-        className="w-[120px]  border-1 border-black rounded-xl shadow-sm shadow-black"
-        placeholder="Ex:3453" 
-        value={numeroOs}
-        onValueChange={setNumeroOs}
-        labelPlacement="inside"
-     
-      />
-     
+
   
+     <Autocomplete
+         label="Material "
+         placeholder="Numero OS"
+         className="max-w-[160px]  border-1 border-black rounded-xl shadow-sm shadow-black  "
+          onValueChange={setNumeroOs}
+          value={numeroOs}
+       allowsCustomValue
+   
+       >
+       
+       {numerosOs?.map((item:any) => (
+        
+          <AutocompleteItem
+            key={item}
+           aria-label='teste'
+            className="pointer-events-none"
+            value={numeroOs}
+            >
+            {item}
+          </AutocompleteItem>
+        ))}
+        </Autocomplete>
      <Autocomplete
          label="Material "
          isDisabled={!ordemServicos}
          placeholder="Ordem Servicos"
          className="max-w-2xl  border-1 border-black rounded-xl shadow-sm shadow-black "
-
-      
+         isLoading={!ordemServicos.length}
+          onValueChange={setDescricaoOs}
+          value={descricaoOs}
+       allowsCustomValue
+        
    
        >
        
@@ -146,8 +177,6 @@ export default function OsManagement(){
           <AutocompleteItem
            key={item.id} 
            aria-label='teste'
-      
-           startContent={<p>{item.id}</p>}
             value={item.descricao}
             >
             {item.descricao}
@@ -159,7 +188,10 @@ export default function OsManagement(){
 
   </div>
   <div className='text-center mt-8 '>
-      <Button  onPress={handleCreateOs} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl '>
+      <Button 
+       onPress={handleCreateOs} 
+       isDisabled={numerosOs?.includes(numeroOs)}
+       className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl '>
         Cria OS
       </Button>
       </div>

@@ -1,7 +1,7 @@
 "use client"
 import { useRouter } from "next/navigation";
 
-import { Button, Link } from "@nextui-org/react";
+import { Autocomplete, AutocompleteItem, Button, Input, Link } from "@nextui-org/react";
 
 
 import { InputAdornment, Snackbar } from '@mui/material';
@@ -41,9 +41,9 @@ export default function UpdateMaterial({params}:any){
    const [idCategoria,setIdCategoria] = useState<number>()
   const[oldCategory,setOldCategory]= useState<string>("")
   const [materiais, setMateriais] = useState<any>([]);
-  const[precoCusto,setPrecoCusto] = useState<string | null>()
-  const[precoVenda,setPrecoVenda] = useState<string | null>()
-  const[markup,setMarkup] = useState< string | null>()
+  const[precoCusto,setPrecoCusto] = useState<string >()
+  const[precoVenda,setPrecoVenda] = useState<string>()
+  const[markup,setMarkup] = useState< string>()
  
   const unidadeMaterial: string[] = ["UN","RL","PC","MT","P"]
   const tensoes : string[] = ["","12V","24V","127V","220V","380V","440V","660V"]
@@ -208,131 +208,138 @@ export default function UpdateMaterial({params}:any){
    
      <div className=' w-full flex flex-row justify-center mt-10 ' >
  
-
-
  
-     <TextField  
-         variant="filled"
+     <Input 
      
-     value={oldCategory} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}  
-   onChange={e=>setOldCategory(e.target.value)} label='Categoria' required/>
+     value={oldCategory} 
+     className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
+      onValueChange={setOldCategory} label='Categoria' required/>
      
  
  
      {/* <TextField disabled={true}   value={codigoInterno} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
      className={updateMaterial.inputs} onChange={e=>setCodigoInterno(e.target.value)} label='Cod Interno'  /> */}
  
-     <TextField   
+     <Input   
       value={codigoFabricante} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
-         variant="filled"
-         onChange={e=>setCodigoFabricante(e.target.value)}  label='Cod Fabricante'  />
+      className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
+    
+         onValueChange={setCodigoFabricante}  label='Cod Fabricante'  />
  
     
      {/* <InputText className='inputs' value={descricao} onChange={e=>setDescricao(e.target.value)} /> */}
-     <TextField   value={descricao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',}}
-         variant="filled"
-         className="w-96"
-         onChange={(e) => setDescricao(e.target.value)} label='Descrição'  required />
+     <Input   value={descricao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',}}
+          className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[400px]"
+         onValueChange={setDescricao} label='Descrição'  required />
  
     
-     <TextField   
-         variant="filled"
+     <Input   
      
-     value={marca} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}} 
-      onChange={e=>setMarca(e.target.value)}  label='Marca' />
+     value={marca}     
+     className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
+      onValueChange={setMarca}  label='Marca' />
+      
  
-       <TextField
+       <Input
            value={localizacao}
-           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
-         variant="filled"
+           className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
            
-           onChange={(e) => setLocalizacao(e.target.value)}
+           onValueChange={setLocalizacao}
            label="Localização"
          />
    </div>
 
       <div className=' w-full flex flex-row justify-center mt-6 ' >
-           <TextField
-         value={precoCusto}
-         style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
-        
-         onChange={(e) => setPrecoCusto(e.target.value)}
-         label="Preço Custo"
-         InputLabelProps={{ shrink: true }}
-         variant="filled"
-         
-         InputProps={{
-          startAdornment: <InputAdornment position="start">R$</InputAdornment>,
-        }}
-       />
-       <TextField
-           value={markup}
-           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px",boxShadow:"20px" }}
-           variant="filled"
-      
-           onChange={(e) => setMarkup(e.target.value)}
-           label="Markup "
-           InputLabelProps={{ shrink: true }}
-           InputProps={{
-            startAdornment: <InputAdornment position="start">%</InputAdornment>,
-          }}
-         />
-       <TextField
-           value={precoVenda}
-           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
-           variant="filled"
-      autoFocus
-           onChange={(e) => setPrecoVenda(e.target.value)}
-           label="Preço Venda"
-           InputLabelProps={{ shrink: true }}
-           InputProps={{
-            startAdornment: <InputAdornment position="start">R$</InputAdornment>,
-          }}
-         />
-    <Select
-      style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px"}}
-      labelId="demo-simple-select-label"
-      variant="filled"
 
-     value={tensao}
-     label="Tensao"
-     onChange={x=>setTensao(x.target.value)}
-    
-   >
-       {tensoes.map((x)=>(
-         <MenuItem  key = {x} value={x}>{x}</MenuItem>
+           <Input
+          type="number"
+          className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
+
+         value={precoCusto}
+         startContent={
+          <span>R$</span>
+        }
+        
+         onValueChange={setPrecoCusto}
+         label="Preço Custo"
+
          
-       ))}
+      
+       />
+       <Input
+          type="number"
+           value={markup}
+           className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
+           onValueChange={setMarkup}
+           label="Markup "
+           endContent={
+            <span>%</span>
+          }
+          
+         />
+       <Input
+           value={precoVenda}
+           onValueChange={setPrecoVenda}
+           label="Preço Venda"
+           startContent={
+            <span>R$</span>
+          }
+           className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
+         />
+    <Autocomplete
+       label="Unidade "
+       placeholder="EX:127V"
+       className="max-w-[180px] border-1 border-black rounded-xl shadow-sm shadow-black h-14 mt-10 ml-5 mr-5 w"
+       allowsCustomValue
+        
+     >
      
-   
-   </Select>
-         <TextField
-           value={corrente}
-           style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"100px"}}
-           variant="filled"
+     {tensoes.map((item:any) => (
+      
+        <AutocompleteItem
+         key={item.id} 
+         aria-label='teste'
+        
+        
          
-           onChange={(e) => setCorrente(e.target.value)}
+      
+          value={item}
+          >
+          {item}
+        </AutocompleteItem>
+      ))}
+      </Autocomplete>
+         <Input
+           value={corrente}
+           className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
+           onValueChange={setCorrente}
            label="Corrente"
          />
  
       
- 
-   <Select
-      style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" ,width:"120px"}}
-      labelId="demo-simple-select-label"
-     value={unidade}
-     variant="filled"
-
-     label="Unidade"
-     onChange={x=>setUnidade(x.target.value)}
-   >
-       {unidadeMaterial.map((x)=>(
-         <MenuItem  key ={x} value={x}>{x}</MenuItem>
-         
-       ))}
+ <Autocomplete
+       label="Unidade "
+       placeholder="EX:MT"
+       className="max-w-[180px] border-1 border-black rounded-xl shadow-sm shadow-black h-14 mt-10 ml-5 mr-5 w"
+        value={unidade}
+        onValueChange={setUnidade}
+     >
      
-   
-   </Select>
+     {unidadeMaterial.map((item:any) => (
+      
+        <AutocompleteItem
+         key={item.id} 
+         aria-label='teste'
+        
+        
+         
+      
+          value={item}
+          >
+          {item}
+        </AutocompleteItem>
+      ))}
+      </Autocomplete>
      <div style={{marginTop:'40px',width:'206px'}}>
  
      <LocalizationProvider 
