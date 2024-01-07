@@ -11,7 +11,9 @@ export default function QrCodeMaterial(props: any) {
   const [size, setSize] = useState<number | undefined>();
 
   useEffect(() => {}, [size]);
-  console.log(props);
+    const setValue = (value:any)=>{
+    setSize(value)
+  }
   return (
     <>
  <div className=" flex flex-col items-center text-center">
@@ -38,7 +40,7 @@ export default function QrCodeMaterial(props: any) {
        maxValue={250}
        minValue={150}
        value={size}
-       onChange={setSize}
+       onChange={setValue}
        defaultValue={150}
        className="max-w-xs p-2"
      />

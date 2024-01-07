@@ -2,7 +2,7 @@ using FluentValidation;
 using FluentValidation.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.OpenApi.Models;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using SupplyManager.App;
@@ -11,6 +11,7 @@ using SupplyManager.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,28 @@ options.UseMySql(mySqlConnection, new MySqlServerVersion(new Version())
 builder.Services.AddDbContextPool<SqlContext>(options =>
 
 options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection)));
+
+
+#region Swagger Documentation  Configuration
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        //Versão da API
+        Version = "v1.0",
+        Title = "Master ERP API",
+        Description = "Service to get informations and manage the services of Master ERP"
+    });
+
+    var xmlFileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlFilePath = Path.Combine(AppContext.BaseDirectory, xmlFileName);
+    options.IncludeXmlComments(xmlFilePath);
+});
+#endregion
+
+
+
+
 
 #region Api Versioning Configuration
 builder.Services.AddApiVersioning(options =>

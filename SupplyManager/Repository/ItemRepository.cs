@@ -5,21 +5,21 @@ using SupplyManager.Models;
 
 namespace SupplyManager.Repository
 {
-    public class MaterialRepository :IMaterialRepositoy
+    public class ItemRepository : IItemRepository
     {
         private readonly SqlContext _context;
 
 
-        public MaterialRepository(SqlContext context)
+        public ItemRepository(SqlContext context)
         {
             _context = context;
         }
 
-        public async Task<List<Material>> GetAllAsync()
+        public async Task<List<Item>> GetAllAsync()
         {
             try
             {
-                return await _context.Materiais.ToListAsync();
+                return await _context.Itens.ToListAsync();
 
             }
             catch (Exception)
@@ -28,12 +28,12 @@ namespace SupplyManager.Repository
             }
         }
 
-        public async Task<Material> GetByIdAsync(int id)
+        public async Task<Item> GetByIdAsync(int id)
         {
 
             try
             {
-                return await _context.Materiais.FindAsync(id);
+                return await _context.Itens.FindAsync(id);
 
 
             }
@@ -42,36 +42,36 @@ namespace SupplyManager.Repository
                 throw;
             }
         }
-        public async Task<Material> CreateAsync(Material model)
+        public async Task<Item> CreateAsync(Item model)
         {
 
             try
             {
-                await _context.Materiais.AddAsync(model);
+                await _context.Itens.AddAsync(model);
 
                 await _context.SaveChangesAsync();
 
                 return model;
-              
+
 
             }
-            catch(Exception) 
+            catch (Exception)
             {
 
                 throw;
             }
 
         }
-        public async Task UpdateAsync(Material model)
+        public async Task UpdateAsync(Item model)
         {
             try
             {
 
-            _ = await _context.Materiais.FindAsync(model.Id) ?? throw new KeyNotFoundException();
+                _ = await _context.Itens.FindAsync(model.Id) ?? throw new KeyNotFoundException();
 
-            _context.Materiais.Update(model);
+                _context.Itens.Update(model);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
             }
             catch (Exception)
@@ -87,20 +87,18 @@ namespace SupplyManager.Repository
             try
             {
 
-            var material = await _context.Materiais.FindAsync(id) ??throw new KeyNotFoundException();
+                var item = await _context.Itens.FindAsync(id) ?? throw new KeyNotFoundException();
 
-            _context.Remove(material);
+                _context.Remove(item);
 
-            _context.SaveChanges();
+                _context.SaveChanges();
             }
 
-              catch (Exception)
+            catch (Exception)
             {
 
                 throw;
             }
         }
-
-      
     }
 }

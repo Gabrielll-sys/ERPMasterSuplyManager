@@ -36,7 +36,11 @@ namespace SupplyManager.Controllers
 
             _context = context;
         }
-
+        /// <summary>
+        /// Busca todos os registros de inventários
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Todos os registros de inventário </returns>
         [HttpGet()]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -93,7 +97,11 @@ namespace SupplyManager.Controllers
 
 
         }
-
+        /// <summary>
+        /// Busca uma registro de inventário pelo seu Id
+        /// </summary>
+        /// <param name="id">O id do inventário</param>
+        /// <returns>Inventário encontrado</returns>
         [HttpGet("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -124,6 +132,11 @@ namespace SupplyManager.Controllers
         }
 
         //Metodo para trazer a lista de material e inventário junto
+        /// <summary>
+        /// Busca um material com os registros do seu invetário junto
+        /// </summary>
+        /// <param name="id">Id do material</param>
+        /// <returns>Material junto com os registros de seu inventário</returns>
         [HttpGet("buscaCodigoInventario/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -167,7 +180,12 @@ namespace SupplyManager.Controllers
 
 
         }
-        //Metodo para trazer a lista de material e inventário junto
+
+        /// <summary>
+        /// Busca materiais pelo código do fabricante
+        /// </summary>
+        /// <param name="id">Código do fabricante</param>
+        /// <returns>Materiais de acordo com o código do fabricante passado</returns>
         [HttpGet("buscaCodigoFabricante")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -224,7 +242,11 @@ namespace SupplyManager.Controllers
 
 
         }
-
+        /// <summary>
+        /// Busca materiais descrição passada
+        /// </summary>
+        /// <param name="id">A descrição do(s) material(is) a serem encontrados</param>
+        /// <returns>Materiais com a descrição encontrados</returns>
         [HttpGet(template: "buscaDescricaoInventario")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -283,6 +305,11 @@ namespace SupplyManager.Controllers
             }
 
         }
+        /// <summary>
+        /// Cria um novo registro de inventário de um determinado material
+        /// </summary>
+        /// <param name="inventario">Objeto de material</param>
+        /// <returns>Inventário criado</returns>
         [HttpPost()]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -359,7 +386,11 @@ namespace SupplyManager.Controllers
             }
 
         }
-
+        /// <summary>
+        /// Remove uma quantidade provinda da page de encanear qrcode para material
+        /// </summary>
+        /// <param name="inventário">Objeto de inventário</param>
+        /// <returns>Inventário criado,após remoção da quantidade do estoque</returns>
         [HttpPost("remove_from_qr_code")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -423,11 +454,6 @@ namespace SupplyManager.Controllers
 
             var queryInventario = from query in _context.Inventarios select query;
 
-
-
-
-
-
             try
             {
 
@@ -463,7 +489,6 @@ namespace SupplyManager.Controllers
         /// <summary>
         /// Deleta o material pelo id fornecido
         /// </summary>
-        /// 
         /// <param name="id"> O id do material a ser deletado</param>
         /// <returns></returns>
 

@@ -23,16 +23,24 @@ import { useReactToPrint } from 'react-to-print';
 import ArrowLeft from '@/app/assets/icons/ArrowLeft';
 import { IFilterMaterial } from '@/app/interfaces/IFilterMaterial';
 
-export default function EditingOs(params:any){
+export default function EditingOs({params}:any){
       const route = useRouter()
 
       const componentRef: any = useRef();
       const[observacao,setObservacao]= useState<string>()
       const [os,setOs] = useState<any>("")
-
-   const getOs = async(id:number)=>{
-    
+      const[materiaisOs,setMateriaisOs]= useState()
+     
+     useEffect(()=>{
+  
+      getOs(params.osId)
+      getMateriasOs(params.osId)
+     },[])
+     
+     
+      const getOs = async(id:number)=>{
       const res = await axios.get(`${url}/OrdemServicos/${id}`).then(r=>{
+        console.log(r.data)
        return r.data
        
      })
@@ -40,13 +48,23 @@ export default function EditingOs(params:any){
 
  
    }
+
+   const getMateriasOs = async(id:number)=>{
+    //Recebe id da ordem de serviço
+        const res = await axios.get(`${url}/Itens/GetAllMateriaisOs/${id}`).then(r=>{
+          return r.data
+        }).catch(e=>console.log(e))
+        console.log(res)
+        setMateriaisOs(res)
+    
+      }
+      
+
+
+
      return (
       <>
 
-       
-    
- 
-    
       
    <div className='flex flex-row justify-center mt-10'>
    <Textarea

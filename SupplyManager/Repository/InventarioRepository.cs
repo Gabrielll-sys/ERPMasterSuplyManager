@@ -5,21 +5,21 @@ using SupplyManager.Models;
 
 namespace SupplyManager.Repository
 {
-    public class MaterialRepository :IMaterialRepositoy
+    public class InventarioRepository :IInventarioRepository
     {
         private readonly SqlContext _context;
 
 
-        public MaterialRepository(SqlContext context)
+        public InventarioRepository(SqlContext context)
         {
             _context = context;
         }
 
-        public async Task<List<Material>> GetAllAsync()
+        public async Task<List<Inventario>> GetAllAsync()
         {
             try
             {
-                return await _context.Materiais.ToListAsync();
+                return await _context.Inventarios.ToListAsync();
 
             }
             catch (Exception)
@@ -42,36 +42,36 @@ namespace SupplyManager.Repository
                 throw;
             }
         }
-        public async Task<Material> CreateAsync(Material model)
+        public async Task<Inventario> CreateAsync(Inventario model)
         {
 
             try
             {
-                await _context.Materiais.AddAsync(model);
+                await _context.Inventarios.AddAsync(model);
 
                 await _context.SaveChangesAsync();
 
                 return model;
-              
+
 
             }
-            catch(Exception) 
+            catch (Exception)
             {
 
                 throw;
             }
 
         }
-        public async Task UpdateAsync(Material model)
+        public async Task UpdateAsync(Inventario model)
         {
             try
             {
 
-            _ = await _context.Materiais.FindAsync(model.Id) ?? throw new KeyNotFoundException();
+                _ = await _context.Inventarios.FindAsync(model.Id) ?? throw new KeyNotFoundException();
 
-            _context.Materiais.Update(model);
+                _context.Inventarios.Update(model);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
             }
             catch (Exception)
@@ -87,20 +87,19 @@ namespace SupplyManager.Repository
             try
             {
 
-            var material = await _context.Materiais.FindAsync(id) ??throw new KeyNotFoundException();
+                var invetario = await _context.Inventarios.FindAsync(id) ?? throw new KeyNotFoundException();
 
-            _context.Remove(material);
+                _context.Remove(invetario);
 
-            _context.SaveChanges();
+                _context.SaveChanges();
             }
-
-              catch (Exception)
+            catch (Exception)
             {
 
                 throw;
             }
         }
 
-      
+
     }
 }

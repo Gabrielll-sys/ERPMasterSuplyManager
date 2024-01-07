@@ -78,7 +78,7 @@ return(
   >
     <DropdownItem
       key="profile"
-      className="text-start"
+      className="text-start pointer-events-none"
       color="default"
       endContent={<IconUser className = {iconClasses} />}
 

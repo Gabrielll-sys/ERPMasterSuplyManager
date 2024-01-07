@@ -20,7 +20,11 @@ namespace SupplyManager.Controllers
 
             _context = context;
         }
-
+        /// <summary>
+        /// Busca todos as ordem de serviços
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Todos as ordem de serviços </returns>
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -35,7 +39,11 @@ namespace SupplyManager.Controllers
         }
 
 
-
+        /// <summary>
+        /// Busca uma ordem de serviço pelo seu Id
+        /// </summary>
+        /// <param name="id">O id da ordem de serviço</param>
+        /// <returns>Ordem de serviço encontrada</returns>
         [HttpGet("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -56,7 +64,11 @@ namespace SupplyManager.Controllers
 
 
         }
-
+        /// <summary>
+        /// Cria um ordem serviço
+        /// </summary>
+        /// <param name="model">Um objeto que representa a ordem de serviço a ser criada</param>
+        /// <returns>A ordem de serviço criada</returns>
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -120,6 +132,12 @@ namespace SupplyManager.Controllers
 
         }
 
+        /// <summary>
+        /// Atualizar a ordem de serviço, á autorizando
+        /// </summary>
+        /// <param name="id">O Id da ordem de serviço</param>
+        /// <param name="model">O objeto de ordem de serviço a ser atualizada e autorizada </param>
+        /// <returns></returns>
 
 
         [HttpPut("updateAuhorize/{id}")]
@@ -171,7 +189,7 @@ namespace SupplyManager.Controllers
                         Inventario i1 = new Inventario
                          (
                         ordemServico.Descricao,
-                        inventario[inventario.Count-1].SaldoFinal,
+                           inventario[inventario.Count-1].SaldoFinal,
                          inventario[inventario.Count - 1].Movimentacao,
                          inventario[inventario.Count - 1].SaldoFinal,
                          inventario[inventario.Count - 1].Responsavel,
@@ -211,7 +229,12 @@ namespace SupplyManager.Controllers
 
         }
 
-
+        /// <summary>
+        /// Atualizar a ordem de serviço sem autoriza-la
+        /// </summary>
+        /// <param name="id">O Id da ordem de serviço</param>
+        /// <param name="model">O objeto de ordem de serviço a ser atualizada</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
