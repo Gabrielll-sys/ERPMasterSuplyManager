@@ -1,6 +1,8 @@
-﻿using SupplyManager.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using SupplyManager.Interfaces;
 using SupplyManager.Models;
 using SupplyManager.Repository;
+using SupplyManager.Validations.InventarioValidations;
 
 namespace SupplyManager.Services
 {
@@ -29,15 +31,17 @@ namespace SupplyManager.Services
 
         }
 
-        public Task<Inventario> GetByIdAsync(int id)
+        public async Task<Inventario> GetByIdAsync(int id)
         {
             try
             {
 
+                return await _inventarioRepository.GetByIdAsync(id) ?? throw new KeyNotFoundException();
+
             }
             catch (Exception)
             {
-
+                throw;
             }
         }
 
@@ -47,21 +51,24 @@ namespace SupplyManager.Services
             try
             {
 
+
+                throw new NotImplementedException();
             }
             catch (Exception)
             {
-
+                throw;
             }
         }
-        public Task<Inventario> CreateAsync(Inventario model)
+        public async Task<Inventario> CreateAsync(Inventario model)
         {
             try
             {
-
+                throw new NotImplementedException();
             }
+
             catch (Exception)
             {
-
+                throw;
             }
         }
 
@@ -71,10 +78,12 @@ namespace SupplyManager.Services
         {
             try
             {
+                throw new NotImplementedException();
 
             }
             catch (Exception)
             {
+                throw;
 
             }
         }
@@ -83,10 +92,12 @@ namespace SupplyManager.Services
         {
             try
             {
+                throw new NotImplementedException();
 
             }
             catch (Exception)
             {
+                throw;
 
             }
         }
@@ -97,10 +108,12 @@ namespace SupplyManager.Services
         {
             try
             {
+                throw new NotImplementedException();
 
             }
             catch (Exception)
             {
+                throw;
 
             }
         }

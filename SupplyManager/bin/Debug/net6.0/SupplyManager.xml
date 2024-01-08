@@ -98,7 +98,7 @@
             <param name="id">Id da ordem de serviço</param>
             <returns>Lista de todos os materias e suas quantidade presentes na Ordem de serviço</returns>
         </member>
-        <member name="M:SupplyManager.Controllers.ItensController.Create(SupplyManager.Models.Item)">
+        <member name="M:SupplyManager.Controllers.ItensController.Create(SupplyManager.Models.ItemDto)">
             <summary>
             Cria novo item
             </summary>
@@ -220,6 +220,13 @@
             <param name="id">O Id da ordem de serviço</param>
             <param name="model">O objeto de ordem de serviço a ser atualizada</param>
             <returns></returns>
+        </member>
+        <member name="M:SupplyManager.Interfaces.IInventarioService.GetLastRegister(System.Int32)">
+            <summary>
+            Get the last move register os move of some material
+            </summary>
+            <param name="id">If of material</param>
+            <returns>The last register of some material</returns>
         </member>
         <member name="T:SupplyManager.Migrations.v1">
             <inheritdoc />

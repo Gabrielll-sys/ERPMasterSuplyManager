@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Validations\NovaPasta\**" />
+    <Content Remove="Validations\NovaPasta\**" />
+    <EmbeddedResource Remove="Validations\NovaPasta\**" />
+    <None Remove="Validations\NovaPasta\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Models\Categoria.cs" />
     <Compile Remove="Validations\CategoriaPostValidation.cs" />
   </ItemGroup>
@@ -32,6 +39,11 @@
     <PackageReference Include="NPOI" Version="2.6.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Validations\ItemValidations\" />
+    <Folder Include="Validations\OrdemServicoValidations\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

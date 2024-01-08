@@ -248,7 +248,7 @@ export default function OsManagement(){
                  Data de Abertura:{dayjs(osModal.dataAbertura).format("DD/MM/YYYY")}, aberta por:{osModal.responsavelAbertura }
                 </p>
                 <p> 
-                 Data de Fechamento:{osModal.dataFechamento==null?"OS ainda em andamento":dayjs(osModal.dataFechamento).format("DD/MM/YYYY")}
+                 Data de Fechamento:{osModal.dataFechamento==null?"OS em andamento":dayjs(osModal.dataFechamento).format("DD/MM/YYYY")}
                 </p>
                 <p> 
                   {osModal.observacoes==null?"Sem observações no momento":osModal.observacoes}

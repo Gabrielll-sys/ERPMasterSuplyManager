@@ -5,7 +5,7 @@ namespace SupplyManager.Interfaces
     public interface IInventarioRepository
     {
 
-        Task<Material> GetByIdAsync(int id);
+        Task<Inventario> GetByIdAsync(int id);
 
 
         Task<List<Inventario>> GetAllAsync();

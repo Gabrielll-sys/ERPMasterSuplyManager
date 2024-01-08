@@ -28,12 +28,12 @@ namespace SupplyManager.Repository
             }
         }
 
-        public async Task<Material> GetByIdAsync(int id)
+        public async Task<Inventario> GetByIdAsync(int id)
         {
 
             try
             {
-                return await _context.Materiais.FindAsync(id);
+                return await _context.Inventarios.FindAsync(id);
 
 
             }

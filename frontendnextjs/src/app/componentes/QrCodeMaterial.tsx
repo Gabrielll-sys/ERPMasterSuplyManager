@@ -38,7 +38,7 @@ export default function QrCodeMaterial(props: any) {
        size="md"
        step={5}
        maxValue={250}
-       minValue={150}
+       minValue={105}
        value={size}
        onChange={setValue}
        defaultValue={150}

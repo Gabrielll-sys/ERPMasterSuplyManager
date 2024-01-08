@@ -6,8 +6,10 @@ using Microsoft.OpenApi.Models;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using SupplyManager.App;
+using SupplyManager.Interfaces;
 using SupplyManager.Models;
-
+using SupplyManager.Repository;
+using SupplyManager.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -44,8 +46,6 @@ builder.Services.AddSwaggerGen(options =>
 
 
 
-
-
 #region Api Versioning Configuration
 builder.Services.AddApiVersioning(options =>
 {
@@ -70,6 +70,21 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+#region Scopes 
+/*
+builder.Services.AddScoped<IMaterialRepositoy,MaterialRepository>();
+builder.Services.AddScoped<IMaterialService,MaterialService>();
+builder.Services.AddScoped<IInventarioRepository, InventarioRepository>();
+builder.Services.AddScoped<IInventarioService, InventarioService>();
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
+builder.Services.AddScoped<IItemService, ItemService>();
+builder.Services.AddScoped<IOrdemServicoRepository, OrdemServicoRepository>();
+builder.Services.AddScoped<IOrdemServicoService, OrdemServicoService>();*/
+
+#endregion
+
 
 var app = builder.Build();
 
