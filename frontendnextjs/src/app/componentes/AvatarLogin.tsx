@@ -31,8 +31,8 @@ export default function AvatarLogin({ children, ...props }: any) {
           <Avatar
             as="button"
             className=" mr-7"
-            name={session.user.name ?? ""}
-            src={session.user.image ?? ""}
+            name={session?.user?.name ?? ""}
+            src={session?.user?.image ?? ""}
           />
         </DropdownTrigger>
         <DropdownMenu
@@ -48,7 +48,7 @@ export default function AvatarLogin({ children, ...props }: any) {
             color="default"
           >
             <p className="font-semibold text-tiny">
-              {session.user.name}
+              {session?.user?.name}
             </p>
           </DropdownItem>
           

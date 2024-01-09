@@ -95,7 +95,7 @@ if(description) setDescricao(description)
 
   useEffect(() => {
     //Irá começar a realizar a busca somente quando  a descrição tiver 3 caracteres
-    
+   
     if (descricao.length>=3) {
      searchByDescription().then().catch();
 
@@ -141,12 +141,12 @@ if(description) setDescricao(description)
 
 
   const searchByDescription = async () => {
-    
+
     setLoadingMateriais(true)
 
    try{
     const res = await axios
-    .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao}`)
+    .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao.split("#").join(".")}`)
     .then( (r)=> {
       setLoadingMateriais(false)
      return r.data
@@ -226,7 +226,7 @@ console.log(e)
         localizacao: localizacao.trim().replace(/\s\s+/g, " "),
         dataEntradaNF: dataentrada,
         precoCusto:precoCusto,
-        markup:markup == "0 "?null:markup,
+        markup:markup == ""?null:markup,
         
       };
 
@@ -450,30 +450,30 @@ console.log(e)
             aria-label="simple table"
           >
             <TableHead>
-              <TableRow>
+              <TableRow  border-1 border-black>
 
                 <TableCell
                  align="center"
-                 className="text-xl ">Cod.Interno</TableCell>
+                 className="text-xl border-1 border-black ">Cod.Interno</TableCell>
                 <TableCell align="center"
-                className="text-xl">Cod.Fabricante</TableCell>
+                className="text-xl border-1 border-black">Cod.Fabricante</TableCell>
                 <TableCell align="center"
-                className="text-xl ">Descrição</TableCell>
+                className="text-xl border-1 border-black ">Descrição</TableCell>
                 <TableCell align="center"
-                 className="text-xl ">Marca</TableCell>
+                 className="text-xl border-1 border-black ">Marca</TableCell>
                 <TableCell align="center"
-                 className="text-xl ">Tensão</TableCell>
+                 className="text-xl border-1 border-black ">Tensão</TableCell>
    
                 <TableCell align="center"
-                className="text-xl ">Estoque</TableCell>
+                className="text-xl border-1 border-black ">Estoque</TableCell>
 
                 <TableCell align="center"
-                className="text-xl ">Localização</TableCell>
+                className="text-lg min-w-[] border-1 border-black ">Localização</TableCell>
                 <TableCell align="center"
-                className="text-xl ">Preço Custo</TableCell>
+                className="text-lg min-w-[140px] border-1 border-black ">Preço Custo</TableCell>
                 <TableCell align="center"
-                className="text-xl ">Preço venda</TableCell>
-                 <TableCell align="center" className="text-xl">Preço Total</TableCell> 
+                className="text-lg min-w-[140px] border-1 border-black ">Preço venda</TableCell>
+                 <TableCell align="center" className="text-xl min-w-[140px] border-1 border-black">Preço Total</TableCell> 
                  {session && (
 
                 <TableCell align="center"
@@ -492,23 +492,23 @@ console.log(e)
                   <TableCell 
                   
                   align="center"
-                  className="text-base hover:border-1 hover:border-black hover:font-bold hover:shadow-xl hover:rounded-lg"
+                  className="text-base border-[0.2px] border-black "
                   >{row.material.id}</TableCell>
-                  <TableCell align="center" className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg">{row.material.codigoFabricante}</TableCell>
-                  <TableCell align="center" className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg" onClick={(x)=>setDescricao(row.material.descricao)}>{row.material.descricao}</TableCell>
-                  <TableCell align="center" className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg">{row.material.marca}</TableCell>
-                  <TableCell align="center" size ="small" className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg">{row.material.tensao}</TableCell>
+                  <TableCell align="center" className="text-base border-1 border-black ">{row.material.codigoFabricante}</TableCell>
+                  <TableCell align="center" className="text-base border-1 border-black " onClick={(x)=>setDescricao(row.material.descricao)}>{row.material.descricao}</TableCell>
+                  <TableCell align="center" className="text-base border-1 border-black ">{row.material.marca}</TableCell>
+                  <TableCell align="center" size ="small" className="text-base border-1 border-black ">{row.material.tensao}</TableCell>
 
                   <TableCell align="center" size ="small"
-                  className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg">{row.saldoFinal==null?"Ainda não registrado":row.saldoFinal +" "+row.material.unidade}</TableCell>
+                  className="text-base border-1 border-black ">{row.saldoFinal==null?"Não registrado":row.saldoFinal +" "+row.material.unidade}</TableCell>
                   <TableCell align="center" size ="small"
-                  className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg">{row.material.localizacao}</TableCell>
+                  className="text-base border-1 border-black ">{row.material.localizacao}</TableCell>
                   <TableCell align="center" size ="small"
-                  className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</TableCell>
+                  className="text-base border-1 border-black ">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</TableCell>
                   <TableCell align="center" size ="small"
-                  className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</TableCell>
+                  className="text-base border-1 border-black ">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</TableCell>
                   <TableCell align="center" size ="small"
-                  className="text-base hover:border-1 hover:border-black hover:font-bold rounded-lg">{row.material.precoVenda==null?"Sem registro":"R$ "+(row.material.precoCusto*row.saldoFinal).toFixed(2).toString().replace(".",",")}</TableCell>
+                  className="text-base border-1 border-black ">{row.material.precoVenda==null?"Sem registro":"R$ "+(row.material.precoCusto*row.saldoFinal).toFixed(2).toString().replace(".",",")}</TableCell>
                   
                   {session && (
                    <TableCell align="center" size ="small"

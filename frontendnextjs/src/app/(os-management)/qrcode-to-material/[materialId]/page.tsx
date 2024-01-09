@@ -34,7 +34,7 @@ export default function UpdateMaterial({params}:any){
   const [material,setMaterial] = useState<IInventario>()
   const [ordemServicoEscolhida,setOrdemServicoEscolhida] = useState<IOrderServico>()
 
-  const[quantidade,setQuantidade] = useState<string>("1")
+  const[quantidade,setQuantidade] = useState<string>("0")
   const [openSnackBar,setOpenSnackBar]= useState(false)
   const [ messageAlert,setMessageAlert] = useState<string>();
   const [ severidadeAlert,setSeveridadeAlert] = useState<AlertColor>()

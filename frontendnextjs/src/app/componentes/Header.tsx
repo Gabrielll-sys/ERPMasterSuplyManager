@@ -25,20 +25,20 @@ import AvatarLogin from "./AvatarLogin";
 import IconUser from "../assets/icons/IconUser";
 import TodoListPen from "../assets/icons/TodoListPen";
 import IconFilter from "../assets/icons/IconFilter";
-import { emails } from "../RoleSecurity/roleEmails";
 
 const Header= ()=>{
     const { data: session } = useSession();
     const route = useRouter()
     const [isClicked, setIsClicked] = useState(false);
     const iconClasses = "h-4 text-2xl";
+    const emails:string[] = ["gabrielpuneco@gmail.com"]
     const handleClick = () => {
       setIsClicked(!isClicked);
   
       route.push("/");
     };
   
-console.log(typeof(session?.user?.email))
+
 return(
   <>
 
@@ -60,8 +60,6 @@ return(
   <DropdownTrigger>
    
      <Image
-        
-
   width={65}
   height={22}
   alt="Foto do Produto"
@@ -76,9 +74,6 @@ return(
     color="success"
     disabledKeys={[""]}
   >
-    {session!=undefined && emails.includes(session.user.email) && (
-<>
-{console.log(emails.includes(session.user.email))}
     <DropdownItem
       key="profile"
       className="text-start pointer-events-none"
@@ -90,8 +85,6 @@ return(
         {session.user.name}
       </p>
     </DropdownItem>
-    </>
-    )}
 
     <DropdownItem
       key="ManagingOs"

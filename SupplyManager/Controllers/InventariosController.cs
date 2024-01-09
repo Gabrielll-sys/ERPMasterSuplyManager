@@ -263,36 +263,77 @@ namespace SupplyManager.Controllers
             
                 var queryInvetory = await _context.Inventarios.ToListAsync();
 
-                List<Inventario> listInvetory = new List<Inventario>();
+                List<Inventario> listInvetory = new List<Inventario>(); 
 
-                queryMaterial = descricao.ToUpper() == "TUDO" ?
-                    queryMaterial = queryMaterial.Where(_ => true).OrderByDescending(x => x.Id).ThenBy(x=>x.PrecoCusto):
-                    queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao)).OrderBy(x => x.Id);
+                List<Material> l1 = new List<Material>();
+                //Realiza um split para separar a string em array de strings pelo ., e depois filtra para não incluir vazio
+                string[] splited = descricao.Split(".").Where(x => x != "").ToArray();
 
-               
-                var materiais = await queryMaterial.ToListAsync();
+       
+                //Caractere que ira dividir a busca de string e ira realiza sub buscar de acordo com as string separadas pelo delimitador .
+                if (descricao.Contains("."))
+                {
+
+                        if(splited.Length is 1)
+                    {
+                        l1 = await queryMaterial.Where(x => x.Descricao.Contains(splited[0])).OrderBy(x => x.Id).ToListAsync();
+                    }
+                   
+                    if (splited.Length is 2)
+                    {
+                        l1 = await queryMaterial.Where(x => x.Descricao.Contains(splited[0])
+                        && x.Descricao.Contains(splited[1])).OrderBy(x => x.Id).ToListAsync();
+                    }
+                    if (splited.Length is 3)
+                    {
+                         l1 = await queryMaterial.Where(x => x.Descricao.Contains(splited[0])
+                          && x.Descricao.Contains(splited[1])
+                            && x.Descricao.Contains(splited[2])).OrderBy(x => x.Id).ToListAsync();
+
+                    } 
+                    if (splited.Length is 4)
+                    {
+                         l1 = await queryMaterial.Where(x => x.Descricao.Contains(splited[0])
+                          && x.Descricao.Contains(splited[1])
+                            && x.Descricao.Contains(splited[2])
+                            && x.Descricao.Contains(splited[3])).OrderBy(x => x.Id).ToListAsync();
+
+                    }
+
+
+                }
+                else
+                {
+
+                     queryMaterial = descricao.ToUpper() == "TUDO" ?
+                     queryMaterial = queryMaterial.Where(_ => true).OrderByDescending(x => x.Id).ThenBy(x => x.PrecoCusto) :
+                     queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao)).OrderBy(x => x.Id);
+
+                    l1 = await queryMaterial.ToListAsync();
+
+                }
 
                 //Faz um iteração em todos os materiais com aquela descrição
-                foreach(var item in materiais)
+                foreach(var item in l1)
                 {
                     //Realiza um filtro buscando todos os invetários daquele material,ou seja,retornara todos os registros de invetário daquele produto
-                    var inventarios = queryInvetory.Where(x => x.MaterialId == item.Id).ToList();
-                    
+                    /*var inventarios = queryInvetory.Where(x => x.MaterialId == item.Id).ToList();*/
 
-                    var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == inventarios[0].MaterialId);
-
-
-                    inventarios[inventarios.Count - 1].Material = material;
+                    var inventarios = queryInvetory.Where(x => x.MaterialId == item.Id).OrderBy(x=>x.MaterialId).TakeLast(1).ToList();
 
 
+                    /*     var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == inventarios[0].MaterialId);
 
-                    listInvetory.Add(inventarios[inventarios.Count-1]);
+                         inventarios[inventarios.Count - 1].Material = material;
+                    */
+
+                    listInvetory.Add(inventarios[0]);
 
            
 
                 }
 
-                return Ok( listInvetory);
+               return Ok( listInvetory);
             }
 
             catch (KeyNotFoundException)

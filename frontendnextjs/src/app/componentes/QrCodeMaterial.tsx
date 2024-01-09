@@ -41,7 +41,7 @@ export default function QrCodeMaterial(props: any) {
        minValue={105}
        value={size}
        onChange={setValue}
-       defaultValue={150}
+       defaultValue={105}
        className="max-w-xs p-2"
      />
  </div>

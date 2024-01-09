@@ -30,10 +30,10 @@ export default function UpdateMaterial({params}:any){
   const [codigoInterno,setCodigoInterno] = useState<string>("")
   const [codigoFabricante,setCodigoFabricante] = useState<string>("")
   const [marca,setMarca] = useState<string>("")
-  const [ tensao,setTensao] = useState<string>("")
+  const [ tensao,setTensao] = useState<any>("")
   const [corrente,setCorrente] = useState<string>("")
   const [localizacao,setLocalizacao] = useState<string>("")
-  const [ unidade,setUnidade] = useState<string>("")
+  const [ unidade,setUnidade] = useState<any>("")
   const[dataentrada,setDataentrada] = useState<any>(undefined)
   const [openSnackBar,setOpenSnackBar]= useState(false)
   const [ messageAlert,setMessageAlert] = useState<string>();
@@ -44,10 +44,11 @@ export default function UpdateMaterial({params}:any){
   const[precoCusto,setPrecoCusto] = useState<string >()
   const[precoVenda,setPrecoVenda] = useState<string>()
   const[markup,setMarkup] = useState< string>()
- 
-  const unidadeMaterial: string[] = ["UN","RL","PC","MT","P"]
+  
+  const [unidadeMaterial,setUnidadeMaterial] = useState<any>(["","UN","RL","PC","MT","P"])
+  // const unidadeMaterial: string[] = ["UN","RL","PC","MT","P"]
   const tensoes : string[] = ["","12V","24V","127V","220V","380V","440V","660V"]
- 
+  const [descricaoMaterial,setDescricaoMaterial] = useState<string>()
  
  
  useEffect(()=>{
@@ -68,7 +69,7 @@ export default function UpdateMaterial({params}:any){
     if(Number.isNaN(markupCalculado)|| precoVenda =="")
     {
     
-    setMarkup("")
+     setMarkup("")
 
     }
     else{
@@ -78,10 +79,8 @@ export default function UpdateMaterial({params}:any){
 
   }
 
-
-
-
  },[precoVenda])
+
 
  //Função para calcular o markup ja trocando as virgulas por pontos,pois a variável é string,para permitir usar , ao invés de .
  const  calcularMarkup= (x:string |undefined | null, y: string | undefined |null )=>
@@ -90,35 +89,40 @@ export default function UpdateMaterial({params}:any){
   return Number((Number(x?.toString().replace(`,`,`.`))/Number(y?.toString().replace(`,`,`.`))-1).toFixed(4))*100
 
  }
+ const  calcularPrecoVenda= ()=>
+ {
+  let percentage = (Number(markup)/100)+1
+  const a =  Number((Number(precoCusto?.toString().replace(`,`,`.`))*Number(percentage?.toString().replace(`,`,`.`))-1)+1)
+  console.log(a)
 
+ }
  //esta função serve para verificar se o item é nulo,aonde quando importamos os dados do excel os dados vem como nulo
  //e para realizar a  edição aqui
  const verifyNull = (item:any)=>{
  
-   return item==null?"":item
+   return item==null?0:item
  
  }
 
   const getMaterial = async(id:number)=>{
+    axios.get(`${url}/Materiais/${id}`).then(r=>{
  
-  axios.get(`${url}/Materiais/${id}`).then(r=>{
- console.log(r.data.dataEntradaNF)
   setDataentrada(r.data.dataEntradaNF==undefined?undefined:dayjs(r.data.dataEntradaNF))
  setCodigoInterno(r.data.id)
- setUnidade(verifyNull(r.data.unidade))
+ setUnidade(r.data.unidade)
  setCodigoFabricante(verifyNull(r.data.codigoFabricante))
  setCorrente(verifyNull(r.data.corrente))
  setMarca(verifyNull(r.data.marca))
- setDescricao(verifyNull(r.data.descricao))
+  setDescricaoMaterial(r.data.descricao)
+  setDescricao(r.data.descricao)
  setOldCategory(verifyNull(r.data.categoria))
  setLocalizacao(verifyNull(r.data.localizacao))
  setPrecoCusto(verifyNull(r.data.precoCusto))
- setPrecoVenda(verifyNull(r.data.precoVenda.toFixed(2)))
+ setPrecoVenda(r.data.precoVenda == null?"0":r.data.precoVenda.toFixed(2))
  setMarkup(verifyNull(r.data.markup))
  
- setTensao(verifyNull(tensoes[tensoes.findIndex((x)=>x==r.data.tensao)]))
- 
-  })
+ setTensao(r.data.tensao)
+})
  
   }
  
@@ -147,7 +151,7 @@ export default function UpdateMaterial({params}:any){
      precoVenda:Number(precoVenda)==0?0:Number(precoVenda?.toString().replace(',','.')),
      markup:Number(markup)==0?null:Number(markup?.toString().replace(',','.')),
      }
-
+console.log(material)
  
    const materialAtualizado =  await axios.put(`${url}/Materiais/${id}`,material)
    .then(r=>
@@ -186,9 +190,7 @@ export default function UpdateMaterial({params}:any){
  
  }
  
- 
- 
- 
+
  
  
    return (
@@ -204,7 +206,7 @@ export default function UpdateMaterial({params}:any){
       >
         <ArrowLeft /> Retornar
       </Link>
-     <h1  className='text-center font-bold text-2xl mt-10'>Editando {descricao}  (Codigo Interno: {codigoInterno}) </h1>
+     <h1  className='text-center font-bold text-2xl mt-10'>Editando {descricaoMaterial}  (Codigo Interno: {codigoInterno}) </h1>
    
      <div className=' w-full flex flex-row justify-center mt-10 ' >
  
@@ -267,7 +269,7 @@ export default function UpdateMaterial({params}:any){
       
        />
        <Input
-          type="number"
+        
            value={markup}
            className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
            onValueChange={setMarkup}
@@ -286,29 +288,30 @@ export default function UpdateMaterial({params}:any){
           }
            className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
          />
-    <Autocomplete
-       label="Unidade "
-       placeholder="EX:127V"
-       className="max-w-[180px] border-1 border-black rounded-xl shadow-sm shadow-black h-14 mt-10 ml-5 mr-5 w"
-       allowsCustomValue
-        
-     >
-     
-     {tensoes.map((item:any) => (
-      
-        <AutocompleteItem
-         key={item.id} 
-         aria-label='teste'
-        
-        
-         
-      
-          value={item}
-          >
-          {item}
-        </AutocompleteItem>
-      ))}
-      </Autocomplete>
+         {tensao && (
+            <Autocomplete
+            label="Tensão "
+            className="max-w-[180px] border-1 border-black rounded-xl shadow-sm shadow-black h-14 mt-10 ml-5 mr-5 w"
+            allowsCustomValue
+            value={tensao}
+            onSelectionChange={setTensao}
+            defaultSelectedKey={tensao}
+            >
+
+            {tensoes.map((item:any) => (
+
+              <AutocompleteItem
+              key={item} 
+              aria-label=''
+
+                value={tensao}
+                >
+                {item}
+              </AutocompleteItem>
+            ))}
+            </Autocomplete>
+         )}
+   
          <Input
            value={corrente}
            className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
@@ -316,30 +319,31 @@ export default function UpdateMaterial({params}:any){
            label="Corrente"
          />
  
-      
+      {unidade && (
+
  <Autocomplete
        label="Unidade "
        placeholder="EX:MT"
        className="max-w-[180px] border-1 border-black rounded-xl shadow-sm shadow-black h-14 mt-10 ml-5 mr-5 w"
-        value={unidade}
-        onValueChange={setUnidade}
+        value={unidadeMaterial}
+        onSelectionChange={setUnidade}
+        allowsCustomValue
+        defaultSelectedKey={unidade==""?"":unidade}
      >
      
      {unidadeMaterial.map((item:any) => (
       
         <AutocompleteItem
-         key={item.id} 
+         key={item} 
          aria-label='teste'
-        
-        
-         
       
-          value={item}
+          value={unidade}
           >
           {item}
         </AutocompleteItem>
       ))}
       </Autocomplete>
+      )}
      <div style={{marginTop:'40px',width:'206px'}}>
  
      <LocalizationProvider 

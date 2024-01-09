@@ -199,9 +199,9 @@ Imprimir
   
        <div className='flex justify-center mt-12 flex-row flex-wrap gap-12 w-full  ' ref={componentRef}>
     {qrCodes?.map((material:Inventario)=>(
-  <div className='flex flex-row'>
+  <div key={material.id} className='flex flex-row'>
 
-<QrCodeMaterial material={material}/>
+<QrCodeMaterial  material={material}/>
 <IconBxTrashAlt onClick={()=>deleteQrcode(material)} />
 </div>
     ))}

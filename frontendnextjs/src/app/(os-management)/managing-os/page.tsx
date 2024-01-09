@@ -144,6 +144,7 @@ export default function OsManagement(){
           onValueChange={setNumeroOs}
           value={numeroOs}
        allowsCustomValue
+       
    
        >
        
@@ -199,7 +200,7 @@ export default function OsManagement(){
       <div className=" flex flex-row flex-wrap gap-12 mt-16 justify-center pb-40 " >
   { ordemServicos!=undefined && ordemServicos.map((os:Os)=>(
 
- <Card className="max-w-[400px] min-w-[300px] bg-cardbg_color  shadow-lg shadow-black">
+ <Card key={os.id} className="max-w-[400px] min-w-[300px] bg-cardbg_color  shadow-lg shadow-black">
       <CardHeader className="flex gap-3">
         <div className="flex flex-col">
        <IconCheckCircle fill="green"/>
