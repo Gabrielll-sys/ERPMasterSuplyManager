@@ -171,7 +171,8 @@ export default function OsManagement(){
          isLoading={!ordemServicos.length}
           onValueChange={setDescricaoOs}
           value={descricaoOs}
-       allowsCustomValue
+          
+           allowsCustomValue
         
    
        >
@@ -180,6 +181,10 @@ export default function OsManagement(){
         
           <AutocompleteItem
            key={item.id} 
+           endContent={
+            <>
+             <IconEdit onClick={()=>route.push(`/editing-os/${item.id}`)} />
+            </>}
            aria-label='teste'
             value={item.descricao}
             >

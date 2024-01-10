@@ -3,7 +3,7 @@ export interface IItem {
     id:number,
     quantidade:number,
     responsavel:string,
-    DataAdicaoItem:any,
+    dataAdicaoItem:any,
     material:{
         id:number,
         categoria: string

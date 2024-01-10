@@ -37,6 +37,8 @@ export default function EditingOs({params}:any){
       const { data: session } = useSession();
 
       const componentRef: any = useRef();
+      const[confirmAuthorizeMessage,setconfirmAuthorizeMessage]= useState<string>()
+
       const[observacao,setObservacao]= useState<string>()
       const [os,setOs] = useState<IOrderServico>()
       const [descricaoOs,setDescricaoOS] = useState<string>()
@@ -203,11 +205,11 @@ return (
       
    <h1 className='text-center mt-8 text-lg'>{os?.descricao}</h1>
    <div className='flex flex-row  justify-between '>
-     <div className='flex flex-row  mt-10 border-2 border-black  max-h-[350px] shadow-sm shadow-black p-2 ml-4 rounded-md'>
+     <div className='flex flex-row  mt-10 border-2 border-black  max-h-[370px] shadow-sm shadow-black p-2 ml-4 rounded-md'>
       <div className='flex flex-col'>
       <Input
         label="Numero Os"
-        className="border-1 self-center border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[150px] max-h-14"
+        className="border-1 self-center  border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[150px] max-h-14"
         onValueChange={setNumeroOs}
         value={numeroOs}
         />
@@ -227,7 +229,7 @@ return (
      <Textarea
         label="Observações sobre a OS"
         placeholder={`Escreva detalhes sobre a execução da ${os?.descricao}`}
-        className="max-w-xl border-1 border-black rounded-xl min-w-[600px] max-h-[320px]  shadow-sm shadow-black"
+        className="max-w-xl border-1 border-black rounded-xl min-w-[570px] max-h-[320px]  shadow-sm shadow-black"
         
         maxRows={14}
         value={observacao}
@@ -242,7 +244,7 @@ return (
            isDisabled={!materiais}
            isLoading={!materiais.length}
            placeholder="Procure um material"
-           className="min-w-[500px]  border-1 border-black rounded-xl shadow-sm shadow-black"
+           className="min-w-[600px]  border-1 border-black rounded-xl shadow-sm shadow-black"
      
      
          >
@@ -276,21 +278,26 @@ return (
       </div>
      <div className=' flex flex-row justify-between mt-3 '>
        
-        <p className=' text-sm mt-1 ml-2 max-w-[400px]' >Adicionado por: {item.responsavel} {dayjs(item.DataAdicaoItem).format("DD/MM/YYYY [as] HH:mm:ss")} </p>
+        <p className=' text-sm mt-1 ml-2 max-w-[400px]' >Adicionado por: {item.responsavel} {dayjs(item.dataAdicaoItem).format("DD/MM/YYYY [as] HH:mm:ss")}</p>
         <p className=' text-sm mt-1 ml-2' >{item.quantidade} {item.material.unidade}</p>
      </div>
 
        
-      <div className=' flex flex-row mt-2 ml-2 w-24 justify-evenly '>
+      <div className=' flex flex-row mt-2  w-14 justify-between '>
 
-      <IconPen onClick={()=>handleUpdateItem(item)}/>
-
-      <IconBxTrashAlt onClick={()=>handleRemoveMaterial(item.id)}/>
+      <Button onPress={()=>handleUpdateItem(item)} >
+        <IconPen />
+      </Button>
+<Button onPress={()=>handleRemoveMaterial(item.id)}>
+  
+        <IconBxTrashAlt />
+</Button>
       </div>
       <Divider className="bg-black mt-2"/>
 
       </> 
       ))}
+      <p className='text-base text-center p-2'>Quantidade de Materias: {materiaisOs.length}</p>
       <p className='text-base text-center p-2'>Preço de Custo Total:R${precoCustoTotalOs?.toFixed(2).toString().replace('.',",")}</p>
       <p className='text-base text-center p-2'>Preço Venda Total:   R${precoVendaTotalOs?.toFixed(2).toString().replace('.',",")}</p>
      </div>
@@ -334,12 +341,21 @@ onPress={()=>handleUpdateOs(os?.id)}
                 Após autorizar a {os?.descricao},todos os materiais e suas quantidade serão retirados do estoque e não podera mais incluir ou remover materias da os
                 , pressione o botão AUTORIZAR somente se tiver certeza
                 </p>
+                <p className='text-center font-bold'>
+               Digite AUTORIZAR
+                </p>
+                <Input
+                
+        className="border-1 self-center border-black rounded-xl shadow-sm shadow-black mt-2 ml-5 mr-5 w-[250px] max-h-16"
+        onValueChange={setconfirmAuthorizeMessage}
+        value={confirmAuthorizeMessage}
+        />
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
                   Fechar
                 </Button>
-                <Button color="primary" onPress={handleAuthorizeOs}>
+                <Button isDisabled={confirmAuthorizeMessage!="AUTORIZAR"} color="primary" onPress={handleAuthorizeOs}>
                   Autorizar
                 </Button>
               </ModalFooter>
@@ -347,12 +363,6 @@ onPress={()=>handleUpdateOs(os?.id)}
           )}
         </ModalContent>
       </Modal>
-
-
-
-
-
-
 
       <Snackbar
             open={openSnackBar}
