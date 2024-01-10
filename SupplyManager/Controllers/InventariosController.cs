@@ -316,16 +316,9 @@ namespace SupplyManager.Controllers
                 //Faz um iteração em todos os materiais com aquela descrição
                 foreach(var item in l1)
                 {
-                    //Realiza um filtro buscando todos os invetários daquele material,ou seja,retornara todos os registros de invetário daquele produto
-                    /*var inventarios = queryInvetory.Where(x => x.MaterialId == item.Id).ToList();*/
-
+                    //Realiza um filtro para buscar o ultimo registro de inventário daquele material
+                  
                     var inventarios = queryInvetory.Where(x => x.MaterialId == item.Id).OrderBy(x=>x.MaterialId).TakeLast(1).ToList();
-
-
-                    /*     var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == inventarios[0].MaterialId);
-
-                         inventarios[inventarios.Count - 1].Material = material;
-                    */
 
                     listInvetory.Add(inventarios[0]);
 

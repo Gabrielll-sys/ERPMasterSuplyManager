@@ -249,7 +249,7 @@ const setValue = (id:any)=>{
    <div className='text-center mt-12 ml-4 flex flex-row  max-sm:justify-evenly gap-3   justify-center'>
    <Button 
    onPress={()=>handleCreateItem(ordemServicoEscolhida?.id)} 
-   isDisabled={quantidade=="0"|| quantidade==""}
+   isDisabled={quantidade=="0"|| quantidade=="" || !ordemServicoEscolhida}
 
    className='bg-master_black text-white p-3 rounded-lg font-bold  max-sm:text-sm max-sm:w-[160px] text-2xl  '>
 

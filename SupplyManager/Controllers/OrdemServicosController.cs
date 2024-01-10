@@ -34,7 +34,7 @@ namespace SupplyManager.Controllers
 
         public async Task<List<OrdemServico>> GetAll()
         {
-            
+    
             return await _context.OrdemServicos.ToListAsync();
         }
 
@@ -109,6 +109,7 @@ namespace SupplyManager.Controllers
                 }
 
                 o1.Descricao = "OS-"+o1.NumeroOs+"-"+o1.Descricao;
+
                 await _context.OrdemServicos.AddAsync(o1);
               
                 await _context.SaveChangesAsync();
@@ -248,6 +249,17 @@ namespace SupplyManager.Controllers
             if (model.Id != id) return BadRequest();
 
             var a = await _context.OrdemServicos.FirstOrDefaultAsync(x => x.Id == id);
+            {
+                a.Descricao = model.Descricao.ToUpper();
+                a.NumeroOs = model.NumeroOs;
+                a.ResponsaveisExecucao = model.ResponsaveisExecucao;
+                a.Observacoes = model.Observacoes;
+
+            }
+            a.Descricao = "OS-" + model.NumeroOs + "-" + model.Descricao;
+
+            _context.OrdemServicos.Update(a);
+            await _context.SaveChangesAsync();
 
             return Ok();
 

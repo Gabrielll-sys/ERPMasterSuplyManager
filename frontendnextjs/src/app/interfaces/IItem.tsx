@@ -2,6 +2,8 @@ export interface IItem {
 
     id:number,
     quantidade:number,
+    responsavel:string,
+    DataAdicaoItem:any,
     material:{
         id:number,
         categoria: string

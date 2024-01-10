@@ -22,6 +22,8 @@ import { useSession } from "next-auth/react";
 import IconCheckCircle from "@/app/assets/icons/IconCheckCircle";
 import IconEdit from "@/app/assets/icons/IconEdit";
 import { IOrderServico } from "@/app/interfaces/IOrderServico";
+import IconTools from "@/app/assets/icons/IconTools";
+import IconScrewdriver from "@/app/assets/icons/IconScrewDriver";
 export default function OsManagement(){
    
     type Os = {
@@ -41,7 +43,7 @@ export default function OsManagement(){
     const route = useRouter()
     const { data: session } = useSession();
   
-    const [ordemServicos,setOrdemServicos] = useState([])
+    const [ordemServicos,setOrdemServicos] = useState<any>([])
     const [descricaoOs, setDescricaoOs] = useState<string>("ssss");
 
     const [numeroOs,setNumeroOs] = useState<string>()
@@ -94,9 +96,10 @@ export default function OsManagement(){
     }
     listNumerosOs.sort()
 
+    const revertedOs:IOrderServico[] = res; 
+ 
     setNumerosOs(listNumerosOs)
-    setOrdemServicos(res)
-
+    setOrdemServicos(revertedOs)
   
   
   }
@@ -200,23 +203,29 @@ export default function OsManagement(){
       <div className=" flex flex-row flex-wrap gap-12 mt-16 justify-center pb-40 " >
   { ordemServicos!=undefined && ordemServicos.map((os:Os)=>(
 
- <Card key={os.id} className="max-w-[400px] min-w-[300px] bg-cardbg_color  shadow-lg shadow-black">
+ <Card key={os.id} className="max-w-[400px] min-w-[300px] border-1 border-black  shadow-lg shadow-black">
       <CardHeader className="flex gap-3">
-        <div className="flex flex-col">
-       <IconCheckCircle fill="green"/>
-          <p className="text-md text-white font-bold mt-2 p-1">{os.descricao}</p>
-          <p className="text-base text-white font-bold p-1 ">Status:{os.isAuthorized?"Concluída":" Em andamento"}</p>
-          <p className="text-base text-white font-bold p-1">Data abertura: {dayjs(os.dataAbertura).format("DD/MM/YYYY")},</p>
+        <div className="flex flex-col w-full">
+          {os.isAuthorized ? (
+
+       <IconCheckCircle className="self-center" fill="green"/>
+          ):
+          <IconScrewdriver className="self-center" fill="black"/>
+          }
+          
+          <p className="text-md text-black font-bold mt-2 p-1">{os.descricao}</p>
+          <p className="text-base text-black font-bold p-1 ">Status:{os.isAuthorized?"Concluída":" Em andamento"}</p>
+          <p className="text-base text-black font-bold p-1">Data abertura: {dayjs(os.dataAbertura).format("DD/MM/YYYY")},</p>
         </div>
       </CardHeader>
-      <Divider className="bg-white"/>
-      <CardBody>
-        <p className="hover:underline text-white text-center" onClick={()=>handleModal(os)}>Observações</p>
+      <Divider className="bg-black"/>
+      <CardBody className="flex flex-col items-center justify-center">
+        <p className="hover:underline text-black text-center" onClick={()=>handleModal(os)}>Observações</p>
       </CardBody>
-      <Divider className="bg-white"/>
+      <Divider className="bg-black"/>
       <CardFooter>
       <Button color="danger" className=" mx-auto font-bold" variant="light" onPress={x=>route.push(`/editing-os/${os.id}`)}>
-                    <IconEdit fill="white"/>
+                    <IconEdit fill="black"/>
                 </Button>
       </CardFooter>
     </Card>

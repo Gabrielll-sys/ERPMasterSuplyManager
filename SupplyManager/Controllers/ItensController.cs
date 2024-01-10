@@ -132,9 +132,9 @@ namespace SupplyManager.Controllers
                 var material = await _context.Materiais.FirstOrDefaultAsync(x=>x.Id==model.MaterialId);
 
                 var ordemServico = await _context.OrdemServicos.FirstOrDefaultAsync(x=>x.Id == model.OrdemServicoId);
-
+/*
                 item.Material = material;
-                item.OrdemServico = ordemServico;
+                item.OrdemServico = ordemServico;*/
                 await _context.Itens.AddAsync(item);
                 await _context.SaveChangesAsync();
 

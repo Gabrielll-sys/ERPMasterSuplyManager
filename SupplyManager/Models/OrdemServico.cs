@@ -32,34 +32,30 @@ namespace SupplyManager.Models
         public string? NumeroOs { get; set; }
 
 
-        public decimal? PrecoTotalEquipamentosOs { get; set; }
+        public decimal? PrecoVendaTotalOs{ get; set; }
+
+        public decimal? PrecoCustoTotalOs { get; set; }
 
 
 
-
-     /*   public OrdemServico(string? descricao,string? responsavelAbertura, string? responsavelExecucao,string? numeroOs)
-        {
-            Descricao =  descricao;
-            ResponsavelAbertura = responsavelAbertura;
-            ResponsaveisExecucao.Add(responsavelExecucao);
-            IsAuthorized = false;
-            DataAbertura = DateTime.Now;
-            NumeroOs = numeroOs;
-        }
-*/
+        /*   public OrdemServico(string? descricao,string? responsavelAbertura, string? responsavelExecucao,string? numeroOs)
+           {
+               Descricao =  descricao;
+               ResponsavelAbertura = responsavelAbertura;
+               ResponsaveisExecucao.Add(responsavelExecucao);
+               IsAuthorized = false;
+               DataAbertura = DateTime.Now;
+               NumeroOs = numeroOs;
+           }
+   */
         public void AutorizarOs(string responsavelAutorizacao)
         {
-
-
-            if (!IsAuthorized)
-            {
+          
                 ResponsavelAutorizacao = responsavelAutorizacao;
                 IsAuthorized = true;
                 DataAutorizacao = DateTime.Now;
 
-            }
-
-
+            
         }
 
     }

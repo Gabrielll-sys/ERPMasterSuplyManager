@@ -1,6 +1,6 @@
 "use client"
 
-import {Link, Button,Autocomplete, AutocompleteItem, Input,Textarea, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal } from '@nextui-org/react';
+import {Link, Button,Autocomplete, AutocompleteItem, Input,Textarea, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider } from '@nextui-org/react';
 
 import { Snackbar } from '@mui/material';
 import { useRouter } from "next/navigation";
@@ -28,6 +28,9 @@ import { IInventario } from '@/app/interfaces/IInventarios';
 import IconBxTrashAlt from '@/app/assets/icons/IconBxTrashAlt';
 import IconPlus from '@/app/assets/icons/IconPlus';
 import { IItem } from '@/app/interfaces/IItem';
+import IconEdit from '@/app/assets/icons/IconEdit';
+import IconPen from '@/app/assets/icons/IconPen';
+import dayjs from 'dayjs';
 
 export default function EditingOs({params}:any){
       const route = useRouter()
@@ -40,6 +43,8 @@ export default function EditingOs({params}:any){
       const [participantesOs,setParticipantesOs] = useState<string>()
       const[materiaisOs,setMateriaisOs]= useState<any>([])
       const [materiais,setMateriais]= useState<IInventario[] >([])
+      const [numeroOs,setNumeroOs]= useState<string>("")
+      
       const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
     const [openList,setOpenList] = useState<boolean>(false)
     const[precoCustoTotalOs,setPrecoCustoTotalOs] = useState<number>();
@@ -64,9 +69,15 @@ export default function EditingOs({params}:any){
        return r.data
        
      })
+     setNumeroOs(res.numeroOs)
      setOs(res)
-     setDescricaoOS(res.descricao)
-     setParticipantesOs(res.resposaveisExecucao)
+     const description :string = res.descricao
+     //Para pegar somente a descricao da os eliminando o numero da os e o numero
+     const formatedDescription:string = description.split('-')[2]
+
+     setDescricaoOS(formatedDescription)
+     setParticipantesOs(res.responsaveisExecucao)
+     setObservacao(res.observacoes)
  
    }
    const getAllMaterial = async()=>{
@@ -95,21 +106,28 @@ export default function EditingOs({params}:any){
       }
   const handleUpdateOs = async(id:number|undefined)=>{
 
-            const ordemServico = {
-              id:os?.id,
-              descricaoOs:descricaoOs,
-              observacoes:observacao,
-              responsavelAutorizacao:session?.user?.name,
-              precoTotalEquipamentos:23,
+    const descricaoOsFormated = descricaoOs?.trim().replace(/\s\s+/g, " ")
+    const numeroOsFormated = numeroOs?.trim().replace(/\s\s+/g, " ")
 
+      const ordemServico = {
+              id:os?.id,
+              numeroOs:numeroOsFormated,
+              descricao:descricaoOsFormated,
+              responsaveisExecucao:participantesOs,
+              observacoes:observacao,
 
           }
-            const res = await axios.get(`${url}/OrdemServicos/${id}`).then(r=>{
+          console.log(ordemServico)
+            const res = await axios.put(`${url}/OrdemServicos/${id}`,ordemServico).then(r=>{
+              setOpenSnackBar(true);
+              setSeveridadeAlert("success");
+              setMessageAlert("Ordem de serviço atualizada com sucesso");
+              getMateriasOs(params.osId)
+
               return r.data
             }).catch(e=>console.log(e))
             console.log(res)
-            setMateriaisOs(res)
-        
+
           }  
 const handleAuthorizeOs = async  ()=>{
         const ordemServico = {
@@ -117,7 +135,8 @@ const handleAuthorizeOs = async  ()=>{
             descricaoOs:descricaoOs,
             observacoes:observacao,
             responsavelAutorizacao:session?.user?.name,
-            precoTotalEquipamentos:23,
+            precoVendaTotalOs:precoVendaTotalOs,
+            precoCustoTotalOs:precoCustoTotalOs,
 
 
         }
@@ -130,7 +149,7 @@ const handleAuthorizeOs = async  ()=>{
 
  const handleRemoveMaterial =  async (id:number)=>{
 
-    
+    console.log(id)
         await axios.delete(`${url}/Itens/${id}`).then(r=>{
       
           setOpenSnackBar(true);
@@ -138,6 +157,21 @@ const handleAuthorizeOs = async  ()=>{
           setMessageAlert("Material Removido da Lista da Os");
           getMateriasOs(params.osId)
         }).catch(r=>console.log(r))
+        
+      
+      }
+ const handleUpdateItem =  async (item:IItem)=>{
+console.log(item)
+  //   console.log(id)
+  //       const item = {
+  //   materialId:item.id,
+  //   material:{},
+  //   ordemServicoId:idOs.state,
+  //   ordemServico:{},
+  //   quantidade:quantidadeMaterial,
+
+  // }
+// await axios.put(`${url}/Itens/${id}`,item)
         
       
       }
@@ -167,10 +201,16 @@ return (
       <>
 
       
-      <h1 className='text-center mt-8 text-lg'>{os?.descricao}</h1>
+   <h1 className='text-center mt-8 text-lg'>{os?.descricao}</h1>
    <div className='flex flex-row  justify-between '>
-     <div className='flex flex-row  mt-10'>
+     <div className='flex flex-row  mt-10 border-2 border-black  max-h-[350px] shadow-sm shadow-black p-2 ml-4 rounded-md'>
       <div className='flex flex-col'>
+      <Input
+        label="Numero Os"
+        className="border-1 self-center border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[150px] max-h-14"
+        onValueChange={setNumeroOs}
+        value={numeroOs}
+        />
         <Input
         label="Ordem de Serviço"
         className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[300px] max-h-14"
@@ -186,9 +226,10 @@ return (
       </div>
      <Textarea
         label="Observações sobre a OS"
-        placeholder="Escreva detalhes sobre a execução da OS"
-        className="max-w-xl border-1 border-black rounded-xl min-w-[450px] shadow-sm shadow-black"
-        minRows={10}
+        placeholder={`Escreva detalhes sobre a execução da ${os?.descricao}`}
+        className="max-w-xl border-1 border-black rounded-xl min-w-[600px] max-h-[320px]  shadow-sm shadow-black"
+        
+        maxRows={14}
         value={observacao}
         onValueChange={setObservacao}
      
@@ -227,32 +268,54 @@ return (
           ))}
           </Autocomplete>
      {materiaisOs?.map((item:IItem)=>(
+      <>
+      <div  key ={item.id} className=' flex flex-row justify-between mt-2 '>
+  
+        <p className=' text-sm p-1 h-5'>{item.material.id} - {item.material.descricao}</p>
 
-      <div  key ={item.id} className=' flex flex-row justify-between '>
-        <p className='font-semibold text-sm p-2'>{item.material.descricao}</p>
-        <p className='font-semibold text-sm p-2'>{item.quantidade} {item.material.unidade}</p>
-  
-  
       </div>
+     <div className=' flex flex-row justify-between mt-3 '>
+       
+        <p className=' text-sm mt-1 ml-2 max-w-[400px]' >Adicionado por: {item.responsavel} {dayjs(item.DataAdicaoItem).format("DD/MM/YYYY [as] HH:mm:ss")} </p>
+        <p className=' text-sm mt-1 ml-2' >{item.quantidade} {item.material.unidade}</p>
+     </div>
+
+       
+      <div className=' flex flex-row mt-2 ml-2 w-24 justify-evenly '>
+
+      <IconPen onClick={()=>handleUpdateItem(item)}/>
+
+      <IconBxTrashAlt onClick={()=>handleRemoveMaterial(item.id)}/>
+      </div>
+      <Divider className="bg-black mt-2"/>
+
+      </> 
       ))}
-      <p className='font-semibold text-sm p-2'>Preço de Custo Total:R${precoCustoTotalOs?.toFixed(2).toString().replace('.',",")}</p>
-      <p className='font-semibold text-sm p-2'> Preço Venda Total:  R${precoVendaTotalOs?.toFixed(2).toString().replace('.',",")}</p>
+      <p className='text-base text-center p-2'>Preço de Custo Total:R${precoCustoTotalOs?.toFixed(2).toString().replace('.',",")}</p>
+      <p className='text-base text-center p-2'>Preço Venda Total:   R${precoVendaTotalOs?.toFixed(2).toString().replace('.',",")}</p>
      </div>
    </div>
-{!os?.isAuthorized ?(
+   {!os?.isAuthorized ?(
 
-<div className=' flex flex-row justify-center mt-52 gap-8 '>
+<div className=' flex flex-row justify-center mt-5  gap-8 '>
 
+<Button  
+className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl '
+disabled={!descricaoOs}
+onPress={()=>handleUpdateOs(os?.id)}
+ >
+                   Atualizar OS
+    </Button>
 <Button  className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl ' onPress={onOpen}>
                    Autorizar
                   </Button>
-<Button  className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl ' onPress={()=>handleUpdateOs(os?.id)}>
-                   Atualizar OS
-    </Button>
 </div>
 ):
-<div className=' flex flex-row justify-center mt-52'>
-  <Button  className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl ' onPress={()=>handleUpdateOs(os?.id)}>
+<div className=' flex flex-row justify-center mt-5 '>
+  <Button  
+  className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl '
+  disabled={!descricaoOs}
+   onPress={()=>handleUpdateOs(os?.id)}>
                      Atualizar OS
       </Button>
 </div>
@@ -268,7 +331,7 @@ return (
                   ATENÇÃO
                 </h2>
                 <p className='text-center font-bold'>
-                Após autorizar a OS {os?.descricao},todos os materiais e suas quantidade serão retirados do estoque e não podera mais incluir ou remover materias da os
+                Após autorizar a {os?.descricao},todos os materiais e suas quantidade serão retirados do estoque e não podera mais incluir ou remover materias da os
                 , pressione o botão AUTORIZAR somente se tiver certeza
                 </p>
               </ModalBody>

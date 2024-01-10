@@ -305,60 +305,7 @@ namespace SupplyManager.Controllers
 
         }
 
-       
-       /* [HttpGet(template: "buscaCategoria")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<Material>> Busca(string categoria)
-        {
-
-
-            try
-            {
-                List<Material> materiais = new List<Material>();
-                List<string> codigos = new List<string>();
-
-                var queryMaterial = from query in _context.Materiais select query;
-           
-
-                //Ordena a busca de materia
-                queryMaterial =  queryMaterial.Where(c => c.Categoria.Contains(categoria));
-                var v = queryMaterial.ToList();
-
-                foreach (var item in v)
-                {
-
-                    if (!codigos.Contains(item.CodigoInterno) || !codigos.Contains(item.CodigoFabricante))
-                    {
-
-                        materiais.Add(item);
-                        codigos.Add(item.CodigoInterno);
-                        codigos.Add(item.CodigoFabricante);
-
-                    }
-
-
-                }
-
-
-
-                return Ok(materiais);
-            }
-
-            catch (KeyNotFoundException)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest);
-            }
-            catch (Exception exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
-            }
-
-
-        }*/
+  
         /// <summary>
         /// Busca materiais com a descrição
         /// </summary>

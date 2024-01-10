@@ -24,7 +24,9 @@
 
 
 
-        public decimal? PrecoTotalEquipamentosOs { get; set; }
+        public decimal? PrecoVendaTotalOs { get; set; }
+
+        public decimal? PrecoCustoTotalOs { get; set; }
 
 
 
