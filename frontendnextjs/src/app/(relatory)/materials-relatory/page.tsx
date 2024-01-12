@@ -35,6 +35,7 @@ export default function MaterialRelatory(params:any){
   const [precoCustoMin,setPrecoCustoMin] = useState<string>()
   const [precoCustoMax,setPrecoCustoMax] = useState<string>()
   const filtrosProntos = ["Materias com maior quantidade em estoque","Materias com maior taxa de saída","Materiais com menor taxa de saída"]
+
  const handlePrint = useReactToPrint({
   content: () => componentRef.current,
   documentTitle: 'Visitor Pass',
@@ -50,9 +51,8 @@ export default function MaterialRelatory(params:any){
 const generateRelatory = async()=>{
 
 const filtro  = {
-    descricao: null,
-    marca: null,
-
+    descricao: descricao,
+    marca: marca,
     precoVendaMin:verifyNumberIsEmpty(precoVendaMin),
     precoVendaMax:verifyNumberIsEmpty(precoVendaMax),
     precoCustoMin:verifyNumberIsEmpty(precoCustoMin),
@@ -63,7 +63,7 @@ const filtro  = {
 }
 console.log(filtro)
   const materialCriado = await axios
-  .post(`${url}/Materiais/filter-material`,filtro)
+  .post(`${url}/Inventarios/filter-material`,filtro)
   .then((r) => {
     console.log(r.data)
     return  r.data
@@ -87,7 +87,7 @@ console.log(filtro)
       >
         <ArrowLeft /> Retornar
       </Link>
-       <h1 className='text-center font-bold text-2xl mt-4'>Geração QrCode para Materiais </h1>
+       <h1 className='text-center font-bold text-2xl mt-4'>Relatório de materias com filtro</h1>
 
    
       
@@ -97,7 +97,7 @@ console.log(filtro)
        
           label="Descricao do Material"
           className="w-[400px] border-1 border-black rounded-xl shadow-sm shadow-black"
-          placeholder="0,00"
+          placeholder="Ex:Inversor Frequência"
           labelPlacement="outside"
           value={descricao}
           onValueChange={setDescricao}
@@ -128,7 +128,7 @@ console.log(filtro)
           labelPlacement="outside"
           startContent={
             <div className="pointer-events-none flex items-center">
-              <span className="text-default-400 text-small">R$</span>
+              <span className="text-default-500 text-small">R$</span>
             </div>
           }
         />
@@ -143,7 +143,7 @@ console.log(filtro)
           onValueChange={setPrecoCustoMax}
           startContent={
             <div className="pointer-events-none flex items-center">
-              <span className="text-default-400 text-small">R$</span>
+              <span className="text-default-500 text-small">R$</span>
             </div>
           }
         />
@@ -158,7 +158,7 @@ console.log(filtro)
           labelPlacement="outside"
           startContent={
             <div className="pointer-events-none flex items-center">
-              <span className="text-default-400 text-small">R$</span>
+              <span className="text-default-500 text-small">R$</span>
             </div>
           }
         />
@@ -173,7 +173,7 @@ console.log(filtro)
           labelPlacement="outside"
           startContent={
             <div className="pointer-events-none flex items-center">
-              <span className="text-default-400 text-small">R$</span>
+              <span className="text-default-500 text-small">R$</span>
             </div>
           }
         />

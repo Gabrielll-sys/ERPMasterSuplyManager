@@ -2,7 +2,7 @@
 
 import {Link, Button,Autocomplete, AutocompleteItem, Input,Textarea, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider } from '@nextui-org/react';
 
-import { Snackbar } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
 import { useRouter } from "next/navigation";
 import { QRCode } from "react-qrcode-logo";
 
@@ -38,7 +38,8 @@ export default function EditingOs({params}:any){
 
       const componentRef: any = useRef();
       const[confirmAuthorizeMessage,setconfirmAuthorizeMessage]= useState<string>()
-
+      const[itemToBeUpdated,setItemToBeUpdated] = useState<IItem>()
+      const[inventarioDialog,setInventarioDialog] = useState<IInventario>()
       const[observacao,setObservacao]= useState<string>()
       const [os,setOs] = useState<IOrderServico>()
       const [descricaoOs,setDescricaoOS] = useState<string>()
@@ -46,13 +47,17 @@ export default function EditingOs({params}:any){
       const[materiaisOs,setMateriaisOs]= useState<any>([])
       const [materiais,setMateriais]= useState<IInventario[] >([])
       const [numeroOs,setNumeroOs]= useState<string>("")
-      
+      const [openDialog,setOpenDialog] = useState<boolean>(false)
+    const [openDialogAuthorize,setOpenDialogAuthorize] = useState<boolean>(false)
       const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
     const [openList,setOpenList] = useState<boolean>(false)
     const[precoCustoTotalOs,setPrecoCustoTotalOs] = useState<number>();
     const[precoVendaTotalOs,setPrecoVendaTotalOs] = useState<number>();
     const [messageAlert, setMessageAlert] = useState<string>();
     const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
+    const[quantidadeMaterial,setQuantidadeMaterial] = useState<string>()
+    const[isEditingOs,setIsEditingOs] = useState<boolean>(false)
+
       const {isOpen, onOpen, onOpenChange} = useDisclosure();
     
       useEffect(()=>{
@@ -162,18 +167,62 @@ const handleAuthorizeOs = async  ()=>{
         
       
       }
- const handleUpdateItem =  async (item:IItem)=>{
-console.log(item)
-  //   console.log(id)
-  //       const item = {
-  //   materialId:item.id,
-  //   material:{},
-  //   ordemServicoId:idOs.state,
-  //   ordemServico:{},
-  //   quantidade:quantidadeMaterial,
+    const handleCreateItem = async(inventario:IInventario | undefined)=>
+      {
+    try{
 
-  // }
-// await axios.put(`${url}/Itens/${id}`,item)
+      const item = {
+        materialId:inventario?.material.id,
+        responsavel:session?.user?.name,
+        material:null,
+        ordemServicoId:os?.id,
+        ordemServico:null,
+        quantidade:Number(quantidadeMaterial), 
+    
+      }
+    console.log(item)
+    
+     const res = await axios.post(`${url}/Itens/CreateItem`,item).then(r=>{
+       return r.data
+    }).catch((e) => {
+    console.log(e.code)
+    });
+    
+    if(res){
+      getMateriasOs(params.osId)
+      setOpenSnackBar(true);
+      setSeveridadeAlert("success");
+      setMessageAlert("Material adiciona a lista da OS");
+      handleCloseDialog()
+    
+    }
+    }
+    catch(error){
+    
+      console.log()
+    }
+    
+      }     
+ const handleUpdateItem =  async (item:IItem | undefined)=>{
+console.log(item)
+
+        const itemToBeUpdated = {
+    id:item?.id,      
+    materialId:item?.material.id,
+    material:{},
+    ordemServicoId:os?.id,
+    ordemServico:{},
+    quantidade:quantidadeMaterial,
+
+  }
+await axios.put(`${url}/Itens/${item?.id}`,itemToBeUpdated).then(r=>{
+  getMateriasOs(params.osId)
+  setOpenSnackBar(true);
+  setSeveridadeAlert("success");
+  setMessageAlert("Quantidade atualizar com sucesso");
+  handleCloseDialog()
+
+}).catch(r=>console.log(r))
         
       
       }
@@ -199,6 +248,23 @@ const handleCalcVendaTotal = (itens:any) :number=>{
     }
     return custoTotalOs
 }
+const handleOpenDialog =  (item:any)=>{
+
+  setInventarioDialog(item)
+  setOpenDialog(true)
+
+}
+const handleCloseDialog = ()=>{
+  setOpenDialog(false)
+  setQuantidadeMaterial("")
+  setInventarioDialog(undefined)
+}
+const handleCloseDialogAuthorize = ()=>{
+  setOpenDialogAuthorize(false)
+  
+}
+
+
 return (
       <>
 
@@ -245,10 +311,8 @@ return (
            isLoading={!materiais.length}
            placeholder="Procure um material"
            className="min-w-[600px]  border-1 border-black rounded-xl shadow-sm shadow-black"
-     
-     
          >
-     
+
          {materiais.map((item:IInventario) => (
      
             <AutocompleteItem
@@ -258,7 +322,11 @@ return (
              <>
      
              <p className='text-xs'>{item.material.marca}</p>
-              {materiais.includes(item)?<IconBxTrashAlt  onClick={()=>console.log("oii")} />:<IconPlus  onClick={()=>console.log("oii")} />}
+              {
+              !materiais.includes(item)?<IconBxTrashAlt  onClick={()=>console.log("oii")} />:
+              item.saldoFinal!=null && item.saldoFinal>0 &&
+              <IconPlus  onClick={()=>handleOpenDialog(item)} />
+              }
      
              </>
              }
@@ -285,10 +353,10 @@ return (
        
       <div className=' flex flex-row mt-2  w-14 justify-between '>
 
-      <Button onPress={()=>handleUpdateItem(item)} >
+      <Button  className="p-0" onPress={()=>{setItemToBeUpdated(item),setIsEditingOs(true),setOpenDialog(true)}} >
         <IconPen />
       </Button>
-<Button onPress={()=>handleRemoveMaterial(item.id)}>
+<Button className="p-0" onPress={()=>handleRemoveMaterial(item.id)}>
   
         <IconBxTrashAlt />
 </Button>
@@ -298,10 +366,40 @@ return (
       </> 
       ))}
       <p className='text-base text-center p-2'>Quantidade de Materias: {materiaisOs.length}</p>
-      <p className='text-base text-center p-2'>Preço de Custo Total:R${precoCustoTotalOs?.toFixed(2).toString().replace('.',",")}</p>
-      <p className='text-base text-center p-2'>Preço Venda Total:   R${precoVendaTotalOs?.toFixed(2).toString().replace('.',",")}</p>
+      <p className='text-base text-center p-2'>Preço de Custo Total:R${precoCustoTotalOs?.toFixed(2).toString().replace('.',",")}  ,Preço Venda Total: R${precoVendaTotalOs?.toFixed(2).toString().replace('.',",")}</p>
+      <p className='text-base text-center p-2'></p>
      </div>
    </div>
+
+
+ 
+
+<Dialog open={openDialog} onClose={handleCloseDialog} >
+    <DialogTitle sx={{textAlign:"center"}}>{isEditingOs?itemToBeUpdated?.material.descricao:inventarioDialog?.material.descricao}</DialogTitle>
+    <DialogContent >
+
+      <p className='text-center'>
+        Estoque do Material: {inventarioDialog?.saldoFinal} ${inventarioDialog?.material.unidade} 
+          </p>
+      <div className=' flex flex-row justify-center'>
+        <Input
+          type='number'
+          autoFocus
+          className="border-1   border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[150px] max-h-14"
+          endContent={<p>{isEditingOs? itemToBeUpdated?.material.unidade:inventarioDialog?.material.unidade}</p>}
+          onValueChange={setQuantidadeMaterial}
+        
+          value={quantidadeMaterial}
+        />
+      </div>
+    </DialogContent>
+    <DialogActions>
+      <Button onPress={handleCloseDialog}>Fechar</Button>
+       
+        <Button onPress={()=> !isEditingOs ?handleCreateItem(inventarioDialog):handleUpdateItem(itemToBeUpdated)}>Adicionar Material</Button>
+    </DialogActions>
+  </Dialog>
+
    {!os?.isAuthorized ?(
 
 <div className=' flex flex-row justify-center mt-5  gap-8 '>
@@ -329,7 +427,7 @@ onPress={()=>handleUpdateOs(os?.id)}
 }
 
 
-<Modal isOpen={isOpen} size='xl' onOpenChange={onOpenChange}>
+<Modal isOpen={isOpen} backdrop="blur" size='xl' onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>

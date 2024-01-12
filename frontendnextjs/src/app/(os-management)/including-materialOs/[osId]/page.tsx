@@ -54,10 +54,6 @@ export default function IncludingMaterialOs({params}:any){
 
     }
 
-
-
-
-
     const route = useRouter()
     const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
     const [openList,setOpenList] = useState<boolean>(false)

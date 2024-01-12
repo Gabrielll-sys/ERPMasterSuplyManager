@@ -30,6 +30,13 @@
             <param name="id">Id do material</param>
             <returns>Material junto com os registros de seu inventário</returns>
         </member>
+        <member name="M:SupplyManager.Controllers.InventariosController.FilterSearch(SupplyManager.Models.FilterMaterial)">
+            <summary>
+            Filtro de materiais
+            </summary>
+            <param name="Filtro">Objeto contendo os valores para realizar a busca por filtro</param>
+            <returns>Materiais de acordo com o filtro passado</returns>
+        </member>
         <member name="M:SupplyManager.Controllers.InventariosController.BuscaCodigoFabricante(System.String)">
             <summary>
             Busca materiais pelo código do fabricante
@@ -143,13 +150,6 @@
             </summary>
             <param name="id">Id do material</param>
             <returns>Material e inventário encontrado</returns>
-        </member>
-        <member name="M:SupplyManager.Controllers.MateriaisController.FilterSearch(SupplyManager.Models.FilterMaterial)">
-            <summary>
-            Filtro de materiais
-            </summary>
-            <param name="Filtro">Objeto contendo os valores para realizar a busca por filtro</param>
-            <returns>Materiais de acordo com o filtro passado</returns>
         </member>
         <member name="M:SupplyManager.Controllers.MateriaisController.BuscaDescricao(System.String)">
             <summary>

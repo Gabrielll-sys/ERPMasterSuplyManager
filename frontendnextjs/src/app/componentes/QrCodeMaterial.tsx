@@ -8,9 +8,9 @@ import { QRCode } from "react-qrcode-logo";
 import { IInventario } from "../interfaces/IInventarios";
 
 export default function QrCodeMaterial(props: any) {
-  const [size, setSize] = useState<number | undefined>();
+  const [size, setSize] = useState<number | undefined>(105);
 
-  useEffect(() => {}, [size]);
+
     const setValue = (value:any)=>{
     setSize(value)
   }

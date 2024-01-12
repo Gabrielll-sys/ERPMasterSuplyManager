@@ -143,9 +143,6 @@ export default function UpdateInventory({params}:any){
       </Link>
        <h1 className='text-center font-bold text-2xl mt-16'>Geração QrCode para Materiais </h1>
 
-   
-      
-     
        <div className=' w-full flex flex-row justify-center mt-12 '>
    
    
@@ -164,23 +161,23 @@ export default function UpdateInventory({params}:any){
        
        {materiais.map((item:Inventario) => (
         
-          <AutocompleteItem
-           key={item.id} 
-           aria-label='teste'
-           endContent={
-           <>
-       
-           <p className='text-xs'>{item.material.marca}</p>
-
-            {qrCodes.includes(item)?<IconBxTrashAlt onClick={()=>deleteQrcode(item)} />:<IconQrCode onClick={()=>createQrcode(item)} />}
-           
-           </>
-           }
-           startContent={<p>{item.material.id}-</p>}
-            value={item.material.descricao}
-            >
-            {item.material.descricao}
-          </AutocompleteItem>
+          
+            <AutocompleteItem
+             key={item.id}
+             aria-label='teste'
+             endContent={
+             <>
+             <p className='text-xs'>{item.material.marca}</p>
+              {qrCodes.includes(item)?<IconBxTrashAlt onClick={()=>deleteQrcode(item)} />:<IconQrCode onClick={()=>createQrcode(item)} />}
+            
+             </>
+             }
+             startContent={<p>{item.material.id}-</p>}
+              value={item.material.descricao}
+              >
+              {item.material.descricao}
+            </AutocompleteItem>
+        
         ))}
         </Autocomplete>
    

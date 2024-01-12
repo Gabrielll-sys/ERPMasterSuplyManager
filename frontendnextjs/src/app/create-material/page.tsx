@@ -454,26 +454,26 @@ console.log(e)
 
                 <TableCell
                  align="center"
-                 className="text-xl border-1 border-black ">Cod.Interno</TableCell>
+                 className="text-xl border-1  ">Cod.Interno</TableCell>
                 <TableCell align="center"
-                className="text-xl border-1 border-black">Cod.Fabricante</TableCell>
+                className="text-xl border-1 ">Cod.Fabricante</TableCell>
                 <TableCell align="center"
-                className="text-xl border-1 border-black ">Descrição</TableCell>
+                className="text-xl border-1  ">Descrição</TableCell>
                 <TableCell align="center"
-                 className="text-xl border-1 border-black ">Marca</TableCell>
+                 className="text-xl border-1  ">Marca</TableCell>
                 <TableCell align="center"
-                 className="text-xl border-1 border-black ">Tensão</TableCell>
+                 className="text-xl border-1  ">Tensão</TableCell>
    
                 <TableCell align="center"
-                className="text-xl border-1 border-black ">Estoque</TableCell>
+                className="text-xl border-1  ">Estoque</TableCell>
 
                 <TableCell align="center"
-                className="text-lg min-w-[] border-1 border-black ">Localização</TableCell>
+                className="text-lg min-w-[] border-1  ">Localização</TableCell>
                 <TableCell align="center"
-                className="text-lg min-w-[140px] border-1 border-black ">Preço Custo</TableCell>
+                className="text-lg min-w-[140px] border-1  ">Preço Custo</TableCell>
                 <TableCell align="center"
-                className="text-lg min-w-[140px] border-1 border-black ">Preço venda</TableCell>
-                 <TableCell align="center" className="text-xl min-w-[140px] border-1 border-black">Preço Total</TableCell> 
+                className="text-lg min-w-[140px] border-1  ">Preço venda</TableCell>
+                 <TableCell align="center" className="text-xl min-w-[140px] border-1 ">Preço Total</TableCell> 
                  {session && (
 
                 <TableCell align="center"
@@ -492,23 +492,23 @@ console.log(e)
                   <TableCell 
                   
                   align="center"
-                  className="text-base border-[0.2px] border-black "
+                  className="text-base border-[0.2px]  "
                   >{row.material.id}</TableCell>
-                  <TableCell align="center" className="text-base border-1 border-black ">{row.material.codigoFabricante}</TableCell>
-                  <TableCell align="center" className="text-base border-1 border-black " onClick={(x)=>setDescricao(row.material.descricao)}>{row.material.descricao}</TableCell>
-                  <TableCell align="center" className="text-base border-1 border-black ">{row.material.marca}</TableCell>
-                  <TableCell align="center" size ="small" className="text-base border-1 border-black ">{row.material.tensao}</TableCell>
+                  <TableCell align="center" className="text-base border-1  ">{row.material.codigoFabricante}</TableCell>
+                  <TableCell align="center" className="text-sm border-1  " onClick={(x)=>setDescricao(row.material.descricao)}>{row.material.descricao}</TableCell>
+                  <TableCell align="center" className="text-base border-1  ">{row.material.marca}</TableCell>
+                  <TableCell align="center" size ="small" className="text-base border-1  ">{row.material.tensao}</TableCell>
 
                   <TableCell align="center" size ="small"
-                  className="text-base border-1 border-black ">{row.saldoFinal==null?"Não registrado":row.saldoFinal +" "+row.material.unidade}</TableCell>
+                  className="text-base border-1  ">{row.saldoFinal==null?"Não registrado":row.saldoFinal +" "+row.material.unidade}</TableCell>
                   <TableCell align="center" size ="small"
-                  className="text-base border-1 border-black ">{row.material.localizacao}</TableCell>
+                  className="text-base border-1  ">{row.material.localizacao}</TableCell>
                   <TableCell align="center" size ="small"
-                  className="text-base border-1 border-black ">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</TableCell>
+                  className="text-base border-1  ">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</TableCell>
                   <TableCell align="center" size ="small"
-                  className="text-base border-1 border-black ">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</TableCell>
+                  className="text-base border-1  ">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</TableCell>
                   <TableCell align="center" size ="small"
-                  className="text-base border-1 border-black ">{row.material.precoVenda==null?"Sem registro":"R$ "+(row.material.precoCusto*row.saldoFinal).toFixed(2).toString().replace(".",",")}</TableCell>
+                  className="text-base border-1  ">{row.material.precoVenda==null?"Sem registro":"R$ "+(row.material.precoCusto*row.saldoFinal).toFixed(2).toString().replace(".",",")}</TableCell>
                   
                   {session && (
                    <TableCell align="center" size ="small"
