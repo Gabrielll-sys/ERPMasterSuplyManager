@@ -22,7 +22,7 @@ export default function QrCodeMaterial(props: any) {
       
       <QRCode
         
-        value={`http://192.168.100.216:3000/qrcode-to-material/${props.material.material.id}`}
+        value={`https://mastererp.vercel.app/qrcode-to-material/${props.material.material.id}`}
         size={size}
         eyeRadius={10}
         quietZone={7}
