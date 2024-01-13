@@ -109,7 +109,7 @@ return(
 
     >
       <p className="font-semibold text-base p-5">
-       Emissão relatório de materiais
+       Filtragem de Materiais
       </p>
     </DropdownItem>
     

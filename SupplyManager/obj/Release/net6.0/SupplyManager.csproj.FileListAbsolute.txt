@@ -268,3 +268,5 @@ C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\ob
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Release\net6.0\SupplyManager.pdb
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Release\net6.0\SupplyManager.genruntimeconfig.cache
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Release\net6.0\ref\SupplyManager.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Release\net6.0\SupplyManager.xml
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Release\net6.0\SupplyManager.xml

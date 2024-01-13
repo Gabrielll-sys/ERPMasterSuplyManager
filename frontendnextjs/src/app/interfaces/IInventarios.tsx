@@ -5,7 +5,7 @@ export interface IInventario  {
     razao:string,
     estoque:number,
     movimentacao:number,
-    saldoFinal?:number | undefined,
+    saldoFinal:number,
     responsavel:string,
     material:
     {
@@ -19,7 +19,7 @@ export interface IInventario  {
       localizacao?: string,
       marca?: string,
       markup?: number ,
-      precoCusto?: number,
+      precoCusto: number,
       precoVenda?: number,
       tensao?: string,
       unidade?: string

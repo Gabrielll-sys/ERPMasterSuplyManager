@@ -142,8 +142,8 @@ const handleAuthorizeOs = async  ()=>{
             descricaoOs:descricaoOs,
             observacoes:observacao,
             responsavelAutorizacao:session?.user?.name,
-            precoVendaTotalOs:precoVendaTotalOs,
-            precoCustoTotalOs:precoCustoTotalOs,
+            precoVendaTotalOs:precoVendaTotalOs?.toFixed(2),
+            precoCustoTotalOs:precoCustoTotalOs?.toFixed(2),
 
 
         }
@@ -173,7 +173,7 @@ const handleAuthorizeOs = async  ()=>{
 
       const item = {
         materialId:inventario?.material.id,
-        responsavel:session?.user?.name,
+        responsavelAdicao:session?.user?.name,
         material:null,
         ordemServicoId:os?.id,
         ordemServico:null,
@@ -210,11 +210,14 @@ console.log(item)
     id:item?.id,      
     materialId:item?.material.id,
     material:{},
+    responsavelAdicao:item?.responsavelAdicao,
+    responsavelMudanca:session?.user?.name,
     ordemServicoId:os?.id,
     ordemServico:{},
     quantidade:quantidadeMaterial,
 
   }
+  console.log(itemToBeUpdated)
 await axios.put(`${url}/Itens/${item?.id}`,itemToBeUpdated).then(r=>{
   getMateriasOs(params.osId)
   setOpenSnackBar(true);
@@ -255,6 +258,9 @@ const handleOpenDialog =  (item:any)=>{
 
 }
 const handleCloseDialog = ()=>{
+
+  if(isEditingOs) setIsEditingOs(false)
+
   setOpenDialog(false)
   setQuantidadeMaterial("")
   setInventarioDialog(undefined)
@@ -263,16 +269,23 @@ const handleCloseDialogAuthorize = ()=>{
   setOpenDialogAuthorize(false)
   
 }
-
+ const findInventory = (id:number)=>{
+  const inventoryFinded : IInventario | undefined = materiais.find(x=>x.materialId==id)
+  console.log(inventoryFinded)
+  setInventarioDialog(inventoryFinded)
+ }
 
 return (
       <>
 
       
    <h1 className='text-center mt-8 text-lg'>{os?.descricao}</h1>
+   {os?.isAuthorized ?<h1 className='text-center font-bold mt-2 text-lg'>OS Fechada</h1>:""}
+  
    <div className='flex flex-row  justify-between '>
-     <div className='flex flex-row  mt-10 border-2 border-black  max-h-[370px] shadow-sm shadow-black p-2 ml-4 rounded-md'>
-      <div className='flex flex-col'>
+     <div className='flex flex-row  mt-10 border-2 border-black  max-h-[380px] shadow-sm shadow-black p-2 ml-4 rounded-md'>
+      <div className='flex flex-col justify-center'>
+      
       <Input
         label="Numero Os"
         className="border-1 self-center  border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[150px] max-h-14"
@@ -291,118 +304,9 @@ return (
           onValueChange={setParticipantesOs}
         value={participantesOs}
         />
-      </div>
-     <Textarea
-        label="Observações sobre a OS"
-        placeholder={`Escreva detalhes sobre a execução da ${os?.descricao}`}
-        className="max-w-xl border-1 border-black rounded-xl min-w-[570px] max-h-[320px]  shadow-sm shadow-black"
-        
-        maxRows={14}
-        value={observacao}
-        onValueChange={setObservacao}
-     
-      />
-     
-     </div>
-     <div className='flex flex-col  mt-10 mr-24'>
-     <Autocomplete
-           label="Material "
-           isDisabled={!materiais}
-           isLoading={!materiais.length}
-           placeholder="Procure um material"
-           className="min-w-[600px]  border-1 border-black rounded-xl shadow-sm shadow-black"
-         >
+           {!os?.isAuthorized ?(
 
-         {materiais.map((item:IInventario) => (
-     
-            <AutocompleteItem
-             key={item.id}
-             aria-label='teste'
-             endContent={
-             <>
-     
-             <p className='text-xs'>{item.material.marca}</p>
-              {
-              !materiais.includes(item)?<IconBxTrashAlt  onClick={()=>console.log("oii")} />:
-              item.saldoFinal!=null && item.saldoFinal>0 &&
-              <IconPlus  onClick={()=>handleOpenDialog(item)} />
-              }
-     
-             </>
-             }
-             startContent={<p>{item.material.id} -</p>}
-              value={item.material.descricao}
-              >
-              {item.material.descricao}
-            </AutocompleteItem>
-          ))}
-          </Autocomplete>
-     {materiaisOs?.map((item:IItem)=>(
-      <>
-      <div  key ={item.id} className=' flex flex-row justify-between mt-2 '>
-  
-        <p className=' text-sm p-1 h-5'>{item.material.id} - {item.material.descricao}</p>
-
-      </div>
-     <div className=' flex flex-row justify-between mt-3 '>
-       
-        <p className=' text-sm mt-1 ml-2 max-w-[400px]' >Adicionado por: {item.responsavel} {dayjs(item.dataAdicaoItem).format("DD/MM/YYYY [as] HH:mm:ss")}</p>
-        <p className=' text-sm mt-1 ml-2' >{item.quantidade} {item.material.unidade}</p>
-     </div>
-
-       
-      <div className=' flex flex-row mt-2  w-14 justify-between '>
-
-      <Button  className="p-0" onPress={()=>{setItemToBeUpdated(item),setIsEditingOs(true),setOpenDialog(true)}} >
-        <IconPen />
-      </Button>
-<Button className="p-0" onPress={()=>handleRemoveMaterial(item.id)}>
-  
-        <IconBxTrashAlt />
-</Button>
-      </div>
-      <Divider className="bg-black mt-2"/>
-
-      </> 
-      ))}
-      <p className='text-base text-center p-2'>Quantidade de Materias: {materiaisOs.length}</p>
-      <p className='text-base text-center p-2'>Preço de Custo Total:R${precoCustoTotalOs?.toFixed(2).toString().replace('.',",")}  ,Preço Venda Total: R${precoVendaTotalOs?.toFixed(2).toString().replace('.',",")}</p>
-      <p className='text-base text-center p-2'></p>
-     </div>
-   </div>
-
-
- 
-
-<Dialog open={openDialog} onClose={handleCloseDialog} >
-    <DialogTitle sx={{textAlign:"center"}}>{isEditingOs?itemToBeUpdated?.material.descricao:inventarioDialog?.material.descricao}</DialogTitle>
-    <DialogContent >
-
-      <p className='text-center'>
-        Estoque do Material: {inventarioDialog?.saldoFinal} ${inventarioDialog?.material.unidade} 
-          </p>
-      <div className=' flex flex-row justify-center'>
-        <Input
-          type='number'
-          autoFocus
-          className="border-1   border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[150px] max-h-14"
-          endContent={<p>{isEditingOs? itemToBeUpdated?.material.unidade:inventarioDialog?.material.unidade}</p>}
-          onValueChange={setQuantidadeMaterial}
-        
-          value={quantidadeMaterial}
-        />
-      </div>
-    </DialogContent>
-    <DialogActions>
-      <Button onPress={handleCloseDialog}>Fechar</Button>
-       
-        <Button onPress={()=> !isEditingOs ?handleCreateItem(inventarioDialog):handleUpdateItem(itemToBeUpdated)}>Adicionar Material</Button>
-    </DialogActions>
-  </Dialog>
-
-   {!os?.isAuthorized ?(
-
-<div className=' flex flex-row justify-center mt-5  gap-8 '>
+<div className=' flex flex-row justify-center p-3 mt-10 gap-8 '>
 
 <Button  
 className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl '
@@ -425,6 +329,118 @@ onPress={()=>handleUpdateOs(os?.id)}
       </Button>
 </div>
 }
+
+      </div>
+     <Textarea
+        label="Observações sobre a OS"
+        placeholder={`Escreva detalhes sobre a execução da ${os?.descricao}`}
+        className="max-w-xl border-1 border-black rounded-xl min-w-[570px] max-h-[320px]  shadow-sm shadow-black"
+        
+        maxRows={14}
+        value={observacao}
+        onValueChange={setObservacao}
+     
+      />
+     
+     </div>
+    
+
+     <div className='flex flex-col  mt-10 mr-24'>
+     <Autocomplete
+           label="Material "
+           isDisabled={!materiais}
+           isLoading={!materiais.length}
+           placeholder="Procure um material"
+           className="min-w-[600px]  border-1 border-black rounded-xl shadow-sm shadow-black"
+         >
+
+         {materiais.map((item:IInventario) => (
+     
+            <AutocompleteItem
+             key={item.id}
+             aria-label='teste'
+             endContent={
+             <>
+     
+             <p className='text-xs'>{item.material.marca}</p>
+              { !os?.isAuthorized &&
+              item.saldoFinal!=null && item.saldoFinal>0 &&
+              <IconPlus  onClick={()=>handleOpenDialog(item)} />
+              }
+     
+             </>
+             }
+             startContent={<p>{item.material.id} -</p>}
+              value={item.material.descricao}
+              >
+              {item.material.descricao}
+            </AutocompleteItem>
+          ))}
+          </Autocomplete>
+     {materiaisOs?.map((item:IItem)=>(
+      <>
+      <div  key ={item.id} className=' flex flex-row justify-between mt-2 '>
+  
+        <p className=' text-sm p-1 h-5'>{item.material.id} - {item.material.descricao}</p>
+
+      </div>
+     <div className=' flex flex-row justify-between mt-3 '>
+       
+        <p className=' text-sm mt-1 ml-2 max-w-[400px]' >Adicionado por: {item.responsavelAdicao} {dayjs(item.dataAdicaoItem).format("DD/MM/YYYY [as] HH:mm:ss")}</p>
+        <p className=' text-sm mt-1 ml-2' >{item.quantidade} {item.material.unidade}</p>
+     </div>
+
+       {!os?.isAuthorized &&(
+      <div className=' flex flex-row mt-2  w-14 justify-between '>
+
+      <Button  className="p-0" onPress={()=>{setItemToBeUpdated(item),setIsEditingOs(true),setOpenDialog(true),findInventory(item.material.id)}} >
+        <IconPen />
+      </Button>
+<Button className="p-0" onPress={()=>handleRemoveMaterial(item.id)}>
+  
+        <IconBxTrashAlt />
+</Button>
+      </div>
+       )}
+
+      <Divider className="bg-black mt-2"/>
+
+      </> 
+      ))}
+      <p className='text-base text-center p-2'>Quantidade de Materias: {materiaisOs.length}</p>
+      <p className='text-base text-center p-2'>Preço de Custo Total:R${precoCustoTotalOs?.toFixed(2).toString().replace('.',",")}  ,Preço Venda Total: R${precoVendaTotalOs?.toFixed(2).toString().replace('.',",")}</p>
+      <p className='text-base text-center p-2'></p>
+     </div>
+   </div>
+
+ 
+
+<Dialog open={openDialog} onClose={handleCloseDialog} >
+    <DialogTitle sx={{textAlign:"center"}}>{isEditingOs?itemToBeUpdated?.material.descricao:inventarioDialog?.material.descricao}</DialogTitle>
+    <DialogContent >
+
+      <p className='text-center'>
+        Estoque do Material: {inventarioDialog?.saldoFinal} {inventarioDialog?.material.unidade} 
+          </p>
+      <div className=' flex flex-row justify-center'>
+        <Input
+          type='number'
+          autoFocus
+          className="border-1   border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[150px] max-h-14"
+          endContent={<p>{isEditingOs? itemToBeUpdated?.material.unidade:inventarioDialog?.material.unidade}</p>}
+          onValueChange={setQuantidadeMaterial}
+        
+          value={quantidadeMaterial}
+        />
+      </div>
+    </DialogContent>
+    <DialogActions>
+      <Button onPress={handleCloseDialog}>Fechar</Button>
+       
+        <Button isDisabled={inventarioDialog!= undefined && Number(quantidadeMaterial) > inventarioDialog.saldoFinal}  onPress={()=> !isEditingOs ?handleCreateItem(inventarioDialog):handleUpdateItem(itemToBeUpdated)}>{isEditingOs?"Atualizar Quantidade":"Adicionar material"}</Button>
+    </DialogActions>
+  </Dialog>
+
 
 
 <Modal isOpen={isOpen} backdrop="blur" size='xl' onOpenChange={onOpenChange}>

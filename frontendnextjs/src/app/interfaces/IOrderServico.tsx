@@ -11,7 +11,8 @@ export interface IOrderServico
     dataAbertura?: any,
     dataFechamento?: any,
     numeroOs?: string,
-    precoTotalEquipamentosOs?: number
+    precoVendaTotalOs?: number
+    precoCustoTotalOs?: number
 
 
 

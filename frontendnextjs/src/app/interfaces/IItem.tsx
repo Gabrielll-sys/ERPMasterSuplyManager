@@ -2,7 +2,8 @@ export interface IItem {
 
     id:number,
     quantidade:number,
-    responsavel:string,
+    responsavelAdicao:string,
+    responsavelMudanca:string,
     dataAdicaoItem:any,
     material:{
         id:number,

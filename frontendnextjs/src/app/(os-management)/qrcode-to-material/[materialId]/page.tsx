@@ -97,7 +97,7 @@ try{
 
   const item = {
     materialId:Number(params.materialId),
-    responsavel:session?.user?.name,
+    responsavelAdicao:session?.user?.name,
     material:null,
     ordemServicoId:os?.id,
     ordemServico:null,
@@ -186,6 +186,7 @@ const setValue = (id:any)=>{
  {session  && session.user?(
   <>
   <h1  className='text-center font-bold text-2xl mt-20 max-sm:text-base'>{material?.material.id} - {material?.material.descricao}</h1>
+  <h1  className='text-center font-bold text-2xl mt-2 max-sm:text-base'>Estoque:{material?.saldoFinal} {material?.material.unidade}</h1>
   {material?.material.marca!=""&& (<h1 className='text-center font-bold text-2xl  max-sm:text-lg'>({material?.material.marca})</h1>)}
    
    <div className=' w-full flex sm:flex-row   justify-center mt-20 max-sm:mt-5 gap-4 max-sm: flex-col   ' >

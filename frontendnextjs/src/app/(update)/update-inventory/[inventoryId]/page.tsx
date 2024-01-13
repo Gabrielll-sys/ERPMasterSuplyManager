@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Link } from '@nextui-org/react';
+import { Button, Input, Link } from '@nextui-org/react';
 
 import { Snackbar } from '@mui/material';
 import { useRouter } from "next/navigation";
@@ -148,22 +148,23 @@ export default function UpdateInventory({params}:any){
    
        {/* <TextField  disabled={true}   value={categoria} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
        className={updateInventory.inputs} onChange={e=>setCategoria(e.target.value)} label='Categoria' required /> */}
-   
-       <TextField  disabled={true}  value={descricao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
-        onChange={e=>setDescricao(e.target.value)} label='Descrição' required />
+   <div className='flex flex-row gap-5'>
      
-       <TextField    value={razao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',width:"400px"}}
-             error={severidadeAlert != "warning" || razao.length ? false : true}
-              onChange={e=>setRazao(e.target.value)} label='Razão' required />
-   
-       <TextField   value={movimento} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
-         onChange={(e) => setMovimento(e.target.value)} label='Estoque' required />
-   
-   
-      
-   
-       
+         <Input  disabled={true}  value={descricao} className='w-[400px]  max-sm:mx-auto border-1 border-black rounded-md shadow-sm shadow-black'
+          onValueChange={setDescricao} label='Descrição' required />
      
+         <Input    value={razao} className='w-[300px] max-sm:mx-auto border-1 border-black rounded-md shadow-sm shadow-black'
+                onValueChange={setRazao} label='Razão' required />
+     
+         <Input   value={movimento} className='w-32  max-sm:mx-auto border-1 border-black rounded-md shadow-sm shadow-black'
+           onValueChange={setMovimento} label='Estoque' required />
+     
+     
+     
+     
+     
+     
+   </div>
     
        
        </div>

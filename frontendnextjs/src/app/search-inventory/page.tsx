@@ -237,16 +237,14 @@ catch(e){
       <div className=" text-center mt-11" >
       
 
-      <TextField
+      <Input
         
           value={codigoInterno}
-          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
-          className="inputs"
-          onChange={(e) => setCodigoInterno(e.target.value)}
+          className='w-[120px] max-sm:mx-auto border-1 border-black rounded-md shadow-sm shadow-black mx-auto'
+          onValueChange={setCodigoInterno}
           label="Código Interno"
-          variant="filled"
           autoFocus
-          required
+    
         />
 
 

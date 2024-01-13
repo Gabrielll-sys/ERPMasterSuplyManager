@@ -53,7 +53,7 @@ export default function OsManagement(){
   
     const [messageAlert, setMessageAlert] = useState();
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
-    const [osModal,setOsModal] = useState<Os|undefined>(undefined)
+    const [osModal,setOsModal] = useState<IOrderServico|undefined>(undefined)
 
   
   useEffect(()=>
@@ -67,8 +67,8 @@ export default function OsManagement(){
     
   },[numeroOs])
  
-  const handleModal = (value:Os|undefined)=>{
-
+  const handleModal = (value:any)=>{
+    console.log(value)
     setOsModal(value)
     if(!openModal){
 
@@ -95,7 +95,7 @@ export default function OsManagement(){
 
     }
     listNumerosOs.sort()
-
+    console.log(res)
     const revertedOs:IOrderServico[] = res; 
  
     setNumerosOs(listNumerosOs)
@@ -168,7 +168,6 @@ export default function OsManagement(){
          isDisabled={!ordemServicos}
          placeholder="Ordem Servicos"
          className="max-w-2xl  border-1 border-black rounded-xl shadow-sm shadow-black "
-         isLoading={!ordemServicos.length}
           onValueChange={setDescricaoOs}
           value={descricaoOs}
           
@@ -242,13 +241,12 @@ export default function OsManagement(){
     {osModal!=undefined &&(
 
       <Modal 
-      backdrop="opaque" 
       size="3xl" 
+      backdrop="blur"
       isOpen={openModal}
        onOpenChange={onOpenChange}
        classNames={{
         body: "py-6",
-        backdrop: "bg-[#292f46]/50 backdrop-opacity-60",
         base: "border-[#292f46] bg-[#ffff] dark:bg-[#19172c] text-black ",
         header: "border-b-[1px] border-[#292f46]",
         footer: "border-t-[1px] border-[#292f46]",
@@ -266,6 +264,9 @@ export default function OsManagement(){
                  Data de Fechamento:{osModal.dataFechamento==null?"OS em andamento":dayjs(osModal.dataFechamento).format("DD/MM/YYYY")}
                 </p>
                 <p> 
+                 Responsáveis Execução:{osModal.dataFechamento==""?"Sem registro":osModal?.responsaveisExecucao}
+                </p>
+                <p> 
                   {osModal.observacoes==null?"Sem observações no momento":osModal.observacoes}
                 </p>
 
@@ -274,8 +275,8 @@ export default function OsManagement(){
               </ModalBody>
               <ModalFooter>
                <div className="flex flex-row justify-between w-full ">
-               
-                <p className="mt-2">{osModal.isAuthorized? osModal.precoTotalEquipamentosOs.toString().replace('.',','):""}</p>
+
+                <p className="mt-2">Preço Custo : R${osModal.isAuthorized? osModal.precoCustoTotalOs?.toString().replace('.',','):""} ,Preço Venda : R${osModal.isAuthorized? osModal.precoVendaTotalOs?.toString().replace('.',','):""} </p>
                   <Button color="danger" className="hover:bg-yellow-300" variant="light" onPress={x=>handleModal(undefined)}>
                     Fechar
                   </Button>

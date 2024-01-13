@@ -23,7 +23,6 @@ return(
             "underline font-extrabold":rota=="/create-material"
         }
         )} >Criar Materiais</p>
-        <GoogleIcon className="mt-1.5 ml-2" />
         
     </div>
 </Link>

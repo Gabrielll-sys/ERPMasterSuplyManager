@@ -24,18 +24,21 @@ namespace SupplyManager.Models
         public OrdemServico? OrdemServico { get; set; }
 
         //Responsável pela criação do item,no caso ficara fácil rastrear quem adicionou o material na ordem de serviço
-        public string Responsavel { get; set; }
+        public string ResponsavelAdicao { get; set; }
+        public string? ResponsavelMudanca { get; set; }
 
         public DateTime DataAdicaoItem { get; set; }
+        public DateTime? DataAlteracaoItem { get; set; }
         public float? Quantidade { get; set; }
 
-       public Item(int materialId,int ordemServicoId,float? quantidade,string responsavel)
+       public Item(int materialId,int ordemServicoId,float? quantidade,string responsavelAdicao)
         {
             MaterialId = materialId;
             OrdemServicoId = ordemServicoId;
             Quantidade = quantidade;
-            Responsavel = responsavel;
+            ResponsavelAdicao = responsavelAdicao;
             DataAdicaoItem = DateTime.Now;
+            DataAlteracaoItem = null;
 
         }
 

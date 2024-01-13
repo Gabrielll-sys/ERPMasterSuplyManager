@@ -1,8 +1,8 @@
 "use client"
 
-import {Link, Button,Autocomplete, AutocompleteItem, Input } from '@nextui-org/react';
+import {Link, Button,Autocomplete, AutocompleteItem, Input, Spinner } from '@nextui-org/react';
 
-import { Snackbar } from '@mui/material';
+import { Paper, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { useRouter } from "next/navigation";
 import { QRCode } from "react-qrcode-logo";
 
@@ -22,11 +22,13 @@ import axios from "axios";
 import { useReactToPrint } from 'react-to-print';
 import ArrowLeft from '@/app/assets/icons/ArrowLeft';
 import { IFilterMaterial } from '@/app/interfaces/IFilterMaterial';
+import { IInventario } from '@/app/interfaces/IInventarios';
 
 export default function MaterialRelatory(params:any){
    
     const route = useRouter()
    const componentRef: any = useRef();
+   const [loadingMateriais,setLoadingMateriais] = useState<boolean>(false)  
 
   const [descricao,setDescricao] = useState<string>()
   const [marca,setMarca] = useState<string>()
@@ -34,6 +36,7 @@ export default function MaterialRelatory(params:any){
   const [precoVendaMax,setPrecoVendaMax] = useState<string>()
   const [precoCustoMin,setPrecoCustoMin] = useState<string>()
   const [precoCustoMax,setPrecoCustoMax] = useState<string>()
+  const[materiaisFiltros,setMateriaisFiltro] = useState<IInventario[]>()
   const filtrosProntos = ["Materias com maior quantidade em estoque","Materias com maior taxa de saída","Materiais com menor taxa de saída"]
 
  const handlePrint = useReactToPrint({
@@ -49,6 +52,7 @@ export default function MaterialRelatory(params:any){
 }
 
 const generateRelatory = async()=>{
+  setLoadingMateriais(true)
 
 const filtro  = {
     descricao: descricao,
@@ -61,15 +65,16 @@ const filtro  = {
 
 
 }
-console.log(filtro)
-  const materialCriado = await axios
+
+  const materiaisFiltrados = await axios
   .post(`${url}/Inventarios/filter-material`,filtro)
-  .then((r) => {
+  .then((r) : IInventario [] => {
     console.log(r.data)
     return  r.data
   })
+  setLoadingMateriais(false)
 
-
+  setMateriaisFiltro(materiaisFiltrados)
 }
 
     
@@ -87,7 +92,7 @@ console.log(filtro)
       >
         <ArrowLeft /> Retornar
       </Link>
-       <h1 className='text-center font-bold text-2xl mt-4'>Relatório de materias com filtro</h1>
+       <h1 className='text-center font-bold text-2xl mt-4'>Filtragem de Materiais</h1>
 
    
       
@@ -186,15 +191,102 @@ console.log(filtro)
 
    <div className='flex flex-row justify-center mt-10'>
      <Button className="text-white bg-master_black p-4 font-bold ml-5" onClick={()=>generateRelatory()}>
-     Gerar relatório
+     Filtrar
      </Button>
-     
+     <Button className="text-white bg-master_black p-4 font-bold ml-5" onClick={()=>handlePrint()}>
+   Imprimir
+     </Button>
    </div>
 
+   <div className='mt-16 flex '  ref={componentRef}>
+      
 
+       { materiaisFiltros!=undefined && materiaisFiltros.length>0?
+       <>
+       <TableContainer   sx={{ overflow:"hidden"  }} component={Paper} >
+       <Table
+       stickyHeader
+         sx={{ width: "100vw" }}
+         aria-label="simple table"
+       >
+         <TableHead>
+           <TableRow >
+
+             <TableCell
+              align="center"
+              className="text-base border-1 max-w-[70px]    ">Cod.Interno</TableCell>
+             <TableCell align="center"
+             className="text-base border-1  ">Cod.Fabricante</TableCell>
+             <TableCell align="center"
+             className="text-base border-1  ">Descrição</TableCell>
+             <TableCell align="center"
+              className="text-base border-1  ">Marca</TableCell>
+             <TableCell align="center"
+              className="text-base border-1  ">Tensão</TableCell>
+
+             <TableCell align="center"
+             className="text-base border-1 max-w-[90px]  ">Estoque</TableCell>
+
+             <TableCell align="center"
+             className="text-base  border-1  ">Localização</TableCell>
+             <TableCell align="center"
+             className="text-base  min-w-[120px] border-1  ">Preço Custo</TableCell>
+             <TableCell align="center"
+             className="text-base min-w-[120px] border-1  ">Preço venda</TableCell>
+              <TableCell align="center" className="text-xl min-w-[140px] border-1 ">Preço Total</TableCell> 
+             
+           </TableRow>
+         </TableHead>
+         <TableBody>
+           {  materiaisFiltros!=undefined && materiaisFiltros.length>=1 && materiaisFiltros?.map((row:IInventario) => (
+             <TableRow
+               key={row.material.id}
+              className=""
+             >
+           
+          
+               <TableCell 
+               
+               align="center"
+               className="text-base border-[0.2px]  "
+               >{row.material.id}</TableCell>
+               <TableCell align="center" className="text-base border-1  max-w-[150px] ">{row.material.codigoFabricante}</TableCell>
+               <TableCell align="center" className="text-sm border-1  " >{row.material.descricao}</TableCell>
+               <TableCell align="center" className="text-base border-1  ">{row.material.marca}</TableCell>
+               <TableCell align="center" size ="small" className="text-base border-1  ">{row.material.tensao}</TableCell>
+
+               <TableCell align="center" size ="small"
+               className="text-base border-1  ">{row.saldoFinal==null?"Não registrado":row.saldoFinal +" "+row.material.unidade}</TableCell>
+               <TableCell align="center" size ="small"
+               className="text-base border-1  ">{row.material.localizacao}</TableCell>
+               <TableCell align="center" size ="small"
+               className="text-base border-1  ">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</TableCell>
+               <TableCell align="center" size ="small"
+               className="text-base border-1  ">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</TableCell>
+               <TableCell align="center" size ="small"
+               className="text-base border-1  ">{row.material.precoVenda==null ?"Sem registro":"R$ "+((row?.material?.precoCusto) * (row.saldoFinal)).toFixed(2).toString().replace(".",",")}</TableCell>
+               
+         
+              
+             </TableRow>
+           ))}
+            
+         </TableBody>
    
-       
+ 
+       </Table>
+     </TableContainer>
+     </>
+     :  
+          loadingMateriais &&(
 
+            <div className="w-full flex flex-row justify-center mt-16">
+              <Spinner size="lg"/>
+            </div>
+          )
+          }
+          </div>
+          
               </>
        
      );

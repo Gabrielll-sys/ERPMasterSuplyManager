@@ -165,6 +165,9 @@ namespace SupplyManager.Controllers
 
                 {
                     ordemServico.ResponsavelAutorizacao = model.ResponsavelAutorizacao.ToUpper();
+                    ordemServico.PrecoCustoTotalOs = model.PrecoCustoTotalOs;
+                    ordemServico.PrecoVendaTotalOs = model.PrecoVendaTotalOs;
+                    ordemServico.DataFechamento = DateTime.Now;
 
                 }
 
@@ -208,7 +211,7 @@ namespace SupplyManager.Controllers
                 }
 
 
-
+                _context.OrdemServicos.Update(ordemServico);
                 await _context.SaveChangesAsync();
                 return Ok();
 
