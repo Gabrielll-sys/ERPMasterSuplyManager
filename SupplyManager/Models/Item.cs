@@ -14,23 +14,32 @@ namespace SupplyManager.Models
 
 
         [ForeignKey("MaterialId")]
-       public  Material Material { get; set; }
+       public  Material? Material { get; set; }
 
 
        public int OrdemServicoId { get; set; }
 
         [ForeignKey("OrdemServicoId")]
 
-        public OrdemServico OrdemServico { get; set; }
+        public OrdemServico? OrdemServico { get; set; }
 
+        //Responsável pela criação do item,no caso ficara fácil rastrear quem adicionou o material na ordem de serviço
+        public string ResponsavelAdicao { get; set; }
+        public string? ResponsavelMudanca { get; set; }
 
+        public DateTime DataAdicaoItem { get; set; }
+        public DateTime? DataAlteracaoItem { get; set; }
         public float? Quantidade { get; set; }
 
-       public Item(int materialId,int ordemServicoId,float? quantidade)
+       public Item(int materialId,int ordemServicoId,float? quantidade,string responsavelAdicao)
         {
             MaterialId = materialId;
             OrdemServicoId = ordemServicoId;
             Quantidade = quantidade;
+            ResponsavelAdicao = responsavelAdicao;
+            DataAdicaoItem = DateTime.Now;
+            DataAlteracaoItem = null;
+
         }
 
 

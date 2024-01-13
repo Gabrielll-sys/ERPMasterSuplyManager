@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SupplyManager.App;
+using SupplyManager.Interfaces;
 using SupplyManager.Models;
 
 namespace SupplyManager.Repository
@@ -13,11 +14,12 @@ namespace SupplyManager.Repository
         {
             _context = context;
         }
-        public async Task<List<Inventario>> GetAll()
+
+        public async Task<List<Material>> GetAllAsync()
         {
             try
             {
-                return (await _context.Inventarios.ToListAsync());
+                return await _context.Materiais.ToListAsync();
 
             }
             catch (Exception)
@@ -26,14 +28,13 @@ namespace SupplyManager.Repository
             }
         }
 
-        public async Task<Inventario> GetById(int id)
+        public async Task<Material> GetByIdAsync(int id)
         {
 
             try
             {
-                var inventario = await _context.Inventarios.FindAsync(id);
+                return await _context.Materiais.FindAsync(id);
 
-                return (inventario);
 
             }
             catch (Exception)
@@ -41,29 +42,65 @@ namespace SupplyManager.Repository
                 throw;
             }
         }
-
-        public async Task DeleteInventario(int id)
+        public async Task<Material> CreateAsync(Material model)
         {
-            var invetario = await _context.Inventarios.FindAsync(id) ??throw new KeyNotFoundException();
 
-            _context.Remove(invetario);
+            try
+            {
+                await _context.Materiais.AddAsync(model);
 
-            _context.SaveChanges();
+                await _context.SaveChangesAsync();
+
+                return model;
+              
+
+            }
+            catch(Exception) 
+            {
+
+                throw;
+            }
+
         }
-
-       
-
-
-
-        public async Task UpdateInventario(Inventario inventario)
+        public async Task UpdateAsync(Material model)
         {
-           _ = await _context.Inventarios.FindAsync(inventario.Id)?? throw new KeyNotFoundException();
+            try
+            {
 
-            _context.Inventarios.Update(inventario);
+            _ = await _context.Materiais.FindAsync(model.Id) ?? throw new KeyNotFoundException();
+
+            _context.Materiais.Update(model);
 
             await _context.SaveChangesAsync();
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
 
         }
+        public async Task DeleteAsync(int id)
+        {
+
+            try
+            {
+
+            var material = await _context.Materiais.FindAsync(id) ??throw new KeyNotFoundException();
+
+            _context.Remove(material);
+
+            _context.SaveChanges();
+            }
+
+              catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+      
     }
 }

@@ -75,10 +75,6 @@ namespace SupplyManager.Models
             Razao = razao;
             SaldoFinal -= quantidade;
             Movimentacao = - quantidade;
-
-
-        
-        
         }
 
 

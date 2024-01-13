@@ -31,7 +31,7 @@ namespace SupplyManager.Models
 
         public string? Localizacao { get; set; }
 
-       
+
         //Data de entrada da NOTA FISCAL
         public DateTime? DataEntradaNF { get; set; }
 
@@ -42,13 +42,13 @@ namespace SupplyManager.Models
 
 
 
-        public Material(string? codigoInterno, string? codigoFabricante, string? descricao,string? categoria, string? marca, string? corrente, string? unidade, string? tensao,string? localizacao, DateTime? dataEntradaNF,float?precoCusto,float?markup)
+        public Material(string? codigoInterno, string? codigoFabricante, string? descricao, string? categoria, string? marca, string? corrente, string? unidade, string? tensao, string? localizacao, DateTime? dataEntradaNF, float? precoCusto, float? markup)
 
         {
             CodigoInterno = codigoInterno;
-            CodigoFabricante= codigoFabricante;
+            CodigoFabricante = codigoFabricante;
             Descricao = descricao;
-            Categoria= categoria;
+            Categoria = categoria;
             Marca = marca;
             Corrente = corrente;
             Unidade = unidade;
@@ -64,8 +64,8 @@ namespace SupplyManager.Models
         //Este método será chamado quando for realizar put do material
         public void CalcularPrecoVenda()
         {
-            
-           if(PrecoCusto != null && PrecoCusto != 0 && Markup != null && Markup != 0)
+
+            if (PrecoCusto != null && PrecoCusto != 0 && Markup != null && Markup != 0)
             {
 
                 PrecoVenda = PrecoCusto + ((Markup / 100) * PrecoCusto);
@@ -73,9 +73,7 @@ namespace SupplyManager.Models
             }
 
         }
-       
 
-
-        }
 
     }
+}

@@ -21,13 +21,21 @@ namespace SupplyManager.Controllers
             _context = context;
         }
 
-
+        /// <summary>
+        /// Pega todos os itens criados
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Todos os itens ja criados</returns>
         [HttpGet()]
         public async Task<List<Item>> GetAll()
         {
             return (await _context.Itens.ToListAsync());
         }
-
+        /// <summary>
+        /// Pega o item por id
+        /// </summary>
+        /// <param name="id">Id do item</param>
+        /// <returns>Item encontrado</returns>
         [HttpGet("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -48,6 +56,13 @@ namespace SupplyManager.Controllers
 
 
         }
+
+
+        /// <summary>
+        /// Pega todos os materiais e quantidade que estão presentes em uma ordem de serviço
+        /// </summary>
+        /// <param name="id">Id da ordem de serviço</param>
+        /// <returns>Lista de todos os materias e suas quantidade presentes na Ordem de serviço</returns>
         [HttpGet("GetAllMateriaisOs/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -97,24 +112,28 @@ namespace SupplyManager.Controllers
 
 
         }
+        /// <summary>
+        /// Cria novo item
+        /// </summary>
+        /// <param name="id">Objeto de item para ser criado</param>
+        /// <returns>Item criado</returns>
         [HttpPost("CreateItem")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<Item>> Create(Item model)
+        public async Task<ActionResult<Item>> Create(ItemDto model)
         {
             try
             {
-                Item item = new Item(model.MaterialId, model.OrdemServicoId,model.Quantidade);
+                Item item = new Item(model.MaterialId, model.OrdemServicoId,model.Quantidade,model.ResponsavelAdicao);
                  
                 var material = await _context.Materiais.FirstOrDefaultAsync(x=>x.Id==model.MaterialId);
 
                 var ordemServico = await _context.OrdemServicos.FirstOrDefaultAsync(x=>x.Id == model.OrdemServicoId);
 
-                item.Material = material;
-                item.OrdemServico = ordemServico;
+            
                 await _context.Itens.AddAsync(item);
                 await _context.SaveChangesAsync();
 
@@ -138,9 +157,13 @@ namespace SupplyManager.Controllers
 
 
 
-        
 
 
+        /// <summary>
+        /// Atualiza Item
+        /// </summary>
+        /// <param name="id">Id do item a ser atualizado e seu objeto</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -156,8 +179,10 @@ namespace SupplyManager.Controllers
             var item = await _context.Itens.FirstOrDefaultAsync(x => x.Id == id);
 
             item.Quantidade = model.Quantidade;
+            item.ResponsavelMudanca=model.ResponsavelMudanca;
+            _context.Itens.Update(item);
+            await _context.SaveChangesAsync();
 
-            var a = 20;
             return Ok();
 
 
@@ -166,7 +191,11 @@ namespace SupplyManager.Controllers
 
 
         }
-
+        /// <summary>
+        /// Deleta item
+        /// </summary>
+        /// <param name="id">Id do item a ser deletado</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
 
         public async Task<ActionResult> Delete (int id)

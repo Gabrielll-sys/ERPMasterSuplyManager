@@ -20,7 +20,11 @@ namespace SupplyManager.Controllers
 
             _context = context;
         }
-
+        /// <summary>
+        /// Busca todos as ordem de serviços
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Todos as ordem de serviços </returns>
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -30,12 +34,16 @@ namespace SupplyManager.Controllers
 
         public async Task<List<OrdemServico>> GetAll()
         {
-            
+    
             return await _context.OrdemServicos.ToListAsync();
         }
 
 
-
+        /// <summary>
+        /// Busca uma ordem de serviço pelo seu Id
+        /// </summary>
+        /// <param name="id">O id da ordem de serviço</param>
+        /// <returns>Ordem de serviço encontrada</returns>
         [HttpGet("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -56,24 +64,56 @@ namespace SupplyManager.Controllers
 
 
         }
-
+        /// <summary>
+        /// Cria um ordem serviço
+        /// </summary>
+        /// <param name="model">Um objeto que representa a ordem de serviço a ser criada</param>
+        /// <returns>A ordem de serviço criada</returns>
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<OrdemServico>> Create(OrdemServico model)
+        public async Task<ActionResult<OrdemServico>> Create(OrdemServicoDto model)
         {
             try
             {
 
-                OrdemServico o1 = new OrdemServico(model.Descricao.ToUpper(), model.Responsavel,model.NumeroOs);
+                OrdemServico o1 = new OrdemServico
+                {
+                    Descricao = model.Descricao.ToUpper(),
+                    ResponsavelAbertura = model.ResponsavelAbertura,
+                    ResponsaveisExecucao = model.ResponsavelExecucao,
+                    IsAuthorized = false,
+                    DataAbertura = DateTime.Now,
+                    NumeroOs = model.NumeroOs,
+                    Observacoes = model.Observacoes,
+                };
+
+                var a = await _context.OrdemServicos.ToListAsync();
+
+                var findNumeroOs = a.FirstOrDefault(x => x.NumeroOs == model.NumeroOs);
+
+               /* if (findNumeroOs != null) 
+                {
+                return Ok(new { message = "Já existe OS com este número" });
+
+                }*/
+                //Caso não tenha sido informado o numero da os,quer dizer que se trata de uma os da master ao inves da brastorno
+                if (String.IsNullOrEmpty(o1.NumeroOs))
+                {
+                    var s = a.FirstOrDefault(o1 => o1.NumeroOs == model.NumeroOs);
+                    o1.NumeroOs = (a.Count+1).ToString();
+      
+                }
+
+                o1.Descricao = "OS-"+o1.NumeroOs+"-"+o1.Descricao;
 
                 await _context.OrdemServicos.AddAsync(o1);
-
+              
                 await _context.SaveChangesAsync();
-
+       
 
                 return Ok(o1);
 
@@ -93,6 +133,12 @@ namespace SupplyManager.Controllers
 
         }
 
+        /// <summary>
+        /// Atualizar a ordem de serviço, á autorizando
+        /// </summary>
+        /// <param name="id">O Id da ordem de serviço</param>
+        /// <param name="model">O objeto de ordem de serviço a ser atualizada e autorizada </param>
+        /// <returns></returns>
 
 
         [HttpPut("updateAuhorize/{id}")]
@@ -118,14 +164,17 @@ namespace SupplyManager.Controllers
                 var ordemServico = await _context.OrdemServicos.FirstOrDefaultAsync(x => x.Id == id);
 
                 {
-                    ordemServico.Responsavel = model.Responsavel.ToUpper();
+                    ordemServico.ResponsavelAutorizacao = model.ResponsavelAutorizacao.ToUpper();
+                    ordemServico.PrecoCustoTotalOs = model.PrecoCustoTotalOs;
+                    ordemServico.PrecoVendaTotalOs = model.PrecoVendaTotalOs;
+                    ordemServico.DataFechamento = DateTime.Now;
 
                 }
 
 
 
 
-                ordemServico.AutorizarOs();
+                ordemServico.AutorizarOs(model.ResponsavelAutorizacao);
 
 
                 foreach (var item in itens)
@@ -144,7 +193,7 @@ namespace SupplyManager.Controllers
                         Inventario i1 = new Inventario
                          (
                         ordemServico.Descricao,
-                        inventario[inventario.Count-1].SaldoFinal,
+                           inventario[inventario.Count-1].SaldoFinal,
                          inventario[inventario.Count - 1].Movimentacao,
                          inventario[inventario.Count - 1].SaldoFinal,
                          inventario[inventario.Count - 1].Responsavel,
@@ -152,9 +201,9 @@ namespace SupplyManager.Controllers
                     );
                         //Formatara a string que aparece como a razao da movimentacão do inventário,caso OS seja da master elétrica,utilizará o próprio id
                         // D os como identificador pois no caso da master toda OS e sequencial,caso seja da brastorno será o numero deles ja vindo deles
-                        string descricaoOsFormated = ordemServico.NumeroOs != null ? $" {item.Quantidade} {material.Unidade} {(item.Quantidade>1?"utilizadas":"utilizada")} na OS-{ordemServico.NumeroOs}-{ordemServico.Descricao}" : $"Material Utilizado na OS-{ordemServico.Id}-{ordemServico.Descricao}";
+                        string descricaoOsFormated =   $" {item.Quantidade} {material.Unidade} {(item.Quantidade > 1 ? "utilizadas" : "utilizada")} na {ordemServico.Descricao}" ;
 
-                        i1.MovimentacaoOrdemServico(item.Quantidade,descricaoOsFormated);
+                        i1.MovimentacaoOrdemServico(item.Quantidade, descricaoOsFormated);
 
                         await _context.Inventarios.AddAsync(i1);
                     }
@@ -162,7 +211,7 @@ namespace SupplyManager.Controllers
                 }
 
 
-
+                _context.OrdemServicos.Update(ordemServico);
                 await _context.SaveChangesAsync();
                 return Ok();
 
@@ -184,7 +233,12 @@ namespace SupplyManager.Controllers
 
         }
 
-
+        /// <summary>
+        /// Atualizar a ordem de serviço sem autoriza-la
+        /// </summary>
+        /// <param name="id">O Id da ordem de serviço</param>
+        /// <param name="model">O objeto de ordem de serviço a ser atualizada</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -198,26 +252,23 @@ namespace SupplyManager.Controllers
             if (model.Id != id) return BadRequest();
 
             var a = await _context.OrdemServicos.FirstOrDefaultAsync(x => x.Id == id);
+            {
+                a.Descricao = model.Descricao.ToUpper();
+                a.NumeroOs = model.NumeroOs;
+                a.ResponsaveisExecucao = model.ResponsaveisExecucao;
+                a.Observacoes = model.Observacoes;
+
+            }
+            a.Descricao = "OS-" + model.NumeroOs + "-" + model.Descricao;
+
+            _context.OrdemServicos.Update(a);
+            await _context.SaveChangesAsync();
 
             return Ok();
 
 
 
-
-
-
         }
-
-
-
-
-
-
-
-
-
-
-
 
 
     }

@@ -1,11 +1,11 @@
 import type { Config } from 'tailwindcss'
-const {nextui} = require("@nextui-org/react");
+import { nextui } from '@nextui-org/react';
 const config: Config = {
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "/node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -22,7 +22,8 @@ const config: Config = {
         green: "#3d9970",
         grey: "#3b4849",
         master_black:"#2A2E48",
-        master_yellow:"#FCDD74"
+        master_yellow:"#FCDD74",
+        cardbg_color:"#404040",
       },
       fontFamily: {
         sans: ['Roboto', 'Sans-serif'],

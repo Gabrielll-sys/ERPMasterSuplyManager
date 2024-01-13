@@ -1,6 +1,6 @@
 "use client"
 import NavBar from "../componentes/NavBar"
-import { Button, Input } from "@nextui-org/react";
+import { Avatar, Button, Input } from "@nextui-org/react";
 import Header from "../componentes/Header";
 import { useRouter } from "next/navigation";
 
@@ -33,6 +33,8 @@ import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 
 import SearchIcon from '@mui/icons-material/Search';
 import Snackbar from "@mui/material/Snackbar";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
 export default function SearchInvetory(){
     
 
@@ -59,6 +61,7 @@ export default function SearchInvetory(){
 
     const route = useRouter()
 
+    const { data: session } = useSession();
 
   const [descricao, setDescricao] = useState("");
   const [codigoInterno,setCodigoInterno] = useState("")
@@ -194,7 +197,7 @@ catch(e){
 
 const searchByFabricanteCode = async () => {
  
- console.log("Chamou")
+
   try{
 
   const res = await axios
@@ -230,19 +233,18 @@ catch(e){
 
 </div>
       <h1  className="text-center mt-14 text-2xl">Gerenciamento de Inventário</h1>
-    
-
+   
       <div className=" text-center mt-11" >
       
 
-      <TextField
+      <Input
         
           value={codigoInterno}
-          style={{ marginTop: "40px", marginLeft: "20px", marginRight: "20px" }}
-          className="inputs"
-          onChange={(e) => setCodigoInterno(e.target.value)}
+          className='w-[120px] max-sm:mx-auto border-1 border-black rounded-md shadow-sm shadow-black mx-auto'
+          onValueChange={setCodigoInterno}
           label="Código Interno"
-          required
+          autoFocus
+    
         />
 
 

@@ -60,6 +60,12 @@ namespace SupplyManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("DataAdicaoItem")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("DataAlteracaoItem")
+                        .HasColumnType("datetime");
+
                     b.Property<int>("MaterialId")
                         .HasColumnType("int");
 
@@ -68,6 +74,13 @@ namespace SupplyManager.Migrations
 
                     b.Property<float?>("Quantidade")
                         .HasColumnType("float");
+
+                    b.Property<string>("ResponsavelAdicao")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ResponsavelMudanca")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -134,7 +147,13 @@ namespace SupplyManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("DataAbertura")
+                        .HasColumnType("datetime");
+
                     b.Property<DateTime?>("DataAutorizacao")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("DataFechamento")
                         .HasColumnType("datetime");
 
                     b.Property<string>("Descricao")
@@ -143,10 +162,25 @@ namespace SupplyManager.Migrations
                     b.Property<bool>("IsAuthorized")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int?>("NumeroOs")
-                        .HasColumnType("int");
+                    b.Property<string>("NumeroOs")
+                        .HasColumnType("longtext");
 
-                    b.Property<string>("Responsavel")
+                    b.Property<string>("Observacoes")
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal?>("PrecoCustoTotalOs")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal?>("PrecoVendaTotalOs")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("ResponsaveisExecucao")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ResponsavelAbertura")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ResponsavelAutorizacao")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

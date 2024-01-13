@@ -7,9 +7,12 @@ using SupplyManager.Validations.MateriaisValidations;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.IO;
-
+using SupplyManager.Extensions;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
+using System.ComponentModel;
+using System.Linq;
+
 namespace SupplyManager.Controllers
 {
 
@@ -33,14 +36,16 @@ namespace SupplyManager.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        ///<summary>
-        ///Controlador para gerenciar as Categorias
+        /// <summary>
+        /// Busca todos os materiais
         /// </summary>
-        /// <returns>Todas os Materiais</returns>
-        /// <response code="200">User found</response>
-        /// <response code="404">User not found</response>
-        /// <response code="500">Server Error</response>
+        /// <returns>Todos os materiais </returns>
+        [HttpGet]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<List<Material>>> GetAll()
         {
 
@@ -54,7 +59,11 @@ namespace SupplyManager.Controllers
 
         }
 
-
+        /// <summary>
+        /// Obtem material por id
+        /// </summary>
+        /// <param name="id">Id do material para ser obtido</param>
+        /// <returns>Materiais encontrado</returns>
         [HttpGet("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -85,35 +94,34 @@ namespace SupplyManager.Controllers
 
 
         }
-
-        [HttpGet("buscaCodigo/{codigoInterno}")]
-     
-
+        /// <summary>
+        /// Obtem material com o ultimo registro de seu inventário
+        /// </summary>
+        /// <param name="id">Id do material</param>
+        /// <returns>Material e inventário encontrado</returns>
+        [HttpGet("getMaterialWithInvetory/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<Material>> GetLastMaterial(string codigoInterno)
+        public async Task<ActionResult<Material>> GetMaterialwithInvetory(int id)
         {
 
             try
             {
-                var queryMaterial = from query in _context.Materiais select query;
+                var materialWithInventory = await _context.Inventarios.Include(s => s.Material).Where(x =>x.MaterialId==id).ToListAsync();
 
-                queryMaterial = queryMaterial.Where(x => x.CodigoInterno == codigoInterno).OrderBy(x => x.Id);
-                /*  var material = await _context.Materiais.FindAsync(id);*/
+                return Ok(materialWithInventory[materialWithInventory.Count-1]);
 
+             
 
-                var material = await queryMaterial.ToListAsync();
-                //Retornara o ultimo item da lista encontrado,no qual o ultimo que teve "atualização" no estoque saldo final etc
-                return Ok(material[material.Count - 1]);
-
+      
             }
-
+              
             catch (KeyNotFoundException)
             {
-                return StatusCode(StatusCodes.Status400BadRequest);
+                return StatusCode(StatusCodes.Status404NotFound);
             }
             catch (Exception exception)
             {
@@ -122,59 +130,14 @@ namespace SupplyManager.Controllers
 
 
         }
-        [HttpGet(template: "buscaCategoria")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<Material>> Busca(string categoria)
-        {
+        
 
-
-            try
-            {
-                List<Material> materiais = new List<Material>();
-                List<string> codigos = new List<string>();
-
-                var queryMaterial = from query in _context.Materiais select query;
-           
-
-                //Ordena a busca de materia
-                queryMaterial =  queryMaterial.Where(c => c.Categoria.Contains(categoria));
-                var v = queryMaterial.ToList();
-
-                foreach (var item in v)
-                {
-
-                    if (!codigos.Contains(item.CodigoInterno) || !codigos.Contains(item.CodigoFabricante))
-                    {
-
-                        materiais.Add(item);
-                        codigos.Add(item.CodigoInterno);
-                        codigos.Add(item.CodigoFabricante);
-
-                    }
-
-
-                }
-
-
-
-                return Ok(materiais);
-            }
-
-            catch (KeyNotFoundException)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest);
-            }
-            catch (Exception exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
-            }
-
-
-        }
+  
+        /// <summary>
+        /// Busca materiais com a descrição
+        /// </summary>
+        /// <param name="id">A descrição do material</param>
+        /// <returns>Materiais encontrados com a descrição passado</returns>
         [HttpGet(template: "buscaDescricao")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -210,107 +173,11 @@ namespace SupplyManager.Controllers
 
         }
 
-        [HttpGet(template: "buscaInventario")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<Material>> BuscaDescricaoInventario(string descricao)
-        {
-
-
-            try
-            {
-                var queryMaterial = from query in _context.Materiais select query;
-
-
-                //Ordena a busca de materia
-
-                queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao)).OrderBy(x => x.Id);
-
-
-
-                return Ok(await queryMaterial.ToListAsync());
-            }
-
-            catch (KeyNotFoundException)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest);
-            }
-            catch (Exception exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
-            }
-
-
-        }
-        [HttpGet(template: "buscaCodigoInterno")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-
-        public async Task<ActionResult<Material>> BuscaCodigoInterno(string codigo)
-        {
-
-            try
-            {
-
-                var queryMaterial = from query in _context.Materiais select query;
-
-
-                queryMaterial = queryMaterial.Where(x => x.CodigoInterno.Contains(codigo));
-
-                return Ok(await queryMaterial.ToListAsync());
-
-
-            }
-
-            catch (KeyNotFoundException)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest);
-            }
-            catch (Exception exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
-            }
-
-        }
-        [HttpGet(template: "buscaCodigoFabricante")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-
-        public async Task<ActionResult<Material>> BuscaCodigoFabricante(string codigo)
-        {
-
-            try
-            {
-
-                var queryMaterial = from query in _context.Materiais select query;
-
-
-                queryMaterial = queryMaterial.Where(x => x.CodigoFabricante.Contains(codigo));
-
-                return Ok(await queryMaterial.ToListAsync());
-
-
-            }
-
-            catch (KeyNotFoundException)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest);
-            }
-            catch (Exception exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
-            }
-
-        }
+        /// <summary>
+        /// Criar novo material
+        /// </summary>
+        /// <param name="id">Objeto material para ser criado</param>
+        /// <returns>Materiais criado</returns>
         [HttpPost()]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -414,7 +281,7 @@ namespace SupplyManager.Controllers
 
             var queryMaterial = from query in _context.Materiais select query;
 
-            var a = queryMaterial.Where(x => x.CodigoFabricante == model.CodigoFabricante && x.Descricao == model.Descricao); ;
+            var a = queryMaterial.Where(x => x.CodigoFabricante == model.CodigoFabricante && x.Descricao == model.Descricao); 
 
             var invetorys = await a.ToListAsync();
 
@@ -442,12 +309,21 @@ namespace SupplyManager.Controllers
                         m1.Tensao = String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao;
                         m1.Localizacao = String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper();
                         m1.DataEntradaNF = model.DataEntradaNF;
-                        m1.PrecoCusto = model.PrecoCusto;
+                        m1.PrecoCusto =  model.PrecoCusto;
+                        m1.PrecoVenda = model.PrecoVenda;
+
                         m1.Markup = model.Markup;
 
 
                     }
+
+                   
+              
+
                     m1.CalcularPrecoVenda();
+
+                    
+
 
                     if (m1.PrecoCusto == 0)
                     {
@@ -468,6 +344,7 @@ namespace SupplyManager.Controllers
                 foreach (var invetario in invetorys)
                 {
                     var m1 = await _context.Materiais.FindAsync(invetario.Id);
+                    
 
                     {
 
@@ -480,13 +357,19 @@ namespace SupplyManager.Controllers
                         m1.Tensao = String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao;
                         m1.Localizacao = String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper();
                         m1.DataEntradaNF = model.DataEntradaNF;
-                        m1.PrecoCusto = model.PrecoCusto;
+                        m1.PrecoCusto =  model.PrecoCusto;
+                        m1.PrecoVenda =  model.PrecoVenda;
                         m1.Markup = model.Markup;
 
                     }
 
+                  
+            
                     m1.CalcularPrecoVenda();
+                    
 
+
+        
                     if (m1.PrecoCusto == 0)
                     {
                         m1.PrecoVenda = 0;
@@ -515,7 +398,6 @@ namespace SupplyManager.Controllers
         /// <summary>
         /// Deleta o material pelo id fornecido
         /// </summary>
-        /// 
         /// <param name="id"> O id do material a ser deletado</param>
         /// <returns></returns>
 
@@ -561,11 +443,6 @@ namespace SupplyManager.Controllers
 
 
         }
-
-
-
-
-
 
     }
 }
