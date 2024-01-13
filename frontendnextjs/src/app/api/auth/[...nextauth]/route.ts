@@ -10,7 +10,7 @@ const handler = NextAuth({
     }),
     
   ],
-  secret: process.env.SECRET
+  secret: process.env.NEXTJS_SECRET
   // callbacks: {
   //   async jwt({ token, user }: any) {
   //     if (user) {
