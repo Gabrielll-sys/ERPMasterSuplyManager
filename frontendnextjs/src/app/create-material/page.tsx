@@ -427,9 +427,7 @@ console.log(e)
       <Button  onPress={handleCreateMaterial} className='bg-master_black text-white p-7 rounded-lg font-bold text-2xl shadow-lg '>
           {loadingButton?<Spinner size="md" color="warning"/>:"Criar Material"}
       </Button>
-      <Button className="text-white bg-master_black p-4 font-bold ml-5" onClick={()=>handlePrint()}>
-      Limpar
-      </Button>
+     
      
       </div>
       </>
