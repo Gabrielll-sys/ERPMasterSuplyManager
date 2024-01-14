@@ -216,7 +216,7 @@ namespace SupplyManager.Controllers
                 {
 
                     var filterResult = await _context.Inventarios.Include(s => s.Material)
-                        .Where(x => x.Material.PrecoVenda > model.PrecoVendaMin).ToListAsync();
+                        .Where(x => x.Material.PrecoVenda > model.PrecoVendaMin).OrderBy(x=>x.Material.PrecoVenda).ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -705,8 +705,8 @@ namespace SupplyManager.Controllers
                    model.PrecoVendaMin.HasValue &&
                   !model.PrecoCustoMin.HasValue &&
                   !model.PrecoCustoMax.HasValue &&
-                   String.IsNullOrEmpty(model.Descricao) &&
-                  !String.IsNullOrEmpty(model.Marca)
+                  !String.IsNullOrEmpty(model.Descricao) &&
+                   String.IsNullOrEmpty(model.Marca)
 
                    )
                 {
