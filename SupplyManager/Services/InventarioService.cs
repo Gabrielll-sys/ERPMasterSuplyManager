@@ -45,14 +45,19 @@ namespace SupplyManager.Services
             }
         }
 
-        public Task<Inventario> GetLastRegister(int id)
+        public async Task<Inventario> GetLastRegister(int id)
         {
 
             try
             {
+                var i1 = await _inventarioRepository.GetAllAsync();
+
+                var lastRegister = i1.Where(x => x.MaterialId == id).OrderBy(x=>x.Id).Last();
+
+                return lastRegister;
 
 
-                throw new NotImplementedException();
+           
             }
             catch (Exception)
             {
@@ -63,7 +68,18 @@ namespace SupplyManager.Services
         {
             try
             {
-                throw new NotImplementedException();
+                var i1 = await _inventarioRepository.GetAllAsync();
+
+                var invetory = i1.Where(x => x.MaterialId == model.MaterialId).OrderBy(x => x.Id).ToList();
+
+                if(invetory.Count is 1 or invetory.Count is 1)
+                {
+
+
+
+                }
+
+
             }
 
             catch (Exception)

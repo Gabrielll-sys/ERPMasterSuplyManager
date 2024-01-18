@@ -27,10 +27,6 @@ namespace SupplyManager.Controllers
     {
         private readonly SqlContext _context;
 
-
-
-
-
         public InventariosController(SqlContext context)
         {
 
@@ -705,8 +701,8 @@ namespace SupplyManager.Controllers
                    model.PrecoVendaMin.HasValue &&
                   !model.PrecoCustoMin.HasValue &&
                   !model.PrecoCustoMax.HasValue &&
-                  !String.IsNullOrEmpty(model.Descricao) &&
-                   String.IsNullOrEmpty(model.Marca)
+                  String.IsNullOrEmpty(model.Descricao) &&
+                  !String.IsNullOrEmpty(model.Marca)
 
                    )
                 {
