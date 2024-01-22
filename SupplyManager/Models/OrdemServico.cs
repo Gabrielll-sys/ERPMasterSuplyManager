@@ -53,7 +53,7 @@ namespace SupplyManager.Models
           
                 ResponsavelAutorizacao = responsavelAutorizacao;
                 IsAuthorized = true;
-                DataAutorizacao = DateTime.Now;
+                DataAutorizacao = DateTime.UtcNow.AddYears(-3);
 
             
         }

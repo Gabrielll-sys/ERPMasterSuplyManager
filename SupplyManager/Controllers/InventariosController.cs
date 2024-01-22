@@ -10,7 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using SupplyManager.App;
+using SupplyManager.Interfaces;
 using SupplyManager.Models;
+using SupplyManager.Services;
 using SupplyManager.Validations.InventarioValidations;
 using SupplyManager.Validations.MateriaisValidations;
 using static NPOI.HSSF.Util.HSSFColor;
@@ -26,11 +28,13 @@ namespace SupplyManager.Controllers
     public class InventariosController : ControllerBase
     {
         private readonly SqlContext _context;
-
-        public InventariosController(SqlContext context)
+        private readonly IInventarioService _inventarioService;
+        public InventariosController(SqlContext context,IInventarioService inventarioService)
         {
 
             _context = context;
+            _inventarioService = inventarioService;
+
         }
         /// <summary>
         /// Busca todos os registros de inventários
@@ -43,43 +47,17 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<Material>> GetAllInventarios()
+        public async Task<ActionResult<List<Inventario>>> GetAllInventarios()
         {
 
             try
             {
-                var queryMaterial = _context.Materiais;
-                var queryInvetory = await _context.Inventarios.ToListAsync();
 
-                List<Inventario> listInvetory = new List<Inventario>();
+             return await _inventarioService.GetAllInventarioAsync();
+                
+                
 
-
-                //Realiza uma busca no banco de materias para buscar match na descrição de acordo com a busca
-  
-                var materiais = await queryMaterial.ToListAsync();
-                //Faz um iteração em todos os materiais com aquela descrição
-                foreach (var item in materiais)
-                {
-                    //Realiza um filtro buscando todos os invetários daquele material,ou seja,retornara todos os registros de invetário daquele produto
-                    var inventarios = queryInvetory.Where(x => x.MaterialId == item.Id).ToList();
-
-
-                    var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == inventarios[0].MaterialId);
-
-
-                    inventarios[inventarios.Count - 1].Material = material;
-
-
-
-                    listInvetory.Add(inventarios[inventarios.Count - 1]);
-
-
-
-
-
-                }
-
-                return Ok(listInvetory);
+        
             }
 
             catch (KeyNotFoundException)

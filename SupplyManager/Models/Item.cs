@@ -37,7 +37,7 @@ namespace SupplyManager.Models
             OrdemServicoId = ordemServicoId;
             Quantidade = quantidade;
             ResponsavelAdicao = responsavelAdicao;
-            DataAdicaoItem = DateTime.Now;
+            DataAdicaoItem = DateTime.UtcNow.AddYears(-3);
             DataAlteracaoItem = null;
 
         }

@@ -100,7 +100,7 @@ export default function UpdateMaterial({params}:any){
  //e para realizar a  edição aqui
  const verifyNull = (item:any)=>{
  
-   return item==null?0:item
+   return item==null?"":item
  
  }
 
