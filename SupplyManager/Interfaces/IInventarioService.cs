@@ -13,9 +13,11 @@ namespace SupplyManager.Interfaces
         /// <param name="id">If of material</param>
         /// <returns>The last register of some material</returns>
         Task <Inventario> GetLastRegister (int id);
-        Task <Inventario> GetByCodigoFabricante (string codigoFabricante);
-        Task <Inventario> GetByDescricao (string descricao);
+        Task <List<Inventario>> GetByCodigoFabricante (string codigoFabricante);
+
+        Task <List<Inventario>> GetByDescricao (string descricao);
         Task <Inventario> CreateAsync (Inventario model);
+        Task <Inventario> RemoveQuantidadeEstoque (Inventario model);
         Task <Inventario> UpdateAsync (Inventario model);
 
 

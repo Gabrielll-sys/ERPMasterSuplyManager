@@ -10,10 +10,7 @@ namespace SupplyManager.Models
         [Key]
         public int Id { get; set; }
 
-        public int MaterialId { get; set; }
-
-
-        [ForeignKey("MaterialId")]
+       [ForeignKey("MaterialId")]
        public  Material? Material { get; set; }
 
 
@@ -22,7 +19,6 @@ namespace SupplyManager.Models
         [ForeignKey("OrdemServicoId")]
 
         public OrdemServico? OrdemServico { get; set; }
-
         //Responsável pela criação do item,no caso ficara fácil rastrear quem adicionou o material na ordem de serviço
         public string ResponsavelAdicao { get; set; }
         public string? ResponsavelMudanca { get; set; }
@@ -37,7 +33,7 @@ namespace SupplyManager.Models
             OrdemServicoId = ordemServicoId;
             Quantidade = quantidade;
             ResponsavelAdicao = responsavelAdicao;
-            DataAdicaoItem = DateTime.Now;
+            DataAdicaoItem = DateTime.UtcNow.AddYears(-3);
             DataAlteracaoItem = null;
 
         }

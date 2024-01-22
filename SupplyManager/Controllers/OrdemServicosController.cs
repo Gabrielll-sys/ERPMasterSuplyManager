@@ -86,7 +86,7 @@ namespace SupplyManager.Controllers
                     ResponsavelAbertura = model.ResponsavelAbertura,
                     ResponsaveisExecucao = model.ResponsavelExecucao,
                     IsAuthorized = false,
-                    DataAbertura = DateTime.Now,
+                    DataAbertura = DateTime.UtcNow.AddHours(-3),
                     NumeroOs = model.NumeroOs,
                     Observacoes = model.Observacoes,
                 };
@@ -167,7 +167,7 @@ namespace SupplyManager.Controllers
                     ordemServico.ResponsavelAutorizacao = model.ResponsavelAutorizacao.ToUpper();
                     ordemServico.PrecoCustoTotalOs = model.PrecoCustoTotalOs;
                     ordemServico.PrecoVendaTotalOs = model.PrecoVendaTotalOs;
-                    ordemServico.DataFechamento = DateTime.Now;
+                    ordemServico.DataFechamento = DateTime.UtcNow.AddYears(-3);
 
                 }
 

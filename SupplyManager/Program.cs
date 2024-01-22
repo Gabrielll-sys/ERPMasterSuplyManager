@@ -66,28 +66,19 @@ builder.Services.AddVersionedApiExplorer(options =>
 
 // Add services to the container.
 
+
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-
-#region Scopes 
-/*
-builder.Services.AddScoped<IMaterialRepositoy,MaterialRepository>();
-builder.Services.AddScoped<IMaterialService,MaterialService>();
-builder.Services.AddScoped<IInventarioRepository, InventarioRepository>();
-builder.Services.AddScoped<IInventarioService, InventarioService>();
-builder.Services.AddScoped<IItemRepository, ItemRepository>();
-builder.Services.AddScoped<IItemService, ItemService>();
-builder.Services.AddScoped<IOrdemServicoRepository, OrdemServicoRepository>();
-builder.Services.AddScoped<IOrdemServicoService, OrdemServicoService>();*/
-
-#endregion
-
-
-var app = builder.Build();
-
+builder.Services.AddTransient<IInventarioService, InventarioService>();
+builder.Services.AddTransient<IInventarioRepository, InventarioRepository>();
+builder.Services.AddTransient<IMaterialService, MaterialService>();
+builder.Services.AddTransient<IMaterialRepository, MaterialRepository>();
+builder.Services.AddTransient<IFornecedorService, FornecedorService>();
+builder.Services.AddTransient<IFornecedorRepository, FornecedorRepository>();
+var app = builder.BFornecedor
 // Configure the HTTP request pipeline.
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -95,7 +86,6 @@ var app = builder.Build();
 {
 }
 */
-
 
 app.UseCors(option => option.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 

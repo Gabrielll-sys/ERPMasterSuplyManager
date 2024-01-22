@@ -228,6 +228,13 @@
             <param name="id">If of material</param>
             <returns>The last register of some material</returns>
         </member>
+        <member name="M:SupplyManager.Interfaces.IMaterialService.CreateAsync(SupplyManager.Models.Material)">
+            <summary>
+            Get the last move register os move of some material
+            </summary>
+            <param name="id">If of material</param>
+            <returns>The last register of some material</returns>
+        </member>
         <member name="T:SupplyManager.Migrations.v1">
             <inheritdoc />
         </member>

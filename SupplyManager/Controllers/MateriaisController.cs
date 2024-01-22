@@ -12,6 +12,7 @@ using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System.ComponentModel;
 using System.Linq;
+using SupplyManager.Interfaces;
 
 namespace SupplyManager.Controllers
 {
@@ -25,15 +26,17 @@ namespace SupplyManager.Controllers
     public class MateriaisController : ControllerBase
     {
         private readonly SqlContext _context;
+        private readonly IMaterialService _materialService;
         IWorkbook workbook;
 
 
 
 
-        public MateriaisController(SqlContext context)
+        public MateriaisController(SqlContext context,IMaterialService materialService)
         {
 
             _context = context;
+            _materialService = materialService;
         }
 
         /// <summary>
@@ -49,13 +52,8 @@ namespace SupplyManager.Controllers
         public async Task<ActionResult<List<Material>>> GetAll()
         {
 
-
-            workbook = new XSSFWorkbook();
-
-            var s1 = workbook.CreateSheet("Planilha 1");
-            var materiais = await _context.Materiais.ToListAsync();
           
-            return materiais == null ? NotFound() : Ok(materiais);
+            return Ok(await _materialService.GetAllMateriaisAsync());
 
         }
 

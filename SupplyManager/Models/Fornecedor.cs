@@ -1,8 +1,11 @@
-﻿namespace SupplyManager.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SupplyManager.Models
 {
     public class Fornecedor
     {
-
+        [Key]
+        public int Id { get; set; }
         public string? Nome { get; set; }
         public string? Endereco { get; set; }
         public string? Numero { get; set; }

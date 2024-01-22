@@ -8,9 +8,9 @@ namespace SupplyManager.Services
 {
     public class InventarioService : IInventarioService
     {
-        private readonly InventarioRepository _inventarioRepository;
+        private readonly IInventarioRepository _inventarioRepository;
 
-        public InventarioService(InventarioRepository inventarioRepository) 
+        public InventarioService(IInventarioRepository inventarioRepository) 
         {
             _inventarioRepository = inventarioRepository;
         }
@@ -31,6 +31,9 @@ namespace SupplyManager.Services
 
         }
 
+        
+
+
         public async Task<Inventario> GetByIdAsync(int id)
         {
             try
@@ -45,14 +48,19 @@ namespace SupplyManager.Services
             }
         }
 
-        public Task<Inventario> GetLastRegister(int id)
+        public async Task<Inventario> GetLastRegister(int id)
         {
 
             try
             {
+                var i1 = await _inventarioRepository.GetAllAsync();
+
+                var lastRegister = i1.Where(x => x.MaterialId == id).OrderBy(x=>x.Id).Last();
+
+                return lastRegister;
 
 
-                throw new NotImplementedException();
+           
             }
             catch (Exception)
             {
@@ -63,7 +71,50 @@ namespace SupplyManager.Services
         {
             try
             {
-                throw new NotImplementedException();
+                var all = await _inventarioRepository.GetAllAsync();
+
+                var invetory = all.Where(x => x.MaterialId == model.MaterialId).OrderBy(x => x.Id).ToList();
+
+                if(invetory.Count <=1)
+                {
+
+                    Inventario invetory1 = new Inventario
+                        (
+                        model.Razao,
+                        0,
+                        model.Movimentacao,
+                        model.SaldoFinal,
+                        model.Responsavel,
+                        model.MaterialId
+                        );
+
+
+                    invetory1.EstoqueMovimentacao(model.SaldoFinal);
+                    await _inventarioRepository.CreateAsync(invetory1);
+         
+
+                    return (invetory1);
+
+
+                }
+                Inventario i1 = new Inventario
+                                   (
+                                   model.Razao,
+                                   model.Estoque,
+                                   model.Movimentacao,
+                                   model.SaldoFinal,
+                                   model.Responsavel,
+                                   model.MaterialId
+                                   );
+
+                var a = i1.EstoqueMovimentacao(model.SaldoFinal);
+
+
+
+                await _inventarioRepository.CreateAsync(i1);
+
+                return (i1);
+
             }
 
             catch (Exception)
@@ -71,15 +122,43 @@ namespace SupplyManager.Services
                 throw;
             }
         }
+        public async Task<Inventario> RemoveQuantidadeEstoque(Inventario model)
+        {
+            try
+            {
+                Inventario i1 = new Inventario
+                  (
+                  model.Razao,
+                  model.Estoque,
+                  model.Movimentacao,
+                  model.SaldoFinal,
+                  model.Responsavel,
+                  model.MaterialId
+                  );
 
+                await _inventarioRepository.CreateAsync(i1);
+
+                return (i1);
+            }
+            catch (Exception)
+            {
+                throw;
+
+            }
+
+        }
        
 
-        public Task<Inventario> GetByCodigoFabricante(string codigoFabricante)
+        public async Task<List<Inventario>> GetByCodigoFabricante(string codigoFabricante)
         {
             try
             {
-                throw new NotImplementedException();
+                var all =  await _inventarioRepository.GetAllAsync();
 
+                var inventarioWitchCodigoFabricante = all.Where(x=>x.Material.CodigoFabricante.Contains(codigoFabricante)).OrderBy(x=>x.Id);
+
+                return (List<Inventario>)inventarioWitchCodigoFabricante;
+                
             }
             catch (Exception)
             {
@@ -88,11 +167,15 @@ namespace SupplyManager.Services
             }
         }
 
-        public Task<Inventario> GetByDescricao(string descricao)
+        public async Task<List<Inventario>> GetByDescricao(string descricao)
         {
             try
             {
-                throw new NotImplementedException();
+                var all = await _inventarioRepository.GetAllAsync();
+
+                var inventarioWitchCodigoFabricante = all.Where(x => x.Material.Descricao.Contains(descricao)).OrderBy(x => x.Id);
+
+                return (List<Inventario>)inventarioWitchCodigoFabricante;
 
             }
             catch (Exception)
@@ -104,11 +187,13 @@ namespace SupplyManager.Services
 
 
       
-        public Task<Inventario> UpdateAsync(Inventario model)
+        public async Task<Inventario> UpdateAsync(Inventario model)
         {
             try
             {
-                throw new NotImplementedException();
+                await _inventarioRepository.UpdateAsync(model);
+
+                return model;
 
             }
             catch (Exception)

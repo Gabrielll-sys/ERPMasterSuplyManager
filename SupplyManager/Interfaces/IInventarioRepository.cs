@@ -12,7 +12,7 @@ namespace SupplyManager.Interfaces
 
         Task<Inventario> CreateAsync(Inventario model);
 
-        Task UpdateAsync(Inventario inventario);
+        Task<Inventario> UpdateAsync(Inventario inventario);
 
 
         Task DeleteAsync(int id);
