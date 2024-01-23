@@ -78,7 +78,12 @@ builder.Services.AddTransient<IMaterialService, MaterialService>();
 builder.Services.AddTransient<IMaterialRepository, MaterialRepository>();
 builder.Services.AddTransient<IFornecedorService, FornecedorService>();
 builder.Services.AddTransient<IFornecedorRepository, FornecedorRepository>();
-var app = builder.BFornecedor
+builder.Services.AddTransient<INotaFiscalService, NotaFiscalService>();
+builder.Services.AddTransient<INotaFiscalRepository, NotaFiscalRepository>();
+builder.Services.AddTransient<IItemNotaFiscalService, ItemNotaFiscalService>();
+builder.Services.AddTransient<IItemNotaFiscalRepository, ItemNotaFiscalRepository>();
+
+var app = builder.Build();
 // Configure the HTTP request pipeline.
     app.UseSwagger();
     app.UseSwaggerUI();

@@ -4,7 +4,7 @@ namespace SupplyManager.Interfaces
 {
     public interface IItemNotaFiscalService
     {
-        Task<ItemNotaFiscal> GetByIdAsync(int? id);
+        Task<ItemNotaFiscal> GetByIdAsync(int id);
 
 
         Task<List<ItemNotaFiscal>> GetAllAsync();

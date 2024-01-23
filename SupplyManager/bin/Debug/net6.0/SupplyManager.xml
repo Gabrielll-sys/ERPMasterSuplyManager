@@ -4,6 +4,11 @@
         <name>SupplyManager</name>
     </assembly>
     <members>
+        <member name="T:SupplyManager.Controllers.FornecedoresController">
+            <summary>
+            Controlador para gerenciar os Fornecedores
+             </summary>
+        </member>
         <member name="T:SupplyManager.Controllers.InventariosController">
             <summary>
             Controlador para gerenciar os Materias
@@ -126,6 +131,11 @@
             <param name="id">Id do item a ser deletado</param>
             <returns></returns>
         </member>
+        <member name="T:SupplyManager.Controllers.ItensNotasFiscaisController">
+            <summary>
+            Controlador para gerenciar os Itens da Nota Fiscal
+             </summary>
+        </member>
         <member name="T:SupplyManager.Controllers.MateriaisController">
             <summary>
             Controlador para gerenciar os Materias
@@ -183,6 +193,11 @@
             </summary>
             <param name="id"> O id do material a ser deletado</param>
             <returns></returns>
+        </member>
+        <member name="T:SupplyManager.Controllers.NotasFiscaisController">
+            <summary>
+            Controlador para gerenciar as Notas Fiscais
+             </summary>
         </member>
         <member name="M:SupplyManager.Controllers.OrdemServicosController.GetAll">
             <summary>
@@ -509,6 +524,18 @@
             <inheritdoc />
         </member>
         <member name="M:SupplyManager.Migrations.v23.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v24">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v24.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v24.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v24.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

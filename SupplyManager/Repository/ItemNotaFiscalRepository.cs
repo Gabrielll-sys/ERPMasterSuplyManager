@@ -5,22 +5,22 @@ using SupplyManager.Models;
 
 namespace SupplyManager.Repository
 {
-    public class FornecedorRepository:IFornecedorRepository
+    public class ItemNotaFiscalRepository:IItemNotaFiscalRepository
     {
         private readonly SqlContext _context;
 
-        public FornecedorRepository(SqlContext context)
+        public ItemNotaFiscalRepository(SqlContext context)
         {
             _context = context;
         }
 
-        public async Task<Fornecedor> CreateAsync(Fornecedor model)
+        public async Task<ItemNotaFiscal> CreateAsync(ItemNotaFiscal model)
         {
             try
             {
-                var all = await _context.Fornecedores.ToListAsync();
+                var all = await _context.ItensNotaFiscal.ToListAsync();
 
-                await _context.Fornecedores.AddAsync(model);
+                await _context.ItensNotaFiscal.AddAsync(model);
 
                 model.Id = all.Count + 1;
                 await _context.SaveChangesAsync();
@@ -38,7 +38,7 @@ namespace SupplyManager.Repository
         {
             try
             {
-                var notaFiscal = await _context.Fornecedores.FindAsync(id) ?? throw new KeyNotFoundException();
+                var notaFiscal = await _context.ItensNotaFiscal.FindAsync(id) ?? throw new KeyNotFoundException();
 
                 _context.Remove(notaFiscal);
 
@@ -52,18 +52,18 @@ namespace SupplyManager.Repository
             }
         }
 
-        public async Task<List<Fornecedor>> GetAllAsync()
+        public async Task<List<ItemNotaFiscal>> GetAllAsync()
         {
-            return await _context.Fornecedores.ToListAsync();
+            return await _context.ItensNotaFiscal.ToListAsync();
         }
 
-        public async Task<Fornecedor> GetByIdAsync(int id)
+        public async Task<ItemNotaFiscal> GetByIdAsync(int? id)
         {
             try
             {
-                var fornecedor = await _context.Fornecedores.FindAsync(id) ?? throw new KeyNotFoundException();
+                var itemNotaFiscal = await _context.ItensNotaFiscal.FindAsync(id) ?? throw new KeyNotFoundException();
 
-                return fornecedor;
+                return itemNotaFiscal;
 
             }
             catch (Exception)
@@ -74,14 +74,14 @@ namespace SupplyManager.Repository
 
         }
 
-        public async Task<Fornecedor> UpdateAsync(Fornecedor model)
+        public async Task<ItemNotaFiscal> UpdateAsync(ItemNotaFiscal model)
         {
             try
             {
 
-                _ =  _context.Fornecedores.Find(model.Id) ?? throw new KeyNotFoundException();
-                 _context.Fornecedores.Update(model);
-                 await _context.SaveChangesAsync();
+                _ = await _context.ItensNotaFiscal.FindAsync(model.Id) ?? throw new KeyNotFoundException();
+                _context.ItensNotaFiscal.Update(model);
+                _context.SaveChangesAsync();
                 return model;
 
 
@@ -94,10 +94,6 @@ namespace SupplyManager.Repository
             }
 
         }
-
-
-
-
 
     }
 }

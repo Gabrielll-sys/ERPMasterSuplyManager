@@ -10,7 +10,8 @@ namespace SupplyManager.Models
         [Key]
         public int Id { get; set; }
 
-       [ForeignKey("MaterialId")]
+        public int MaterialId { get; set; }
+        [ForeignKey("MaterialId")]
        public  Material? Material { get; set; }
 
 
