@@ -11,7 +11,7 @@ using SupplyManager.App;
 namespace SupplyManager.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20240123165614_v24")]
+    [Migration("20240124124538_v24")]
     partial class v24
     {
         /// <inheritdoc />
@@ -141,10 +141,10 @@ namespace SupplyManager.Migrations
                     b.Property<decimal?>("AliquotaIPI")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<int?>("FornecedorId")
+                    b.Property<int>("MaterialId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MaterialId")
+                    b.Property<int>("NotaFiscalId")
                         .HasColumnType("int");
 
                     b.Property<decimal?>("Quantidade")
@@ -155,9 +155,9 @@ namespace SupplyManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FornecedorId");
-
                     b.HasIndex("MaterialId");
+
+                    b.HasIndex("NotaFiscalId");
 
                     b.ToTable("ItensNotaFiscal");
                 });
@@ -343,17 +343,21 @@ namespace SupplyManager.Migrations
 
             modelBuilder.Entity("SupplyManager.Models.ItemNotaFiscal", b =>
                 {
-                    b.HasOne("SupplyManager.Models.Fornecedor", "Fornecedor")
-                        .WithMany()
-                        .HasForeignKey("FornecedorId");
-
                     b.HasOne("SupplyManager.Models.Material", "Material")
                         .WithMany()
-                        .HasForeignKey("MaterialId");
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Fornecedor");
+                    b.HasOne("SupplyManager.Models.NotaFiscal", "NotaFiscal")
+                        .WithMany()
+                        .HasForeignKey("NotaFiscalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Material");
+
+                    b.Navigation("NotaFiscal");
                 });
 #pragma warning restore 612, 618
         }

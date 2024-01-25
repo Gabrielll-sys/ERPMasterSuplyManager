@@ -73,15 +73,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IInventarioService, InventarioService>();
-builder.Services.AddTransient<IInventarioRepository, InventarioRepository>();
+builder.Services.AddScoped<IInventarioRepository, InventarioRepository>();
 builder.Services.AddTransient<IMaterialService, MaterialService>();
-builder.Services.AddTransient<IMaterialRepository, MaterialRepository>();
+builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
 builder.Services.AddTransient<IFornecedorService, FornecedorService>();
-builder.Services.AddTransient<IFornecedorRepository, FornecedorRepository>();
+builder.Services.AddScoped<IFornecedorRepository, FornecedorRepository>();
 builder.Services.AddTransient<INotaFiscalService, NotaFiscalService>();
-builder.Services.AddTransient<INotaFiscalRepository, NotaFiscalRepository>();
+builder.Services.AddScoped<INotaFiscalRepository, NotaFiscalRepository>();
 builder.Services.AddTransient<IItemNotaFiscalService, ItemNotaFiscalService>();
-builder.Services.AddTransient<IItemNotaFiscalRepository, ItemNotaFiscalRepository>();
+builder.Services.AddScoped<IItemNotaFiscalRepository, ItemNotaFiscalRepository>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

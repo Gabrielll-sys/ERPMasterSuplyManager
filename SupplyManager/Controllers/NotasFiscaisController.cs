@@ -96,7 +96,7 @@ namespace SupplyManager.Controllers
 
             try
             {
-                 _notasFiscaisService.UpdateAsync(model);
+                await _notasFiscaisService.UpdateAsync(model);
                 return Ok();
 
             }

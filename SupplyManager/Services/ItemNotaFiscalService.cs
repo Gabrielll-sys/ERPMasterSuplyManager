@@ -18,11 +18,11 @@ namespace SupplyManager.Services
         {
             try
             {
-                var all = await _itemNotaFiscalRepository.GetAllAsync();
+               /* var all = await _itemNotaFiscalRepository.GetAllAsync();*/
 
                 await _itemNotaFiscalRepository.CreateAsync(model);
 
-                model.Id = all.Count + 1;
+                /*model.Id = all.Count + 1;*/
 
                 return model;
 

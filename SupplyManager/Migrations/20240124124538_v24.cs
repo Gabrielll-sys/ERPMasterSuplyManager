@@ -72,47 +72,49 @@ namespace SupplyManager.Migrations
                     AliquotaICMS = table.Column<decimal>(type: "decimal(65,30)", nullable: true),
                     AliquotaIPI = table.Column<decimal>(type: "decimal(65,30)", nullable: true),
                     Quantidade = table.Column<decimal>(type: "decimal(65,30)", nullable: true),
-                    MaterialId = table.Column<int>(type: "int", nullable: true),
-                    FornecedorId = table.Column<int>(type: "int", nullable: true)
+                    MaterialId = table.Column<int>(type: "int", nullable: false),
+                    NotaFiscalId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ItensNotaFiscal", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ItensNotaFiscal_Fornecedores_FornecedorId",
-                        column: x => x.FornecedorId,
-                        principalTable: "Fornecedores",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_ItensNotaFiscal_Materiais_MaterialId",
                         column: x => x.MaterialId,
                         principalTable: "Materiais",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ItensNotaFiscal_NotasFiscais_NotaFiscalId",
+                        column: x => x.NotaFiscalId,
+                        principalTable: "NotasFiscais",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ItensNotaFiscal_FornecedorId",
-                table: "ItensNotaFiscal",
-                column: "FornecedorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ItensNotaFiscal_MaterialId",
                 table: "ItensNotaFiscal",
                 column: "MaterialId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItensNotaFiscal_NotaFiscalId",
+                table: "ItensNotaFiscal",
+                column: "NotaFiscalId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Fornecedores");
+
+            migrationBuilder.DropTable(
                 name: "ItensNotaFiscal");
 
             migrationBuilder.DropTable(
                 name: "NotasFiscais");
-
-            migrationBuilder.DropTable(
-                name: "Fornecedores");
         }
     }
 }

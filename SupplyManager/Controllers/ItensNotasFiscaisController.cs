@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SupplyManager.App;
 using SupplyManager.Interfaces;
 using SupplyManager.Models;
 using System.Net;
@@ -14,6 +15,7 @@ namespace SupplyManager.Controllers
     public class ItensNotasFiscaisController:ControllerBase
     {
         private readonly IItemNotaFiscalService _itensNotasFiscaisService;
+     
 
         public ItensNotasFiscaisController(IItemNotaFiscalService itemNotaFiscalService)
         {
@@ -53,13 +55,13 @@ namespace SupplyManager.Controllers
 
         public async Task<ActionResult<ItemNotaFiscal>> Post([FromBody] ItemNotaFiscal model)
         {
-            try
-            {
+            
                 ItemNotaFiscal n1 = new ItemNotaFiscal()
                 {
+
                     AliquotaICMS = model.AliquotaICMS,
                     AliquotaIPI = model.AliquotaIPI,
-                    FornecedorId = model.FornecedorId,
+                    NotaFiscalId = model.NotaFiscalId,
                     MaterialId = model.MaterialId,
                     Quantidade = model.Quantidade,
                     ValorUnitario = model.ValorUnitario,
@@ -72,15 +74,12 @@ namespace SupplyManager.Controllers
                 return Ok(itemNotaFiscal);
 
 
-            }
+            
 
-            catch (Exception exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
-            }
+           
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -93,7 +92,18 @@ namespace SupplyManager.Controllers
 
             try
             {
-                await _itensNotasFiscaisService.UpdateAsync(model);
+                var item = await _context.ItensNotaFiscal.FindAsync(id)?? throw new KeyNotFoundException();
+                {
+                    item.NotaFiscalId = model.NotaFiscalId;
+                    item.MaterialId = model.MaterialId;
+                    item.ValorUnitario = model.ValorUnitario;
+                    item.AliquotaIPI = model.AliquotaIPI;
+                    item.AliquotaICMS = model.AliquotaICMS;
+                    item.Quantidade = model.Quantidade;
+                    
+                }
+                _context.Update(model);
+                await _context.SaveChangesAsync();
                 return Ok();
 
             }

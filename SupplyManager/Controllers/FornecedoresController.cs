@@ -20,18 +20,18 @@ namespace SupplyManager.Controllers
             _fornecedoresService = fornecedoresService;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-        public async Task<ActionResult<List<Fornecedor>>> GetById(int id)
+        public async Task<ActionResult<Fornecedor>> GetById(int id)
         {
             try
             {
-                return await _fornecedoresService.GetAllAsync();
+                return await _fornecedoresService.GetByIdAsync(id);
             }
 
             catch (KeyNotFoundException)

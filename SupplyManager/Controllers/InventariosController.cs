@@ -53,19 +53,8 @@ namespace SupplyManager.Controllers
             try
             {
 
-             var a=  await _inventarioService.GetAllInventarioAsync();
-               List<Inventario> l1  = new List<Inventario>();
-                int count = 0;
-                foreach(var item in a)
-                {
-                    l1.Add(item);
-                    count++;
-                    if (count == 900) break;
-                    
-                }
-                return l1;
-                
-
+             return await _inventarioService.GetAllInventarioAsync();
+               
         
             }
 

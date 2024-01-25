@@ -81,7 +81,7 @@ namespace SupplyManager.Repository
 
                 _ = await _context.ItensNotaFiscal.FindAsync(model.Id) ?? throw new KeyNotFoundException();
                 _context.ItensNotaFiscal.Update(model);
-                _context.SaveChangesAsync();
+                await  _context.SaveChangesAsync();
                 return model;
 
 

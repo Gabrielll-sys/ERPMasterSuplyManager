@@ -11,16 +11,16 @@ namespace SupplyManager.Models
         public decimal? AliquotaICMS { get; set; }
         public decimal? AliquotaIPI { get; set; }
         public decimal? Quantidade { get; set; }
-        public int? MaterialId { get; set; }
+        public int MaterialId { get; set; }
 
         [ForeignKey("MaterialId")]
         public Material? Material { get; set; }
 
-        public int? FornecedorId { get; set; }
+        public int NotaFiscalId { get; set; }
 
-        [ForeignKey("FornecedorId")]
+        [ForeignKey("NotaFiscalId")]
 
-        public Fornecedor? Fornecedor { get; set; }
+        public NotaFiscal? NotaFiscal { get; set; }
 
 
 

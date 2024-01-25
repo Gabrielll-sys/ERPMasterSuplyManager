@@ -79,11 +79,11 @@ namespace SupplyManager.Repository
             try
             {
 
-                _ =  _context.Fornecedores.Find(model.Id) ?? throw new KeyNotFoundException();
-                 _context.Fornecedores.Update(model);
-                 await _context.SaveChangesAsync();
-                return model;
+                _ = _context.Fornecedores.Find(model.Id) ?? throw new KeyNotFoundException();
+                _context.Fornecedores.Update(model);
+                _context.SaveChanges();
 
+                return model;
 
 
 
