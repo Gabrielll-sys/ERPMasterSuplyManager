@@ -92,7 +92,7 @@ namespace SupplyManager.Controllers
 
             try
             {
-                var item = await _context.ItensNotaFiscal.FindAsync(id)?? throw new KeyNotFoundException();
+              /*  var item = await _context.ItensNotaFiscal.FindAsync(id)?? throw new KeyNotFoundException();
                 {
                     item.NotaFiscalId = model.NotaFiscalId;
                     item.MaterialId = model.MaterialId;
@@ -103,7 +103,7 @@ namespace SupplyManager.Controllers
                     
                 }
                 _context.Update(model);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();*/
                 return Ok();
 
             }

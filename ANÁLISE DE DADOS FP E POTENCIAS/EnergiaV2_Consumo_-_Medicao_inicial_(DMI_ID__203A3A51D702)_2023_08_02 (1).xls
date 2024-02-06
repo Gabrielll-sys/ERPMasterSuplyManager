@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+		<HTML><HEAD>
+			<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=iso-8859-1">
+			<TITLE></TITLE>
+			<META NAME="GENERATOR" CONTENT="Datalog ISSO Telecom">
+			<META NAME="AUTHOR" CONTENT="Datalog ISSO Telecom">
+			<META NAME="CREATED" CONTENT="20230802;150650">
+		</HEAD><BODY>
+		<TABLE FRAME=VOID CELLSPACING=0 RULES=NONE BORDER=1><TBODY><tr><td colspan="8">Base de dados: EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)</td></tr><tr><td colspan="3">Período: 02/08/2023 a 02/08/2023</td></tr><tr><td colspan="3">Data: 02/08/2023 15:06</td></tr><TR><TD>Data</TD><TD>Codigo</TD><TD>Evento</TD></TR><TR><TD SDVAL="02/08/2023 09:20:35"  >02/08/2023 09:20:35</TD><TD SDVAL="1006" SDNUM="1046;0;#.###,##" >1006</TD><TD SDVAL=""Aviso de Evento : Sequência negativa de tensão - Cod(1006)
+Data : 02/08/2023 09:20:35
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Sequência negativa de tensão - Cod(1006)
+Data : 02/08/2023 09:20:35
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR><TR><TD SDVAL="02/08/2023 09:20:35"  >02/08/2023 09:20:35</TD><TD SDVAL="1007" SDNUM="1046;0;#.###,##" >1007</TD><TD SDVAL=""Aviso de Evento : Erro sequência corrente - Cod(1007)
+Data : 02/08/2023 09:20:35
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Erro sequência corrente - Cod(1007)
+Data : 02/08/2023 09:20:35
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR><TR><TD SDVAL="02/08/2023 08:11:45"  >02/08/2023 08:11:45</TD><TD SDVAL="1000" SDNUM="1046;0;#.###,##" >1000</TD><TD SDVAL=""Aviso de Evento : Perda Fase A - Cod(1000)
+Data : 02/08/2023 08:11:45
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Perda Fase A - Cod(1000)
+Data : 02/08/2023 08:11:45
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR><TR><TD SDVAL="02/08/2023 08:11:45"  >02/08/2023 08:11:45</TD><TD SDVAL="1001" SDNUM="1046;0;#.###,##" >1001</TD><TD SDVAL=""Aviso de Evento : Perda Fase B - Cod(1001)
+Data : 02/08/2023 08:11:45
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Perda Fase B - Cod(1001)
+Data : 02/08/2023 08:11:45
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR><TR><TD SDVAL="02/08/2023 08:11:45"  >02/08/2023 08:11:45</TD><TD SDVAL="1002" SDNUM="1046;0;#.###,##" >1002</TD><TD SDVAL=""Aviso de Evento : Perda Fase C - Cod(1002)
+Data : 02/08/2023 08:11:45
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Perda Fase C - Cod(1002)
+Data : 02/08/2023 08:11:45
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR><TR><TD SDVAL="02/08/2023 08:11:45"  >02/08/2023 08:11:45</TD><TD SDVAL="1003" SDNUM="1046;0;#.###,##" >1003</TD><TD SDVAL=""Aviso de Evento : Afundamento de tensão fase A - Cod(1003)
+Data : 02/08/2023 08:11:45
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Afundamento de tensão fase A - Cod(1003)
+Data : 02/08/2023 08:11:45
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR><TR><TD SDVAL="02/08/2023 08:11:45"  >02/08/2023 08:11:45</TD><TD SDVAL="1004" SDNUM="1046;0;#.###,##" >1004</TD><TD SDVAL=""Aviso de Evento : Afundamento de tensão fase B - Cod(1004)
+Data : 02/08/2023 08:11:45
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Afundamento de tensão fase B - Cod(1004)
+Data : 02/08/2023 08:11:45
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR><TR><TD SDVAL="02/08/2023 08:11:45"  >02/08/2023 08:11:45</TD><TD SDVAL="1005" SDNUM="1046;0;#.###,##" >1005</TD><TD SDVAL=""Aviso de Evento : Afundamento de tensão fase C - Cod(1005)
+Data : 02/08/2023 08:11:45
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Afundamento de tensão fase C - Cod(1005)
+Data : 02/08/2023 08:11:45
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR><TR><TD SDVAL="02/08/2023 08:11:45"  >02/08/2023 08:11:45</TD><TD SDVAL="1008" SDNUM="1046;0;#.###,##" >1008</TD><TD SDVAL=""Aviso de Evento : Freq. fora dos limites - Cod(1008)
+Data : 02/08/2023 08:11:45
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Freq. fora dos limites - Cod(1008)
+Data : 02/08/2023 08:11:45
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR><TR><TD SDVAL="02/08/2023 08:47:50"  >02/08/2023 08:47:50</TD><TD SDVAL="1000" SDNUM="1046;0;#.###,##" >1000</TD><TD SDVAL=""Aviso de Evento : Perda Fase A - Cod(1000)
+Data : 02/08/2023 08:47:50
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Perda Fase A - Cod(1000)
+Data : 02/08/2023 08:47:50
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR><TR><TD SDVAL="02/08/2023 08:47:50"  >02/08/2023 08:47:50</TD><TD SDVAL="1001" SDNUM="1046;0;#.###,##" >1001</TD><TD SDVAL=""Aviso de Evento : Perda Fase B - Cod(1001)
+Data : 02/08/2023 08:47:50
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Perda Fase B - Cod(1001)
+Data : 02/08/2023 08:47:50
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR><TR><TD SDVAL="02/08/2023 08:47:50"  >02/08/2023 08:47:50</TD><TD SDVAL="1002" SDNUM="1046;0;#.###,##" >1002</TD><TD SDVAL=""Aviso de Evento : Perda Fase C - Cod(1002)
+Data : 02/08/2023 08:47:50
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Perda Fase C - Cod(1002)
+Data : 02/08/2023 08:47:50
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR><TR><TD SDVAL="02/08/2023 08:47:50"  >02/08/2023 08:47:50</TD><TD SDVAL="1003" SDNUM="1046;0;#.###,##" >1003</TD><TD SDVAL=""Aviso de Evento : Afundamento de tensão fase A - Cod(1003)
+Data : 02/08/2023 08:47:50
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Afundamento de tensão fase A - Cod(1003)
+Data : 02/08/2023 08:47:50
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR><TR><TD SDVAL="02/08/2023 08:47:50"  >02/08/2023 08:47:50</TD><TD SDVAL="1004" SDNUM="1046;0;#.###,##" >1004</TD><TD SDVAL=""Aviso de Evento : Afundamento de tensão fase B - Cod(1004)
+Data : 02/08/2023 08:47:50
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Afundamento de tensão fase B - Cod(1004)
+Data : 02/08/2023 08:47:50
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR><TR><TD SDVAL="02/08/2023 08:47:50"  >02/08/2023 08:47:50</TD><TD SDVAL="1005" SDNUM="1046;0;#.###,##" >1005</TD><TD SDVAL=""Aviso de Evento : Afundamento de tensão fase C - Cod(1005)
+Data : 02/08/2023 08:47:50
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Afundamento de tensão fase C - Cod(1005)
+Data : 02/08/2023 08:47:50
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR><TR><TD SDVAL="02/08/2023 09:11:45"  >02/08/2023 09:11:45</TD><TD SDVAL="1008" SDNUM="1046;0;#.###,##" >1008</TD><TD SDVAL=""Aviso de Evento : Freq. fora dos limites - Cod(1008)
+Data : 02/08/2023 09:11:45
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Freq. fora dos limites - Cod(1008)
+Data : 02/08/2023 09:11:45
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR><TR><TD SDVAL="02/08/2023 10:20:35"  >02/08/2023 10:20:35</TD><TD SDVAL="1006" SDNUM="1046;0;#.###,##" >1006</TD><TD SDVAL=""Aviso de Evento : Sequência negativa de tensão - Cod(1006)
+Data : 02/08/2023 10:20:35
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Sequência negativa de tensão - Cod(1006)
+Data : 02/08/2023 10:20:35
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR><TR><TD SDVAL="02/08/2023 10:20:35"  >02/08/2023 10:20:35</TD><TD SDVAL="1007" SDNUM="1046;0;#.###,##" >1007</TD><TD SDVAL=""Aviso de Evento : Erro sequência corrente - Cod(1007)
+Data : 02/08/2023 10:20:35
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Erro sequência corrente - Cod(1007)
+Data : 02/08/2023 10:20:35
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR><TR><TD SDVAL="02/08/2023 12:33:20"  >02/08/2023 12:33:20</TD><TD SDVAL="1008" SDNUM="1046;0;#.###,##" >1008</TD><TD SDVAL=""Aviso de Evento : Freq. fora dos limites - Cod(1008)
+Data : 02/08/2023 12:33:20
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702""  >"Aviso de Evento : Freq. fora dos limites - Cod(1008)
+Data : 02/08/2023 12:33:20
+Relatório de Referência : EnergiaV2 Consumo - Medicao inicial (DMI ID: 203A3A51D702)
+Serial do Módulo : 203A3A51D702"</TD></TR>

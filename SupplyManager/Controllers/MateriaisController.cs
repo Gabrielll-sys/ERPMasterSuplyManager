@@ -13,6 +13,7 @@ using NPOI.XSSF.UserModel;
 using System.ComponentModel;
 using System.Linq;
 using SupplyManager.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SupplyManager.Controllers
 {
@@ -23,7 +24,8 @@ namespace SupplyManager.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class MateriaisController : ControllerBase
+   
+     public class MateriaisController : ControllerBase
     {
         private readonly SqlContext _context;
         private readonly IMaterialService _materialService;

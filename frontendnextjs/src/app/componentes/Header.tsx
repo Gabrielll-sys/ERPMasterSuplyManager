@@ -25,6 +25,7 @@ import AvatarLogin from "./AvatarLogin";
 import IconUser from "../assets/icons/IconUser";
 import TodoListPen from "../assets/icons/TodoListPen";
 import IconFilter from "../assets/icons/IconFilter";
+import IconMoneyBill from "../assets/icons/IconMoneyBill";
 
 const Header= ()=>{
     const { data: session } = useSession();
@@ -110,6 +111,19 @@ return(
     >
       <p className="font-semibold text-base p-5">
        Filtragem de Materiais
+      </p>
+    </DropdownItem>
+    <DropdownItem
+      key="MaterialsRelatory"
+      
+      className="text-start hover:underline"
+      color="default"
+      endContent={<IconMoneyBill/>}
+      onClick={()=>route.push('/budge-management')}
+
+    >
+      <p className="font-semibold text-base p-5">
+      Gerenciador de Orçamentos
       </p>
     </DropdownItem>
     

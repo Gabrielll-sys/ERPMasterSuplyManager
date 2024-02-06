@@ -25,7 +25,7 @@ export interface IInventario  {
       unidade?: string
       
 
-    }
-
+    },
+quantidadeMaterial:number
 
 }

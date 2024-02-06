@@ -76,7 +76,7 @@ builder.Services.AddTransient<IInventarioService, InventarioService>();
 builder.Services.AddScoped<IInventarioRepository, InventarioRepository>();
 builder.Services.AddTransient<IMaterialService, MaterialService>();
 builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
-builder.Services.AddTransient<IFornecedorService, FornecedorService>();
+builder.Services.AddScoped<IFornecedorService, FornecedorService>();
 builder.Services.AddScoped<IFornecedorRepository, FornecedorRepository>();
 builder.Services.AddTransient<INotaFiscalService, NotaFiscalService>();
 builder.Services.AddScoped<INotaFiscalRepository, NotaFiscalRepository>();
