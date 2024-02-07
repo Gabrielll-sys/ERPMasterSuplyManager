@@ -20,7 +20,7 @@ export interface IInventario  {
       marca?: string,
       markup?: number ,
       precoCusto: number,
-      precoVenda?: number,
+      precoVenda: number,
       tensao?: string,
       unidade?: string
       
