@@ -17,7 +17,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
 
-
 import { useReactToPrint } from 'react-to-print';
 import ArrowLeft from '@/app/assets/icons/ArrowLeft';
 import { IFilterMaterial } from '@/app/interfaces/IFilterMaterial';
@@ -30,6 +29,7 @@ import { IItem } from '@/app/interfaces/IItem';
 import IconEdit from '@/app/assets/icons/IconEdit';
 import IconPen from '@/app/assets/icons/IconPen';
 import path from 'path';
+import dayjs from 'dayjs';
 
 
 export default function BudgeManagement({params}:any){
@@ -37,6 +37,7 @@ export default function BudgeManagement({params}:any){
     const { data: session } = useSession();
     const componentRef: any = useRef();
     const[itemToBeUpdated,setItemToBeUpdated] = useState<IItem>()
+
 
     const [os,setOs] = useState<IOrderServico>()
     const[inventarioDialog,setInventarioDialog] = useState<IInventario>()
@@ -54,20 +55,10 @@ export default function BudgeManagement({params}:any){
   const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
   const[quantidadeMaterial,setQuantidadeMaterial] = useState<string>()
   const[isEditingOs,setIsEditingOs] = useState<boolean>(false)
-  const[nomeOrçamento,setNomeOrçamento] = useState<string>()
+  const[nomeOrçamento,setNomeOrçamento] = useState<string>("")
     const[materiaisOrcamento,setMateriaisOrcamento] = useState<IInventario[]>([])
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
-    const countries: any[] = [
-      { name: 'Cameroon', capital: 'Yaounde', countryCode: 'CM', phoneIndicator: 237 },
-      { name: 'France', capital: 'Paris', countryCode: 'FR', phoneIndicator: 33 },
-      { name: 'United States', capital: 'Washington, D.C.', countryCode: 'US', phoneIndicator: 1 },
-      { name: 'India', capital: 'New Delhi', countryCode: 'IN', phoneIndicator: 91 },
-      { name: 'Brazil', capital: 'Brasília', countryCode: 'BR', phoneIndicator: 55 },
-      { name: 'Japan', capital: 'Tokyo', countryCode: 'JP', phoneIndicator: 81 },
-      { name: 'Australia', capital: 'Canberra', countryCode: 'AUS', phoneIndicator: 61 },
-      { name: 'Nigeria', capital: 'Abuja', countryCode: 'NG', phoneIndicator: 234 },
-      { name: 'Germany', capital: 'Berlin', countryCode: 'DE', phoneIndicator: 49 },
-    ];
+  
     useEffect(()=>{
 
         getAllMaterial()
@@ -92,7 +83,7 @@ export default function BudgeManagement({params}:any){
             setMateriaisOrcamento(current=>[...current,materiaisWithInvetory[i]])
             materiaisWithInvetory[i].quantidadeMaterial=1;
         }    
-       setMateriais(materiaisWithInvetory)
+        setMateriais(materiaisWithInvetory)
       }
       const handleOpenDialog =  (item:any)=>{
 
@@ -154,55 +145,43 @@ export default function BudgeManagement({params}:any){
       }
 
       const generatePlanilha = async ()=>{
-        
 
-    //     // Cria um novo livro de trabalho
-    // let workbook = new Excel.Workbook();
-    // // Adiciona uma nova planilha ao livro de trabalho
-    // let worksheet = workbook.addWorksheet('Minha Planilha');
+        const reader = new FileReader();
+        reader.readAsArrayBuffer()
 
-    // // Adiciona algumas linhas com dados
-    // worksheet.addRow(['ID', 'Nome', 'Email']);
-    // worksheet.addRow([1, 'João', 'joao@example.com']);
-    // worksheet.addRow([2, 'Maria', 'maria@example.com']);
 
-    // // Salva o livro de trabalho
-    // await workbook.xlsx.writeBuffer('MeuArquivo.xlsx');
 
-    // console.log('Planilha criada com sucesso!');
-    const workbook = new Excel.Workbook();
-    const worksheet = workbook.addWorksheet(nomeOrçamento);
-  
-    worksheet.columns = [
-      { key: 'material', header: 'Material' },
-      { key: 'precoCusto', header: 'Preço de Custo' },
-      { key: 'precoVenda', header: 'Preço de Venda' },
-      { key: 'quantidade', header: 'Quantidade' },
+    // const workbook : Excel.Workbook = new Excel.Workbook();
+    // await  workbook.xlsx.readFile('../planilhas/modelo-planilha-orcamento-cliente.xlsx')
     
-    ];
   
-    materiaisOrcamento.forEach((item) => {
-      console.log(item)
-      let precoCusto = item.material.precoCusto==null?0:item.material.precoCusto.toFixed(2)
-      let precoVenda = item.material.precoVenda==null?0:item.material.precoVenda.toFixed(2)
-      console.log(precoCusto)
-      worksheet.addRow([item.material.descricao,"R$"+precoCusto,"R$"+precoVenda,item.quantidadeMaterial+" "+item.material.unidade]);
+    // const ws :Excel.Worksheet = workbook.getWorksheet(1)
+
+    // // materiaisOrcamento.forEach((item) => {
+    // //   console.log(item)
+    // //   let precoCusto = item.material.precoCusto==null?0:item.material.precoCusto.toFixed(2)
+    // //   let precoVenda = item.material.precoVenda==null?0:item.material.precoVenda.toFixed(2)
+    // //   console.log(precoCusto)
+    // //   ws.addRow([item.material.descricao,"R$"+precoCusto,"R$"+precoVenda,item.quantidadeMaterial+" "+item.material.unidade]);
       
-    });
+    // // });
+    // // ws.addRow(["",` Custo Total:R$${precoCustoTotalOrcamento}`,`Venda Total:R$${precoVendaTotalOrcamento}`]);
+
+    // let date = dayjs()
+    // ws.getCell('M2').value = 25
   
-    
-    let buffer = await workbook.xlsx.writeBuffer();
-    let blob = new Blob([buffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    // let buffer = await workbook.xlsx.writeBuffer();
+    // let blob = new Blob([buffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
 
-    // Cria um objeto URL a partir do Blob
-    let url = URL.createObjectURL(blob);
+    // // Cria um objeto URL a partir do Blob
+    // let url = URL.createObjectURL(blob);
 
-    // Cria um link de download e clica nele
-    console.log(url)
-    let a = document.createElement('a');
-    a.href = url;
-    a.download = `${nomeOrçamento}.xlsx`
-    a.click();
+    // // Cria um link de download e clica nele
+    // console.log(url)
+    // let a = document.createElement('a');
+    // a.href = url;
+    // a.download = `${nomeOrçamento}.xlsx`
+    // a.click();
        }
       
 return(
@@ -213,7 +192,7 @@ return(
            isDisabled={!materiais}
            isLoading={!materiais.length}
            placeholder="Procure um material"
-           className="max-w-[500px]  self-center border-1 border-black rounded-xl shadow-sm shadow-black"
+           className="max-w-[600px]  self-center border-1 border-black rounded-xl shadow-sm shadow-black"
          >
 
          {materiais.map((item:IInventario) => (
@@ -226,7 +205,6 @@ return(
      
              <p className='text-xs'>{item.material.marca}</p>
               { !materiaisOrcamento.includes(item) &&
-              item.saldoFinal!=null && item.saldoFinal>0 &&
               <IconPlus  onClick={()=>handleOpenDialog(item)} />
               }
      
@@ -239,15 +217,20 @@ return(
             </AutocompleteItem>
           ))}
           </Autocomplete>
+          <div className='flex flex-row justify-between w-[430px]'>
           <Input
         value={nomeOrçamento}
         className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
         onValueChange={setNomeOrçamento}
         label="Nome Orçamento" 
       />
+      <Button 
+      isDisabled={!nomeOrçamento?.length}
+        className="bg-master_black text-white p-7 rounded-lg font-bold text-lg shadow-lg mt-10 "
+      onPress={generatePlanilha}>Gerar Planilha</Button>
+      </div>
      </div>
-     <div className=' '>
-      <Button onPress={generatePlanilha}>gerar</Button>
+     <div className=''>
         <Accordion className="ml-6">
       <AccordionItem key="1" aria-label="`Materias do Orçamento" subtitle="Pressione para expandir" title={`Materias do Orçamento ${materiaisOrcamento?.length}`}>
         {materiaisOrcamento.map(x=>(
@@ -274,7 +257,7 @@ return(
     <DialogContent >
 
       <p className='text-center'>
-        Estoque: {inventarioDialog?.saldoFinal} {inventarioDialog?.material.unidade} 
+        Estoque: {inventarioDialog?.saldoFinal == 0 || null?0:inventarioDialog?.saldoFinal} {inventarioDialog?.material.unidade} 
           </p>
       <div className=' flex flex-row justify-center'>
         <Input
@@ -291,7 +274,7 @@ return(
     <DialogActions>
       <Button onPress={handleCloseDialog}>Fechar</Button>
        
-        <Button isDisabled={inventarioDialog!= undefined && Number(quantidadeMaterial) > inventarioDialog.saldoFinal}  onPress={()=> !isEditingOs ?handleAddMaterialOrcamento(inventarioDialog):handleUpdateItem(itemToBeUpdated)}>{isEditingOs?"Atualizar Quantidade":"Adicionar material"}</Button>
+        <Button  onPress={()=> !isEditingOs ?handleAddMaterialOrcamento(inventarioDialog):handleUpdateItem(itemToBeUpdated)}>{isEditingOs?"Atualizar Quantidade":"Adicionar material"}</Button>
     </DialogActions>
   </Dialog>
      </>
