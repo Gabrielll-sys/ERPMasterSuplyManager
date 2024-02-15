@@ -51,7 +51,7 @@ namespace SupplyManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Fornecedores");
+                    b.ToTable("Fornecedores", (string)null);
                 });
 
             modelBuilder.Entity("SupplyManager.Models.Inventario", b =>
@@ -86,7 +86,7 @@ namespace SupplyManager.Migrations
 
                     b.HasIndex("MaterialId");
 
-                    b.ToTable("Inventarios");
+                    b.ToTable("Inventarios", (string)null);
                 });
 
             modelBuilder.Entity("SupplyManager.Models.Item", b =>
@@ -123,7 +123,7 @@ namespace SupplyManager.Migrations
 
                     b.HasIndex("OrdemServicoId");
 
-                    b.ToTable("Itens");
+                    b.ToTable("Itens", (string)null);
                 });
 
             modelBuilder.Entity("SupplyManager.Models.ItemNotaFiscal", b =>
@@ -156,7 +156,7 @@ namespace SupplyManager.Migrations
 
                     b.HasIndex("NotaFiscalId");
 
-                    b.ToTable("ItensNotaFiscal");
+                    b.ToTable("ItensNotaFiscal", (string)null);
                 });
 
             modelBuilder.Entity("SupplyManager.Models.Material", b =>
@@ -206,7 +206,7 @@ namespace SupplyManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Materiais");
+                    b.ToTable("Materiais", (string)null);
                 });
 
             modelBuilder.Entity("SupplyManager.Models.NotaFiscal", b =>
@@ -235,7 +235,7 @@ namespace SupplyManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NotasFiscais");
+                    b.ToTable("NotasFiscais", (string)null);
                 });
 
             modelBuilder.Entity("SupplyManager.Models.OrdemServico", b =>
@@ -282,7 +282,7 @@ namespace SupplyManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrdemServicos");
+                    b.ToTable("OrdemServicos", (string)null);
                 });
 
             modelBuilder.Entity("SupplyManager.Models.Usuario", b =>
@@ -305,7 +305,7 @@ namespace SupplyManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuários");
+                    b.ToTable("Usuários", (string)null);
                 });
 
             modelBuilder.Entity("SupplyManager.Models.Inventario", b =>

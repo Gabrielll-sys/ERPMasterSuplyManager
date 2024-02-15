@@ -18,7 +18,6 @@
             <summary>
             Busca todos os registros de inventários
             </summary>
-            <param name="id"></param>
             <returns>Todos os registros de inventário </returns>
         </member>
         <member name="M:SupplyManager.Controllers.InventariosController.GetInventario(System.Int32)">

@@ -38,6 +38,7 @@ namespace SupplyManager.Models
         public float? PrecoCusto { get; set; }
         public float? Markup { get; set; }
         public float? PrecoVenda { get; set; }
+      /*  public float? TesteNovaColuna { get; set; }*/
 
 
 

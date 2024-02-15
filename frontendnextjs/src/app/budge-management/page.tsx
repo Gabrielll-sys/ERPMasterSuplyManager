@@ -1,6 +1,6 @@
 "use client"
 import {Link, Button,Autocomplete, AutocompleteItem, Input,Textarea, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion } from '@nextui-org/react';
-import Excel from 'exceljs';
+import Excel, { BorderStyle } from 'exceljs';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
 import { useRouter } from "next/navigation";
 import { QRCode } from "react-qrcode-logo";
@@ -16,7 +16,7 @@ import IMaterial from '@/app/interfaces/IMaterial';
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
-
+import imagem from '/src/app/assets/logo.png'
 import { useReactToPrint } from 'react-to-print';
 import ArrowLeft from '@/app/assets/icons/ArrowLeft';
 import { IFilterMaterial } from '@/app/interfaces/IFilterMaterial';
@@ -30,35 +30,42 @@ import IconEdit from '@/app/assets/icons/IconEdit';
 import IconPen from '@/app/assets/icons/IconPen';
 import path from 'path';
 import dayjs from 'dayjs';
+import { logoBase64 } from '../assets/base64Logo';
+import { get } from 'http';
 
 
 export default function BudgeManagement({params}:any){
     const route = useRouter()
     const { data: session } = useSession();
-    const componentRef: any = useRef();
+  
     const[itemToBeUpdated,setItemToBeUpdated] = useState<IItem>()
 
 
-    const [os,setOs] = useState<IOrderServico>()
+    const[nomeOrçamento,setNomeOrçamento] = useState<string>("")
+
     const[inventarioDialog,setInventarioDialog] = useState<IInventario>()
- 
-    const[materiaisOs,setMateriaisOs]= useState<any>([])
+
     const [materiais,setMateriais]= useState<IInventario[] >([])
-    const list:string [] = ["1","2","23","34"]
+
     const [openDialog,setOpenDialog] = useState<boolean>(false)
-  const [openDialogAuthorize,setOpenDialogAuthorize] = useState<boolean>(false)
-    const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
+
   const [openList,setOpenList] = useState<boolean>(false)
   const[precoCustoTotalOrcamento,setPrecoCustoTotalOrcamento] = useState<number >();
   const[precoVendaTotalOrcamento,setPrecoVendaTotalOrcamento] = useState<number>();
-  const [messageAlert, setMessageAlert] = useState<string>();
-  const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
   const[quantidadeMaterial,setQuantidadeMaterial] = useState<string>()
   const[isEditingOs,setIsEditingOs] = useState<boolean>(false)
-  const[nomeOrçamento,setNomeOrçamento] = useState<string>("")
-    const[materiaisOrcamento,setMateriaisOrcamento] = useState<IInventario[]>([])
-    const {isOpen, onOpen, onOpenChange} = useDisclosure();
-  
+  const[materiaisOrcamento,setMateriaisOrcamento] = useState<IInventario[]>([])
+    let date = dayjs()
+  const letraPlanilha : string[] = ['A','B','C','D','E']
+
+    const bordas:any= {
+      top: {style:'thin'},
+      left: {style:'thin'},
+      bottom: {style:'thin'},
+      right: {style:'thin'}
+    }
+
+
     useEffect(()=>{
 
         getAllMaterial()
@@ -77,11 +84,14 @@ export default function BudgeManagement({params}:any){
          return r.data
         
     })
-    for(let i=200; i<250;i++)
+    for(let i=100; i<400;i++)
       {
-            
-            setMateriaisOrcamento(current=>[...current,materiaisWithInvetory[i]])
-            materiaisWithInvetory[i].quantidadeMaterial=1;
+        console.log(materiaisWithInvetory[i].material.precoVenda!=null )
+            if(materiaisWithInvetory[i].material.precoVenda!=null ){
+
+              setMateriaisOrcamento(current=>[...current,materiaisWithInvetory[i]])
+              materiaisWithInvetory[i].quantidadeMaterial=2;
+            }
         }    
         setMateriais(materiaisWithInvetory)
       }
@@ -132,56 +142,152 @@ export default function BudgeManagement({params}:any){
 
       }
       const calcPrecoCusto = () =>{
-
+   
         let custoTotal:number | undefined = 0
 
           for(let item of materiaisOrcamento){
+            console.log(item.material.precoCusto)
               custoTotal+=item.material.precoCusto*item.quantidadeMaterial
 
           }
           setPrecoCustoTotalOrcamento(Number(custoTotal.toFixed(2)))
-          console.log(custoTotal)
+          
+
+      }
+      const isNullIsZero = (value:number)=>{
+
+        return value==null?0:"R$"+value.toFixed(2).toString().replace('.',',')
+      }
+      const createXlsxPlanilha = async (workbook:Excel.Workbook)=>{
+
+        let buffer = await workbook.xlsx.writeBuffer();
+        let blob = new Blob([buffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+
+        // Cria um objeto URL a partir do Blob
+        let url = URL.createObjectURL(blob);
+
+        // Cria um link de download e clica nele
+        console.log(url)
+        let a = document.createElement('a');
+        a.href = url;
+        a.download = `${nomeOrçamento}.xlsx`
+        a.click();
 
       }
 
+ const includeBorderCell = (ws:Excel.Worksheet,celula:string)=>{
+
+    ws.getCell(celula).border=bordas
+    ws.getCell(celula).alignment={vertical:'middle',horizontal:'left'}
+
+ }
+
+      const cabecalhoPlanilha = (ws:Excel.Worksheet,wb:Excel.Workbook )=>{
+
+        ws.getCell(`A1`).border= bordas
+        ws.getCell(`B1`).border= bordas
+        ws.getCell(`C1`).border= bordas
+
+
+
+
+        ws.getCell('A2').value = "Id"
+        ws.getCell('A2').border = bordas
+        ws.getCell('B2').value = "Descrição Material"
+        ws.getCell('B2').border = bordas
+        ws.getCell('C2').value = "Preço Custo"
+        ws.getCell('C2').border = bordas
+        ws.getCell('D2').value = "Preço Venda"
+        ws.getCell('D2').border = bordas
+        ws.getCell('E2').value = "Quantidade"
+        ws.getCell('E2').border = bordas
+
+        ws.mergeCells('A1','B1')
+        ws.mergeCells('C1','E1')
+
+        ws.getRow(1).height=80
+
+        ws.getColumn(1).width=5
+        ws.getColumn(2).width=70
+        ws.getColumn(3).width=15
+        ws.getColumn(4).width=15
+        ws.getColumn(5).width=12
+
+        ws.getCell('B1').value=nomeOrçamento
+        
+        ws.getCell('B1').alignment={vertical:'middle',horizontal:'center'}
+        ws.getCell('B1').font = {size:18}
+
+   
+        ws.getCell('E1').value="Data Orçamento:"+" "+dayjs(date).format("DD/MM/YYYY").toString()
+        ws.getCell('E1').style.alignment={'vertical':"middle",'horizontal':"center"}
+        ws.getCell('E1').font = {size:16}
+        
+      }
+      
+      
+
+
+
       const generatePlanilha = async ()=>{
 
-        const reader = new FileReader();
-        reader.readAsArrayBuffer()
+        const workbook : Excel.Workbook = new Excel.Workbook();
+        
+        const ws :Excel.Worksheet = workbook.addWorksheet(nomeOrçamento)
+       
+        cabecalhoPlanilha(ws,workbook)
+        
+     
+//Começa em 3 porque o titulos começam na linha 2 
+    for(let i=3;i<=materiaisOrcamento.length;i++)
+    {
+
+      let precoCusto = isNullIsZero(materiaisOrcamento[i-2].material.precoCusto)
+      let precoVenda = isNullIsZero(materiaisOrcamento[i-2].material.precoVenda)
+
+      ws.getCell(letraPlanilha[0]+i).value = materiaisOrcamento[i-3].material.id
+      includeBorderCell(ws,letraPlanilha[0]+i)
+      ws.getCell(letraPlanilha[1]+i).value = materiaisOrcamento[i-3].material.descricao
+      includeBorderCell(ws,letraPlanilha[1]+i)
+      ws.getCell(letraPlanilha[2]+i).value = precoCusto
+      includeBorderCell(ws,letraPlanilha[2]+i)
+      ws.getCell(letraPlanilha[3]+i).value = precoVenda
+      includeBorderCell(ws,letraPlanilha[3]+i)
+      ws.getCell(letraPlanilha[4]+i).value = materiaisOrcamento[i-3].quantidadeMaterial+" "+materiaisOrcamento[i-3].material.unidade
+      includeBorderCell(ws,letraPlanilha[4]+i)
 
 
-
-    // const workbook : Excel.Workbook = new Excel.Workbook();
-    // await  workbook.xlsx.readFile('../planilhas/modelo-planilha-orcamento-cliente.xlsx')
+    }
     
+    // ws.mergeCells(`B${materiaisOrcamento.length+1}`,`C${materiaisOrcamento.length+1}`)
+    ws.getRow(materiaisOrcamento.length+1).height=50
+    
+
+    ws.getCell(`C${materiaisOrcamento.length+1}`).style.
+
+
+    ws.getCell(`C${materiaisOrcamento.length+1}`).value= `Preço Custo Total:R$${precoCustoTotalOrcamento?.toFixed(2)}`
+    ws.getCell(`C${materiaisOrcamento.length+1}`).alignment={vertical:'middle',horizontal:'center'}
+    ws.getCell(`D${materiaisOrcamento.length+1}`).value= `Preço Venda Total:R$${precoVendaTotalOrcamento?.toFixed(2)}`
+    ws.getCell(`D${materiaisOrcamento.length+1}`).alignment={vertical:'middle',horizontal:'center'}
+
+
+    const logo = workbook.addImage({
+      base64: logoBase64,
+      extension: 'png',
+    })
+ 
+ 
+  ws.addImage(logo, {
+    tl: { col: 0.7, row: 0.2 },
+    ext: { width: 115, height: 70 }
+  });
+
+
+   
+    createXlsxPlanilha(workbook)
   
-    // const ws :Excel.Worksheet = workbook.getWorksheet(1)
-
-    // // materiaisOrcamento.forEach((item) => {
-    // //   console.log(item)
-    // //   let precoCusto = item.material.precoCusto==null?0:item.material.precoCusto.toFixed(2)
-    // //   let precoVenda = item.material.precoVenda==null?0:item.material.precoVenda.toFixed(2)
-    // //   console.log(precoCusto)
-    // //   ws.addRow([item.material.descricao,"R$"+precoCusto,"R$"+precoVenda,item.quantidadeMaterial+" "+item.material.unidade]);
-      
-    // // });
-    // // ws.addRow(["",` Custo Total:R$${precoCustoTotalOrcamento}`,`Venda Total:R$${precoVendaTotalOrcamento}`]);
-
-    // let date = dayjs()
-    // ws.getCell('M2').value = 25
-  
-    // let buffer = await workbook.xlsx.writeBuffer();
-    // let blob = new Blob([buffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
-
-    // // Cria um objeto URL a partir do Blob
-    // let url = URL.createObjectURL(blob);
-
-    // // Cria um link de download e clica nele
-    // console.log(url)
-    // let a = document.createElement('a');
-    // a.href = url;
-    // a.download = `${nomeOrçamento}.xlsx`
-    // a.click();
+    
        }
       
 return(

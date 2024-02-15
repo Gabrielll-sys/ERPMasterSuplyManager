@@ -54,8 +54,8 @@ namespace SupplyManager.Controllers
         public async Task<ActionResult<List<Material>>> GetAll()
         {
 
-          
-            return Ok(await _materialService.GetAllMateriaisAsync());
+            return Ok(await _context.Materiais.FromSql($"SELECT * FROM Materiais").ToListAsync());
+         /*   return Ok(await _materialService.GetAllMateriaisAsync());*/
 
         }
 
@@ -75,12 +75,14 @@ namespace SupplyManager.Controllers
 
             try
             {
-                var queryMaterial = from query in _context.Materiais select query;
+                /* var queryMaterial = from query in _context.Materiais select query;
 
 
-                var material = await _context.Materiais.FindAsync(id);
+                 var material = await _context.Materiais.FindAsync(id);
 
-                return Ok(material);
+                 return Ok(material);*/
+
+                return Ok( _context.Materiais.FromSql($"SELECT * FROM Materiais WHERE Id = {id}"));
             }
 
             catch (KeyNotFoundException)

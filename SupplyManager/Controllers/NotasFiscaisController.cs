@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SupplyManager.App;
 using SupplyManager.Interfaces;
 using SupplyManager.Models;
 using SupplyManager.Services;
@@ -16,11 +18,11 @@ namespace SupplyManager.Controllers
     public class NotasFiscaisController : ControllerBase
     {
 
-        private readonly INotaFiscalService _notasFiscaisService;
+        private readonly SqlContext _context;
 
-        public NotasFiscaisController(INotaFiscalService notaFiscalService)
+        public NotasFiscaisController(SqlContext context)
         {
-            _notasFiscaisService = notaFiscalService;
+            _context = context;
         }
 
 
@@ -31,11 +33,34 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-        public async Task<ActionResult<List<NotaFiscal>>> GetById(int id)
+        public async Task<ActionResult<List<NotaFiscal>>> GetAll()
         {
             try
             {
-                return await _notasFiscaisService.GetAllAsync();
+                return await _context.NotasFiscais.ToListAsync();
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+        }    
+        [HttpGet("{id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+
+        public async Task<ActionResult<NotaFiscal>> GetById(int id)
+        {
+            try
+            {
+                return await _context.NotasFiscais.FirstOrDefaultAsync(x=>x.Id==id);
             }
 
             catch (KeyNotFoundException)
@@ -55,7 +80,7 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-        public async Task<ActionResult<NotaFiscal>> Put([FromBody]NotaFiscal model)
+        public async Task<ActionResult<NotaFiscal>> Post([FromBody]NotaFiscal model)
         {
             try
             {
@@ -70,8 +95,8 @@ namespace SupplyManager.Controllers
 
                 };
 
-               var notaFiscal = await _notasFiscaisService.CreateAsync(n1);
-
+               var notaFiscal = await _context.NotasFiscais.AddAsync(n1);
+                await _context.SaveChangesAsync();
                return Ok(notaFiscal);
                
 
@@ -96,7 +121,18 @@ namespace SupplyManager.Controllers
 
             try
             {
-                await _notasFiscaisService.UpdateAsync(model);
+                NotaFiscal notaFiscal = new NotaFiscal()
+                {
+                    BaseCalculoICMS = model.BaseCalculoICMS,
+                    CFOP = model.CFOP,
+                    Frete = model.Frete,
+                    DataEmissaoNF = model.DataEmissaoNF,
+                    NumeroNF = model.NumeroNF,
+                    ValorICMS = model.ValorICMS
+                };
+                 _context.NotasFiscais.Update(notaFiscal);
+                await _context.SaveChangesAsync();
+
                 return Ok();
 
             }
@@ -120,7 +156,9 @@ namespace SupplyManager.Controllers
 
             try
             {
-                await _notasFiscaisService.DeleteAsync(id);
+                var notaFiscal = await _context.NotasFiscais.FindAsync(id) ?? throw new KeyNotFoundException();
+                 _context.NotasFiscais.Remove(notaFiscal);
+                await _context.SaveChangesAsync();  
                 return Ok();
 
             }

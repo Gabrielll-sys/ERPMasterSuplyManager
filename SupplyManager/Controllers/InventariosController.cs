@@ -39,7 +39,6 @@ namespace SupplyManager.Controllers
         /// <summary>
         /// Busca todos os registros de inventários
         /// </summary>
-        /// <param name="id"></param>
         /// <returns>Todos os registros de inventário </returns>
         [HttpGet()]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -52,10 +51,8 @@ namespace SupplyManager.Controllers
 
             try
             {
-
-             return await _inventarioService.GetAllInventarioAsync();
+                return Ok(await _context.Inventarios.FromSql($"SELECT * FROM Inventarios ").Include(x=>x.Material).ToArrayAsync());
                
-        
             }
 
             catch (KeyNotFoundException)

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SupplyManager.App;
 using SupplyManager.Interfaces;
 using SupplyManager.Models;
 using System.Net;
@@ -13,13 +15,33 @@ namespace SupplyManager.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class FornecedoresController:ControllerBase
     {
-        private readonly IFornecedorService _fornecedoresService;
+        private readonly SqlContext _context;
 
-        public FornecedoresController(IFornecedorService fornecedoresService)
+        public FornecedoresController(SqlContext context)
         {
-            _fornecedoresService = fornecedoresService;
+            _context = context;
         }
 
+        [HttpGet]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+
+        public async Task<ActionResult<List<Fornecedor>>> GetAll()
+        {
+            try
+            {
+                return await _context.Fornecedores.ToListAsync();
+            }
+
+           
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+        }      
         [HttpGet("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -31,7 +53,7 @@ namespace SupplyManager.Controllers
         {
             try
             {
-                return await _fornecedoresService.GetByIdAsync(id);
+                return await _context.Fornecedores.FirstOrDefaultAsync(x => x.Id==id); ;
             }
 
             catch (KeyNotFoundException)
@@ -55,7 +77,7 @@ namespace SupplyManager.Controllers
         {
             try
             {
-                Fornecedor n1 = new Fornecedor()
+                Fornecedor f1 = new Fornecedor()
                 {
                     Nome = model.Nome,
                     Endereco = model.Endereco,
@@ -68,8 +90,8 @@ namespace SupplyManager.Controllers
 
                 };
 
-                var fornecedor = await _fornecedoresService.CreateAsync(n1);
-
+                var fornecedor = await _context.Fornecedores.AddAsync(f1);
+                await _context.SaveChangesAsync();
                 return Ok(fornecedor);
 
 
@@ -94,7 +116,28 @@ namespace SupplyManager.Controllers
 
             try
             {
-                var a = await _fornecedoresService.UpdateAsync(model);
+
+                Fornecedor f1 = await _context.Fornecedores.FindAsync(id) ?? throw new KeyNotFoundException();
+                {
+                    f1.Cidade = model.Cidade;
+                    f1.Bairro = model.Bairro;
+                    f1.Estado = model.Estado;
+                    f1.Numero = model.Numero;
+                    f1.Telefone = model.Telefone;
+                    f1.Nome = model.Nome;
+                    f1.Cep = model.Cep;
+                    f1.Endereco = model.Endereco;
+
+
+
+
+                };
+
+
+
+                _context.Fornecedores.Update(f1);
+                await _context.SaveChangesAsync();
+
                 return Ok();
 
             }
@@ -117,7 +160,9 @@ namespace SupplyManager.Controllers
 
             try
             {
-                await _fornecedoresService.DeleteAsync(id);
+                var fornecedor = await _context.Fornecedores.FindAsync(id)?? throw new KeyNotFoundException();
+                _context.Fornecedores.Remove(fornecedor);
+                await _context.SaveChangesAsync();
                 return Ok();
 
             }

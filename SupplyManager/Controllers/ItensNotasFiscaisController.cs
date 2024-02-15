@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SupplyManager.App;
 using SupplyManager.Interfaces;
 using SupplyManager.Models;
@@ -14,14 +15,37 @@ namespace SupplyManager.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class ItensNotasFiscaisController:ControllerBase
     {
-        private readonly IItemNotaFiscalService _itensNotasFiscaisService;
+        private readonly SqlContext _context;
      
 
-        public ItensNotasFiscaisController(IItemNotaFiscalService itemNotaFiscalService)
+        public ItensNotasFiscaisController(SqlContext context)
         {
-            _itensNotasFiscaisService = itemNotaFiscalService;
+            _context = context;
         }
 
+        [HttpGet("{id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+
+        public async Task<ActionResult<ItemNotaFiscal>> GetById(int id)
+        {
+            try
+            {
+                return await _context.ItensNotaFiscal.FirstOrDefaultAsync(x=>x.Id==id) ;
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+        }
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -29,11 +53,11 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-        public async Task<ActionResult<List<ItemNotaFiscal>>> GetById(int id)
+        public async Task<ActionResult<List<ItemNotaFiscal>>> GetAll()
         {
             try
             {
-                return await _itensNotasFiscaisService.GetAllAsync();
+                return await _context.ItensNotaFiscal.ToListAsync() ;
             }
 
             catch (KeyNotFoundException)
@@ -56,6 +80,9 @@ namespace SupplyManager.Controllers
         public async Task<ActionResult<ItemNotaFiscal>> Post([FromBody] ItemNotaFiscal model)
         {
             
+                
+
+
                 ItemNotaFiscal n1 = new ItemNotaFiscal()
                 {
 
@@ -69,7 +96,7 @@ namespace SupplyManager.Controllers
 
                 };
 
-                var itemNotaFiscal = await _itensNotasFiscaisService.CreateAsync(n1);
+                var itemNotaFiscal = await _context.ItensNotaFiscal.AddAsync(n1);
 
                 return Ok(itemNotaFiscal);
 
@@ -92,7 +119,7 @@ namespace SupplyManager.Controllers
 
             try
             {
-              /*  var item = await _context.ItensNotaFiscal.FindAsync(id)?? throw new KeyNotFoundException();
+                var item = await _context.ItensNotaFiscal.FindAsync(id) ?? throw new KeyNotFoundException();
                 {
                     item.NotaFiscalId = model.NotaFiscalId;
                     item.MaterialId = model.MaterialId;
@@ -100,10 +127,10 @@ namespace SupplyManager.Controllers
                     item.AliquotaIPI = model.AliquotaIPI;
                     item.AliquotaICMS = model.AliquotaICMS;
                     item.Quantidade = model.Quantidade;
-                    
+
                 }
                 _context.Update(model);
-                await _context.SaveChangesAsync();*/
+                await _context.SaveChangesAsync();
                 return Ok();
 
             }
@@ -126,7 +153,9 @@ namespace SupplyManager.Controllers
 
             try
             {
-                await _itensNotasFiscaisService.DeleteAsync(id);
+                var item = await _context.ItensNotaFiscal.FindAsync(id)?? throw new KeyNotFoundException();
+
+                _context.Remove(item);
                 return Ok();
 
             }
