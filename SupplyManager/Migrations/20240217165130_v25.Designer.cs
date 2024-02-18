@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SupplyManager.App;
 
@@ -10,9 +11,11 @@ using SupplyManager.App;
 namespace SupplyManager.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    partial class SqlContextModelSnapshot : ModelSnapshot
+    [Migration("20240217165130_v25")]
+    partial class v25
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,6 +203,9 @@ namespace SupplyManager.Migrations
 
                     b.Property<string>("Tensao")
                         .HasColumnType("longtext");
+
+                    b.Property<float?>("TesteNovaColuna")
+                        .HasColumnType("float");
 
                     b.Property<string>("Unidade")
                         .HasColumnType("longtext");

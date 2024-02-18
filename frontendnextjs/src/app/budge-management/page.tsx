@@ -259,17 +259,27 @@ export default function BudgeManagement({params}:any){
 
     }
     
-    // ws.mergeCells(`B${materiaisOrcamento.length+1}`,`C${materiaisOrcamento.length+1}`)
+   
     ws.getRow(materiaisOrcamento.length+1).height=50
     
 
-    ws.getCell(`C${materiaisOrcamento.length+1}`).style.
+    const colC= ws.getColumn('C')
+    colC.width= 30;
 
+    ws.getCell(`B${materiaisOrcamento.length+1}`).value= `Quantidade De Materias No Orçamento:${materiaisOrcamento.length}`
+    ws.getCell(`B${materiaisOrcamento.length+1}`).alignment={vertical:'middle',horizontal:'center'}
+    ws.getCell(`B${materiaisOrcamento.length+1}`).border=bordas
 
     ws.getCell(`C${materiaisOrcamento.length+1}`).value= `Preço Custo Total:R$${precoCustoTotalOrcamento?.toFixed(2)}`
     ws.getCell(`C${materiaisOrcamento.length+1}`).alignment={vertical:'middle',horizontal:'center'}
+    ws.getCell(`C${materiaisOrcamento.length+1}`).border=bordas
+
     ws.getCell(`D${materiaisOrcamento.length+1}`).value= `Preço Venda Total:R$${precoVendaTotalOrcamento?.toFixed(2)}`
     ws.getCell(`D${materiaisOrcamento.length+1}`).alignment={vertical:'middle',horizontal:'center'}
+    ws.getCell(`D${materiaisOrcamento.length+1}`).border=bordas
+
+   const colD= ws.getColumn('D')
+    colD.width= 30;
 
 
     const logo = workbook.addImage({

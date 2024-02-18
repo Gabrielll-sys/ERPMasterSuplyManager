@@ -212,26 +212,28 @@ namespace SupplyManager.Controllers
 
                 var AlredyHaveMaterial = await queryMaterial.ToListAsync();
 
-                
 
-                    Material m1 = new Material(
-                  model.CodigoInterno.ToUpper(),
-                  model.CodigoFabricante.ToUpper(),
-                  model.Descricao.ToUpper(),
-                  model.Categoria.ToUpper(),
-                  model.Marca.ToUpper(),
-                  String.IsNullOrEmpty(model.Corrente) ? "-" : model.Corrente.ToUpper(),
-                  model.Unidade,
-                  String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao,
-                  String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper(),
 
-                   model.DataEntradaNF,
-                   model.PrecoCusto,
-                   model.Markup
-                  
-                  
-                   
-                   );
+                Material m1 = new Material(
+              model.CodigoInterno.ToUpper(),
+              model.CodigoFabricante.ToUpper(),
+              model.Descricao.ToUpper(),
+              model.Categoria.ToUpper(),
+              model.Marca.ToUpper(),
+              String.IsNullOrEmpty(model.Corrente) ? "-" : model.Corrente.ToUpper(),
+              model.Unidade,
+              String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao,
+              String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper(),
+
+               model.DataEntradaNF,
+               model.PrecoCusto,
+               model.Markup
+              
+
+
+
+               ) ;
+            
                     var validationM1 = ValidationMaterial.Validate(m1);
 
                     if (!validationM1.IsValid)
