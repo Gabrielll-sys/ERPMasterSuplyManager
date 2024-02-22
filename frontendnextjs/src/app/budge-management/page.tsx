@@ -77,6 +77,7 @@ export default function BudgeManagement({params}:any){
       calcPrecoVenda()
       calcPrecoCusto()
     },[materiaisOrcamento])
+
     const getAllMaterial = async()=>{
 
         const materiaisWithInvetory = await axios.get(`${url}/Inventarios`).then(r=>{
@@ -84,14 +85,14 @@ export default function BudgeManagement({params}:any){
          return r.data
         
     })
-    for(let i=100; i<400;i++)
+
+    for(let i=1; i<50;i++)
       {
         console.log(materiaisWithInvetory[i].material.precoVenda!=null )
-            if(materiaisWithInvetory[i].material.precoVenda!=null ){
-
+           
               setMateriaisOrcamento(current=>[...current,materiaisWithInvetory[i]])
               materiaisWithInvetory[i].quantidadeMaterial=2;
-            }
+            
         }    
         setMateriais(materiaisWithInvetory)
       }
@@ -146,7 +147,7 @@ export default function BudgeManagement({params}:any){
         let custoTotal:number | undefined = 0
 
           for(let item of materiaisOrcamento){
-            console.log(item.material.precoCusto)
+       
               custoTotal+=item.material.precoCusto*item.quantidadeMaterial
 
           }
@@ -230,6 +231,12 @@ export default function BudgeManagement({params}:any){
 
 
       const generatePlanilha = async ()=>{
+        
+        /*
+           Itera sobre a lista de materiais escolhidas no orçamento e poe numa respectiva célula,aonde cada iteração somara 3
+           por que os itens de cada linha começa a partir da 3 linha,pois antes vem o cabeçalho e o título de cada item da linha
+   
+        */
 
         const workbook : Excel.Workbook = new Excel.Workbook();
         
@@ -237,46 +244,50 @@ export default function BudgeManagement({params}:any){
        
         cabecalhoPlanilha(ws,workbook)
         
-     
-//Começa em 3 porque o titulos começam na linha 2 
-    for(let i=3;i<=materiaisOrcamento.length;i++)
+
+    for(let i in materiaisOrcamento)
     {
+      
+      let precoCusto = isNullIsZero(materiaisOrcamento[Number(i)].material.precoCusto)
+      let precoVenda = isNullIsZero(materiaisOrcamento[Number(i)].material.precoVenda)
 
-      let precoCusto = isNullIsZero(materiaisOrcamento[i-2].material.precoCusto)
-      let precoVenda = isNullIsZero(materiaisOrcamento[i-2].material.precoVenda)
 
-      ws.getCell(letraPlanilha[0]+i).value = materiaisOrcamento[i-3].material.id
-      includeBorderCell(ws,letraPlanilha[0]+i)
-      ws.getCell(letraPlanilha[1]+i).value = materiaisOrcamento[i-3].material.descricao
-      includeBorderCell(ws,letraPlanilha[1]+i)
-      ws.getCell(letraPlanilha[2]+i).value = precoCusto
-      includeBorderCell(ws,letraPlanilha[2]+i)
-      ws.getCell(letraPlanilha[3]+i).value = precoVenda
-      includeBorderCell(ws,letraPlanilha[3]+i)
-      ws.getCell(letraPlanilha[4]+i).value = materiaisOrcamento[i-3].quantidadeMaterial+" "+materiaisOrcamento[i-3].material.unidade
-      includeBorderCell(ws,letraPlanilha[4]+i)
+
+      ws.getCell(letraPlanilha[0]+(Number(i)+3)).value = materiaisOrcamento[Number(i)].material.id
+      includeBorderCell(ws,letraPlanilha[0]+(Number(i)+3))
+
+      ws.getCell(letraPlanilha[1]+(Number(i)+3)).value = materiaisOrcamento[Number(i)].material.descricao
+      includeBorderCell(ws,letraPlanilha[1]+(Number(i)+3))
+
+      ws.getCell(letraPlanilha[2]+(Number(i)+3)).value ="R$"+ precoCusto
+      includeBorderCell(ws,letraPlanilha[2]+Number(i))
+
+      ws.getCell(letraPlanilha[3]+(Number(i)+3)).value = "R$" + precoVenda
+      includeBorderCell(ws,letraPlanilha[3]+(Number(i)+3))
+
+      ws.getCell(letraPlanilha[4]+(Number(i)+3)).value = materiaisOrcamento[Number(i)].quantidadeMaterial+" "+materiaisOrcamento[Number(i)].material.unidade
+      includeBorderCell(ws,letraPlanilha[4]+(Number(i)+3))
 
 
     }
-    
-   
-    ws.getRow(materiaisOrcamento.length+1).height=50
+
+    ws.getRow(materiaisOrcamento.length+3).height=50
     
 
     const colC= ws.getColumn('C')
     colC.width= 30;
 
-    ws.getCell(`B${materiaisOrcamento.length+1}`).value= `Quantidade De Materias No Orçamento:${materiaisOrcamento.length}`
-    ws.getCell(`B${materiaisOrcamento.length+1}`).alignment={vertical:'middle',horizontal:'center'}
-    ws.getCell(`B${materiaisOrcamento.length+1}`).border=bordas
+    ws.getCell(`B${materiaisOrcamento.length+3}`).value= `Quantidade De Materias No Orçamento:${materiaisOrcamento.length}`
+    ws.getCell(`B${materiaisOrcamento.length+3}`).alignment={vertical:'middle',horizontal:'center'}
+    ws.getCell(`B${materiaisOrcamento.length+3}`).border=bordas
 
-    ws.getCell(`C${materiaisOrcamento.length+1}`).value= `Preço Custo Total:R$${precoCustoTotalOrcamento?.toFixed(2)}`
-    ws.getCell(`C${materiaisOrcamento.length+1}`).alignment={vertical:'middle',horizontal:'center'}
-    ws.getCell(`C${materiaisOrcamento.length+1}`).border=bordas
+    ws.getCell(`C${materiaisOrcamento.length+3}`).value= `Preço Custo Total:R$${precoCustoTotalOrcamento?.toFixed(2)}`
+    ws.getCell(`C${materiaisOrcamento.length+3}`).alignment={vertical:'middle',horizontal:'center'}
+    ws.getCell(`C${materiaisOrcamento.length+3}`).border=bordas
 
-    ws.getCell(`D${materiaisOrcamento.length+1}`).value= `Preço Venda Total:R$${precoVendaTotalOrcamento?.toFixed(2)}`
-    ws.getCell(`D${materiaisOrcamento.length+1}`).alignment={vertical:'middle',horizontal:'center'}
-    ws.getCell(`D${materiaisOrcamento.length+1}`).border=bordas
+    ws.getCell(`D${materiaisOrcamento.length+3}`).value= `Preço Venda Total:R$${precoVendaTotalOrcamento?.toFixed(2)}`
+    ws.getCell(`D${materiaisOrcamento.length+3}`).alignment={vertical:'middle',horizontal:'center'}
+    ws.getCell(`D${materiaisOrcamento.length+3}`).border=bordas
 
    const colD= ws.getColumn('D')
     colD.width= 30;
