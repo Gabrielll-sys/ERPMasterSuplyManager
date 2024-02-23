@@ -26,12 +26,14 @@ import { IInventario } from '@/app/interfaces/IInventarios';
 import IconBxTrashAlt from '@/app/assets/icons/IconBxTrashAlt';
 import IconPlus from '@/app/assets/icons/IconPlus';
 import { IItem } from '@/app/interfaces/IItem';
-import IconEdit from '@/app/assets/icons/IconEdit';
-import IconPen from '@/app/assets/icons/IconPen';
-import path from 'path';
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
+
 import dayjs from 'dayjs';
 import { logoBase64 } from '../assets/base64Logo';
 import { get } from 'http';
+import OrcamentoPDF from '../componentes/OrcamentoPDF';
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 
 
 export default function BudgeManagement({params}:any){
@@ -55,6 +57,7 @@ export default function BudgeManagement({params}:any){
   const[quantidadeMaterial,setQuantidadeMaterial] = useState<string>()
   const[isEditingOs,setIsEditingOs] = useState<boolean>(false)
   const[materiaisOrcamento,setMateriaisOrcamento] = useState<IInventario[]>([])
+  const doc = new jsPDF()
     let date = dayjs()
   const letraPlanilha : string[] = ['A','B','C','D','E']
 
@@ -86,7 +89,7 @@ export default function BudgeManagement({params}:any){
         
     })
 
-    for(let i=1; i<50;i++)
+    for(let i=100; i<110;i++)
       {
         console.log(materiaisWithInvetory[i].material.precoVenda!=null )
            
@@ -369,6 +372,9 @@ return(
   
   <IconBxTrashAlt onClick={()=>handleDelete(x)} />
 
+
+
+
            </div>
         ))}
       </AccordionItem>
@@ -377,6 +383,11 @@ return(
 <div className='flex flex-col ml-8 gap-2'>
   <p className='mt-5 font-bold text-lg'>Preço Custo Total:R$ {precoCustoTotalOrcamento?.toString().replace('.',',')}</p>
   <p  className='mt-5 font-bold  text-lg'>Preço Venda Total:R$ {precoVendaTotalOrcamento?.toString().replace('.',',')}</p>
+
+  
+  <PDFDownloadLink document={   <OrcamentoPDF materiaisOrcamento ={materiaisOrcamento} />} fileName="meu_documento.pdf">
+      {({ blob, url, loading, error }) => (loading ? 'Carregando documento...' : 'Abrir PDF em nova aba')}
+    </PDFDownloadLink>
 </div>
      </div>
      <Dialog open={openDialog} onClose={handleCloseDialog} >
