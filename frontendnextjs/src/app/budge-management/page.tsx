@@ -89,12 +89,13 @@ export default function BudgeManagement({params}:any){
         
     })
 
-    for(let i=100; i<110;i++)
+    for(let i=300; i<340;i++)
       {
         console.log(materiaisWithInvetory[i].material.precoVenda!=null )
-           
-              setMateriaisOrcamento(current=>[...current,materiaisWithInvetory[i]])
-              materiaisWithInvetory[i].quantidadeMaterial=2;
+              
+                setMateriaisOrcamento(current=>[...current,materiaisWithInvetory[i]])
+                materiaisWithInvetory[i].quantidadeMaterial=3000;
+              
             
         }    
         setMateriais(materiaisWithInvetory)
