@@ -89,7 +89,7 @@ export default function BudgeManagement({params}:any){
         
     })
 
-    for(let i=300; i<340;i++)
+    for(let i=300; i<305;i++)
       {
         console.log(materiaisWithInvetory[i].material.precoVenda!=null )
               
@@ -249,31 +249,29 @@ export default function BudgeManagement({params}:any){
         cabecalhoPlanilha(ws,workbook)
         
 
-    for(let i in materiaisOrcamento)
-    {
+        for(let i in materiaisOrcamento)
+        {
       
-      let precoCusto = isNullIsZero(materiaisOrcamento[Number(i)].material.precoCusto)
-      let precoVenda = isNullIsZero(materiaisOrcamento[Number(i)].material.precoVenda)
+          let precoCusto = isNullIsZero(materiaisOrcamento[Number(i)].material.precoCusto)
+          let precoVenda = isNullIsZero(materiaisOrcamento[Number(i)].material.precoVenda)
+
+          ws.getCell(letraPlanilha[0]+(Number(i)+3)).value = materiaisOrcamento[Number(i)].material.id
+          includeBorderCell(ws,letraPlanilha[0]+(Number(i)+3))
+
+          ws.getCell(letraPlanilha[1]+(Number(i)+3)).value = materiaisOrcamento[Number(i)].material.descricao
+          includeBorderCell(ws,letraPlanilha[1]+(Number(i)+3))
+
+          ws.getCell(letraPlanilha[2]+(Number(i)+3)).value ="R$"+ precoCusto
+          includeBorderCell(ws,letraPlanilha[2]+Number(i))
+
+          ws.getCell(letraPlanilha[3]+(Number(i)+3)).value = "R$" + precoVenda
+          includeBorderCell(ws,letraPlanilha[3]+(Number(i)+3))
+
+          ws.getCell(letraPlanilha[4]+(Number(i)+3)).value = materiaisOrcamento[Number(i)].quantidadeMaterial+" "+materiaisOrcamento[Number(i)].material.unidade
+          includeBorderCell(ws,letraPlanilha[4]+(Number(i)+3))
 
 
-
-      ws.getCell(letraPlanilha[0]+(Number(i)+3)).value = materiaisOrcamento[Number(i)].material.id
-      includeBorderCell(ws,letraPlanilha[0]+(Number(i)+3))
-
-      ws.getCell(letraPlanilha[1]+(Number(i)+3)).value = materiaisOrcamento[Number(i)].material.descricao
-      includeBorderCell(ws,letraPlanilha[1]+(Number(i)+3))
-
-      ws.getCell(letraPlanilha[2]+(Number(i)+3)).value ="R$"+ precoCusto
-      includeBorderCell(ws,letraPlanilha[2]+Number(i))
-
-      ws.getCell(letraPlanilha[3]+(Number(i)+3)).value = "R$" + precoVenda
-      includeBorderCell(ws,letraPlanilha[3]+(Number(i)+3))
-
-      ws.getCell(letraPlanilha[4]+(Number(i)+3)).value = materiaisOrcamento[Number(i)].quantidadeMaterial+" "+materiaisOrcamento[Number(i)].material.unidade
-      includeBorderCell(ws,letraPlanilha[4]+(Number(i)+3))
-
-
-    }
+      }
 
     ws.getRow(materiaisOrcamento.length+3).height=50
     

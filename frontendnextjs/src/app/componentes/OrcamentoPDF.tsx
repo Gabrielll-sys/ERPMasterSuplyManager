@@ -37,15 +37,15 @@ return(
     <Page size="A4" >
     <View style={{display:"flex",width:"850px",flexDirection:"row",justifyContent:"space-between",marginTop:20}}>
 
-            <Text style={{fontSize:12,alignSelf:"center",marginLeft:5}}>
+            <Text style={{fontSize:11,alignSelf:"center",marginLeft:5}}>
             Master Elétrica MG
             </Text>
-        <View  style={{display:"flex",flexDirection:"column",width:"50%",marginRight:80}}>
+        <View  style={{display:"flex",flexDirection:"column",width:"50%",marginRight:50}}>
         
-         <Text style={{fontWeight:"bold",fontSize:12,marginTop:5}}>Master Elétrica Comércio e Serviço LTDA</Text>
-         <Text style={{fontWeight:"bold",fontSize:12,marginTop:5}}>35.051.479/0001-70</Text>
-         <Text style={{fontWeight:"bold",fontSize:12,marginTop:5}}>Avenida Das Industrias,375</Text>
-         <Text style={{fontWeight:"bold",fontSize:12,marginTop:5}}>Santa Luzia - Minas Gerais</Text>
+         <Text style={{fontWeight:"bold",fontSize:11,marginTop:5}}>Master Elétrica Comércio e Serviço LTDA</Text>
+         <Text style={{fontWeight:"bold",fontSize:11,marginTop:5}}>35.051.479/0001-70</Text>
+         <Text style={{fontWeight:"bold",fontSize:11,marginTop:5}}>Avenida Das Industrias,375</Text>
+         <Text style={{fontWeight:"bold",fontSize:11,marginTop:5}}>Santa Luzia - Minas Gerais</Text>
         
         </View>
 
@@ -127,7 +127,7 @@ return(
 
         <View style={styles.tableRow}>
 
-          <View style={{display:"flex",  width: "70%",height:"40px" ,justifyContent:"center", borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,borderBottomWidth:1,textAlign:"center"}}> 
+          <View style={{display:"flex",  width: "90%",height:"40px" ,justifyContent:"center", borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,borderBottomWidth:1,textAlign:"center"}}> 
 
            <Text style={{  marginTop:2, fontSize: 10}}> Quantidade de Itens:{props.materiaisOrcamento.length},Preço Total Orçamento:R${precoVendaTotalOrcamento?.toFixed(2).toString().replace('.',',')}</Text> 
 
@@ -152,10 +152,10 @@ const styles = StyleSheet.create({
     table: { 
       display: "flex", 
       width: "auto",  
-      borderWidth: 1, 
       borderRightWidth: 0, 
       borderBottomWidth: 0,
       marginTop:20,
+
     }, 
     tableRow: { 
       margin: "auto", 
