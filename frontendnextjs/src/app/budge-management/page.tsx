@@ -89,12 +89,12 @@ export default function BudgeManagement({params}:any){
         
     })
 
-    for(let i=300; i<305;i++)
+    for(let i=50; i<100;i++)
       {
         console.log(materiaisWithInvetory[i].material.precoVenda!=null )
               
                 setMateriaisOrcamento(current=>[...current,materiaisWithInvetory[i]])
-                materiaisWithInvetory[i].quantidadeMaterial=3000;
+                materiaisWithInvetory[i].quantidadeMaterial=500;
               
             
         }    
@@ -379,15 +379,20 @@ return(
       </AccordionItem>
    
     </Accordion>
-<div className='flex flex-col ml-8 gap-2'>
-  <p className='mt-5 font-bold text-lg'>Preço Custo Total:R$ {precoCustoTotalOrcamento?.toString().replace('.',',')}</p>
-  <p  className='mt-5 font-bold  text-lg'>Preço Venda Total:R$ {precoVendaTotalOrcamento?.toString().replace('.',',')}</p>
+        <div className='flex flex-col ml-8 gap-2'>
+          <p className='mt-5 font-bold text-lg'>Preço Custo Total:R$ {precoCustoTotalOrcamento?.toString().replace('.',',')}</p>
+          <p  className='mt-5 font-bold  text-lg'>Preço Venda Total:R$ {precoVendaTotalOrcamento?.toString().replace('.',',')}</p>
 
-  
-  <PDFDownloadLink document={   <OrcamentoPDF materiaisOrcamento ={materiaisOrcamento} />} fileName="meu_documento.pdf">
-      {({ blob, url, loading, error }) => (loading ? 'Carregando documento...' : 'Abrir PDF em nova aba')}
-    </PDFDownloadLink>
-</div>
+          
+          <PDFDownloadLink document={   <OrcamentoPDF 
+          materiaisOrcamento ={materiaisOrcamento} 
+          nomeOrçamento={nomeOrçamento}
+          nomeUsuario={session?.user?.name}
+          
+          />} fileName={nomeOrçamento+".pdf"}>
+              {({ blob, url, loading, error }) => (loading ? 'Carregando documento...' : 'Abrir PDF em nova aba')}
+            </PDFDownloadLink>
+        </div>
      </div>
      <Dialog open={openDialog} onClose={handleCloseDialog} >
     <DialogTitle sx={{textAlign:"center"}}>{isEditingOs?itemToBeUpdated?.material.descricao:inventarioDialog?.material.descricao}</DialogTitle>
