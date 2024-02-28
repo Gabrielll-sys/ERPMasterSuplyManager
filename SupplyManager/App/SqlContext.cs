@@ -17,6 +17,9 @@ namespace SupplyManager.App
         public DbSet<NotaFiscal> NotasFiscais{ get; set; }
         public DbSet<Fornecedor> Fornecedores{ get; set; }
         public DbSet<ItemNotaFiscal> ItensNotaFiscal{ get; set; }
+        public DbSet<Cliente> Clientes{ get; set; }
+        public DbSet<Orcamento> Orcamentos{ get; set; }
+        public DbSet<Venda> Vendas{ get; set; }
 
     }
 }
