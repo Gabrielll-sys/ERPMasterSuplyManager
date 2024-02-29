@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Linq;
 using SupplyManager.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using MySqlConnector;
 
 namespace SupplyManager.Controllers
 {
@@ -29,7 +30,8 @@ namespace SupplyManager.Controllers
     {
         private readonly SqlContext _context;
         private readonly IMaterialService _materialService;
-        IWorkbook workbook;
+        MySqlConnection a = new MySqlConnection("server=localhost;database=MasterERP;user=root;password=1234");
+
 
 
 
@@ -53,6 +55,7 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<List<Material>>> GetAll()
         {
+            await a.OpenAsync();
 
             return Ok(await _context.Materiais.FromSql($"SELECT * FROM Materiais").ToListAsync());
          /*   return Ok(await _materialService.GetAllMateriaisAsync());*/

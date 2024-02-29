@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Project;
 using Microsoft.EntityFrameworkCore;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
+using Dapper;
 using SupplyManager.App;
 using SupplyManager.Interfaces;
 using SupplyManager.Models;
@@ -16,6 +15,7 @@ using SupplyManager.Services;
 using SupplyManager.Validations.InventarioValidations;
 using SupplyManager.Validations.MateriaisValidations;
 using static NPOI.HSSF.Util.HSSFColor;
+using MySqlConnector;
 
 namespace SupplyManager.Controllers
 {
@@ -29,6 +29,11 @@ namespace SupplyManager.Controllers
     {
         private readonly SqlContext _context;
         private readonly IInventarioService _inventarioService;
+/*
+        private  string _connectionString = "server=localhost;database=MasterERP;user=root;password=1234";
+
+
+       MySqlConnection a = new MySqlConnection("server=localhost;database=MasterERP;user=root;password=1234");*/
         public InventariosController(SqlContext context,IInventarioService inventarioService)
         {
 
@@ -48,10 +53,13 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<List<Inventario>>> GetAllInventarios()
         {
-
+  
             try
             {
-                return Ok(await _context.Inventarios.FromSql($"SELECT * FROM Inventarios ").Include(x=>x.Material).ToArrayAsync());
+
+           
+
+                return Ok(await _context.Inventarios.FromSql($"SELECT * FROM Inventarios ").ToArrayAsync());
                
             }
 

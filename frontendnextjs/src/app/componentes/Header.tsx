@@ -17,6 +17,8 @@ import {
   NavbarItem,
 } from "@nextui-org/react";
 
+import { Sidebar } from 'flowbite-react';
+import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag, HiTable, HiUser,HiClipboardCheck } from 'react-icons/hi';
 import IconQrCode from '@/app/assets/icons/IconQrCode';
 
 import { useRouter } from "next/navigation";
@@ -33,13 +35,17 @@ const Header= ()=>{
     const [isClicked, setIsClicked] = useState(false);
     const iconClasses = "h-4 text-2xl";
     const emails:string[] = ["gabrielpuneco@gmail.com"]
+    const [showSideBar,setShowSideBar]= useState(false)
     const handleClick = () => {
       setIsClicked(!isClicked);
   
       route.push("/");
     };
   
+const handleSideBar= ()=>{
 
+
+}
 return(
   <>
 
@@ -47,11 +53,50 @@ return(
     <header  className=" h-24 bg-master_black">
 
 <div className="ml-1  flex flex-row justify-between ">
+
+  <Button onPress={handleSideBar}>
+    <HiClipboardCheck  />
+  </Button>
+{showSideBar && (
+  <Sidebar  className="bg-slate-600 h-svh absolute" aria-label="Sidebar with multi-level dropdown example">
+<Sidebar.Logo href="#" img="/src/app/assets/logo preta.jpg" imgAlt="Flowbite logo">
+
+      </Sidebar.Logo>
+      <Sidebar.Items>
+        <Sidebar.ItemGroup>
+          <Sidebar.Item href="#" icon={HiChartPie}>
+            Dashboard
+          </Sidebar.Item>
+          <Sidebar.Collapse icon={HiShoppingBag} label="E-commerce">
+            <Sidebar.Item href="#">Products</Sidebar.Item>
+            <Sidebar.Item href="#">Sales</Sidebar.Item>
+            <Sidebar.Item href="#">Refunds</Sidebar.Item>
+            <Sidebar.Item href="#">Shipping</Sidebar.Item>
+          </Sidebar.Collapse>
+          <Sidebar.Item href="#" icon={HiInbox}>
+            Inbox
+          </Sidebar.Item>
+          <Sidebar.Item href="#" icon={HiUser}>
+            Users
+          </Sidebar.Item>
+          <Sidebar.Item href="#" icon={HiShoppingBag}>
+            Products
+          </Sidebar.Item>
+          <Sidebar.Item href="#" icon={HiArrowSmRight}>
+            Sign In
+          </Sidebar.Item>
+          <Sidebar.Item href="#" icon={HiTable}>
+            Sign Up
+          </Sidebar.Item>
+        </Sidebar.ItemGroup>
+      </Sidebar.Items>
+    </Sidebar>
+)}
+
+
     <Link href="/create-material">
     <Image  className="py-5 hover:scale-90 max-sm:mt-1 max-sm:w-[100px] max-sm:h-[80px] w-[120px] h-[90px]" src={require('../assets/logo.png')}  alt="logo master" />
     </Link>
-
-
 
 
 {session && session.user ? (

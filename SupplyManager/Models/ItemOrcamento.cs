@@ -20,4 +20,4 @@ namespace SupplyManager.Models
 
 
 }
-}
+

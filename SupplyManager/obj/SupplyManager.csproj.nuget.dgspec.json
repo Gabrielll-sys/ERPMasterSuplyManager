@@ -44,6 +44,10 @@
               "target": "Package",
               "version": "[4.0.3, )"
             },
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.1.28, )"
+            },
             "FluentValidation": {
               "target": "Package",
               "version": "[11.6.0, )"
@@ -74,7 +78,7 @@
             },
             "MySqlConnector": {
               "target": "Package",
-              "version": "[2.2.7, )"
+              "version": "[2.3.5, )"
             },
             "NPOI": {
               "target": "Package",

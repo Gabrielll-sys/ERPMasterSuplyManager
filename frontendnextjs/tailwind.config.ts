@@ -36,6 +36,7 @@ const config: Config = {
       addCommonColors: true,
     }),
     nextui(),
+    require('flowbite/plugin'),
   ],
 };
 

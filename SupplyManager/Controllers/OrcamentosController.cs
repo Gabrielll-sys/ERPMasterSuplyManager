@@ -44,9 +44,9 @@ namespace SupplyManager.Controllers
             }
         }
 
-        // POST api/<ValuesController>
+    
         [HttpPost]
-        public async Task<ActionResult<Venda>> Post([FromBody] Orcamento model)
+        public async Task<ActionResult<Orcamento>> Post([FromBody] Orcamento model)
         {
             try
             {
@@ -55,7 +55,12 @@ namespace SupplyManager.Controllers
                 {
                     Observacoes = model.Observacoes,
                     ReponsavelOrcamento = model.ReponsavelOrcamento,
-                    DataOrcamento=model.DataOrcamento,
+                    DataOrcamento = model.DataOrcamento,
+                    Acrescimo = model.Acrescimo,
+                    Desconto = model.Desconto,
+                    PrecoTotal = model.PrecoTotal,
+                    IsPayed = false,
+                    DataVenda = model.DataVenda,
        
                 };
 
@@ -77,7 +82,6 @@ namespace SupplyManager.Controllers
 
         }
 
-        // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] Orcamento model)
         {
@@ -89,6 +93,10 @@ namespace SupplyManager.Controllers
                 var o1 = await _context.Orcamentos.FindAsync(id) ?? throw new KeyNotFoundException();
 
                 o1.Observacoes = model.Observacoes;
+                o1.Acrescimo = model.Acrescimo;
+                o1.Desconto = model.Desconto;
+                o1.PrecoTotal = model.PrecoTotal;
+                o1.IsPayed = model.IsPayed;
                 o1.ReponsavelOrcamento = model.ReponsavelOrcamento;
                 o1.DataOrcamento = model.DataOrcamento;
 

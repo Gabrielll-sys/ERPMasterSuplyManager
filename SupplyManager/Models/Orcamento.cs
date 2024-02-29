@@ -27,9 +27,9 @@ namespace SupplyManager.Models
         {
             Boleto,
             PIX,
-            Cartao_de_Credito
+            Cartao
         }
     }
 
 }
-}
+

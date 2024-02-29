@@ -23,6 +23,12 @@ namespace SupplyManager.Models
         public string? Responsavel { get;set; }
 
 
+
+
+        public Inventario()
+        {
+
+        }
         public Inventario(string? razao,float? estoque,float? movimentacao,float? saldoFinal,string? responsavel,int? materialId) { 
 
           

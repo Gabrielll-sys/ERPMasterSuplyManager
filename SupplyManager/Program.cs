@@ -82,6 +82,7 @@ builder.Services.AddTransient<INotaFiscalService, NotaFiscalService>();
 builder.Services.AddScoped<INotaFiscalRepository, NotaFiscalRepository>();
 builder.Services.AddTransient<IItemNotaFiscalService, ItemNotaFiscalService>();
 builder.Services.AddScoped<IItemNotaFiscalRepository, ItemNotaFiscalRepository>();
+/*builder.Services.AddSingleton<IDataBaseConnectionService, DataBaseConnectionService>();*/
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
