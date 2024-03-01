@@ -7,6 +7,7 @@ namespace SupplyManager.Models
         public int Id { get; set; }
 
         public decimal QuantidadeMaterial { get; set; }
+        public DateTime DataAdicaoItem { get; set; }
 
         public int MaterialId { get; set; }
 

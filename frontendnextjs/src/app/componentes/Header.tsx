@@ -18,7 +18,7 @@ import {
 } from "@nextui-org/react";
 
 import { Sidebar } from 'flowbite-react';
-import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag, HiTable, HiUser,HiClipboardCheck } from 'react-icons/hi';
+import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag, HiTable,HiFilter, HiPencilAlt,HiQrcode } from 'react-icons/hi';
 import IconQrCode from '@/app/assets/icons/IconQrCode';
 
 import { useRouter } from "next/navigation";
@@ -28,6 +28,7 @@ import IconUser from "../assets/icons/IconUser";
 import TodoListPen from "../assets/icons/TodoListPen";
 import IconFilter from "../assets/icons/IconFilter";
 import IconMoneyBill from "../assets/icons/IconMoneyBill";
+import IconSideBar from "../assets/icons/IconSideBar";
 
 const Header= ()=>{
     const { data: session } = useSession();
@@ -44,49 +45,59 @@ const Header= ()=>{
   
 const handleSideBar= ()=>{
 
+if(showSideBar){
+  setShowSideBar(false)
+}
+  
+else setShowSideBar(true)
 
 }
 return(
   <>
 
 
-    <header  className=" h-24 bg-master_black">
+    <header  className=" h-24 bg-master_black  font-bold">
 
 <div className="ml-1  flex flex-row justify-between ">
 
-  <Button onPress={handleSideBar}>
-    <HiClipboardCheck  />
+  <Button  onMouseEnter={x=>setShowSideBar(true)} className="bg-master_black mt-6" onPress={handleSideBar}>
+    <IconSideBar  className=" rounded-lg h-10 text-white"  />
   </Button>
 {showSideBar && (
-  <Sidebar  className="bg-slate-600 h-svh absolute" aria-label="Sidebar with multi-level dropdown example">
-<Sidebar.Logo href="#" img="/src/app/assets/logo preta.jpg" imgAlt="Flowbite logo">
+  <Sidebar  onMouseLeave={x=>setShowSideBar(false)} className="bg-master_black  h-svh absolute ml-[-5px]" aria-label="Sidebar with multi-level dropdown example">
+        <Sidebar.ItemGroup>
+   
+    <Button className="bg-master_black h-20" onPress={handleSideBar}>
 
-      </Sidebar.Logo>
+    <Image  className="py-5 hover:scale-30 max-sm:mt-1 max-sm:w-[100px] max-sm:h-[80px] w-[130px] h-[105px]" src={require('../assets/logo.png')}  alt="logo master" />
+    </Button>
+    </Sidebar.ItemGroup>
+
+
       <Sidebar.Items>
         <Sidebar.ItemGroup>
-          <Sidebar.Item href="#" icon={HiChartPie}>
-            Dashboard
+          <Sidebar.Item onClick={route.push("/")} href="/" className="text-white hover:font-bold" icon={HiChartPie}>
+            Criar Material
           </Sidebar.Item>
-          <Sidebar.Collapse icon={HiShoppingBag} label="E-commerce">
-            <Sidebar.Item href="#">Products</Sidebar.Item>
-            <Sidebar.Item href="#">Sales</Sidebar.Item>
-            <Sidebar.Item href="#">Refunds</Sidebar.Item>
-            <Sidebar.Item href="#">Shipping</Sidebar.Item>
+       
+          <Sidebar.Item className="text-white mt-7 hover:font-bold" href="/search-inventory" icon={HiInbox}>
+            Gerenciar Inventário
+          </Sidebar.Item>
+          <Sidebar.Collapse className="text-white mt-7"label=" Orçamentos/Vendas" icon={HiPencilAlt}>
+
+          <Sidebar.Item className="text-white mt-3 hover:font-bold" href="/create-budge" >
+              Criar Orçamento
+          </Sidebar.Item>
           </Sidebar.Collapse>
-          <Sidebar.Item href="#" icon={HiInbox}>
-            Inbox
+
+          <Sidebar.Item className="text-white mt-7 hover:font-bold" href="/managing-os" icon={HiShoppingBag}>
+            Gerencia de OS
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiUser}>
-            Users
+          <Sidebar.Item className="text-white mt-7 hover:font-bold" href="/generateMaterialQrcode" icon={HiQrcode}>
+            Gerador De QrCode
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiShoppingBag}>
-            Products
-          </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiArrowSmRight}>
-            Sign In
-          </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiTable}>
-            Sign Up
+          <Sidebar.Item className="text-white mt-7 hover:font-bold" href="/materials-relatory" icon={HiFilter}>
+           Filtragem de Materiais
           </Sidebar.Item>
         </Sidebar.ItemGroup>
       </Sidebar.Items>
@@ -94,9 +105,7 @@ return(
 )}
 
 
-    <Link href="/create-material">
-    <Image  className="py-5 hover:scale-90 max-sm:mt-1 max-sm:w-[100px] max-sm:h-[80px] w-[120px] h-[90px]" src={require('../assets/logo.png')}  alt="logo master" />
-    </Link>
+  
 
 
 {session && session.user ? (
@@ -132,7 +141,7 @@ return(
       </p>
     </DropdownItem>
 
-    <DropdownItem
+    {/* <DropdownItem
       key="ManagingOs"
       
       className="text-start hover:underline"
@@ -185,7 +194,7 @@ return(
         Gerador código QR Code
       </p>
     </DropdownItem>
-    
+     */}
     <DropdownItem
       key="logout"
       color="danger"

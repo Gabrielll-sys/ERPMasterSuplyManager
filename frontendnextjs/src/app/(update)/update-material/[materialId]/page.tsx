@@ -146,7 +146,7 @@ export default function UpdateMaterial({params}:any){
      unidade:unidade,
      tensao:tensao,
      localizacao:localizacao.trim().replace(/\s\s+/g, ' '),
-     dataEntradaNF:dataentrada,
+     dataEntradaNF:null,
      precoCusto:Number(precoCusto)==0?0:Number(precoCusto?.toString().replace(',','.')),
      precoVenda:Number(precoVenda)==0?0:Number(precoVenda?.toString().replace(',','.')),
      markup:Number(markup)==0?null:Number(markup?.toString().replace(',','.')),
@@ -346,7 +346,7 @@ console.log(material)
       )}
      <div style={{marginTop:'40px',width:'206px'}}>
  
-     <LocalizationProvider 
+     {/* <LocalizationProvider 
         dateAdapter={AdapterDayjs} adapterLocale="pt-br" >
      
          <DatePicker  
@@ -355,7 +355,7 @@ console.log(material)
          value={dataentrada} 
          onChange={e=>setDataentrada(e)} />
      
-     </LocalizationProvider>
+     </LocalizationProvider> */}
      </div>
      
  

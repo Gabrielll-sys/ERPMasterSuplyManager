@@ -7,7 +7,10 @@ using System;
 
 namespace SupplyManager.Controllers
 {
-    public class ClientesController : Controller
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    public class ClientesController : ControllerBase
     {
 
         public readonly SqlContext _context;
