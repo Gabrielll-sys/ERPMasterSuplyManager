@@ -32,16 +32,12 @@ namespace SupplyManager.Models
 
         public string? CPFOrCNPJ { get; set; }
 
+        public string? TipoPagamento { get; set; }
 
 
 
-        public enum TipoPagamento
-        {
-            Boleto,
-            PIX,
-            Cartao
-        }
-    }
+       
 
+}
 }
 

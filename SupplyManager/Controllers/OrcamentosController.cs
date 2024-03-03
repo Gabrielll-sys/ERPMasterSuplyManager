@@ -60,18 +60,19 @@ namespace SupplyManager.Controllers
                 {
                     Observacoes = model.Observacoes,
                     ResponsavelOrcamento = model.ResponsavelOrcamento,
-                    DataOrcamento = model.DataOrcamento,
+                    DataOrcamento = DateTime.UtcNow.AddHours(-3),
                     Acrescimo = model.Acrescimo,
                     Desconto = model.Desconto,
                     PrecoTotal = model.PrecoTotal,
                     IsPayed = false,
-                    DataVenda = model.DataVenda,
                     NomeCliente = model.NomeCliente,
                     CPFOrCNPJ = model.CPFOrCNPJ,
                     Empresa = model.Empresa,
                     EmailCliente = model.EmailCliente,
                     Endereço = model.Endereço,
                     Telefone = model.Telefone,
+                    TipoPagamento = model.TipoPagamento,
+
             };
 
                 await _context.Orcamentos.AddAsync(o1);
@@ -115,7 +116,59 @@ namespace SupplyManager.Controllers
                 o1.EmailCliente = model.EmailCliente;
                 o1.Endereço = model.Endereço;
                 o1.Telefone = model.Telefone;
+                o1.TipoPagamento = model.TipoPagamento;
+
                
+
+                _context.Orcamentos.Update(o1);
+
+                await _context.SaveChangesAsync();
+
+                return Ok();
+
+
+            }
+
+
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+
+            }
+        }
+        [HttpPut("sellUpdate/{id}")]
+        public async Task<ActionResult> PutSell(int id, [FromBody] Orcamento model)
+        {
+
+            if (model.Id != id) return StatusCode(StatusCodes.Status400BadRequest);
+
+            try
+            {
+                var o1 = await _context.Orcamentos.FindAsync(id) ?? throw new KeyNotFoundException();
+
+                o1.Observacoes = model.Observacoes;
+                o1.Acrescimo = model.Acrescimo;
+                o1.Desconto = model.Desconto;
+                o1.PrecoTotal = model.PrecoTotal;
+                o1.IsPayed = model.IsPayed;
+                o1.ResponsavelOrcamento = model.ResponsavelOrcamento;
+                o1.DataOrcamento = model.DataOrcamento;
+                o1.NomeCliente = model.NomeCliente;
+                o1.CPFOrCNPJ = model.CPFOrCNPJ;
+                o1.Empresa = model.Empresa;
+                o1.EmailCliente = model.EmailCliente;
+                o1.Endereço = model.Endereço;
+                o1.Telefone = model.Telefone;
+                o1.TipoPagamento = model.TipoPagamento;
+                o1.DataVenda = DateTime.UtcNow.AddHours(-3);
+
+
 
                 _context.Orcamentos.Update(o1);
 

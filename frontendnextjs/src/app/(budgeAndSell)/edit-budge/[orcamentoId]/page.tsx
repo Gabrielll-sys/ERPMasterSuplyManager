@@ -55,6 +55,17 @@ export default function ManageBudges({params}:any){
   const [messageAlert, setMessageAlert] = useState<string>();
   const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
   const [openDialog,setOpenDialog] = useState<boolean>(false)
+  const[nomeCliente,setNomeCliente] = useState<string>()
+  const[emailCliente,setEmailCliente] = useState<string>()
+  const[telefone,setTelefone] = useState<string>()
+  const[endereco,setEndereco] = useState<string>()
+
+  const[cpfOrCnpj,setCpfOrCnpj] = useState<string>()
+  const[empresa,setEmpresa] = useState<string>()
+  const [metodoPagamento,setMetodoPagamento] = useState<any>("boleto")
+  const [desconto,setDesconto] = useState<string>("")
+  const [acrescimo,setAcrescimo] = useState<string>("")
+
 const[precoCustoTotalOrcamento,setPrecoCustoTotalOrcamento] = useState<number >();
 const[precoVendaTotalOrcamento,setPrecoVendaTotalOrcamento] = useState<number>();
 const[quantidadeMaterial,setQuantidadeMaterial] = useState<string>()
@@ -63,6 +74,7 @@ const[materiaisOrcamento,setMateriaisOrcamento] = useState<any>([])
 const doc = new jsPDF()
   let date = dayjs()
 const letraPlanilha : string[] = ['A','B','C','D','E']
+const formasPagamento : string[] = ["Boleto", "PIX", "Cartão Crédito", "Cartão Débito"];
 
   const bordas:any= {
     top: {style:'thin'},
@@ -106,6 +118,34 @@ const letraPlanilha : string[] = ['A','B','C','D','E']
 
 }
   
+const handleUpdateOrcamento = async()=>{
+  const budge = {
+    id:orcamento.id,
+    desconto:Number(desconto),
+    tipoPagamento:metodoPagamento,
+    nomeCliente:nomeCliente,
+    empresa:empresa,
+    emailCliente:emailCliente,
+    telefone:telefone,
+    endereco:endereco,
+    cPFOrCnpj:cpfOrCnpj,
+    acrescimo:Number(acrescimo),
+
+
+
+  }
+  console.log(budge)
+  const res = await axios.put(`${url}/Orcamentos/${orcamento.id}`,budge).then(r=>{
+
+    setOpenSnackBar(true);
+    setSeveridadeAlert("success");
+    setMessageAlert("Orcamento Atualizado com sucesso");
+    getAllMateriaisInOrcamento(params.orcamentoId)
+
+  }).catch(e=>console.log(e))
+
+}
+
     const handleOpenDialog =  (item:any)=>{
       console.log(materiaisOrcamento.includes(item))
       setInventarioDialog(item)
@@ -122,7 +162,7 @@ const letraPlanilha : string[] = ['A','B','C','D','E']
     }
     const handleAddMaterialOrcamento = async (item?:any)=>{
 
-    console.log(item)
+
     const itemOrcamento = {
       materialId:item.materialId,
       material:{},
@@ -131,6 +171,7 @@ const letraPlanilha : string[] = ['A','B','C','D','E']
       orcamento:{},
     }
 
+   
 
     const res = await axios.post(`${url}/ItensOrcamento/CreateItemOrcamento`,itemOrcamento).then(r=>{
 
@@ -148,6 +189,15 @@ const letraPlanilha : string[] = ['A','B','C','D','E']
       await axios.get(`${url}/Orcamentos/${params.orcamentoId}`).then(r=>{
         console.log(r.data)
         setOrcamento(r.data)
+        setAcrescimo(r.data.acrescimo)
+        setNomeCliente(r.data.nomeCliente)
+        setEmailCliente(r.data.emailCliente)
+        setEmpresa(r.data.empresa)
+        setTelefone(r.data.telefone)
+        setDesconto(r.data.desconto)
+        setCpfOrCnpj(r.data.cpfOrCnpj)
+        setMetodoPagamento(r.data.tipoPagamento)
+
       })
     }
     const handleUpdateItem = async (item?:any) =>{
@@ -230,6 +280,15 @@ const letraPlanilha : string[] = ['A','B','C','D','E']
 
       return value==null?0:"R$"+value.toFixed(2).toString().replace('.',',')
     }
+
+    const handleInputQuantidade = (value:any)=>{
+      setQuantidadeMaterial(value)
+      if(value<1) setQuantidadeMaterial("1")
+      if( inventarioDialog?.saldoFinal!=undefined && value>inventarioDialog?.saldoFinal) setQuantidadeMaterial(inventarioDialog?.saldoFinal.toString())
+
+
+    }
+
     const createXlsxPlanilha = async (workbook:Excel.Workbook)=>{
 
       let buffer = await workbook.xlsx.writeBuffer();
@@ -383,7 +442,7 @@ ws.addImage(logo, {
 
 return(
     <>
-      <h1 className='text-center text-2xl mt-4'>vv</h1>
+      <h1 className='text-center text-2xl mt-4'>Orçamento Nº {orcamento?.id}</h1>
       <div className='flex flex-col  mt-10  justify-center text-center '>
    
           <div className='flex flex-row justify-between w-[630px]'>
@@ -430,7 +489,7 @@ return(
         nomeUsuario={session?.user?.name}
         orcamento={orcamento}
         
-        />} fileName={nomeOrçamento+".pdf"}>
+        />} fileName={"Orçamento Nº"+ orcamento?.id+".pdf"}>
             {({ blob, url, loading, error }) => (loading ? 'Carregando documento...' : 'Abrir PDF em nova aba')}
           </PDFDownloadLink>
           </Button>
@@ -448,7 +507,7 @@ return(
           autoFocus
           className="border-1   border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[150px] max-h-14"
           endContent={<p>{isEditingOs? itemToBeUpdated?.material.unidade:inventarioDialog?.material.unidade}</p>}
-          onValueChange={setQuantidadeMaterial}
+          onValueChange={(x)=>handleInputQuantidade(x)}
         
           value={quantidadeMaterial}
         />
@@ -461,29 +520,120 @@ return(
     </DialogActions>
   </Dialog>
       </div>
-      <Accordion className="ml-6">
-      <AccordionItem key="1" aria-label="`Materias do Orçamento" subtitle="Pressione para expandir" title={`Materias do Orçamento ${materiaisOrcamento?.length}`}>
-        {materiaisOrcamento.map((x:any)=>(
-           
-           <div className='flex flex-row justify-between w-[800px] '>
-            <p className='m-4 max-w-[250px]'>{x.material.id}- {x.material.descricao}</p>
-            <p >{x.quantidadeMaterial} {x.material.unidade}</p>
-    
- <div className='flex flex-row justify-between gap-3'>
-   
-   <IconBxTrashAlt onClick={()=>handleDelete(x.id)} />
-   <IconEdit onClick={()=>{setItemToBeUpdated(x),setIsEditingOs(true),setOpenDialog(true),findInventory(x.material.id)}} />
- </div>
-
-
-
+      <div className='flex flex-row justify-between'>
+        <div className='flex flex-col'>
+          <Accordion className="ml-6">
+          <AccordionItem key="1" aria-label="`Materias Presentes no orçamento" subtitle="Pressione para expandir" title={`Materias Presentes no orçamento: ${materiaisOrcamento?.length}`}>
+            {materiaisOrcamento.map((x:any)=>(
+          
+               <div className='flex flex-row justify-between w-[800px] '>
+                <p className='m-4 max-w-[250px] text-base'>{x.material.id}- {x.material.descricao}</p>
+                <p  className='text-base'>{x.quantidadeMaterial} {x.material.unidade}</p>
+          
+           <div className='flex flex-row justify-between gap-3'>
+          
+             <IconBxTrashAlt onClick={()=>handleDelete(x.id)} />
+             <IconEdit onClick={()=>{setItemToBeUpdated(x),setIsEditingOs(true),setOpenDialog(true),findInventory(x.material.id)}} />
            </div>
-        ))}
-      </AccordionItem>
-   
-    </Accordion>
-    <p className='mt-5 font-bold text-lg'>Preço Custo Total:R$ {precoCustoTotalOrcamento?.toString().replace('.',',')}</p>
+               </div>
+            ))}
+          </AccordionItem>
+          
+              </Accordion>
+              <p className='mt-16 font-bold text-lg'>Preço Custo Total:R$ {precoCustoTotalOrcamento?.toString().replace('.',',')}</p>
           <p  className='mt-5 font-bold  text-lg'>Preço Venda Total:R$ {precoVendaTotalOrcamento?.toString().replace('.',',')}</p>
+        </div>
+         
+              <div className='flex flex-col ml-32'>
+                <div className='flex flex-row flex-wrap w-[1150px] '>
+                  <Input
+                          value={nomeCliente}
+                          className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                          onValueChange={setNomeCliente}
+                          placeholder='99283-4235'
+                          label="Nome do Cliente"
+                        />
+                  <Input
+                          value={telefone}
+                          className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                          onValueChange={setTelefone}
+                          placeholder='99283-4235'
+                          label="Telefone"
+                        />
+                  <Input
+                          value={emailCliente}
+                          className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                          onValueChange={setEmailCliente}
+                          placeholder='abcde@gmail.com'
+                          label="Email"
+                        />
+                  <Input
+                          value={empresa}
+                          className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                          onValueChange={setEmpresa}
+                          placeholder='Facebook'
+                          label="Empresa do Cliente"
+                        />
+                         <Input
+                        value={endereco}
+                        className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px] self-center"
+                        onValueChange={setEndereco}
+                        placeholder='Rua Numero e Bairro'
+                        label="Endereço"
+                      />
+                      <Input
+                        value={cpfOrCnpj}
+                        className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                        onValueChange={setCpfOrCnpj}
+                        placeholder='99283-4235'
+                        label="CPF OU CNPJ"
+                      />
+                </div>
+                <div className='flex flex-row flex-wrap'>
+               
+                <Input
+                        value={desconto}
+                        className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                        onValueChange={setDesconto}
+                        placeholder='99283-4235'
+                        label="Telefone"
+                      />
+                <Input
+                        value={nomeOrçamento}
+                        className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                        onValueChange={setNomeOrçamento}
+                        placeholder='99283-4235'
+                        label="Telefone"
+                      />
+                <Autocomplete
+                    label="Método Pagamento $"
+                    placeholder="EX:PIX"
+                    className=" w-[250px] border-1 border-black rounded-xl shadow-sm shadow-black h-14 mt-10 ml-5 mr-5 w"
+                      value={metodoPagamento}
+                      onValueChange={setMetodoPagamento}
+                  >
+                  
+                  {formasPagamento.map((item:any) => (
+                    
+                      <AutocompleteItem
+                      key={item.id} 
+                      aria-label='teste'
+                      
+
+                    
+                        value={item}
+                        >
+                        {item}
+                      </AutocompleteItem>
+                    ))}
+                    </Autocomplete>
+        <Button  onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
+
+              </div>
+              </div>
+            
+      </div>
+
      </div>
  <Snackbar
             open={openSnackBar}
