@@ -69,7 +69,7 @@ return(
    
     <Button className="bg-master_black h-20" onPress={handleSideBar}>
 
-    <Image  className="py-5 hover:scale-30 max-sm:mt-1 max-sm:w-[100px] max-sm:h-[80px] w-[130px] h-[105px]" src={require('../assets/logo.png')}  alt="logo master" />
+    <Image  className="py-5 hover:scale-30 max-sm:mt-1 max-sm:w-[100px] max-sm:h-[80px] w-[130px] h-[100px]" src={require('../assets/logo.png')}  alt="logo master" />
     </Button>
     </Sidebar.ItemGroup>
 
@@ -87,6 +87,9 @@ return(
 
           <Sidebar.Item className="text-white mt-3 hover:font-bold" href="/create-budge" >
               Criar Orçamento
+          </Sidebar.Item>
+          <Sidebar.Item className="text-white mt-3 hover:font-bold" href="/manage-budges" >
+              Orçamentos
           </Sidebar.Item>
           </Sidebar.Collapse>
 

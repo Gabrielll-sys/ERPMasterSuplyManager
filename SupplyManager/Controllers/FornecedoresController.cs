@@ -33,7 +33,7 @@ namespace SupplyManager.Controllers
         {
             try
             {
-                return await _context.Fornecedores.ToListAsync();
+                return await _context.Fornecedores.AsNoTracking().ToListAsync();
             }
 
            

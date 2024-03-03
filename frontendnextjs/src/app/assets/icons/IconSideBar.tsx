@@ -6,8 +6,8 @@ function IconSideBar(props: React.SVGProps<SVGSVGElement>) {
     <svg
       fill="currentColor"
       viewBox="0 0 16 16"
-      height="2.4em"
-      width="2.4em"
+      height="1.8em"
+      width="1.8em"
       {...props}
     >
       <path d="M12.5 3a.5.5 0 010 1h-5a.5.5 0 010-1h5zm0 3a.5.5 0 010 1h-5a.5.5 0 010-1h5zm.5 3.5a.5.5 0 00-.5-.5h-5a.5.5 0 000 1h5a.5.5 0 00.5-.5zm-.5 2.5a.5.5 0 010 1h-5a.5.5 0 010-1h5z" />

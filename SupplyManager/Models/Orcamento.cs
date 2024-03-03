@@ -7,7 +7,7 @@ namespace SupplyManager.Models
         //O ORÇAMENTO NÃO É UMA VENDA,MAS CASO OS MATERIAS SEJAM DE FATOS VENDIDOS AI SIM SE TORNARÁ UMA VENDA
         public int Id { get; set; }
 
-        public string? ReponsavelOrcamento { get; set; }
+        public string? ResponsavelOrcamento { get; set; }
 
         public DateTime? DataOrcamento { get; set; }
         public string? Observacoes { get; set; }
@@ -18,9 +18,21 @@ namespace SupplyManager.Models
 
         public decimal? PrecoTotal { get; set; }
 
-
         public DateTime? DataVenda { get; set; }
         public bool? IsPayed { get; set; }
+
+        public string? NomeCliente { get; set; }
+        //Caso seja de  uma empresa
+        public string? Empresa { get; set; }
+
+        public string? EmailCliente { get; set; }
+
+        public string? Telefone { get; set; }
+        public string? Endereço { get; set; }
+
+        public string? CPFOrCNPJ { get; set; }
+
+
 
 
         public enum TipoPagamento

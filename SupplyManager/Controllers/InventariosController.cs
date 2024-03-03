@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -29,11 +27,7 @@ namespace SupplyManager.Controllers
     {
         private readonly SqlContext _context;
         private readonly IInventarioService _inventarioService;
-/*
-        private  string _connectionString = "server=localhost;database=MasterERP;user=root;password=1234";
 
-
-       MySqlConnection a = new MySqlConnection("server=localhost;database=MasterERP;user=root;password=1234");*/
         public InventariosController(SqlContext context,IInventarioService inventarioService)
         {
 
@@ -57,9 +51,21 @@ namespace SupplyManager.Controllers
             try
             {
 
-           
+            var allItens = await _context.Inventarios.Include(x=>x.Material).AsNoTracking().ToListAsync();
 
-                return Ok(await _context.Inventarios.FromSql($"SELECT * FROM Inventarios ").ToArrayAsync());
+            List<Inventario> result = new List<Inventario>();
+                foreach (var i in allItens)
+                {
+                    var invetoryWithMaterial = allItens.Where(x => x.MaterialId == i.MaterialId).TakeLast(1).ToList();
+                    if (!result.Contains(invetoryWithMaterial[0]))
+                    {
+                    result.Add(invetoryWithMaterial[0]);
+
+                    }
+
+                }
+            
+                return Ok(result);
                
             }
 

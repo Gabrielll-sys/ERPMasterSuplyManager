@@ -35,7 +35,7 @@ namespace SupplyManager.Controllers
         public async Task<List<OrdemServico>> GetAll()
         {
     
-            return await _context.OrdemServicos.ToListAsync();
+            return await _context.OrdemServicos.AsNoTracking().ToListAsync();
         }
 
 

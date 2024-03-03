@@ -26,7 +26,7 @@ namespace SupplyManager.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Cliente>>> GetAll()
         {
-            return Ok(await _context.Inventarios.FromSql($"SELECT * FROM Clientes ").ToListAsync());
+            return Ok(await _context.Inventarios.AsNoTracking().ToListAsync());
 
         }
 

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SupplyManager.App;
 
@@ -10,9 +11,11 @@ using SupplyManager.App;
 namespace SupplyManager.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    partial class SqlContextModelSnapshot : ModelSnapshot
+    [Migration("20240302022220_27")]
+    partial class _27
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -308,9 +311,6 @@ namespace SupplyManager.Migrations
                     b.Property<decimal?>("Acrescimo")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<string>("CPFOrCNPJ")
-                        .HasColumnType("longtext");
-
                     b.Property<DateTime?>("DataOrcamento")
                         .HasColumnType("datetime");
 
@@ -320,20 +320,8 @@ namespace SupplyManager.Migrations
                     b.Property<decimal?>("Desconto")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<string>("EmailCliente")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Empresa")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Endereço")
-                        .HasColumnType("longtext");
-
                     b.Property<bool?>("IsPayed")
                         .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("NomeCliente")
-                        .HasColumnType("longtext");
 
                     b.Property<string>("Observacoes")
                         .HasColumnType("longtext");
@@ -341,10 +329,7 @@ namespace SupplyManager.Migrations
                     b.Property<decimal?>("PrecoTotal")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<string>("ResponsavelOrcamento")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Telefone")
+                    b.Property<string>("ReponsavelOrcamento")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

@@ -5,7 +5,12 @@ using SupplyManager.App;
 using SupplyManager.Models;
 
 namespace SupplyManager.Controllers
-{
+{    ///<summary>
+     ///Controlador para gerenciar Orçamentos
+     /// </summary>
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class OrcamentosController: ControllerBase
     {
         public readonly SqlContext _context;
@@ -21,7 +26,7 @@ namespace SupplyManager.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Orcamento>>> GetAll()
         {
-            return Ok(await _context.Orcamentos.FromSql($"SELECT * FROM Orcamentos ").ToListAsync());
+            return Ok(await _context.Orcamentos.AsNoTracking().OrderBy(x=>x.DataOrcamento).ToListAsync());
 
         }
 
@@ -54,15 +59,20 @@ namespace SupplyManager.Controllers
                 Orcamento o1 = new Orcamento()
                 {
                     Observacoes = model.Observacoes,
-                    ReponsavelOrcamento = model.ReponsavelOrcamento,
+                    ResponsavelOrcamento = model.ResponsavelOrcamento,
                     DataOrcamento = model.DataOrcamento,
                     Acrescimo = model.Acrescimo,
                     Desconto = model.Desconto,
                     PrecoTotal = model.PrecoTotal,
                     IsPayed = false,
                     DataVenda = model.DataVenda,
-       
-                };
+                    NomeCliente = model.NomeCliente,
+                    CPFOrCNPJ = model.CPFOrCNPJ,
+                    Empresa = model.Empresa,
+                    EmailCliente = model.EmailCliente,
+                    Endereço = model.Endereço,
+                    Telefone = model.Telefone,
+            };
 
                 await _context.Orcamentos.AddAsync(o1);
 
@@ -97,8 +107,15 @@ namespace SupplyManager.Controllers
                 o1.Desconto = model.Desconto;
                 o1.PrecoTotal = model.PrecoTotal;
                 o1.IsPayed = model.IsPayed;
-                o1.ReponsavelOrcamento = model.ReponsavelOrcamento;
+                o1.ResponsavelOrcamento = model.ResponsavelOrcamento;
                 o1.DataOrcamento = model.DataOrcamento;
+                o1.NomeCliente = model.NomeCliente;
+                o1.CPFOrCNPJ = model.CPFOrCNPJ;
+                o1.Empresa = model.Empresa;
+                o1.EmailCliente = model.EmailCliente;
+                o1.Endereço = model.Endereço;
+                o1.Telefone = model.Telefone;
+               
 
                 _context.Orcamentos.Update(o1);
 

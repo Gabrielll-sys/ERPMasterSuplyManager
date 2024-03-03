@@ -10,12 +10,12 @@ namespace SupplyManager.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class ItensOrcamento : Controller
+    public class ItensOrcamentoController : Controller
     {
         private readonly SqlContext _context;
 
        
-            public ItensOrcamento(SqlContext context)
+            public ItensOrcamentoController(SqlContext context)
         {
             _context = context;
         }
@@ -26,9 +26,9 @@ namespace SupplyManager.Controllers
         /// <param name="id"></param>
         /// <returns>Todos os itens ja criados</returns>
         [HttpGet()]
-        public async Task<List<Item>> GetAll()
+        public async Task<List<ItemOrcamento>> GetAll()
         {
-            return (await _context.Itens.ToListAsync());
+            return (await _context.ItensOrcamento.AsNoTracking().ToListAsync());
         }
         /// <summary>
         /// Pega o item por id
@@ -43,11 +43,11 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
 
-        public async Task<ActionResult<Item>> Get(int id)
+        public async Task<ActionResult<ItemOrcamento>> Get(int id)
         {
 
 
-            var a = await _context.Itens.FirstOrDefaultAsync(x => x.Id == id);
+            var a = await _context.ItensOrcamento.FirstOrDefaultAsync(x => x.Id == id);
 
 
             return Ok(a);
@@ -62,26 +62,26 @@ namespace SupplyManager.Controllers
         /// </summary>
         /// <param name="id">Id da ordem de serviço</param>
         /// <returns>Lista de todos os materias e suas quantidade presentes na Ordem de serviço</returns>
-        [HttpGet("GetAllMateriaisOs/{id}")]
+        [HttpGet("GetAllMateriaisOrcamento/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-        public async Task<ActionResult<Item>> GetAllMateriasOs(int id)
+        public async Task<ActionResult<ItemOrcamento>> GetAllMateriasOrcamento(int id)
         {
 
-            List<Item> itensWithMaterial = new List<Item>();
+            List<ItemOrcamento> itensWithMaterial = new List<ItemOrcamento>();
 
             var materias = _context.Materiais;
-            var os = _context.Orcamentos;
+            var orcamento = _context.Orcamentos;
             var itens = await _context.ItensOrcamento.ToListAsync();
 
 
             foreach (var item in itens)
             {
-                if (item.OrdemServicoId == id)
+                if (item.OrcamentoId == id)
                 {
 
                     var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == item.MaterialId);
@@ -90,7 +90,7 @@ namespace SupplyManager.Controllers
 
                     item.Material = material;
 
-                    item.OrdemServico = ordemServico;
+                    item.Orcamento = ordemServico;
 
 
                     itensWithMaterial.Add(item);
@@ -116,13 +116,13 @@ namespace SupplyManager.Controllers
         /// </summary>
         /// <param name="id">Objeto de item para ser criado</param>
         /// <returns>Item criado</returns>
-        [HttpPost("CreateItem")]
+        [HttpPost("CreateItemOrcamento")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<Item>> Create(ItemOrcamento model)
+        public async Task<ActionResult<ItemOrcamento>> Create(ItemOrcamento model)
         {
             try
             {
@@ -131,14 +131,11 @@ namespace SupplyManager.Controllers
                     DataAdicaoItem = DateTime.UtcNow.AddHours(-3),
                     MaterialId = model.MaterialId,
                     QuantidadeMaterial = model.QuantidadeMaterial,
-                    
+                    OrcamentoId = model.OrcamentoId,
                     
                 };
 
-                var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == model.MaterialId);
-
-                var ordemServico = await _context.Orcamentos.FirstOrDefaultAsync(x => x.Id == model.OrcamentoId);
-
+            
 
                 await _context.ItensOrcamento.AddAsync(item);
                 await _context.SaveChangesAsync();
@@ -228,4 +225,4 @@ namespace SupplyManager.Controllers
         }
     }
 }
-}
+

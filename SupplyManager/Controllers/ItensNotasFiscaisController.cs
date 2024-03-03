@@ -57,7 +57,7 @@ namespace SupplyManager.Controllers
         {
             try
             {
-                return await _context.ItensNotaFiscal.ToListAsync() ;
+                return await _context.ItensNotaFiscal.AsNoTracking().ToListAsync() ;
             }
 
             catch (KeyNotFoundException)

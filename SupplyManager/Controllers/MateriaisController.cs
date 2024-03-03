@@ -55,9 +55,9 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<List<Material>>> GetAll()
         {
-            await a.OpenAsync();
+           
 
-            return Ok(await _context.Materiais.FromSql($"SELECT * FROM Materiais").ToListAsync());
+            return Ok(await _context.Materiais.AsNoTracking().ToListAsync());
          /*   return Ok(await _materialService.GetAllMateriaisAsync());*/
 
         }

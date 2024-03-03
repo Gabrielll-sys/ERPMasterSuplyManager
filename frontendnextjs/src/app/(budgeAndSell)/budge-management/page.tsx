@@ -91,8 +91,7 @@ export default function BudgeManagement({params}:any){
 
     for(let i=50; i<100;i++)
       {
-        console.log(materiaisWithInvetory[i].material.precoVenda!=null )
-              
+
                 setMateriaisOrcamento(current=>[...current,materiaisWithInvetory[i]])
                 materiaisWithInvetory[i].quantidadeMaterial=500;
               
@@ -126,10 +125,9 @@ export default function BudgeManagement({params}:any){
     
 
       }
-      const handleDelete = (material:IInventario) =>{
-        const newList: IInventario[]   = materiaisOrcamento.filter(x=>x!=material)
+      const handleDelete = (id:number) =>{
 
-      setMateriaisOrcamento(newList)
+
       }
 
       const calcPrecoVenda = () =>{

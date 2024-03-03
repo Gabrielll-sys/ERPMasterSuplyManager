@@ -1,10 +1,10 @@
 "use client"
-import {Link, Button,Autocomplete, AutocompleteItem, Input,Textarea, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
+import {Link, Button,Autocomplete, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
 import Excel, { BorderStyle } from 'exceljs';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
 import { useRouter } from "next/navigation";
 import { QRCode } from "react-qrcode-logo";
-
+import { Textarea } from 'flowbite-react';
 import { useEffect, useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import "dayjs/locale/pt-br";
@@ -47,7 +47,7 @@ export default function BudgeManagement({params}:any){
 
     const[nomeOrçamento,setNomeOrçamento] = useState<string>("")
 
-
+    const formasPagamento : string[] = ["Boleto", "PIX", "Cartão Crédito", "Cartão Débito"];
   const doc = new jsPDF()
     let date = dayjs()
 
@@ -58,7 +58,7 @@ export default function BudgeManagement({params}:any){
       right: {style:'thin'}
     }
 
-const createBudge = async ()=>{
+const handleCreateBudge = async ()=>{
 
 const orcamento = {
 desconto:desconto,
@@ -72,7 +72,7 @@ const res = await axios.post(`${url}/Orcamentos`, orcamento).then(r=>{
 }).catch(e=>console.log(e))
 
 }
-   const createItemOrcamento = async()=>{
+   const handleCreateItemOrcamento = async()=>{
 
     const item ={
       quantidadeMaterial:2,
@@ -93,19 +93,19 @@ return(
     <div className='flex flex-row justify-center  '>
     <Input
         value={nomeCliente}
-        className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
+        className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
         onValueChange={setNomeCliente}
         label="Nome" 
       />
     <Input
         value={emailCliente}
-        className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
+        className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
         onValueChange={setEmailCliente}
         label="Email" 
       />
     <Input
         value={telefone}
-        className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
+        className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
         onValueChange={setTelefone}
         placeholder='99283-4235'
         label="Telefone" 
@@ -113,7 +113,7 @@ return(
   <Input
         value={cpfOrCnpj}
         type='number'
-        className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
+        className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
         onValueChange={setCpfOrCnpj}
         placeholder='155.507.22.42'
         label="CPF ou CNPJ" 
@@ -121,14 +121,14 @@ return(
   <Input
         value={empresa}
         type='text'
-        className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
+        className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
         onValueChange={setEmpresa}
         placeholder='Microsft'
         label="Empresa" 
       />
     </div>
   <h1 className='text-center text-2xl mt-7'>Informações do Orçamento</h1>
-    <div className='  flex flex-col items-center'>
+    <div className=' justify-center flex flex-row items-center'>
 
     <Input
         value={empresa}
@@ -138,20 +138,32 @@ return(
         placeholder='Microsft'
         label="Empresa" 
       />
+<Autocomplete
+       label="Método Pagamento $"
+       placeholder="EX:PIX"
+       className="max-w-[180px] border-1 border-black rounded-xl shadow-sm shadow-black h-14 mt-10 ml-5 mr-5 w"
+        value={metodoPagamento}
+        onValueChange={setMetodoPagamento}
+     >
+     
+     {formasPagamento.map((item:any) => (
+      
+        <AutocompleteItem
+         key={item.id} 
+         aria-label='teste'
+        
 
-    <CheckboxGroup
-      label="Select cities"
-      orientation="horizontal"
-      color="secondary"
+      
+          value={item}
+          >
+          {item}
+        </AutocompleteItem>
+      ))}
+      </Autocomplete>
 
-      value={metodoPagamento}
-      onValueChange={setMetodoPagamento}
-    >
-      <Checkbox value="boleto-bancario">Boleto Bancário</Checkbox>
-      <Checkbox value="pix">Pix</Checkbox>
-      <Checkbox value="cartao-credito">Cartão Crédito</Checkbox>
-      <Checkbox value="cartao-débito">Cartão Débito</Checkbox>
-    </CheckboxGroup>
+      <Button  onPress={handleCreateBudge} className='bg-master_black text-white p-7 rounded-lg font-bold text-2xl shadow-lg '>
+         Criar Orçamento
+      </Button>
     </div>
 
 

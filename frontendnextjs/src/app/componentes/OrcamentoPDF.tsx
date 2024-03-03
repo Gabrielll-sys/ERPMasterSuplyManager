@@ -13,6 +13,10 @@ const OrcamentoPDF = (props:any)=>{
   const [buffer, setBuffer] = useState<any>(null);
 
 useEffect(()=>{
+
+    console.log(props.materiaisOrcamento)
+    console.log(props.orcamento?.id)
+
   const buffer = "/src/app/assets/logo preta.jpg";
   // Converte o buffer em uma string base64
   const base64 = Buffer.from(buffer).toString("base64");
@@ -35,12 +39,12 @@ calcPrecoVenda()
     let custoTotal:number | undefined = 0
 
     for(let item of props.materiaisOrcamento){
-      
-        custoTotal+=item.material.precoVenda*item.quantidadeMaterial
+   
+        custoTotal+=item.material.precoVenda.toFixed(2)*item.quantidadeMaterial
     
 
     }
-    setPrecoVendaTotalOrcamento(Number(custoTotal.toFixed(2)))
+    setPrecoVendaTotalOrcamento(Number(custoTotal))
 
     console.log(custoTotal)
   }
@@ -63,9 +67,16 @@ return(
         </View>
 
     </View>
+    <div style={{marginLeft:25,marginTop:20}}>
+      <Text style={{fontWeight:"bold",fontSize:11,marginTop:5}}>{props.orcamento?.nomeCliente}</Text>
+      <Text style={{fontWeight:"bold",fontSize:11,marginTop:5}}>{props.orcamento?.emailCliente}</Text>
+      <Text style={{fontWeight:"bold",fontSize:11,marginTop:5}}>{props.orcamento?.endereco}</Text>
+      <Text style={{fontWeight:"bold",fontSize:11,marginTop:5}}>{props.orcamento?.empresa}</Text>
+    </div>
+
         
 
-    <Text style={{textAlign:"center",marginTop:50}}>{props.nomeOrçamento}</Text>
+    <Text style={{textAlign:"center",marginTop:40}}>Orçamento Nº {props.orcamento?.id}</Text>
 
       <View style={styles.table}> 
 
@@ -79,7 +90,7 @@ return(
             <Text style={styles.tableCell}>Descricao</Text> 
           </View> 
 
-        <View style={{  width:"9%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 0, borderTopWidth: 0,textAlign:"center"}}> 
+          <View style={{  width:"9%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 0, borderTopWidth: 0,textAlign:"center"}}> 
             <Text style={styles.tableCell}>Qntd</Text> 
           </View> 
 
@@ -119,17 +130,17 @@ return(
 
           <View style={{  width: "10%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center",}}> 
           {props.materiaisOrcamento.map((x:IInventario)=>(
-
-            <Text style={styles.tableCell}>{x.material.precoVenda!=null?"R$"+ x.material.precoVenda.toFixed(2).toString().replace('.',','):""}</Text> 
+            
+            <Text style={{     fontSize: 10,padding:5}}>{x.material.precoVenda!=null?"R$"+ x.material.precoVenda.toFixed(2).toString().replace('.',','):""}</Text> 
 
             ))}
           </View> 
 
           <View style={{  width: "11%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
-          {props.materiaisOrcamento.map((x:IInventario)=>(
+          {props.materiaisOrcamento.map((x:any)=>(
 
-            <Text style={styles.tableCell}>{x.material.precoVenda!=null?"R$"+ (x.material.precoVenda* x.quantidadeMaterial).toFixed(2).toString().replace('.',','):""}</Text> 
-
+            <Text style={{  fontSize: 10,padding:5}}>{x.material.precoVenda!=null?"R$"+ (x.material.precoVenda.toFixed(2)* x.quantidadeMaterial).toFixed(2).toString().replace('.',','):""}</Text> 
+              
             ))}
           </View> 
          
@@ -140,7 +151,7 @@ return(
 
         <View style={styles.tableRow}>
 
-          <View style={{display:"flex",flexDirection:"row",  width: "90%",height:"40px" ,justifyContent:"space-between", borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,borderBottomWidth:1}}> 
+          <View style={{display:"flex",flexDirection:"row",  width: "90%",height:"35px" ,justifyContent:"space-between", borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,borderBottomWidth:1}}> 
 
           <Text style={{  marginTop:12, fontSize: 11,marginLeft:10}}> Quantidade de Itens:{props.materiaisOrcamento.length}</Text> 
            <Text style={{  marginTop:12, fontSize: 11,marginRight:10,}}> Preço Total Orçamento:R${precoVendaTotalOrcamento?.toFixed(2).toString().replace('.',',')}</Text> 
@@ -157,50 +168,107 @@ return(
     
       <View style={styles.table}> 
 
-        <View style={{  margin: "auto", flexDirection: "row" ,backgroundColor:"#EBE2AB"}}> 
+            {props.orcamento?.isPayed ? (
+                <>
 
-          <View style={{  width: "30%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
-            <Text style={styles.tableCell}>Data Orçamento</Text> 
-          </View> 
+                  <View style={{  margin: "auto", flexDirection: "row" ,backgroundColor:"#EBE2AB"}}> 
 
-          <View style={{  width: "30%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
-            <Text style={styles.tableCell}>Total dos Itens</Text> 
-          </View> 
+                  <View style={{  width: "22.5%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
+                    <Text style={styles.tableCell}>Data Orçamento</Text> 
+                  </View> 
 
-          <View style={{  width: "30%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
-            <Text style={styles.tableCell}>Total Do Orçamento</Text> 
-          </View> 
+                  <View style={{  width: "22.5%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
+                    <Text style={styles.tableCell}>Data Venda</Text> 
+                  </View> 
 
-        </View> 
+                  <View style={{  width: "22.5%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
+                    <Text style={styles.tableCell}>Total dos Itens</Text> 
+                  </View> 
 
-        <View style={styles.tableRow}> 
-          <View style={{  width: "30%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
-       
+                  <View style={{  width: "22.5%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
+                    <Text style={styles.tableCell}>Total Do Orçamento</Text> 
+                  </View> 
 
-            <Text style={styles.tableCell}>{"Data Orçamento:"+" "+dayjs(date).format("DD/MM/YYYY").toString()}</Text> 
-         
-          </View> 
-          
-          <View style={{  width: "30%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
-       
+                  </View> 
 
-            <Text style={styles.tableCell}>R${precoVendaTotalOrcamento?.toFixed(2).toString().replace('.',',')}</Text> 
-         
-          </View> 
-          
-          <View style={{  width: "30%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
-       
+                  <View style={styles.tableRow}> 
+                  <View style={{  width: "22.5%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}>
 
-            <Text style={styles.tableCell}>R${precoVendaTotalOrcamento?.toFixed(2).toString().replace('.',',')}</Text> 
-         
-          </View> 
-          
-        
-         
-          
+                    <Text style={styles.tableCell}>{dayjs(date).format("DD/MM/YYYY").toString()}</Text> 
+
+                  </View> 
+
+                  <View style={{  width: "22.5%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}>
+
+                    <Text style={styles.tableCell}>{dayjs(props.orcamento?.dataOrcamento).format("DD/MM/YYYY HH:mm:ss").toString()}</Text> 
+
+                  </View> 
+
+                  <View style={{  width: "22.5%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
 
 
-        </View> 
+                    <Text style={styles.tableCell}>R${precoVendaTotalOrcamento?.toFixed(2).toString().replace('.',',')}</Text> 
+
+                  </View> 
+
+                  <View style={{  width: "22.5%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
+
+                    <Text style={styles.tableCell}>R${precoVendaTotalOrcamento?.toFixed(2).toString().replace('.',',')}</Text> 
+
+                  </View> 
+
+
+                  </View> 
+
+                </>
+            ):(
+              <>
+
+
+
+              <View style={{  margin: "auto", flexDirection: "row" ,backgroundColor:"#EBE2AB"}}> 
+
+              <View style={{  width: "30%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
+                <Text style={styles.tableCell}>Data Orçamento</Text> 
+              </View> 
+
+              <View style={{  width: "30%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
+                <Text style={styles.tableCell}>Total dos Itens</Text> 
+              </View> 
+
+              <View style={{  width: "30%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
+                <Text style={styles.tableCell}>Total Do Orçamento</Text> 
+              </View> 
+
+              </View> 
+
+              <View style={styles.tableRow}> 
+              <View style={{  width: "30%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
+
+
+                <Text style={styles.tableCell}>{dayjs(props.orcamento?.dataOrcamento).format("DD/MM/YYYY HH:mm:ss").toString()}</Text> 
+
+              </View> 
+
+              <View style={{  width: "30%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
+
+
+                <Text style={styles.tableCell}>R${precoVendaTotalOrcamento?.toFixed(2).toString().replace('.',',')}</Text> 
+
+              </View> 
+
+              <View style={{  width: "30%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}> 
+
+                <Text style={styles.tableCell}>R${precoVendaTotalOrcamento?.toFixed(2).toString().replace('.',',')}</Text> 
+
+              </View> 
+
+
+              </View> 
+
+              </>
+            )}
+
 
       
 
