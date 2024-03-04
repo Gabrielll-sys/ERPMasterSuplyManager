@@ -33,20 +33,27 @@ import dayjs from 'dayjs';
 
 
 export default function ManageBudges({params}:any){
+  const[empresa,setEmpresa] = useState<string>("")
+  const[orcamentos,setOrcamentos] = useState<any>()
 
     useEffect(()=>{
         getAllOrcamentos()
     },[])
+    useEffect(()=>{
+        getOrcamentosByCompany()
+        if(empresa?.length==0){
+          getAllOrcamentos()
+        }
+    },[empresa])
     const route = useRouter()
     const { data: session } = useSession();
   
-    const[orcamentos,setOrcamentos] = useState<any>()
     
 
     const[nomeOrçamento,setNomeOrçamento] = useState<string>("")
 
     const formasPagamento : string[] = ["Boleto", "PIX", "Cartão Crédito", "Cartão Débito"];
-  const doc = new jsPDF()
+    const doc = new jsPDF()
     let date = dayjs()
 
     const bordas:any= {
@@ -55,6 +62,16 @@ export default function ManageBudges({params}:any){
       bottom: {style:'thin'},
       right: {style:'thin'}
     }
+
+
+
+const getOrcamentosByCompany = async()=>{
+
+  await axios.get(`${url}/Orcamentos/buscaNomeEmpresa?empresa=${empresa}`).then((r:AxiosResponse)=>{
+    setOrcamentos(r.data)
+  }).catch(e=>console.log(e))
+
+}
 
 const getAllOrcamentos = async ()=>{
 
@@ -66,12 +83,22 @@ const getAllOrcamentos = async ()=>{
 
 }
 
+console.log(orcamentos)
 
 
 
 return(
     <>
       <h1 className='text-center text-2xl mt-4'>Orçamentos</h1>
+      <div className=' flex flex-row justify-center'>
+        <Input
+          value={empresa}
+          className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
+          onValueChange={setEmpresa}
+          placeholder='Ex:Brastorno'
+          label="Nome da Empresa"
+        />
+      </div>
     <div className=' flex flex-row items-center justify-center flex-wrap gap-16 self-center mt-16'>
       {orcamentos!=undefined &&  orcamentos.map((x:any)=>(
 
@@ -79,12 +106,13 @@ return(
 
       <Card className="min-w-[370px] bg-white border-black border-1 shadow-md shadow-black">
       
-        <div className="flex flex-col items-center pb-10">
+        <div className="flex flex-col items-center pb-5">
       
-          <h5 className="mb-1 text-xl font-medium mt-2 dark:text-white">Orçamento Nº {x.id}</h5>
-          <span className="text-sm mt-2 ">{x.nomeCliente}</span>
-          <span className="text-sm mt-2">{x.empresa}</span>
-          <span className="text-sm mt-2">Data Orcamento:{dayjs(x.dataOrcamento).format("DD/MM/YYYY HH:mm:ss")}</span>
+          <h5 className="mb-1 text-xl font-xl mt-2 dark:text-white">Orçamento Nº {x.id}</h5>
+          <span className="text-lg mt-2  ">{x.nomeCliente}</span>
+          <span className="text-lg mt-2">{x.empresa}</span>
+          <span className="text-lg mt-2">Data Orcamento:{dayjs(x.dataOrcamento).format("DD/MM/YYYY HH:mm:ss")}</span>
+          <span className="text-lg mt-2">Status:{x.isPayed?"Orçamento Concluído":"Orçamento em Aberto"}</span>
           <div className="mt-4 flex space-x-3 lg:mt-6">
             <p
               onClick={()=>route.push(`/edit-budge/${x.id}`)}

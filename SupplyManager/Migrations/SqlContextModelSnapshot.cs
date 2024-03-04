@@ -208,6 +208,9 @@ namespace SupplyManager.Migrations
                     b.Property<int>("OrcamentoId")
                         .HasColumnType("int");
 
+                    b.Property<decimal?>("PrecoItemOrcamento")
+                        .HasColumnType("decimal(65,30)");
+
                     b.Property<decimal>("QuantidadeMaterial")
                         .HasColumnType("decimal(65,30)");
 
@@ -333,6 +336,9 @@ namespace SupplyManager.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("NomeCliente")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("NomeOrcamento")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Observacoes")

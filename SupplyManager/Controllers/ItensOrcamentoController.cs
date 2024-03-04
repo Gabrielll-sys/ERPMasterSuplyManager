@@ -182,6 +182,7 @@ namespace SupplyManager.Controllers
             var item = await _context.ItensOrcamento.FirstOrDefaultAsync(x => x.Id == id);
 
             item.QuantidadeMaterial = model.QuantidadeMaterial;
+            item.PrecoItemOrcamento = model.PrecoItemOrcamento;
             _context.ItensOrcamento.Update(item);
             await _context.SaveChangesAsync();
 

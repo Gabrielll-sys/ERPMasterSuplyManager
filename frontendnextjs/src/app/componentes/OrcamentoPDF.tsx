@@ -298,16 +298,18 @@ return(
 
 
       </View>
-<View style={{borderColor:"black",borderWidth:"1px",width:"80%",alignSelf:"center",marginTop:20}}>
-<Text style={{fontSize:11,fontWeight:"extrabold",padding:9}}>*Importante</Text>
+      <Text style={{fontSize:11,marginLeft:30,marginTop:14}}>Forma de Pagamento:{props.orcamento?.tipoPagamento}</Text>
+
+<View style={{borderColor:"black",borderWidth:"1px",width:"80%",alignSelf:"center",marginTop:20,borderRadius:"4px"}}>
+<Text style={{fontSize:11,fontWeight:"extrabold",padding:9}}>*Observações</Text>
 
 <Text style={{fontSize:11,padding:12,maxWidth:"80%"}}>{ props.orcamento?.observacoes!= null && props.orcamento?.observacoes.length?props.orcamento?.observacoes:"Sem Observações"}</Text>
 </View>
       <View style={{ display:"flex",flexDirection:"column",marginTop:20,marginLeft:30}}>
-      <Text style={{fontSize:13,padding:5}}>Forma de Pagamento:{props.orcamento?.tipoPagamento}</Text>
 
-        <Text style={{fontSize:13,padding:5}}>Atenciosamente</Text>
-        <Text style={{fontSize:13,padding:5}}>{props.nomeUsuario}</Text>
+        <Text style={{fontSize:11,padding:5}}>Atenciosamente,{props.nomeUsuario}</Text>
+        <Text style={{fontSize:11,padding:5,marginTop:6}}>Master Elétrica</Text>
+        <Text style={{fontSize:11,padding:5}}>Gerando melhorias, desenvolvendo soluções!</Text>
 
       </View>
     </Page>

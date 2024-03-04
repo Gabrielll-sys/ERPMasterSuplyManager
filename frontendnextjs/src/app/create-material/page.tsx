@@ -281,11 +281,7 @@ console.log(e)
        
       <>
    
-      <div>
-      
-<NavBar/>
 
-</div>
 
 
  

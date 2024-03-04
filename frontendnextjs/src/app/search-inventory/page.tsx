@@ -227,11 +227,7 @@ catch(e){
 
     return(
         <>
-      <div>
-    <NavBar/>
 
-
-</div>
       <h1  className="text-center mt-14 text-2xl">Gerenciamento de Inventário</h1>
    
       <div className=" text-center mt-11" >

@@ -50,7 +50,7 @@ export default function ManageBudges({params}:any){
 
   const [materiais,setMateriais]= useState<IInventario[] >([])
   const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
-  const [openList,setOpenList] = useState<boolean>(false)
+  const [precoVendaNovoMaterial,setPrecoVendaNovoMaterial] = useState<string>("")
   const [descricaoOs,setDescricaoOs] = useState<string>()
   const [messageAlert, setMessageAlert] = useState<string>();
   const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
@@ -73,6 +73,8 @@ const[quantidadeMaterial,setQuantidadeMaterial] = useState<string>()
 const[isEditingOs,setIsEditingOs] = useState<boolean>(false)
 const[materiaisOrcamento,setMateriaisOrcamento] = useState<any>([])
 const[precoComDesconto,setPrecoComDesconto] = useState<any>()
+const[openDialogPreco,setOpenDialogPreco] = useState<boolean>(false)
+
 const doc = new jsPDF()
   let date = dayjs()
 const letraPlanilha : string[] = ['A','B','C','D','E']
@@ -102,14 +104,24 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
 
   },[desconto])
 
+  useEffect(()=>{
+    calcPrecoVenda()
+
+  },[materiaisOrcamento])
+
 
   const getAllMateriaisInOrcamento = async(id:number)=>{
 
-      await axios.get(`${url}/ItensOrcamento/GetAllMateriaisOrcamento/${id}`).then((r)=>{
-      console.log(r.data)
+      const res = await axios.get(`${url}/ItensOrcamento/GetAllMateriaisOrcamento/${id}`).then((r)=>{
         setMateriaisOrcamento(r.data)
+      return r.data
 
       }).catch(e=>console.log(e))
+
+
+      for( let i in res){
+      
+      }
 
   }
   const getAllMaterial = async()=>{
@@ -170,6 +182,14 @@ const handleUpdateOrcamento = async()=>{
       setQuantidadeMaterial("")
       setInventarioDialog(undefined)
     }
+    const handleCloseDialogPreco = ()=>{
+
+   
+    
+      setOpenDialogPreco(false)
+      setPrecoVendaNovoMaterial("")
+      setInventarioDialog(undefined)
+    }
     const handleAddMaterialOrcamento = async (item?:any)=>{
 
 
@@ -221,6 +241,7 @@ const handleUpdateOrcamento = async()=>{
         quantidadeMaterial:Number(quantidadeMaterial),
         orcamentoId:Number(params.orcamentoId),
         orcamento:{},
+        precoItemOrcamento:precoVendaNovoMaterial
       }
       const res = await axios.put(`${url}/ItensOrcamento/${item.id}`,itemOrcamento).then(r=>{
 
@@ -228,6 +249,7 @@ const handleUpdateOrcamento = async()=>{
         setSeveridadeAlert("success");
         setMessageAlert("Quantidade Atualizada Com Sucesso");
         getAllMateriaisInOrcamento(params.orcamentoId)
+        calcPrecoVenda()
   
       }).catch(e=>console.log(e))
   
@@ -262,7 +284,7 @@ const handleUpdateOrcamento = async()=>{
   
     const findInventory = (id:number)=>{
       const inventoryFinded : IInventario | undefined = materiais.find(x=>x.materialId==id)
-      console.log(inventoryFinded)
+
       setInventarioDialog(inventoryFinded)
      }
     const calcPrecoVenda = () =>{
@@ -473,7 +495,7 @@ ws.addImage(logo, {
 
 return(
     <>
-      <h1 className='text-center text-2xl mt-4'>Orçamento Nº {orcamento?.id}</h1>
+      <h1 className='text-center text-2xl mt-8'>Orçamento Nº {orcamento?.id}</h1>
       <div className='flex flex-col  mt-10  justify-center text-center '>
    
           <div className='flex flex-row justify-between w-[630px]'>
@@ -547,6 +569,39 @@ return(
         <Button  onPress={()=> !isEditingOs ?handleAddMaterialOrcamento(inventarioDialog):handleUpdateItem(itemToBeUpdated)}>{isEditingOs?"Atualizar Quantidade":"Adicionar material"}</Button>
     </DialogActions>
   </Dialog>
+        
+
+
+
+           <Dialog open={openDialogPreco} onClose={handleCloseDialogPreco} >
+    <DialogTitle sx={{textAlign:"center"}}>{isEditingOs?itemToBeUpdated?.material.descricao:inventarioDialog?.material.descricao}</DialogTitle>
+    <DialogContent >
+
+      <p className='text-center'>
+        
+        Estoque: {inventarioDialog?.saldoFinal == 0 || null?0:inventarioDialog?.saldoFinal} {inventarioDialog?.material.unidade} 
+          </p>
+      <div className=' flex flex-row justify-center'>
+        <Input
+          type='number'
+          autoFocus
+          className="border-1   border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[150px] max-h-14"
+          endContent={<p>{isEditingOs? itemToBeUpdated?.material.unidade:inventarioDialog?.material.unidade}</p>}
+          onValueChange={(x)=>setPrecoVendaNovoMaterial(x)}
+        
+          value={quantidadeMaterial}
+        />
+      </div>
+    </DialogContent>
+    <DialogActions>
+      <Button onPress={handleCloseDialogPreco}>Fechar</Button>
+       
+        <Button  onPress={()=> handleUpdateItem()}>Atualizar Preço</Button>
+    </DialogActions>
+  </Dialog>
+
+
+
       </div>
       <div className='flex flex-row justify-between'>
         <div className='flex flex-col'>
@@ -557,6 +612,10 @@ return(
                <div className='flex flex-row justify-between w-[800px] '>
                 <p className='m-4 max-w-[250px] text-base'>{x.material.id}- {x.material.descricao}</p>
                 <p  className='text-base'>{x.quantidadeMaterial} {x.material.unidade}</p>
+                <p  className='text-base'>R${x.material.precoCusto.toFixed(2)}</p>
+                <Button className='bg-white pb-5' onPress={()=>setOpenDialogPreco(true)}>
+                  <p  className='text-base hover:underline'>R${x.material.precoVenda.toFixed(2)}</p>
+                </Button>
           
            <div className='flex flex-row justify-between gap-3'>
           
@@ -569,7 +628,7 @@ return(
           
               </Accordion>
               <p className='mt-16 font-bold text-lg'>Preço Custo Total:R$ {precoCustoTotalOrcamento?.toString().replace('.',',')}</p>
-              <p  className='mt-5 font-bold  text-lg'>Preço Venda Total:R$ {precoVendaTotalOrcamento?.toString().replace('.',',')}</p>
+              <p  className='mt-5 font-bold  text-lg' onClick={()=>setOpenDialogPreco(true)}>Preço Venda Total:R$ {precoVendaTotalOrcamento?.toString().replace('.',',')}</p>
               {precoComDesconto>0 && (
 
               <p  className='mt-5 font-bold  text-lg'>Preço Venda com Desconto:R$ {precoComDesconto?.toString().replace('.',',')}</p>

@@ -26,9 +26,19 @@ namespace SupplyManager.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Orcamento>>> GetAll()
         {
-            return Ok(await _context.Orcamentos.AsNoTracking().OrderBy(x=>x.DataOrcamento).ToListAsync());
+            return Ok(await _context.Orcamentos.AsNoTracking().OrderByDescending(x=>x.DataOrcamento).ToListAsync());
 
         }
+        [HttpGet("buscaNomeEmpresa")]
+        public async Task<ActionResult<List<Orcamento>>> GetByCompanyName(string empresa)
+        {
+
+
+            return await  _context.Orcamentos.AsNoTracking().Where(x => x.Empresa.Contains(empresa)).OrderBy(x => x.DataOrcamento).ToListAsync();
+
+        }
+
+
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
