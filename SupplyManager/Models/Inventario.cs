@@ -82,7 +82,13 @@ namespace SupplyManager.Models
             SaldoFinal -= quantidade;
             Movimentacao = - quantidade;
         }
+        public void MovimentacaoOrcamento(float? quantidade, string razao)
 
+        {
+            Razao = razao;
+            SaldoFinal -= quantidade;
+            Movimentacao = -quantidade;
+        }
 
 
     }

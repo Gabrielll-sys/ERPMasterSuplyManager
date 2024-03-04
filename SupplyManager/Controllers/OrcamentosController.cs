@@ -66,10 +66,10 @@ namespace SupplyManager.Controllers
                     PrecoTotal = model.PrecoTotal,
                     IsPayed = false,
                     NomeCliente = model.NomeCliente,
-                    CPFOrCNPJ = model.CPFOrCNPJ,
+                    CpfOrCnpj = model.CpfOrCnpj,
                     Empresa = model.Empresa,
                     EmailCliente = model.EmailCliente,
-                    Endereço = model.Endereço,
+                    Endereco = model.Endereco,
                     Telefone = model.Telefone,
                     TipoPagamento = model.TipoPagamento,
 
@@ -109,12 +109,11 @@ namespace SupplyManager.Controllers
                 o1.PrecoTotal = model.PrecoTotal;
                 o1.IsPayed = model.IsPayed;
                 o1.ResponsavelOrcamento = model.ResponsavelOrcamento;
-                o1.DataOrcamento = model.DataOrcamento;
                 o1.NomeCliente = model.NomeCliente;
-                o1.CPFOrCNPJ = model.CPFOrCNPJ;
+                o1.CpfOrCnpj = model.CpfOrCnpj;
                 o1.Empresa = model.Empresa;
                 o1.EmailCliente = model.EmailCliente;
-                o1.Endereço = model.Endereço;
+                o1.Endereco = model.Endereco;
                 o1.Telefone = model.Telefone;
                 o1.TipoPagamento = model.TipoPagamento;
 
@@ -158,23 +157,76 @@ namespace SupplyManager.Controllers
                 o1.PrecoTotal = model.PrecoTotal;
                 o1.IsPayed = model.IsPayed;
                 o1.ResponsavelOrcamento = model.ResponsavelOrcamento;
-                o1.DataOrcamento = model.DataOrcamento;
                 o1.NomeCliente = model.NomeCliente;
-                o1.CPFOrCNPJ = model.CPFOrCNPJ;
+                o1.CpfOrCnpj = model.CpfOrCnpj;
                 o1.Empresa = model.Empresa;
                 o1.EmailCliente = model.EmailCliente;
-                o1.Endereço = model.Endereço;
+                o1.Endereco = model.Endereco;
                 o1.Telefone = model.Telefone;
                 o1.TipoPagamento = model.TipoPagamento;
                 o1.DataVenda = DateTime.UtcNow.AddHours(-3);
 
 
+                var itens = await _context.ItensOrcamento.ToListAsync();
 
-                _context.Orcamentos.Update(o1);
+                var inventarios = await _context.Inventarios.ToListAsync();
+
+                var orcamento = await _context.Orcamentos.FirstOrDefaultAsync(x => x.Id == id);
+
+                {
+
+                    orcamento.DataVenda = DateTime.UtcNow.AddYears(-3);
+                    orcamento.IsPayed = true;
+
+                }
+
+
+
+
+     
+
+
+                foreach (var item in itens)
+                {
+                    //Quando o item tiver o id da ordem de serviço a ser autorizada 
+                    if (item.OrcamentoId == id)
+                    {
+                        //Busca o material presente no item para pegar a unidade 
+                        var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == item.MaterialId);
+
+                        //Procura todos os inventários do material da tabela item,para posteriormente  subtrair do inventário a quantidade a ser utilizad na OS
+                        var inventario = inventarios.Where(x => x.MaterialId == item.MaterialId).ToList();
+
+
+                        //Instacia um novo inventário para criar um novo inventário com a atualização de quantidade utilizada no orcamento e o motivo,a descricação da os
+                        Inventario i1 = new Inventario
+                         (
+                        $"Utilizado Orcamento Nº {orcamento.Id}",
+                           inventario[inventario.Count - 1].SaldoFinal,
+                         inventario[inventario.Count - 1].Movimentacao,
+                         inventario[inventario.Count - 1].SaldoFinal,
+                         inventario[inventario.Count - 1].Responsavel,
+                        item.MaterialId
+                    );
+                    
+
+                        i1.MovimentacaoOrdemServico((float)item.QuantidadeMaterial, $"Utilizado Orcamento Nº {orcamento.Id} ");
+
+                        await _context.Inventarios.AddAsync(i1);
+                    }
+
+                }
+
+
+                _context.Orcamentos.Update(orcamento);
 
                 await _context.SaveChangesAsync();
-
                 return Ok();
+   
+
+             
+
+
 
 
             }

@@ -40,7 +40,10 @@ calcPrecoVenda()
 
     for(let item of props.materiaisOrcamento){
    
+      if(item.material.precoVenda!=null){
+
         custoTotal+=item.material.precoVenda.toFixed(2)*item.quantidadeMaterial
+      }
     
 
     }
@@ -49,6 +52,7 @@ calcPrecoVenda()
     console.log(custoTotal)
   }
 
+  console.log(props.orcamento?.observacoes)
 
 return(
 
@@ -68,10 +72,30 @@ return(
 
     </View>
     <div style={{marginLeft:25,marginTop:20}}>
-      <Text style={{fontWeight:"bold",fontSize:11,marginTop:5}}>{props.orcamento?.nomeCliente}</Text>
-      <Text style={{fontWeight:"bold",fontSize:11,marginTop:5}}>{props.orcamento?.emailCliente}</Text>
-      <Text style={{fontWeight:"bold",fontSize:11,marginTop:5}}>{props.orcamento?.endereco}</Text>
-      <Text style={{fontWeight:"bold",fontSize:11,marginTop:5}}>{props.orcamento?.empresa}</Text>
+      { props.orcamento?.nomeCliente!=null && props.orcamento?.nomeCliente.length &&(
+
+      <Text style={{fontWeight:"bold",fontSize:11,marginTop:5}}>Nome:{props.orcamento?.nomeCliente}</Text>
+      )}
+        { props.orcamento?.empresa!=null &&props.orcamento?.empresa.length &&(
+  
+          <Text style={{fontWeight:"bold",fontSize:11,marginTop:5}}>Empresa:{props.orcamento?.empresa}</Text>
+        )}
+        { props.orcamento?.endereco!=null &&props.orcamento?.endereco.length &&(
+  
+          <Text style={{fontWeight:"bold",fontSize:11,marginTop:5}}>Endereço:{props.orcamento?.endereco}</Text>
+        )}
+        
+      { props.orcamento?.emailCliente!=null && props.orcamento?.emailCliente.length &&(
+
+        <Text style={{fontWeight:"bold",fontSize:11,marginTop:5}}>Email:{props.orcamento?.emailCliente}</Text>
+
+      )}
+      { props.orcamento?.cpfOrCnpj!=null && props.orcamento?.cpfOrCnpj.length &&(
+
+        <Text style={{fontWeight:"bold",fontSize:11,marginTop:5}}>CNPJ/CPF:{props.orcamento?.cpfOrCnpj}</Text>
+
+      )}
+  
     </div>
 
         
@@ -274,8 +298,13 @@ return(
 
 
       </View>
+<View style={{borderColor:"black",borderWidth:"1px",width:"80%",alignSelf:"center",marginTop:20}}>
+<Text style={{fontSize:11,fontWeight:"extrabold",padding:9}}>*Importante</Text>
 
+<Text style={{fontSize:11,padding:12,maxWidth:"80%"}}>{ props.orcamento?.observacoes!= null && props.orcamento?.observacoes.length?props.orcamento?.observacoes:"Sem Observações"}</Text>
+</View>
       <View style={{ display:"flex",flexDirection:"column",marginTop:20,marginLeft:30}}>
+      <Text style={{fontSize:13,padding:5}}>Forma de Pagamento:{props.orcamento?.tipoPagamento}</Text>
 
         <Text style={{fontSize:13,padding:5}}>Atenciosamente</Text>
         <Text style={{fontSize:13,padding:5}}>{props.nomeUsuario}</Text>

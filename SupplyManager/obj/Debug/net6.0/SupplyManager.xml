@@ -656,5 +656,29 @@
         <member name="M:SupplyManager.Migrations.v30.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:SupplyManager.Migrations.v31">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v31.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v31.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v31.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v32">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v32.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v32.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v32.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

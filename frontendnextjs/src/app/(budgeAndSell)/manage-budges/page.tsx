@@ -71,22 +71,24 @@ const getAllOrcamentos = async ()=>{
 
 return(
     <>
-      <h1 className='text-center text-2xl mt-4'>vv</h1>
-    <div className=' flex flex-row items-center justify-center flex-wrap gap-16 self-center'>
+      <h1 className='text-center text-2xl mt-4'>Orçamentos</h1>
+    <div className=' flex flex-row items-center justify-center flex-wrap gap-16 self-center mt-16'>
       {orcamentos!=undefined &&  orcamentos.map((x:any)=>(
 
 
 
-      <Card className="min-w-[270px] bg-white border-black border-1 shadow-md shadow-black">
+      <Card className="min-w-[370px] bg-white border-black border-1 shadow-md shadow-black">
       
         <div className="flex flex-col items-center pb-10">
       
-          <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">Orçamento N {x.id}</h5>
-          <span className="text-sm text-gray-500 dark:text-gray-400">{x.responsavelOrcamento}</span>
+          <h5 className="mb-1 text-xl font-medium mt-2 dark:text-white">Orçamento Nº {x.id}</h5>
+          <span className="text-sm mt-2 ">{x.nomeCliente}</span>
+          <span className="text-sm mt-2">{x.empresa}</span>
+          <span className="text-sm mt-2">Data Orcamento:{dayjs(x.dataOrcamento).format("DD/MM/YYYY HH:mm:ss")}</span>
           <div className="mt-4 flex space-x-3 lg:mt-6">
             <p
               onClick={()=>route.push(`/edit-budge/${x.id}`)}
-              className="inline-flex  text-lg items-center rounded-lg px-4 py-2 text-center  font-medium text-blue-700"
+              className="inline-flex hover:underline  text-lg items-center rounded-lg px-4 py-2 text-center  font-medium text-blue-700"
             >
               Editar
             </p>

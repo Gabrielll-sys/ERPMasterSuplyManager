@@ -85,7 +85,7 @@ namespace SupplyManager.Controllers
 
                  return Ok(material);*/
 
-                return Ok( _context.Materiais.FromSql($"SELECT * FROM Materiais WHERE Id = {id}"));
+                return Ok(await  _context.Materiais.FirstOrDefaultAsync(x=>x.Id==id));
             }
 
             catch (KeyNotFoundException)

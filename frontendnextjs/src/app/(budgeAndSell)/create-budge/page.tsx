@@ -40,14 +40,15 @@ export default function BudgeManagement({params}:any){
     const[nomeCliente,setNomeCliente] = useState<string>()
     const[emailCliente,setEmailCliente] = useState<string>()
     const[telefone,setTelefone] = useState<string>()
-    const[cpfOrCnpj,setCpfOrCnpj] = useState<string>()
+    const[cpfOrCnpj,setCpfOrCnpj] = useState<string>("")
     const[empresa,setEmpresa] = useState<string>()
-    const [metodoPagamento,setMetodoPagamento] = useState<any>("boleto")
-    const [desconto,setDesconto] = useState<number>(0)
+    const [metodoPagamento,setMetodoPagamento] = useState<any>("")
+    const [desconto,setDesconto] = useState<string>("")
+    const [endereco,setEndereco] = useState<string>("")
 
     const[nomeOrçamento,setNomeOrçamento] = useState<string>("")
 
-    const formasPagamento : string[] = ["Boleto", "PIX", "Cartão Crédito", "Cartão Débito"];
+    const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Cartão De Débito"];
   const doc = new jsPDF()
     let date = dayjs()
 
@@ -61,14 +62,19 @@ export default function BudgeManagement({params}:any){
 const handleCreateBudge = async ()=>{
 
 const orcamento = {
-desconto:desconto,
-dataOrcamento : dayjs(date).format("DD/MM/YYYY").toString(),
+  nomeCliente:nomeCliente,
+  emailCliente:emailCliente,
+  telefone:telefone,
+  empresa:empresa,
+  endereco:endereco,
+  desconto:Number(desconto),
+  tipoPagamento:metodoPagamento,
 
 }
 
 const res = await axios.post(`${url}/Orcamentos`, orcamento).then(r=>{
 
-
+  route.push(`/edit-budge/${r.data.id}`)
 }).catch(e=>console.log(e))
 
 }
@@ -97,6 +103,14 @@ return(
         onValueChange={setNomeCliente}
         label="Nome" 
       />
+        <Input
+              value={empresa}
+              type='text'
+              className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
+              onValueChange={setEmpresa}
+              placeholder='Microsft'
+              label="Empresa" 
+            />
     <Input
         value={emailCliente}
         className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
@@ -110,6 +124,13 @@ return(
         placeholder='99283-4235'
         label="Telefone" 
       />
+    <Input
+        value={endereco}
+        className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
+        onValueChange={setEndereco}
+        placeholder='Rua Numero Bairro'
+        label="Endereço" 
+      />
   <Input
         value={cpfOrCnpj}
         type='number'
@@ -118,53 +139,49 @@ return(
         placeholder='155.507.22.42'
         label="CPF ou CNPJ" 
       />
-  <Input
-        value={empresa}
-        type='text'
-        className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-        onValueChange={setEmpresa}
-        placeholder='Microsft'
-        label="Empresa" 
-      />
     </div>
   <h1 className='text-center text-2xl mt-7'>Informações do Orçamento</h1>
     <div className=' justify-center flex flex-row items-center'>
 
     <Input
-        value={empresa}
+        value={desconto}
         type='text'
         className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-        onValueChange={setEmpresa}
-        placeholder='Microsft'
-        label="Empresa" 
+        onValueChange={setDesconto}
+        placeholder='2.5%'
+        label="Desconto" 
+        endContent={<span>%</span>}
       />
-<Autocomplete
-       label="Método Pagamento $"
-       placeholder="EX:PIX"
-       className="max-w-[180px] border-1 border-black rounded-xl shadow-sm shadow-black h-14 mt-10 ml-5 mr-5 w"
-        value={metodoPagamento}
-        onValueChange={setMetodoPagamento}
-     >
-     
-     {formasPagamento.map((item:any) => (
-      
-        <AutocompleteItem
-         key={item.id} 
-         aria-label='teste'
-        
+  <Autocomplete
+                    label="Método Pagamento $"
+                    placeholder="EX:PIX"
+                    className=" w-[250px] border-1 border-black rounded-xl shadow-sm shadow-black h-14 mt-10 ml-5 mr-5 w"
+                    allowsCustomValue
+                      value={metodoPagamento}
+                      onSelectionChange={setMetodoPagamento}
+                  >
+                  
+                  {formasPagamento.map((item:any) => (
+                    
+                      <AutocompleteItem
+                      key={item} 
+                      aria-label='teste'
+                      
 
-      
-          value={item}
-          >
-          {item}
-        </AutocompleteItem>
-      ))}
-      </Autocomplete>
+                    
+                        value={metodoPagamento}
+                        >
+                        {item}
+                      </AutocompleteItem>
+                    ))}
+                    </Autocomplete>
 
-      <Button  onPress={handleCreateBudge} className='bg-master_black text-white p-7 rounded-lg font-bold text-2xl shadow-lg '>
-         Criar Orçamento
-      </Button>
     </div>
+      <div className='flex flex-row justify-center mt-16'>
+        <Button  onPress={handleCreateBudge} className='bg-master_black text-white p-7 rounded-lg font-bold text-2xl shadow-lg  '>
+           Criar Orçamento
+        </Button>
+      </div>
 
 
 

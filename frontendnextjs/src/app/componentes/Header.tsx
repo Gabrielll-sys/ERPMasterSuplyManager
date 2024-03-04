@@ -37,11 +37,7 @@ const Header= ()=>{
     const iconClasses = "h-4 text-2xl";
     const emails:string[] = ["gabrielpuneco@gmail.com"]
     const [showSideBar,setShowSideBar]= useState(false)
-    const handleClick = () => {
-      setIsClicked(!isClicked);
   
-      route.push("/");
-    };
   
 const handleSideBar= ()=>{
 
@@ -60,11 +56,11 @@ return(
 
 <div className="ml-1  flex flex-row justify-between ">
 
-  <Button  onMouseEnter={x=>setShowSideBar(true)} className="bg-master_black mt-6" onPress={handleSideBar}>
+  <Button  onMouseEnter={x=>setShowSideBar(true)} className="bg-master_black mt-6" >
     <IconSideBar  className=" rounded-lg h-10 text-white"  />
   </Button>
 {showSideBar && (
-  <Sidebar  onMouseLeave={x=>setShowSideBar(false)} className="bg-master_black  h-svh absolute ml-[-5px]" aria-label="Sidebar with multi-level dropdown example">
+  <Sidebar  onMouseLeave={x=>setShowSideBar(false)} className="bg-master_black  h-svh absolute z-10 ml-[-5px] " aria-label="Sidebar with multi-level dropdown example ">
         <Sidebar.ItemGroup>
    
     <Button className="bg-master_black h-20" onPress={handleSideBar}>
@@ -76,7 +72,7 @@ return(
 
       <Sidebar.Items>
         <Sidebar.ItemGroup>
-          <Sidebar.Item onClick={route.push("/")} href="/" className="text-white hover:font-bold" icon={HiChartPie}>
+          <Sidebar.Item  href="/create-material" className="text-white hover:font-bold" icon={HiChartPie}>
             Criar Material
           </Sidebar.Item>
        

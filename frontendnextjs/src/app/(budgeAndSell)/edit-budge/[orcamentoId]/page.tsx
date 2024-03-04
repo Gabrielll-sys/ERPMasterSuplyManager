@@ -1,10 +1,10 @@
 "use client"
-import {Link, Button,Autocomplete, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
+import {Link, Button,Autocomplete,Textarea, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
 import Excel, { BorderStyle } from 'exceljs';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
 import { useRouter } from "next/navigation";
 import { QRCode } from "react-qrcode-logo";
-import { Card, Dropdown, Textarea, } from 'flowbite-react';
+import { Card, Dropdown} from 'flowbite-react';
 import { use, useEffect, useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import "dayjs/locale/pt-br";
@@ -60,21 +60,23 @@ export default function ManageBudges({params}:any){
   const[telefone,setTelefone] = useState<string>()
   const[endereco,setEndereco] = useState<string>()
 
-  const[cpfOrCnpj,setCpfOrCnpj] = useState<string>()
+  const[cpfOrCnpj,setCpfOrCnpj] = useState<string>("")
   const[empresa,setEmpresa] = useState<string>()
-  const [metodoPagamento,setMetodoPagamento] = useState<any>("boleto")
+  const [metodoPagamento,setMetodoPagamento] = useState<any>("")
   const [desconto,setDesconto] = useState<string>("")
   const [acrescimo,setAcrescimo] = useState<string>("")
+  const [observacoes,setObservacoes] = useState<string>("")
 
 const[precoCustoTotalOrcamento,setPrecoCustoTotalOrcamento] = useState<number >();
 const[precoVendaTotalOrcamento,setPrecoVendaTotalOrcamento] = useState<number>();
 const[quantidadeMaterial,setQuantidadeMaterial] = useState<string>()
 const[isEditingOs,setIsEditingOs] = useState<boolean>(false)
 const[materiaisOrcamento,setMateriaisOrcamento] = useState<any>([])
+const[precoComDesconto,setPrecoComDesconto] = useState<any>()
 const doc = new jsPDF()
   let date = dayjs()
 const letraPlanilha : string[] = ['A','B','C','D','E']
-const formasPagamento : string[] = ["Boleto", "PIX", "Cartão Crédito", "Cartão Débito"];
+const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Cartão De Débito"];
 
   const bordas:any= {
     top: {style:'thin'},
@@ -95,6 +97,10 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão Crédito", "Cartã
     calcPrecoCusto()
   },[materiaisOrcamento])
 
+  useEffect(()=>{
+    calcPrecoVenda()
+
+  },[desconto])
 
 
   const getAllMateriaisInOrcamento = async(id:number)=>{
@@ -109,7 +115,7 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão Crédito", "Cartã
   const getAllMaterial = async()=>{
 
      await axios.get(`${url}/Inventarios`).then(r=>{
-      console.log(r.data)
+      
       setMateriais(r.data)
     
 })
@@ -119,6 +125,8 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão Crédito", "Cartã
 }
   
 const handleUpdateOrcamento = async()=>{
+  
+  console.log(metodoPagamento)
   const budge = {
     id:orcamento.id,
     desconto:Number(desconto),
@@ -128,8 +136,9 @@ const handleUpdateOrcamento = async()=>{
     emailCliente:emailCliente,
     telefone:telefone,
     endereco:endereco,
-    cPFOrCnpj:cpfOrCnpj,
+    CPFOrCNPJ:cpfOrCnpj,
     acrescimo:Number(acrescimo),
+    observacoes:observacoes,
 
 
 
@@ -140,7 +149,8 @@ const handleUpdateOrcamento = async()=>{
     setOpenSnackBar(true);
     setSeveridadeAlert("success");
     setMessageAlert("Orcamento Atualizado com sucesso");
-    getAllMateriaisInOrcamento(params.orcamentoId)
+    getInfosBudge()
+
 
   }).catch(e=>console.log(e))
 
@@ -187,8 +197,9 @@ const handleUpdateOrcamento = async()=>{
     }
     const getInfosBudge =  async()=>{
       await axios.get(`${url}/Orcamentos/${params.orcamentoId}`).then(r=>{
-        console.log(r.data)
+
         setOrcamento(r.data)
+        setEndereco(r.data.endereco)
         setAcrescimo(r.data.acrescimo)
         setNomeCliente(r.data.nomeCliente)
         setEmailCliente(r.data.emailCliente)
@@ -196,6 +207,8 @@ const handleUpdateOrcamento = async()=>{
         setTelefone(r.data.telefone)
         setDesconto(r.data.desconto)
         setCpfOrCnpj(r.data.cpfOrCnpj)
+        setMetodoPagamento(r.data.tipoPagamento)
+        setObservacoes(r.data.observacoes)
         setMetodoPagamento(r.data.tipoPagamento)
 
       })
@@ -244,6 +257,9 @@ const handleUpdateOrcamento = async()=>{
 
 
     }
+
+
+  
     const findInventory = (id:number)=>{
       const inventoryFinded : IInventario | undefined = materiais.find(x=>x.materialId==id)
       console.log(inventoryFinded)
@@ -254,13 +270,23 @@ const handleUpdateOrcamento = async()=>{
       let custoTotal:number | undefined = 0
 
       for(let item of materiaisOrcamento){
-        
+        if(item.material?.precoVenda!=null){
+
           custoTotal+=item.material?.precoVenda.toFixed(2)*item.quantidadeMaterial
+          
+        }
       
 
       }
+
+      if(precoVendaTotalOrcamento!=undefined &&  Number(desconto)>0) {
+
+        const descontoCalculado = precoVendaTotalOrcamento - (Number(desconto.toString().replace(",","."))/100) * precoVendaTotalOrcamento
+        setPrecoComDesconto(descontoCalculado.toFixed(2))
+      }
+      if(Number(desconto)==0) setPrecoComDesconto(0)
+    
       setPrecoVendaTotalOrcamento(Number(custoTotal.toFixed(2)))
-  
 
     }
     const calcPrecoCusto = () =>{
@@ -269,7 +295,12 @@ const handleUpdateOrcamento = async()=>{
 
         for(let item of materiaisOrcamento){
      
+          if(item.material?.precoCusto!=null){
+          
             custoTotal+=item.material?.precoCusto.toFixed(2)*item.quantidadeMaterial
+            
+          }
+            
 
         }
         setPrecoCustoTotalOrcamento(Number(custoTotal.toFixed(2)))
@@ -451,7 +482,7 @@ return(
            isDisabled={!materiais}
            isLoading={!materiais.length}
            placeholder="Procure um material"
-           className="max-w-[800px] ml-6 self-center border-1 border-black rounded-xl shadow-sm shadow-black"
+           className="max-w-[900px] ml-6 self-center border-1 border-black rounded-xl shadow-sm shadow-black"
          >
 
          {materiais.map((item:IInventario) => (
@@ -476,23 +507,20 @@ return(
             </AutocompleteItem>
           ))}
           </Autocomplete>
-      {/* <Button 
-      
-        className="bg-master_black text-white p-7 rounded-lg font-bold text-lg shadow-lg mt-10 "
-      onPress={generatePlanilha}>Gerar Planilha</Button> */}
-    
+     
        <Button 
       isDisabled={!nomeOrçamento?.length}
-        className="bg-master_black text-white p-7 rounded-lg font-bold text-lg shadow-lg mt-10 "
+        className="bg-master_black text-white w-[300px] p-7 rounded-lg font-bold text-lg shadow-lg ml-10 "
       ><PDFDownloadLink document={   <OrcamentoPDF 
         materiaisOrcamento ={materiaisOrcamento} 
         nomeUsuario={session?.user?.name}
         orcamento={orcamento}
         
         />} fileName={"Orçamento Nº"+ orcamento?.id+".pdf"}>
-            {({ blob, url, loading, error }) => (loading ? 'Carregando documento...' : 'Abrir PDF em nova aba')}
+            {({ blob, url, loading, error }) => (loading ? 'Carregando documento...' : 'Gerar Nota de Venda')}
           </PDFDownloadLink>
           </Button>
+         
            <Dialog open={openDialog} onClose={handleCloseDialog} >
     <DialogTitle sx={{textAlign:"center"}}>{isEditingOs?itemToBeUpdated?.material.descricao:inventarioDialog?.material.descricao}</DialogTitle>
     <DialogContent >
@@ -541,10 +569,26 @@ return(
           
               </Accordion>
               <p className='mt-16 font-bold text-lg'>Preço Custo Total:R$ {precoCustoTotalOrcamento?.toString().replace('.',',')}</p>
-          <p  className='mt-5 font-bold  text-lg'>Preço Venda Total:R$ {precoVendaTotalOrcamento?.toString().replace('.',',')}</p>
+              <p  className='mt-5 font-bold  text-lg'>Preço Venda Total:R$ {precoVendaTotalOrcamento?.toString().replace('.',',')}</p>
+              {precoComDesconto>0 && (
+
+              <p  className='mt-5 font-bold  text-lg'>Preço Venda com Desconto:R$ {precoComDesconto?.toString().replace('.',',')}</p>
+              )}
         </div>
          
               <div className='flex flex-col ml-32'>
+                        <div className=' flex flex-row justify-center w-[800px]'>
+                          <Textarea
+                                            label="Observações sobre este Orçamento"
+                                            placeholder="Observações"
+                                            className="max-w-xl border-1 border-black rounded-xl min-w-[210px] max-h-[320px]  shadow-sm shadow-black "
+                                            
+                                            maxRows={14}
+                                            value={observacoes}
+                                            onValueChange={setObservacoes}
+                                        
+                                          />
+                        </div>
                 <div className='flex flex-row flex-wrap w-[1150px] '>
                   <Input
                           value={nomeCliente}
@@ -592,44 +636,49 @@ return(
                 <div className='flex flex-row flex-wrap'>
                
                 <Input
-                        value={desconto}
-                        className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
-                        onValueChange={setDesconto}
-                        placeholder='99283-4235'
-                        label="Telefone"
-                      />
-                <Input
                         value={nomeOrçamento}
                         className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
                         onValueChange={setNomeOrçamento}
                         placeholder='99283-4235'
                         label="Telefone"
                       />
+                <Input
+                        value={desconto}
+                        className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                        onValueChange={setDesconto}
+                       
+                        label="Desconto %"
+                        endContent={<span>%</span>}
+                      />
+                      
+
                 <Autocomplete
                     label="Método Pagamento $"
                     placeholder="EX:PIX"
                     className=" w-[250px] border-1 border-black rounded-xl shadow-sm shadow-black h-14 mt-10 ml-5 mr-5 w"
-                      value={metodoPagamento}
-                      onValueChange={setMetodoPagamento}
+                    value={metodoPagamento}
+                    onSelectionChange={setMetodoPagamento}
+                    defaultSelectedKey={metodoPagamento}
                   >
                   
                   {formasPagamento.map((item:any) => (
                     
                       <AutocompleteItem
-                      key={item.id} 
+                      key={item} 
                       aria-label='teste'
                       
 
                     
-                        value={item}
+                        value={metodoPagamento}
                         >
                         {item}
                       </AutocompleteItem>
                     ))}
                     </Autocomplete>
-        <Button  onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
+                     
 
               </div>
+        <Button  className='bg-master_black max-w-[200px] text-white p-7 ml-10 rounded-lg font-bold text-lg shadow-lg mt-10' onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
               </div>
             
       </div>

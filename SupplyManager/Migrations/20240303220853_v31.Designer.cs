@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SupplyManager.App;
 
@@ -10,9 +11,11 @@ using SupplyManager.App;
 namespace SupplyManager.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    partial class SqlContextModelSnapshot : ModelSnapshot
+    [Migration("20240303220853_v31")]
+    partial class v31
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -308,7 +311,7 @@ namespace SupplyManager.Migrations
                     b.Property<decimal?>("Acrescimo")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<string>("CpfOrCnpj")
+                    b.Property<string>("CPFOrCNPJ")
                         .HasColumnType("longtext");
 
                     b.Property<DateTime?>("DataOrcamento")
