@@ -20,13 +20,13 @@ import {
   Input
  } from '@nextui-org/react';
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+// import Table from "@mui/material/Table";
+// import TableBody from "@mui/material/TableBody";
+// import TableCell from "@mui/material/TableCell";
+// import TableContainer from "@mui/material/TableContainer";
+// import TableHead from "@mui/material/TableHead";
+// import TableRow from "@mui/material/TableRow";
+// import Paper from "@mui/material/Paper";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
@@ -43,6 +43,7 @@ import dayjs from "dayjs";
 import { signIn, useSession } from "next-auth/react";
 import GoogleIcon from "../assets/icons/GoogleIcon";
 import SpinnerForButton from "../componentes/SpinnerButton";
+import { Table } from "flowbite-react";
 
 export default function CreateMaterial(){
   const route = useRouter()
@@ -401,7 +402,7 @@ console.log(e)
       </Autocomplete>
 
   
-        <div style={{ marginTop: "40px", width: "190px",marginLeft:"20px" }}>
+        {/* <div style={{ marginTop: "40px", width: "190px",marginLeft:"20px" }}>
           <LocalizationProvider
             dateAdapter={AdapterDayjs}
             adapterLocale="pt-br"
@@ -414,7 +415,7 @@ console.log(e)
               slotProps={{ textField: { variant: 'filled' }}}
             />
           </LocalizationProvider>
-        </div>
+        </div> */}
       </div>
 
         {session &&(
@@ -437,97 +438,57 @@ console.log(e)
 
           {materiais.length>0?
           <>
-          <TableContainer component={Paper} >
-          <Table
-          stickyHeader
-            sx={{ width: "100vw",  }}
-            aria-label="simple table"
-          >
-            <TableHead>
-              <TableRow  border-1 border-black>
-
-                <TableCell
-                 align="center"
-                 className="text-xl border-1  ">Cod.Interno</TableCell>
-                <TableCell align="center"
-                className="text-xl border-1 ">Cod.Fabricante</TableCell>
-                <TableCell align="center"
-                className="text-xl border-1  ">Descrição</TableCell>
-                <TableCell align="center"
-                 className="text-xl border-1  ">Marca</TableCell>
-                <TableCell align="center"
-                 className="text-xl border-1  ">Tensão</TableCell>
-   
-                <TableCell align="center"
-                className="text-xl border-1  ">Estoque</TableCell>
-
-                <TableCell align="center"
-                className="text-lg min-w-[] border-1  ">Localização</TableCell>
-                <TableCell align="center"
-                className="text-lg min-w-[140px] border-1  ">Preço Custo</TableCell>
-                <TableCell align="center"
-                className="text-lg min-w-[140px] border-1  ">Preço venda</TableCell>
-                 <TableCell align="center" className="text-xl min-w-[140px] border-1 ">Preço Total</TableCell> 
-                 {session && (
-
-                <TableCell align="center"
-                className="text-xl "></TableCell>
-                 )}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              { materiais.length>=1 && materiais.map((row:any) => (
-                <TableRow
-                  key={row.material.id}
-                 className=""
-                >
-              
-             
-                  <TableCell 
-                  
-                  align="center"
-                  className="text-base border-[0.2px]  "
-                  >{row.material.id}</TableCell>
-                  <TableCell align="center" className="text-base border-1  ">{row.material.codigoFabricante}</TableCell>
-                  <TableCell align="center" className="text-sm border-1  " onClick={(x)=>setDescricao(row.material.descricao)}>{row.material.descricao}</TableCell>
-                  <TableCell align="center" className="text-base border-1  ">{row.material.marca}</TableCell>
-                  <TableCell align="center" size ="small" className="text-base border-1  ">{row.material.tensao}</TableCell>
-
-                  <TableCell align="center" size ="small"
-                  className="text-base border-1  ">{row.saldoFinal==null?"Não registrado":row.saldoFinal +" "+row.material.unidade}</TableCell>
-                  <TableCell align="center" size ="small"
-                  className="text-base border-1  ">{row.material.localizacao}</TableCell>
-                  <TableCell align="center" size ="small"
-                  className="text-base border-1  ">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</TableCell>
-                  <TableCell align="center" size ="small"
-                  className="text-base border-1  ">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</TableCell>
-                  <TableCell align="center" size ="small"
-                  className="text-base border-1  ">{row.material.precoVenda==null?"Sem registro":"R$ "+(row.material.precoCusto*row.saldoFinal).toFixed(2).toString().replace(".",",")}</TableCell>
-                  
-                  {session && (
-                   <TableCell align="center" size ="small"
-                 className="text-base hover:border-1 ">      <Button
-                  style={{backgroundColor:'white',marginTop:"7px",marginRight:"15px"}}
-                  
-                    onClick={(x) =>
-                      handleChangeUpdatePage(row.material.id)
-                    }
-                  >
-                    <EditTwoToneIcon />
-                  </Button>
-                  </TableCell>
-                  )}
-            
-                 
-                </TableRow>
-              ))}
-               
-            </TableBody>
-      
-    
-          </Table>
-        </TableContainer>
+          <div className="overflow-x-auto self-center w-[100%] ">
+      <Table  hoverable striped className="w-[100%] ">
+        <Table.Head className="border-1 border-black">
+          <Table.HeadCell className="text-center border-1 border-black text-sm  " >Cod.Interno</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Cod.Fabricante</Table.HeadCell>
+          <Table.HeadCell className="text-center text-sm">Descrição</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Marca</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Tensão</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Estoque</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Localização</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Preço Custo</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm ">Preço Venda</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Preço Total</Table.HeadCell>
+          <Table.HeadCell className="text-center">
+            <span className="sr-only">Edit</span>
+          </Table.HeadCell>
+        </Table.Head>
+        <Table.Body className="divide-y">
           
+        { materiais.length>=1 && materiais.map((row:any) => (
+          <Table.Row  key={row.material.id} className=" dark:border-gray-700 dark:bg-gray-800 hover:bg-yellow-200">
+          <Table.Cell className="  text-center font-medium text-gray-900 dark:text-white">
+          {row.material.id}
+          </Table.Cell>
+          <Table.Cell className="text-center  text-black ">{row.material.codigoFabricante}</Table.Cell>
+          <Table.Cell className="text-center text-black" onClick={(x)=>setDescricao(row.material.descricao)}>{row.material.descricao}</Table.Cell>
+          <Table.Cell className="text-center text-black">{row.material.marca}</Table.Cell>
+          <Table.Cell className="text-center text-black">{row.material.tensao}</Table.Cell>
+          <Table.Cell className="text-center text-black hover:underline" onClick={()=>route.push(`/update-inventory/${row.material.id}`)}>{row.saldoFinal==null?"Não registrado":row.saldoFinal +" "+row.material.unidade}</Table.Cell>
+          <Table.Cell className="text-center text-black">{row.material.localizacao}</Table.Cell>
+          <Table.Cell className="text-center text-black">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</Table.Cell>
+          <Table.Cell className="text-center text-black">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</Table.Cell>
+          <Table.Cell className="text-center text-black">{row.material.precoVenda==null?"Sem registro":"R$ "+(row.material.precoCusto*row.saldoFinal).toFixed(2).toString().replace(".",",")}</Table.Cell>
+          
+          <Table.Cell>
+            <a  onClick={(x) =>
+                      handleChangeUpdatePage(row.material.id)
+                    } className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+              Editar
+            </a>
+          </Table.Cell>
+        </Table.Row>
+
+
+              ))}
+          
+         
+         
+        </Table.Body>
+      </Table>
+    </div>
         <Snackbar
           open={openSnackBar}
           autoHideDuration={3000}

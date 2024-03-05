@@ -11,6 +11,7 @@ namespace SupplyManager.Models
 
         public string? ResponsavelOrcamento { get; set; }
 
+        public string? ResponsavelVenda { get; set; }
         public DateTime? DataOrcamento { get; set; }
         // Exemplo ,Orçamento Fornos Açorforja
         public string? NomeOrcamento { get; set; }

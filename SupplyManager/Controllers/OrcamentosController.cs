@@ -161,21 +161,7 @@ namespace SupplyManager.Controllers
             {
                 var o1 = await _context.Orcamentos.FindAsync(id) ?? throw new KeyNotFoundException();
 
-                o1.Observacoes = model.Observacoes;
-                o1.Acrescimo = model.Acrescimo;
-                o1.Desconto = model.Desconto;
-                o1.PrecoTotal = model.PrecoTotal;
-                o1.IsPayed = model.IsPayed;
-                o1.ResponsavelOrcamento = model.ResponsavelOrcamento;
-                o1.NomeCliente = model.NomeCliente;
-                o1.CpfOrCnpj = model.CpfOrCnpj;
-                o1.Empresa = model.Empresa;
-                o1.EmailCliente = model.EmailCliente;
-                o1.Endereco = model.Endereco;
-                o1.Telefone = model.Telefone;
-                o1.TipoPagamento = model.TipoPagamento;
-                o1.DataVenda = DateTime.UtcNow.AddHours(-3);
-
+             
 
                 var itens = await _context.ItensOrcamento.ToListAsync();
 
@@ -185,7 +171,7 @@ namespace SupplyManager.Controllers
 
                 {
 
-                    orcamento.DataVenda = DateTime.UtcNow.AddYears(-3);
+                    orcamento.DataVenda = DateTime.UtcNow.AddHours(-3);
                     orcamento.IsPayed = true;
 
                 }

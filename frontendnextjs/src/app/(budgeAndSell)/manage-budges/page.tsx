@@ -4,7 +4,7 @@ import Excel, { BorderStyle } from 'exceljs';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
 import { useRouter } from "next/navigation";
 import { QRCode } from "react-qrcode-logo";
-import { Card, Dropdown, Textarea } from 'flowbite-react';
+import { Card, Dropdown, Table, Textarea } from 'flowbite-react';
 import { use, useEffect, useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import "dayjs/locale/pt-br";

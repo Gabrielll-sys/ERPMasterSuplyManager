@@ -40,6 +40,9 @@ export default function ManageBudges({params}:any){
   const route = useRouter()
   const { data: session } = useSession();
 
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const[confirmAuthorizeMessage,setconfirmAuthorizeMessage]= useState<string>()
+
   const[itemToBeUpdated,setItemToBeUpdated] = useState<IItem>()
 
 
@@ -74,6 +77,7 @@ const[isEditingOs,setIsEditingOs] = useState<boolean>(false)
 const[materiaisOrcamento,setMateriaisOrcamento] = useState<any>([])
 const[precoComDesconto,setPrecoComDesconto] = useState<any>()
 const[openDialogPreco,setOpenDialogPreco] = useState<boolean>(false)
+const[descricao,setDescricao] = useState<string>("")
 
 const doc = new jsPDF()
   let date = dayjs()
@@ -90,7 +94,7 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
     useEffect(()=>{
 
       getAllMateriaisInOrcamento(params.orcamentoId)
-      getAllMaterial()
+      // getAllMaterial()
       getInfosBudge()
      },[])
   useEffect(()=>{
@@ -109,7 +113,38 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
 
   },[materiaisOrcamento])
 
+  useEffect(()=>{
+    searchByDescription()
 
+  },[descricao])
+
+  const searchByDescription = async () => {
+
+
+
+   try{
+    const res = await axios
+    .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao.split("#").join(".")}`)
+    .then( (r)=> {
+
+     return r.data
+     
+    })
+    .catch();
+    console.log(res)
+
+    setMateriais(res)
+
+   }
+   catch(e) 
+   
+   { 
+   
+
+console.log(e)
+   }
+  
+};
   const getAllMateriaisInOrcamento = async(id:number)=>{
 
       const res = await axios.get(`${url}/ItensOrcamento/GetAllMateriaisOrcamento/${id}`).then((r)=>{
@@ -124,17 +159,17 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
       }
 
   }
-  const getAllMaterial = async()=>{
+//   const getAllMaterial = async()=>{
 
-     await axios.get(`${url}/Inventarios`).then(r=>{
+//      await axios.get(`${url}/Inventarios`).then(r=>{
       
-      setMateriais(r.data)
+//       setMateriais(r.data)
     
-})
+// })
 
 
 
-}
+// }
   
 const handleUpdateOrcamento = async()=>{
   
@@ -151,11 +186,12 @@ const handleUpdateOrcamento = async()=>{
     CPFOrCNPJ:cpfOrCnpj,
     acrescimo:Number(acrescimo),
     observacoes:observacoes,
+    responsavelOrcamento:session?.user?.name,
 
 
 
   }
-  console.log(budge)
+
   const res = await axios.put(`${url}/Orcamentos/${orcamento.id}`,budge).then(r=>{
 
     setOpenSnackBar(true);
@@ -167,7 +203,38 @@ const handleUpdateOrcamento = async()=>{
   }).catch(e=>console.log(e))
 
 }
+const handleUpdateOrcamentoToSell = async()=>{
+  
+ 
+  const budge = {
+    id:orcamento.id,
+    desconto:Number(desconto),
+    tipoPagamento:metodoPagamento,
+    nomeCliente:nomeCliente,
+    empresa:empresa,
+    emailCliente:emailCliente,
+    telefone:telefone,
+    endereco:endereco,
+    CPFOrCNPJ:cpfOrCnpj,
+    acrescimo:Number(acrescimo),
+    observacoes:observacoes,
+    responsavelVenda:session?.user?.name,
 
+
+
+  }
+
+  const res = await axios.put(`${url}/Orcamentos/sellUpdate/${orcamento.id}`,budge).then(r=>{
+
+    setOpenSnackBar(true);
+    setSeveridadeAlert("success");
+    setMessageAlert("Orcamento Atualizado com sucesso");
+    getInfosBudge()
+
+
+  }).catch(e=>console.log(e))
+
+}
     const handleOpenDialog =  (item:any)=>{
       console.log(materiaisOrcamento.includes(item))
       setInventarioDialog(item)
@@ -498,12 +565,17 @@ return(
       <h1 className='text-center text-2xl mt-8'>Orçamento Nº {orcamento?.id}</h1>
       <div className='flex flex-col  mt-10  justify-center text-center '>
    
-          <div className='flex flex-row justify-between w-[630px]'>
+          <div className='flex flex-row justify-between w-[730px]'>
+
+            {!orcamento?.isPayed && (
+
           <Autocomplete
            label="Material"
            isDisabled={!materiais}
-           isLoading={!materiais.length}
            placeholder="Procure um material"
+           allowsCustomValue
+          value={descricao}
+          onValueChange={(x)=>setDescricao(x)}
            className="max-w-[900px] ml-6 self-center border-1 border-black rounded-xl shadow-sm shadow-black"
          >
 
@@ -516,7 +588,7 @@ return(
              <>
      
              <p className='text-xs'>{item.material?.marca}</p>
-              { !hasMaterial(item) &&
+              {!hasMaterial(item) &&
               <IconPlus  onClick={()=>handleOpenDialog(item)} />
               }
      
@@ -529,17 +601,18 @@ return(
             </AutocompleteItem>
           ))}
           </Autocomplete>
+            )}
      
        <Button 
       isDisabled={!nomeOrçamento?.length}
-        className="bg-master_black text-white w-[300px] p-7 rounded-lg font-bold text-lg shadow-lg ml-10 "
+        className="bg-master_black text-white w-[330px] p-7 rounded-lg font-bold text-lg shadow-lg ml-10 "
       ><PDFDownloadLink document={   <OrcamentoPDF 
         materiaisOrcamento ={materiaisOrcamento} 
         nomeUsuario={session?.user?.name}
         orcamento={orcamento}
         
-        />} fileName={"Orçamento Nº"+ orcamento?.id+".pdf"}>
-            {({ blob, url, loading, error }) => (loading ? 'Carregando documento...' : 'Gerar Nota de Venda')}
+        />} fileName={"Orçamento Nº"+ orcamento?.id+ " Para "+ orcamento?.nomeCliente +".pdf"}>
+             {orcamento?.isPayed ?"Gerar Nota de Venda":"Gerar Nota De Orçamento"}
           </PDFDownloadLink>
           </Button>
          
@@ -618,9 +691,12 @@ return(
                 </Button>
           
            <div className='flex flex-row justify-between gap-3'>
-          
-             <IconBxTrashAlt onClick={()=>handleDelete(x.id)} />
+              {!orcamento?.isPayed && (
+                <>
+                <IconBxTrashAlt onClick={()=>handleDelete(x.id)} />
              <IconEdit onClick={()=>{setItemToBeUpdated(x),setIsEditingOs(true),setOpenDialog(true),findInventory(x.material.id)}} />
+             </>
+              )}
            </div>
                </div>
             ))}
@@ -737,7 +813,12 @@ return(
                      
 
               </div>
-        <Button  className='bg-master_black max-w-[200px] text-white p-7 ml-10 rounded-lg font-bold text-lg shadow-lg mt-10' onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
+        <div className='flex flex-col gap-5'>
+          <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg shadow-lg mt-10' onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
+          <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg ' onPress={onOpen}>
+                     Autorizar Orçamento
+                    </Button>
+        </div>
               </div>
             
       </div>
@@ -761,7 +842,40 @@ return(
             </MuiAlert>
           </Snackbar>
 
-
+          <Modal isOpen={isOpen} backdrop="blur" size='xl' onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalBody>
+                <h2 className=' text-red-950 font-bold text-center mt-4'> 
+                  ATENÇÃO
+                </h2>
+                <p className='text-center font-bold'>
+                Após autorizar o Orçamento Nº {orcamento?.id},todos os materiais e suas quantidade serão retirados do estoque e não podera mais incluir ou remover materias no Orçamento
+                , pressione o botão AUTORIZAR somente a venda dos materiais estiver concretizada
+                </p>
+                <p className='text-center font-bold'>
+               Digite AUTORIZAR
+                </p>
+                <Input
+                
+        className="border-1 self-center border-black rounded-xl shadow-sm shadow-black mt-2 ml-5 mr-5 w-[250px] max-h-16"
+        onValueChange={setconfirmAuthorizeMessage}
+        value={confirmAuthorizeMessage}
+        />
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Fechar
+                </Button>
+                <Button isDisabled={confirmAuthorizeMessage!="AUTORIZAR"} color="primary" onPress={handleUpdateOrcamentoToSell}>
+                  Autorizar
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
      </>
 )
 
