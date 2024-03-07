@@ -344,7 +344,10 @@ namespace SupplyManager.Migrations
                     b.Property<string>("Observacoes")
                         .HasColumnType("longtext");
 
-                    b.Property<decimal?>("PrecoTotal")
+                    b.Property<decimal?>("PrecoVendaComDesconto")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal?>("PrecoVendaTotal")
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("ResponsavelOrcamento")

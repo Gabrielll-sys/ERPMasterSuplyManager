@@ -60,42 +60,42 @@ return(
     <IconSideBar  className=" rounded-lg h-10 text-white"  />
   </Button>
 {showSideBar && (
-  <Sidebar  onMouseLeave={x=>setShowSideBar(false)} className="bg-master_black  h-svh absolute z-10 ml-[-5px] " aria-label="Sidebar with multi-level dropdown example ">
+  <Sidebar  onMouseLeave={x=>setShowSideBar(false)} className=" border-1 border-black border-l-1  h-svh absolute z-[16] ml-[-5px] " aria-label="Sidebar with multi-level dropdown example ">
         <Sidebar.ItemGroup>
    
-    <Button className="bg-master_black h-20" onPress={handleSideBar}>
+    <Button className="h-25 bg-white " onPress={handleSideBar}>
 
-    <Image  className="py-5 hover:scale-30 max-sm:mt-1 max-sm:w-[100px] max-sm:h-[80px] w-[130px] h-[100px]" src={require('../assets/logo.png')}  alt="logo master" />
+    <Image  className="py-5 hover:scale-30 max-sm:mt-1 max-sm:w-[100px] max-sm:h-[80px] w-[130px] h-[100px]" src={require('../assets/logo_preta_sem_fundo.png')}  alt="logo master" />
     </Button>
     </Sidebar.ItemGroup>
 
 
       <Sidebar.Items>
         <Sidebar.ItemGroup>
-          <Sidebar.Item  href="/create-material" className="text-white hover:font-bold" icon={HiChartPie}>
+          <Sidebar.Item  href="/create-material" className="text-black hover:font-bold" icon={HiChartPie}>
             Criar Material
           </Sidebar.Item>
        
-          <Sidebar.Item className="text-white mt-7 hover:font-bold" href="/search-inventory" icon={HiInbox}>
+          <Sidebar.Item className="text-black mt-7 hover:font-bold" href="/search-inventory" icon={HiInbox}>
             Gerenciar Inventário
           </Sidebar.Item>
-          <Sidebar.Collapse className="text-white mt-7"label=" Orçamentos/Vendas" icon={HiPencilAlt}>
+          <Sidebar.Collapse className="text-black mt-7"label=" Orçamentos/Vendas" icon={HiPencilAlt}>
 
-          <Sidebar.Item className="text-white mt-3 hover:font-bold" href="/create-budge" >
+          <Sidebar.Item className="text-black mt-3 hover:font-bold" href="/create-budge" >
               Criar Orçamento
           </Sidebar.Item>
-          <Sidebar.Item className="text-white mt-3 hover:font-bold" href="/manage-budges" >
+          <Sidebar.Item className="text-black mt-3 hover:font-bold" href="/manage-budges" >
               Orçamentos
           </Sidebar.Item>
           </Sidebar.Collapse>
 
-          <Sidebar.Item className="text-white mt-7 hover:font-bold" href="/managing-os" icon={HiShoppingBag}>
+          <Sidebar.Item className="text-black mt-7 hover:font-bold" href="/managing-os" icon={HiShoppingBag}>
             Gerencia de OS
           </Sidebar.Item>
-          <Sidebar.Item className="text-white mt-7 hover:font-bold" href="/generateMaterialQrcode" icon={HiQrcode}>
+          <Sidebar.Item className="text-black mt-7 hover:font-bold" href="/generateMaterialQrcode" icon={HiQrcode}>
             Gerador De QrCode
           </Sidebar.Item>
-          <Sidebar.Item className="text-white mt-7 hover:font-bold" href="/materials-relatory" icon={HiFilter}>
+          <Sidebar.Item className="text-black mt-7 hover:font-bold" href="/materials-relatory" icon={HiFilter}>
            Filtragem de Materiais
           </Sidebar.Item>
         </Sidebar.ItemGroup>

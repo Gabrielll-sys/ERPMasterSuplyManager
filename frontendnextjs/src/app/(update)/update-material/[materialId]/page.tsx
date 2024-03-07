@@ -344,9 +344,10 @@ console.log(material)
       ))}
       </Autocomplete>
       )}
-     <div style={{marginTop:'40px',width:'206px'}}>
+      
+     {/* <div style={{marginTop:'40px',width:'206px'}}>
  
-     {/* <LocalizationProvider 
+      <LocalizationProvider 
         dateAdapter={AdapterDayjs} adapterLocale="pt-br" >
      
          <DatePicker  
@@ -355,9 +356,9 @@ console.log(material)
          value={dataentrada} 
          onChange={e=>setDataentrada(e)} />
      
-     </LocalizationProvider> */}
+     </LocalizationProvider> 
      </div>
-     
+      */}
  
    
      </div>

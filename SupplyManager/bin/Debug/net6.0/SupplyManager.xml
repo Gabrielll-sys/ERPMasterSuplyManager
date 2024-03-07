@@ -142,6 +142,13 @@
             <param name="id"></param>
             <returns>Todos os itens ja criados</returns>
         </member>
+        <member name="M:SupplyManager.Controllers.ItensOrcamentoController.GetAllItenInOrcamento(System.Int32)">
+            <summary>
+            Pega todos os itens criados
+            </summary>
+            <param name="id"></param>
+            <returns>Todos os itens ja criados</returns>
+        </member>
         <member name="M:SupplyManager.Controllers.ItensOrcamentoController.Get(System.Int32)">
             <summary>
             Pega o item por id
@@ -714,6 +721,18 @@
             <inheritdoc />
         </member>
         <member name="M:SupplyManager.Migrations.v35.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v36">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v36.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v36.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v36.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

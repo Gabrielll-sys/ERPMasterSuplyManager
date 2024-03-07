@@ -68,7 +68,7 @@ const orcamento = {
   empresa:empresa,
   endereco:endereco,
   desconto:Number(desconto),
-  tipoPagamento:metodoPagamento,
+  tipoPagamento:metodoPagamento==""?"PIX":metodoPagamento,
 
 }
 

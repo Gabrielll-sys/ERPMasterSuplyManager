@@ -21,7 +21,8 @@ namespace SupplyManager.Models
 
         public decimal? Acrescimo { get; set; }
 
-        public decimal? PrecoTotal { get; set; }
+        public decimal? PrecoVendaTotal { get; set; }
+        public decimal? PrecoVendaComDesconto { get; set; }
 
         public DateTime? DataVenda { get; set; }
         public bool? IsPayed { get; set; }

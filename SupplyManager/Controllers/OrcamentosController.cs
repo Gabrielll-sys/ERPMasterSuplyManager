@@ -73,7 +73,7 @@ namespace SupplyManager.Controllers
                     DataOrcamento = DateTime.UtcNow.AddHours(-3),
                     Acrescimo = model.Acrescimo,
                     Desconto = model.Desconto,
-                    PrecoTotal = model.PrecoTotal,
+                    PrecoVendaTotal = model.PrecoVendaTotal,
                     IsPayed = false,
                     NomeCliente = model.NomeCliente,
                     CpfOrCnpj = model.CpfOrCnpj,
@@ -116,7 +116,8 @@ namespace SupplyManager.Controllers
                 o1.Observacoes = model.Observacoes;
                 o1.Acrescimo = model.Acrescimo;
                 o1.Desconto = model.Desconto;
-                o1.PrecoTotal = model.PrecoTotal;
+                o1.PrecoVendaTotal = model.PrecoVendaTotal;
+                o1.PrecoVendaComDesconto = model.PrecoVendaComDesconto;
                 o1.IsPayed = model.IsPayed;
                 o1.ResponsavelOrcamento = model.ResponsavelOrcamento;
                 o1.NomeCliente = model.NomeCliente;

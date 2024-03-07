@@ -74,6 +74,7 @@ export default function UpdateInventory({params}:any){
     const [ messageAlert,setMessageAlert] = useState<string>();
     const [ severidadeAlert,setSeveridadeAlert] = useState<AlertColor>()
    const[stateBotao,setStateBotao] = useState<any>()
+   const[descricao,setDescricao] = useState<string>()
    
    const [materiais,setMateriais]= useState<Inventario[] >([])
    const [listQrCodes,setListQrCodes]= useState<Inventario[] >([])
@@ -88,24 +89,41 @@ export default function UpdateInventory({params}:any){
 
   useEffect(()=>{
     
-      getAllMaterial()
+      searchByDescription()
    
       
-  },[])
+  },[descricao])
 
   useEffect(()=>{
     
 },[listQrCodes])
-  const getAllMaterial = async()=>{
+const searchByDescription = async () => {
 
-      const materiaisWithInvetory = await axios.get(`${url}/Inventarios`).then(r=>{
-       
-       return r.data
-      
-  })
-      
-     setMateriais(materiaisWithInvetory)
-    }
+
+
+  try{
+   const res = await axios
+   .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao?.split("#").join(".")}`)
+   .then( (r)=> {
+
+    return r.data
+    
+   })
+   .catch();
+   console.log(res)
+
+   setMateriais(res)
+
+  }
+  catch(e) 
+  
+  { 
+  
+
+console.log(e)
+  }
+ 
+};
     const onInputChange = (value:any) => {
 
         console.log(materiais.includes(value))
@@ -148,12 +166,12 @@ export default function UpdateInventory({params}:any){
    
          <Autocomplete
          label="Material "
-         isDisabled={!materiais}
-         isLoading={!materiais.length}
+        
          placeholder="Procure um material"
          className="max-w-2xl  border-1 border-black rounded-xl shadow-sm shadow-black"
-         onInputChange={onInputChange}
-         value={stateBotao}
+         allowsCustomValue
+         onValueChange={setDescricao}
+         value={descricao}
 
 
          

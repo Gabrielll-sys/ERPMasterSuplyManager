@@ -30,6 +30,19 @@ namespace SupplyManager.Controllers
         {
             return (await _context.ItensOrcamento.AsNoTracking().ToListAsync());
         }
+
+        /// <summary>
+        /// Pega todos os itens criados
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Todos os itens ja criados</returns>
+        [HttpGet("getAllItensOrcamento/{id}")]
+        public async Task<List<ItemOrcamento>> GetAllItenInOrcamento(int id)
+        {
+            return (await _context.ItensOrcamento.AsNoTracking().Where(x=>x.OrcamentoId==id).ToListAsync());
+        }
+
+
         /// <summary>
         /// Pega o item por id
         /// </summary>

@@ -441,7 +441,7 @@ console.log(e)
           <div className="overflow-x-auto self-center w-[100%] ">
       <Table  hoverable striped className="w-[100%] ">
         <Table.Head className="border-1 border-black">
-          <Table.HeadCell className="text-center border-1 border-black text-sm  " >Cod.Interno</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm max-w-[120px] " >Cod.Interno</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Cod.Fabricante</Table.HeadCell>
           <Table.HeadCell className="text-center text-sm">Descrição</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Marca</Table.HeadCell>
@@ -459,7 +459,7 @@ console.log(e)
           
         { materiais.length>=1 && materiais.map((row:any) => (
           <Table.Row  key={row.material.id} className=" dark:border-gray-700 dark:bg-gray-800 hover:bg-yellow-200">
-          <Table.Cell className="  text-center font-medium text-gray-900 dark:text-white">
+          <Table.Cell className="  text-center font-medium text-gray-900 dark:text-white max-w-[120px]">
           {row.material.id}
           </Table.Cell>
           <Table.Cell className="text-center  text-black ">{row.material.codigoFabricante}</Table.Cell>

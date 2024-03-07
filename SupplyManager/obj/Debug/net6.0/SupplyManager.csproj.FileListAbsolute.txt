@@ -54,13 +54,6 @@ C:\Users\gabri\OneDrive\Área de Trabalho\SuplyManager\SupplyManager\obj\Debug\n
 C:\Users\gabri\OneDrive\Área de Trabalho\SuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.pdb
 C:\Users\gabri\OneDrive\Área de Trabalho\SuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.genruntimeconfig.cache
 C:\Users\gabri\OneDrive\Área de Trabalho\SuplyManager\SupplyManager\obj\Debug\net6.0\ref\SupplyManager.dll
-C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.csproj.AssemblyReference.cache
-C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.AssemblyInfoInputs.cache
-C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.AssemblyInfo.cs
-C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.csproj.CoreCompileInputs.cache
-C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\appsettings.json
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\SupplyManager.exe
@@ -313,6 +306,13 @@ C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bi
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.csproj.AssemblyReference.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.AssemblyInfoInputs.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.AssemblyInfo.cs
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.csproj.CoreCompileInputs.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\staticwebassets\msbuild.SupplyManager.Microsoft.AspNetCore.StaticWebAssets.props
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\staticwebassets\msbuild.build.SupplyManager.props
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.SupplyManager.props
@@ -328,4 +328,3 @@ C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\ob
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.pdb
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.genruntimeconfig.cache
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\ref\SupplyManager.dll
-C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.sourcelink.json

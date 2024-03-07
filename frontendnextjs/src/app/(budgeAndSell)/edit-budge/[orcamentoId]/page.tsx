@@ -4,7 +4,7 @@ import Excel, { BorderStyle } from 'exceljs';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
 import { useRouter } from "next/navigation";
 import { QRCode } from "react-qrcode-logo";
-import { Card, Dropdown} from 'flowbite-react';
+import { Card, Dropdown, Table} from 'flowbite-react';
 import { use, useEffect, useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import "dayjs/locale/pt-br";
@@ -62,6 +62,7 @@ export default function ManageBudges({params}:any){
   const[emailCliente,setEmailCliente] = useState<string>()
   const[telefone,setTelefone] = useState<string>()
   const[endereco,setEndereco] = useState<string>()
+  // const[endereco,setEndereco] = useState<string>()
 
   const[cpfOrCnpj,setCpfOrCnpj] = useState<string>("")
   const[empresa,setEmpresa] = useState<string>()
@@ -70,14 +71,18 @@ export default function ManageBudges({params}:any){
   const [acrescimo,setAcrescimo] = useState<string>("")
   const [observacoes,setObservacoes] = useState<string>("")
 
+  const [itensOrcamento,setItensOrcamento]= useState<any[]>([])
+
 const[precoCustoTotalOrcamento,setPrecoCustoTotalOrcamento] = useState<number >();
 const[precoVendaTotalOrcamento,setPrecoVendaTotalOrcamento] = useState<number>();
 const[quantidadeMaterial,setQuantidadeMaterial] = useState<string>()
 const[isEditingOs,setIsEditingOs] = useState<boolean>(false)
 const[materiaisOrcamento,setMateriaisOrcamento] = useState<any>([])
-const[precoComDesconto,setPrecoComDesconto] = useState<any>()
+const[precoVendaComDesconto,setPrecoVendaComDesconto] = useState<any>(null)
 const[openDialogPreco,setOpenDialogPreco] = useState<boolean>(false)
 const[descricao,setDescricao] = useState<string>("")
+
+const [loading, setLoading] = useState(false);
 
 const doc = new jsPDF()
   let date = dayjs()
@@ -93,9 +98,11 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
    
     useEffect(()=>{
 
+      getAllItensOrcamento(params.orcamentoId)
       getAllMateriaisInOrcamento(params.orcamentoId)
       // getAllMaterial()
       getInfosBudge()
+    
      },[])
   useEffect(()=>{
 
@@ -154,22 +161,20 @@ console.log(e)
       }).catch(e=>console.log(e))
 
 
-      for( let i in res){
-      
-      }
 
   }
-//   const getAllMaterial = async()=>{
+  const getAllItensOrcamento = async(id:number)=>{
 
-//      await axios.get(`${url}/Inventarios`).then(r=>{
-      
-//       setMateriais(r.data)
-    
-// })
+    const res = await axios.get(`${url}/ItensOrcamento/GetAllItensOrcamento/${id}`).then((r)=>{
+      console.log(r.data)
+      setItensOrcamento(r.data)
+    return r.data
+
+    }).catch(e=>console.log(e))
 
 
 
-// }
+}
   
 const handleUpdateOrcamento = async()=>{
   
@@ -219,6 +224,8 @@ const handleUpdateOrcamentoToSell = async()=>{
     acrescimo:Number(acrescimo),
     observacoes:observacoes,
     responsavelVenda:session?.user?.name,
+    precoVendaTotal:precoVendaTotalOrcamento,
+    precoVendaComDesconto:precoVendaComDesconto,
 
 
 
@@ -285,6 +292,7 @@ const handleUpdateOrcamentoToSell = async()=>{
     const getInfosBudge =  async()=>{
       await axios.get(`${url}/Orcamentos/${params.orcamentoId}`).then(r=>{
 
+        console.log(r.data.tipoPagamento)
         setOrcamento(r.data)
         setEndereco(r.data.endereco)
         setAcrescimo(r.data.acrescimo)
@@ -297,6 +305,11 @@ const handleUpdateOrcamentoToSell = async()=>{
         setMetodoPagamento(r.data.tipoPagamento)
         setObservacoes(r.data.observacoes)
         setMetodoPagamento(r.data.tipoPagamento)
+
+      // if(r.data.precoVendaTotal !=null && r.data.precoVendaTotal>0)  setPrecoVendaTotalOrcamento(Number(r.data.precoVendaTotal))
+      // if(r.data.precoVendaComDesconto !=null && r.data.precoVendaComDesconto>0)  setPrecoVendaComDesconto(Number(r.data.precoVendaComDesconto))
+
+        
 
       })
     }
@@ -343,10 +356,38 @@ const handleUpdateOrcamentoToSell = async()=>{
 
       }
 
+    }
+
+    const findPrecoItem = (idMaterial:number)=>{
+
+      let precoVenda :number = 0;
+      for(let i in materiaisOrcamento)
+      {
+        console.log(materiaisOrcamento[i].material.id)
+        if(materiaisOrcamento[i].material.id = idMaterial){
+          precoVenda = materiaisOrcamento[i].material.precoVenda
+        }
+      }
+      for(let i in itensOrcamento)
+      {
+        if( itensOrcamento[i].materialId=-idMaterial){
+
+          if(itensOrcamento[i].precoItemOrcamento!=null){
+  
+            return itensOrcamento[i].precoItemOrcamento
+  
+          }
+        }
+        else{
+          return precoVenda
+        }
+      }
+
+      
+    
 
 
     }
-
 
   
     const findInventory = (id:number)=>{
@@ -371,9 +412,9 @@ const handleUpdateOrcamentoToSell = async()=>{
       if(precoVendaTotalOrcamento!=undefined &&  Number(desconto)>0) {
 
         const descontoCalculado = precoVendaTotalOrcamento - (Number(desconto.toString().replace(",","."))/100) * precoVendaTotalOrcamento
-        setPrecoComDesconto(descontoCalculado.toFixed(2))
+        setPrecoVendaComDesconto(descontoCalculado.toFixed(2))
       }
-      if(Number(desconto)==0) setPrecoComDesconto(0)
+      if(Number(desconto)==0) setPrecoVendaComDesconto(0)
     
       setPrecoVendaTotalOrcamento(Number(custoTotal.toFixed(2)))
 
@@ -563,9 +604,111 @@ ws.addImage(logo, {
 return(
     <>
       <h1 className='text-center text-2xl mt-8'>Orçamento Nº {orcamento?.id}</h1>
-      <div className='flex flex-col  mt-10  justify-center text-center '>
-   
-          <div className='flex flex-row justify-between w-[730px]'>
+      <div className='flex flex-col  mt-10  gap-3 justify-center text-center '>
+      <Input
+                          value={nomeCliente}
+                          className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                          onValueChange={setNomeCliente}
+                          placeholder='99283-4235'
+                          label="Nome do Cliente"
+                        />
+                  <Input
+                          value={telefone}
+                          className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                          onValueChange={setTelefone}
+                          placeholder='99283-4235'
+                          label="Telefone"
+                        />
+                  <Input
+                          value={emailCliente}
+                          className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                          onValueChange={setEmailCliente}
+                          placeholder='abcde@gmail.com'
+                          label="Email"
+                        />
+                  <Input
+                          value={empresa}
+                          className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                          onValueChange={setEmpresa}
+                          placeholder='Facebook'
+                          label="Empresa do Cliente"
+                        />
+                         <Input
+                        value={endereco}
+                        className=" shadow-sm bg-white shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                        onValueChange={setEndereco}
+                        placeholder='Rua Numero e Bairro'
+                        label="Endereço"
+                      />
+                      <Input
+                        value={cpfOrCnpj}
+                        className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                        onValueChange={setCpfOrCnpj}
+                        placeholder='99283-4235'
+                        label="CPF OU CNPJ"
+                      />
+                       <Input
+                        value={nomeOrçamento}
+                        className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                        onValueChange={setNomeOrçamento}
+                        placeholder='99283-4235'
+                        label="Telefone"
+                      />
+                <Input
+                        value={desconto}
+                        className="  mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                        onValueChange={setDesconto}
+                       
+                        label="Desconto %"
+                        endContent={<span>%</span>}
+                      />
+                      
+                      <Textarea
+                                            label="Observações sobre este Orçamento"
+                                            placeholder="Observações"
+                                            className="max-w-xl border-1 ml-5 mt-3 mb-3 border-black rounded-xl min-w-[210px] max-h-[320px]  shadow-sm shadow-black "
+                                            
+                                            maxRows={14}
+                                            value={observacoes}
+                                            onValueChange={setObservacoes}
+                                        
+                                          />
+                                          {metodoPagamento && (
+
+                <Autocomplete
+                    label="Método Pagamento $"
+                    placeholder="EX:PIX"
+                    className=" w-[250px]  shadow-sm shadow-black h-14  ml-5 mr-5 w"
+                    value={metodoPagamento}
+                    onSelectionChange={setMetodoPagamento}
+                    allowsCustomValue
+                    defaultSelectedKey={metodoPagamento}
+                  >
+                  
+                  {formasPagamento.map((item:any) => (
+                    
+                      <AutocompleteItem
+                      key={item} 
+                      aria-label='teste'
+                        value={metodoPagamento}
+                        >
+                        {item}
+                      </AutocompleteItem>
+                    ))}
+                    </Autocomplete>
+                                          )}
+
+         
+             
+             <div className='flex flex-row gap-5 mt-4'>
+               <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg shadow-lg ' onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
+               <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg ' onPress={onOpen}>
+                          Autorizar Orçamento
+                         </Button>
+             </div>
+              
+                                       
+          <div className='flex flex-row justify-between w-[730px] mt-5'>
 
             {!orcamento?.isPayed && (
 
@@ -575,7 +718,7 @@ return(
            placeholder="Procure um material"
            allowsCustomValue
           value={descricao}
-          onValueChange={(x)=>setDescricao(x)}
+          onValueChange={(x:any)=>setDescricao(x)}
            className="max-w-[900px] ml-6 self-center border-1 border-black rounded-xl shadow-sm shadow-black"
          >
 
@@ -603,19 +746,24 @@ return(
           </Autocomplete>
             )}
      
-       <Button 
+         <Button 
       isDisabled={!nomeOrçamento?.length}
         className="bg-master_black text-white w-[330px] p-7 rounded-lg font-bold text-lg shadow-lg ml-10 "
-      ><PDFDownloadLink document={   <OrcamentoPDF 
-        materiaisOrcamento ={materiaisOrcamento} 
-        nomeUsuario={session?.user?.name}
-        orcamento={orcamento}
+        >
+   
+
+          <PDFDownloadLink document={   <OrcamentoPDF 
+          materiaisOrcamento ={materiaisOrcamento} 
+          nomeUsuario={session?.user?.name}
+          orcamento={orcamento}
+          
+          />} fileName={"Orçamento Nº"+ orcamento?.id+ " Para "+ orcamento?.nomeCliente +".pdf"}>
+               {orcamento?.isPayed ?"Gerar Nota de Venda":"Gerar Nota De Orçamento"}
+           
+            </PDFDownloadLink>
         
-        />} fileName={"Orçamento Nº"+ orcamento?.id+ " Para "+ orcamento?.nomeCliente +".pdf"}>
-             {orcamento?.isPayed ?"Gerar Nota de Venda":"Gerar Nota De Orçamento"}
-          </PDFDownloadLink>
-          </Button>
-         
+          </Button> 
+       
            <Dialog open={openDialog} onClose={handleCloseDialog} >
     <DialogTitle sx={{textAlign:"center"}}>{isEditingOs?itemToBeUpdated?.material.descricao:inventarioDialog?.material.descricao}</DialogTitle>
     <DialogContent >
@@ -647,13 +795,9 @@ return(
 
 
            <Dialog open={openDialogPreco} onClose={handleCloseDialogPreco} >
-    <DialogTitle sx={{textAlign:"center"}}>{isEditingOs?itemToBeUpdated?.material.descricao:inventarioDialog?.material.descricao}</DialogTitle>
+    <DialogTitle sx={{textAlign:"center"}}>Novo Preço de Venda</DialogTitle>
     <DialogContent >
 
-      <p className='text-center'>
-        
-        Estoque: {inventarioDialog?.saldoFinal == 0 || null?0:inventarioDialog?.saldoFinal} {inventarioDialog?.material.unidade} 
-          </p>
       <div className=' flex flex-row justify-center'>
         <Input
           type='number'
@@ -678,149 +822,55 @@ return(
       </div>
       <div className='flex flex-row justify-between'>
         <div className='flex flex-col'>
-          <Accordion className="ml-6">
-          <AccordionItem key="1" aria-label="`Materias Presentes no orçamento" subtitle="Pressione para expandir" title={`Materias Presentes no orçamento: ${materiaisOrcamento?.length}`}>
-            {materiaisOrcamento.map((x:any)=>(
+      
           
-               <div className='flex flex-row justify-between w-[800px] '>
-                <p className='m-4 max-w-[250px] text-base'>{x.material.id}- {x.material.descricao}</p>
-                <p  className='text-base'>{x.quantidadeMaterial} {x.material.unidade}</p>
-                <p  className='text-base'>R${x.material.precoCusto.toFixed(2)}</p>
-                <Button className='bg-white pb-5' onPress={()=>setOpenDialogPreco(true)}>
-                  <p  className='text-base hover:underline'>R${x.material.precoVenda.toFixed(2)}</p>
-                </Button>
+              <div className="overflow-x-auto self-center w-[100%] ">
+      <Table  hoverable striped className="w-[100%] ">
+        <Table.Head className="border-1 border-black">
+          <Table.HeadCell className="text-center border-1 border-black text-sm max-w-[120px] " >Cod.Interno</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Descricao</Table.HeadCell>
+          <Table.HeadCell className="text-center text-sm">Descrição</Table.HeadCell>
           
-           <div className='flex flex-row justify-between gap-3'>
-              {!orcamento?.isPayed && (
-                <>
-                <IconBxTrashAlt onClick={()=>handleDelete(x.id)} />
-             <IconEdit onClick={()=>{setItemToBeUpdated(x),setIsEditingOs(true),setOpenDialog(true),findInventory(x.material.id)}} />
-             </>
-              )}
-           </div>
-               </div>
-            ))}
-          </AccordionItem>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Preço Custo</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm ">Preço Venda</Table.HeadCell>
+      
+          <Table.HeadCell className="text-center">
+            <span className="sr-only">Edit</span>
+          </Table.HeadCell>
+        </Table.Head>
+        <Table.Body className="divide-y">
           
-              </Accordion>
+        { materiaisOrcamento.length>=1 && materiaisOrcamento.map((row:any) => (
+          <Table.Row  key={row.material.id} className=" dark:border-gray-700 dark:bg-gray-800 hover:bg-yellow-200">
+          <Table.Cell className="  text-center font-medium text-gray-900 dark:text-white max-w-[120px]">
+          {row.material.id}
+          </Table.Cell>
+          <Table.Cell className="text-center text-black" >{row.material.descricao}</Table.Cell>
+          <Table.Cell className="text-center text-black">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</Table.Cell>
+          <Table.Cell className="text-center text-black">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</Table.Cell>
+          <Table.Cell>
+          <IconBxTrashAlt onClick={()=>handleDelete(row.id)} />
+             <IconEdit onClick={()=>{setItemToBeUpdated(row),setIsEditingOs(true),setOpenDialog(true),findInventory(row.material.id)}} />
+          </Table.Cell>
+        </Table.Row>
+
+
+              ))}
+          
+         
+         
+        </Table.Body>
+      </Table>
+    </div>
               <p className='mt-16 font-bold text-lg'>Preço Custo Total:R$ {precoCustoTotalOrcamento?.toString().replace('.',',')}</p>
               <p  className='mt-5 font-bold  text-lg' onClick={()=>setOpenDialogPreco(true)}>Preço Venda Total:R$ {precoVendaTotalOrcamento?.toString().replace('.',',')}</p>
-              {precoComDesconto>0 && (
+              {precoVendaComDesconto>0 && (
 
-              <p  className='mt-5 font-bold  text-lg'>Preço Venda com Desconto:R$ {precoComDesconto?.toString().replace('.',',')}</p>
+              <p  className='mt-5 font-bold  text-lg'>Preço Venda com Desconto:R$ {precoVendaComDesconto?.toString().replace('.',',')}</p>
               )}
         </div>
          
-              <div className='flex flex-col ml-32'>
-                        <div className=' flex flex-row justify-center w-[800px]'>
-                          <Textarea
-                                            label="Observações sobre este Orçamento"
-                                            placeholder="Observações"
-                                            className="max-w-xl border-1 border-black rounded-xl min-w-[210px] max-h-[320px]  shadow-sm shadow-black "
-                                            
-                                            maxRows={14}
-                                            value={observacoes}
-                                            onValueChange={setObservacoes}
-                                        
-                                          />
-                        </div>
-                <div className='flex flex-row flex-wrap w-[1150px] '>
-                  <Input
-                          value={nomeCliente}
-                          className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
-                          onValueChange={setNomeCliente}
-                          placeholder='99283-4235'
-                          label="Nome do Cliente"
-                        />
-                  <Input
-                          value={telefone}
-                          className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
-                          onValueChange={setTelefone}
-                          placeholder='99283-4235'
-                          label="Telefone"
-                        />
-                  <Input
-                          value={emailCliente}
-                          className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
-                          onValueChange={setEmailCliente}
-                          placeholder='abcde@gmail.com'
-                          label="Email"
-                        />
-                  <Input
-                          value={empresa}
-                          className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
-                          onValueChange={setEmpresa}
-                          placeholder='Facebook'
-                          label="Empresa do Cliente"
-                        />
-                         <Input
-                        value={endereco}
-                        className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px] self-center"
-                        onValueChange={setEndereco}
-                        placeholder='Rua Numero e Bairro'
-                        label="Endereço"
-                      />
-                      <Input
-                        value={cpfOrCnpj}
-                        className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
-                        onValueChange={setCpfOrCnpj}
-                        placeholder='99283-4235'
-                        label="CPF OU CNPJ"
-                      />
-                </div>
-                <div className='flex flex-row flex-wrap'>
-               
-                <Input
-                        value={nomeOrçamento}
-                        className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
-                        onValueChange={setNomeOrçamento}
-                        placeholder='99283-4235'
-                        label="Telefone"
-                      />
-                <Input
-                        value={desconto}
-                        className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
-                        onValueChange={setDesconto}
-                       
-                        label="Desconto %"
-                        endContent={<span>%</span>}
-                      />
-                      
-
-                <Autocomplete
-                    label="Método Pagamento $"
-                    placeholder="EX:PIX"
-                    className=" w-[250px] border-1 border-black rounded-xl shadow-sm shadow-black h-14 mt-10 ml-5 mr-5 w"
-                    value={metodoPagamento}
-                    onSelectionChange={setMetodoPagamento}
-                    defaultSelectedKey={metodoPagamento}
-                  >
-                  
-                  {formasPagamento.map((item:any) => (
-                    
-                      <AutocompleteItem
-                      key={item} 
-                      aria-label='teste'
-                      
-
-                    
-                        value={metodoPagamento}
-                        >
-                        {item}
-                      </AutocompleteItem>
-                    ))}
-                    </Autocomplete>
-                     
-
-              </div>
-        <div className='flex flex-col gap-5'>
-          <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg shadow-lg mt-10' onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
-          <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg ' onPress={onOpen}>
-                     Autorizar Orçamento
-                    </Button>
-        </div>
-              </div>
-            
+        
       </div>
 
      </div>
