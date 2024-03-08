@@ -3,7 +3,9 @@ import {Link, Button,Autocomplete,Textarea, AutocompleteItem, Input, useDisclosu
 import Excel, { BorderStyle } from 'exceljs';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
 import { useRouter } from "next/navigation";
-import { QRCode } from "react-qrcode-logo";
+import DocumentViewer, { PDFViewer } from "@react-pdf/renderer"
+
+
 import { Card, Dropdown, Table} from 'flowbite-react';
 import { use, useEffect, useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -53,7 +55,7 @@ export default function ManageBudges({params}:any){
 
   const [materiais,setMateriais]= useState<IInventario[] >([])
   const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
-  const [precoVendaNovoMaterial,setPrecoVendaNovoMaterial] = useState<string>("")
+  const [precoVendaNovoMaterial,setPrecoVendaNovoMaterial] = useState<string>(null)
   const [descricaoOs,setDescricaoOs] = useState<string>()
   const [messageAlert, setMessageAlert] = useState<string>();
   const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
@@ -314,6 +316,7 @@ const handleUpdateOrcamentoToSell = async()=>{
       })
     }
     const handleUpdateItem = async (item?:any) =>{
+        console.log(quantidadeMaterial)
       const itemOrcamento = {
         id:item.id,
         materialId:item.materialId,
@@ -323,6 +326,7 @@ const handleUpdateOrcamentoToSell = async()=>{
         orcamento:{},
         precoItemOrcamento:precoVendaNovoMaterial
       }
+      console.log(itemOrcamento)
       const res = await axios.put(`${url}/ItensOrcamento/${item.id}`,itemOrcamento).then(r=>{
 
         setOpenSnackBar(true);
@@ -330,11 +334,12 @@ const handleUpdateOrcamentoToSell = async()=>{
         setMessageAlert("Quantidade Atualizada Com Sucesso");
         getAllMateriaisInOrcamento(params.orcamentoId)
         calcPrecoVenda()
+        handleCloseDialog()
+
   
       }).catch(e=>console.log(e))
   
   
-        handleCloseDialog()
 
     }
     const handleDelete =async  (id:number) =>{
@@ -379,7 +384,7 @@ const handleUpdateOrcamentoToSell = async()=>{
           }
         }
         else{
-          return precoVenda
+          return 20
         }
       }
 
@@ -391,8 +396,9 @@ const handleUpdateOrcamentoToSell = async()=>{
 
   
     const findInventory = (id:number)=>{
-      const inventoryFinded : IInventario | undefined = materiais.find(x=>x.materialId==id)
-
+      console.log(id)
+      const inventoryFinded : IInventario | undefined = materiaisOrcamento.find(x=>x.materialId==id)
+      console.log(inventoryFinded)
       setInventarioDialog(inventoryFinded)
      }
     const calcPrecoVenda = () =>{
@@ -443,7 +449,8 @@ const handleUpdateOrcamentoToSell = async()=>{
     }
 
     const handleInputQuantidade = (value:any)=>{
-      setQuantidadeMaterial(value)
+      console.log(value)
+      setQuantidadeMaterial(value.toString())
       if(value<1) setQuantidadeMaterial("1")
       if( inventarioDialog?.saldoFinal!=undefined && value>inventarioDialog?.saldoFinal) setQuantidadeMaterial(inventarioDialog?.saldoFinal.toString())
 
@@ -605,48 +612,57 @@ return(
     <>
       <h1 className='text-center text-2xl mt-8'>Orçamento Nº {orcamento?.id}</h1>
       <div className='flex flex-col  mt-10  gap-3 justify-center text-center '>
-      <Input
-                          value={nomeCliente}
-                          className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
-                          onValueChange={setNomeCliente}
-                          placeholder='99283-4235'
-                          label="Nome do Cliente"
-                        />
-                  <Input
-                          value={telefone}
-                          className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
-                          onValueChange={setTelefone}
-                          placeholder='99283-4235'
-                          label="Telefone"
-                        />
-                  <Input
-                          value={emailCliente}
-                          className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
-                          onValueChange={setEmailCliente}
-                          placeholder='abcde@gmail.com'
-                          label="Email"
-                        />
-                  <Input
-                          value={empresa}
-                          className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
-                          onValueChange={setEmpresa}
-                          placeholder='Facebook'
-                          label="Empresa do Cliente"
-                        />
-                         <Input
-                        value={endereco}
-                        className=" shadow-sm bg-white shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
-                        onValueChange={setEndereco}
-                        placeholder='Rua Numero e Bairro'
-                        label="Endereço"
-                      />
+
+      <div className='flex flex-col self-center '>
+              <div className='flex flex-row'>
+                <Input
+                              value={nomeCliente}
+                              className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                              onValueChange={setNomeCliente}
+                              placeholder='99283-4235'
+                              label="Nome do Cliente"
+                            />
                       <Input
-                        value={cpfOrCnpj}
-                        className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
-                        onValueChange={setCpfOrCnpj}
-                        placeholder='99283-4235'
-                        label="CPF OU CNPJ"
-                      />
+                              value={telefone}
+                              className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                              onValueChange={setTelefone}
+                              placeholder='99283-4235'
+                              label="Telefone"
+                            />
+              </div>
+                    <div className='flex flex-row'>
+                      <Input
+                              value={emailCliente}
+                              className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                              onValueChange={setEmailCliente}
+                              placeholder='abcde@gmail.com'
+                              label="Email"
+                            />
+                      <Input
+                              value={empresa}
+                              className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                              onValueChange={setEmpresa}
+                              placeholder='Facebook'
+                              label="Empresa do Cliente"
+                            />
+                    </div>
+                         <div className=' flex flex-row'>
+                           <Input
+                              value={endereco}
+                              className=" shadow-sm bg-white shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                              onValueChange={setEndereco}
+                              placeholder='Rua Numero e Bairro'
+                              label="Endereço"
+                              />
+                               <Input
+                                  value={cpfOrCnpj}
+                                  className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                                  onValueChange={setCpfOrCnpj}
+                                  placeholder='99283-4235'
+                                  label="CPF OU CNPJ"
+                                />                  
+                         </div>
+
                        <Input
                         value={nomeOrçamento}
                         className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
@@ -697,10 +713,10 @@ return(
                     ))}
                     </Autocomplete>
                                           )}
+      </div>
 
-         
              
-             <div className='flex flex-row gap-5 mt-4'>
+             <div className='flex flex-row gap-5 mt-4 self-center'>
                <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg shadow-lg ' onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
                <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg ' onPress={onOpen}>
                           Autorizar Orçamento
@@ -709,42 +725,44 @@ return(
               
                                        
           <div className='flex flex-row justify-between w-[730px] mt-5'>
-
-            {!orcamento?.isPayed && (
-
-          <Autocomplete
-           label="Material"
-           isDisabled={!materiais}
-           placeholder="Procure um material"
-           allowsCustomValue
-          value={descricao}
-          onValueChange={(x:any)=>setDescricao(x)}
-           className="max-w-[900px] ml-6 self-center border-1 border-black rounded-xl shadow-sm shadow-black"
-         >
-
-         {materiais.map((item:IInventario) => (
-     
-            <AutocompleteItem
-             key={item.id}
-             aria-label='teste'
-             endContent={
-             <>
-     
-             <p className='text-xs'>{item.material?.marca}</p>
-              {!hasMaterial(item) &&
-              <IconPlus  onClick={()=>handleOpenDialog(item)} />
-              }
-     
-             </>
-             }
-             startContent={<p>{item.material?.id} -</p>}
-              value={item.material?.descricao}
-              >
-              {item.material?.descricao}
-            </AutocompleteItem>
-          ))}
-          </Autocomplete>
-            )}
+    <div className='flex flex-col self-center'>
+  
+              {!orcamento?.isPayed && (
+  
+            <Autocomplete
+             label="Material"
+             isDisabled={!materiais}
+             placeholder="Procure um material"
+             allowsCustomValue
+            value={descricao}
+            onValueChange={(x:any)=>setDescricao(x)}
+             className="max-w-[900px] ml-6 self-center border-1 border-black rounded-xl shadow-sm shadow-black"
+           >
+  
+           {materiais.map((item:IInventario) => (
+  
+              <AutocompleteItem
+               key={item.id}
+               aria-label='teste'
+               endContent={
+               <>
+  
+               <p className='text-xs'>{item.material?.marca}</p>
+                {!hasMaterial(item) &&
+                <IconPlus  onClick={()=>handleOpenDialog(item)} />
+                }
+  
+               </>
+               }
+               startContent={<p>{item.material?.id} -</p>}
+                value={item.material?.descricao}
+                >
+                {item.material?.descricao}
+              </AutocompleteItem>
+            ))}
+            </Autocomplete>
+              )}
+  </div>
      
          <Button 
       isDisabled={!nomeOrçamento?.length}
@@ -821,15 +839,16 @@ return(
 
       </div>
       <div className='flex flex-row justify-between'>
-        <div className='flex flex-col'>
+        <div className='flex flex-col self-center'>
       
           
-              <div className="overflow-x-auto self-center w-[100%] ">
+              <div className="overflow-x-auto self-center w-[100%] mt-5 ml-5 ">
       <Table  hoverable striped className="w-[100%] ">
         <Table.Head className="border-1 border-black">
           <Table.HeadCell className="text-center border-1 border-black text-sm max-w-[120px] " >Cod.Interno</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Descricao</Table.HeadCell>
-          <Table.HeadCell className="text-center text-sm">Descrição</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Qntd</Table.HeadCell>
+
           
           <Table.HeadCell className="text-center border-1 border-black text-sm">Preço Custo</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm ">Preço Venda</Table.HeadCell>
@@ -841,16 +860,18 @@ return(
         <Table.Body className="divide-y">
           
         { materiaisOrcamento.length>=1 && materiaisOrcamento.map((row:any) => (
-          <Table.Row  key={row.material.id} className=" dark:border-gray-700 dark:bg-gray-800 hover:bg-yellow-200">
+          <Table.Row  key={row.material.id} className=" dark:border-gray-700 dark:bg-gray-800 ">
           <Table.Cell className="  text-center font-medium text-gray-900 dark:text-white max-w-[120px]">
           {row.material.id}
           </Table.Cell>
           <Table.Cell className="text-center text-black" >{row.material.descricao}</Table.Cell>
+          <Table.Cell className="text-center text-black hover:underline" onClick={()=>{setItemToBeUpdated(row),setIsEditingOs(true),setOpenDialog(true),findInventory(row.material.id)}} >{row.quantidadeMaterial}</Table.Cell>
           <Table.Cell className="text-center text-black">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</Table.Cell>
           <Table.Cell className="text-center text-black">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</Table.Cell>
           <Table.Cell>
-          <IconBxTrashAlt onClick={()=>handleDelete(row.id)} />
-             <IconEdit onClick={()=>{setItemToBeUpdated(row),setIsEditingOs(true),setOpenDialog(true),findInventory(row.material.id)}} />
+              <div className='text-center'>
+                <IconBxTrashAlt onClick={()=>handleDelete(row.id)} />
+              </div>
           </Table.Cell>
         </Table.Row>
 

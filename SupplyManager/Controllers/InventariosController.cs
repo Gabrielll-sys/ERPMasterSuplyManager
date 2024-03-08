@@ -1210,15 +1210,17 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<Inventario>> BuscaDescricaoInventario(string descricao)
+        public async Task<ActionResult<List<Inventario>>> BuscaDescricaoInventario(string descricao)
         {
 
 
             try
             {
-                var queryMaterial = from query in _context.Materiais select query;
+                var queryMaterial = await _context.Materiais.AsNoTracking().ToListAsync();
             
-                var queryInvetory = await _context.Inventarios.ToListAsync();
+                var queryInvetory = await _context.Inventarios.AsNoTracking().Include(x=>x.Material).ToListAsync();
+
+
 
                 List<Inventario> listInvetory = new List<Inventario>(); 
 
@@ -1228,32 +1230,33 @@ namespace SupplyManager.Controllers
 
        
                 //Caractere que ira dividir a busca de string e ira realiza sub buscar de acordo com as string separadas pelo delimitador .
-                if (descricao.Contains("."))
+               if (descricao.Contains("."))
                 {
 
                         if(splited.Length is 1)
                     {
-                        l1 = await queryMaterial.Where(x => x.Descricao.Contains(splited[0])).OrderBy(x => x.Id).ToListAsync();
+                        l1 = queryMaterial.Where(x => x.Descricao.Contains(splited[0].ToUpper())).OrderBy(x => x.Id).ToList();
+                        
                     }
                    
                     if (splited.Length is 2)
                     {
-                        l1 = await queryMaterial.Where(x => x.Descricao.Contains(splited[0])
-                        && x.Descricao.Contains(splited[1])).OrderBy(x => x.Id).ToListAsync();
+                        l1 = queryMaterial.Where(x => x.Descricao.Contains(splited[0].ToUpper())
+                        && x.Descricao.Contains(splited[1].ToUpper())).OrderBy(x => x.Id).ToList();
                     }
                     if (splited.Length is 3)
                     {
-                         l1 = await queryMaterial.Where(x => x.Descricao.Contains(splited[0])
-                          && x.Descricao.Contains(splited[1])
-                            && x.Descricao.Contains(splited[2])).OrderBy(x => x.Id).ToListAsync();
+                         l1 =  queryMaterial.Where(x => x.Descricao.Contains(splited[0].ToUpper())
+                          && x.Descricao.Contains(splited[1].ToUpper())
+                            && x.Descricao.Contains(splited[2].ToUpper())).OrderBy(x => x.Id).ToList();
 
                     } 
                     if (splited.Length is 4)
                     {
-                         l1 = await queryMaterial.Where(x => x.Descricao.Contains(splited[0])
-                          && x.Descricao.Contains(splited[1])
-                            && x.Descricao.Contains(splited[2])
-                            && x.Descricao.Contains(splited[3])).OrderBy(x => x.Id).ToListAsync();
+                         l1 =  queryMaterial.Where(x => x.Descricao.Contains(splited[0].ToUpper()   )
+                          && x.Descricao.Contains(splited[1].ToUpper())
+                            && x.Descricao.Contains(splited[2].ToUpper())
+                            && x.Descricao.Contains(splited[3].ToUpper())).OrderBy(x => x.Id).ToList();
 
                     }
 
@@ -1262,11 +1265,19 @@ namespace SupplyManager.Controllers
                 else
                 {
 
-                     queryMaterial = descricao.ToUpper() == "TUDO" ?
-                     queryMaterial = queryMaterial.Where(_ => true).OrderByDescending(x => x.Id).ThenBy(x => x.PrecoCusto) :
-                     queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao)).OrderBy(x => x.Id);
+                    if(descricao.ToUpper() == "TUDO")
+                    {
+                       queryMaterial = queryMaterial.OrderByDescending(x => x.Id).ThenBy(x => x.PrecoCusto).ToList();
+                    }
+                    else
+                    {
 
-                    l1 = await queryMaterial.ToListAsync();
+                        queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao.ToUpper())).ToList();
+                      
+
+                    }
+                
+                    l1 = queryMaterial;
 
                 }
 

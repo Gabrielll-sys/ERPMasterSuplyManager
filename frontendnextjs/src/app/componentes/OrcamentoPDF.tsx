@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Page, Text, View, Document, StyleSheet,Image } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet,Image} from '@react-pdf/renderer';
 import { IInventario } from '../interfaces/IInventarios';
 import dayjs from 'dayjs';
 import { table } from 'console';
 import { useSession } from 'next-auth/react';
 import { logoBase64 } from '../assets/base64Logo';
-
 
 
 const OrcamentoPDF = (props:any)=>{
