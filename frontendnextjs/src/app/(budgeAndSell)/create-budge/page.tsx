@@ -65,10 +65,10 @@ const orcamento = {
   nomeCliente:nomeCliente,
   emailCliente:emailCliente,
   telefone:telefone,
-  empresa:empresa,
   endereco:endereco,
   desconto:Number(desconto),
   tipoPagamento:metodoPagamento==""?"PIX":metodoPagamento,
+  responsavelOrcamento:session?.user?.name
 
 }
 
@@ -103,14 +103,7 @@ return(
         onValueChange={setNomeCliente}
         label="Nome" 
       />
-        <Input
-              value={empresa}
-              type='text'
-              className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-              onValueChange={setEmpresa}
-              placeholder='Microsft'
-              label="Empresa" 
-            />
+
     <Input
         value={emailCliente}
         className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"

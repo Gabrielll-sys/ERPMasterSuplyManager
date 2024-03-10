@@ -55,7 +55,7 @@ export default function ManageBudges({params}:any){
 
   const [materiais,setMateriais]= useState<IInventario[] >([])
   const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
-  const [precoVendaNovoMaterial,setPrecoVendaNovoMaterial] = useState<string>(null)
+  const [precoVendaNovoMaterial,setPrecoVendaNovoMaterial] = useState<string>("")
   const [descricaoOs,setDescricaoOs] = useState<string>()
   const [messageAlert, setMessageAlert] = useState<string>();
   const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
@@ -77,7 +77,7 @@ export default function ManageBudges({params}:any){
 
 const[precoCustoTotalOrcamento,setPrecoCustoTotalOrcamento] = useState<number >();
 const[precoVendaTotalOrcamento,setPrecoVendaTotalOrcamento] = useState<number>();
-const[quantidadeMaterial,setQuantidadeMaterial] = useState<string>()
+const[quantidadeMaterial,setQuantidadeMaterial] = useState<string>("")
 const[isEditingOs,setIsEditingOs] = useState<boolean>(false)
 const[materiaisOrcamento,setMateriaisOrcamento] = useState<any>([])
 const[precoVendaComDesconto,setPrecoVendaComDesconto] = useState<any>(null)
@@ -157,12 +157,18 @@ console.log(e)
   const getAllMateriaisInOrcamento = async(id:number)=>{
 
       const res = await axios.get(`${url}/ItensOrcamento/GetAllMateriaisOrcamento/${id}`).then((r)=>{
+        console.log(r.data)
         setMateriaisOrcamento(r.data)
-      return r.data
+        return r.data
 
       }).catch(e=>console.log(e))
 
+      for(let item of res){
+        
+        if(item.precoItemOrcamento != null)
+        item.material.precoVenda = item.precoItemOrcamento
 
+      }
 
   }
   const getAllItensOrcamento = async(id:number)=>{
@@ -268,11 +274,12 @@ const handleUpdateOrcamentoToSell = async()=>{
     }
     const handleAddMaterialOrcamento = async (item?:any)=>{
 
-
+      console.log(item)
     const itemOrcamento = {
       materialId:item.materialId,
       material:{},
-      quantidadeMaterial:Number(quantidadeMaterial),
+      quantidadeMaterial:quantidadeMaterial==""?null:Number(quantidadeMaterial),
+      precoItemOrcamento:precoVendaNovoMaterial==""?null:Number(precoVendaNovoMaterial),
       orcamentoId:Number(params.orcamentoId),
       orcamento:{},
     }
@@ -316,25 +323,51 @@ const handleUpdateOrcamentoToSell = async()=>{
       })
     }
     const handleUpdateItem = async (item?:any) =>{
-        console.log(quantidadeMaterial)
-      const itemOrcamento = {
-        id:item.id,
-        materialId:item.materialId,
-        material:{},
-        quantidadeMaterial:Number(quantidadeMaterial),
-        orcamentoId:Number(params.orcamentoId),
-        orcamento:{},
-        precoItemOrcamento:precoVendaNovoMaterial
+
+console.log(item.quantidadeMaterial)
+
+  let itemOrcamento = {}
+      if(item.precoItemOrcamento != null) {
+     
+        itemOrcamento = {
+          id:item.id,
+          materialId:item.materialId,
+          material:{},
+          quantidadeMaterial:quantidadeMaterial == "" && item.quantidadeMaterial!= null? item.quantidadeMaterial :Number(quantidadeMaterial),
+          orcamentoId:Number(params.orcamentoId),
+          orcamento:{},
+          precoItemOrcamento: item.precoItemOrcamemento!= item.material.precoVenda && precoVendaNovoMaterial!=""?precoVendaNovoMaterial:item.material.precoVenda,
+        }
+
+
       }
-      console.log(itemOrcamento)
+
+      else{
+
+        itemOrcamento = {
+          id:item.id,
+          materialId:item.materialId,
+          material:{},
+          quantidadeMaterial:Number(quantidadeMaterial),
+          orcamentoId:Number(params.orcamentoId),
+          orcamento:{},
+          precoItemOrcamento:item.precoItemOrcamemento!= item.material.precoVenda?precoVendaNovoMaterial:item.material.precoVenda
+        }
+      }
+
       const res = await axios.put(`${url}/ItensOrcamento/${item.id}`,itemOrcamento).then(r=>{
 
         setOpenSnackBar(true);
         setSeveridadeAlert("success");
-        setMessageAlert("Quantidade Atualizada Com Sucesso");
+       quantidadeMaterial!="" ? setMessageAlert("Quantidade Atualizada Com Sucesso"):setMessageAlert("Preço de Venda Atualizado com Sucesso");
+
+          
+        
+      
         getAllMateriaisInOrcamento(params.orcamentoId)
         calcPrecoVenda()
         handleCloseDialog()
+        handleCloseDialogPreco()
 
   
       }).catch(e=>console.log(e))
@@ -342,6 +375,40 @@ const handleUpdateOrcamentoToSell = async()=>{
   
 
     }
+    const handleUpdatePrecoItem = async (item?:any) =>{
+
+
+      
+      item.material.precoVenda
+              const itemOrcamento = {
+                id:item.id,
+                materialId:item.materialId,
+                material:{},
+                quantidadeMaterial:item.quantidadeMaterial,
+                orcamentoId:Number(params.orcamentoId),
+                orcamento:{},
+                precoItemOrcamento: (item.precoItemOrcamemento!= item.material.precoVenda && precoVendaNovoMaterial!="") || item.material.precoVenda == null?precoVendaNovoMaterial:item.material.precoVenda,
+              }
+              console.log(itemOrcamento)
+              
+            const res = await axios.put(`${url}/ItensOrcamento/${item.id}`,itemOrcamento).then(r=>{
+      
+              setOpenSnackBar(true);
+              setSeveridadeAlert("success");
+              quantidadeMaterial!="" ? setMessageAlert("Quantidade Atualizada Com Sucesso"):setMessageAlert("Preço de Venda Atualizado com Sucesso");
+
+            
+              getAllMateriaisInOrcamento(params.orcamentoId)
+              calcPrecoVenda()
+              handleCloseDialog()
+              handleCloseDialogPreco()
+      
+        
+            }).catch(e=>console.log(e))
+        
+        
+      
+          }
     const handleDelete =async  (id:number) =>{
       const res = await axios.delete(`${url}/ItensOrcamento/${id}`).then(r=>{
           setOpenSnackBar(true);
@@ -363,41 +430,12 @@ const handleUpdateOrcamentoToSell = async()=>{
 
     }
 
-    const findPrecoItem = (idMaterial:number)=>{
-
-      let precoVenda :number = 0;
-      for(let i in materiaisOrcamento)
-      {
-        console.log(materiaisOrcamento[i].material.id)
-        if(materiaisOrcamento[i].material.id = idMaterial){
-          precoVenda = materiaisOrcamento[i].material.precoVenda
-        }
-      }
-      for(let i in itensOrcamento)
-      {
-        if( itensOrcamento[i].materialId=-idMaterial){
-
-          if(itensOrcamento[i].precoItemOrcamento!=null){
-  
-            return itensOrcamento[i].precoItemOrcamento
-  
-          }
-        }
-        else{
-          return 20
-        }
-      }
-
-      
-    
-
-
-    }
+   
 
   
     const findInventory = (id:number)=>{
       console.log(id)
-      const inventoryFinded : IInventario | undefined = materiaisOrcamento.find(x=>x.materialId==id)
+      const inventoryFinded : IInventario | undefined = materiaisOrcamento.find((x:any)=>x.materialId==id)
       console.log(inventoryFinded)
       setInventarioDialog(inventoryFinded)
      }
@@ -611,108 +649,101 @@ ws.addImage(logo, {
 return(
     <>
       <h1 className='text-center text-2xl mt-8'>Orçamento Nº {orcamento?.id}</h1>
-      <div className='flex flex-col  mt-10  gap-3 justify-center text-center '>
+      <div className='flex flex-col  mt-10  gap-3 justify-center text-center   '>
 
-      <div className='flex flex-col self-center '>
-              <div className='flex flex-row'>
+      <div className='flex flex-col self-center max-w-[1200px] '>
+              <div className='flex flex-row  gap-4 w-[800px]'>
                 <Input
                               value={nomeCliente}
-                              className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                              className=" border-1 border-black rounded-xl shadow-sm shadow-black max-w-[384px]  min-w-[384px]"
                               onValueChange={setNomeCliente}
                               placeholder='99283-4235'
                               label="Nome do Cliente"
                             />
-                      <Input
-                              value={telefone}
-                              className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
-                              onValueChange={setTelefone}
-                              placeholder='99283-4235'
-                              label="Telefone"
-                            />
-              </div>
-                    <div className='flex flex-row'>
-                      <Input
-                              value={emailCliente}
-                              className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
-                              onValueChange={setEmailCliente}
-                              placeholder='abcde@gmail.com'
-                              label="Email"
-                            />
-                      <Input
-                              value={empresa}
-                              className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
-                              onValueChange={setEmpresa}
-                              placeholder='Facebook'
-                              label="Empresa do Cliente"
-                            />
-                    </div>
-                         <div className=' flex flex-row'>
-                           <Input
+                                <Input
                               value={endereco}
-                              className=" shadow-sm bg-white shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                              className=" border-1 border-black rounded-xl shadow-sm shadow-black  max-w-[384px]  min-w-[384px]"
                               onValueChange={setEndereco}
                               placeholder='Rua Numero e Bairro'
                               label="Endereço"
                               />
-                               <Input
+                     
+              </div>
+                    <div className='flex flex-row gap-4 w-[800px]'>
+                      <Input
+                              value={emailCliente}
+                              className=" border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 max-w-[384px]  min-w-[384px]"
+                              onValueChange={setEmailCliente}
+                              placeholder='abcde@gmail.com'
+                              label="Email"
+                            />
+                             <Input
                                   value={cpfOrCnpj}
-                                  className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                                  className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 max-w-[384px]  min-w-[384px]"
                                   onValueChange={setCpfOrCnpj}
                                   placeholder='99283-4235'
                                   label="CPF OU CNPJ"
-                                />                  
-                         </div>
+                                />  
+                      
+                    </div>
+                         <div className=' flex flex-row gap-4 w-[800px] '>
+                       
+                         <Input
+                              value={telefone}
+                              className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 max-w-[384px]  min-w-[384px]"
+                              onValueChange={setTelefone}
+                              placeholder='99283-4235'
+                              label="Telefone"
+                            />              
 
-                       <Input
-                        value={nomeOrçamento}
-                        className=" shadow-sm shadow-black mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
-                        onValueChange={setNomeOrçamento}
-                        placeholder='99283-4235'
-                        label="Telefone"
-                      />
                 <Input
                         value={desconto}
-                        className="  mt-10 ml-5 mr-5 w-[250px] max-h-[60px]"
+                        className="  border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 max-w-[384px]  min-w-[384px]"
                         onValueChange={setDesconto}
                        
                         label="Desconto %"
                         endContent={<span>%</span>}
                       />
+                         </div>
                       
                       <Textarea
                                             label="Observações sobre este Orçamento"
                                             placeholder="Observações"
-                                            className="max-w-xl border-1 ml-5 mt-3 mb-3 border-black rounded-xl min-w-[210px] max-h-[320px]  shadow-sm shadow-black "
+                                            className="max-w-xl border-1 ml-5 mt-3 mb-3 border-black rounded-xl min-w-[210px] max-h-[320px]  shadow-sm shadow-black self-center "
                                             
                                             maxRows={14}
                                             value={observacoes}
                                             onValueChange={setObservacoes}
                                         
                                           />
-                                          {metodoPagamento && (
+                                     
+                <div className=' self-center max-w-[384px]  min-w-[384px]'>
+                  {metodoPagamento && (
 
-                <Autocomplete
-                    label="Método Pagamento $"
-                    placeholder="EX:PIX"
-                    className=" w-[250px]  shadow-sm shadow-black h-14  ml-5 mr-5 w"
-                    value={metodoPagamento}
-                    onSelectionChange={setMetodoPagamento}
-                    allowsCustomValue
-                    defaultSelectedKey={metodoPagamento}
-                  >
-                  
-                  {formasPagamento.map((item:any) => (
-                    
-                      <AutocompleteItem
-                      key={item} 
-                      aria-label='teste'
-                        value={metodoPagamento}
-                        >
-                        {item}
-                      </AutocompleteItem>
-                    ))}
-                    </Autocomplete>
-                                          )}
+                  <Autocomplete
+                      label="Método Pagamento $"
+                      placeholder="EX:PIX"
+                      className=" w-[250px]  shadow-sm shadow-black h-14  ml-5 mr-5 w"
+                      value={metodoPagamento}
+                      onSelectionChange={setMetodoPagamento}
+                      allowsCustomValue
+                      defaultSelectedKey={metodoPagamento}
+                    >
+  
+                    {formasPagamento.map((item:any) => (
+  
+                        <AutocompleteItem
+                        key={item}
+                        aria-label='teste'
+                          value={metodoPagamento}
+                          >
+                          {item}
+                        </AutocompleteItem>
+                      ))}
+                      </Autocomplete>
+  
+                  )}
+                </div>
       </div>
 
              
@@ -724,8 +755,8 @@ return(
              </div>
               
                                        
-          <div className='flex flex-row justify-between w-[730px] mt-5'>
-    <div className='flex flex-col self-center'>
+        
+    <div className='flex flex-row gap-4 self-center mt-5 max-w-[1200px]'>
   
               {!orcamento?.isPayed && (
   
@@ -736,7 +767,7 @@ return(
              allowsCustomValue
             value={descricao}
             onValueChange={(x:any)=>setDescricao(x)}
-             className="max-w-[900px] ml-6 self-center border-1 border-black rounded-xl shadow-sm shadow-black"
+             className="max-w-[450px] min-w-[400px] ml-6 self-center border-1 border-black rounded-xl shadow-sm shadow-black"
            >
   
            {materiais.map((item:IInventario) => (
@@ -762,11 +793,10 @@ return(
             ))}
             </Autocomplete>
               )}
-  </div>
      
          <Button 
       isDisabled={!nomeOrçamento?.length}
-        className="bg-master_black text-white w-[330px] p-7 rounded-lg font-bold text-lg shadow-lg ml-10 "
+        className="bg-master_black text-white w-[330px] p-3 rounded-lg font-bold text-base shadow-lg ml-10 "
         >
    
 
@@ -781,6 +811,7 @@ return(
             </PDFDownloadLink>
         
           </Button> 
+  </div>
        
            <Dialog open={openDialog} onClose={handleCloseDialog} >
     <DialogTitle sx={{textAlign:"center"}}>{isEditingOs?itemToBeUpdated?.material.descricao:inventarioDialog?.material.descricao}</DialogTitle>
@@ -796,7 +827,7 @@ return(
           autoFocus
           className="border-1   border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[150px] max-h-14"
           endContent={<p>{isEditingOs? itemToBeUpdated?.material.unidade:inventarioDialog?.material.unidade}</p>}
-          onValueChange={(x)=>handleInputQuantidade(x)}
+          onValueChange={(x:any)=>handleInputQuantidade(x)}
         
           value={quantidadeMaterial}
         />
@@ -822,30 +853,29 @@ return(
           autoFocus
           className="border-1   border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[150px] max-h-14"
           endContent={<p>{isEditingOs? itemToBeUpdated?.material.unidade:inventarioDialog?.material.unidade}</p>}
-          onValueChange={(x)=>setPrecoVendaNovoMaterial(x)}
+          onValueChange={(x:any)=>setPrecoVendaNovoMaterial(x)}
         
-          value={quantidadeMaterial}
+          value={precoVendaNovoMaterial}
         />
       </div>
     </DialogContent>
     <DialogActions>
       <Button onPress={handleCloseDialogPreco}>Fechar</Button>
        
-        <Button  onPress={()=> handleUpdateItem()}>Atualizar Preço</Button>
+        <Button  onPress={()=> handleUpdatePrecoItem(itemToBeUpdated)}>Atualizar Preço</Button>
     </DialogActions>
   </Dialog>
 
 
 
-      </div>
-      <div className='flex flex-row justify-between'>
+      <div className='flex flex-row justify-between self-center'>
         <div className='flex flex-col self-center'>
       
           
               <div className="overflow-x-auto self-center w-[100%] mt-5 ml-5 ">
       <Table  hoverable striped className="w-[100%] ">
         <Table.Head className="border-1 border-black">
-          <Table.HeadCell className="text-center border-1 border-black text-sm max-w-[120px] " >Cod.Interno</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm max-w-[140px] " >Cod.Interno</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Descricao</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Qntd</Table.HeadCell>
 
@@ -867,7 +897,7 @@ return(
           <Table.Cell className="text-center text-black" >{row.material.descricao}</Table.Cell>
           <Table.Cell className="text-center text-black hover:underline" onClick={()=>{setItemToBeUpdated(row),setIsEditingOs(true),setOpenDialog(true),findInventory(row.material.id)}} >{row.quantidadeMaterial}</Table.Cell>
           <Table.Cell className="text-center text-black">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</Table.Cell>
-          <Table.Cell className="text-center text-black">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</Table.Cell>
+          <Table.Cell className="text-center text-black hover:underline" onClick={()=>{setItemToBeUpdated(row),setIsEditingOs(true),setOpenDialogPreco(true),findInventory(row.material.id)}} >{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</Table.Cell>
           <Table.Cell>
               <div className='text-center'>
                 <IconBxTrashAlt onClick={()=>handleDelete(row.id)} />
@@ -884,7 +914,7 @@ return(
       </Table>
     </div>
               <p className='mt-16 font-bold text-lg'>Preço Custo Total:R$ {precoCustoTotalOrcamento?.toString().replace('.',',')}</p>
-              <p  className='mt-5 font-bold  text-lg' onClick={()=>setOpenDialogPreco(true)}>Preço Venda Total:R$ {precoVendaTotalOrcamento?.toString().replace('.',',')}</p>
+              <p  className='mt-5 font-bold  text-lg' onClick={()=>setOpenDialogPreco(true)}>Preço Venda Total:R$ {precoVendaTotalOrcamento?.toFixed(2).toString().replace('.',',')}</p>
               {precoVendaComDesconto>0 && (
 
               <p  className='mt-5 font-bold  text-lg'>Preço Venda com Desconto:R$ {precoVendaComDesconto?.toString().replace('.',',')}</p>

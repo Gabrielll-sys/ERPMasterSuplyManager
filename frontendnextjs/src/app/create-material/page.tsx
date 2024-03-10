@@ -441,7 +441,7 @@ console.log(e)
           <div className="overflow-x-auto self-center w-[100%] ">
       <Table  hoverable striped className="w-[100%] ">
         <Table.Head className="border-1 border-black">
-          <Table.HeadCell className="text-center border-1 border-black text-sm max-w-[120px] " >Cod.Interno</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm  " >Cod.Interno</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Cod.Fabricante</Table.HeadCell>
           <Table.HeadCell className="text-center text-sm">Descrição</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Marca</Table.HeadCell>

@@ -13,8 +13,6 @@ const OrcamentoPDF = (props:any)=>{
   const mtView = props.materiaisOrcamento.length>12?30:14
 useEffect(()=>{
 
-    console.log(props.materiaisOrcamento)
-    console.log(props.orcamento?.id)
 
   const buffer = "/src/app/assets/logo preta.jpg";
   // Converte o buffer em uma string base64
@@ -48,10 +46,9 @@ calcPrecoVenda()
     }
     setPrecoVendaTotalOrcamento(Number(custoTotal))
 
-    console.log(custoTotal)
+
   }
 
-  console.log(props.orcamento?.observacoes)
 
 return(
 
@@ -75,10 +72,7 @@ return(
 
       <Text style={{fontWeight:"bold",fontSize:10,marginTop:5}}>Nome:{props.orcamento?.nomeCliente}</Text>
       )}
-        { props.orcamento?.empresa!=null &&props.orcamento?.empresa.length &&(
-  
-          <Text style={{fontWeight:"bold",fontSize:10,marginTop:5}}>Empresa:{props.orcamento?.empresa}</Text>
-        )}
+       
         { props.orcamento?.endereco!=null &&props.orcamento?.endereco.length &&(
   
           <Text style={{fontWeight:"bold",fontSize:10,marginTop:5}}>Endereço:{props.orcamento?.endereco}</Text>
@@ -109,7 +103,7 @@ return(
         <View style={styles.table}>
 
         <View style={{  width: "90%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 1,textAlign:"center",alignSelf:"center"}}>
-              <Text style={{fontSize: 13,padding:2,border:"solid"}}>Orçamento Nº {props.orcamento?.id}</Text>
+              <Text style={{fontSize: 12,padding:2,border:"solid"}}>Orçamento Nº {props.orcamento?.id}</Text>
             </View>
           <View style={{  margin: "auto", flexDirection: "row" ,backgroundColor:"#EBE2AB"}}>
   
@@ -185,7 +179,8 @@ return(
   
             <View style={{display:"flex",flexDirection:"row",  width: "90%",height:"35px" ,justifyContent:"space-between"}}>
   
-            <Text style={{  marginTop:12, fontSize: 11,marginLeft:10}}> Desconto:{props.materiaisOrcamento.orcamento}%</Text>
+            <Text style={{  marginTop:12, fontSize: 11,marginLeft:10}}> Desconto:{props.orcamento?.desconto==null || props.orcamento?.desconto ==""?"Sem descontos"
+            :props.orcamento?.desconto.toFixed(2)+"%"}</Text>
              <Text style={{  marginTop:12, fontSize: 11,marginRight:10,}}> Preço Total Orçamento:R${precoVendaTotalOrcamento?.toFixed(2).toString().replace('.',',')}</Text>
   
             </View>

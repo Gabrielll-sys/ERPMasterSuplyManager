@@ -1268,6 +1268,7 @@ namespace SupplyManager.Controllers
                     if(descricao.ToUpper() == "TUDO")
                     {
                        queryMaterial = queryMaterial.OrderByDescending(x => x.Id).ThenBy(x => x.PrecoCusto).ToList();
+                        var a = 20;
                     }
                     else
                     {
@@ -1288,7 +1289,11 @@ namespace SupplyManager.Controllers
                   
                     var inventarios = queryInvetory.Where(x => x.MaterialId == item.Id).OrderBy(x=>x.MaterialId).TakeLast(1).ToList();
 
+                    if (inventarios.Count is not 0)
+                    {
+
                     listInvetory.Add(inventarios[0]);
+                    }
 
            
 
