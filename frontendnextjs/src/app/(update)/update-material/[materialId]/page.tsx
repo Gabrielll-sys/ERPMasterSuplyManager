@@ -202,7 +202,7 @@ console.log(material)
         size="sm"
         as="button"
         className="p-3 mt-4 text-base tracking-wide text-dark hover:text-success border border-transparent hover:border-success transition-all duration-200"
-        onClick={() => route.back()}
+        onClick={() => route.push("/create-material")}
       >
         <ArrowLeft /> Retornar
       </Link>

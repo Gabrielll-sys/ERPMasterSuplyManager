@@ -681,14 +681,14 @@ return(
               <div className='flex flex-row  justify-between w-[800px]'>
                 <Input
                               value={nomeCliente}
-                              className=" border-1 border-black rounded-xl shadow-sm shadow-black max-w-[384px]  min-w-[384px]"
+                              className=" border-1 border-black rounded-xl shadow-sm shadow-black max-w-[354px]  min-w-[354px]"
                               onValueChange={setNomeCliente}
                               placeholder='99283-4235'
                               label="Nome do Cliente"
                             />
                                 <Input
                               value={endereco}
-                              className=" border-1 border-black rounded-xl shadow-sm shadow-black  max-w-[384px]  min-w-[384px]"
+                              className=" border-1 border-black rounded-xl shadow-sm shadow-black  max-w-[354px]  min-w-[354px]"
                               onValueChange={setEndereco}
                               placeholder='Rua Numero e Bairro'
                               label="Endereço"
@@ -698,7 +698,7 @@ return(
                     <div className='flex flex-row justify-between w-[800px]'>
                       <Input
                               value={emailCliente}
-                              className=" border-1 border-black rounded-xl shadow-sm shadow-black  max-w-[384px]  min-w-[384px]"
+                              className=" border-1 border-black rounded-xl shadow-sm shadow-black  max-w-[354px]  min-w-[354px]"
                               onValueChange={setEmailCliente}
                               placeholder='abcde@gmail.com'
                               label="Email"
@@ -706,7 +706,7 @@ return(
                              <Input
                              
                                   value={cpfOrCnpj}
-                                  className="border-1 border-black rounded-xl shadow-sm shadow-black  max-w-[384px]  min-w-[384px]"
+                                  className="border-1 border-black rounded-xl shadow-sm shadow-black  max-w-[354px]  min-w-[354px]"
                                   onValueChange={setCpfOrCnpj}
                                   placeholder='99283-4235'
                                   label="CPF OU CNPJ"
@@ -718,7 +718,7 @@ return(
                          <Input
                              
                               value={telefone}
-                              className="border-1 border-black rounded-xl shadow-sm shadow-black  max-w-[384px]  min-w-[384px]"
+                              className="border-1 border-black rounded-xl shadow-sm shadow-black  max-w-[354px]  min-w-[354px]"
                               onValueChange={setTelefone}
                               placeholder='99283-4235'
                               label="Telefone"
@@ -726,7 +726,7 @@ return(
 
                 <Input
                         value={desconto}
-                        className="  border-1 border-black rounded-xl shadow-sm shadow-black  max-w-[384px]  min-w-[384px]"
+                        className="  border-1 border-black rounded-xl shadow-sm shadow-black  max-w-[354px]  min-w-[354px]"
                         onValueChange={setDesconto}
                         isReadOnly = {orcamento?.isPayed}
                         label="Desconto %"
@@ -842,7 +842,7 @@ return(
           desconto = {precoVendaComDesconto}
           
           />} fileName={"Orçamento Nº"+ orcamento?.id+ " Para "+ orcamento?.nomeCliente +".pdf"}>
-               {orcamento?.isPayed ?"Gerar Nota de Venda":"Gerar Nota De Orçamento"}
+               {orcamento?.isPayed ?"Gerar PDF de Venda":"Gerar PDF De Orçamento"}
            
             </PDFDownloadLink>
         
@@ -851,18 +851,18 @@ return(
 
            <Dialog open={openDialog} onClose={handleCloseDialog} >
     <DialogTitle sx={{textAlign:"center"}}> {isEditingOs?itemToBeUpdated?.material.descricao:inventarioDialog?.material?.descricao}</DialogTitle>
-    <DialogContent >
+    <DialogContent className='flex flex-col justify-center' >
 
       <p className='text-center' onClick={()=>console.log(inventarioDialog)}>
-        Estoque: {inventarioDialog?.saldoFinal == 0 || null?0:inventarioDialog?.saldoFinal} {inventarioDialog?.material?.unidade} 
+        Estoque Disponível: {inventarioDialog?.saldoFinal == 0 || null?0:inventarioDialog?.saldoFinal} {inventarioDialog?.material.unidade}
     
           </p>
       <div className=' flex flex-row justify-center'>
         <Input
           type='number'
           autoFocus
-          className="border-1   border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[150px] max-h-14"
-          endContent={<p>{isEditingOs? itemToBeUpdated?.material.unidade:inventarioDialog?.material?.unidade}</p>}
+          label="Insira a Quantidade"
+          className="border-1   border-black rounded-xl shadow-sm shadow-black mt-7 ml-5 mr-5 w-[150px] max-h-14"
           onValueChange={(x:any)=>handleInputQuantidade(x)}
         
           value={quantidadeMaterial}
@@ -888,8 +888,8 @@ return(
         <Input
           type='number'
           autoFocus
-          className="border-1   border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[150px] max-h-14"
-          endContent={<p>{isEditingOs? itemToBeUpdated?.material.unidade:inventarioDialog?.material.unidade}</p>}
+          className="border-1   border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[150px] max-h-14 "
+          endContent={<p>R$</p>}
           onValueChange={(x:any)=>setPrecoVendaNovoMaterial(x)}
         
           value={precoVendaNovoMaterial}
@@ -919,6 +919,7 @@ return(
           
           <Table.HeadCell className="text-center border-1 border-black text-sm">Preço Custo</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm ">Preço Venda</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm ">Preço Total </Table.HeadCell>
       
       
         </Table.Head>
@@ -947,6 +948,8 @@ return(
           <Table.Cell className="text-center text-black hover:underline" onClick={()=>{ setItemToBeUpdated(row),setIsEditingOs(true),setOpenDialogPreco(true),findInventory(row.material.id)}} >{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}  </Table.Cell>
             
             }
+          <Table.Cell className="text-center text-black"  >{row.material.precoVenda && "R$"}{row.material.precoVenda!=null? (row.material.precoVenda*row.quantidadeMaterial).toFixed(2).toString().replace(".",","):"Falta Preço De Venda"}  </Table.Cell>
+
           <Table.Cell>
             {!orcamento.isPayed && (
 

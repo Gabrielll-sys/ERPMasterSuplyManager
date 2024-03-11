@@ -21,10 +21,7 @@ import ArrowLeft from '@/app/assets/icons/ArrowLeft';
 import { IFilterMaterial } from '@/app/interfaces/IFilterMaterial';
 import { IOrderServico } from '@/app/interfaces/IOrderServico';
 import { useSession } from 'next-auth/react';
-import { IInventario } from '@/app/interfaces/IInventarios';
-import IconBxTrashAlt from '@/app/assets/icons/IconBxTrashAlt';
-import IconPlus from '@/app/assets/icons/IconPlus';
-import { IItem } from '@/app/interfaces/IItem';
+
 import jsPDF from 'jspdf'
 
 
@@ -34,17 +31,27 @@ import dayjs from 'dayjs';
 
 export default function ManageBudges({params}:any){
   const[cliente,setCliente] = useState<string>("")
+  const[numeroOrcamento,setNumeroOrcamento] = useState<string>()
   const[orcamentos,setOrcamentos] = useState<any>()
+  const[orcamento,setOrcamento] = useState<any>("")
 
     useEffect(()=>{
         getAllOrcamentos()
     },[])
+
     useEffect(()=>{
         getOrcamentosByCompany()
         if(cliente?.length==0){
           getAllOrcamentos()
         }
     },[cliente])
+
+    useEffect(()=>{
+        if(numeroOrcamento?.length==0){
+          getAllOrcamentos()
+        }
+        getOrcamentoById()
+    },[numeroOrcamento])
     const route = useRouter()
     const { data: session } = useSession();
   
@@ -66,7 +73,7 @@ export default function ManageBudges({params}:any){
 
 
 const getOrcamentosByCompany = async()=>{
-
+  setNumeroOrcamento("")
   await axios.get(`${url}/Orcamentos/buscaNomeCliente?cliente=${cliente}`).then((r:AxiosResponse)=>{
     setOrcamentos(r.data)
   }).catch(e=>console.log(e))
@@ -77,13 +84,19 @@ const getAllOrcamentos = async ()=>{
 
 
  await axios.get(`${url}/Orcamentos`).then((r:AxiosResponse)=>{
-  console.log(r.data)
+  
   setOrcamentos(r.data)
 }).catch(e=>console.log(e))
 
 }
 
-console.log(orcamentos)
+const getOrcamentoById = async()=>{
+  setOrcamentos([])
+  await axios.get(`${url}/Orcamentos/${numeroOrcamento}`).then((r:AxiosResponse)=>{
+    console.log(r.data)
+    setOrcamento(r.data)
+  }).catch(e=>console.log(e))
+}
 
 
 
@@ -91,6 +104,13 @@ return(
     <>
       <h1 className='text-center text-2xl mt-4'>Orçamentos</h1>
       <div className=' flex flex-row justify-center'>
+        <Input
+          value={numeroOrcamento}
+          type='number'
+          className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 min-w-[170px] max-w-[170px]"
+          onValueChange={setNumeroOrcamento}
+          label="Numero Do Orçamento"
+        />
         <Input
           value={cliente}
           className="border-1 border-black rounded-lg shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
@@ -100,9 +120,8 @@ return(
         />
       </div>
     <div className=' flex flex-row items-center justify-center flex-wrap gap-16 self-center mt-16'>
-      {orcamentos!=undefined &&  orcamentos.map((x:any)=>(
-
-
+      
+      {orcamentos!=undefined && orcamentos.length>1&& orcamentos.map((x:any)=>(
 
       <Card key={x.id} className="min-w-[370px] bg-white border-black border-1 shadow-md shadow-black">
       
@@ -124,6 +143,29 @@ return(
         </div>
       </Card>
       ))}
+
+{orcamento!=undefined  && (
+
+<Card key={orcamento.id} className="min-w-[370px] bg-white border-black border-1 shadow-md shadow-black">
+
+  <div className="flex flex-col items-center pb-4">
+
+    <h5 className="mb-1 text-xl font-xl mt-2 dark:text-white">Orçamento Nº {orcamento.id}</h5>
+    <span className="text-lg mt-2  ">{orcamento.nomeCliente}</span>
+    <span className="text-lg mt-2">Data Orcamento:{dayjs(orcamento.dataOrcamento).format("DD/MM/YYYY HH:mm:ss")}</span>
+    <span className="text-lg mt-2">Status:{orcamento.isPayed?"Orçamento Concluído":"Orçamento em Aberto"}</span>
+    <div className="mt-4 flex space-x-3 lg:mt-6">
+      <p
+        onClick={()=>route.push(`/edit-budge/${orcamento.id}`)}
+        className="inline-flex hover:underline  text-lg items-center rounded-lg px-4 py-2 text-center  font-medium text-blue-700"
+      >
+        Editar
+      </p>
+     
+    </div>
+  </div>
+</Card>
+)}
     </div>
 
 

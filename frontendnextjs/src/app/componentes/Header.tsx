@@ -77,7 +77,7 @@ return(
           </Sidebar.Item>
        
           <Sidebar.Item className="text-black mt-7 hover:font-bold" href="/search-inventory" icon={HiInbox}>
-            Gerenciar Inventário
+            Gestão de Inventário
           </Sidebar.Item>
           <Sidebar.Collapse className="text-black mt-7"label=" Orçamentos/Vendas" icon={HiPencilAlt}>
 
@@ -90,7 +90,7 @@ return(
           </Sidebar.Collapse>
 
           <Sidebar.Item className="text-black mt-7 hover:font-bold" href="/managing-os" icon={HiShoppingBag}>
-            Gerencia de OS
+            Gestão de OS
           </Sidebar.Item>
           <Sidebar.Item className="text-black mt-7 hover:font-bold" href="/generateMaterialQrcode" icon={HiQrcode}>
             Gerador De QrCode

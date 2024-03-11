@@ -50,7 +50,7 @@ calcPrecoVenda()
 
 
   }
-
+console.log(props.desconto )
 
 return(
 
@@ -240,7 +240,7 @@ return(
   
                     <View style={{  width: "22.5%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}>
   
-                      <Text style={styles.tableCell}>R${precoVendaTotalOrcamento?.toFixed(2).toString().replace('.',',')}</Text>
+                      <Text style={styles.tableCell}>R${props.desconto == null  || props.desconto == ""?precoVendaTotalOrcamento?.toFixed(2).toString().replace('.',','):props.desconto }</Text>
   
                     </View>
   
@@ -286,7 +286,7 @@ return(
   
                 <View style={{  width: "30%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}>
   
-                  <Text style={styles.tableCell}>R${precoVendaTotalOrcamento?.toFixed(2).toString().replace('.',',')}</Text>
+                  <Text style={styles.tableCell}>R${props.desconto == null  || props.desconto == ""?precoVendaTotalOrcamento?.toFixed(2).toString().replace('.',','):props.desconto }</Text>
   
                 </View>
   
