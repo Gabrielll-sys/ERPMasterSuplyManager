@@ -42,6 +42,7 @@ namespace SupplyManager.Models
 
 
 
+
         public Material(string? codigoInterno, string? codigoFabricante, string? descricao, string? categoria, string? marca, string? corrente, string? unidade, string? tensao, string? localizacao, DateTime? dataEntradaNF, float? precoCusto, float? markup)
 
         {

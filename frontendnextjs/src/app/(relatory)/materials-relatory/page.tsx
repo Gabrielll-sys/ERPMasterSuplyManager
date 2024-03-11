@@ -2,7 +2,7 @@
 
 import {Link, Button,Autocomplete, AutocompleteItem, Input, Spinner } from '@nextui-org/react';
 
-import { Paper, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Paper, Snackbar} from '@mui/material';
 import { useRouter } from "next/navigation";
 import { QRCode } from "react-qrcode-logo";
 
@@ -23,6 +23,7 @@ import { useReactToPrint } from 'react-to-print';
 import ArrowLeft from '@/app/assets/icons/ArrowLeft';
 import { IFilterMaterial } from '@/app/interfaces/IFilterMaterial';
 import { IInventario } from '@/app/interfaces/IInventarios';
+import { Table } from 'flowbite-react';
 
 export default function MaterialRelatory(params:any){
    
@@ -101,7 +102,7 @@ const filtro  = {
      <Input
        
           label="Descricao do Material"
-          className="w-[400px] border-1 border-black rounded-xl shadow-sm shadow-black"
+          className="max-w-[500px] border-1 border-black rounded-xl shadow-sm shadow-black"
           placeholder="Ex:Inversor Frequência"
           labelPlacement="outside"
           value={descricao}
@@ -110,7 +111,7 @@ const filtro  = {
         />
      <Input
           label="Marca"
-          className="w-32 border-1 border-black rounded-xl shadow-sm shadow-black"
+          className="max-w-[128px] border-1 border-black rounded-xl shadow-sm shadow-black"
           placeholder="Ex: WEG"
           labelPlacement="outside"
           value={marca}
@@ -126,7 +127,7 @@ const filtro  = {
        <Input
           type="number"
           label="Preço custo min"
-          className="w-32 border-1 border-black rounded-xl shadow-sm shadow-black"
+          className="max-w-[128px] border-1 border-black rounded-xl shadow-sm shadow-black"
           value={precoCustoMin}
           onValueChange={setPrecoCustoMin}
           placeholder="0,00"
@@ -141,7 +142,7 @@ const filtro  = {
     <Input
           type="number"
           label="Preço custo max"
-          className="w-32 border-1 border-black rounded-xl shadow-sm shadow-black"
+          className="max-w-[128px] border-1 border-black rounded-xl shadow-sm shadow-black"
           placeholder="0,00"
           labelPlacement="outside"
           value={precoCustoMax}
@@ -156,7 +157,7 @@ const filtro  = {
        <Input
           type="number"
           label="Preço venda min"
-          className="w-32 border-1 border-black rounded-xl shadow-sm shadow-black"
+          className="max-w-[188px] border-1 border-black rounded-xl shadow-sm shadow-black"
           placeholder="0,00" 
           value={precoVendaMin}
           onValueChange={setPrecoVendaMin}
@@ -170,7 +171,7 @@ const filtro  = {
      <Input
           type="number"
           label="Preço venda max"
-          className="w-32 border-1 border-black rounded-xl shadow-sm shadow-black"
+          className="max-w-[188px] border-1 border-black rounded-xl shadow-sm shadow-black"
           value={precoVendaMax}
        
           onValueChange={setPrecoVendaMax}
@@ -190,10 +191,10 @@ const filtro  = {
       </div>
 
    <div className='flex flex-row justify-center mt-10'>
-     <Button className="text-white bg-master_black p-4 font-bold ml-5" onClick={()=>generateRelatory()}>
+     <Button className="text-white bg-master_black p-4 font-bold ml-5 text-lg" onClick={()=>generateRelatory()}>
      Filtrar
      </Button>
-     <Button className="text-white bg-master_black p-4 font-bold ml-5" onClick={()=>handlePrint()}>
+     <Button className="text-white bg-master_black p-4 font-bold ml-5 text-lg" onClick={()=>handlePrint()}>
    Imprimir
      </Button>
    </div>
@@ -203,79 +204,48 @@ const filtro  = {
 
        { materiaisFiltros!=undefined && materiaisFiltros.length>0?
        <>
-       <TableContainer   sx={{ overflow:"hidden"  }} component={Paper} >
-       <Table
-       stickyHeader
-         sx={{ width: "100vw" }}
-         aria-label="simple table"
-       >
-         <TableHead>
-           <TableRow >
-
-             <TableCell
-              align="center"
-              className="text-base border-1 max-w-[70px]    ">Cod.Interno</TableCell>
-             <TableCell align="center"
-             className="text-base border-1  ">Cod.Fabricante</TableCell>
-             <TableCell align="center"
-             className="text-base border-1  ">Descrição</TableCell>
-             <TableCell align="center"
-              className="text-base border-1  ">Marca</TableCell>
-             <TableCell align="center"
-              className="text-base border-1  ">Tensão</TableCell>
-
-             <TableCell align="center"
-             className="text-base border-1 max-w-[90px]  ">Estoque</TableCell>
-
-             <TableCell align="center"
-             className="text-base  border-1  ">Localização</TableCell>
-             <TableCell align="center"
-             className="text-base  min-w-[120px] border-1  ">Preço Custo</TableCell>
-             <TableCell align="center"
-             className="text-base min-w-[120px] border-1  ">Preço venda</TableCell>
-              <TableCell align="center" className="text-xl min-w-[140px] border-1 ">Preço Total</TableCell> 
-             
-           </TableRow>
-         </TableHead>
-         <TableBody>
-           {  materiaisFiltros!=undefined && materiaisFiltros.length>=1 && materiaisFiltros?.map((row:IInventario) => (
-             <TableRow
-               key={row.material.id}
-              className=""
-             >
-           
+      <div className="overflow-x-auto self-center w-[100%] ">
+      <Table  hoverable striped className="w-[100%] ">
+        <Table.Head className="border-1 border-black">
+          <Table.HeadCell className="text-center border-1 border-black text-sm max-w-[120px] " >Cod.Interno</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Cod.Fabricante</Table.HeadCell>
+          <Table.HeadCell className="text-center text-sm">Descrição</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Marca</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Tensão</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Estoque</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Localização</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Preço Custo</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm ">Preço Venda</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Preço Total</Table.HeadCell>
+        </Table.Head>
+        <Table.Body className="divide-y">
           
-               <TableCell 
-               
-               align="center"
-               className="text-base border-[0.2px]  "
-               >{row.material.id}</TableCell>
-               <TableCell align="center" className="text-base border-1  max-w-[150px] ">{row.material.codigoFabricante}</TableCell>
-               <TableCell align="center" className="text-sm border-1  " >{row.material.descricao}</TableCell>
-               <TableCell align="center" className="text-base border-1  ">{row.material.marca}</TableCell>
-               <TableCell align="center" size ="small" className="text-base border-1  ">{row.material.tensao}</TableCell>
+        { materiaisFiltros.length>=1 && materiaisFiltros.map((row:any) => (
+          <Table.Row  key={row.material.id} className=" dark:border-gray-700 dark:bg-gray-800 hover:bg-yellow-200">
+          <Table.Cell className="  text-center font-medium text-gray-900 dark:text-white max-w-[120px]">
+          {row.material.id}
+          </Table.Cell>
+          <Table.Cell className="text-center  text-black ">{row.material.codigoFabricante}</Table.Cell>
+          <Table.Cell className="text-center text-black" onClick={(x)=>setDescricao(row.material.descricao)}>{row.material.descricao}</Table.Cell>
+          <Table.Cell className="text-center text-black">{row.material.marca}</Table.Cell>
+          <Table.Cell className="text-center text-black">{row.material.tensao}</Table.Cell>
+          <Table.Cell className="text-center text-black hover:underline" onClick={()=>route.push(`/update-inventory/${row.material.id}`)}>{row.saldoFinal==null?"Não registrado":row.saldoFinal +" "+row.material.unidade}</Table.Cell>
+          <Table.Cell className="text-center text-black">{row.material.localizacao}</Table.Cell>
+          <Table.Cell className="text-center text-black">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</Table.Cell>
+          <Table.Cell className="text-center text-black">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</Table.Cell>
+          <Table.Cell className="text-center text-black">{row.material.precoVenda==null?"Sem registro":"R$ "+(row.material.precoCusto*row.saldoFinal).toFixed(2).toString().replace(".",",")}</Table.Cell>
+          
+       
+        </Table.Row>
 
-               <TableCell align="center" size ="small"
-               className="text-base border-1  ">{row.saldoFinal==null?"Não registrado":row.saldoFinal +" "+row.material.unidade}</TableCell>
-               <TableCell align="center" size ="small"
-               className="text-base border-1  ">{row.material.localizacao}</TableCell>
-               <TableCell align="center" size ="small"
-               className="text-base border-1  ">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</TableCell>
-               <TableCell align="center" size ="small"
-               className="text-base border-1  ">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</TableCell>
-               <TableCell align="center" size ="small"
-               className="text-base border-1  ">{row.material.precoVenda==null ?"Sem registro":"R$ "+((row?.material?.precoCusto) * (row.saldoFinal)).toFixed(2).toString().replace(".",",")}</TableCell>
-               
+
+              ))}
+          
          
-              
-             </TableRow>
-           ))}
-            
-         </TableBody>
-   
- 
-       </Table>
-     </TableContainer>
+         
+        </Table.Body>
+      </Table>
+    </div>
      </>
      :  
           loadingMateriais &&(

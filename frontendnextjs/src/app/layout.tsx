@@ -24,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body className='min-h-screen ' suppressHydrationWarning={true}>
+      <body className='min-h-screen  ' suppressHydrationWarning={true}>
       <Providers>
       <Script
             strategy="lazyOnload"
@@ -42,7 +42,7 @@ export default function RootLayout({
                 `}
           </Script>
       <Header/>
-      <div className='min-h-screen'>
+      <div className='min-h-screen overflow-x-hidden'>
         
              {children}
       </div>

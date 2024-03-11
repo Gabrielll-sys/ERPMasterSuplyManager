@@ -19,6 +19,75 @@ namespace SupplyManager.Migrations
                 .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("SupplyManager.Models.Cliente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CPFOrCNPJ")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Empresa")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Endereço")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("OrcamentoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Telefone")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrcamentoId");
+
+                    b.ToTable("Clientes");
+                });
+
+            modelBuilder.Entity("SupplyManager.Models.Fornecedor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Bairro")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Cep")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Cidade")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Endereco")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Estado")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Numero")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Telefone")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Fornecedores");
+                });
+
             modelBuilder.Entity("SupplyManager.Models.Inventario", b =>
                 {
                     b.Property<int>("Id")
@@ -91,6 +160,69 @@ namespace SupplyManager.Migrations
                     b.ToTable("Itens");
                 });
 
+            modelBuilder.Entity("SupplyManager.Models.ItemNotaFiscal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("AliquotaICMS")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal?>("AliquotaIPI")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("MaterialId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NotaFiscalId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("Quantidade")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal?>("ValorUnitario")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MaterialId");
+
+                    b.HasIndex("NotaFiscalId");
+
+                    b.ToTable("ItensNotaFiscal");
+                });
+
+            modelBuilder.Entity("SupplyManager.Models.ItemOrcamento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DataAdicaoItem")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("MaterialId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrcamentoId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("PrecoItemOrcamento")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("QuantidadeMaterial")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MaterialId");
+
+                    b.HasIndex("OrcamentoId");
+
+                    b.ToTable("ItensOrcamento");
+                });
+
             modelBuilder.Entity("SupplyManager.Models.Material", b =>
                 {
                     b.Property<int?>("Id")
@@ -139,6 +271,100 @@ namespace SupplyManager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Materiais");
+                });
+
+            modelBuilder.Entity("SupplyManager.Models.NotaFiscal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("BaseCalculoICMS")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("CFOP")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("DataEmissaoNF")
+                        .HasColumnType("datetime");
+
+                    b.Property<decimal?>("Frete")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("NumeroNF")
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal?>("ValorICMS")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NotasFiscais");
+                });
+
+            modelBuilder.Entity("SupplyManager.Models.Orcamento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("Acrescimo")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("CpfOrCnpj")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("DataOrcamento")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("DataVenda")
+                        .HasColumnType("datetime");
+
+                    b.Property<decimal?>("Desconto")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("EmailCliente")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Empresa")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Endereco")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool?>("IsPayed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("NomeCliente")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("NomeOrcamento")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Observacoes")
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal?>("PrecoVendaComDesconto")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal?>("PrecoVendaTotal")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("ResponsavelOrcamento")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ResponsavelVenda")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Telefone")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("TipoPagamento")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orcamentos");
                 });
 
             modelBuilder.Entity("SupplyManager.Models.OrdemServico", b =>
@@ -211,6 +437,17 @@ namespace SupplyManager.Migrations
                     b.ToTable("Usuários");
                 });
 
+            modelBuilder.Entity("SupplyManager.Models.Cliente", b =>
+                {
+                    b.HasOne("SupplyManager.Models.Orcamento", "Orcamento")
+                        .WithMany()
+                        .HasForeignKey("OrcamentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Orcamento");
+                });
+
             modelBuilder.Entity("SupplyManager.Models.Inventario", b =>
                 {
                     b.HasOne("SupplyManager.Models.Material", "Material")
@@ -239,6 +476,44 @@ namespace SupplyManager.Migrations
                     b.Navigation("Material");
 
                     b.Navigation("OrdemServico");
+                });
+
+            modelBuilder.Entity("SupplyManager.Models.ItemNotaFiscal", b =>
+                {
+                    b.HasOne("SupplyManager.Models.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SupplyManager.Models.NotaFiscal", "NotaFiscal")
+                        .WithMany()
+                        .HasForeignKey("NotaFiscalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Material");
+
+                    b.Navigation("NotaFiscal");
+                });
+
+            modelBuilder.Entity("SupplyManager.Models.ItemOrcamento", b =>
+                {
+                    b.HasOne("SupplyManager.Models.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SupplyManager.Models.Orcamento", "Orcamento")
+                        .WithMany()
+                        .HasForeignKey("OrcamentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Material");
+
+                    b.Navigation("Orcamento");
                 });
 #pragma warning restore 612, 618
         }

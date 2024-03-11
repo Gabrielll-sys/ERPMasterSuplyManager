@@ -5,7 +5,7 @@ using SupplyManager.Models;
 
 namespace SupplyManager.Repository
 {
-    public class MaterialRepository :IMaterialRepositoy
+    public class MaterialRepository :IMaterialRepository
     {
         private readonly SqlContext _context;
 
@@ -19,7 +19,7 @@ namespace SupplyManager.Repository
         {
             try
             {
-                return await _context.Materiais.ToListAsync();
+                return await _context.Materiais.OrderBy(x=>x.Id).ToListAsync();
 
             }
             catch (Exception)
@@ -28,7 +28,7 @@ namespace SupplyManager.Repository
             }
         }
 
-        public async Task<Material> GetByIdAsync(int id)
+        public async Task<Material> GetByIdAsync(int? id)
         {
 
             try
@@ -62,7 +62,7 @@ namespace SupplyManager.Repository
             }
 
         }
-        public async Task UpdateAsync(Material model)
+        public async Task<Material> UpdateAsync(Material model)
         {
             try
             {
@@ -72,6 +72,7 @@ namespace SupplyManager.Repository
             _context.Materiais.Update(model);
 
             await _context.SaveChangesAsync();
+                return model;
 
             }
             catch (Exception)

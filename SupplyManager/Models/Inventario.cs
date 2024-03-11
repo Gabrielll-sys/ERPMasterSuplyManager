@@ -23,6 +23,12 @@ namespace SupplyManager.Models
         public string? Responsavel { get;set; }
 
 
+
+
+        public Inventario()
+        {
+
+        }
         public Inventario(string? razao,float? estoque,float? movimentacao,float? saldoFinal,string? responsavel,int? materialId) { 
 
           
@@ -76,7 +82,13 @@ namespace SupplyManager.Models
             SaldoFinal -= quantidade;
             Movimentacao = - quantidade;
         }
+        public void MovimentacaoOrcamento(float? quantidade, string razao)
 
+        {
+            Razao = razao;
+            SaldoFinal -= quantidade;
+            Movimentacao = -quantidade;
+        }
 
 
     }

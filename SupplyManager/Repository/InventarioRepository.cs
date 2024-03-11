@@ -19,7 +19,7 @@ namespace SupplyManager.Repository
         {
             try
             {
-                return await _context.Inventarios.ToListAsync();
+                return await _context.Inventarios.Include(x=>x.Material).OrderBy(x=>x.Id).ToListAsync();
 
             }
             catch (Exception)
@@ -47,6 +47,8 @@ namespace SupplyManager.Repository
 
             try
             {
+                var inventarios =    await _context.Inventarios.ToListAsync();
+                model.Id = inventarios.Count + 1;
                 await _context.Inventarios.AddAsync(model);
 
                 await _context.SaveChangesAsync();
@@ -62,7 +64,7 @@ namespace SupplyManager.Repository
             }
 
         }
-        public async Task UpdateAsync(Inventario model)
+        public async Task<Inventario> UpdateAsync(Inventario model)
         {
             try
             {
@@ -72,6 +74,8 @@ namespace SupplyManager.Repository
                 _context.Inventarios.Update(model);
 
                 await _context.SaveChangesAsync();
+
+                return model;
 
             }
             catch (Exception)

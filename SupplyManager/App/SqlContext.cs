@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SupplyManager.Controllers;
 using SupplyManager.Models;
 
 namespace SupplyManager.App
@@ -14,6 +15,13 @@ namespace SupplyManager.App
 
         public DbSet<OrdemServico> OrdemServicos { get; set; }
         public DbSet<Item> Itens { get; set; }
+        public DbSet<NotaFiscal> NotasFiscais{ get; set; }
+        public DbSet<Fornecedor> Fornecedores{ get; set; }
+        public DbSet<ItemNotaFiscal> ItensNotaFiscal{ get; set; }
+        public DbSet<Cliente> Clientes{ get; set; }
+        public DbSet<ItemOrcamento> ItensOrcamento{ get; set; }
+        public DbSet<Orcamento> Orcamentos{ get; set; }
+ 
 
     }
 }

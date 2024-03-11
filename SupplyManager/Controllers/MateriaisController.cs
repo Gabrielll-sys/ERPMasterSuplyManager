@@ -12,6 +12,9 @@ using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System.ComponentModel;
 using System.Linq;
+using SupplyManager.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using MySqlConnector;
 
 namespace SupplyManager.Controllers
 {
@@ -22,18 +25,22 @@ namespace SupplyManager.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class MateriaisController : ControllerBase
+   
+     public class MateriaisController : ControllerBase
     {
         private readonly SqlContext _context;
-        IWorkbook workbook;
+        private readonly IMaterialService _materialService;
+        MySqlConnection a = new MySqlConnection("server=localhost;database=MasterERP;user=root;password=1234");
 
 
 
 
-        public MateriaisController(SqlContext context)
+
+        public MateriaisController(SqlContext context,IMaterialService materialService)
         {
 
             _context = context;
+            _materialService = materialService;
         }
 
         /// <summary>
@@ -48,14 +55,10 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<List<Material>>> GetAll()
         {
+           
 
-
-            workbook = new XSSFWorkbook();
-
-            var s1 = workbook.CreateSheet("Planilha 1");
-            var materiais = await _context.Materiais.ToListAsync();
-          
-            return materiais == null ? NotFound() : Ok(materiais);
+            return Ok(await _context.Materiais.AsNoTracking().ToListAsync());
+         /*   return Ok(await _materialService.GetAllMateriaisAsync());*/
 
         }
 
@@ -75,12 +78,14 @@ namespace SupplyManager.Controllers
 
             try
             {
-                var queryMaterial = from query in _context.Materiais select query;
+                /* var queryMaterial = from query in _context.Materiais select query;
 
 
-                var material = await _context.Materiais.FindAsync(id);
+                 var material = await _context.Materiais.FindAsync(id);
 
-                return Ok(material);
+                 return Ok(material);*/
+
+                return Ok(await  _context.Materiais.FirstOrDefaultAsync(x=>x.Id==id));
             }
 
             catch (KeyNotFoundException)
@@ -210,26 +215,28 @@ namespace SupplyManager.Controllers
 
                 var AlredyHaveMaterial = await queryMaterial.ToListAsync();
 
-                
 
-                    Material m1 = new Material(
-                  model.CodigoInterno.ToUpper(),
-                  model.CodigoFabricante.ToUpper(),
-                  model.Descricao.ToUpper(),
-                  model.Categoria.ToUpper(),
-                  model.Marca.ToUpper(),
-                  String.IsNullOrEmpty(model.Corrente) ? "-" : model.Corrente.ToUpper(),
-                  model.Unidade,
-                  String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao,
-                  String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper(),
 
-                   model.DataEntradaNF,
-                   model.PrecoCusto,
-                   model.Markup
-                  
-                  
-                   
-                   );
+                Material m1 = new Material(
+              model.CodigoInterno.ToUpper(),
+              model.CodigoFabricante.ToUpper(),
+              model.Descricao.ToUpper(),
+              model.Categoria.ToUpper(),
+              model.Marca.ToUpper(),
+              String.IsNullOrEmpty(model.Corrente) ? "-" : model.Corrente.ToUpper(),
+              model.Unidade,
+              String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao,
+              String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper(),
+
+               model.DataEntradaNF,
+               model.PrecoCusto,
+               model.Markup
+              
+
+
+
+               ) ;
+            
                     var validationM1 = ValidationMaterial.Validate(m1);
 
                     if (!validationM1.IsValid)

@@ -143,21 +143,21 @@ export default function IncludingMaterialOs({params}:any){
     }
 
 console.log(item)
-// const res = await axios.post(`${url}/Itens/CreateItem`,item).then(r=>{
-//   return r.data
-// }).catch(e=>console.log(e))
+const res = await axios.post(`${url}/Itens/CreateItem`,item).then(r=>{
+  return r.data
+}).catch(e=>console.log(e))
 
-// console.log(res)
-// setOpenDialog(false)
-// setQuantidadeMaterial(0)
+console.log(res)
+setOpenDialog(false)
+setQuantidadeMaterial(0)
 
-// if(res){
+if(res){
   
-//   setOpenSnackBar(true);
-//   setSeveridadeAlert("success");
-//   setMessageAlert("Material adiciona a lista da OS");
-//   getMateriasOs(params.osId)
-// }
+  setOpenSnackBar(true);
+  setSeveridadeAlert("success");
+  setMessageAlert("Material adiciona a lista da OS");
+  getMateriasOs(params.osId)
+}
 
 
 

@@ -17,6 +17,8 @@ import {
   NavbarItem,
 } from "@nextui-org/react";
 
+import { Sidebar } from 'flowbite-react';
+import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag,HiFilter, HiPencilAlt,HiQrcode,HiPencil } from 'react-icons/hi';
 import IconQrCode from '@/app/assets/icons/IconQrCode';
 
 import { useRouter } from "next/navigation";
@@ -25,6 +27,8 @@ import AvatarLogin from "./AvatarLogin";
 import IconUser from "../assets/icons/IconUser";
 import TodoListPen from "../assets/icons/TodoListPen";
 import IconFilter from "../assets/icons/IconFilter";
+import IconMoneyBill from "../assets/icons/IconMoneyBill";
+import IconSideBar from "../assets/icons/IconSideBar";
 
 const Header= ()=>{
     const { data: session } = useSession();
@@ -32,25 +36,75 @@ const Header= ()=>{
     const [isClicked, setIsClicked] = useState(false);
     const iconClasses = "h-4 text-2xl";
     const emails:string[] = ["gabrielpuneco@gmail.com"]
-    const handleClick = () => {
-      setIsClicked(!isClicked);
+    const [showSideBar,setShowSideBar]= useState(false)
   
-      route.push("/");
-    };
   
+const handleSideBar= ()=>{
 
+if(showSideBar){
+  setShowSideBar(false)
+}
+  
+else setShowSideBar(true)
+
+}
 return(
   <>
 
 
-    <header  className=" h-24 bg-master_black">
+    <header  className=" h-24 bg-master_black  font-bold">
 
 <div className="ml-1  flex flex-row justify-between ">
-    <Link href="/create-material">
-    <Image  className="py-5 hover:scale-90 max-sm:mt-1 max-sm:w-[100px] max-sm:h-[80px] w-[120px] h-[90px]" src={require('../assets/logo.png')}  alt="logo master" />
-    </Link>
+
+  <Button  onMouseEnter={x=>setShowSideBar(true)} className="bg-master_black mt-6" >
+    <IconSideBar  className=" rounded-lg h-10 text-white"  />
+  </Button>
+{showSideBar && (
+  <Sidebar  onMouseLeave={x=>setShowSideBar(false)} className=" border-1 border-black border-l-1  h-svh absolute z-[16] ml-[-5px] " aria-label="Sidebar with multi-level dropdown example ">
+        <Sidebar.ItemGroup>
+   
+    <Button className="h-25 bg-white " onPress={handleSideBar}>
+
+    <Image  className="py-5 hover:scale-30 max-sm:mt-1 max-sm:w-[100px] max-sm:h-[80px] w-[130px] h-[100px]" src={require('../assets/logo_preta_sem_fundo.png')}  alt="logo master" />
+    </Button>
+    </Sidebar.ItemGroup>
 
 
+      <Sidebar.Items>
+        <Sidebar.ItemGroup>
+          <Sidebar.Item  href="/create-material" className="text-black hover:font-bold" icon={HiPencil}>
+            Criar Material
+          </Sidebar.Item>
+       
+          <Sidebar.Item className="text-black mt-7 hover:font-bold" href="/search-inventory" icon={HiInbox}>
+            Gerenciar Inventário
+          </Sidebar.Item>
+          <Sidebar.Collapse className="text-black mt-7"label=" Orçamentos/Vendas" icon={HiPencilAlt}>
+
+          <Sidebar.Item className="text-black mt-3 hover:font-bold" href="/create-budge" >
+              Criar Orçamento
+          </Sidebar.Item>
+          <Sidebar.Item className="text-black mt-3 hover:font-bold" href="/manage-budges" >
+              Orçamentos
+          </Sidebar.Item>
+          </Sidebar.Collapse>
+
+          <Sidebar.Item className="text-black mt-7 hover:font-bold" href="/managing-os" icon={HiShoppingBag}>
+            Gerencia de OS
+          </Sidebar.Item>
+          <Sidebar.Item className="text-black mt-7 hover:font-bold" href="/generateMaterialQrcode" icon={HiQrcode}>
+            Gerador De QrCode
+          </Sidebar.Item>
+          <Sidebar.Item className="text-black mt-7 hover:font-bold" href="/materials-relatory" icon={HiFilter}>
+           Filtragem de Materiais
+          </Sidebar.Item>
+        </Sidebar.ItemGroup>
+      </Sidebar.Items>
+    </Sidebar>
+)}
+
+
+  
 
 
 {session && session.user ? (
@@ -86,7 +140,7 @@ return(
       </p>
     </DropdownItem>
 
-    <DropdownItem
+    {/* <DropdownItem
       key="ManagingOs"
       
       className="text-start hover:underline"
@@ -112,6 +166,19 @@ return(
        Filtragem de Materiais
       </p>
     </DropdownItem>
+    <DropdownItem
+      key="MaterialsRelatory"
+      
+      className="text-start hover:underline"
+      color="default"
+      endContent={<IconMoneyBill/>}
+      onClick={()=>route.push('/budge-management')}
+
+    >
+      <p className="font-semibold text-base p-5">
+      Gerenciador de Orçamentos
+      </p>
+    </DropdownItem>
     
     <DropdownItem
       key="QrCodeMaterial"
@@ -126,7 +193,7 @@ return(
         Gerador código QR Code
       </p>
     </DropdownItem>
-    
+     */}
     <DropdownItem
       key="logout"
       color="danger"

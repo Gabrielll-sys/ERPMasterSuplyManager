@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Project;
 using Microsoft.EntityFrameworkCore;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
+using Dapper;
 using SupplyManager.App;
+using SupplyManager.Interfaces;
 using SupplyManager.Models;
+using SupplyManager.Services;
 using SupplyManager.Validations.InventarioValidations;
 using SupplyManager.Validations.MateriaisValidations;
 using static NPOI.HSSF.Util.HSSFColor;
+using MySqlConnector;
 
 namespace SupplyManager.Controllers
 {
@@ -26,20 +26,18 @@ namespace SupplyManager.Controllers
     public class InventariosController : ControllerBase
     {
         private readonly SqlContext _context;
+        private readonly IInventarioService _inventarioService;
 
-
-
-
-
-        public InventariosController(SqlContext context)
+        public InventariosController(SqlContext context,IInventarioService inventarioService)
         {
 
             _context = context;
+            _inventarioService = inventarioService;
+
         }
         /// <summary>
         /// Busca todos os registros de inventários
         /// </summary>
-        /// <param name="id"></param>
         /// <returns>Todos os registros de inventário </returns>
         [HttpGet()]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -47,43 +45,28 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<Material>> GetAllInventarios()
+        public async Task<ActionResult<List<Inventario>>> GetAllInventarios()
         {
-
+  
             try
             {
-                var queryMaterial = _context.Materiais;
-                var queryInvetory = await _context.Inventarios.ToListAsync();
 
-                List<Inventario> listInvetory = new List<Inventario>();
+            var allItens = await _context.Inventarios.Include(x=>x.Material).AsNoTracking().ToListAsync();
 
-
-                //Realiza uma busca no banco de materias para buscar match na descrição de acordo com a busca
-  
-                var materiais = await queryMaterial.ToListAsync();
-                //Faz um iteração em todos os materiais com aquela descrição
-                foreach (var item in materiais)
+            List<Inventario> result = new List<Inventario>();
+                foreach (var i in allItens)
                 {
-                    //Realiza um filtro buscando todos os invetários daquele material,ou seja,retornara todos os registros de invetário daquele produto
-                    var inventarios = queryInvetory.Where(x => x.MaterialId == item.Id).ToList();
+                    var invetoryWithMaterial = allItens.Where(x => x.MaterialId == i.MaterialId).TakeLast(1).ToList();
+                    if (!result.Contains(invetoryWithMaterial[0]))
+                    {
+                    result.Add(invetoryWithMaterial[0]);
 
-
-                    var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == inventarios[0].MaterialId);
-
-
-                    inventarios[inventarios.Count - 1].Material = material;
-
-
-
-                    listInvetory.Add(inventarios[inventarios.Count - 1]);
-
-
-
-
+                    }
 
                 }
-
-                return Ok(listInvetory);
+            
+                return Ok(result);
+               
             }
 
             catch (KeyNotFoundException)
@@ -130,7 +113,40 @@ namespace SupplyManager.Controllers
 
 
         }
+        /// <summary>
+        /// Busca uma registro de inventário pelo seu Id
+        /// </summary>
+        /// <param name="id">O id do inventário</param>
+        /// <returns>Inventário encontrado</returns>
+        [HttpGet("getLastRegister/{id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<Material>> GetLastRegisterMaterial(int id)
+        {
 
+            try
+            {
+                var inventarios = await _context.Inventarios.Include(x => x.Material).AsNoTracking().ToListAsync();
+
+                var material =  inventarios.Where(x=>x.MaterialId==id).TakeLast(1).ToList();
+
+                return Ok(material);
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+
+
+        }
         //Metodo para trazer a lista de material e inventário junto
         /// <summary>
         /// Busca um material com os registros do seu invetário junto
@@ -216,7 +232,7 @@ namespace SupplyManager.Controllers
                 {
 
                     var filterResult = await _context.Inventarios.Include(s => s.Material)
-                        .Where(x => x.Material.PrecoVenda > model.PrecoVendaMin).ToListAsync();
+                        .Where(x => x.Material.PrecoVenda > model.PrecoVendaMin).OrderBy(x=>x.Material.PrecoVenda).ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -705,7 +721,7 @@ namespace SupplyManager.Controllers
                    model.PrecoVendaMin.HasValue &&
                   !model.PrecoCustoMin.HasValue &&
                   !model.PrecoCustoMax.HasValue &&
-                   String.IsNullOrEmpty(model.Descricao) &&
+                  String.IsNullOrEmpty(model.Descricao) &&
                   !String.IsNullOrEmpty(model.Marca)
 
                    )
@@ -1227,15 +1243,17 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<Inventario>> BuscaDescricaoInventario(string descricao)
+        public async Task<ActionResult<List<Inventario>>> BuscaDescricaoInventario(string descricao)
         {
 
 
             try
             {
-                var queryMaterial = from query in _context.Materiais select query;
+                var queryMaterial = await _context.Materiais.AsNoTracking().ToListAsync();
             
-                var queryInvetory = await _context.Inventarios.ToListAsync();
+                var queryInvetory = await _context.Inventarios.AsNoTracking().Include(x=>x.Material).ToListAsync();
+
+
 
                 List<Inventario> listInvetory = new List<Inventario>(); 
 
@@ -1245,32 +1263,33 @@ namespace SupplyManager.Controllers
 
        
                 //Caractere que ira dividir a busca de string e ira realiza sub buscar de acordo com as string separadas pelo delimitador .
-                if (descricao.Contains("."))
+               if (descricao.Contains("."))
                 {
 
                         if(splited.Length is 1)
                     {
-                        l1 = await queryMaterial.Where(x => x.Descricao.Contains(splited[0])).OrderBy(x => x.Id).ToListAsync();
+                        l1 = queryMaterial.Where(x => x.Descricao.Contains(splited[0].ToUpper())).OrderBy(x => x.Id).ToList();
+                        
                     }
                    
                     if (splited.Length is 2)
                     {
-                        l1 = await queryMaterial.Where(x => x.Descricao.Contains(splited[0])
-                        && x.Descricao.Contains(splited[1])).OrderBy(x => x.Id).ToListAsync();
+                        l1 = queryMaterial.Where(x => x.Descricao.Contains(splited[0].ToUpper())
+                        && x.Descricao.Contains(splited[1].ToUpper())).OrderBy(x => x.Id).ToList();
                     }
                     if (splited.Length is 3)
                     {
-                         l1 = await queryMaterial.Where(x => x.Descricao.Contains(splited[0])
-                          && x.Descricao.Contains(splited[1])
-                            && x.Descricao.Contains(splited[2])).OrderBy(x => x.Id).ToListAsync();
+                         l1 =  queryMaterial.Where(x => x.Descricao.Contains(splited[0].ToUpper())
+                          && x.Descricao.Contains(splited[1].ToUpper())
+                            && x.Descricao.Contains(splited[2].ToUpper())).OrderBy(x => x.Id).ToList();
 
                     } 
                     if (splited.Length is 4)
                     {
-                         l1 = await queryMaterial.Where(x => x.Descricao.Contains(splited[0])
-                          && x.Descricao.Contains(splited[1])
-                            && x.Descricao.Contains(splited[2])
-                            && x.Descricao.Contains(splited[3])).OrderBy(x => x.Id).ToListAsync();
+                         l1 =  queryMaterial.Where(x => x.Descricao.Contains(splited[0].ToUpper()   )
+                          && x.Descricao.Contains(splited[1].ToUpper())
+                            && x.Descricao.Contains(splited[2].ToUpper())
+                            && x.Descricao.Contains(splited[3].ToUpper())).OrderBy(x => x.Id).ToList();
 
                     }
 
@@ -1279,11 +1298,20 @@ namespace SupplyManager.Controllers
                 else
                 {
 
-                     queryMaterial = descricao.ToUpper() == "TUDO" ?
-                     queryMaterial = queryMaterial.Where(_ => true).OrderByDescending(x => x.Id).ThenBy(x => x.PrecoCusto) :
-                     queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao)).OrderBy(x => x.Id);
+                    if(descricao.ToUpper() == "TUDO")
+                    {
+                       queryMaterial = queryMaterial.OrderByDescending(x => x.Id).ThenBy(x => x.PrecoCusto).ToList();
+                        var a = 20;
+                    }
+                    else
+                    {
 
-                    l1 = await queryMaterial.ToListAsync();
+                        queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao.ToUpper())).ToList();
+                      
+
+                    }
+                
+                    l1 = queryMaterial;
 
                 }
 
@@ -1294,7 +1322,11 @@ namespace SupplyManager.Controllers
                   
                     var inventarios = queryInvetory.Where(x => x.MaterialId == item.Id).OrderBy(x=>x.MaterialId).TakeLast(1).ToList();
 
+                    if (inventarios.Count is not 0)
+                    {
+
                     listInvetory.Add(inventarios[0]);
+                    }
 
            
 

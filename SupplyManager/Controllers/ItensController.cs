@@ -29,7 +29,7 @@ namespace SupplyManager.Controllers
         [HttpGet()]
         public async Task<List<Item>> GetAll()
         {
-            return (await _context.Itens.ToListAsync());
+            return (await _context.Itens.AsNoTracking().ToListAsync());
         }
         /// <summary>
         /// Pega o item por id
