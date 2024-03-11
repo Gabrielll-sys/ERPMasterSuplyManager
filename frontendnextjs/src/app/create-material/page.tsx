@@ -147,7 +147,7 @@ if(description) setDescricao(description)
 
    try{
     const res = await axios
-    .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao.split("#").join(".")}`)
+    .get(`${url}Inventarios/buscaDescricaoInventario?descricao=${descricao.split("#").join(".")}`)
     .then( (r)=> {
       setLoadingMateriais(false)
      return r.data
