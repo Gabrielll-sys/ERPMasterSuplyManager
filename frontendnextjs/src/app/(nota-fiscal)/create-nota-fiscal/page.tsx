@@ -131,7 +131,7 @@ export default function CreateMaterial(){
 <>
       <div className='text-center mt-8 '>
       <Button  onPress={handleCreateNF} className='bg-master_black text-white p-7 rounded-lg font-bold text-2xl shadow-lg '>
-         "Criar Material
+         Criar Material
       </Button>
      
      

@@ -113,7 +113,40 @@ namespace SupplyManager.Controllers
 
 
         }
+        /// <summary>
+        /// Busca uma registro de inventário pelo seu Id
+        /// </summary>
+        /// <param name="id">O id do inventário</param>
+        /// <returns>Inventário encontrado</returns>
+        [HttpGet("getLastRegister/{id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<Material>> GetLastRegisterMaterial(int id)
+        {
 
+            try
+            {
+                var inventarios = await _context.Inventarios.Include(x => x.Material).AsNoTracking().ToListAsync();
+
+                var material =  inventarios.Where(x=>x.MaterialId==id).TakeLast(1).ToList();
+
+                return Ok(material);
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+
+
+        }
         //Metodo para trazer a lista de material e inventário junto
         /// <summary>
         /// Busca um material com os registros do seu invetário junto

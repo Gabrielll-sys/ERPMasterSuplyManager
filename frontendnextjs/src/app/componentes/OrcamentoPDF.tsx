@@ -10,10 +10,12 @@ import { logoBase64 } from '../assets/base64Logo';
 const OrcamentoPDF = (props:any)=>{
 
   const [buffer, setBuffer] = useState<any>(null);
-  const mtView = props.materiaisOrcamento.length>12?30:14
+  const mtViewSaudacoes = props.materiaisOrcamento.length>12?68:14
+  const mtViewObservacoes = props.materiaisOrcamento.length>19?85:14
+
 useEffect(()=>{
 
-
+  
   const buffer = "/src/app/assets/logo preta.jpg";
   // Converte o buffer em uma string base64
   const base64 = Buffer.from(buffer).toString("base64");
@@ -54,7 +56,7 @@ return(
 
     <Document>
     <Page size="A4" style={{maxHeight:"80%"}} break={props.materiaisOrcamento.lenght>12} wrap={true}>
-    <View style={{display:"flex",width:"450px",flexDirection:"row",justifyContent:"space-between",marginTop:20}}>
+    <View style={{display:"flex",width:"450px",flexDirection:"row",justifyContent:"space-between"}}>
   <Image  style ={{width:"100px",marginLeft:30,marginTop:20}}src={logoBase64}/>
            
         <View  style={{display:"flex",flexDirection:"column",width:"50%",marginRight:50,marginTop:10,}}>
@@ -134,21 +136,21 @@ return(
             <View style={{  width: "5%",textAlign:"center"}}>
             {props.materiaisOrcamento.map((x:IInventario)=>(
   
-              <Text style={{fontSize: 10,padding:3,border:"solid",borderBottom:"1px",borderRight:"1px",borderLeft:"1px"}}>{x.material.id}</Text>
+              <Text key={x.id} style={{fontSize: 10,padding:3,border:"solid",borderBottom:"1px",borderRight:"1px",borderLeft:"1px"}}>{x.material.id}</Text>
             ))}
             </View>
   
             <View style={{  width:"55%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 0, borderTopWidth: 0,textAlign:"left"}}>
             {props.materiaisOrcamento.map((x:IInventario)=>(
   
-              <Text style={{fontSize: 10,padding:3,border:"solid",borderBottom:"1px"}}>{x.material.descricao}</Text>
+              <Text key={x.id} style={{fontSize: x.material?.descricao?.length != undefined && x.material?.descricao?.length >50?8.5:10,padding:3,border:"solid",borderBottom:"1px"}}>{x.material.descricao} { x.material.descricao?.length}</Text>
             ))}
             </View>
   
             <View style={{  width: "9%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}>
             {props.materiaisOrcamento.map((x:IInventario)=>(
   
-              <Text style={{fontSize: 10,padding:3,border:"solid",borderBottom:"1px"}}>{x.quantidadeMaterial} {x.material.unidade}</Text>
+              <Text key={x.id} style={{fontSize: 10,padding:3,border:"solid",borderBottom:"1px"}}>{x.quantidadeMaterial} {x.material.unidade}</Text>
   
               ))}
             </View>
@@ -156,7 +158,7 @@ return(
             <View style={{  width: "10%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center",}}>
             {props.materiaisOrcamento.map((x:IInventario)=>(
   
-              <Text style={{fontSize: 10,padding:3,border:"solid",borderBottom:"1px"}}>{x.material.precoVenda!=null?"R$"+ x.material.precoVenda.toFixed(2).toString().replace('.',','):""}</Text>
+              <Text key={x.id} style={{fontSize: 10,padding:3,border:"solid",borderBottom:"1px"}}>{x.material.precoVenda!=null?"R$"+ x.material.precoVenda.toFixed(2).toString().replace('.',','):""}</Text>
   
               ))}
             </View>
@@ -164,24 +166,22 @@ return(
             <View style={{  width: "11%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}>
             {props.materiaisOrcamento.map((x:any)=>(
   
-              <Text style={{fontSize: 10,padding:3
+              <Text key={x.id} style={{fontSize: 10,padding:3
                 ,border:"solid",borderBottom:"1px"}}>{x.material.precoVenda!=null?"R$"+ (x.material.precoVenda.toFixed(2)* x.quantidadeMaterial).toFixed(2).toString().replace('.',','):""}</Text>
   
               ))}
             </View>
   
-  
-  
-  
+
           </View>
   
           <View style={styles.tableRow}>
   
             <View style={{display:"flex",flexDirection:"row",  width: "90%",height:"35px" ,justifyContent:"space-between"}}>
   
-            <Text style={{  marginTop:12, fontSize: 11,marginLeft:10}}> Desconto:{props.orcamento?.desconto==null || props.orcamento?.desconto ==""?"Sem descontos"
+            <Text style={{  marginTop:12, fontSize: 10,marginLeft:10}}> Desconto:{props.orcamento?.desconto==null || props.orcamento?.desconto ==""?"Sem descontos"
             :props.orcamento?.desconto.toFixed(2)+"%"}</Text>
-             <Text style={{  marginTop:12, fontSize: 11,marginRight:10,}}> Preço Total Orçamento:R${precoVendaTotalOrcamento?.toFixed(2).toString().replace('.',',')}</Text>
+             <Text style={{  marginTop:12, fontSize: 10,marginRight:10,}}> Preço Com desconto:R${props.desconto == null  || props.desconto == ""?0.00:props.desconto}</Text>
   
             </View>
   
@@ -302,12 +302,12 @@ return(
 
       <View style={{ display:"flex",flexDirection:"column",alignSelf:"center",border:"solid",borderTop:"2px",width:"90%",marginTop:"50px"}}>
         <Text style={{fontSize:11,marginLeft:30,marginTop:5}}>Forma de Pagamento:{props.orcamento?.tipoPagamento}</Text>
-        <View style={{borderColor:"black",borderWidth:"1px",width:"90%",alignSelf:"center",marginTop:20,borderRadius:"4px",minHeight:"70px"}}>
+        <View style={{borderColor:"black",borderWidth:"1px",width:"90%",alignSelf:"center",marginTop:mtViewObservacoes,borderRadius:"4px",minHeight:"70px"}}>
             <Text style={{fontSize:11,fontWeight:"extrabold",padding:9}}>*Observações</Text>
             <Text style={{fontSize:11,padding:12,maxWidth:"90%"}}>{ props.orcamento?.observacoes!= null && props.orcamento?.observacoes.length?props.orcamento?.observacoes:""}</Text>
       </View>
 </View>
-      <View style={{ display:"flex",flexDirection:"column",marginTop:20,marginLeft:30,borderColor:"black",borderTop:"2px",width:"90%"}}>
+      <View style={{ display:"flex",flexDirection:"column",marginTop:mtViewSaudacoes,marginLeft:30,borderColor:"black",borderTop:"2px",width:"90%"}}>
 
         <Text style={{fontSize:11,padding:5,border:"solid",}}>Atenciosamente,{props.nomeUsuario}</Text>
         <Text style={{fontSize:11,padding:5,marginTop:6}}>Master Elétrica</Text>
@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
       width: "auto",  
       borderRightWidth: 0, 
       borderBottomWidth: 0,
-      marginTop:20,
+      marginTop:7,
 
     }, 
     tableRow: { 

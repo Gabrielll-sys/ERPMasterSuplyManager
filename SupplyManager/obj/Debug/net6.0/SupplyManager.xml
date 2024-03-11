@@ -27,6 +27,13 @@
             <param name="id">O id do inventário</param>
             <returns>Inventário encontrado</returns>
         </member>
+        <member name="M:SupplyManager.Controllers.InventariosController.GetLastRegisterMaterial(System.Int32)">
+            <summary>
+            Busca uma registro de inventário pelo seu Id
+            </summary>
+            <param name="id">O id do inventário</param>
+            <returns>Inventário encontrado</returns>
+        </member>
         <member name="M:SupplyManager.Controllers.InventariosController.BuscaCodigoInventario(System.Int32)">
             <summary>
             Busca um material com os registros do seu invetário junto

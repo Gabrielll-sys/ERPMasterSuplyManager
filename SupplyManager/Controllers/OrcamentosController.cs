@@ -26,15 +26,17 @@ namespace SupplyManager.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Orcamento>>> GetAll()
         {
+       
             return Ok(await _context.Orcamentos.AsNoTracking().OrderByDescending(x=>x.DataOrcamento).ToListAsync());
 
+
         }
-        [HttpGet("buscaNomeEmpresa")]
-        public async Task<ActionResult<List<Orcamento>>> GetByCompanyName(string empresa)
+        [HttpGet("buscaNomeCliente")]
+        public async Task<ActionResult<List<Orcamento>>> GetByClientName(string cliente)
         {
 
 
-            return await  _context.Orcamentos.AsNoTracking().Where(x => x.Empresa.Contains(empresa)).OrderBy(x => x.DataOrcamento).ToListAsync();
+            return await  _context.Orcamentos.AsNoTracking().Where(x => x.NomeCliente.Contains(cliente)).OrderBy(x => x.DataOrcamento).ToListAsync();
 
         }
 
@@ -207,7 +209,7 @@ namespace SupplyManager.Controllers
                     );
                     
 
-                        i1.MovimentacaoOrdemServico((float)item.QuantidadeMaterial, $"Utilizado Orcamento Nº {orcamento.Id} ");
+                        i1.MovimentacaoOrdemServico((float)item.QuantidadeMaterial, $"Utilizado Orcamento Nº {orcamento.Id} De {orcamento.NomeCliente} ");
 
                         await _context.Inventarios.AddAsync(i1);
                     }

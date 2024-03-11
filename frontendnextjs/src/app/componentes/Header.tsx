@@ -18,7 +18,7 @@ import {
 } from "@nextui-org/react";
 
 import { Sidebar } from 'flowbite-react';
-import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag, HiTable,HiFilter, HiPencilAlt,HiQrcode } from 'react-icons/hi';
+import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag,HiFilter, HiPencilAlt,HiQrcode,HiPencil } from 'react-icons/hi';
 import IconQrCode from '@/app/assets/icons/IconQrCode';
 
 import { useRouter } from "next/navigation";
@@ -72,7 +72,7 @@ return(
 
       <Sidebar.Items>
         <Sidebar.ItemGroup>
-          <Sidebar.Item  href="/create-material" className="text-black hover:font-bold" icon={HiChartPie}>
+          <Sidebar.Item  href="/create-material" className="text-black hover:font-bold" icon={HiPencil}>
             Criar Material
           </Sidebar.Item>
        

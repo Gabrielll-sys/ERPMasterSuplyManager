@@ -64,7 +64,7 @@ export default function ManageBudges({params}:any){
   const[emailCliente,setEmailCliente] = useState<string>()
   const[telefone,setTelefone] = useState<string>()
   const[endereco,setEndereco] = useState<string>()
-  // const[endereco,setEndereco] = useState<string>()
+
 
   const[cpfOrCnpj,setCpfOrCnpj] = useState<string>("")
   const[empresa,setEmpresa] = useState<string>()
@@ -163,6 +163,8 @@ console.log(e)
 
       }).catch(e=>console.log(e))
 
+      //Itera sobre os materiais,caso o item com id do material tenha um valor de preco de venda que foi alterado para orçamento,então passará a ser o o pre
+      // o preço de venda do material no array mostrado da page
       for(let item of res){
         
         if(item.precoItemOrcamento != null)
@@ -181,6 +183,20 @@ console.log(e)
     }).catch(e=>console.log(e))
 
 
+
+}
+
+//Função criada para pegar o ultimo registro de movimentação de um determinado material presente na tabela do orçamento,para parecer a o estoque quando for editar a quantidade
+// presente na tabela do orçamento,para parecer a o estoque quando for editar a quantidade
+const getEstoqueMaterial =  async (id:number)=>{
+
+   await axios.get(`${url}/Inventarios/GetLastRengister/${id}`).then((r)=>{
+ console.log(r.data)
+    setInventarioDialog(r.data[0])
+   
+  return r.data
+
+  }).catch(e=>console.log(e))
 
 }
   
@@ -328,7 +344,7 @@ console.log(item.quantidadeMaterial)
 
   let itemOrcamento = {}
       if(item.precoItemOrcamento != null) {
-     
+
         itemOrcamento = {
           id:item.id,
           materialId:item.materialId,
@@ -344,6 +360,7 @@ console.log(item.quantidadeMaterial)
 
       else{
 
+
         itemOrcamento = {
           id:item.id,
           materialId:item.materialId,
@@ -351,10 +368,10 @@ console.log(item.quantidadeMaterial)
           quantidadeMaterial:Number(quantidadeMaterial),
           orcamentoId:Number(params.orcamentoId),
           orcamento:{},
-          precoItemOrcamento:item.precoItemOrcamemento!= item.material.precoVenda?precoVendaNovoMaterial:item.material.precoVenda
+          precoItemOrcamento:item.precoItemOrcamemento!= item.material.precoVenda && precoVendaNovoMaterial!=""?precoVendaNovoMaterial:item.material.precoVenda
         }
       }
-
+      console.log(itemOrcamento)
       const res = await axios.put(`${url}/ItensOrcamento/${item.id}`,itemOrcamento).then(r=>{
 
         setOpenSnackBar(true);
@@ -456,7 +473,7 @@ console.log(item.quantidadeMaterial)
       if(precoVendaTotalOrcamento!=undefined &&  Number(desconto)>0) {
 
         const descontoCalculado = precoVendaTotalOrcamento - (Number(desconto.toString().replace(",","."))/100) * precoVendaTotalOrcamento
-        setPrecoVendaComDesconto(descontoCalculado.toFixed(2))
+        setPrecoVendaComDesconto(descontoCalculado.toFixed(2).toString().replace('.',','))
       }
       if(Number(desconto)==0) setPrecoVendaComDesconto(0)
     
@@ -648,11 +665,20 @@ ws.addImage(logo, {
 
 return(
     <>
+  <Link
+        size="sm"
+        as="button"
+        className="p-3 mt-4 text-base tracking-wide text-dark hover:text-success border border-transparent hover:border-success transition-all duration-200"
+        onClick={() => route.back()}
+      >
+        <ArrowLeft /> Retornar
+      </Link>
+
       <h1 className='text-center text-2xl mt-8'>Orçamento Nº {orcamento?.id}</h1>
       <div className='flex flex-col  mt-10  gap-3 justify-center text-center   '>
 
-      <div className='flex flex-col self-center max-w-[1200px] '>
-              <div className='flex flex-row  gap-4 w-[800px]'>
+      <div className='flex flex-col self-center max-w-[1200px] gap-7 '>
+              <div className='flex flex-row  justify-between w-[800px]'>
                 <Input
                               value={nomeCliente}
                               className=" border-1 border-black rounded-xl shadow-sm shadow-black max-w-[384px]  min-w-[384px]"
@@ -669,28 +695,30 @@ return(
                               />
                      
               </div>
-                    <div className='flex flex-row gap-4 w-[800px]'>
+                    <div className='flex flex-row justify-between w-[800px]'>
                       <Input
                               value={emailCliente}
-                              className=" border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 max-w-[384px]  min-w-[384px]"
+                              className=" border-1 border-black rounded-xl shadow-sm shadow-black  max-w-[384px]  min-w-[384px]"
                               onValueChange={setEmailCliente}
                               placeholder='abcde@gmail.com'
                               label="Email"
                             />
                              <Input
+                             
                                   value={cpfOrCnpj}
-                                  className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 max-w-[384px]  min-w-[384px]"
+                                  className="border-1 border-black rounded-xl shadow-sm shadow-black  max-w-[384px]  min-w-[384px]"
                                   onValueChange={setCpfOrCnpj}
                                   placeholder='99283-4235'
                                   label="CPF OU CNPJ"
                                 />  
                       
                     </div>
-                         <div className=' flex flex-row gap-4 w-[800px] '>
+                         <div className=' flex flex-row w-[800px] justify-between '>
                        
                          <Input
+                             
                               value={telefone}
-                              className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 max-w-[384px]  min-w-[384px]"
+                              className="border-1 border-black rounded-xl shadow-sm shadow-black  max-w-[384px]  min-w-[384px]"
                               onValueChange={setTelefone}
                               placeholder='99283-4235'
                               label="Telefone"
@@ -698,9 +726,9 @@ return(
 
                 <Input
                         value={desconto}
-                        className="  border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 max-w-[384px]  min-w-[384px]"
+                        className="  border-1 border-black rounded-xl shadow-sm shadow-black  max-w-[384px]  min-w-[384px]"
                         onValueChange={setDesconto}
-                       
+                        isReadOnly = {orcamento?.isPayed}
                         label="Desconto %"
                         endContent={<span>%</span>}
                       />
@@ -746,13 +774,20 @@ return(
                 </div>
       </div>
 
-             
+             {orcamento?.isPayed ? (
+                  <div className='flex flex-row gap-5 mt-4 self-center'>
+                  <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg shadow-lg ' onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
+              
+                </div>
+             ):
              <div className='flex flex-row gap-5 mt-4 self-center'>
-               <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg shadow-lg ' onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
-               <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg ' onPress={onOpen}>
-                          Autorizar Orçamento
-                         </Button>
-             </div>
+             <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg shadow-lg ' onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
+             <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg ' onPress={onOpen}>
+                        Autorizar Orçamento
+                       </Button>
+           </div>
+             }
+            
               
                                        
         
@@ -804,6 +839,7 @@ return(
           materiaisOrcamento ={materiaisOrcamento} 
           nomeUsuario={session?.user?.name}
           orcamento={orcamento}
+          desconto = {precoVendaComDesconto}
           
           />} fileName={"Orçamento Nº"+ orcamento?.id+ " Para "+ orcamento?.nomeCliente +".pdf"}>
                {orcamento?.isPayed ?"Gerar Nota de Venda":"Gerar Nota De Orçamento"}
@@ -812,21 +848,21 @@ return(
         
           </Button> 
   </div>
-       
+
            <Dialog open={openDialog} onClose={handleCloseDialog} >
-    <DialogTitle sx={{textAlign:"center"}}>{isEditingOs?itemToBeUpdated?.material.descricao:inventarioDialog?.material.descricao}</DialogTitle>
+    <DialogTitle sx={{textAlign:"center"}}> {isEditingOs?itemToBeUpdated?.material.descricao:inventarioDialog?.material?.descricao}</DialogTitle>
     <DialogContent >
 
-      <p className='text-center'>
-        
-        Estoque: {inventarioDialog?.saldoFinal == 0 || null?0:inventarioDialog?.saldoFinal} {inventarioDialog?.material.unidade} 
+      <p className='text-center' onClick={()=>console.log(inventarioDialog)}>
+        Estoque: {inventarioDialog?.saldoFinal == 0 || null?0:inventarioDialog?.saldoFinal} {inventarioDialog?.material?.unidade} 
+    
           </p>
       <div className=' flex flex-row justify-center'>
         <Input
           type='number'
           autoFocus
           className="border-1   border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[150px] max-h-14"
-          endContent={<p>{isEditingOs? itemToBeUpdated?.material.unidade:inventarioDialog?.material.unidade}</p>}
+          endContent={<p>{isEditingOs? itemToBeUpdated?.material.unidade:inventarioDialog?.material?.unidade}</p>}
           onValueChange={(x:any)=>handleInputQuantidade(x)}
         
           value={quantidadeMaterial}
@@ -840,6 +876,7 @@ return(
     </DialogActions>
   </Dialog>
         
+
 
 
 
@@ -870,7 +907,7 @@ return(
 
       <div className='flex flex-row justify-between self-center'>
         <div className='flex flex-col self-center'>
-      
+          <h1 className='font-bold'>Materiais No Orçamento:{materiaisOrcamento.length}</h1>
           
               <div className="overflow-x-auto self-center w-[100%] mt-5 ml-5 ">
       <Table  hoverable striped className="w-[100%] ">
@@ -883,9 +920,7 @@ return(
           <Table.HeadCell className="text-center border-1 border-black text-sm">Preço Custo</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm ">Preço Venda</Table.HeadCell>
       
-          <Table.HeadCell className="text-center">
-            <span className="sr-only">Edit</span>
-          </Table.HeadCell>
+      
         </Table.Head>
         <Table.Body className="divide-y">
           
@@ -895,13 +930,30 @@ return(
           {row.material.id}
           </Table.Cell>
           <Table.Cell className="text-center text-black" >{row.material.descricao}</Table.Cell>
-          <Table.Cell className="text-center text-black hover:underline" onClick={()=>{setItemToBeUpdated(row),setIsEditingOs(true),setOpenDialog(true),findInventory(row.material.id)}} >{row.quantidadeMaterial}</Table.Cell>
-          <Table.Cell className="text-center text-black">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</Table.Cell>
-          <Table.Cell className="text-center text-black hover:underline" onClick={()=>{setItemToBeUpdated(row),setIsEditingOs(true),setOpenDialogPreco(true),findInventory(row.material.id)}} >{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</Table.Cell>
+            {orcamento?.isPayed ?(
+          <Table.Cell className="text-center text-black" >{row.quantidadeMaterial}</Table.Cell>
+
+            )
+            :
+          <Table.Cell className="text-center text-black hover:underline" onClick={()=>{getEstoqueMaterial(row.material.id),setItemToBeUpdated(row),setIsEditingOs(true),setOpenDialog(true)}} >{row.quantidadeMaterial}</Table.Cell>
+
+          }
+          <Table.Cell className="text-center text-black " >{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</Table.Cell>
+           
+            {orcamento?.isPayed ?(
+          <Table.Cell className="text-center text-black"  >{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}  </Table.Cell>
+              
+            ):
+          <Table.Cell className="text-center text-black hover:underline" onClick={()=>{ setItemToBeUpdated(row),setIsEditingOs(true),setOpenDialogPreco(true),findInventory(row.material.id)}} >{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}  </Table.Cell>
+            
+            }
           <Table.Cell>
+            {!orcamento.isPayed && (
+
               <div className='text-center'>
                 <IconBxTrashAlt onClick={()=>handleDelete(row.id)} />
               </div>
+            )}
           </Table.Cell>
         </Table.Row>
 
