@@ -730,6 +730,7 @@ return(
 
                 <Input
                         value={desconto}
+                        type='number'
                         className="  border-1 border-black rounded-md shadow-sm shadow-black  max-w-[354px]  min-w-[354px]"
                         onValueChange={setDesconto}
                         isReadOnly = {orcamento?.isPayed}

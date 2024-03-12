@@ -172,7 +172,7 @@ return(
 
     </div>
       <div className='flex flex-row justify-center mt-16'>
-        <Button  onPress={handleCreateBudge} className='bg-master_black text-white p-7 rounded-md font-bold text-2xl shadow-lg  '>
+        <Button  isDisabled={!nomeCliente} onPress={handleCreateBudge} className='bg-master_black text-white p-7 rounded-md font-bold text-2xl shadow-lg  '>
            Criar Orçamento
         </Button>
       </div>

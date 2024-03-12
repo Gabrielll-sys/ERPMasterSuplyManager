@@ -102,7 +102,7 @@ const filtro  = {
      <Input
        
           label="Descricao do Material"
-          className="max-w-[500px] border-1 border-black rounded-xl shadow-sm shadow-black"
+          className="max-w-[500px] border-1 border-black rounded-md shadow-sm shadow-black"
           placeholder="Ex:Inversor Frequência"
           labelPlacement="outside"
           value={descricao}
@@ -111,7 +111,7 @@ const filtro  = {
         />
      <Input
           label="Marca"
-          className="max-w-[128px] border-1 border-black rounded-xl shadow-sm shadow-black"
+          className="max-w-[128px] border-1 border-black rounded-md shadow-sm shadow-black"
           placeholder="Ex: WEG"
           labelPlacement="outside"
           value={marca}
@@ -127,7 +127,7 @@ const filtro  = {
        <Input
           type="number"
           label="Preço custo min"
-          className="max-w-[128px] border-1 border-black rounded-xl shadow-sm shadow-black"
+          className="max-w-[128px] border-1 border-black rounded-md shadow-sm shadow-black"
           value={precoCustoMin}
           onValueChange={setPrecoCustoMin}
           placeholder="0,00"
@@ -142,7 +142,7 @@ const filtro  = {
     <Input
           type="number"
           label="Preço custo max"
-          className="max-w-[128px] border-1 border-black rounded-xl shadow-sm shadow-black"
+          className="max-w-[128px] border-1 border-black rounded-md shadow-sm shadow-black"
           placeholder="0,00"
           labelPlacement="outside"
           value={precoCustoMax}
@@ -157,7 +157,7 @@ const filtro  = {
        <Input
           type="number"
           label="Preço venda min"
-          className="max-w-[188px] border-1 border-black rounded-xl shadow-sm shadow-black"
+          className="max-w-[188px] border-1 border-black rounded-md shadow-sm shadow-black"
           placeholder="0,00" 
           value={precoVendaMin}
           onValueChange={setPrecoVendaMin}
@@ -171,7 +171,7 @@ const filtro  = {
      <Input
           type="number"
           label="Preço venda max"
-          className="max-w-[188px] border-1 border-black rounded-xl shadow-sm shadow-black"
+          className="max-w-[188px] border-1 border-black rounded-md shadow-sm shadow-black"
           value={precoVendaMax}
        
           onValueChange={setPrecoVendaMax}

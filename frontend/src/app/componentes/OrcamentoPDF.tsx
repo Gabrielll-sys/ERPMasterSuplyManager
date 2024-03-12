@@ -143,7 +143,7 @@ return(
             <View style={{  width:"55%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 0, borderTopWidth: 0,textAlign:"left"}}>
             {props.materiaisOrcamento.map((x:IInventario)=>(
   
-              <Text key={x.id} style={{fontSize: x.material?.descricao?.length != undefined && x.material?.descricao?.length >50?8.5:10,padding:3,border:"solid",borderBottom:"1px"}}>{x.material.descricao} { x.material.descricao?.length}</Text>
+              <Text key={x.id} style={{fontSize: x.material?.descricao?.length != undefined && x.material?.descricao?.length >50?8.5:10,padding:3,border:"solid",borderBottom:"1px"}}>{x.material.descricao}</Text>
             ))}
             </View>
   

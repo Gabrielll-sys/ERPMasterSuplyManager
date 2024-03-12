@@ -31,7 +31,7 @@ import dayjs from 'dayjs';
 
 export default function ManageBudges({params}:any){
   const[cliente,setCliente] = useState<string>("")
-  const[numeroOrcamento,setNumeroOrcamento] = useState<string>()
+  const[numeroOrcamento,setNumeroOrcamento] = useState<string>("")
   const[orcamentos,setOrcamentos] = useState<any>()
   const[orcamento,setOrcamento] = useState<any>("")
 
@@ -47,11 +47,15 @@ export default function ManageBudges({params}:any){
     },[cliente])
 
     useEffect(()=>{
+      setCliente("")
+      setOrcamento([])
         if(numeroOrcamento?.length==0){
+          setOrcamento([])
           getAllOrcamentos()
         }
         getOrcamentoById()
     },[numeroOrcamento])
+
     const route = useRouter()
     const { data: session } = useSession();
   
@@ -75,10 +79,19 @@ export default function ManageBudges({params}:any){
 const getOrcamentosByClient = async()=>{
   setNumeroOrcamento("")
 
-  if(cliente.length){
+  if(cliente.length && cliente!=undefined){
 
     await axios.get(`${url}/Orcamentos/buscaNomeCliente?cliente=${cliente}`).then((r:AxiosResponse)=>{
-      setOrcamentos(r.data)
+   
+      if(r.data.length==1) {
+        setOrcamentos([])
+        setOrcamento(r.data[0])
+      }
+      else if (r.data.length>1){
+    
+        setOrcamentos(r.data)
+      }
+      
     }).catch(e=>console.log(e))
   }
 
@@ -88,25 +101,35 @@ const getAllOrcamentos = async ()=>{
 
 
  await axios.get(`${url}/Orcamentos`).then((r:AxiosResponse)=>{
-  
-  setOrcamentos(r.data)
+
+  console.log(r.data)
+  if(r.data.length==1) {
+    setOrcamento(r.data[0])
+  }
+  else if (r.data.length>1){
+
+    setOrcamentos(r.data)
+  }
 }).catch(e=>console.log(e))
 
 }
 
 const getOrcamentoById = async()=>{
-  setOrcamentos([])
-  await axios.get(`${url}/Orcamentos/${numeroOrcamento}`).then((r:AxiosResponse)=>{
-    console.log(r.data)
-    setOrcamento(r.data)
-  }).catch(e=>console.log(e))
-}
+ 
+  if(numeroOrcamento != undefined){
 
+    await axios.get(`${url}/Orcamentos/${numeroOrcamento}`).then((r:AxiosResponse)=>{
+      setOrcamentos([])
+      console.log(r.data)
+      setOrcamento(r.data)
+    }).catch(e=>console.log(e))
+  }
+}
 
 
 return(
     <>
-      <h1 className='text-center text-2xl mt-4'>Orçamentos</h1>
+      <h1 className='text-center text-2xl mt-4' onClick={()=>console.log(orcamento)}>Orçamentos</h1>
       <div className=' flex flex-row justify-center'>
         <Input
           value={numeroOrcamento}
@@ -148,9 +171,8 @@ return(
       </Card>
       ))}
 
-{orcamento!=undefined  && orcamento.id!=undefined && (
-
-<Card key={orcamento.id} className="min-w-[370px] hover:bg-master_yellow hover:scale-110 bg-white border-black border-1 shadow-md shadow-black">
+{orcamento && !orcamentos?.length && (
+<Card  key={orcamento.id} className="min-w-[370px] hover:bg-master_yellow hover:scale-110 bg-white border-black border-1 shadow-md shadow-black">
 
   <div className="flex flex-col items-center pb-4">
 
