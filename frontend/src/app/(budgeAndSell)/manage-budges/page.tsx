@@ -40,7 +40,7 @@ export default function ManageBudges({params}:any){
     },[])
 
     useEffect(()=>{
-        getOrcamentosByCompany()
+        getOrcamentosByClient()
         if(cliente?.length==0){
           getAllOrcamentos()
         }
@@ -72,11 +72,15 @@ export default function ManageBudges({params}:any){
 
 
 
-const getOrcamentosByCompany = async()=>{
+const getOrcamentosByClient = async()=>{
   setNumeroOrcamento("")
-  await axios.get(`${url}/Orcamentos/buscaNomeCliente?cliente=${cliente}`).then((r:AxiosResponse)=>{
-    setOrcamentos(r.data)
-  }).catch(e=>console.log(e))
+
+  if(cliente.length){
+
+    await axios.get(`${url}/Orcamentos/buscaNomeCliente?cliente=${cliente}`).then((r:AxiosResponse)=>{
+      setOrcamentos(r.data)
+    }).catch(e=>console.log(e))
+  }
 
 }
 
