@@ -79,7 +79,7 @@ export default function ManageBudges({params}:any){
 const getOrcamentosByClient = async()=>{
   setNumeroOrcamento("")
 
-  if(cliente.length && cliente!=undefined){
+  if(cliente.length && cliente!=""){
 
     await axios.get(`${url}/Orcamentos/buscaNomeCliente?cliente=${cliente}`).then((r:AxiosResponse)=>{
    
@@ -99,18 +99,21 @@ const getOrcamentosByClient = async()=>{
 
 const getAllOrcamentos = async ()=>{
 
+if(cliente == "" && numeroOrcamento == "")
+{
 
- await axios.get(`${url}/Orcamentos`).then((r:AxiosResponse)=>{
-
-  console.log(r.data)
-  if(r.data.length==1) {
-    setOrcamento(r.data[0])
-  }
-  else if (r.data.length>1){
-
-    setOrcamentos(r.data)
-  }
-}).catch(e=>console.log(e))
+  await axios.get(`${url}/Orcamentos`).then((r:AxiosResponse)=>{
+ 
+   console.log(r.data)
+   if(r.data.length==1) {
+     setOrcamento(r.data[0])
+   }
+   else if (r.data.length>1){
+ 
+     setOrcamentos(r.data)
+   }
+ }).catch(e=>console.log(e))
+}
 
 }
 
@@ -171,7 +174,7 @@ return(
       </Card>
       ))}
 
-{orcamento && !orcamentos?.length && (
+{orcamento.id!=undefined && !orcamentos?.length && (
 <Card  key={orcamento.id} className="min-w-[370px] hover:bg-master_yellow hover:scale-110 bg-white border-black border-1 shadow-md shadow-black">
 
   <div className="flex flex-col items-center pb-4">
