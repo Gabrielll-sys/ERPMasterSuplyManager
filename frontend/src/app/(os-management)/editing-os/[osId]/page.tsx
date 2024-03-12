@@ -283,24 +283,24 @@ return (
    {os?.isAuthorized ?<h1 className='text-center font-bold mt-2 text-lg'>OS Fechada</h1>:""}
   
    <div className='flex flex-row  justify-between '>
-     <div className='flex flex-row  mt-10 border-2 border-black  max-h-[380px] shadow-sm shadow-black p-2 ml-4 rounded-md'>
-      <div className='flex flex-col justify-center'>
+     <div className='flex flex-row  mt-10 border-2 border-black  max-h-[480px] p-4 shadow-sm shadow-black ml-4 rounded-md'>
+      <div className='flex flex-col justify-center gap-8'>
       
       <Input
         label="Numero Os"
-        className="border-1 self-center  border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[150px] max-h-14"
+        className="border-1 self-center  border-black rounded-md shadow-sm shadow-black  ml-5 mr-5 w-[150px] max-h-14"
         onValueChange={setNumeroOs}
         value={numeroOs}
         />
         <Input
         label="Ordem de Serviço"
-        className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[300px] max-h-14"
+        className="border-1 border-black rounded-md shadow-sm shadow-black ml-5 mr-5 w-[300px] max-h-14"
           onValueChange={setDescricaoOS}
         value={descricaoOs}
         />
         <Input
         label="Resposáveis Execução"
-        className="border-1 border-black rounded-xl shadow-sm shadow-black mt-10 ml-5 mr-5 w-[300px] max-h-14"
+        className="border-1 border-black rounded-md shadow-sm shadow-black  ml-5 mr-5 w-[300px] max-h-14"
           onValueChange={setParticipantesOs}
         value={participantesOs}
         />
@@ -309,13 +309,13 @@ return (
 <div className=' flex flex-row justify-center p-3 mt-10 gap-8 '>
 
 <Button  
-className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl '
+className='bg-master_black text-white p-4 rounded-md font-bold text-2xl '
 disabled={!descricaoOs}
 onPress={()=>handleUpdateOs(os?.id)}
  >
                    Atualizar OS
     </Button>
-<Button  className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl ' onPress={onOpen}>
+<Button  className='bg-master_black text-white p-4 rounded-md font-bold text-2xl ' onPress={onOpen}>
                    Autorizar
                   </Button>
 </div>
@@ -334,7 +334,7 @@ onPress={()=>handleUpdateOs(os?.id)}
      <Textarea
         label="Observações sobre a OS"
         placeholder={`Escreva detalhes sobre a execução da ${os?.descricao}`}
-        className="max-w-xl border-1 border-black rounded-xl min-w-[570px] max-h-[320px]  shadow-sm shadow-black"
+        className="max-w-xl border-1 border-black rounded-md min-w-[470px] max-h-[280px]   shadow-sm shadow-black"
         
         maxRows={14}
         value={observacao}
@@ -351,7 +351,7 @@ onPress={()=>handleUpdateOs(os?.id)}
            isDisabled={!materiais}
            isLoading={!materiais.length}
            placeholder="Procure um material"
-           className="min-w-[600px]  border-1 border-black rounded-xl shadow-sm shadow-black"
+           className="min-w-[600px]  border-1 border-black rounded-md shadow-sm shadow-black"
          >
 
          {materiais.map((item:IInventario) => (
@@ -391,12 +391,12 @@ onPress={()=>handleUpdateOs(os?.id)}
      </div>
 
        {!os?.isAuthorized &&(
-      <div className=' flex flex-row mt-2  w-14 justify-between '>
+      <div className=' flex flex-row mt-2  w-14 justify-between max-w-[200px] '>
 
-      <Button  className="p-0" onPress={()=>{setItemToBeUpdated(item),setIsEditingOs(true),setOpenDialog(true),findInventory(item.material.id)}} >
+      <Button  className="p-0 bg-white" onPress={()=>{setItemToBeUpdated(item),setIsEditingOs(true),setOpenDialog(true),findInventory(item.material.id)}} >
         <IconPen />
       </Button>
-<Button className="p-0" onPress={()=>handleRemoveMaterial(item.id)}>
+<Button className="p-0 bg-white" onPress={()=>handleRemoveMaterial(item.id)}>
   
         <IconBxTrashAlt />
 </Button>

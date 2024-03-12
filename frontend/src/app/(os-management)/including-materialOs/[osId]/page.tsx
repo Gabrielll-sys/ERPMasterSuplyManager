@@ -325,7 +325,7 @@ return(
               <ListItemText  primary={x.material.descricao}  secondary={` Quantidade utilizada ${x.quantidade} ${x.material.unidade}`}/>
               {!os.isAuthorized && (
 
-                <DeleteTwoToneIcon onClick={r=>handleRemoveMaterial(x.id)}/>
+                <DeleteTwoToneIcon className="bg-white" onClick={r=>handleRemoveMaterial(x.id)}/>
                 )}
                   
             </ListItemButton>

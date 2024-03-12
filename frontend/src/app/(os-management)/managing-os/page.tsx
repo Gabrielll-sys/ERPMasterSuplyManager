@@ -141,12 +141,12 @@ export default function OsManagement(){
 
   
      <Autocomplete
-         label="Material "
-         placeholder="Numero OS"
+         label="Numero OS "
+         placeholder=""
          className="max-w-[160px]  border-1 border-black rounded-xl shadow-sm shadow-black  "
           onValueChange={setNumeroOs}
           value={numeroOs}
-       allowsCustomValue
+          allowsCustomValue
        
    
        >
@@ -164,7 +164,7 @@ export default function OsManagement(){
         ))}
         </Autocomplete>
      <Autocomplete
-         label="Material "
+         label="Nome da Ordem de Serviço "
          isDisabled={!ordemServicos}
          placeholder="Ordem Servicos"
          className="max-w-2xl  border-1 border-black rounded-xl shadow-sm shadow-black "
