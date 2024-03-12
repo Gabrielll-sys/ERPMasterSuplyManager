@@ -48,7 +48,7 @@ namespace SupplyManager.Controllers
         {
             try
             {
-                return Ok(await _context.Orcamentos.FirstOrDefaultAsync(x=>x.Id==id));
+               return Ok(await _context.Orcamentos.FirstOrDefaultAsync(x=>x.Id==id));
 
             }
             catch (KeyNotFoundException)
