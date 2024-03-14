@@ -44,6 +44,7 @@ import { signIn, useSession } from "next-auth/react";
 import GoogleIcon from "../assets/icons/GoogleIcon";
 import SpinnerForButton from "../componentes/SpinnerButton";
 import { Table } from "flowbite-react";
+import { searchByDescription, searchByFabricanteCode } from "../services/MaterialServices";
 
 export default function CreateMaterial(){
   const route = useRouter()
@@ -94,82 +95,45 @@ if(description) setDescricao(description)
 
 },[])
 
-  useEffect(() => {
-    //Irá começar a realizar a busca somente quando  a descrição tiver 3 caracteres
-   
-    if (descricao.length>=3) {
-     searchByDescription().then().catch();
 
+const buscarDescricao = async(descricao:string)=>
+{
+  setDescricao(descricao)
+    if(descricao.length>3)
+    {
+      try{
+
+        const res =  await searchByDescription(descricao)
+        console.log(res)
+        setMateriais(res)
+      }
+    catch(e)
+    {
+      console.log(e)
     }
-    setMateriais([])
-
-  }, [descricao]);
-
-  useEffect(() => {
-        //Irá começar a realizar a busca somente quando  a categoria tiver 4 caracteres
-    if (codigoFabricante.length>=4) {
-      
-      searchByFabricanteCode().then().catch();
-
-    }
-    setMateriais([])
-
-  }, [codigoFabricante]);
-
-  const searchByFabricanteCode = async () => {
-
-    try{
-     const res = await axios
-     .get(`${url}/Inventarios/buscaCodigoFabricante?codigo=${codigoFabricante}`)
-     .then( (r)=> {
-       
-      return r.data
-      
-     })
-     .catch();
     
-     setMateriais(res)
- 
- 
     }
-    catch(e) 
+
+
+}
+const buscaCodigoFabricante = async(codigo:string)=>
+{
+  setCodigoFabricante(codigo)
+  if(codigoFabricante.length>3)
+    {
+      try{
+
+        const res =  await searchByFabricanteCode(codigoFabricante)
+        setMateriais(res)
+      }
+    catch(e)
+    {
+      console.log(e)
+    }
     
-    { 
- console.log(e)
     }
-   
- };
-
-
-  const searchByDescription = async () => {
-
-    setLoadingMateriais(true)
-
-   try{
-    const res = await axios
-    .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao.split("#").join(".")}`)
-    .then( (r)=> {
-      setLoadingMateriais(false)
-     return r.data
-     
-    })
-    .catch();
-    console.log(res)
-
-    setMateriais(res)
-
-   }
-   catch(e) 
-   
-   { 
-    setLoadingMateriais(false)
-
-console.log(e)
-   }
+}
   
-};
-
-
   const handleChangeUpdatePage = async (id:number) => {
    
     sessionStorage.setItem("description",descricao)
@@ -292,7 +256,7 @@ console.log(e)
         <Input
           value={codigoFabricante}
           className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-          onChange={(e) => setCodigoFabricante(e.target.value)}
+          onValueChange={(e) => buscaCodigoFabricante(e)}
           label="Cód Fabricante"
           
         />
@@ -300,7 +264,7 @@ console.log(e)
         <Input
           value={descricao}
           className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[400px]"
-          onValueChange={setDescricao}
+          onValueChange={(x)=>buscarDescricao(x)}
           label="Descrição"
           required
         />

@@ -30,6 +30,7 @@ import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 
 import dayjs from 'dayjs';
+import { IOrcamento } from '@/app/interfaces/IOrcamento';
 
 
 
@@ -61,14 +62,14 @@ export default function BudgeManagement({params}:any){
 
 const handleCreateBudge = async ()=>{
 
-const orcamento = {
+const orcamento : IOrcamento = {
   nomeCliente:nomeCliente?.trim().replace(/\s\s+/g, " "),
   emailCliente:emailCliente?.trim().replace(/\s\s+/g, " "),
   telefone:telefone,
   endereco:endereco.trim().replace(/\s\s+/g, " "),
   desconto:Number(desconto),
   tipoPagamento:metodoPagamento==""?"PIX":metodoPagamento,
-  responsavelOrcamento:session?.user?.name
+  responsavelOrcamento:session?.user?.name?
 
 }
 

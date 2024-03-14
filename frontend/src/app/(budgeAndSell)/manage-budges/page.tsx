@@ -26,14 +26,15 @@ import jsPDF from 'jspdf'
 
 
 import dayjs from 'dayjs';
+import { IOrcamento } from '@/app/interfaces/IOrcamento';
 
 
 
 export default function ManageBudges({params}:any){
   const[cliente,setCliente] = useState<string>("")
   const[numeroOrcamento,setNumeroOrcamento] = useState<string>("")
-  const[orcamentos,setOrcamentos] = useState<any>()
-  const[orcamento,setOrcamento] = useState<any>("")
+  const[orcamentos,setOrcamentos] = useState<IOrcamento[]>()
+  const[orcamento,setOrcamento] = useState<IOrcamento>()
 
     useEffect(()=>{
         getAllOrcamentos()
@@ -48,9 +49,10 @@ export default function ManageBudges({params}:any){
 
     useEffect(()=>{
       setCliente("")
-      setOrcamento([])
+      setOrcamento(undefined)
         if(numeroOrcamento?.length==0){
-          setOrcamento([])
+     
+          setOrcamento(undefined)
           getAllOrcamentos()
         }
         getOrcamentoById()
@@ -174,18 +176,18 @@ return(
       </Card>
       ))}
 
-{orcamento.id!=undefined && !orcamentos?.length && (
-<Card  key={orcamento.id} className="min-w-[370px] hover:bg-master_yellow hover:scale-110 bg-white border-black border-1 shadow-md shadow-black">
+{orcamento?.id!=undefined && !orcamentos?.length && (
+<Card  key={orcamento?.id} className="min-w-[370px] hover:bg-master_yellow hover:scale-110 bg-white border-black border-1 shadow-md shadow-black">
 
   <div className="flex flex-col items-center pb-4">
 
-    <h5 className="mb-1 text-xl font-xl mt-2 dark:text-white">Orçamento Nº {orcamento.id}</h5>
-    <span className="text-lg mt-2  ">{orcamento.nomeCliente}</span>
-    <span className="text-lg mt-2">Data Orcamento:{dayjs(orcamento.dataOrcamento).format("DD/MM/YYYY HH:mm:ss")}</span>
-    <span className="text-lg mt-2">Status:{orcamento.isPayed?"Orçamento Concluído":"Orçamento em Aberto"}</span>
+    <h5 className="mb-1 text-xl font-xl mt-2 dark:text-white">Orçamento Nº {orcamento?.id}</h5>
+    <span className="text-lg mt-2  ">{orcamento?.nomeCliente}</span>
+    <span className="text-lg mt-2">Data Orcamento:{dayjs(orcamento?.dataOrcamento).format("DD/MM/YYYY HH:mm:ss")}</span>
+    <span className="text-lg mt-2">Status:{orcamento?.isPayed?"Orçamento Concluído":"Orçamento em Aberto"}</span>
     <div className="mt-4 flex space-x-3 lg:mt-6">
       <p
-        onClick={()=>route.push(`/edit-budge/${orcamento.id}`)}
+        onClick={()=>route.push(`/edit-budge/${orcamento?.id}`)}
         className="inline-flex hover:underline  text-lg items-center rounded-lg px-4 py-2 text-center  font-medium text-blue-700"
       >
         Editar

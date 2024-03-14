@@ -36,6 +36,7 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 import OrcamentoPDF from '@/app/componentes/OrcamentoPDF';
 import IconEdit from '@/app/assets/icons/IconEdit';
 import { SearchIcon } from '@/app/assets/icons/SearchIcon';
+import { IOrcamento } from '@/app/interfaces/IOrcamento';
 
 
 
@@ -52,7 +53,7 @@ export default function ManageBudges({params}:any){
   const[nomeOrçamento,setNomeOrçamento] = useState<string>("DF")
 
   const[inventarioDialog,setInventarioDialog] = useState<IInventario>()
-  const [orcamento,setOrcamento]= useState<any>()
+  const [orcamento,setOrcamento]= useState<IOrcamento>()
 
   const [materiais,setMateriais]= useState<IInventario[] >([])
   const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
@@ -208,7 +209,7 @@ const handleUpdateOrcamento = async()=>{
   
   console.log(metodoPagamento)
   const budge = {
-    id:orcamento.id,
+    id:orcamento?.id,
     desconto:Number(desconto),
     tipoPagamento:metodoPagamento,
     nomeCliente:nomeCliente,
@@ -225,7 +226,7 @@ const handleUpdateOrcamento = async()=>{
 
   }
 
-  const res = await axios.put(`${url}/Orcamentos/${orcamento.id}`,budge).then(r=>{
+  const res = await axios.put(`${url}/Orcamentos/${orcamento?.id}`,budge).then(r=>{
 
     setOpenSnackBar(true);
     setSeveridadeAlert("success");
@@ -240,7 +241,7 @@ const handleUpdateOrcamentoToSell = async()=>{
   
  
   const budge = {
-    id:orcamento.id,
+    id:orcamento?.id,
     desconto:Number(desconto),
     tipoPagamento:metodoPagamento,
     nomeCliente:nomeCliente,
@@ -259,7 +260,7 @@ const handleUpdateOrcamentoToSell = async()=>{
 
   }
 
-  const res = await axios.put(`${url}/Orcamentos/sellUpdate/${orcamento.id}`,budge).then(r=>{
+  const res = await axios.put(`${url}/Orcamentos/sellUpdate/${orcamento?.id}`,budge).then(r=>{
 
     setOpenSnackBar(true);
     setSeveridadeAlert("success");
@@ -958,7 +959,7 @@ return(
           <Table.Cell className="text-center text-black"  >{row.material.precoVenda && "R$"}{row.material.precoVenda!=null? (row.material.precoVenda*row.quantidadeMaterial).toFixed(2).toString().replace(".",","):"Falta Preço De Venda"}  </Table.Cell>
 
           <Table.Cell>
-            {!orcamento.isPayed && (
+            {!orcamento?.isPayed && (
 
               <div className='text-center'>
                 <IconBxTrashAlt onClick={()=>handleDelete(row.id)} />
