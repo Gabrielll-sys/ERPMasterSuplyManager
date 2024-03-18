@@ -132,6 +132,7 @@ const buscaCodigoFabricante = async(codigo:string)=>
     }
     
     }
+
 }
   
   const handleChangeUpdatePage = async (id:number) => {
@@ -245,10 +246,6 @@ const buscaCodigoFabricante = async(codigo:string)=>
     return(
        
       <>
-   
-
-
-
  
       <div className=' w-full flex flex-row flex-wrap justify-center mt-6 '>
 

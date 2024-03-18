@@ -135,7 +135,7 @@ export default function OsManagement(){
   
   <h1 className='text-center font-bold text-2xl mt-6' >Gerenciamento de OS</h1>
   
-  <div className=' w-full flex flex-row justify-center mt-6 gap-2 '>
+  <div className=' w-full flex flex-row justify-center mt-6 gap-5 '>
    
   
 
@@ -143,7 +143,7 @@ export default function OsManagement(){
      <Autocomplete
          label="Numero OS "
          placeholder=""
-         className="max-w-[160px]  border-1 border-black rounded-xl shadow-sm shadow-black  "
+         className="max-w-[160px]  border-1 border-black rounded-md shadow-sm shadow-black  "
           onValueChange={setNumeroOs}
           value={numeroOs}
           allowsCustomValue
@@ -167,7 +167,7 @@ export default function OsManagement(){
          label="Nome da Ordem de Serviço "
          isDisabled={!ordemServicos}
          placeholder="Ordem Servicos"
-         className="max-w-2xl  border-1 border-black rounded-xl shadow-sm shadow-black "
+         className="max-w-2xl  border-1 border-black rounded-md shadow-sm shadow-black "
           onValueChange={setDescricaoOs}
           value={descricaoOs}
           
@@ -207,19 +207,20 @@ export default function OsManagement(){
       <div className=" flex flex-row flex-wrap gap-12 mt-16 justify-center pb-40 " >
   { ordemServicos!=undefined && ordemServicos.map((os:Os)=>(
 
- <Card key={os.id} className="max-w-[400px] min-w-[300px] border-1 border-black  shadow-lg shadow-black">
+ <Card key={os.id} className="max-w-[400px] hover:bg-master_yellow hover:scale-95 min-w-[300px] border-1 border-black  shadow-md shadow-black">
       <CardHeader className="flex gap-3">
-        <div className="flex flex-col w-full">
-          {os.isAuthorized ? (
+        <div className="flex flex-col w-full text-center">
+          {os.isAuthorized && (
 
        <IconCheckCircle className="self-center" fill="green"/>
-          ):
-          <IconScrewdriver className="self-center" fill="black"/>
+          )
           }
           
-          <p className="text-md text-black font-bold mt-2 p-1">{os.descricao}</p>
-          <p className="text-base text-black font-bold p-1 ">Status:{os.isAuthorized?"Concluída":" Em andamento"}</p>
-          <p className="text-base text-black font-bold p-1">Data abertura: {dayjs(os.dataAbertura).format("DD/MM/YYYY")},</p>
+          <div className={`${os.isAuthorized?"mt-2":"mt-10"}`}>
+            <p className="text-md text-black font-bold mt-2 p-1">{os.descricao}</p>
+            <p className="text-base text-black font-bold p-1 ">Status:{os.isAuthorized?"Concluída":" Em andamento"}</p>
+            <p className="text-base text-black font-bold p-1">Data abertura: {dayjs(os.dataAbertura).format("DD/MM/YYYY")}</p>
+          </div>
         </div>
       </CardHeader>
       <Divider className="bg-black"/>

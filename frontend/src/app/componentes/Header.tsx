@@ -18,7 +18,6 @@ import {
 } from "@nextui-org/react";
 
 import { Sidebar } from 'flowbite-react';
-import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag,HiFilter, HiPencilAlt,HiQrcode,HiPencil } from 'react-icons/hi';
 import IconQrCode from '@/app/assets/icons/IconQrCode';
 
 import { useRouter } from "next/navigation";
@@ -29,6 +28,7 @@ import TodoListPen from "../assets/icons/TodoListPen";
 import IconFilter from "../assets/icons/IconFilter";
 import IconMoneyBill from "../assets/icons/IconMoneyBill";
 import IconSideBar from "../assets/icons/IconSideBar";
+import SideBarLFT from "./SideBarLFT";
 
 const Header= ()=>{
     const { data: session } = useSession();
@@ -60,47 +60,12 @@ return(
     <IconSideBar  className=" rounded-lg h-10 text-white"  />
   </Button>
 {showSideBar && (
-  <Sidebar  onMouseLeave={x=>setShowSideBar(false)} className=" border-1 border-black border-l-1  h-svh absolute z-[16] ml-[-5px] " aria-label="Sidebar with multi-level dropdown example ">
-        <Sidebar.ItemGroup>
-   
-    <Button className="h-25 bg-white " onPress={handleSideBar}>
-
-    <Image  className="py-5 hover:scale-30 max-sm:mt-1 max-sm:w-[100px] max-sm:h-[80px] w-[130px] h-[100px]" src={require('../assets/logo_preta_sem_fundo.png')}  alt="logo master" />
-    </Button>
-    </Sidebar.ItemGroup>
+ 
+   <div   className="absolute" onMouseLeave={()=>setShowSideBar(false)}>
+     <SideBarLFT onMouseLeave={()=>setShowSideBar(false)}/>
+   </div>
 
 
-      <Sidebar.Items>
-        <Sidebar.ItemGroup>
-          <Sidebar.Item  href="/create-material" className="text-black hover:font-bold" icon={HiPencil}>
-            Criar Material
-          </Sidebar.Item>
-       
-          <Sidebar.Item className="text-black mt-7 hover:font-bold" href="/search-inventory" icon={HiInbox}>
-            Gestão de Inventário
-          </Sidebar.Item>
-          <Sidebar.Collapse className="text-black mt-7"label=" Orçamentos/Vendas" icon={HiPencilAlt}>
-
-          <Sidebar.Item className="text-black mt-3 hover:font-bold" href="/create-budge" >
-              Criar Orçamento
-          </Sidebar.Item>
-          <Sidebar.Item className="text-black mt-3 hover:font-bold" href="/manage-budges" >
-              Orçamentos
-          </Sidebar.Item>
-          </Sidebar.Collapse>
-
-          <Sidebar.Item className="text-black mt-7 hover:font-bold" href="/managing-os" icon={HiShoppingBag}>
-            Gestão de OS
-          </Sidebar.Item>
-          <Sidebar.Item className="text-black mt-7 hover:font-bold" href="/generateMaterialQrcode" icon={HiQrcode}>
-            Gerador De QrCode
-          </Sidebar.Item>
-          <Sidebar.Item className="text-black mt-7 hover:font-bold" href="/materials-relatory" icon={HiFilter}>
-           Filtragem de Materiais
-          </Sidebar.Item>
-        </Sidebar.ItemGroup>
-      </Sidebar.Items>
-    </Sidebar>
 )}
 
 
@@ -140,60 +105,7 @@ return(
       </p>
     </DropdownItem>
 
-    {/* <DropdownItem
-      key="ManagingOs"
-      
-      className="text-start hover:underline"
-      color="default"
-      endContent={<TodoListPen/>}
-      onClick={()=>route.push('/managing-os')}
-
-    >
-      <p className="font-semibold text-base p-5">
-       Gerenciamento de OS
-      </p>
-    </DropdownItem>
-    <DropdownItem
-      key="MaterialsRelatory"
-      
-      className="text-start hover:underline"
-      color="default"
-      endContent={<IconFilter/>}
-      onClick={()=>route.push('/materials-relatory')}
-
-    >
-      <p className="font-semibold text-base p-5">
-       Filtragem de Materiais
-      </p>
-    </DropdownItem>
-    <DropdownItem
-      key="MaterialsRelatory"
-      
-      className="text-start hover:underline"
-      color="default"
-      endContent={<IconMoneyBill/>}
-      onClick={()=>route.push('/budge-management')}
-
-    >
-      <p className="font-semibold text-base p-5">
-      Gerenciador de Orçamentos
-      </p>
-    </DropdownItem>
     
-    <DropdownItem
-      key="QrCodeMaterial"
-      
-      className="text-start hover:underline"
-      color="default"
-      endContent={<IconQrCode/>}
-      onClick={()=>route.push('/generateMaterialQrcode')}
-
-    >
-      <p className="font-semibold text-base p-5">
-        Gerador código QR Code
-      </p>
-    </DropdownItem>
-     */}
     <DropdownItem
       key="logout"
       color="danger"

@@ -15,15 +15,18 @@ namespace SupplyManager.Models
 
         public string Senha { get; set; }
 
+        public Perfil PefilUsuario { get; set; }
 
         public enum Perfil
         {
             [Description("Administrador")]
             Administrador,
-            [Description("Auditor Fiscal")]
-
-            AuditorFiscal,
-            
+            [Description("Diretor")]
+            Diretor,
+            [Description("Desenvolvedor")]
+            Desenvolvedor,
+            [Description("Personalizado")]
+            Personalizado
         }
 
 

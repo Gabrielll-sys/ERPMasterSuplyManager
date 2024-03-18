@@ -155,7 +155,7 @@ return(
       
       {orcamentos!=undefined && orcamentos.length>1&& orcamentos.map((x:any)=>(
 
-      <Card key={x.id}  className="min-w-[370px] hover:bg-master_yellow hover:scale-110 bg-white border-black border-1 shadow-md shadow-black">
+      <Card key={x.id}  className="min-w-[370px] hover:bg-master_yellow hover:scale-95 bg-white border-black border-1 shadow-md shadow-black">
       
         <div className="flex flex-col items-center pb-4">
       

@@ -37,6 +37,7 @@ import OrcamentoPDF from '@/app/componentes/OrcamentoPDF';
 import IconEdit from '@/app/assets/icons/IconEdit';
 import { SearchIcon } from '@/app/assets/icons/SearchIcon';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
+import { searchByDescription } from '@/app/services/MaterialServices';
 
 
 
@@ -124,41 +125,27 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
 
   },[materiaisOrcamento])
 
-  useEffect(()=>{
-    searchByDescription()
 
-  },[descricao])
-
-  const searchByDescription = async () => {
-
-
-
-   try{
-    if(descricao.length){
-
-      const res = await axios
-      .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao.split("#").join(".")}`)
-      .then( (r)=> {
+  const buscarDescricao = async(descricao:string)=>
+  {
+    setDescricao(descricao)
+      if(descricao.length>3)
+      {
+        try{
   
-       return r.data
-       
-      })
-      .catch();
-      console.log(res)
+          const res =  await searchByDescription(descricao)
+          console.log(res)
+          setMateriais(res)
+        }
+      catch(e)
+      {
+        console.log(e)
+      }
+      
+      }
   
-      setMateriais(res)
-    }
-
-   }
-   catch(e) 
-   
-   { 
-   
-
-console.log(e)
-   }
   
-};
+  }
   const getAllMateriaisInOrcamento = async(id:number)=>{
 
       const res = await axios.get(`${url}/ItensOrcamento/GetAllMateriaisOrcamento/${id}`).then((r)=>{
@@ -808,7 +795,7 @@ return(
              startContent={<SearchIcon className="text-default-400" strokeWidth={2.5} size={20} />}
              allowsCustomValue
             value={descricao}
-            onValueChange={(x:any)=>setDescricao(x)}
+            onValueChange={(x:any)=>buscarDescricao(x)}
              className="max-w-[450px] min-w-[400px] ml-6 self-center border-1 border-black rounded-xl shadow-sm shadow-black"
            >
   
