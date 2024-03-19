@@ -53,12 +53,6 @@ export default function BudgeManagement({params}:any){
   const doc = new jsPDF()
     let date = dayjs()
 
-    const bordas:any= {
-      top: {style:'thin'},
-      left: {style:'thin'},
-      bottom: {style:'thin'},
-      right: {style:'thin'}
-    }
 
 const handleCreateBudge = async ()=>{
 
@@ -69,27 +63,20 @@ const orcamento : IOrcamento = {
   endereco:endereco.trim().replace(/\s\s+/g, " "),
   desconto:Number(desconto),
   tipoPagamento:metodoPagamento==""?"PIX":metodoPagamento,
-  responsavelOrcamento:session?.user?.name?
+  responsavelOrcamento:session?.user?.name
 
 }
 
 const res = await axios.post(`${url}/Orcamentos`, orcamento).then(r=>{
 
   route.push(`/edit-budge/${r.data.id}`)
+
 }).catch(e=>console.log(e))
 
 }
-   const handleCreateItemOrcamento = async()=>{
+  
 
-    const item ={
-      quantidadeMaterial:2,
-      materialId:20,
-
-
-    }
-
-
-   }
+   
       
 
 

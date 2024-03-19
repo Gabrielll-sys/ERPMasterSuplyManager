@@ -9,7 +9,7 @@ import { use, useEffect, useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import "dayjs/locale/pt-br";
 import { url } from '@/app/api/webApiUrl';
-
+import { stringSimilarity } from "string-similarity-js";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import IMaterial from '@/app/interfaces/IMaterial';
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -131,7 +131,7 @@ const getOrcamentoById = async()=>{
   }
 }
 
-
+console.log(stringSimilarity("DISJUNTOR MOTOR MPW80 50 - 65A","DISJUNTOR TRIPOLAR PARA MOTOR 50-65A MPW803U050 WEG"))
 return(
     <>
       <h1 className='text-center text-2xl mt-4' onClick={()=>console.log(orcamento)}>Orçamentos</h1>
@@ -155,7 +155,7 @@ return(
       
       {orcamentos!=undefined && orcamentos.length>1&& orcamentos.map((x:any)=>(
 
-      <Card key={x.id}  className="min-w-[370px] hover:bg-master_yellow hover:scale-95 bg-white border-black border-1 shadow-md shadow-black">
+      <Card key={x.id}  className="min-w-[370px] hover:-translate-y-2 hover:bg-master_yellow transition duration-75  ease-in-out bg-white border-black border-1 shadow-md shadow-black">
       
         <div className="flex flex-col items-center pb-4">
       

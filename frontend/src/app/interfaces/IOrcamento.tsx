@@ -1,6 +1,6 @@
  export interface IOrcamento {
     id?: number;
-    responsavelOrcamento?: string;
+    responsavelOrcamento?: string | null;
     nomeCliente?: string;
     empresa?: string;
     emailCliente?: string;

@@ -226,6 +226,7 @@ const handleUpdateOrcamento = async()=>{
 }
 const handleUpdateOrcamentoToSell = async()=>{
   
+  setconfirmAuthorizeMessage("")
  
   const budge = {
     id:orcamento?.id,
@@ -246,6 +247,7 @@ const handleUpdateOrcamentoToSell = async()=>{
 
 
   }
+  console.log(orcamento)
 
   const res = await axios.put(`${url}/Orcamentos/sellUpdate/${orcamento?.id}`,budge).then(r=>{
 
@@ -303,7 +305,8 @@ const handleUpdateOrcamentoToSell = async()=>{
 
     }).catch(e=>console.log(e))
 
-
+      setMateriais([])
+      setDescricao("")
       handleCloseDialog()
     }
     const getInfosBudge =  async()=>{
@@ -722,7 +725,7 @@ return(
                         className="  border-1 border-black rounded-md shadow-sm shadow-black  max-w-[354px]  min-w-[354px]"
                         onValueChange={setDesconto}
                         isReadOnly = {orcamento?.isPayed}
-                        label="Desconto %"
+                        label="Desconto % Sobre Total do Orçamento"
                         endContent={<span>%</span>}
                       />
                          </div>
@@ -793,10 +796,9 @@ return(
              isDisabled={!materiais}
              placeholder="Procure um material"
              startContent={<SearchIcon className="text-default-400" strokeWidth={2.5} size={20} />}
-             allowsCustomValue
             value={descricao}
             onValueChange={(x:any)=>buscarDescricao(x)}
-             className="max-w-[450px] min-w-[400px] ml-6 self-center border-1 border-black rounded-xl shadow-sm shadow-black"
+             className="max-w-[550px] min-w-[500px] ml-6 self-center border-1 border-black rounded-xl shadow-sm shadow-black"
            >
   
            {materiais.map((item:IInventario) => (
@@ -809,7 +811,18 @@ return(
   
                <p className='text-xs'>{item.material?.marca}</p>
                 {!hasMaterial(item) &&
-                <IconPlus  height="1.3em" width="1.3em" onClick={()=>handleOpenDialog(item)} />
+                //   <Input
+                //   type='number'
+                //   autoFocus
+                //   label="Insira a Quantidade"
+                //   className="border-1   z-10 border-black rounded-xl shadow-sm shadow-black mt-7 ml-5 mr-5 w-[150px] max-h-14"
+                //   onValueChange={(x:any)=>handleInputQuantidade(x)}
+                
+                //   value={quantidadeMaterial}
+                // />
+              
+                 <IconPlus  height="1.3em" width="1.3em" onClick={()=>handleOpenDialog(item)} />
+
                 }
   
                </>
@@ -925,7 +938,7 @@ return(
           <Table.Cell className="  text-center font-medium text-gray-900 dark:text-white max-w-[120px]">
           {row.material.id}
           </Table.Cell>
-          <Table.Cell className="text-center text-black" >{row.material.descricao}</Table.Cell>
+          <Table.Cell className="text-left text-black" >{row.material.descricao}</Table.Cell>
             {orcamento?.isPayed ?(
           <Table.Cell className="text-center text-black" >{row.quantidadeMaterial}</Table.Cell>
 
@@ -1019,7 +1032,7 @@ return(
                 <Button color="danger" variant="light" onPress={onClose}>
                   Fechar
                 </Button>
-                <Button isDisabled={confirmAuthorizeMessage!="AUTORIZAR"} color="primary" onPress={handleUpdateOrcamentoToSell}>
+                <Button isDisabled={confirmAuthorizeMessage!="AUTORIZAR"|| orcamento?.isPayed } color="primary" onPress={handleUpdateOrcamentoToSell}>
                   Autorizar
                 </Button>
               </ModalFooter>

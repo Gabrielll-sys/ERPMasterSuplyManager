@@ -61,7 +61,7 @@ return(
   </Button>
 {showSideBar && (
  
-   <div   className="absolute" onMouseLeave={()=>setShowSideBar(false)}>
+   <div   className="absolute z-10" onMouseLeave={()=>setShowSideBar(false)}>
      <SideBarLFT onMouseLeave={()=>setShowSideBar(false)}/>
    </div>
 
