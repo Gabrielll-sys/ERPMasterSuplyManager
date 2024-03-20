@@ -7,29 +7,29 @@ namespace SupplyManager.Models
 
     public class Usuario
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
-        public string Nome { get; set; }
+        public string? Nome { get; set; }
 
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
-        public string Senha { get; set; }
+        public string? Senha { get; set; }
 
-        public Perfil PefilUsuario { get; set; }
-
-        public enum Perfil
+        public Perfil? PerfilUsuario { get; set; }
+    }
+    public enum Perfil
         {
-            [Description("Administrador")]
-            Administrador,
             [Description("Diretor")]
             Diretor,
-            [Description("Desenvolvedor")]
-            Desenvolvedor,
+            [Description("Administrador")]
+            Administrador,
             [Description("Personalizado")]
-            Personalizado
+            Personalizado,
+            [Description("Cliente")]
+            Cliente
         }
 
 
 
-    }
+    
 }

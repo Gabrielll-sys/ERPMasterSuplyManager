@@ -38,6 +38,7 @@ import IconEdit from '@/app/assets/icons/IconEdit';
 import { SearchIcon } from '@/app/assets/icons/SearchIcon';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import { searchByDescription } from '@/app/services/MaterialServices';
+import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
 
 
 
@@ -507,6 +508,14 @@ console.log(item.quantidadeMaterial)
 
     }
 
+    const handleKeyEvent = (value:any)=>{
+
+      if(value.key == "Enter"){
+        console.log("Foi Enter")
+      }
+
+    }
+
     const createXlsxPlanilha = async (workbook:Excel.Workbook)=>{
 
       let buffer = await workbook.xlsx.writeBuffer();
@@ -747,6 +756,7 @@ return(
                   <Autocomplete
                       label="Método Pagamento $"
                       placeholder="EX:PIX"
+                      
                       className=" w-[250px]  shadow-sm shadow-black h-14  ml-5 mr-5 w"
                       value={metodoPagamento}
                       onSelectionChange={setMetodoPagamento}
@@ -805,23 +815,16 @@ return(
   
               <AutocompleteItem
                key={item.id}
+               onClick={()=>!hasMaterial(item) && handleOpenDialog(item) }
+
                aria-label='teste'
                endContent={
                <>
   
                <p className='text-xs'>{item.material?.marca}</p>
-                {!hasMaterial(item) &&
-                //   <Input
-                //   type='number'
-                //   autoFocus
-                //   label="Insira a Quantidade"
-                //   className="border-1   z-10 border-black rounded-xl shadow-sm shadow-black mt-7 ml-5 mr-5 w-[150px] max-h-14"
-                //   onValueChange={(x:any)=>handleInputQuantidade(x)}
-                
-                //   value={quantidadeMaterial}
-                // />
+                {hasMaterial(item) &&
               
-                 <IconPlus  height="1.3em" width="1.3em" onClick={()=>handleOpenDialog(item)} />
+                 <p>Já Presente Na Lista</p>
 
                 }
   
@@ -836,25 +839,28 @@ return(
             </Autocomplete>
               )}
               
-     
-         <Button 
-      isDisabled={!nomeOrçamento?.length}
-        className="bg-master_black text-white w-[330px] p-3 my-auto rounded-lg font-bold text-base shadow-lg ml-10 "
-        >
    
 
-          <PDFDownloadLink document={   <OrcamentoPDF 
-          materiaisOrcamento ={materiaisOrcamento} 
-          nomeUsuario={session?.user?.name}
-          orcamento={orcamento}
-          desconto = {precoVendaComDesconto}
-          
-          />} fileName={"Orçamento Nº"+ orcamento?.id+ " Para "+ orcamento?.nomeCliente +".pdf"}>
-               {orcamento?.isPayed ?"Gerar PDF de Venda":"Gerar PDF De Orçamento"}
-           
-            </PDFDownloadLink>
-        
-          </Button> 
+
+           <Button
+        isDisabled={!nomeOrçamento?.length}
+          className="bg-master_black text-white w-[330px] p-3 my-auto rounded-lg font-bold text-base shadow-lg ml-3 "
+          >
+            <PDFDownloadLink document={   <OrcamentoPDF
+            materiaisOrcamento ={materiaisOrcamento}
+            nomeUsuario={session?.user?.name}
+            orcamento={orcamento}
+            desconto = {precoVendaComDesconto}
+       
+            />} fileName={"Orçamento Nº"+ orcamento?.id+ " Para "+ orcamento?.nomeCliente +".pdf"}>
+                <div className='flex flex-row gap-2'>
+                  <IconFileEarmarkPdf  height="1.5em" width="1.5em" />
+                   {orcamento?.isPayed ?"Gerar PDF de Venda":"Gerar PDF De Orçamento"}
+                </div>
+              </PDFDownloadLink>
+       
+            </Button>
+    
   </div>
 
            <Dialog open={openDialog} onClose={handleCloseDialog} >

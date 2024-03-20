@@ -105,6 +105,10 @@ C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bi
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\Microsoft.NET.StringTools.dll
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\Microsoft.OData.Core.dll
@@ -152,6 +156,7 @@ C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bi
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\System.Drawing.Common.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\System.Reflection.MetadataLoadContext.dll
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll

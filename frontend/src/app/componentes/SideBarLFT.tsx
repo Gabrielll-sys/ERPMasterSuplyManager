@@ -18,7 +18,7 @@ export default function SideBarLFT(props : any) {
   
  
 
-  <Sidebar   className=" border-1 border-black border-l-1  h-svh z-[16] ml-[-5px] " aria-label="Sidebar with multi-level dropdown example ">
+  <Sidebar   className=" border-1 border-black border-l-1 h-svh z-[16] ml-[-5px] " aria-label="Sidebar with multi-level dropdown example ">
         <Sidebar.ItemGroup>
    
     <Button className="h-25 bg-white " >
@@ -56,6 +56,16 @@ export default function SideBarLFT(props : any) {
           <Sidebar.Item className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/materials-relatory" icon={HiFilter}>
            Filtragem de Materiais
           </Sidebar.Item>
+          <Sidebar.Collapse className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out"label=" Gestão De Usuários">
+
+          <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/create-user" >
+              Criar Usuário
+          </Sidebar.Item>
+
+          <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/manage-budges" >
+              Gerenciar Usuários
+          </Sidebar.Item>
+          </Sidebar.Collapse>
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>

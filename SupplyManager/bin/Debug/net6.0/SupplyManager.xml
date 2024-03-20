@@ -742,5 +742,49 @@
         <member name="M:SupplyManager.Migrations.v36.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:SupplyManager.Migrations.v37">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v37.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v37.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v37.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v38">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v38.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v38.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v38.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Delivery.Users.API.Extensions.ResponseExtension">
+            <summary>
+            Extensions to handle with the responses
+            </summary>
+        </member>
+        <member name="M:Delivery.Users.API.Extensions.ResponseExtension.ToValidationErrorReponse(FluentValidation.Results.ValidationResult)">
+            <summary>
+            Handle with validation objects
+            </summary>
+            <param name="validationResult">The validation result</param>
+            <returns>The default validation response</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Delivery.Users.API.Extensions.ResponseExtension.ToNotFoundReponse(Microsoft.AspNetCore.Mvc.NotFoundResult,System.String)" -->
+        <member name="M:Delivery.Users.API.Extensions.ResponseExtension.ToErrorReponse(System.Exception)">
+            <summary>
+            Handle the exceptions to a readable format
+            </summary>
+            <param name="exception">The exception object</param>
+            <returns>The exception default response</returns>
+        </member>
     </members>
 </doc>
