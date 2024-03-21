@@ -84,22 +84,27 @@ const res = await axios.post(`${url}/Orcamentos`, orcamento).then(r=>{
 return(
     <>
     <h1 className='text-center text-2xl mt-4'>Informações Do Cliente</h1>
-    <div className='flex flex-row justify-center  '>
+    <div className='flex flex-row justify-center mt-8'>
+
     <Input
+        label = "Nome Cliente"
+        labelPlacement='outside'
         value={nomeCliente}
-        className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
+        className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px] "
         onValueChange={setNomeCliente}
-        label="Nome" 
       />
 
     <Input
+         label = "Email Cliente"
+        labelPlacement='outside'
         value={emailCliente}
         className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
         onValueChange={setEmailCliente}
-        label="Email" 
+
       />
     <Input
-    type='number'
+        labelPlacement='outside'
+        type='number'
         value={telefone}
         className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
         onValueChange={setTelefone}
@@ -107,6 +112,7 @@ return(
         label="Telefone" 
       />
     <Input
+        labelPlacement='outside'
         value={endereco}
         className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
         onValueChange={setEndereco}
@@ -114,6 +120,7 @@ return(
         label="Endereço" 
       />
   <Input
+        labelPlacement='outside'
         value={cpfOrCnpj}
         type='number'
         className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
@@ -122,22 +129,24 @@ return(
         label="CPF ou CNPJ" 
       />
     </div>
-  <h1 className='text-center text-2xl mt-7'>Informações do Orçamento</h1>
-    <div className=' justify-center flex flex-row items-center'>
+  {/* <h1 className='text-center text-2xl mt-7'>Informações do Orçamento</h1>
+    <div className=' justify-center flex flex-row items-center gap-4'>
 
     <Input
+        labelPlacement='outside'
         value={desconto}
         type='text'
-        className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
+        className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px]"
         onValueChange={setDesconto}
         placeholder='2.5%'
         label="Desconto" 
         endContent={<span>%</span>}
       />
+
   <Autocomplete
                     label="Método Pagamento $"
-                    placeholder="EX:PIX"
-                    className=" w-[250px] border-1 border-black rounded-md shadow-sm shadow-black h-14 mt-10 ml-5 mr-5 w"
+                
+                    className=" w-[250px] border-1 border-black rounded-md shadow-sm shadow-black mt-10  "
                     allowsCustomValue
                       value={metodoPagamento}
                       onSelectionChange={setMetodoPagamento}
@@ -158,7 +167,7 @@ return(
                     ))}
                     </Autocomplete>
 
-    </div>
+    </div> */}
       <div className='flex flex-row justify-center mt-16'>
         <Button  isDisabled={!nomeCliente} onPress={handleCreateBudge} className='bg-master_black text-white p-7 rounded-md font-bold text-2xl shadow-lg  '>
            Criar Orçamento

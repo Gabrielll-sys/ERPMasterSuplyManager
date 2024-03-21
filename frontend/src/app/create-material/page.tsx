@@ -20,13 +20,7 @@ import {
   Input
  } from '@nextui-org/react';
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
-// import Table from "@mui/material/Table";
-// import TableBody from "@mui/material/TableBody";
-// import TableCell from "@mui/material/TableCell";
-// import TableContainer from "@mui/material/TableContainer";
-// import TableHead from "@mui/material/TableHead";
-// import TableRow from "@mui/material/TableRow";
-// import Paper from "@mui/material/Paper";
+
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
@@ -45,6 +39,7 @@ import GoogleIcon from "../assets/icons/GoogleIcon";
 import SpinnerForButton from "../componentes/SpinnerButton";
 import { Table } from "flowbite-react";
 import { searchByDescription, searchByFabricanteCode } from "../services/MaterialServices";
+import IconPencil from "../assets/icons/IconPencil";
 
 export default function CreateMaterial(){
   const route = useRouter()
@@ -247,142 +242,117 @@ const buscaCodigoFabricante = async(codigo:string)=>
        
       <>
  
-      <div className=' w-full flex flex-row flex-wrap justify-center mt-6 '>
-
-       
-        <Input
-          value={codigoFabricante}
-          className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-          onValueChange={(e) => buscaCodigoFabricante(e)}
-          label="Cód Fabricante"
-          
-        />
-
-        <Input
-          value={descricao}
-          className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[400px]"
-          onValueChange={(x)=>buscarDescricao(x)}
-          label="Descrição"
-          required
-        />
- 
-        <Input
-          value={marca}
-          className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-          onValueChange={setMarca}
-          label="Marca"
-        />
-        <Input
-          value={localizacao}
-          className=" border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[150px]"
-          onValueChange={setLocalizacao}
-          label="Localização"
-        />
-          </div>
-      <div className=' w-full flex flex-row flex-wrap justify-center'>
-
-        <Input
-        type="number"
-        value={precoCusto}
-        className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-        onValueChange={setPrecoCusto}
-        label="Preço Custo"
-        startContent={
-          <span>R$</span>
-        }
-       
-      />
-      <Input
+      <div className="flex flex-col gap-4">
+        <div className=' w-full flex flex-row flex-wrap justify-center mt-6  gap-6'>
+        
+          <Input
+            value={codigoFabricante}
+            className="border-1 border-black rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
+            onValueChange={(e) => buscaCodigoFabricante(e)}
+            label="Cód Fabricante"
+        
+          />
+          <Input
+            value={descricao}
+            className="border-1 border-black rounded-md shadow-sm shadow-black mt-10  w-[400px]"
+            onValueChange={(x)=>buscarDescricao(x)}
+            label="Descrição"
+            required
+          />
+          <Input
+            value={marca}
+            className="border-1 border-black rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
+            onValueChange={setMarca}
+            label="Marca"
+          />
+          <Input
+            value={localizacao}
+            className=" border-1 border-black rounded-md shadow-sm shadow-black mt-10  w-[180px]"
+            onValueChange={setLocalizacao}
+            label="Localização"
+          />
+            </div>
+        <div className=' w-full flex flex-row flex-wrap justify-center gap-7 '>
+          <Input
           type="number"
-          value={markup}
-          className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-          onValueChange={setMarkup}
-          endContent={
-            <span>%</span>
+          value={precoCusto}
+          className="border-1 border-black rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
+          onValueChange={setPrecoCusto}
+          label="Preço Custo"
+          startContent={
+            <span>R$</span>
           }
-          label="Markup"
         
         />
- 
- <Autocomplete
-       label="Unidade "
-       placeholder="EX:127V"
-       className="max-w-[180px] border-1 border-black rounded-md shadow-sm shadow-black h-14 mt-10 ml-5 mr-5 w"
-       allowsCustomValue
-        
-     >
-     
-     {tensoes.map((item:any) => (
-      
-        <AutocompleteItem
-         key={item.id} 
-         aria-label='teste'
-        
-        
-         
-      
-          value={item}
-          >
-          {item}
-        </AutocompleteItem>
-      ))}
-      </Autocomplete>
-
         <Input
-          value={corrente}
-          className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-          onValueChange={setCorrente}
-          label="Corrente"
-        />
-
-     
-
-  
-    <Autocomplete
-       label="Unidade "
-       placeholder="EX:MT"
-       className="max-w-[180px] border-1 border-black rounded-md shadow-sm shadow-black h-14 mt-10 ml-5 mr-5 w"
-        value={unidade}
-        onValueChange={setUnidade}
-     >
-     
-     {unidadeMaterial.map((item:any) => (
-      
-        <AutocompleteItem
-         key={item.id} 
-         aria-label='teste'
+            type="number"
+            value={markup}
+            className="border-1 border-black rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
+            onValueChange={setMarkup}
+            endContent={
+              <span>%</span>
+            }
+            label="Markup"
         
+          />
+              <Input
+            value={corrente}
+            className="border-1 border-black rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
+            onValueChange={setCorrente}
+            label="Corrente"
+          />
+            <Autocomplete
+         label="Tensão"
+         placeholder="EX:127V"
+         className="max-w-[180px] border-1 border-black rounded-md shadow-sm mt-10 shadow-black  "
+       
+          
+             >
+             
+             {tensoes.map((item:any) => (
         
-         
-      
-          value={item}
-          >
-          {item}
-        </AutocompleteItem>
-      ))}
-      </Autocomplete>
-
-  
-        {/* <div style={{ marginTop: "40px", width: "190px",marginLeft:"20px" }}>
-          <LocalizationProvider
-            dateAdapter={AdapterDayjs}
-            adapterLocale="pt-br"
-          >
-            <DatePicker
-              label="Data Entrada NF"
-              className="shadow-lg"
-              value={dataentrada}
-              onChange={(e) => setDataentrada(e)}
-              slotProps={{ textField: { variant: 'filled' }}}
-            />
-          </LocalizationProvider>
-        </div> */}
+          <AutocompleteItem
+           key={item.id}
+           aria-label='teste'
+        
+            value={item}
+            >
+            {item}
+          </AutocompleteItem>
+        ))}
+        </Autocomplete>
+   
+             
+        
+          
+            <Autocomplete
+         label="Unidade "
+         placeholder="EX:MT"
+         className="max-w-[180px] border-1 border-black rounded-md shadow-sm shadow-black mt-10  "
+          value={unidade}
+          onValueChange={setUnidade}
+             >
+             
+             {unidadeMaterial.map((item:any) => (
+        
+          <AutocompleteItem
+           key={item.id}
+           aria-label='teste'
+            value={item}
+            >
+            {item}
+          </AutocompleteItem>
+        ))}
+        </Autocomplete>
+        </div>
+        
       </div>
 
         {session &&(
 <>
       <div className='text-center mt-8 '>
-      <Button  onPress={handleCreateMaterial} className='bg-master_black text-white p-7 rounded-lg font-bold text-2xl shadow-lg '>
+      <Button  onPress={handleCreateMaterial} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
+        <IconPencil/>
           {loadingButton?<Spinner size="md" color="warning"/>:"Criar Material"}
       </Button>
      

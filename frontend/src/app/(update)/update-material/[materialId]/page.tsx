@@ -263,6 +263,7 @@ console.log(material)
        />
        <Input
           type="number"
+       labelPlacement="outside"
         
            value={markup}
            className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"

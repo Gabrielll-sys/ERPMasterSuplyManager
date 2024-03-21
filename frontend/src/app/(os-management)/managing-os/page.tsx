@@ -207,7 +207,7 @@ export default function OsManagement(){
       <div className=" flex flex-row flex-wrap gap-12 mt-16 justify-center pb-40 " >
   { ordemServicos!=undefined && ordemServicos.map((os:Os)=>(
 
- <Card key={os.id} className="max-w-[400px] hover:bg-master_yellow hover:scale-95 min-w-[300px] border-1 border-black  shadow-md shadow-black">
+ <Card key={os.id} className="max-w-[400px] hover:bg-master_yellow hover:-translate-y-3 min-w-[300px] border-1 border-black  shadow-md shadow-black">
       <CardHeader className="flex gap-3">
         <div className="flex flex-col w-full text-center">
           {os.isAuthorized && (

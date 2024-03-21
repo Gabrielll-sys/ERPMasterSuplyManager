@@ -1,10 +1,9 @@
-using FluentValidation;
-using FluentValidation.Internal;
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
 using SupplyManager.App;
 using SupplyManager.Interfaces;
 using SupplyManager.Models;
@@ -14,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +25,29 @@ options.UseMySql(mySqlConnection, new MySqlServerVersion(new Version())
 builder.Services.AddDbContextPool<SqlContext>(options =>
 
 options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection)));
+
+
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    // Adding Jwt Bearer
+    .AddJwtBearer(options =>
+    {
+        options.SaveToken = true;
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Ry74cBQva5dThwbwchR9jhbtRFnJxWSZ"))
+        };
+    });
+
 
 
 #region Swagger Documentation  Configuration
@@ -97,6 +120,7 @@ app.UseCors(option => option.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

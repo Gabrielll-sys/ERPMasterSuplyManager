@@ -678,60 +678,65 @@ return(
         <ArrowLeft /> Retornar
       </Link>
 
-      <h1 className='text-center text-2xl mt-8'>Orçamento Nº {orcamento?.id}</h1>
+      <h1 className='text-center text-2xl mt-4'>Orçamento Nº {orcamento?.id}</h1>
       <div className='flex flex-col  mt-10  gap-3 justify-center text-center   '>
 
       <div className='flex flex-col self-center max-w-[1200px] gap-7 '>
-              <div className='flex flex-row  justify-between w-[800px]'>
-                <Input
+              <div className='flex flex-row  justify-between w-[600px]'>
+                <Input        
+                              labelPlacement='outside'
                               value={nomeCliente}
-                              className=" border-1 border-black rounded-md shadow-sm shadow-black max-w-[354px]  min-w-[354px]"
+                              className=" border-1 border-black rounded-md shadow-sm shadow-black max-w-[254px]  min-w-[254px]"
                               onValueChange={setNomeCliente}
                               placeholder='99283-4235'
                               label="Nome do Cliente"
                             />
                                 <Input
+                                 labelPlacement='outside'
                               value={endereco}
-                              className=" border-1 border-black rounded-md shadow-sm shadow-black  max-w-[354px]  min-w-[354px]"
+                              className=" border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px]"
                               onValueChange={setEndereco}
                               placeholder='Rua Numero e Bairro'
                               label="Endereço"
                               />
                      
               </div>
-                    <div className='flex flex-row justify-between w-[800px]'>
+                    <div className='flex flex-row justify-between w-[600px]'>
                       <Input
+                              labelPlacement='outside'
                               value={emailCliente}
-                              className=" border-1 border-black rounded-md shadow-sm shadow-black  max-w-[354px]  min-w-[354px]"
+                              className=" border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px]"
                               onValueChange={setEmailCliente}
                               placeholder='abcde@gmail.com'
                               label="Email"
                             />
+                            
                              <Input
-                             
+                                   labelPlacement='outside'
                                   value={cpfOrCnpj}
-                                  className="border-1 border-black rounded-md shadow-sm shadow-black  max-w-[354px]  min-w-[354px]"
+                                  className="border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px]"
                                   onValueChange={setCpfOrCnpj}
                                   placeholder='99283-4235'
                                   label="CPF OU CNPJ"
                                 />  
                       
                     </div>
-                         <div className=' flex flex-row w-[800px] justify-between '>
+                         <div className=' flex flex-row w-[600px] justify-between '>
                        
                          <Input
-                             
+                              labelPlacement='outside'
                               value={telefone}
-                              className="border-1 border-black rounded-md shadow-sm shadow-black  max-w-[354px]  min-w-[354px]"
+                              className="border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px]"
                               onValueChange={setTelefone}
                               placeholder='99283-4235'
                               label="Telefone"
                             />              
 
                 <Input
+                        labelPlacement='outside'
                         value={desconto}
                         type='number'
-                        className="  border-1 border-black rounded-md shadow-sm shadow-black  max-w-[354px]  min-w-[354px]"
+                        className="  border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px]"
                         onValueChange={setDesconto}
                         isReadOnly = {orcamento?.isPayed}
                         label="Desconto % Sobre Total do Orçamento"
@@ -781,8 +786,8 @@ return(
       </div>
 
              {orcamento?.isPayed ? (
-                  <div className='flex flex-row gap-5 mt-4 self-center'>
-                  <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg shadow-lg ' onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
+                  <div className='flex flex-row mt-4 self-center'>
+                  <Button  className='bg-master_black max-w-[200px]  text-white p-5 mx-auto rounded-lg font-bold text-lg shadow-lg ' onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
               
                 </div>
              ):
@@ -844,7 +849,7 @@ return(
 
            <Button
         isDisabled={!nomeOrçamento?.length}
-          className="bg-master_black text-white w-[330px] p-3 my-auto rounded-lg font-bold text-base shadow-lg ml-3 "
+          className={`bg-master_black text-white w-[225px] ${orcamento?.isPayed?"w-[225px]":"w-[275px]"} p-3 my-auto rounded-lg font-bold text-base shadow-lg ml-3 `}
           >
             <PDFDownloadLink document={   <OrcamentoPDF
             materiaisOrcamento ={materiaisOrcamento}
@@ -854,8 +859,8 @@ return(
        
             />} fileName={"Orçamento Nº"+ orcamento?.id+ " Para "+ orcamento?.nomeCliente +".pdf"}>
                 <div className='flex flex-row gap-2'>
-                  <IconFileEarmarkPdf  height="1.5em" width="1.5em" />
-                   {orcamento?.isPayed ?"Gerar PDF de Venda":"Gerar PDF De Orçamento"}
+                  <IconFileEarmarkPdf  height="1.3em" width="1.3em" />
+                  Gerar PDF De Orçamento
                 </div>
               </PDFDownloadLink>
        
