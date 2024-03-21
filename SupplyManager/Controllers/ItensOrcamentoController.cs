@@ -89,7 +89,7 @@ namespace SupplyManager.Controllers
 
             var materias = _context.Materiais;
             var orcamento = _context.Orcamentos;
-            var itens = await _context.ItensOrcamento.ToListAsync();
+            var itens = await _context.ItensOrcamento.Include(x=>x.Material).OrderBy(x=>x.Material.Descricao).ToListAsync();
 
 
             foreach (var item in itens)
@@ -109,7 +109,7 @@ namespace SupplyManager.Controllers
                     itensWithMaterial.Add(item);
 
                 }
-
+               
 
 
 

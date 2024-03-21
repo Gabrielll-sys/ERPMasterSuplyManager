@@ -416,20 +416,20 @@ namespace SupplyManager.Migrations
 
             modelBuilder.Entity("SupplyManager.Models.Usuario", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Nome")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("PerfilUsuario")
+                        .HasColumnType("int");
+
                     b.Property<string>("Senha")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

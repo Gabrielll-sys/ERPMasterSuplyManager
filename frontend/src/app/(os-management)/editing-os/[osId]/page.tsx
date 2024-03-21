@@ -29,7 +29,7 @@ import IconBxTrashAlt from '@/app/assets/icons/IconBxTrashAlt';
 import IconPlus from '@/app/assets/icons/IconPlus';
 import { IItem } from '@/app/interfaces/IItem';
 import IconEdit from '@/app/assets/icons/IconEdit';
-import IconPen from '@/app/assets/icons/IconPen';
+import IconPen from '@/app/assets/icons/IconPencil';
 import dayjs from 'dayjs';
 
 export default function EditingOs({params}:any){
@@ -346,6 +346,9 @@ onPress={()=>handleUpdateOs(os?.id)}
     
 
      <div className='flex flex-col  mt-10 mr-24'>
+
+      {!os?.isAuthorized && (
+
      <Autocomplete
            label="Material "
            isDisabled={!materiais}
@@ -377,6 +380,7 @@ onPress={()=>handleUpdateOs(os?.id)}
             </AutocompleteItem>
           ))}
           </Autocomplete>
+      )}
      {materiaisOs?.map((item:IItem)=>(
       <>
       <div  key ={item.id} className=' flex flex-row justify-between mt-2 '>

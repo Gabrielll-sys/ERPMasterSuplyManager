@@ -227,7 +227,7 @@ return(
   
                     <View style={{  width: "22.5%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center"}}>
   
-                      <Text style={styles.tableCell}>{dayjs(props.orcamento?.dataOrcamento).format("DD/MM/YYYY HH:mm:ss").toString()}</Text>
+                      <Text style={styles.tableCell}>{dayjs(props.orcamento?.dataVenda).format("DD/MM/YYYY HH:mm:ss").toString()}</Text>
   
                     </View>
   

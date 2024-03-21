@@ -36,6 +36,9 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 import OrcamentoPDF from '@/app/componentes/OrcamentoPDF';
 import IconEdit from '@/app/assets/icons/IconEdit';
 import { SearchIcon } from '@/app/assets/icons/SearchIcon';
+import { IOrcamento } from '@/app/interfaces/IOrcamento';
+import { searchByDescription } from '@/app/services/MaterialServices';
+import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
 
 
 
@@ -52,7 +55,7 @@ export default function ManageBudges({params}:any){
   const[nomeOrçamento,setNomeOrçamento] = useState<string>("DF")
 
   const[inventarioDialog,setInventarioDialog] = useState<IInventario>()
-  const [orcamento,setOrcamento]= useState<any>()
+  const [orcamento,setOrcamento]= useState<IOrcamento>()
 
   const [materiais,setMateriais]= useState<IInventario[] >([])
   const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
@@ -123,41 +126,27 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
 
   },[materiaisOrcamento])
 
-  useEffect(()=>{
-    searchByDescription()
 
-  },[descricao])
-
-  const searchByDescription = async () => {
-
-
-
-   try{
-    if(descricao.length){
-
-      const res = await axios
-      .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao.split("#").join(".")}`)
-      .then( (r)=> {
+  const buscarDescricao = async(descricao:string)=>
+  {
+    setDescricao(descricao)
+      if(descricao.length>3)
+      {
+        try{
   
-       return r.data
-       
-      })
-      .catch();
-      console.log(res)
+          const res =  await searchByDescription(descricao)
+          console.log(res)
+          setMateriais(res)
+        }
+      catch(e)
+      {
+        console.log(e)
+      }
+      
+      }
   
-      setMateriais(res)
-    }
-
-   }
-   catch(e) 
-   
-   { 
-   
-
-console.log(e)
-   }
   
-};
+  }
   const getAllMateriaisInOrcamento = async(id:number)=>{
 
       const res = await axios.get(`${url}/ItensOrcamento/GetAllMateriaisOrcamento/${id}`).then((r)=>{
@@ -208,7 +197,7 @@ const handleUpdateOrcamento = async()=>{
   
   console.log(metodoPagamento)
   const budge = {
-    id:orcamento.id,
+    id:orcamento?.id,
     desconto:Number(desconto),
     tipoPagamento:metodoPagamento,
     nomeCliente:nomeCliente,
@@ -225,7 +214,7 @@ const handleUpdateOrcamento = async()=>{
 
   }
 
-  const res = await axios.put(`${url}/Orcamentos/${orcamento.id}`,budge).then(r=>{
+  const res = await axios.put(`${url}/Orcamentos/${orcamento?.id}`,budge).then(r=>{
 
     setOpenSnackBar(true);
     setSeveridadeAlert("success");
@@ -238,9 +227,10 @@ const handleUpdateOrcamento = async()=>{
 }
 const handleUpdateOrcamentoToSell = async()=>{
   
+  setconfirmAuthorizeMessage("")
  
   const budge = {
-    id:orcamento.id,
+    id:orcamento?.id,
     desconto:Number(desconto),
     tipoPagamento:metodoPagamento,
     nomeCliente:nomeCliente,
@@ -258,8 +248,9 @@ const handleUpdateOrcamentoToSell = async()=>{
 
 
   }
+  console.log(orcamento)
 
-  const res = await axios.put(`${url}/Orcamentos/sellUpdate/${orcamento.id}`,budge).then(r=>{
+  const res = await axios.put(`${url}/Orcamentos/sellUpdate/${orcamento?.id}`,budge).then(r=>{
 
     setOpenSnackBar(true);
     setSeveridadeAlert("success");
@@ -315,7 +306,8 @@ const handleUpdateOrcamentoToSell = async()=>{
 
     }).catch(e=>console.log(e))
 
-
+      setMateriais([])
+      setDescricao("")
       handleCloseDialog()
     }
     const getInfosBudge =  async()=>{
@@ -516,6 +508,14 @@ console.log(item.quantidadeMaterial)
 
     }
 
+    const handleKeyEvent = (value:any)=>{
+
+      if(value.key == "Enter"){
+        console.log("Foi Enter")
+      }
+
+    }
+
     const createXlsxPlanilha = async (workbook:Excel.Workbook)=>{
 
       let buffer = await workbook.xlsx.writeBuffer();
@@ -678,63 +678,68 @@ return(
         <ArrowLeft /> Retornar
       </Link>
 
-      <h1 className='text-center text-2xl mt-8'>Orçamento Nº {orcamento?.id}</h1>
+      <h1 className='text-center text-2xl mt-4'>Orçamento Nº {orcamento?.id}</h1>
       <div className='flex flex-col  mt-10  gap-3 justify-center text-center   '>
 
       <div className='flex flex-col self-center max-w-[1200px] gap-7 '>
-              <div className='flex flex-row  justify-between w-[800px]'>
-                <Input
+              <div className='flex flex-row  justify-between w-[600px]'>
+                <Input        
+                              labelPlacement='outside'
                               value={nomeCliente}
-                              className=" border-1 border-black rounded-md shadow-sm shadow-black max-w-[354px]  min-w-[354px]"
+                              className=" border-1 border-black rounded-md shadow-sm shadow-black max-w-[254px]  min-w-[254px]"
                               onValueChange={setNomeCliente}
                               placeholder='99283-4235'
                               label="Nome do Cliente"
                             />
                                 <Input
+                                 labelPlacement='outside'
                               value={endereco}
-                              className=" border-1 border-black rounded-md shadow-sm shadow-black  max-w-[354px]  min-w-[354px]"
+                              className=" border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px]"
                               onValueChange={setEndereco}
                               placeholder='Rua Numero e Bairro'
                               label="Endereço"
                               />
                      
               </div>
-                    <div className='flex flex-row justify-between w-[800px]'>
+                    <div className='flex flex-row justify-between w-[600px]'>
                       <Input
+                              labelPlacement='outside'
                               value={emailCliente}
-                              className=" border-1 border-black rounded-md shadow-sm shadow-black  max-w-[354px]  min-w-[354px]"
+                              className=" border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px]"
                               onValueChange={setEmailCliente}
                               placeholder='abcde@gmail.com'
                               label="Email"
                             />
+                            
                              <Input
-                             
+                                   labelPlacement='outside'
                                   value={cpfOrCnpj}
-                                  className="border-1 border-black rounded-md shadow-sm shadow-black  max-w-[354px]  min-w-[354px]"
+                                  className="border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px]"
                                   onValueChange={setCpfOrCnpj}
                                   placeholder='99283-4235'
                                   label="CPF OU CNPJ"
                                 />  
                       
                     </div>
-                         <div className=' flex flex-row w-[800px] justify-between '>
+                         <div className=' flex flex-row w-[600px] justify-between '>
                        
                          <Input
-                             
+                              labelPlacement='outside'
                               value={telefone}
-                              className="border-1 border-black rounded-md shadow-sm shadow-black  max-w-[354px]  min-w-[354px]"
+                              className="border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px]"
                               onValueChange={setTelefone}
                               placeholder='99283-4235'
                               label="Telefone"
                             />              
 
                 <Input
+                        labelPlacement='outside'
                         value={desconto}
                         type='number'
-                        className="  border-1 border-black rounded-md shadow-sm shadow-black  max-w-[354px]  min-w-[354px]"
+                        className="  border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px]"
                         onValueChange={setDesconto}
                         isReadOnly = {orcamento?.isPayed}
-                        label="Desconto %"
+                        label="Desconto % Sobre Total do Orçamento"
                         endContent={<span>%</span>}
                       />
                          </div>
@@ -756,6 +761,7 @@ return(
                   <Autocomplete
                       label="Método Pagamento $"
                       placeholder="EX:PIX"
+                      
                       className=" w-[250px]  shadow-sm shadow-black h-14  ml-5 mr-5 w"
                       value={metodoPagamento}
                       onSelectionChange={setMetodoPagamento}
@@ -780,8 +786,8 @@ return(
       </div>
 
              {orcamento?.isPayed ? (
-                  <div className='flex flex-row gap-5 mt-4 self-center'>
-                  <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg shadow-lg ' onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
+                  <div className='flex flex-row mt-4 self-center'>
+                  <Button  className='bg-master_black max-w-[200px]  text-white p-5 mx-auto rounded-lg font-bold text-lg shadow-lg ' onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
               
                 </div>
              ):
@@ -805,23 +811,26 @@ return(
              isDisabled={!materiais}
              placeholder="Procure um material"
              startContent={<SearchIcon className="text-default-400" strokeWidth={2.5} size={20} />}
-             allowsCustomValue
             value={descricao}
-            onValueChange={(x:any)=>setDescricao(x)}
-             className="max-w-[450px] min-w-[400px] ml-6 self-center border-1 border-black rounded-xl shadow-sm shadow-black"
+            onValueChange={(x:any)=>buscarDescricao(x)}
+             className="max-w-[550px] min-w-[500px] ml-6 self-center border-1 border-black rounded-xl shadow-sm shadow-black"
            >
   
            {materiais.map((item:IInventario) => (
   
               <AutocompleteItem
                key={item.id}
+               onClick={()=>!hasMaterial(item) && handleOpenDialog(item) }
+
                aria-label='teste'
                endContent={
                <>
   
                <p className='text-xs'>{item.material?.marca}</p>
-                {!hasMaterial(item) &&
-                <IconPlus  height="1.3em" width="1.3em" onClick={()=>handleOpenDialog(item)} />
+                {hasMaterial(item) &&
+              
+                 <p>Já Presente Na Lista</p>
+
                 }
   
                </>
@@ -835,25 +844,28 @@ return(
             </Autocomplete>
               )}
               
-     
-         <Button 
-      isDisabled={!nomeOrçamento?.length}
-        className="bg-master_black text-white w-[330px] p-3 my-auto rounded-lg font-bold text-base shadow-lg ml-10 "
-        >
    
 
-          <PDFDownloadLink document={   <OrcamentoPDF 
-          materiaisOrcamento ={materiaisOrcamento} 
-          nomeUsuario={session?.user?.name}
-          orcamento={orcamento}
-          desconto = {precoVendaComDesconto}
-          
-          />} fileName={"Orçamento Nº"+ orcamento?.id+ " Para "+ orcamento?.nomeCliente +".pdf"}>
-               {orcamento?.isPayed ?"Gerar PDF de Venda":"Gerar PDF De Orçamento"}
-           
-            </PDFDownloadLink>
-        
-          </Button> 
+
+           <Button
+        isDisabled={!nomeOrçamento?.length}
+          className={`bg-master_black text-white w-[225px] ${orcamento?.isPayed?"w-[225px]":"w-[275px]"} p-3 my-auto rounded-lg font-bold text-base shadow-lg ml-3 `}
+          >
+            <PDFDownloadLink document={   <OrcamentoPDF
+            materiaisOrcamento ={materiaisOrcamento}
+            nomeUsuario={session?.user?.name}
+            orcamento={orcamento}
+            desconto = {precoVendaComDesconto}
+       
+            />} fileName={"Orçamento Nº"+ orcamento?.id+ " Para "+ orcamento?.nomeCliente +".pdf"}>
+                <div className='flex flex-row gap-2'>
+                  <IconFileEarmarkPdf  height="1.3em" width="1.3em" />
+                  Gerar PDF De Orçamento
+                </div>
+              </PDFDownloadLink>
+       
+            </Button>
+    
   </div>
 
            <Dialog open={openDialog} onClose={handleCloseDialog} >
@@ -937,7 +949,7 @@ return(
           <Table.Cell className="  text-center font-medium text-gray-900 dark:text-white max-w-[120px]">
           {row.material.id}
           </Table.Cell>
-          <Table.Cell className="text-center text-black" >{row.material.descricao}</Table.Cell>
+          <Table.Cell className="text-left text-black" >{row.material.descricao}</Table.Cell>
             {orcamento?.isPayed ?(
           <Table.Cell className="text-center text-black" >{row.quantidadeMaterial}</Table.Cell>
 
@@ -958,7 +970,7 @@ return(
           <Table.Cell className="text-center text-black"  >{row.material.precoVenda && "R$"}{row.material.precoVenda!=null? (row.material.precoVenda*row.quantidadeMaterial).toFixed(2).toString().replace(".",","):"Falta Preço De Venda"}  </Table.Cell>
 
           <Table.Cell>
-            {!orcamento.isPayed && (
+            {!orcamento?.isPayed && (
 
               <div className='text-center'>
                 <IconBxTrashAlt onClick={()=>handleDelete(row.id)} />
@@ -1031,7 +1043,7 @@ return(
                 <Button color="danger" variant="light" onPress={onClose}>
                   Fechar
                 </Button>
-                <Button isDisabled={confirmAuthorizeMessage!="AUTORIZAR"} color="primary" onPress={handleUpdateOrcamentoToSell}>
+                <Button isDisabled={confirmAuthorizeMessage!="AUTORIZAR"|| orcamento?.isPayed } color="primary" onPress={handleUpdateOrcamentoToSell}>
                   Autorizar
                 </Button>
               </ModalFooter>

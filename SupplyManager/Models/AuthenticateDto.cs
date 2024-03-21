@@ -1,15 +1,15 @@
-﻿namespace SupplyManager.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SupplyManager.Models
 {
     public class AuthenticateDto
     {
+        [Required]
         public int Id { get; set; }
 
-        public string Nome { get; set; }
-        public string Senha { get;set; }
-
-
-
-
+        [Required]
+        public string? Senha { get; set; }
+        public List<object> PerfilAutorizado { get; set; }
 
 
     }

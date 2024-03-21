@@ -53,46 +53,39 @@ export default function UpdateMaterial({params}:any){
  
  useEffect(()=>{
  
-    console.log(params.materialId)
     getMaterial(params.materialId).then().catch()
      
 
  },[])
 
- useEffect(()=>{
-
-  if(precoCusto!="")
-  {
-  
-    let markupCalculado = calcularMarkup(precoVenda ,precoCusto)
-    
-    if(Number.isNaN(markupCalculado)|| precoVenda =="")
-    {
-    
-     setMarkup("")
-
-    }
-    else{
-
-      setMarkup(markupCalculado.toFixed(2).toString().toString().replace('.',','))
-    }
-
-  }
-
- },[precoVenda])
 
 
  //Função para calcular o markup ja trocando as virgulas por pontos,pois a variável é string,para permitir usar , ao invés de .
- const  calcularMarkup= (x:string |undefined | null, y: string | undefined |null )=>
+ const  calcularMarkup= ()=>
  {
+  let markupCalculado = Number((Number(precoVenda?.toString().replace(`,`,`.`))/Number(precoCusto?.toString().replace(`,`,`.`))-1).toFixed(4))*100
+    const positiveNumber = Math.abs(markupCalculado)
+    setMarkup(positiveNumber.toFixed(2).toString().replace('.',','))
+    
+  if(Number.isNaN(markupCalculado))
+  {
+  
+   setMarkup("")
 
-  return Number((Number(x?.toString().replace(`,`,`.`))/Number(y?.toString().replace(`,`,`.`))-1).toFixed(4))*100
+  }
+  else{
+
+    // setMarkup(markupCalculado.toFixed(2).toString().replace('.',','))
+  }
+  return 
 
  }
  const  calcularPrecoVenda= ()=>
  {
+
   let percentage = (Number(markup)/100)+1
-  const a =  Number((Number(precoCusto?.toString().replace(`,`,`.`))*Number(percentage?.toString().replace(`,`,`.`))-1)+1)
+  const a =  Number((Number(precoCusto?.toString().replace(`,`,`.`))*Number(percentage?.toString().replace(`,`,`.`))-1)+1).toFixed(2).toString()
+  setPrecoVenda(a)
   console.log(a)
 
  }
@@ -269,10 +262,12 @@ console.log(material)
       
        />
        <Input
+          type="number"
+       labelPlacement="outside"
         
            value={markup}
            className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-           onValueChange={setMarkup}
+           onValueChange={(x)=>{setMarkup(x),calcularPrecoVenda()}}
            label="Markup "
            endContent={
             <span>%</span>
@@ -281,7 +276,7 @@ console.log(material)
          />
        <Input
            value={precoVenda}
-           onValueChange={setPrecoVenda}
+           onValueChange={(x)=>{setPrecoVenda(x),calcularMarkup()}}
            label="Preço Venda"
            startContent={
             <span>R$</span>
