@@ -39,6 +39,7 @@ import { SearchIcon } from '@/app/assets/icons/SearchIcon';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import { searchByDescription } from '@/app/services/MaterialServices';
 import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
+import IconPencil from '@/app/assets/icons/IconPencil';
 
 
 
@@ -503,18 +504,11 @@ console.log(item.quantidadeMaterial)
       console.log(value)
       setQuantidadeMaterial(value.toString())
       if(value<1) setQuantidadeMaterial("1")
-      if( inventarioDialog?.saldoFinal!=undefined && value>inventarioDialog?.saldoFinal) setQuantidadeMaterial(inventarioDialog?.saldoFinal.toString())
 
 
-    }
-
-    const handleKeyEvent = (value:any)=>{
-
-      if(value.key == "Enter"){
-        console.log("Foi Enter")
-      }
 
     }
+
 
     const createXlsxPlanilha = async (workbook:Excel.Workbook)=>{
 
@@ -865,7 +859,10 @@ return(
               </PDFDownloadLink>
        
             </Button>
-    
+            <Button  onPress={()=>route.push("/create-material")} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg  mt-3'>
+       Criar material
+          
+      </Button>
   </div>
 
            <Dialog open={openDialog} onClose={handleCloseDialog} >
@@ -933,6 +930,7 @@ return(
         <Table.Head className="border-1 border-black">
           <Table.HeadCell className="text-center border-1 border-black text-sm max-w-[140px] " >Cod.Interno</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Descricao</Table.HeadCell>
+          {/* <Table.HeadCell className="text-center border-1 border-black text-sm">Estoque</Table.HeadCell> */}
           <Table.HeadCell className="text-center border-1 border-black text-sm">Qntd</Table.HeadCell>
 
           
@@ -950,6 +948,7 @@ return(
           {row.material.id}
           </Table.Cell>
           <Table.Cell className="text-left text-black" >{row.material.descricao}</Table.Cell>
+          {/* <Table.Cell className="text-left text-black" >{row.material.}</Table.Cell> */}
             {orcamento?.isPayed ?(
           <Table.Cell className="text-center text-black" >{row.quantidadeMaterial}</Table.Cell>
 

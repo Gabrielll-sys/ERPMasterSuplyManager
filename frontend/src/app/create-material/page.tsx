@@ -243,7 +243,7 @@ const buscaCodigoFabricante = async(codigo:string)=>
       <>
  
       <div className="flex flex-col gap-4">
-        <div className=' w-full flex flex-row flex-wrap justify-center mt-6  gap-6'>
+        <div className=' w-full flex flex-row flex-wrap justify-center mt-6  gap-6 '>
         
           <Input
             value={codigoFabricante}

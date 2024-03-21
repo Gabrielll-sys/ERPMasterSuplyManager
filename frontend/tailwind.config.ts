@@ -26,6 +26,7 @@ const config: Config = {
         grey: "#3b4849",
         master_black:"#2A2E48",
         master_yellow:"#FCDD74",
+        light_yellow:"#FBEED1",
         cardbg_color:"#404040",
       },
       fontFamily: {
