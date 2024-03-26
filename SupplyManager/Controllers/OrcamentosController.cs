@@ -36,7 +36,18 @@ namespace SupplyManager.Controllers
         {
 
 
-            return await  _context.Orcamentos.AsNoTracking().Where(x => x.NomeCliente.Contains(cliente)).OrderBy(x => x.DataOrcamento).ToListAsync();
+            return await _context.Orcamentos.AsNoTracking().Where(x => x.NomeCliente.Contains(cliente)).OrderBy(x => x.DataOrcamento).ToListAsync();
+
+        }
+
+        //Busca cliente,para caso exista,preencher automaticamente informações do cliente
+        [HttpGet("buscaCliente")]
+        public async Task<ActionResult<Orcamento>> GetClient(string cliente)
+        {
+
+
+            var a=  await _context.Orcamentos.AsNoTracking().Where(x => x.NomeCliente.Equals(cliente)).ToListAsync();
+            return a[0];
 
         }
 
