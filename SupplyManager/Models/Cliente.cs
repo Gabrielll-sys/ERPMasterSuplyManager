@@ -8,7 +8,6 @@ namespace SupplyManager.Models
 
         public string? Nome { get; set; }
         //Caso seja uma empresa
-        public string? Empresa { get; set; }
 
         public string? Email { get; set; }
 

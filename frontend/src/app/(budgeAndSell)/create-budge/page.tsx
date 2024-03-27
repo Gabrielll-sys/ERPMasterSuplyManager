@@ -15,7 +15,7 @@ import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import IMaterial from '@/app/interfaces/IMaterial';
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import imagem from '/src/app/assets/logo.png'
 import { useReactToPrint } from 'react-to-print';
 import ArrowLeft from '@/app/assets/icons/ArrowLeft';
@@ -54,6 +54,31 @@ export default function BudgeManagement({params}:any){
     let date = dayjs()
 
 
+
+
+  
+  const handleNomeCliente = async(value:any)=>{
+    setNomeCliente(value)
+    if(!value.length){
+      setCpfOrCnpj("")
+      setTelefone("")
+      setEndereco("")
+      setEmailCliente("")
+   }
+
+    await axios.get(`${url}/Orcamentos/buscaCliente?cliente=${value?.trim()}`).then((r:AxiosResponse)=>{
+      console.log(r.data)
+     
+       setCpfOrCnpj(r.data.cpfOrCnpj)
+       setTelefone(r.data.telefone)
+       setEndereco(r.data.endereco)
+       setEmailCliente(r.data.emailCliente)
+
+    
+      
+    }).catch(e=>console.log(e))
+  }
+
 const handleCreateBudge = async ()=>{
 
 const orcamento : IOrcamento = {
@@ -91,7 +116,7 @@ return(
         labelPlacement='outside'
         value={nomeCliente}
         className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px] "
-        onValueChange={setNomeCliente}
+        onValueChange={(x)=>handleNomeCliente(x)}
       />
 
     <Input
@@ -104,7 +129,6 @@ return(
       />
     <Input
         labelPlacement='outside'
-        type='number'
         value={telefone}
         className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
         onValueChange={setTelefone}
@@ -122,7 +146,6 @@ return(
   <Input
         labelPlacement='outside'
         value={cpfOrCnpj}
-        type='number'
         className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
         onValueChange={setCpfOrCnpj}
         placeholder='155.507.22.42'
