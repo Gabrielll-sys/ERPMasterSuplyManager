@@ -60,7 +60,7 @@ namespace SupplyManager.Repository
         {
             try
             {
-                var notaFiscal = await _context.NotasFiscais.FindAsync(id) ?? throw new KeyNotFoundException();
+                var notaFiscal = await _context.NotasFiscais.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
                 return notaFiscal;
 

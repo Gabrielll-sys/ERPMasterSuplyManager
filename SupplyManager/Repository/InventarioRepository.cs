@@ -48,7 +48,9 @@ namespace SupplyManager.Repository
             try
             {
                 var inventarios =    await _context.Inventarios.ToListAsync();
+
                 model.Id = inventarios.Count + 1;
+
                 await _context.Inventarios.AddAsync(model);
 
                 await _context.SaveChangesAsync();

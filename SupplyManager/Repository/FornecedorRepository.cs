@@ -61,7 +61,7 @@ namespace SupplyManager.Repository
         {
             try
             {
-                var fornecedor = await _context.Fornecedores.FindAsync(id) ?? throw new KeyNotFoundException();
+                var fornecedor = await _context.Fornecedores.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
                 return fornecedor;
 

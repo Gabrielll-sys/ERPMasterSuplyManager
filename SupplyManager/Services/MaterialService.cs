@@ -56,7 +56,7 @@ namespace SupplyManager.Services
         {
             try
             {
-                _ = _materialRepository.GetByIdAsync(model.Id) ?? throw new KeyNotFoundException();
+                _ =  await _materialRepository.GetByIdAsync(model.Id) ?? throw new KeyNotFoundException();
 
                 var material = await _materialRepository.UpdateAsync(model);
 

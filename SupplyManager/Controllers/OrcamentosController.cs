@@ -52,7 +52,10 @@ namespace SupplyManager.Controllers
             try
             {
 
-            var a =  await _context.Orcamentos.AsNoTracking().Where(x => x.NomeCliente.Equals(cliente)).ToListAsync();
+            var a =  await _context.Orcamentos
+                    .AsNoTracking()
+                    .Where(x => x.NomeCliente.Equals(cliente)).ToListAsync();
+
             return a[0];
 
             }catch (Exception ex)
@@ -216,14 +219,16 @@ namespace SupplyManager.Controllers
                         var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == item.MaterialId);
 
                         //Procura todos os inventários do material da tabela item,para posteriormente  subtrair do inventário a quantidade a ser utilizad na OS
-                        var inventario = inventarios.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var inventario = inventarios
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
 
                         //Instacia um novo inventário para criar um novo inventário com a atualização de quantidade utilizada no orcamento e o motivo,a descricação da os
                         Inventario i1 = new Inventario
                          (
                         $"Utilizado Orcamento Nº {orcamento.Id}",
-                           inventario[inventario.Count - 1].SaldoFinal,
+                         inventario[inventario.Count - 1].SaldoFinal,
                          inventario[inventario.Count - 1].Movimentacao,
                          inventario[inventario.Count - 1].SaldoFinal,
                          inventario[inventario.Count - 1].Responsavel,

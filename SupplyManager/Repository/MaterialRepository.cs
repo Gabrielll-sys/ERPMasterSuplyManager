@@ -19,7 +19,7 @@ namespace SupplyManager.Repository
         {
             try
             {
-                return await _context.Materiais.OrderBy(x=>x.Id).ToListAsync();
+                return await _context.Materiais.AsNoTracking().OrderBy(x=>x.Id).ToListAsync();
 
             }
             catch (Exception)
@@ -33,7 +33,7 @@ namespace SupplyManager.Repository
 
             try
             {
-                return await _context.Materiais.FindAsync(id);
+                return await _context.Materiais.AsNoTracking().FirstOrDefaultAsync(x=>x.Id==id);
 
 
             }
@@ -67,12 +67,11 @@ namespace SupplyManager.Repository
             try
             {
 
-            _ = await _context.Materiais.FindAsync(model.Id) ?? throw new KeyNotFoundException();
-
             _context.Materiais.Update(model);
 
             await _context.SaveChangesAsync();
-                return model;
+            
+            return model;
 
             }
             catch (Exception)

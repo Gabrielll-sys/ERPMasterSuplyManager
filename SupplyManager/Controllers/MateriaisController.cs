@@ -78,14 +78,8 @@ namespace SupplyManager.Controllers
 
             try
             {
-                /* var queryMaterial = from query in _context.Materiais select query;
-
-
-                 var material = await _context.Materiais.FindAsync(id);
-
-                 return Ok(material);*/
-
-                return Ok(await  _context.Materiais.FirstOrDefaultAsync(x=>x.Id==id));
+              
+                return Ok(await  _context.Materiais.FindAsync(id));
             }
 
             catch (KeyNotFoundException)
@@ -115,7 +109,10 @@ namespace SupplyManager.Controllers
 
             try
             {
-                var materialWithInventory = await _context.Inventarios.Include(s => s.Material).Where(x =>x.MaterialId==id).ToListAsync();
+                var materialWithInventory = await _context.Inventarios
+                    .Include(s => s.Material)
+                    .Where(x =>x.MaterialId==id)
+                    .ToListAsync();
 
                 return Ok(materialWithInventory[materialWithInventory.Count-1]);
 
@@ -160,7 +157,9 @@ namespace SupplyManager.Controllers
 
                 //Ordena a busca de materia
 
-                queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao)).OrderBy(x => x.Id);
+                queryMaterial = queryMaterial
+                    .Where(x => x.Descricao.Contains(descricao))
+                    .OrderBy(x => x.Id);
 
 
                 return Ok(await queryMaterial.ToListAsync());
@@ -200,8 +199,10 @@ namespace SupplyManager.Controllers
 
                 //Verifica se o modelo o código digitado do material já existe,caso sim,retornara bad request e uma mensagem de material já existe
                 var checkInternCode = await _context.Materiais.FirstOrDefaultAsync(x => x.CodigoInterno == model.CodigoInterno);
+               
                 //Busca codigo do fabricante para ver se ja possui ,e tambem poe uma condição para caso seja diferente de vazio,pois a criação de material pode ter o código vazio
-                var checkFabricanteCode = await _context.Materiais.FirstOrDefaultAsync(x => x.CodigoFabricante == model.CodigoFabricante  &&  model.CodigoFabricante!="");
+                var checkFabricanteCode = await _context.Materiais
+                    .FirstOrDefaultAsync(x => x.CodigoFabricante == model.CodigoFabricante  &&  model.CodigoFabricante!="");
 
                 
 
@@ -217,7 +218,7 @@ namespace SupplyManager.Controllers
 
 
 
-                Material m1 = new Material(
+              Material m1 = new Material(
               model.CodigoInterno.ToUpper(),
               model.CodigoFabricante.ToUpper(),
               model.Descricao.ToUpper(),
@@ -288,10 +289,11 @@ namespace SupplyManager.Controllers
 
             var queryMaterial = from query in _context.Materiais select query;
 
-            var a = queryMaterial.Where(x => x.CodigoFabricante == model.CodigoFabricante && x.Descricao == model.Descricao); 
+            var a = queryMaterial.Where(x => x.CodigoFabricante == model.CodigoFabricante && x.Descricao == model.Descricao);
 
             var invetorys = await a.ToListAsync();
 
+            var ase = await _materialService.UpdateAsync(model);
 
             try
             {
@@ -316,7 +318,7 @@ namespace SupplyManager.Controllers
                         m1.Tensao = String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao;
                         m1.Localizacao = String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper();
                         m1.DataEntradaNF = model.DataEntradaNF;
-                        m1.PrecoCusto =  model.PrecoCusto;
+                        m1.PrecoCusto = model.PrecoCusto;
                         m1.PrecoVenda = model.PrecoVenda;
 
                         m1.Markup = model.Markup;
@@ -324,12 +326,12 @@ namespace SupplyManager.Controllers
 
                     }
 
-                   
-              
+
+
 
                     m1.CalcularPrecoVenda();
 
-                    
+
 
 
                     if (m1.PrecoCusto == 0)
@@ -351,7 +353,7 @@ namespace SupplyManager.Controllers
                 foreach (var invetario in invetorys)
                 {
                     var m1 = await _context.Materiais.FindAsync(invetario.Id);
-                    
+
 
                     {
 
@@ -364,23 +366,23 @@ namespace SupplyManager.Controllers
                         m1.Tensao = String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao;
                         m1.Localizacao = String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper();
                         m1.DataEntradaNF = model.DataEntradaNF;
-                        m1.PrecoCusto =  model.PrecoCusto;
-                        m1.PrecoVenda =  model.PrecoVenda;
+                        m1.PrecoCusto = model.PrecoCusto;
+                        m1.PrecoVenda = model.PrecoVenda;
                         m1.Markup = model.Markup;
 
                     }
 
-                  
-            
+
+
                     m1.CalcularPrecoVenda();
-                    
 
 
-        
+
+
                     if (m1.PrecoCusto == 0)
                     {
                         m1.PrecoVenda = 0;
-                    }                    
+                    }
 
                     var updateMaterial = _context.Materiais.Update(m1);
 
@@ -399,7 +401,7 @@ namespace SupplyManager.Controllers
             }
 
 
-
+            return Ok();
 
         }
         /// <summary>
