@@ -55,22 +55,24 @@ export default function BudgeManagement({params}:any){
 
 
 
-  const searchClient = async()=>{
 
-    await axios.get(`${url}/Orcamentos/buscaCliente?cliente=${nomeCliente?.trim()}`).then((r:AxiosResponse)=>{
+  
+  const handleNomeCliente = async(value:any)=>{
+setNomeCliente(value)
+
+    await axios.get(`${url}/Orcamentos/buscaCliente?cliente=${value?.trim()}`).then((r:AxiosResponse)=>{
       console.log(r.data)
      
        setCpfOrCnpj(r.data.cpfOrCnpj)
        setTelefone(r.data.telefone)
        setEndereco(r.data.endereco)
+       setEmailCliente(r.data.emailCliente)
 
     
-      
       
     }).catch(e=>console.log(e))
   }
 
-  
 const handleCreateBudge = async ()=>{
 
 const orcamento : IOrcamento = {
@@ -108,7 +110,7 @@ return(
         labelPlacement='outside'
         value={nomeCliente}
         className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px] "
-        onValueChange={(x)=>{{setNomeCliente(x.trim()),searchClient()}}}
+        onValueChange={(x)=>handleNomeCliente(x.trim())}
       />
 
     <Input

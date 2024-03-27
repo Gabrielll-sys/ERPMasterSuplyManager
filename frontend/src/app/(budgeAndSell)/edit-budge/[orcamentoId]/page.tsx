@@ -148,6 +148,21 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
   
   
   }
+  const handleNomeCliente = async(value:any)=>{
+    setNomeCliente(value)
+    
+        await axios.get(`${url}/Orcamentos/buscaCliente?cliente=${value?.trim()}`).then((r:AxiosResponse)=>{
+          console.log(r.data)
+         
+           setCpfOrCnpj(r.data.cpfOrCnpj)
+           setTelefone(r.data.telefone)
+           setEndereco(r.data.endereco)
+           setEmailCliente(r.data.emailCliente)
+        
+          
+        }).catch(e=>console.log(e))
+      }
+    
   const getAllMateriaisInOrcamento = async(id:number)=>{
 
       const res = await axios.get(`${url}/ItensOrcamento/GetAllMateriaisOrcamento/${id}`).then((r)=>{
@@ -681,7 +696,7 @@ return(
                               labelPlacement='outside'
                               value={nomeCliente}
                               className=" border-1 border-black rounded-md shadow-sm shadow-black max-w-[254px]  min-w-[254px]"
-                              onValueChange={setNomeCliente}
+                              onValueChange={(x)=>handleNomeCliente(x)}
                               placeholder='99283-4235'
                               label="Nome do Cliente"
                             />

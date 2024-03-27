@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using SupplyManager.App;
 using SupplyManager.Models;
+using System;
 
 namespace SupplyManager.Controllers
 {    ///<summary>
@@ -45,9 +46,16 @@ namespace SupplyManager.Controllers
         public async Task<ActionResult<Orcamento>> GetClient(string cliente)
         {
 
+            try
+            {
 
-            var a=  await _context.Orcamentos.AsNoTracking().Where(x => x.NomeCliente.Equals(cliente)).ToListAsync();
+            var a =  await _context.Orcamentos.AsNoTracking().Where(x => x.NomeCliente.Equals(cliente)).ToListAsync();
             return a[0];
+
+            }catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
 
         }
 
