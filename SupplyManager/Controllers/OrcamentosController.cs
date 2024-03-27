@@ -37,7 +37,10 @@ namespace SupplyManager.Controllers
         {
 
 
-            return await _context.Orcamentos.AsNoTracking().Where(x => x.NomeCliente.Contains(cliente)).OrderBy(x => x.DataOrcamento).ToListAsync();
+            return await _context.Orcamentos.AsNoTracking()
+                .Where(x => x.NomeCliente.Contains(cliente))
+                .OrderBy(x => x.DataOrcamento)
+                .ToListAsync();
 
         }
 

@@ -58,7 +58,13 @@ export default function BudgeManagement({params}:any){
 
   
   const handleNomeCliente = async(value:any)=>{
-setNomeCliente(value)
+    setNomeCliente(value)
+    if(!value.length){
+      setCpfOrCnpj("")
+      setTelefone("")
+      setEndereco("")
+      setEmailCliente("")
+   }
 
     await axios.get(`${url}/Orcamentos/buscaCliente?cliente=${value?.trim()}`).then((r:AxiosResponse)=>{
       console.log(r.data)
@@ -110,7 +116,7 @@ return(
         labelPlacement='outside'
         value={nomeCliente}
         className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px] "
-        onValueChange={(x)=>handleNomeCliente(x.trim())}
+        onValueChange={(x)=>handleNomeCliente(x)}
       />
 
     <Input
@@ -123,7 +129,6 @@ return(
       />
     <Input
         labelPlacement='outside'
-        type='number'
         value={telefone}
         className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
         onValueChange={setTelefone}
@@ -141,7 +146,6 @@ return(
   <Input
         labelPlacement='outside'
         value={cpfOrCnpj}
-        type='number'
         className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
         onValueChange={setCpfOrCnpj}
         placeholder='155.507.22.42'
