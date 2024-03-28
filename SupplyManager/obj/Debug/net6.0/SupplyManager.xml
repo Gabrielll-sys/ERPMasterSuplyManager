@@ -216,13 +216,6 @@
             <param name="id">Id do material</param>
             <returns>Material e inventário encontrado</returns>
         </member>
-        <member name="M:SupplyManager.Controllers.MateriaisController.BuscaDescricao(System.String)">
-            <summary>
-            Busca materiais com a descrição
-            </summary>
-            <param name="id">A descrição do material</param>
-            <returns>Materiais encontrados com a descrição passado</returns>
-        </member>
         <member name="M:SupplyManager.Controllers.MateriaisController.CreateMaterial(SupplyManager.Models.Material)">
             <summary>
             Criar novo material

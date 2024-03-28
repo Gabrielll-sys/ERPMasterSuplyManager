@@ -42,6 +42,20 @@ namespace SupplyManager.Repository
                 throw;
             }
         }
+        public async Task<Inventario> BuscaDescricao(string descricao)
+        {
+
+            try
+            {
+                return null;
+
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<Inventario> CreateAsync(Inventario model)
         {
 

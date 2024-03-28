@@ -1,0 +1,790 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SupplyManager</name>
+    </assembly>
+    <members>
+        <member name="T:SupplyManager.Controllers.FornecedoresController">
+            <summary>
+            Controlador para gerenciar os Fornecedores
+             </summary>
+        </member>
+        <member name="T:SupplyManager.Controllers.InventariosController">
+            <summary>
+            Controlador para gerenciar os Materias
+             </summary>
+        </member>
+        <member name="M:SupplyManager.Controllers.InventariosController.GetAllInventarios">
+            <summary>
+            Busca todos os registros de inventários
+            </summary>
+            <returns>Todos os registros de inventário </returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.InventariosController.GetInventario(System.Int32)">
+            <summary>
+            Busca uma registro de inventário pelo seu Id
+            </summary>
+            <param name="id">O id do inventário</param>
+            <returns>Inventário encontrado</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.InventariosController.GetLastRegisterMaterial(System.Int32)">
+            <summary>
+            Busca uma registro de inventário pelo seu Id
+            </summary>
+            <param name="id">O id do inventário</param>
+            <returns>Inventário encontrado</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.InventariosController.BuscaCodigoInventario(System.Int32)">
+            <summary>
+            Busca um material com os registros do seu invetário junto
+            </summary>
+            <param name="id">Id do material</param>
+            <returns>Material junto com os registros de seu inventário</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.InventariosController.FilterSearch(SupplyManager.Models.FilterMaterial)">
+            <summary>
+            Filtro de materiais
+            </summary>
+            <param name="Filtro">Objeto contendo os valores para realizar a busca por filtro</param>
+            <returns>Materiais de acordo com o filtro passado</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.InventariosController.BuscaCodigoFabricante(System.String)">
+            <summary>
+            Busca materiais pelo código do fabricante
+            </summary>
+            <param name="id">Código do fabricante</param>
+            <returns>Materiais de acordo com o código do fabricante passado</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.InventariosController.BuscaDescricaoInventario(System.String)">
+            <summary>
+            Busca materiais descrição passada
+            </summary>
+            <param name="id">A descrição do(s) material(is) a serem encontrados</param>
+            <returns>Materiais com a descrição encontrados</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.InventariosController.CreateInvetario(SupplyManager.Models.Inventario)">
+            <summary>
+            Cria um novo registro de inventário de um determinado material
+            </summary>
+            <param name="inventario">Objeto de material</param>
+            <returns>Inventário criado</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.InventariosController.RemoverQuantidadeInventario(SupplyManager.Models.Inventario)">
+            <summary>
+            Remove uma quantidade provinda da page de encanear qrcode para material
+            </summary>
+            <param name="inventário">Objeto de inventário</param>
+            <returns>Inventário criado,após remoção da quantidade do estoque</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.InventariosController.PutInventario(System.Int32,SupplyManager.Models.Inventario)">
+            <summary>
+            Atualizar o Material pelo Id
+            </summary>
+            <param name="id">O Id do material a ser atualizado</param>
+            <param name="model">O objeto material a ser atualizado </param>
+            <response code="200">Material encontrado</response>
+            <response code="400">Id do material não é valido</response>
+            <response code="404">Material não encontrado</response>
+            <response code="500">Error no servidor</response>
+            <returns>O material atualizado</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.InventariosController.Delete(System.Int32)">
+            <summary>
+            Deleta o material pelo id fornecido
+            </summary>
+            <param name="id"> O id do material a ser deletado</param>
+            <returns></returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.ItensController.GetAll">
+            <summary>
+            Pega todos os itens criados
+            </summary>
+            <param name="id"></param>
+            <returns>Todos os itens ja criados</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.ItensController.Get(System.Int32)">
+            <summary>
+            Pega o item por id
+            </summary>
+            <param name="id">Id do item</param>
+            <returns>Item encontrado</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.ItensController.GetAllMateriasOs(System.Int32)">
+            <summary>
+            Pega todos os materiais e quantidade que estão presentes em uma ordem de serviço
+            </summary>
+            <param name="id">Id da ordem de serviço</param>
+            <returns>Lista de todos os materias e suas quantidade presentes na Ordem de serviço</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.ItensController.Create(SupplyManager.Models.ItemDto)">
+            <summary>
+            Cria novo item
+            </summary>
+            <param name="id">Objeto de item para ser criado</param>
+            <returns>Item criado</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.ItensController.Update(System.Int32,SupplyManager.Models.Item)">
+            <summary>
+            Atualiza Item
+            </summary>
+            <param name="id">Id do item a ser atualizado e seu objeto</param>
+            <returns></returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.ItensController.Delete(System.Int32)">
+            <summary>
+            Deleta item
+            </summary>
+            <param name="id">Id do item a ser deletado</param>
+            <returns></returns>
+        </member>
+        <member name="T:SupplyManager.Controllers.ItensNotasFiscaisController">
+            <summary>
+            Controlador para gerenciar os Itens da Nota Fiscal
+             </summary>
+        </member>
+        <member name="M:SupplyManager.Controllers.ItensOrcamentoController.GetAll">
+            <summary>
+            Pega todos os itens criados
+            </summary>
+            <param name="id"></param>
+            <returns>Todos os itens ja criados</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.ItensOrcamentoController.GetAllItenInOrcamento(System.Int32)">
+            <summary>
+            Pega todos os itens criados
+            </summary>
+            <param name="id"></param>
+            <returns>Todos os itens ja criados</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.ItensOrcamentoController.Get(System.Int32)">
+            <summary>
+            Pega o item por id
+            </summary>
+            <param name="id">Id do item</param>
+            <returns>Item encontrado</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.ItensOrcamentoController.GetAllMateriasOrcamento(System.Int32)">
+            <summary>
+            Pega todos os materiais e quantidade que estão presentes em uma ordem de serviço
+            </summary>
+            <param name="id">Id da ordem de serviço</param>
+            <returns>Lista de todos os materias e suas quantidade presentes na Ordem de serviço</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.ItensOrcamentoController.Create(SupplyManager.Models.ItemOrcamento)">
+            <summary>
+            Cria novo item
+            </summary>
+            <param name="id">Objeto de item para ser criado</param>
+            <returns>Item criado</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.ItensOrcamentoController.Update(System.Int32,SupplyManager.Models.ItemOrcamento)">
+            <summary>
+            Atualiza Item
+            </summary>
+            <param name="id">Id do item a ser atualizado e seu objeto</param>
+            <returns></returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.ItensOrcamentoController.Delete(System.Int32)">
+            <summary>
+            Deleta item
+            </summary>
+            <param name="id">Id do item a ser deletado</param>
+            <returns></returns>
+        </member>
+        <member name="T:SupplyManager.Controllers.MateriaisController">
+            <summary>
+            Controlador para gerenciar os Materias
+             </summary>
+        </member>
+        <member name="M:SupplyManager.Controllers.MateriaisController.GetAll">
+            <summary>
+            Busca todos os materiais
+            </summary>
+            <returns>Todos os materiais </returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.MateriaisController.GetMaterial(System.Int32)">
+            <summary>
+            Obtem material por id
+            </summary>
+            <param name="id">Id do material para ser obtido</param>
+            <returns>Materiais encontrado</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.MateriaisController.GetMaterialwithInvetory(System.Int32)">
+            <summary>
+            Obtem material com o ultimo registro de seu inventário
+            </summary>
+            <param name="id">Id do material</param>
+            <returns>Material e inventário encontrado</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.MateriaisController.BuscaDescricao(System.String)">
+            <summary>
+            Busca materiais com a descrição
+            </summary>
+            <param name="id">A descrição do material</param>
+            <returns>Materiais encontrados com a descrição passado</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.MateriaisController.CreateMaterial(SupplyManager.Models.Material)">
+            <summary>
+            Criar novo material
+            </summary>
+            <param name="id">Objeto material para ser criado</param>
+            <returns>Materiais criado</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.MateriaisController.PutMaterial(System.Int32,SupplyManager.Models.Material)">
+            <summary>
+            Atualizar o Material pelo Id
+            </summary>
+            <param name="id">O Id do material a ser atualizado</param>
+            <param name="model">O objeto material a ser atualizado </param>
+            <response code="200">Material encontrado</response>
+            <response code="400">Id do material não é valido</response>
+            <response code="404">Material não encontrado</response>
+            <response code="500">Error no servidor</response>
+            <returns>O material atualizado</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.MateriaisController.Delete(System.Int32)">
+            <summary>
+            Deleta o material pelo id fornecido
+            </summary>
+            <param name="id"> O id do material a ser deletado</param>
+            <returns></returns>
+        </member>
+        <member name="T:SupplyManager.Controllers.NotasFiscaisController">
+            <summary>
+            Controlador para gerenciar as Notas Fiscais
+             </summary>
+        </member>
+        <member name="T:SupplyManager.Controllers.OrcamentosController">
+            <summary>
+            Controlador para gerenciar Orçamentos
+             </summary>
+        </member>
+        <member name="M:SupplyManager.Controllers.OrdemServicosController.GetAll">
+            <summary>
+            Busca todos as ordem de serviços
+            </summary>
+            <param name="id"></param>
+            <returns>Todos as ordem de serviços </returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.OrdemServicosController.Get(System.Int32)">
+            <summary>
+            Busca uma ordem de serviço pelo seu Id
+            </summary>
+            <param name="id">O id da ordem de serviço</param>
+            <returns>Ordem de serviço encontrada</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.OrdemServicosController.Create(SupplyManager.Models.OrdemServicoDto)">
+            <summary>
+            Cria um ordem serviço
+            </summary>
+            <param name="model">Um objeto que representa a ordem de serviço a ser criada</param>
+            <returns>A ordem de serviço criada</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.OrdemServicosController.UpdateAuthorize(System.Int32,SupplyManager.Models.OrdemServico)">
+            <summary>
+            Atualizar a ordem de serviço, á autorizando
+            </summary>
+            <param name="id">O Id da ordem de serviço</param>
+            <param name="model">O objeto de ordem de serviço a ser atualizada e autorizada </param>
+            <returns></returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.OrdemServicosController.Update(System.Int32,SupplyManager.Models.OrdemServico)">
+            <summary>
+            Atualizar a ordem de serviço sem autoriza-la
+            </summary>
+            <param name="id">O Id da ordem de serviço</param>
+            <param name="model">O objeto de ordem de serviço a ser atualizada</param>
+            <returns></returns>
+        </member>
+        <member name="M:SupplyManager.Interfaces.IInventarioService.GetLastRegister(System.Int32)">
+            <summary>
+            Get the last move register os move of some material
+            </summary>
+            <param name="id">If of material</param>
+            <returns>The last register of some material</returns>
+        </member>
+        <member name="M:SupplyManager.Interfaces.IMaterialService.CreateAsync(SupplyManager.Models.Material)">
+            <summary>
+            Get the last move register os move of some material
+            </summary>
+            <param name="id">If of material</param>
+            <returns>The last register of some material</returns>
+        </member>
+        <member name="T:SupplyManager.Migrations.v1">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v1.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v1.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v2">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v2.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v2.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v2.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v3">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v3.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v3.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v3.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v4">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v4.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v4.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v4.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v5">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v5.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v5.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v5.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v6">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v6.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v6.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v6.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v7">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v7.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v7.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v7.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v8">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v8.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v8.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v8.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v9">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v9.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v9.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v9.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v10">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v10.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v10.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v10.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v11">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v11.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v11.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v11.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v12">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v12.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v12.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v12.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v13">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v13.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v13.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v13.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v14">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v14.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v14.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v14.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v15">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v15.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v15.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v15.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v16">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v16.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v16.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v16.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v17">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v17.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v17.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v17.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v18">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v18.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v18.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v18.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v19">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v19.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v19.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v19.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v20">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v20.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v20.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v20.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v21">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v21.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v21.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v21.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v22">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v22.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v22.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v22.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v23">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v23.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v23.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v23.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v24">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v24.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v24.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v24.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v25">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v25.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v25.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v25.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v26">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v26.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v26.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v26.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations._27">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations._27.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations._27.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations._27.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v28">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v28.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v28.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v28.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v29">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v29.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v29.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v29.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v30">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v30.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v30.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v30.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v31">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v31.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v31.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v31.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v32">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v32.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v32.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v32.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v33">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v33.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v33.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v33.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v34">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v34.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v34.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v34.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v35">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v35.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v35.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v35.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v36">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v36.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v36.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v36.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v37">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v37.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v37.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v37.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v38">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v38.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v38.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v38.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Delivery.Users.API.Extensions.ResponseExtension">
+            <summary>
+            Extensions to handle with the responses
+            </summary>
+        </member>
+        <member name="M:Delivery.Users.API.Extensions.ResponseExtension.ToValidationErrorReponse(FluentValidation.Results.ValidationResult)">
+            <summary>
+            Handle with validation objects
+            </summary>
+            <param name="validationResult">The validation result</param>
+            <returns>The default validation response</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Delivery.Users.API.Extensions.ResponseExtension.ToNotFoundReponse(Microsoft.AspNetCore.Mvc.NotFoundResult,System.String)" -->
+        <member name="M:Delivery.Users.API.Extensions.ResponseExtension.ToErrorReponse(System.Exception)">
+            <summary>
+            Handle the exceptions to a readable format
+            </summary>
+            <param name="exception">The exception object</param>
+            <returns>The exception default response</returns>
+        </member>
+    </members>
+</doc>

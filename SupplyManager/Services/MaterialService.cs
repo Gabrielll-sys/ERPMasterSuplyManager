@@ -40,8 +40,29 @@ namespace SupplyManager.Services
             try
             {
                 var all = await _materialRepository.GetAllAsync();
-                var material = await _materialRepository.CreateAsync(model);
-                material.Id = all.Count + 1;
+
+                Material m1 = new Material(
+                model.CodigoInterno.ToUpper(),
+                model.CodigoFabricante.ToUpper(),
+                model.Descricao.ToUpper(),
+                model.Categoria.ToUpper(),
+                model.Marca.ToUpper(),
+                String.IsNullOrEmpty(model.Corrente) ? "-" : model.Corrente.ToUpper(),
+                model.Unidade,
+                String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao,
+                String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper(),
+                model.DataEntradaNF,
+                model.PrecoCusto,
+                model.Markup
+
+              );
+
+                var material = await _materialRepository.CreateAsync(m1);
+
+                var lastItem = all.TakeLast(1).ToList(); 
+                
+                material.Id = lastItem[0].Id + 1;
+
                 return material;
 
             }
@@ -56,9 +77,24 @@ namespace SupplyManager.Services
         {
             try
             {
-                _ =  await _materialRepository.GetByIdAsync(model.Id) ?? throw new KeyNotFoundException();
+                var material =  await _materialRepository.GetByIdAsync(model.Id) ?? throw new KeyNotFoundException();
 
-                var material = await _materialRepository.UpdateAsync(model);
+
+                material.CodigoInterno = model.CodigoInterno.ToUpper();
+                material.CodigoFabricante = model.CodigoFabricante.ToUpper();
+                material.Descricao = model.Descricao.ToUpper();
+                material.Categoria = model.Categoria.ToUpper();
+                material.Marca = model.Marca.ToUpper();
+                material.Corrente = model.Corrente.ToUpper();
+                material.Unidade = model.Unidade.ToUpper();
+                material.Tensao = String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao;
+                material.Localizacao = String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper();
+                material.DataEntradaNF = model.DataEntradaNF;
+                material.PrecoCusto = model.PrecoCusto;
+                material.PrecoVenda = model.PrecoVenda;
+                material.Markup = model.Markup;
+
+                await _materialRepository.UpdateAsync(material);
 
                 return material;
 

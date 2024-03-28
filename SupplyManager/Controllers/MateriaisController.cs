@@ -57,8 +57,8 @@ namespace SupplyManager.Controllers
         {
            
 
-            return Ok(await _context.Materiais.AsNoTracking().ToListAsync());
-         /*   return Ok(await _materialService.GetAllMateriaisAsync());*/
+            return Ok(await _materialService.GetAllMateriaisAsync());
+  
 
         }
 
@@ -79,7 +79,7 @@ namespace SupplyManager.Controllers
             try
             {
               
-                return Ok(await  _context.Materiais.FindAsync(id));
+                return Ok( await _materialService.GetByIdAsync(id));
             }
 
             catch (KeyNotFoundException)
@@ -133,50 +133,6 @@ namespace SupplyManager.Controllers
 
         }
         
-
-  
-        /// <summary>
-        /// Busca materiais com a descrição
-        /// </summary>
-        /// <param name="id">A descrição do material</param>
-        /// <returns>Materiais encontrados com a descrição passado</returns>
-        [HttpGet(template: "buscaDescricao")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<Material>> BuscaDescricao(string descricao)
-        {
-
-
-            try
-            {
-                var queryMaterial = from query in _context.Materiais select query;
-
-
-                //Ordena a busca de materia
-
-                queryMaterial = queryMaterial
-                    .Where(x => x.Descricao.Contains(descricao))
-                    .OrderBy(x => x.Id);
-
-
-                return Ok(await queryMaterial.ToListAsync());
-            }
-
-            catch (KeyNotFoundException)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest);
-            }
-            catch (Exception exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
-            }
-
-
-        }
-
         /// <summary>
         /// Criar novo material
         /// </summary>
@@ -210,49 +166,14 @@ namespace SupplyManager.Controllers
                 {
 
                     return StatusCode(StatusCodes.Status400BadRequest, new { message = "Código de fabricante já existe" });
+
                 }
 
-                queryMaterial = queryMaterial.Where(x => x.CodigoInterno == model.CodigoInterno);
 
-                var AlredyHaveMaterial = await queryMaterial.ToListAsync();
-
+                var material = await _materialService.CreateAsync(model);
 
 
-              Material m1 = new Material(
-              model.CodigoInterno.ToUpper(),
-              model.CodigoFabricante.ToUpper(),
-              model.Descricao.ToUpper(),
-              model.Categoria.ToUpper(),
-              model.Marca.ToUpper(),
-              String.IsNullOrEmpty(model.Corrente) ? "-" : model.Corrente.ToUpper(),
-              model.Unidade,
-              String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao,
-              String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper(),
-
-               model.DataEntradaNF,
-               model.PrecoCusto,
-               model.Markup
-              
-
-
-
-               ) ;
-            
-                    var validationM1 = ValidationMaterial.Validate(m1);
-
-                    if (!validationM1.IsValid)
-                    {
-
-                        return StatusCode(StatusCodes.Status400BadRequest, new { message = validationM1.Errors });
-                    };
-
-                    await _context.Materiais.AddAsync(m1);
-
-
-
-                await _context.SaveChangesAsync();
-
-                return Ok(m1);
+                return Ok(material);
                 }
                
 
@@ -287,111 +208,11 @@ namespace SupplyManager.Controllers
 
             if (id != model.Id) return StatusCode(StatusCodes.Status400BadRequest);
 
-            var queryMaterial = from query in _context.Materiais select query;
-
-            var a = queryMaterial.Where(x => x.CodigoFabricante == model.CodigoFabricante && x.Descricao == model.Descricao);
-
-            var invetorys = await a.ToListAsync();
-
-            var ase = await _materialService.UpdateAsync(model);
-
             try
             {
-
-                if (invetorys.Count == 0)
-                {
-                    MaterialIdValidator material = new MaterialIdValidator();
-
-                    var materialValidation = material.Validate(id);
-
-
-                    var m1 = await _context.Materiais.FindAsync(model.Id);
-
-                    {
-                        m1.CodigoInterno = model.CodigoInterno.ToUpper();
-                        m1.CodigoFabricante = model.CodigoFabricante.ToUpper();
-                        m1.Descricao = model.Descricao.ToUpper();
-                        m1.Categoria = model.Categoria.ToUpper();
-                        m1.Marca = model.Marca.ToUpper();
-                        m1.Corrente = model.Corrente.ToUpper();
-                        m1.Unidade = model.Unidade.ToUpper();
-                        m1.Tensao = String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao;
-                        m1.Localizacao = String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper();
-                        m1.DataEntradaNF = model.DataEntradaNF;
-                        m1.PrecoCusto = model.PrecoCusto;
-                        m1.PrecoVenda = model.PrecoVenda;
-
-                        m1.Markup = model.Markup;
-
-
-                    }
-
-
-
-
-                    m1.CalcularPrecoVenda();
-
-
-
-
-                    if (m1.PrecoCusto == 0)
-                    {
-                        m1.PrecoVenda = 0;
-                    }
-
-                    var updateMaterial = _context.Materiais.Update(m1);
-
-                    await _context.SaveChangesAsync();
-
-                    return Ok();
-                }
-
-
-                //CASO O MATERIAL TENHA SIDO CRIADO , TAMBEM SEU INVETÁRIO,ENTÃO FICARÁ VARIOS REGISTROS,ASSIM PEGARA TODOS OS ITENS DE INVENTÁRIO E TAMBEM
-                // ATUALIZARÁ TODOS OS CAMPOS DESSES ITENS DE INVENTÁRIO
-
-                foreach (var invetario in invetorys)
-                {
-                    var m1 = await _context.Materiais.FindAsync(invetario.Id);
-
-
-                    {
-
-                        m1.CodigoFabricante = model.CodigoFabricante.ToUpper();
-                        m1.Descricao = model.Descricao.ToUpper();
-                        m1.Categoria = model.Categoria.ToUpper();
-                        m1.Marca = model.Marca.ToUpper();
-                        m1.Corrente = model.Corrente.ToUpper();
-                        m1.Unidade = model.Unidade.ToUpper();
-                        m1.Tensao = String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao;
-                        m1.Localizacao = String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper();
-                        m1.DataEntradaNF = model.DataEntradaNF;
-                        m1.PrecoCusto = model.PrecoCusto;
-                        m1.PrecoVenda = model.PrecoVenda;
-                        m1.Markup = model.Markup;
-
-                    }
-
-
-
-                    m1.CalcularPrecoVenda();
-
-
-
-
-                    if (m1.PrecoCusto == 0)
-                    {
-                        m1.PrecoVenda = 0;
-                    }
-
-                    var updateMaterial = _context.Materiais.Update(m1);
-
-                    await _context.SaveChangesAsync();
-
-
-                }
-                return Ok();
-
+                var materialUpdated = await _materialService.UpdateAsync(model);
+                
+                return Ok(materialUpdated);
 
             }
             catch (KeyNotFoundException exception)
@@ -401,7 +222,7 @@ namespace SupplyManager.Controllers
             }
 
 
-            return Ok();
+   
 
         }
         /// <summary>
@@ -420,19 +241,8 @@ namespace SupplyManager.Controllers
         {
             try
             {
-                MaterialIdValidator m1 = new MaterialIdValidator();
-
-                var materialValidation = m1.Validate(id);
-
-
-                if (!materialValidation.IsValid)
-                {
-                    return StatusCode(StatusCodes.Status400BadRequest, new { message = materialValidation.Errors });
-                }
-
-                var material = await _context.Materiais.FindAsync(id);
-
-                _context.Materiais.Remove(material);
+              
+                _materialService.DeleteAsync(id);
 
 
                 await _context.SaveChangesAsync();

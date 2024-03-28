@@ -194,12 +194,10 @@ const buscaCodigoFabricante = async(codigo:string)=>
       const materialCriado = await axios
         .post(`${url}/Materiais`, material)
         .then((r) => {
-          createInventario(r.data.id);
-          setLoadingButton(false)
-          setOpenSnackBar(true);
-          setSeveridadeAlert("success");
-          setMessageAlert("Material Criado com sucesso");
-         setDescricao(r.data.descricao)
+          createInventario(r.data.id)
+         
+          setDescricao("")
+          setDescricao(r.data.descricao)
  
       
           return r.data
@@ -222,15 +220,15 @@ const buscaCodigoFabricante = async(codigo:string)=>
 
        
 
-          
-        
-      
-        //Quando criar o material.atualizara a  lista de materias que estao a amostra
-        // e se somente o material ter sido criado
-       
-       
+    
+        if(materialCriado)
+        {
+          setLoadingButton(false)
+          setOpenSnackBar(true);
+          setSeveridadeAlert("success");
+          setMessageAlert("Material Criado com sucesso");
 
-
+        }
 
 
 

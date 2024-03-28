@@ -47,6 +47,8 @@ namespace SupplyManager.Repository
 
             try
             {
+                model.Id = null;
+
                 await _context.Materiais.AddAsync(model);
 
                 await _context.SaveChangesAsync();

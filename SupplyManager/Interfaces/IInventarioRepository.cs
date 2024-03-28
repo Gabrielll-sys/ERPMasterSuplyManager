@@ -14,6 +14,7 @@ namespace SupplyManager.Interfaces
 
         Task<Inventario> UpdateAsync(Inventario inventario);
 
+        Task<Inventario> BuscaDescricao(string descricao);
 
         Task DeleteAsync(int id);
     }

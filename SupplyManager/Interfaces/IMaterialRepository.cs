@@ -14,7 +14,6 @@ namespace SupplyManager.Interfaces
 
         Task<Material> UpdateAsync(Material model);
 
-
         Task DeleteAsync(int id);
 
     }

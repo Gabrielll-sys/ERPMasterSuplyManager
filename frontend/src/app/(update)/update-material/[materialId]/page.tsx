@@ -83,7 +83,7 @@ export default function UpdateMaterial({params}:any){
  const  calcularPrecoVenda= ()=>
  {
 
-  let percentage = (Number(markup)/100)+1
+  let percentage = (Number(markup)/10)+1
   const a =  Number((Number(precoCusto?.toString().replace(`,`,`.`))*Number(percentage?.toString().replace(`,`,`.`))-1)+1).toFixed(2).toString()
   setPrecoVenda(a)
   console.log(a)
