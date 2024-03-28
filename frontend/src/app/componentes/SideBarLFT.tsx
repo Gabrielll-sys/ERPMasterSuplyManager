@@ -56,7 +56,7 @@ export default function SideBarLFT(props : any) {
           <Sidebar.Item className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/materials-relatory" icon={HiFilter}>
            Filtragem de Materiais
           </Sidebar.Item>
-          {/* <Sidebar.Collapse className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out"label=" Gestão De Usuários">
+          <Sidebar.Collapse className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out"label=" Gestão De Usuários">
 
           <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/create-user" >
               Criar Usuário
@@ -65,7 +65,7 @@ export default function SideBarLFT(props : any) {
           <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/manage-budges" >
               Gerenciar Usuários
           </Sidebar.Item>
-          </Sidebar.Collapse> */}
+          </Sidebar.Collapse>
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>

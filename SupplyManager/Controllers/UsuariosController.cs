@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using SupplyManager.App;
 using Microsoft.IdentityModel.Tokens;
 using NPOI.SS.Formula.Functions;
+using SupplyManager.Interfaces;
 
 namespace SupplyManager.Controllers
 {
@@ -19,11 +20,11 @@ namespace SupplyManager.Controllers
     public class UsuariosController:ControllerBase
     {
 
-        private readonly SqlContext _context;
+        private readonly IUsuarioService _usuarioService;
 
-        public UsuariosController(SqlContext context)
+        public UsuariosController(IUsuarioService usuarioService)
         {
-            _context = context;
+            _usuarioService = usuarioService;
         }
 
 
@@ -33,6 +34,11 @@ namespace SupplyManager.Controllers
         {
             try
             {
+
+                if( await _usuarioService.ExistsAsync(model.Email) )
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, new { message = "Já Existe um usuário com este Email" });
+                }
 
                 Usuario u1 = new Usuario()
                 {
@@ -44,12 +50,10 @@ namespace SupplyManager.Controllers
                 };
 
 
-                var user = await _context.Usuarios.AddAsync(u1);
-
-                await _context.SaveChangesAsync();
+                var user = await _usuarioService.CreateAsync(u1);
 
 
-                return Ok();
+                return Ok(user);
 
             }
             catch (Exception exception)
@@ -69,16 +73,9 @@ namespace SupplyManager.Controllers
 
             try
             {
-                var user = await _context.Usuarios.FindAsync(id) ?? throw new KeyNotFoundException();
+                var user = await _usuarioService.UpdateAsync(model);
 
-                user.Email = model.Email;
-                user.Nome = model.Nome;
-                user.Senha = BCrypt.Net.BCrypt.HashPassword(model.Senha);
-                
-                _context.Usuarios.Update(user);
-
-                await _context.SaveChangesAsync();
-                return Ok();
+                return Ok(user);
 
 
             }
@@ -95,7 +92,7 @@ namespace SupplyManager.Controllers
             }
         }
 
-        [HttpPut("promote-demote-user/{id}")]
+       /* [HttpPut("promote-demote-user/{id}")]
         public async Task<ActionResult> PutDemotePromote(int id, [FromBody] Usuario model)
         {
 
@@ -128,7 +125,7 @@ namespace SupplyManager.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
 
             }
-        }
+        }*/
 
         private string GenerateJwtToken(Usuario model)
         {
@@ -155,7 +152,7 @@ namespace SupplyManager.Controllers
         [HttpPost("authenticate")]
         public async Task<ActionResult> Authenticate(AuthenticateDto model)
         {
-            var usuarioDb = await _context.Usuarios.FindAsync(model.Id);
+            var usuarioDb = await _usuarioService.GetByIdAsync(model.Id);
 
             if (usuarioDb == null || !BCrypt.Net.BCrypt.Verify(model.Senha, usuarioDb.Senha))
 

@@ -95,6 +95,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddTransient<IInventarioService, InventarioService>();
 builder.Services.AddScoped<IInventarioRepository, InventarioRepository>();
 builder.Services.AddTransient<IMaterialService, MaterialService>();
@@ -105,6 +106,8 @@ builder.Services.AddTransient<INotaFiscalService, NotaFiscalService>();
 builder.Services.AddScoped<INotaFiscalRepository, NotaFiscalRepository>();
 builder.Services.AddTransient<IItemNotaFiscalService, ItemNotaFiscalService>();
 builder.Services.AddScoped<IItemNotaFiscalRepository, ItemNotaFiscalRepository>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddTransient<IUsuarioService, UsuarioService>();
 /*builder.Services.AddSingleton<IDataBaseConnectionService, DataBaseConnectionService>();*/
 
 var app = builder.Build();

@@ -16,7 +16,7 @@ namespace SupplyManager.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "7.0.17")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("SupplyManager.Models.Cliente", b =>
@@ -419,6 +419,9 @@ namespace SupplyManager.Migrations
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("DataCadastro")
+                        .HasColumnType("datetime");
 
                     b.Property<string>("Email")
                         .HasColumnType("longtext");

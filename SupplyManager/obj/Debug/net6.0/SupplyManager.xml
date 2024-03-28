@@ -759,6 +759,18 @@
         <member name="M:SupplyManager.Migrations.v38.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:SupplyManager.Migrations.v39">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v39.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v39.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v39.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="T:Delivery.Users.API.Extensions.ResponseExtension">
             <summary>
             Extensions to handle with the responses

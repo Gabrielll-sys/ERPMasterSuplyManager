@@ -241,9 +241,7 @@ namespace SupplyManager.Controllers
         {
             try
             {
-              
-                _materialService.DeleteAsync(id);
-
+                await _materialService.DeleteAsync(id);
 
                 await _context.SaveChangesAsync();
 

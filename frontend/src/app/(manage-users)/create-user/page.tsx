@@ -33,15 +33,13 @@ export default function CreateUser({params}:any){
     const[userRole,setUserRole] = useState<string>()
     const [metodoPagamento,setMetodoPagamento] = useState<any>("")
 
-
-    let date = dayjs()
-    const funcoesUsuario : string[] = ["Administrador", "Personalizado", ];
-
+    const funcoesUsuario : string[] = ["Administrador", "Usuário","Personalizado", ];
 
     const createUser = async()=>{
     
-    let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    let emailRegex =  /\S+@\S+\.\S+/;
 
+    console.log(emailRegex.test(email))
     if(!emailRegex.test(email))
     {
 
@@ -70,6 +68,7 @@ return(
 
     
             <h1 className='text-center text-2xl mt-4'>Informações Do usuario</h1>
+
           <div className=' flex-flex-col  rounded-md shadow-md shadow-black border-1 border-black p-8 w-[400px] mx-auto gap-8 '>
 
 
@@ -113,7 +112,13 @@ return(
                 </Autocomplete>
 
 
+          <Button  onPress={createUser} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
+                Criar usuário
+          </Button>
           </div>
+
+
+
         </div>
    
 <Snackbar
