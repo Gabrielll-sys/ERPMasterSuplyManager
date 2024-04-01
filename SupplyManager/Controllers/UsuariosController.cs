@@ -30,12 +30,15 @@ namespace SupplyManager.Controllers
 
 
         [HttpPost]
+        [Authorize(Policy = "RoleCreateUser")]
         public async Task<ActionResult> Post([FromBody] UsuarioDto model)
         {
             try
             {
 
-                if( await _usuarioService.ExistsAsync(model.Email) )
+                var userDb = await _usuarioService.ExistsAsync(model.Email);
+
+                if( userDb is not null )
                 {
                     return StatusCode(StatusCodes.Status400BadRequest, new { message = "Já Existe um usuário com este Email" });
                 }
@@ -46,7 +49,8 @@ namespace SupplyManager.Controllers
                     Email = model.Email,
                     Nome = model.Nome,
                     Senha = BCrypt.Net.BCrypt.HashPassword(model.Senha),
-                    PerfilUsuario = model.PerfilUsuario
+                    Cargo = model.Cargo,
+                    DataCadastro = DateTime.UtcNow.AddHours(-3)
                 };
 
 
@@ -131,42 +135,48 @@ namespace SupplyManager.Controllers
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("Ry74cBQva5dThwbwchR9jhbtRFnJxWSZ");
+
             var claims = new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.NameIdentifier, model.Id.ToString()),
-                new Claim(ClaimTypes.Role, model.PerfilUsuario.ToString())
+                new Claim(ClaimTypes.Role, model.Cargo)
             });
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = claims,
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddHours(10),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature)
             };
+
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<ActionResult> Authenticate(AuthenticateDto model)
+        public async Task<ActionResult> Authenticate(UserRequest model)
         {
-            var usuarioDb = await _usuarioService.GetByIdAsync(model.Id);
+            var usuarioDb = await _usuarioService.ExistsAsync(model.Email);
 
-            if (usuarioDb == null || !BCrypt.Net.BCrypt.Verify(model.Senha, usuarioDb.Senha))
+
+            if (usuarioDb is null || !BCrypt.Net.BCrypt.Verify(model.Senha, usuarioDb.Senha))
 
                 return Unauthorized();
-
+/*
             if ((usuarioDb.PerfilUsuario.ToString() != "Diretor") &&
                 (model.PerfilAutorizado != null && !model.PerfilAutorizado.Any(p => p.ToString() == usuarioDb.PerfilUsuario.ToString())))
             {
                 return Forbid();
-            }
+            }*/
 
             var jwt = GenerateJwtToken(usuarioDb);
 
             return Ok(new { jwtToken = jwt, userName = usuarioDb.Nome });
+
+
         }
+      
     }
 }

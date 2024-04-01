@@ -27,6 +27,10 @@ builder.Services.AddDbContextPool<SqlContext>(options =>
 options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection)));
 
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RoleCreateUser", policy => policy.RequireRole("Diretor"));
+});
 
 builder.Services.AddAuthentication(options =>
 {

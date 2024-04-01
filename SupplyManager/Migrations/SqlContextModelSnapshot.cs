@@ -420,6 +420,10 @@ namespace SupplyManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Cargo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("DataCadastro")
                         .HasColumnType("datetime");
 
@@ -428,9 +432,6 @@ namespace SupplyManager.Migrations
 
                     b.Property<string>("Nome")
                         .HasColumnType("longtext");
-
-                    b.Property<int?>("PerfilUsuario")
-                        .HasColumnType("int");
 
                     b.Property<string>("Senha")
                         .HasColumnType("longtext");

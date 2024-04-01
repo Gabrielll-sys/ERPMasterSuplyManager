@@ -11,6 +11,6 @@
 
         public string Senha { get; set; }
 
-        public Perfil PerfilUsuario { get; set; }
+        public string Cargo { get; set; }
     }
 }

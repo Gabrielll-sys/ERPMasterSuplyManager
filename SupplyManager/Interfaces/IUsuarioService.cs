@@ -14,7 +14,7 @@ namespace SupplyManager.Interfaces
         Task<Usuario> UpdateAsync(Usuario model);
 
 
-        Task<bool> ExistsAsync(string email);
+        Task<Usuario> ExistsAsync(string email);
 
         Task DeleteAsync(int id);
 

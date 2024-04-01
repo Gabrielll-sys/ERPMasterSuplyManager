@@ -7,16 +7,16 @@ namespace SupplyManager.Services
 {
     public class UsuarioService : IUsuarioService
     {
-        private readonly IUsuarioService _usuarioService;
-        public UsuarioService(IUsuarioService usuarioService)
+        private readonly IUsuarioRepository _usuarioRepository;
+        public UsuarioService(IUsuarioRepository usuarioRepository)
         {
-            _usuarioService = usuarioService;
+            _usuarioRepository = usuarioRepository;
         }
         public async Task<List<Usuario>> GetAllAsync()
         {
             try
             {
-                return await _usuarioService.GetAllAsync();
+                return await _usuarioRepository.GetAllAsync();
             }
             catch
             {
@@ -27,7 +27,7 @@ namespace SupplyManager.Services
         {
             try
             {
-                return await _usuarioService.GetByIdAsync(id);
+                return await _usuarioRepository.GetByIdAsync(id);
             }
             catch
             {
@@ -35,12 +35,12 @@ namespace SupplyManager.Services
             }
         }
         
-           public async Task<bool> ExistsAsync(string email)
+           public async Task<Usuario> ExistsAsync(string email)
             {
 
                 try
                 {
-                    return await _usuarioService.ExistsAsync(email);
+                    return await _usuarioRepository.ExistsAsync(email);
 
 
                 }
@@ -55,10 +55,10 @@ namespace SupplyManager.Services
         {
             try
             {
-                var all = await _usuarioService.GetAllAsync();
+                var all = await _usuarioRepository.GetAllAsync();
 
 
-                var material = await _usuarioService.CreateAsync(model);
+                var material = await _usuarioRepository.CreateAsync(model);
 
                 var lastItem = all.TakeLast(1).ToList();
 
@@ -78,9 +78,9 @@ namespace SupplyManager.Services
         {
             try
             {
-                var material = await _usuarioService.GetByIdAsync(model.Id) ?? throw new KeyNotFoundException();
+                var material = await _usuarioRepository.GetByIdAsync(model.Id) ?? throw new KeyNotFoundException();
 
-                await _usuarioService.UpdateAsync(material);
+                await _usuarioRepository.UpdateAsync(material);
 
                 return material;
 
@@ -95,7 +95,7 @@ namespace SupplyManager.Services
             try
             {
 
-                await _usuarioService.DeleteAsync(id);
+                await _usuarioRepository.DeleteAsync(id);
             }
             catch
             {

@@ -42,12 +42,13 @@ namespace SupplyManager.Repository
             }
         }
 
-        public async Task<bool> ExistsAsync(string email)
+        public async Task<Usuario> ExistsAsync(string email)
         {
 
             try
             {
-                return await _context.Usuarios.AsNoTracking().AnyAsync(x=>x.Email== email);
+                return await _context.Usuarios.AsNoTracking().FirstOrDefaultAsync(x=>x.Email==email);
+
 
 
             }

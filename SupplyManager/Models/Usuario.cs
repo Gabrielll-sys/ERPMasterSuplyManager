@@ -17,23 +17,24 @@ namespace SupplyManager.Models
 
         public string? Senha { get; set; }
 
-        public Perfil? PerfilUsuario { get; set; }
+        public string Cargo { get; set; }
 
         public DateTime? DataCadastro { get; set; }
     }
-    public enum Perfil
+
+
+  /*  public enum Perfil
         {
             [Description("Diretor")]
-            Diretor,
+            Diretor = 0,
             [Description("Administrador")]
-            Administrador,
+            Administrador=1,
             [Description("Administrador")]
-            Funcionario,
+            Funcionario=2,
             [Description("Personalizado")]
-            Personalizado,
-            [Description("Cliente")]
-            Cliente
-        }
+            Personalizado = 3,
+            
+        }*/
 
 
 
