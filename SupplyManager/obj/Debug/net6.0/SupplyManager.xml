@@ -289,6 +289,20 @@
             <param name="model">O objeto de ordem de serviço a ser atualizada</param>
             <returns></returns>
         </member>
+        <member name="M:SupplyManager.Controllers.UsuariosController.Post(SupplyManager.Models.UsuarioDto)">
+            <summary>
+            Realiza a criação de usuário no Sistema
+            </summary>
+            <param name="Usuario"></param>
+            <returns>O Usuário Criado </returns>
+            
+        </member>
+        <member name="M:SupplyManager.Controllers.UsuariosController.Put(System.Int32,SupplyManager.Models.Usuario)">
+            <summary>
+            Atualiza um usuário
+            </summary>
+            <param name="Usuario"></param>
+        </member>
         <member name="M:SupplyManager.Interfaces.IInventarioService.GetLastRegister(System.Int32)">
             <summary>
             Get the last move register os move of some material

@@ -17,6 +17,9 @@ import { useSession } from 'next-auth/react';
 import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import { Box, Flex } from '@radix-ui/themes';
+import axios from 'axios';
+import { authenticate, logoutUser, register } from '@/app/services/Auth.Services';
+import { getMaterialById } from '@/app/services/Material.Services';
 
 
 
@@ -35,25 +38,37 @@ export default function CreateUser({params}:any){
 
     const funcoesUsuario : string[] = ["Administrador", "Usuário","Personalizado", ];
 
+
+
+
     const createUser = async()=>{
-    
-    let emailRegex =  /\S+@\S+\.\S+/;
+    const see = localStorage.getItem("currentUser")
+    console.log(see)
+      // let emailRegex =  /\S+@\S+\.\S+/;
 
-    console.log(emailRegex.test(email))
-    if(!emailRegex.test(email))
-    {
+      // if(!emailRegex.test(email))
+      // {
 
-      setOpenSnackBar(true);
-      setSeveridadeAlert("error");
-      setMessageAlert("Email inválido");
+      //   setOpenSnackBar(true);
+      //   setSeveridadeAlert("error");
+      //   setMessageAlert("Email inválido");
+      // }
+
+      const user = {
+        email:"gabrielpuneco@gmail.com",
+        senha:"1234"
+      }
+      const res = await authenticate(user)
+
+     console.log(res)
+
     }
 
+   const getMaterial = async()=>{
 
+await getMaterialById(120)
 
-
-    }
-
-   
+   }
       
 
 
@@ -114,6 +129,14 @@ return(
 
           <Button  onPress={createUser} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
                 Criar usuário
+          </Button>
+
+          <Button  onPress={logoutUser} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
+                sair
+          </Button>
+
+          <Button  onPress={getMaterial} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
+                Buscar Material
           </Button>
           </div>
 

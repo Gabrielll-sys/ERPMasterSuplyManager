@@ -100,6 +100,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 builder.Services.AddTransient<IInventarioService, InventarioService>();
 builder.Services.AddScoped<IInventarioRepository, InventarioRepository>();
 builder.Services.AddTransient<IMaterialService, MaterialService>();
@@ -112,7 +113,8 @@ builder.Services.AddTransient<IItemNotaFiscalService, ItemNotaFiscalService>();
 builder.Services.AddScoped<IItemNotaFiscalRepository, ItemNotaFiscalRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddTransient<IUsuarioService, UsuarioService>();
-/*builder.Services.AddSingleton<IDataBaseConnectionService, DataBaseConnectionService>();*/
+
+
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

@@ -22,6 +22,8 @@ namespace SupplyManager.Controllers
 
         private readonly IUsuarioService _usuarioService;
 
+        private const string defaultCreatePassword = "1234";
+
         public UsuariosController(IUsuarioService usuarioService)
         {
             _usuarioService = usuarioService;
@@ -53,7 +55,7 @@ namespace SupplyManager.Controllers
 
                     Email = model.Email,
                     Nome = model.Nome,
-                    Senha = BCrypt.Net.BCrypt.HashPassword(model.Senha),
+                    Senha = BCrypt.Net.BCrypt.HashPassword(defaultCreatePassword),
                     Cargo = model.Cargo,
                     DataCadastro = DateTime.UtcNow.AddHours(-3)
                 };
@@ -181,7 +183,7 @@ namespace SupplyManager.Controllers
 
             var jwt = GenerateJwtToken(usuarioDb);
 
-            return Ok(new { jwtToken = jwt, userName = usuarioDb.Nome });
+            return Ok(new { jwtToken = jwt,userName = usuarioDb.Nome,userId=usuarioDb.Id });
 
 
         }

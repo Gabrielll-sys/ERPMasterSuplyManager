@@ -436,6 +436,9 @@ namespace SupplyManager.Migrations
                     b.Property<string>("Senha")
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("isActive")
+                        .HasColumnType("tinyint(1)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Usuários");

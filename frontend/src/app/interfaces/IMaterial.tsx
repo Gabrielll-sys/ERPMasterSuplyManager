@@ -1,16 +1,15 @@
 export default interface IMaterial {
-id:number,
+id?:number,
 categoria: string
 codigoFabricante: string
-codigoInterno:number
 corrente:string,
-dataEntradaNF : any,
+dataEntradaNF : Date,
 descricao: string,
 localizacao: string,
-marca: number,
-markup: number ,
-precoCusto: number,
-precoVenda: number,
+marca: string,
+markup?: string| number | null ,
+precoCusto?: number | string,
+precoVenda?: number | string,
 tensao: string,
 unidade: string
 }

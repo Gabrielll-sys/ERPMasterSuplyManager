@@ -37,7 +37,7 @@ import OrcamentoPDF from '@/app/componentes/OrcamentoPDF';
 import IconEdit from '@/app/assets/icons/IconEdit';
 import { SearchIcon } from '@/app/assets/icons/SearchIcon';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
-import { searchByDescription } from '@/app/services/MaterialServices';
+import { searchByDescription } from '@/app/services/Material.Services';
 import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
 import IconPencil from '@/app/assets/icons/IconPencil';
 

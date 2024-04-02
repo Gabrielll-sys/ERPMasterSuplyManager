@@ -65,6 +65,7 @@ namespace SupplyManager.Controllers
         /// <param name="id">Id do material para ser obtido</param>
         /// <returns>Materiais encontrado</returns>
         [HttpGet("{id}")]
+        [Authorize(Roles ="Diretor")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]

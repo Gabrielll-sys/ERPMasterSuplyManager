@@ -1,8 +1,13 @@
 import axios from 'axios';
-import { url } from 'inspector';
+import { url } from '../api/webApiUrl';
+import { authHeader } from '../_helpers/auth_headers';
+
+
 export const register = async (param:any) => {
   try{
-    return await axios.post(`${url}/Usuarios`, param).then( 
+    return await axios.post(`${url}/Usuarios`, param,
+    {headers:authHeader()})
+    .then( 
       response => {
         return response;
       },
@@ -15,30 +20,47 @@ export const register = async (param:any) => {
   }
 }
 
-const gravaUserLogadoLocalStorage = async (token:any, userId:number) => {  
+
+
+const gravaUserLogadoLocalStorage = async (token:any, userId:number,name:string) => {  
+ 
   var usuario = {
-    token: token, userId 
+    token: token,
+    userId:userId,
+    nome:name
   }  
-  localStorage.setItem('CD_Usuario', JSON.stringify(usuario));   
+  localStorage.setItem('currentUser', JSON.stringify(usuario));   
 } 
 
-export const getUserLocalStorage = async () => {      
-    
-  var strJSON= JSON.parse(localStorage.getItem('CD_Usuario'));
 
-  if(strJSON != null)
+
+export const getUserLocalStorage =  () => {      
+    
+  const currentUser = localStorage.getItem('currentUser');
+
+  const currentUserSubject = JSON.parse(currentUser || '{}');
+
+  if(currentUser != null)
   {      
-      return { userId: strJSON["userId"], token: strJSON["token"] };
+      return currentUserSubject
   }   
 } 
 
+
+
 export const authenticate = async (param:any) => {   
-  return await axios.post(`${url}/Usuarios/login`, param)
+
+
+    return await axios.post(`${url}/Usuarios/authenticate`, param)
   .then(response => {
+
     if (response && response.data) {
-      gravaUserLogadoLocalStorage(response.data.jwtToken, param.id);
+
+      gravaUserLogadoLocalStorage(response.data.jwtToken, response.data.userId,response.data.userName);
+
       return response.data;
-    } else {
+    }
+     else {
       return null;
     }
   })
@@ -48,16 +70,16 @@ export const authenticate = async (param:any) => {
 
 }
 
+
+
 export const getUserById = async (param:any) => {
   try{
-    const userLogado = await getUserLocalStorage();
+    const userLogado =  getUserLocalStorage();
     
     return await axios.get(`${url}/Usuarios/${param}`, 
     { 
-      headers: {
-        'Authorization': `Bearer ${userLogado?.token}`,
-        'Content-Type': 'application/json'
-      }
+      headers: authHeader()
+
     }).then( 
       response => {        
         return response.data;
@@ -70,3 +92,14 @@ export const getUserById = async (param:any) => {
     return null;
   }
 }
+
+export const logoutUser = ()=>{
+
+  localStorage.removeItem("currentUser")
+
+}
+
+export const currentUser = getUserLocalStorage();
+
+
+

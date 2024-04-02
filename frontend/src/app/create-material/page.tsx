@@ -38,8 +38,9 @@ import { signIn, useSession } from "next-auth/react";
 import GoogleIcon from "../assets/icons/GoogleIcon";
 import SpinnerForButton from "../componentes/SpinnerButton";
 import { Table } from "flowbite-react";
-import { searchByDescription, searchByFabricanteCode } from "../services/MaterialServices";
+import { createMaterial, searchByDescription, searchByFabricanteCode } from "../services/Material.Services";
 import IconPencil from "../assets/icons/IconPencil";
+import IMaterial from "../interfaces/IMaterial";
 
 export default function CreateMaterial(){
   const route = useRouter()
@@ -61,8 +62,8 @@ export default function CreateMaterial(){
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [messageAlert, setMessageAlert] = useState<string>();
   const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
- const[precoCusto,setPrecoCusto] = useState<string>()
-  const[markup,setMarkup] = useState<string>("")
+  const[precoCusto,setPrecoCusto] = useState<string>()
+  const[markup,setMarkup] = useState<string | null>(null)
   const [precoVenda,setPrecoVenda] = useState< string>()
   const [materiais, setMateriais] = useState([]);
 
@@ -99,7 +100,7 @@ const buscarDescricao = async(descricao:string)=>
       try{
 
         const res =  await searchByDescription(descricao)
-        console.log(res)
+
         setMateriais(res)
       }
     catch(e)
@@ -134,38 +135,14 @@ const buscaCodigoFabricante = async(codigo:string)=>
    
     sessionStorage.setItem("description",descricao)
 
-
     route.push(`update-material/${id}`)
-    
-    
-      
+        
   };
 
-  const createInventario = async (idMaterial:number) => {
-    
-    
-    const invetario = {
-      materialId: idMaterial,
-      estoque:0,
-      material: {},
-    };
-    try{
-      await axios
-      .post(`${url}/Inventarios`, invetario)
-      .then((r) => {
-        return r.data
-      })
-      .catch();
-  }
-  catch(e){
-    console.log(e)
-
-  }
-    }
   
   const handleCreateMaterial = async () => {
+    
     setMateriais([])
-
 
     if (!descricao || !unidade) {
       setOpenSnackBar(true);
@@ -175,8 +152,8 @@ const buscaCodigoFabricante = async(codigo:string)=>
 
       // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
       setLoadingButton(true)
-      const material = {
-        codigoInterno: codigoInterno.trim().replace(/\s\s+/g, " "),
+
+      const material: IMaterial = {
         codigoFabricante: codigoFabricante.trim().replace(/\s\s+/g, " "),
         descricao: descricao.trim().replace(/\s\s+/g, " "),
         categoria: "",
@@ -187,40 +164,14 @@ const buscaCodigoFabricante = async(codigo:string)=>
         localizacao: localizacao.trim().replace(/\s\s+/g, " "),
         dataEntradaNF: dataentrada,
         precoCusto:precoCusto,
-        markup:markup == ""?null:markup,
+        markup:markup,
         
       };
 
-      const materialCriado = await axios
-        .post(`${url}/Materiais`, material)
-        .then((r) => {
-          createInventario(r.data.id)
-         
-          setDescricao("")
-          setDescricao(r.data.descricao)
- 
-      
-          return r.data
-        })
-        .catch((e) => {
-          console.log(e.response.data.message);
-          if (e.response.data.message == "Código interno já existe") {
-            setOpenSnackBar(true);
-            setSeveridadeAlert("error");
-            setMessageAlert("Já existe um material com este mesmo código interno");
-          } else if (
-            e.response.data.message ==
-            "Código de fabricante já existe"
-          ) {
-            setOpenSnackBar(true);
-            setSeveridadeAlert("error");
-            setMessageAlert("Já existe um material com este mesmo código de fabricante");
-          }
-        });
-
+      const materialCriado = await createMaterial(material)
        
 
-    
+      console.log(materialCriado)
         if(materialCriado)
         {
           setLoadingButton(false)

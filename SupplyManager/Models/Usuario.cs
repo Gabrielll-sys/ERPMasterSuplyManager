@@ -19,23 +19,9 @@ namespace SupplyManager.Models
 
         public string Cargo { get; set; }
 
+        public bool isActive { get; set; }
         public DateTime? DataCadastro { get; set; }
     }
-
-
-  /*  public enum Perfil
-        {
-            [Description("Diretor")]
-            Diretor = 0,
-            [Description("Administrador")]
-            Administrador=1,
-            [Description("Administrador")]
-            Funcionario=2,
-            [Description("Personalizado")]
-            Personalizado = 3,
-            
-        }*/
-
 
 
     
