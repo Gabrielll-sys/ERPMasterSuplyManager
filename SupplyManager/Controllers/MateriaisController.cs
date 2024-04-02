@@ -30,10 +30,7 @@ namespace SupplyManager.Controllers
     {
         private readonly SqlContext _context;
         private readonly IMaterialService _materialService;
-        MySqlConnection a = new MySqlConnection("server=localhost;database=MasterERP;user=root;password=1234");
-
-
-
+        
 
 
         public MateriaisController(SqlContext context,IMaterialService materialService)

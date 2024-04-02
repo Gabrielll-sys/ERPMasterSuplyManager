@@ -280,3 +280,4 @@ C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\ob
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.pdb
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.genruntimeconfig.cache
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\ref\SupplyManager.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.sourcelink.json

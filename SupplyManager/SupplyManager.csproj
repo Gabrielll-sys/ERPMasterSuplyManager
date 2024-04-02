@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="CodeFile.cs" />
     <Compile Remove="Models\Categoria.cs" />
     <Compile Remove="Validations\CategoriaPostValidation.cs" />
   </ItemGroup>

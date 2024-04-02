@@ -28,9 +28,14 @@ namespace SupplyManager.Controllers
         }
 
 
-
+        /// <summary>
+        /// Realiza a criação de usuário no Sistema
+        /// </summary>
+        /// <param name="Usuario"></param>
+        /// <returns>O Usuário Criado </returns>
+        /// 
         [HttpPost]
-        [Authorize(Policy = "RoleCreateUser")]
+        [Authorize(Roles = "Diretor")]
         public async Task<ActionResult> Post([FromBody] UsuarioDto model)
         {
             try
@@ -68,7 +73,10 @@ namespace SupplyManager.Controllers
 
         }
 
-
+        /// <summary>
+        /// Atualiza um usuário
+        /// </summary>
+        /// <param name="Usuario"></param>
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] Usuario model)
         {
