@@ -21,6 +21,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import ArrowLeft from "@/app/assets/icons/ArrowLeft";
+import { getMaterialById, updateMaterial } from "@/app/services/Material.Services";
 
 export default function UpdateMaterial({params}:any){
   const route = useRouter()
@@ -98,25 +99,23 @@ export default function UpdateMaterial({params}:any){
  }
 
   const getMaterial = async(id:number)=>{
-    axios.get(`${url}/Materiais/${id}`).then(r=>{
- 
-  setDataentrada(r.data.dataEntradaNF==undefined?undefined:dayjs(r.data.dataEntradaNF))
- setCodigoInterno(r.data.id)
- setUnidade(r.data.unidade)
- setCodigoFabricante(verifyNull(r.data.codigoFabricante))
- setCorrente(verifyNull(r.data.corrente))
- setMarca(verifyNull(r.data.marca))
-  setDescricaoMaterial(r.data.descricao)
-  setDescricao(r.data.descricao)
- setOldCategory(verifyNull(r.data.categoria))
- setLocalizacao(verifyNull(r.data.localizacao))
- setPrecoCusto(verifyNull(r.data.precoCusto))
- setPrecoVenda(r.data.precoVenda == null?"0":r.data.precoVenda.toFixed(2))
- setMarkup(verifyNull(r.data.markup))
- 
- setTensao(r.data.tensao)
-})
- 
+   const material = await getMaterialById(id)
+  console.log(material)
+setDataentrada(material.dataEntradaNF==undefined?undefined:dayjs(material.dataEntradaNF))
+setCodigoInterno(material.id)
+setUnidade(material.unidade)
+setCodigoFabricante(verifyNull(material.codigoFabricante))
+setCorrente(verifyNull(material.corrente))
+setMarca(verifyNull(material.marca))
+ setDescricaoMaterial(material.descricao)
+ setDescricao(material.descricao)
+setOldCategory(verifyNull(material.categoria))
+setLocalizacao(verifyNull(material.localizacao))
+setPrecoCusto(verifyNull(material.precoCusto))
+setPrecoVenda(material.precoVenda == null?"0":material.precoVenda.toFixed(2))
+setMarkup(verifyNull(material.markup))
+
+setTensao(material.tensao)
   }
  
  
@@ -139,17 +138,16 @@ export default function UpdateMaterial({params}:any){
      unidade:unidade,
      tensao:tensao,
      localizacao:localizacao.trim().replace(/\s\s+/g, ' '),
-     dataEntradaNF:null,
      precoCusto:Number(precoCusto)==0?0:Number(precoCusto?.toString().replace(',','.')),
      precoVenda:Number(precoVenda)==0?0:Number(precoVenda?.toString().replace(',','.')),
      markup:Number(markup)==0?null:Number(markup?.toString().replace(',','.')),
      }
-console.log(material)
- 
-   const materialAtualizado =  await axios.put(`${url}/Materiais/${id}`,material)
-   .then(r=>
-     {  
-       console.log(r)
+
+     
+   const materialAtualizado =  await updateMaterial(material,id)
+   
+     
+   if (materialAtualizado){
        setOpenSnackBar(true)
        setSeveridadeAlert("success")
        setMessageAlert("Material Atualizado com sucesso")
@@ -157,27 +155,9 @@ console.log(material)
       setTimeout(()=>{
         route.back()
       },1200)
- 
- }
-     
-   ).catch(e=>{
-     console.log(e)
-  
-     
-     if (e.response.data.message == "Código interno já existe") {
-       setOpenSnackBar(true);
-       setSeveridadeAlert("error");
-       setMessageAlert("Já existe um material com este mesmo código interno");
-     } else if (
-       e.response.data.message ==
-       "Código de fabricante já existe"
-     ) {
-       setOpenSnackBar(true);
-       setSeveridadeAlert("error");
-       setMessageAlert("Já existe um material com este mesmo código de fabricante");
-     }
- 
-   })
+   }
+   
+   
   
  
  

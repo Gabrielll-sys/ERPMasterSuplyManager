@@ -9,10 +9,8 @@ import { createInventario } from "./Inventario.Services";
    export const getMaterialById = async(id:number)=>{
 
       return await axios.get(`${url}/Materiais/${id}`,{headers:authHeader()}).then(r=>{
- 
-        console.log(r.data)
+
          return r.data
- 
  
   })
    }
@@ -81,5 +79,18 @@ const materialCriado = await axios
   });
 
   return materialCriado
+
+   }
+
+
+   export const updateMaterial = async(material:IMaterial,idMaterial:number)=>
+   {
+
+      return  await axios.put(`${url}/Materiais/${idMaterial}`,material)
+      .then(r=>{
+         return r.data
+      })
+
+
 
    }

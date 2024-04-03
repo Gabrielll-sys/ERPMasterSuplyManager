@@ -3,7 +3,7 @@ id?:number,
 categoria: string
 codigoFabricante: string
 corrente:string,
-dataEntradaNF : Date,
+dataEntradaNF? : Date,
 descricao: string,
 localizacao: string,
 marca: string,
