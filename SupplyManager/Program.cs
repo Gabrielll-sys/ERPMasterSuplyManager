@@ -59,7 +59,7 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
-        //Versão da API
+        //Versï¿½o da API
         Version = "v1.0",
         Title = "Master ERP API",
         Description = "Service to get informations and manage the services of Master ERP"
@@ -113,7 +113,8 @@ builder.Services.AddTransient<IItemNotaFiscalService, ItemNotaFiscalService>();
 builder.Services.AddScoped<IItemNotaFiscalRepository, ItemNotaFiscalRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddTransient<IUsuarioService, UsuarioService>();
-
+builder.Services.AddScoped<ILogAcoesUsuarioRepository, LogAcoesUsuarioRepository>();
+builder.Services.AddTransient<ILogAcoesUsuarioService, LogAcoesUsuarioService>();
 
 
 var app = builder.Build();

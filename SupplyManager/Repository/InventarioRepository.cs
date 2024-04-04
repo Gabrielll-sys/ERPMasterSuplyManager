@@ -111,7 +111,7 @@ namespace SupplyManager.Repository
 
                 _context.Remove(invetario);
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             catch (Exception)
             {

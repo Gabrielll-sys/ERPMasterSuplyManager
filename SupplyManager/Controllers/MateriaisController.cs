@@ -15,6 +15,7 @@ using System.Linq;
 using SupplyManager.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using MySqlConnector;
+using SupplyManager.Services;
 
 namespace SupplyManager.Controllers
 {
@@ -30,14 +31,15 @@ namespace SupplyManager.Controllers
     {
         private readonly SqlContext _context;
         private readonly IMaterialService _materialService;
-        
+        private readonly ILogAcoesUsuarioService _logAcoesUsuarioService;
 
 
-        public MateriaisController(SqlContext context,IMaterialService materialService)
+        public MateriaisController(SqlContext context,IMaterialService materialService,ILogAcoesUsuarioService logAcoesUsuarioService)
         {
 
             _context = context;
             _materialService = materialService;
+            _logAcoesUsuarioService = logAcoesUsuarioService;
         }
 
         /// <summary>
@@ -54,7 +56,7 @@ namespace SupplyManager.Controllers
         {
            
 
-            return Ok(await _materialService.GetAllMateriaisAsync());
+            return Ok(await _materialService.GetAllAsync());
   
 
         }
@@ -73,7 +75,6 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<Material>> GetMaterial(int id)
         {
-
             try
             {
               
@@ -113,10 +114,7 @@ namespace SupplyManager.Controllers
                     .ToListAsync();
 
                 return Ok(materialWithInventory[materialWithInventory.Count-1]);
-
-             
-
-      
+                
             }
               
             catch (KeyNotFoundException)

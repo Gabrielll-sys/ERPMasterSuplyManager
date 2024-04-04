@@ -1,4 +1,5 @@
-﻿using SupplyManager.Interfaces;
+﻿using System.Security.Claims;
+using SupplyManager.Interfaces;
 using SupplyManager.Models;
 using SupplyManager.Repository;
 
@@ -8,11 +9,19 @@ namespace SupplyManager.Services
     {
         private readonly IMaterialRepository _materialRepository;
 
-        public MaterialService(IMaterialRepository materialRepository)
+        private readonly ILogAcoesUsuarioService _logAcoesUsuarioService;
+
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public MaterialService(IMaterialRepository materialRepository,ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
         {
             _materialRepository = materialRepository;
+
+            _logAcoesUsuarioService = logAcoesUsuarioService;
+
+            _httpContextAccessor = _httpContextAccessor;
         }
-         public async Task<List<Material>> GetAllMateriaisAsync()
+        
+         public async Task<List<Material>> GetAllAsync()
         {
             try
             {
@@ -60,6 +69,11 @@ namespace SupplyManager.Services
                 var material = await _materialRepository.CreateAsync(m1);
 
                 var lastItem = all.TakeLast(1).ToList(); 
+                
+                var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                
+                LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Criação do Material {material.Descricao}",
+                    responsavel: userName);
                 
                 material.Id = lastItem[0].Id + 1;
 

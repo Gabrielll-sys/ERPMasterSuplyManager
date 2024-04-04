@@ -21,6 +21,8 @@ namespace SupplyManager.App
         public DbSet<Cliente> Clientes{ get; set; }
         public DbSet<ItemOrcamento> ItensOrcamento{ get; set; }
         public DbSet<Orcamento> Orcamentos{ get; set; }
+        
+        public DbSet<LogAcoesUsuario> LogAcoesUsuarios{ get; set; }
  
 
     }

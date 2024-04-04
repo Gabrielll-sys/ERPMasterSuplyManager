@@ -216,13 +216,6 @@
             <param name="id">Id do material</param>
             <returns>Material e inventário encontrado</returns>
         </member>
-        <member name="M:SupplyManager.Controllers.MateriaisController.BuscaDescricao(System.String)">
-            <summary>
-            Busca materiais com a descrição
-            </summary>
-            <param name="id">A descrição do material</param>
-            <returns>Materiais encontrados com a descrição passado</returns>
-        </member>
         <member name="M:SupplyManager.Controllers.MateriaisController.CreateMaterial(SupplyManager.Models.Material)">
             <summary>
             Criar novo material
@@ -295,6 +288,20 @@
             <param name="id">O Id da ordem de serviço</param>
             <param name="model">O objeto de ordem de serviço a ser atualizada</param>
             <returns></returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.UsuariosController.Post(SupplyManager.Models.UsuarioDto)">
+            <summary>
+            Realiza a criação de usuário no Sistema
+            </summary>
+            <param name="Usuario"></param>
+            <returns>O Usuário Criado </returns>
+            
+        </member>
+        <member name="M:SupplyManager.Controllers.UsuariosController.Put(System.Int32,SupplyManager.Models.Usuario)">
+            <summary>
+            Atualiza um usuário
+            </summary>
+            <param name="Usuario"></param>
         </member>
         <member name="M:SupplyManager.Interfaces.IInventarioService.GetLastRegister(System.Int32)">
             <summary>
@@ -764,6 +771,30 @@
             <inheritdoc />
         </member>
         <member name="M:SupplyManager.Migrations.v38.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v39">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v39.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v39.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v39.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v40">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v40.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v40.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v40.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
         <member name="T:Delivery.Users.API.Extensions.ResponseExtension">
