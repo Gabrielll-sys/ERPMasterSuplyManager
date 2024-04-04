@@ -1523,7 +1523,7 @@ namespace SupplyManager.Controllers
                 //CASO SEJA O PRIMEIRO ITEM DO INVENTÁRIO OU QUANDO FOR CRIAR DE FATO O SEGUNDO ITEM
                 if (b.Count == 0 || b.Count == 1)
                 {
-                    InvetarioPostValidator ValidationInvetory = new InvetarioPostValidator();
+         
 
                     Inventario invetory1 = new Inventario
                         (
@@ -1546,8 +1546,7 @@ namespace SupplyManager.Controllers
                     return Ok(invetory1);
 
                 }
-                InvetarioPostValidator ValidationMaterial = new InvetarioPostValidator();
-
+                
                 Inventario i1 = new Inventario
                     (
                     model.Razao,

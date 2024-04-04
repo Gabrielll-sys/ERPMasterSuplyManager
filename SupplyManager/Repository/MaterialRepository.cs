@@ -69,11 +69,11 @@ namespace SupplyManager.Repository
             try
             {
 
-            _context.Materiais.Update(model);
+                _context.Materiais.Update(model);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             
-            return model;
+                return model;
 
             }
             catch (Exception)
@@ -89,14 +89,14 @@ namespace SupplyManager.Repository
             try
             {
 
-            var material = await _context.Materiais.FindAsync(id) ??throw new KeyNotFoundException();
+                var material = await _context.Materiais.FindAsync(id) ??throw new KeyNotFoundException();
 
-            _context.Remove(material);
+                _context.Remove(material);
 
-            _context.SaveChanges();
+                _context.SaveChanges();
             }
 
-              catch (Exception)
+            catch (Exception)
             {
 
                 throw;

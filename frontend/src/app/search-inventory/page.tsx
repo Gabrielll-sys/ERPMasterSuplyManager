@@ -35,6 +35,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Snackbar from "@mui/material/Snackbar";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import {searchByInternCode} from "@/app/services/Inventario.Services";
 export default function SearchInvetory(){
     
 
@@ -64,7 +65,7 @@ export default function SearchInvetory(){
     const { data: session } = useSession();
 
   const [descricao, setDescricao] = useState("");
-  const [codigoInterno,setCodigoInterno] = useState("")
+  const [codigoInterno,setCodigoInterno] = useState<string>("")
   const [codigoFabricante,setCodigoFabricante] = useState("")
   const [estoque, setEstoque] = useState(0);
   const[storeAllInventory,setStoreAllInventory] = useState()
@@ -80,31 +81,16 @@ export default function SearchInvetory(){
   const [inventarios, setInventarios] = useState<Inventario[]>([]);
 
 
-  
-  useEffect(()=>{
-
-    const searchInternCode = sessionStorage.getItem("buscaCodigoInterno")
-    const searchFabricanteCode = sessionStorage.getItem("buscaCodigoFabricante")
-    console.log(searchInternCode)
-    if(searchInternCode) 
-    {
-      setCodigoInterno(searchInternCode)
-    }
-
-  },[])
-  
-
   useEffect(() => {
     //Irá começar a realizar a busca somente quando  o código tiver  caracteres
  
     if (codigoInterno.length) {
       try{
 
-        searchByInternCode().then().catch();
+        searchMaterialInventario().then().catch();
       }
       catch(e){
         console.log(e)
-
 
       }
     }
@@ -112,115 +98,39 @@ export default function SearchInvetory(){
 
   }, [codigoInterno]);
 
-  useEffect(() => {
-    //Irá começar a realizar a busca somente quando  o código tiver 3 caracteres
-    //Para impedir da busca pelos dois campos,reseta o valor de codigo de fabricante
-
-    if (codigoFabricante.length>=3) {
-      try{
-
-        searchByFabricanteCode().then().catch();
-      }
-      catch(e){
-        console.log(e)
-
-
-      }
-    }
-    setInventarios([])
-
-  }, [codigoFabricante]);
 
   const handleChangePageUpdate = (id:number)=>{
 
-    sessionStorage.setItem("buscaCodigoInterno",codigoInterno)
-    sessionStorage.setItem("buscaCodigoFabricante",codigoFabricante)
 
     route.push(`/update-inventory/${id}`)
-
-
-
 
   }
   
 
-
 const handleShowAll = ()=>{
 
-if(showAll)
-{
-setShowAll(false)
-
-
-
-
-}
-else{
-
-  setShowAll(true)
-
+    showAll?setShowAll(false):setShowAll(true)
 
 }
 
-  
-}
-
-
-const searchByInternCode = async () => {
+const searchMaterialInventario = async () => {
 
   try{
 
-  const res = await axios
-    .get(`${url}/Inventarios/buscaCodigoInventario/${codigoInterno}`)
-    .then( (r)=> {
-
-     return r.data
-     
-    })
-    .catch();
+  const res = await searchByInternCode(Number(codigoInterno))
+console.log(res)
 
 
 setOnlyOneItem(res[res.length-1])
 
 setInventarios(res)
 
-
-
 }
 catch(e){
 
   console.log(e)
 }
 };
-
-const searchByFabricanteCode = async () => {
- 
-
-  try{
-
-  const res = await axios
-    .get(`${url}/Materiais/buscaCodigoFabricante?codigo=${codigoFabricante}`)
-    .then( (r)=> {
-
-     return r.data
-   
-     
-    })
-    .catch();
-    
-setInventarios(res)
-}
-catch(e){
-
-  console.log(e)
-}
-};
-
-
-
-
- 
-
 
 
     return(
@@ -232,7 +142,7 @@ catch(e){
       
 
       <Input
-        
+
           value={codigoInterno}
           className='w-[120px] max-sm:mx-auto border-1 border-black rounded-md shadow-sm shadow-black mx-auto'
           onValueChange={setCodigoInterno}

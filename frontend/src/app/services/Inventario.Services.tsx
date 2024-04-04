@@ -1,5 +1,6 @@
 import axios from "axios";
 import { url } from "../api/webApiUrl";
+import {authHeader} from "@/app/_helpers/auth_headers";
 
 
 
@@ -14,7 +15,7 @@ export const createInventario = async (idMaterial:number) => {
     };
    
       await axios
-      .post(`${url}/Inventarios`, inventario)
+      .post(`${url}/Inventarios`, inventario,{headers:authHeader()})
       .then((r) => {
         return r.data
       })
@@ -22,3 +23,23 @@ export const createInventario = async (idMaterial:number) => {
   
   
     }
+
+//Busca o histórico de inventário pelo id do material
+ export const searchByInternCode = async (id:number) => {
+
+    try{
+
+        return await axios
+            .get(`${url}/Inventarios/buscaCodigoInventario/${id}`,{headers:authHeader()})
+            .then( (r)=> {
+
+                return r.data
+            })
+            .catch();
+
+    }
+    catch(e){
+
+        console.log(e)
+    }
+};

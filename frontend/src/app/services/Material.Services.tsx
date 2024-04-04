@@ -15,7 +15,6 @@ import { createInventario } from "./Inventario.Services";
   })
    }
 
-
    export const searchByDescription = async (descricao:string) => {
 
      if(descricao.length){
@@ -67,7 +66,7 @@ import { createInventario } from "./Inventario.Services";
 };
 
 const materialCriado = await axios
-  .post(`${url}/Materiais`, material)
+  .post(`${url}/Materiais`, material,{headers:authHeader()})
   .then((r) => {
     createInventario(r.data.id)
     return r.data
@@ -86,7 +85,7 @@ const materialCriado = await axios
    export const updateMaterial = async(material:IMaterial,idMaterial:number)=>
    {
 
-      return  await axios.put(`${url}/Materiais/${idMaterial}`,material)
+      return  await axios.put(`${url}/Materiais/${idMaterial}`,material,{headers:authHeader()})
       .then(r=>{
          return r.data
       })

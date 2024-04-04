@@ -62,7 +62,7 @@ namespace SupplyManager.Controllers
 
 
                 var user = await _usuarioService.CreateAsync(u1);
-
+                
 
                 return Ok(user);
 
