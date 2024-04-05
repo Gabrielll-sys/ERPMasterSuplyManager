@@ -151,7 +151,7 @@ const buscaCodigoFabricante = async(codigo:string)=>
     } else {
 
       // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
-      setLoadingButton(true)
+
 
       const material: IMaterial = {
         codigoFabricante: codigoFabricante.trim().replace(/\s\s+/g, " "),
