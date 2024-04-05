@@ -51,6 +51,7 @@ import { createInventario } from "./Inventario.Services";
 // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
  
    const material = {
+       codigoInterno :"",
   codigoFabricante: model.codigoFabricante.trim().replace(/\s\s+/g, " "),
   descricao: model.descricao.trim().replace(/\s\s+/g, " "),
   categoria: "",

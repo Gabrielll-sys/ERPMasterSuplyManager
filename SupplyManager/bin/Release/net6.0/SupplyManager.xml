@@ -310,13 +310,6 @@
             <param name="id">If of material</param>
             <returns>The last register of some material</returns>
         </member>
-        <member name="M:SupplyManager.Interfaces.IMaterialService.CreateAsync(SupplyManager.Models.Material)">
-            <summary>
-            Get the last move register os move of some material
-            </summary>
-            <param name="id">If of material</param>
-            <returns>The last register of some material</returns>
-        </member>
         <member name="T:SupplyManager.Migrations.v1">
             <inheritdoc />
         </member>
@@ -795,6 +788,18 @@
             <inheritdoc />
         </member>
         <member name="M:SupplyManager.Migrations.v40.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v41">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v41.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v41.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v41.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
         <member name="T:Delivery.Users.API.Extensions.ResponseExtension">

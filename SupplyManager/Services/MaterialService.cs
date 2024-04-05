@@ -18,7 +18,7 @@ namespace SupplyManager.Services
 
             _logAcoesUsuarioService = logAcoesUsuarioService;
 
-            _httpContextAccessor = _httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
         }
         
          public async Task<List<Material>> GetAllAsync()
@@ -70,11 +70,13 @@ namespace SupplyManager.Services
 
                 var lastItem = all.TakeLast(1).ToList(); 
                 
-                var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
                 
                 LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Criação do Material {material.Descricao}",
                     responsavel: userName);
                 
+                await _logAcoesUsuarioService.CreateAsync(log);
+
                 material.Id = lastItem[0].Id + 1;
 
                 return material;

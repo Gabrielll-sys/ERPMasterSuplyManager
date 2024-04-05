@@ -37,7 +37,7 @@ namespace SupplyManager.Controllers
         /// <returns>O Usuário Criado </returns>
         /// 
         [HttpPost]
-        [Authorize(Roles = "Diretor")]
+        /*[Authorize(Roles = "Diretor")]*/
         public async Task<ActionResult> Post([FromBody] UsuarioDto model)
         {
             try
@@ -106,41 +106,7 @@ namespace SupplyManager.Controllers
             }
         }
 
-       /* [HttpPut("promote-demote-user/{id}")]
-        public async Task<ActionResult> PutDemotePromote(int id, [FromBody] Usuario model)
-        {
-
-            if (model.Id != id) return StatusCode(StatusCodes.Status400BadRequest);
-
-            try
-            {
-                var user = await _context.Usuarios.FindAsync(id) ?? throw new KeyNotFoundException();
-
-                user.Email = model.Email;
-                user.Nome = model.Nome;
-                user.Senha = BCrypt.Net.BCrypt.HashPassword(model.Senha);
-
-                user.PerfilUsuario = user.PerfilUsuario;
-                _context.Usuarios.Update(user);
-
-                await _context.SaveChangesAsync();
-                return Ok();
-
-
-            }
-
-            catch (KeyNotFoundException)
-            {
-                return StatusCode(StatusCodes.Status404NotFound);
-
-            }
-            catch (Exception exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
-
-            }
-        }*/
-
+   
         private string GenerateJwtToken(Usuario model)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -148,7 +114,7 @@ namespace SupplyManager.Controllers
 
             var claims = new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.NameIdentifier, model.Id.ToString()),
+                new Claim(ClaimTypes.Name, model.Nome),
                 new Claim(ClaimTypes.Role, model.Cargo)
             });
 

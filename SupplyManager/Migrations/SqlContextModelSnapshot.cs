@@ -223,6 +223,26 @@ namespace SupplyManager.Migrations
                     b.ToTable("ItensOrcamento");
                 });
 
+            modelBuilder.Entity("SupplyManager.Models.LogAcoesUsuario", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Acao")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("DataAcao")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Responsavel")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LogAcoesUsuarios");
+                });
+
             modelBuilder.Entity("SupplyManager.Models.Material", b =>
                 {
                     b.Property<int?>("Id")
