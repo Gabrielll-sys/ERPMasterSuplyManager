@@ -65,7 +65,7 @@ import { createInventario } from "./Inventario.Services";
   markup:model.markup == ""?null:model.markup,
   
 };
-
+       console.log(authHeader().Authorization)
 const materialCriado = await axios
   .post(`${url}/Materiais`, material,{headers:authHeader()})
   .then((r) => {

@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "@nextui-org/react";
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import { usePathname } from 'next/navigation'
 import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag,HiFilter, HiPencilAlt,HiQrcode,HiPencil } from 'react-icons/hi';
 import GoogleIcon from "../assets/icons/GoogleIcon";
 import { useRouter } from "next/navigation";
@@ -66,6 +65,9 @@ export default function SideBarLFT(props : any) {
               Gerenciar Usuários
           </Sidebar.Item>
           </Sidebar.Collapse>
+          <Sidebar.Item className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/log-register" icon={HiPencil}>
+            Registro de Ações
+          </Sidebar.Item>
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>

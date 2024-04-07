@@ -23,7 +23,7 @@ import { getMaterialById } from '@/app/services/Material.Services';
 
 
 
-export default function CreateUser({params}:any){
+export default function Login({params}:any){
     const route = useRouter()
     const { data: session } = useSession();
   const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
@@ -41,7 +41,7 @@ export default function CreateUser({params}:any){
 
 
 
-    const createUser = async()=>{
+    const loginUser = async()=>{
     const see = localStorage.getItem("currentUser")
     console.log(see)
       // let emailRegex =  /\S+@\S+\.\S+/;
@@ -103,43 +103,14 @@ return(
             />
  
 
-            <Autocomplete
-                label="Método Pagamento $"
-                placeholder="EX:PIX"
-                
-                className=" w-[250px]  border-1 border-black rounded-md shadow-sm shadow-black h-14  "
-                value={metodoPagamento}
-                onSelectionChange={setMetodoPagamento}
-                allowsCustomValue
-                defaultSelectedKey={metodoPagamento}
-              >
-
-              {funcoesUsuario.map((item:any) => (
-
-                  <AutocompleteItem
-                  key={item}
-                  aria-label='teste'
-                    value={metodoPagamento}
-                    >
-                    {item}
-                  </AutocompleteItem>
-                ))}
-                </Autocomplete>
 
 
-          <Button  onPress={createUser} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
-                Criar usuário
+
+          <Button  onPress={loginUser} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
+                Entrar
           </Button>
 
-          <Button  onPress={logoutUser} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
-                sair
-          </Button>
-
-          <Button  onPress={getMaterial} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
-                Buscar Material
-          </Button>
           </div>
-
 
 
         </div>

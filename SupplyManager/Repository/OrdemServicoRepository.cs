@@ -30,7 +30,7 @@ namespace SupplyManager.Repository
             }
         }
 
-        public async Task<OrdemServico> GetByIdAsync(int id)
+        public async Task<OrdemServico> GetByIdAsync(int? id)
         {
 
             try

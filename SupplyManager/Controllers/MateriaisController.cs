@@ -77,7 +77,7 @@ namespace SupplyManager.Controllers
         {
             try
             {
-              
+                var a = 20;
                 return Ok( await _materialService.GetByIdAsync(id));
             }
 

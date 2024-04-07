@@ -40,10 +40,7 @@ namespace SupplyManager.Models
 
         public string? TipoPagamento { get; set; }
 
-
-
        
-
-}
+    }
 }
 

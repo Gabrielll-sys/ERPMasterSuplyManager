@@ -191,6 +191,18 @@
             <param name="id">Id do item a ser deletado</param>
             <returns></returns>
         </member>
+        <member name="M:SupplyManager.Controllers.LogAcoesUsuarioController.GetAll">
+            <summary>
+            Busca todos os materiais
+            </summary>
+            <returns>Retorna todos Logs </returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.LogAcoesUsuarioController.GetLogsByDate(System.DateTime)">
+            <summary>
+            Busca todos os materiais
+            </summary>
+            <returns>Retorna todos Logs </returns>
+        </member>
         <member name="T:SupplyManager.Controllers.MateriaisController">
             <summary>
             Controlador para gerenciar os Materias

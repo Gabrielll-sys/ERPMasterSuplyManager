@@ -265,6 +265,7 @@ C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\ob
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.csproj.CoreCompileInputs.cache
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.sourcelink.json
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\staticwebassets.build.json
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\staticwebassets.development.json
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\staticwebassets\msbuild.SupplyManager.Microsoft.AspNetCore.StaticWebAssets.props

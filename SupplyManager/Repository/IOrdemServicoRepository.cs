@@ -4,7 +4,7 @@ namespace SupplyManager.Interfaces
 {
     public interface IOrdemServicoRepository
     {
-        Task<OrdemServico> GetByIdAsync(int id);
+        Task<OrdemServico> GetByIdAsync(int? id);
 
 
         Task<List<OrdemServico>> GetAllAsync();

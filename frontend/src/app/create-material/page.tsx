@@ -63,7 +63,7 @@ export default function CreateMaterial(){
   const [messageAlert, setMessageAlert] = useState<string>();
   const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
   const[precoCusto,setPrecoCusto] = useState<string>()
-  const[markup,setMarkup] = useState<string | null>(null)
+  const[markup,setMarkup] = useState<string>("")
   const [precoVenda,setPrecoVenda] = useState< string>()
   const [materiais, setMateriais] = useState([]);
 

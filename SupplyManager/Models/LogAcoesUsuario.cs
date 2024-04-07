@@ -17,6 +17,10 @@ namespace SupplyManager.Models
             DataAcao = DateTime.UtcNow.AddHours(-3);
             Responsavel = responsavel;
         }
-        
+
+        public LogAcoesUsuario()
+        {
+            
+        }
     }
 }

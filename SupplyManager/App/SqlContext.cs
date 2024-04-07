@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SupplyManager.Controllers;
 using SupplyManager.Models;
+using LogAcoesUsuario = SupplyManager.Models.LogAcoesUsuario;
 
 namespace SupplyManager.App
 {
