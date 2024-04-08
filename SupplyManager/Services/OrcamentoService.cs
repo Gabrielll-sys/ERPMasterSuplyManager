@@ -1,17 +1,18 @@
 using System.Security.Claims;
 using SupplyManager.Models;
+using SupplyManager.Repository;
 
 namespace SupplyManager.Services;
 
 public class OrcamentoService : IOrcamentoService
 {
-        private readonly IOrcamentoService _orcamentoRepository;
+        private readonly IOrcamentoRepository _orcamentoRepository;
 
         private readonly ILogAcoesUsuarioService _logAcoesUsuarioService;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         
-        public OrcamentoService(IOrcamentoService orcamentoRepository,ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
+        public OrcamentoService(IOrcamentoRepository orcamentoRepository,ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
         {
             _orcamentoRepository = orcamentoRepository;
 
@@ -102,7 +103,7 @@ public class OrcamentoService : IOrcamentoService
             {
                 var orcamento = await _orcamentoRepository.GetByIdAsync(model.Id) ?? throw new KeyNotFoundException();
 
-                await _orcamentoRepository.UpdateAsync(orcamento);
+                await _orcamentoRepository.UpdateAsync(model);
 
                 var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
                 
@@ -112,21 +113,44 @@ public class OrcamentoService : IOrcamentoService
                 
                 if (model.NomeCliente != orcamento.NomeCliente)
                 {
-                    log.Acao = $"Mundança do nome do cliente de {orcamento.NomeCliente} para {model.NomeCliente}";
+                    log.Acao = $"Mudança do nome do cliente do Orcamento Nº{orcamento.Id} de {orcamento.NomeCliente} para {model.NomeCliente}";
                     
                 }
                 else if (model.Observacoes != orcamento.Observacoes)
                 {
-                    log.Acao = $"Mundança das observações de {orcamento.Observacoes} para {model.Observacoes}";
+                    log.Acao = $"Mudança das observações do Orcamento Nº{orcamento.Id} de {orcamento.Observacoes} para {model.Observacoes}";
 
                 } 
                 else if (model.Endereco != orcamento.Endereco)
                 {                                                                                    
-                    log.Acao = $"Mundança do endereço do cliente de {orcamento.Endereco} para {model.Endereco}";
+                    log.Acao = $"Mudança do endereço do cliente do Orcamento Nº{orcamento.Id} de {orcamento.Endereco} para {model.Endereco}";
 
                 }
-               
-                
+                else if (model.Telefone != orcamento.Telefone)
+                {                                                                                    
+                    log.Acao = $"Mudança do Telefone do cliente do Orcamento Nº{orcamento.Id} de {orcamento.Telefone} para {model.Telefone}";
+
+                }
+                else if (model.TipoPagamento != orcamento.TipoPagamento)
+                {                                                                                    
+                    log.Acao = $"Mudança do Tipo De Pagamento  do Orcamento Nº{orcamento.Id} de {orcamento.TipoPagamento} para {model.TipoPagamento}";
+
+                }
+                else if (model.EmailCliente != orcamento.EmailCliente)
+                {                                                                                    
+                    log.Acao = $"Mudança do Email do cliente do Orcamento Nº{orcamento.Id} de {orcamento.EmailCliente} para {model.EmailCliente}";
+
+                }
+                else if (model.CpfOrCnpj != orcamento.CpfOrCnpj)
+                {                                                                                    
+                    log.Acao = $"Mudança do CPF OU CNPJ do cliente do Orcamento Nº{orcamento.Id} de {orcamento.CpfOrCnpj} para {model.CpfOrCnpj}";
+
+                }
+                else if (model.Desconto != orcamento.Desconto)
+                {                                                                                    
+                    log.Acao = $"Mudança de desconto do Orcamento Nº{orcamento.Id} de {orcamento.Desconto}% para {model.Desconto}%";
+
+                }
                 await _logAcoesUsuarioService.CreateAsync(log);
                 
                 return orcamento;

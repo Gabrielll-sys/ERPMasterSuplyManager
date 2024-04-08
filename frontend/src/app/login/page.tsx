@@ -43,16 +43,7 @@ export default function Login({params}:any){
 
     const loginUser = async()=>{
     const see = localStorage.getItem("currentUser")
-    console.log(see)
-      // let emailRegex =  /\S+@\S+\.\S+/;
 
-      // if(!emailRegex.test(email))
-      // {
-
-      //   setOpenSnackBar(true);
-      //   setSeveridadeAlert("error");
-      //   setMessageAlert("Email inválido");
-      // }
 
       const user = {
         email:"gabrielpuneco@gmail.com",
@@ -84,13 +75,13 @@ return(
     
             <h1 className='text-center text-2xl mt-4'>Informações Do usuario</h1>
 
-          <div className=' flex-flex-col  rounded-md shadow-md shadow-black border-1 border-black p-8 w-[400px] mx-auto gap-8 '>
+          <div className=' flex flex-col  items-center  text-center mx-auto rounded-md shadow-md shadow-black border-1 border-black p-8 w-[400px] gap-3 '>
 
 
             <Input
               labelPlacement='outside'
               value={nome}
-              className="border-1 border-black rounded-md shadow-sm shadow-black  max-w-[200px]"
+              className="border-1 border-black justify-center rounded-md shadow-sm shadow-black  max-w-[200px]"
               onValueChange={setNome}
               label="Nome"
             />

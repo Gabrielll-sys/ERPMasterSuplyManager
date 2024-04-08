@@ -193,7 +193,7 @@
         </member>
         <member name="M:SupplyManager.Controllers.LogAcoesUsuarioController.GetAll">
             <summary>
-            Busca todos os materiais
+            Busca todos os Logs
             </summary>
             <returns>Retorna todos Logs </returns>
         </member>

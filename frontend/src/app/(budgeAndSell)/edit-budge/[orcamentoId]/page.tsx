@@ -211,7 +211,7 @@ console.log(res)
   
 const handleUpdateOrcamento = async()=>{
   
-  console.log(metodoPagamento)
+
   const budge = {
     id:orcamento?.id,
     desconto:Number(desconto),
@@ -229,7 +229,7 @@ const handleUpdateOrcamento = async()=>{
 
 
   }
-
+console.log(budge)
   const res = await axios.put(`${url}/Orcamentos/${orcamento?.id}`,budge).then(r=>{
 
     setOpenSnackBar(true);

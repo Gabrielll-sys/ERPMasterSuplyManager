@@ -17,580 +17,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb5a7976-4a18-4836-970a-81862f90e640" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SupplyManager/Repository/OrcamentoRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SupplyManager/Services/IOrcamentoService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SupplyManager/Services/OrcamentoService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/login/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SupplyManager/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SupplyManager/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/App/SqlContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/App/SqlContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Controllers/LogAcoesUsuario.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Controllers/LogAcoesUsuarioController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Controllers/MateriaisController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Controllers/MateriaisController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Controllers/OrcamentosController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Controllers/OrcamentosController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Models/LogAcoesUsuario.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Models/LogAcoesUsuario.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SupplyManager/Repository/IOrcamentoRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.SupplyManager/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SupplyManager/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/Models/Orcamento.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Models/Orcamento.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/IOrdemServicoRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/IOrdemServicoRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/OrdemServicoRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/OrdemServicoRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/IOrdemServicoService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/IOrdemServicoService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/OrdemServicoService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/OrdemServicoService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/OrcamentoRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/OrcamentoRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/OrcamentoService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/OrcamentoService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.exe" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/BCrypt.Net-Next.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/BouncyCastle.Cryptography.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Dapper.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Enums.NET.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/FluentValidation.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Humanizer.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ICSharpCode.SharpZipLib.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/MathNet.Numerics.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/MessagePack.Annotations.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/MessagePack.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.AspNetCore.Mvc.Versioning.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.AspNetCore.OData.Versioning.ApiExplorer.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.AspNetCore.OData.Versioning.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.AspNetCore.OData.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.AspNetCore.Razor.Language.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.Bcl.AsyncInterfaces.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.Build.Framework.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.Build.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.CodeAnalysis.AnalyzerUtilities.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.CodeAnalysis.CSharp.Features.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.CodeAnalysis.CSharp.Workspaces.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.CodeAnalysis.CSharp.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.CodeAnalysis.Features.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.CodeAnalysis.Razor.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.CodeAnalysis.Scripting.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.CodeAnalysis.Workspaces.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.CodeAnalysis.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.DiaSymReader.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.DotNet.Scaffolding.Shared.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.EntityFrameworkCore.Abstractions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.EntityFrameworkCore.Design.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.EntityFrameworkCore.Relational.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.EntityFrameworkCore.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.Extensions.Caching.Abstractions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.Extensions.Caching.Memory.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.Extensions.Configuration.Abstractions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.Extensions.DependencyInjection.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.Extensions.DependencyModel.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.Extensions.Logging.Abstractions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.Extensions.Logging.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.Extensions.Options.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.Extensions.Primitives.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.IO.RecyclableMemoryStream.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.IdentityModel.Abstractions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.IdentityModel.JsonWebTokens.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.IdentityModel.Logging.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.IdentityModel.Protocols.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.IdentityModel.Tokens.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.NET.StringTools.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.OData.Core.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.OData.Edm.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.OpenApi.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.Spatial.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.VisualStudio.Debugger.Contracts.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.VisualStudio.Web.CodeGeneration.Core.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.VisualStudio.Web.CodeGeneration.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Microsoft.Win32.SystemEvents.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Mono.TextTemplating.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/MySqlConnector.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/NPOI.Core.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/NPOI.OOXML.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/NPOI.OpenXml4Net.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/NPOI.OpenXmlFormats.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Newtonsoft.Json.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/NuGet.Common.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/NuGet.Configuration.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/NuGet.DependencyResolver.Core.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/NuGet.Frameworks.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/NuGet.LibraryModel.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/NuGet.Packaging.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/NuGet.ProjectModel.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/NuGet.Protocol.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/NuGet.Versioning.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Pomelo.EntityFrameworkCore.MySql.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/SixLabors.Fonts.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/SixLabors.ImageSharp.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/SupplyManager.deps.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/SupplyManager.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/SupplyManager.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/SupplyManager.pdb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/SupplyManager.runtimeconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/SupplyManager.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Swashbuckle.AspNetCore.Swagger.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Swashbuckle.AspNetCore.SwaggerGen.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/Swashbuckle.AspNetCore.SwaggerUI.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/System.CodeDom.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/System.Composition.AttributedModel.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/System.Composition.Convention.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/System.Composition.Hosting.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/System.Composition.Runtime.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/System.Composition.TypedParts.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/System.Configuration.ConfigurationManager.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/System.Diagnostics.DiagnosticSource.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/System.Drawing.Common.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/System.IdentityModel.Tokens.Jwt.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/System.Reflection.MetadataLoadContext.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/System.Security.Cryptography.Pkcs.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/System.Security.Cryptography.ProtectedData.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/System.Security.Cryptography.Xml.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/System.Security.Permissions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/System.Text.Encodings.Web.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/System.Text.Json.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/System.Windows.Extensions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/af/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/appsettings.Development.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/appsettings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ar/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/az/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/bg/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/bn-BD/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/cs/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/cs/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/cs/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/cs/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/cs/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/cs/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/cs/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/cs/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/da/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/de/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/de/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/de/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/de/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/de/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/de/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/de/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/de/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/dotnet-aspnet-codegenerator-design.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/el/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/es/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/es/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/es/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/es/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/es/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/es/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/es/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/es/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/fa/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/fi-FI/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/fr-BE/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/fr/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/fr/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/fr/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/fr/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/fr/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/fr/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/fr/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/fr/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/he/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/hr/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/hu/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/hy/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/id/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/is/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/it/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/it/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/it/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/it/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/it/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/it/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/it/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/it/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ja/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ja/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ja/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ja/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ja/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ja/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ja/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ja/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ko-KR/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ko/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ko/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ko/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ko/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ko/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ko/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ko/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ku/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/lv/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ms-MY/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/mt/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/nb-NO/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/nb/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/nl/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/pl/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/pl/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/pl/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/pl/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/pl/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/pl/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/pl/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/pl/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/pt-BR/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/pt-BR/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/pt-BR/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/pt-BR/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/pt-BR/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/pt-BR/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/pt-BR/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/pt/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/BCrypt.Net-Next.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/BouncyCastle.Cryptography.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Dapper.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Enums.NET.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/FluentValidation.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Humanizer.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ICSharpCode.SharpZipLib.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/MathNet.Numerics.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/MessagePack.Annotations.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/MessagePack.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.AspNetCore.Authentication.JwtBearer.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.AspNetCore.Mvc.Versioning.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.AspNetCore.OData.Versioning.ApiExplorer.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.AspNetCore.OData.Versioning.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.AspNetCore.OData.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.AspNetCore.Razor.Language.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.Bcl.AsyncInterfaces.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.Build.Framework.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.Build.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.CodeAnalysis.AnalyzerUtilities.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.CodeAnalysis.CSharp.Features.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.CodeAnalysis.CSharp.Workspaces.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.CodeAnalysis.CSharp.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.CodeAnalysis.Features.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.CodeAnalysis.Razor.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.CodeAnalysis.Scripting.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.CodeAnalysis.Workspaces.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.CodeAnalysis.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.DiaSymReader.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.DotNet.Scaffolding.Shared.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.EntityFrameworkCore.Abstractions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.EntityFrameworkCore.Relational.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.EntityFrameworkCore.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.Extensions.Caching.Abstractions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.Extensions.Caching.Memory.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.Extensions.Configuration.Abstractions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.Extensions.DependencyInjection.Abstractions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.Extensions.DependencyInjection.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.Extensions.Logging.Abstractions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.Extensions.Logging.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.Extensions.Options.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.Extensions.Primitives.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.IO.RecyclableMemoryStream.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.IdentityModel.Abstractions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.IdentityModel.JsonWebTokens.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.IdentityModel.Logging.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.IdentityModel.Protocols.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.IdentityModel.Tokens.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.NET.StringTools.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.OData.Core.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.OData.Edm.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.OpenApi.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.Spatial.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.VisualStudio.Debugger.Contracts.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.VisualStudio.Web.CodeGeneration.Core.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.VisualStudio.Web.CodeGeneration.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Microsoft.Win32.SystemEvents.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/MySqlConnector.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/NPOI.Core.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/NPOI.OOXML.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/NPOI.OpenXml4Net.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/NPOI.OpenXmlFormats.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Newtonsoft.Json.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/NuGet.Common.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/NuGet.Configuration.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/NuGet.DependencyResolver.Core.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/NuGet.Frameworks.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/NuGet.LibraryModel.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/NuGet.Packaging.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/NuGet.ProjectModel.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/NuGet.Protocol.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/NuGet.Versioning.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Pomelo.EntityFrameworkCore.MySql.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/SixLabors.Fonts.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/SixLabors.ImageSharp.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/SupplyManager.deps.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/SupplyManager.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/SupplyManager.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/SupplyManager.pdb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/SupplyManager.runtimeconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/SupplyManager.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Swashbuckle.AspNetCore.Swagger.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Swashbuckle.AspNetCore.SwaggerGen.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/Swashbuckle.AspNetCore.SwaggerUI.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/System.Composition.AttributedModel.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/System.Composition.Convention.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/System.Composition.Hosting.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/System.Composition.Runtime.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/System.Composition.TypedParts.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/System.Configuration.ConfigurationManager.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/System.Diagnostics.DiagnosticSource.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/System.Drawing.Common.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/System.IdentityModel.Tokens.Jwt.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/System.Reflection.MetadataLoadContext.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/System.Security.Cryptography.Pkcs.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/System.Security.Cryptography.ProtectedData.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/System.Security.Cryptography.Xml.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/System.Security.Permissions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/System.Text.Encodings.Web.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/System.Text.Json.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/System.Windows.Extensions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/af/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/appsettings.Development.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/appsettings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ar/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/az/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/bg/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/bn-BD/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/cs/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/cs/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/cs/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/cs/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/cs/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/cs/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/cs/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/cs/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/da/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/de/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/de/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/de/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/de/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/de/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/de/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/de/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/de/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/dotnet-aspnet-codegenerator-design.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/el/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/es/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/es/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/es/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/es/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/es/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/es/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/es/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/es/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/fa/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/fi-FI/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/fr-BE/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/fr/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/fr/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/fr/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/fr/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/fr/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/fr/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/fr/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/fr/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/he/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/hr/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/hu/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/hy/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/id/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/is/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/it/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/it/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/it/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/it/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/it/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/it/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/it/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/it/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ja/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ja/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ja/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ja/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ja/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ja/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ja/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ja/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ko-KR/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ko/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ko/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ko/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ko/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ko/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ko/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ko/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ku/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/lv/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ms-MY/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/mt/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/nb-NO/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/nb/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/nl/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/pl/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/pl/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/pl/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/pl/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/pl/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/pl/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/pl/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/pl/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/pt-BR/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/pt-BR/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/pt-BR/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/pt-BR/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/pt-BR/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/pt-BR/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/pt-BR/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/pt/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ro/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ru/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ru/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ru/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ru/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ru/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ru/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ru/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/ru/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/runtimes/browser/lib/net6.0/System.Text.Encodings.Web.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/runtimes/unix/lib/net6.0/System.Drawing.Common.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/runtimes/win/lib/net6.0/Microsoft.Win32.SystemEvents.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/runtimes/win/lib/net6.0/System.Drawing.Common.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/runtimes/win/lib/net6.0/System.Security.Cryptography.Pkcs.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/runtimes/win/lib/net6.0/System.Security.Cryptography.ProtectedData.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/runtimes/win/lib/net6.0/System.Windows.Extensions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/sk/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/sl/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/sr-Latn/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/sr/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/sv/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/th-TH/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/tr/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/tr/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/tr/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/tr/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/tr/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/tr/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/tr/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/tr/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/uk/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/uz-Cyrl-UZ/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/uz-Latn-UZ/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/vi/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/web.config" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/zh-CN/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/zh-Hans/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/zh-Hans/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/zh-Hans/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/zh-Hans/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/zh-Hans/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/zh-Hans/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/zh-Hans/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/zh-Hans/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/zh-Hant/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/zh-Hant/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/zh-Hant/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/zh-Hant/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/zh-Hant/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/zh-Hant/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/zh-Hant/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/publish/zh-Hant/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ro/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ru/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ru/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ru/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ru/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ru/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ru/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ru/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/ru/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/runtimes/browser/lib/net6.0/System.Text.Encodings.Web.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/runtimes/unix/lib/net6.0/System.Drawing.Common.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/runtimes/win/lib/net6.0/Microsoft.Win32.SystemEvents.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/runtimes/win/lib/net6.0/System.Drawing.Common.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/runtimes/win/lib/net6.0/System.Security.Cryptography.Pkcs.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/runtimes/win/lib/net6.0/System.Security.Cryptography.ProtectedData.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/runtimes/win/lib/net6.0/System.Windows.Extensions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/sk/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/sl/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/sr-Latn/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/sr/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/sv/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/th-TH/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/tr/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/tr/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/tr/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/tr/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/tr/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/tr/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/tr/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/tr/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/uk/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/uz-Cyrl-UZ/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/uz-Latn-UZ/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/vi/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/zh-CN/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/zh-Hans/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/zh-Hans/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/zh-Hans/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/zh-Hans/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/zh-Hans/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/zh-Hans/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/zh-Hans/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/zh-Hant/Humanizer.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/zh-Hant/Microsoft.CodeAnalysis.CSharp.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/zh-Hant/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/zh-Hant/Microsoft.CodeAnalysis.CSharp.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/zh-Hant/Microsoft.CodeAnalysis.Features.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/zh-Hant/Microsoft.CodeAnalysis.Scripting.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.resources.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Release/net6.0/zh-Hant/Microsoft.CodeAnalysis.resources.dll" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.assets.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.genruntimeconfig.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.sourcelink.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/apphost.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/ref/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/ref/SupplyManager.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/refint/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/refint/SupplyManager.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Release/net6.0/SupplyManager.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Release/net6.0/SupplyManager.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Release/net6.0/SupplyManager.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Release/net6.0/SupplyManager.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Release/net6.0/SupplyManager.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Release/net6.0/SupplyManager.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Release/net6.0/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Release/net6.0/SupplyManager.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Release/net6.0/SupplyManager.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Release/net6.0/SupplyManager.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Release/net6.0/SupplyManager.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Release/net6.0/SupplyManager.sourcelink.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Release/net6.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Release/net6.0/apphost.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Release/net6.0/ref/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Release/net6.0/ref/SupplyManager.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Release/net6.0/refint/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Release/net6.0/refint/SupplyManager.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/SupplyManager.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/SupplyManager.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/SupplyManager.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/SupplyManager.csproj.nuget.g.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/rider.project.model.nuget.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/(manage-users)/create-user/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(manage-users)/create-user/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/_helpers/auth_headers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/_helpers/auth_headers.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/componentes/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/componentes/Header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/componentes/SideBarLFT.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/componentes/SideBarLFT.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/create-material/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/create-material/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/log_register/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/log-register/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/log_register/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/log-register/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/services/Material.Services.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/services/Material.Services.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/(budgeAndSell)/create-budge/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(budgeAndSell)/create-budge/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/(budgeAndSell)/edit-budge/[orcamentoId]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(budgeAndSell)/edit-budge/[orcamentoId]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/login/page.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -612,29 +61,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Project.SupplyManager.executor&quot;: &quot;Debug&quot;,
-    &quot;Publish to IIS.SupplyManager: mastererp - FTP.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;RiderIisExpressOptionsPageId&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Project.SupplyManager.executor": "Debug",
+    "Publish to IIS.SupplyManager: mastererp - FTP.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "feature",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "RiderIisExpressOptionsPageId",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\gabri\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\gabri\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\gabri\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\gabri\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache",
+      "C:\\Users\\gabri\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache",
+      "C:\\Users\\gabri\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Project.SupplyManager">
     <configuration name="SupplyManager: mastererp - FTP" type="DotNetMsBuildPublish" factoryName="Publish to IIS">
       <riderPublish configuration="Release" platform="Any CPU" publish_profile="mastererp - FTP.pubxml" pubxml_path="$PROJECT_DIR$/SupplyManager/Properties/PublishProfiles/mastererp - FTP.pubxml" user_name="mastererp\$mastererp" uuid_high="-3087707462186482965" uuid_low="-5283278916316385703" />
@@ -723,7 +172,7 @@
       <updated>1712407860171</updated>
       <workItem from="1712407862888" duration="1598000" />
       <workItem from="1712409472561" duration="16297000" />
-      <workItem from="1712501260902" duration="4810000" />
+      <workItem from="1712501260902" duration="10603000" />
     </task>
     <servers />
   </component>
@@ -732,6 +181,13 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="Type#Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry" memberName="Entity" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -6,9 +6,7 @@ namespace SupplyManager.Models
     {
         //O ORÇAMENTO NÃO É UMA VENDA,MAS CASO OS MATERIAS SEJAM DE FATOS VENDIDOS AI SIM SE TORNARÁ UMA VENDA
         public int Id { get; set; }
-
-
-
+        
         public string? ResponsavelOrcamento { get; set; }
 
         public string? ResponsavelVenda { get; set; }

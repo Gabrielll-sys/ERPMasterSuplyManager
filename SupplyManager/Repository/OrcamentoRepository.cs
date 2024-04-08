@@ -4,7 +4,7 @@ using SupplyManager.Models;
 
 namespace SupplyManager.Repository;
 
-public class OrcamentoRepository
+public class OrcamentoRepository : IOrcamentoRepository
 {
     private readonly SqlContext _context;
     
@@ -87,9 +87,24 @@ public class OrcamentoRepository
                 try
                 {
     
-                    _ = await _context.Orcamentos.FindAsync(model.Id) ?? throw new KeyNotFoundException();
-    
-                    _context.Orcamentos.Update(model);
+                    var orcamento  = await _context.Orcamentos.FindAsync(model.Id) ?? throw new KeyNotFoundException();
+                    
+                    orcamento.Observacoes = model.Observacoes;
+                    orcamento.Acrescimo = model.Acrescimo;
+                    orcamento.Desconto = model.Desconto;
+                    orcamento.PrecoVendaTotal = model.PrecoVendaTotal;
+                    orcamento.PrecoVendaComDesconto = model.PrecoVendaComDesconto;
+                    orcamento.IsPayed = model.IsPayed;
+                    orcamento.ResponsavelOrcamento = model.ResponsavelOrcamento;
+                    orcamento.NomeCliente = model.NomeCliente;
+                    orcamento.CpfOrCnpj = model.CpfOrCnpj;
+                    orcamento.Empresa = model.Empresa;
+                    orcamento.EmailCliente = model.EmailCliente;
+                    orcamento.Endereco = model.Endereco;
+                    orcamento.Telefone = model.Telefone;
+                    orcamento.TipoPagamento = model.TipoPagamento;
+                    
+                     _context.Orcamentos.Update(orcamento);
     
                     await _context.SaveChangesAsync();
     

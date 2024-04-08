@@ -86,7 +86,7 @@ const orcamento : IOrcamento = {
   emailCliente:emailCliente?.trim().replace(/\s\s+/g, " "),
   telefone:telefone,
   endereco:endereco.trim().replace(/\s\s+/g, " "),
-  desconto:Number(desconto),
+  desconto:0,
   tipoPagamento:metodoPagamento==""?"PIX":metodoPagamento,
   responsavelOrcamento:session?.user?.name
 
