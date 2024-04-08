@@ -297,7 +297,7 @@ const buscaCodigoFabricante = async(codigo:string)=>
         
       </div>
 
-        {session &&(
+
 <>
       <div className='text-center mt-8 '>
       <Button  onPress={handleCreateMaterial} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
@@ -308,7 +308,7 @@ const buscaCodigoFabricante = async(codigo:string)=>
      
       </div>
       </>
-        )}
+
  
 
    

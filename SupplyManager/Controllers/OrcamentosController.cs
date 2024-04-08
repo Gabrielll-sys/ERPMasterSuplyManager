@@ -4,6 +4,7 @@ using MySqlConnector;
 using SupplyManager.App;
 using SupplyManager.Models;
 using System;
+using Microsoft.AspNetCore.Authorization;
 using SupplyManager.Services;
 
 namespace SupplyManager.Controllers
@@ -13,6 +14,7 @@ namespace SupplyManager.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
+    /*[Authorize]*/
     public class OrcamentosController: ControllerBase
     {
         public readonly SqlContext _context;

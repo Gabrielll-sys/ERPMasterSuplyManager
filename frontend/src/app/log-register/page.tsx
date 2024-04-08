@@ -93,8 +93,8 @@ const getLogByDate = async(data:any)=>{
                      <Table  hoverable striped className="w-[100%] self-center ">
                          <Table.Head className="mx-auto">
                              <Table.HeadCell className="text-center border-1 border-black text-sm min-w-[290px] " >Ação</Table.HeadCell>
-                             <Table.HeadCell className="text-center border-1 border-black text-sm min-w-[290px]">Responsável</Table.HeadCell>
                              <Table.HeadCell className="text-center border-1 border-black text-sm min-w-[290px]">Data De Ação</Table.HeadCell>
+                             <Table.HeadCell className="text-center border-1 border-black text-sm min-w-[290px]">Responsável</Table.HeadCell>
 
                          </Table.Head>
 

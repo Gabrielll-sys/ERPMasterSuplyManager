@@ -26,11 +26,10 @@ import { getMaterialById } from '@/app/services/Material.Services';
 export default function Login({params}:any){
     const route = useRouter()
     const { data: session } = useSession();
-  const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
-
+    const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
     const [messageAlert, setMessageAlert] = useState<string>();
-  const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
-  const [openDialog,setOpenDialog] = useState<boolean>(false)
+    const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
+    const [openDialog,setOpenDialog] = useState<boolean>(false)
     const[nome,setNome] = useState<string>()
     const[email,setEmail] = useState<string>("")
     const[userRole,setUserRole] = useState<string>()
@@ -70,7 +69,7 @@ return(
 
       
         
-          <div className='  justify-center    flex flex-col h-[100vh] bg-gradient-to-t from-light_yellow from-2% via-transparent gap-2 '>
+          <div className='  justify-center    flex flex-col h-screen   '>
 
     
             <h1 className='text-center text-2xl mt-4'>Informações Do usuario</h1>

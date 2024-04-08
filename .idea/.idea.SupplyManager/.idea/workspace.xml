@@ -17,28 +17,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb5a7976-4a18-4836-970a-81862f90e640" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SupplyManager/Repository/IOrcamentoRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SupplyManager/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SupplyManager/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Models/Orcamento.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Models/Orcamento.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/OrcamentoRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/OrcamentoRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/OrcamentoService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/OrcamentoService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/Controllers/MateriaisController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Controllers/MateriaisController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/Controllers/OrcamentosController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Controllers/OrcamentosController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.exe" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.assets.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.genruntimeconfig.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.sourcelink.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.sourcelink.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/apphost.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/ref/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/ref/SupplyManager.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/refint/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/refint/SupplyManager.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/(budgeAndSell)/create-budge/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(budgeAndSell)/create-budge/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/(budgeAndSell)/edit-budge/[orcamentoId]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(budgeAndSell)/edit-budge/[orcamentoId]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/SupplyManager.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/SupplyManager.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/SupplyManager.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/SupplyManager.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/create-material/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/create-material/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/log-register/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/log-register/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/login/page.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,7 +70,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET Project.SupplyManager.executor": "Debug",
+    ".NET Project.SupplyManager.executor": "Run",
     "Publish to IIS.SupplyManager: mastererp - FTP.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -173,6 +180,7 @@
       <workItem from="1712407862888" duration="1598000" />
       <workItem from="1712409472561" duration="16297000" />
       <workItem from="1712501260902" duration="10603000" />
+      <workItem from="1712578429175" duration="4155000" />
     </task>
     <servers />
   </component>
