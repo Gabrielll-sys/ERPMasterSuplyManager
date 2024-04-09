@@ -2,6 +2,7 @@
 import {Link, Button,Autocomplete, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
 import Excel, { BorderStyle } from 'exceljs';
 import MuiAlert from "@mui/material/Alert";
+import {currentUser} from "@/app/services/Auth.services";
 
 import  { AlertColor, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
 import { useRouter } from "next/navigation";
@@ -20,6 +21,7 @@ import { Box, Flex } from '@radix-ui/themes';
 import axios from 'axios';
 import { authenticate, logoutUser, register } from '@/app/services/Auth.services';
 import { getMaterialById } from '@/app/services/Material.Services';
+import {jwtDecode} from "jwt-decode";
 
 
 
@@ -54,9 +56,13 @@ export default function Login({params}:any){
 
     }
 
-   const getMaterial = async()=>{
+   const see = async()=>{
 
-await getMaterialById(120)
+   const decodedToken = jwtDecode(currentUser.token)
+       const date = Date.now()/1000
+       const a = new Date(date * 1000)
+       console.log(date)
+       console.log(a.toUTCString())
 
    }
       
@@ -99,7 +105,9 @@ return(
           <Button  onPress={loginUser} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
                 Entrar
           </Button>
-
+              <Button  onPress={see} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
+                  see
+              </Button>
           </div>
 
 

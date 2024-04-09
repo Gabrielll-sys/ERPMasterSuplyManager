@@ -121,7 +121,7 @@ namespace SupplyManager.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = claims,
-                Expires = DateTime.UtcNow.AddHours(10),
+                Expires = DateTime.UtcNow.AddMinutes(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature)
             };
@@ -149,7 +149,7 @@ namespace SupplyManager.Controllers
 
             var jwt = GenerateJwtToken(usuarioDb);
 
-            return Ok(new { jwtToken = jwt,userName = usuarioDb.Nome,userId=usuarioDb.Id });
+            return Ok(new { jwtToken = jwt,userName = usuarioDb.Nome,userId=usuarioDb.Id,role = usuarioDb.Cargo });
 
 
         }

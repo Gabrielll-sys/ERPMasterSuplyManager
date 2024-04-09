@@ -42,7 +42,7 @@ import { createMaterial, searchByDescription, searchByFabricanteCode } from "../
 import IconPencil from "../assets/icons/IconPencil";
 import IMaterial from "../interfaces/IMaterial";
 
-export default function CreateMaterial(){
+ function CreateMaterial(){
   const route = useRouter()
 
 
@@ -406,3 +406,4 @@ const buscaCodigoFabricante = async(codigo:string)=>
 
     )
 }
+export default CreateMaterial;
