@@ -21,12 +21,13 @@ import ArrowLeft from '@/app/assets/icons/ArrowLeft';
 import { IFilterMaterial } from '@/app/interfaces/IFilterMaterial';
 import { IOrderServico } from '@/app/interfaces/IOrderServico';
 import { useSession } from 'next-auth/react';
-
+import {IUsuario} from "@/app/interfaces/IUsuario";
 import jsPDF from 'jspdf'
 
 
 import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
+import {currentUser, getUserById} from "@/app/services/Auth.services";
 
 
 
@@ -101,6 +102,7 @@ const getOrcamentosByClient = async()=>{
 
 const getAllOrcamentos = async ()=>{
 
+        const user : IUsuario = await getUserById(currentUser.userId);
 if(cliente == "" && numeroOrcamento == "")
 {
 
@@ -111,7 +113,8 @@ if(cliente == "" && numeroOrcamento == "")
      setOrcamento(r.data[0])
    }
    else if (r.data.length>1){
- 
+
+
      setOrcamentos(r.data)
    }
  }).catch(e=>console.log(e))

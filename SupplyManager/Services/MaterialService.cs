@@ -110,6 +110,14 @@ namespace SupplyManager.Services
                 material.PrecoVenda = model.PrecoVenda;
                 material.Markup = model.Markup;
 
+                
+                var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+
+                LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Atualização do Material de Codigo Interno Nº {model.Id}",
+                    responsavel: userName);
+                
+                await _logAcoesUsuarioService.CreateAsync(log);
+                
                 await _materialRepository.UpdateAsync(material);
 
                 return material;

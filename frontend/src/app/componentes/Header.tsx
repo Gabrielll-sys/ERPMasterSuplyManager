@@ -1,6 +1,5 @@
 "use client"
-import React, { useState,useRef } from "react";
-import { signIn, signOut, useSession } from "next-auth/react";
+import React, {useState, useRef, useEffect} from "react";
 import { useReactToPrint } from 'react-to-print';
 import Link from "next/link";
 import Image from "next/image";
@@ -29,16 +28,16 @@ import IconFilter from "../assets/icons/IconFilter";
 import IconMoneyBill from "../assets/icons/IconMoneyBill";
 import IconSideBar from "../assets/icons/IconSideBar";
 import SideBarLFT from "./SideBarLFT";
+import {currentUser, removeUserLocalStorage} from "@/app/services/Auth.services";
+import {jwtDecode} from "jwt-decode";
 
 const Header= ()=>{
-    const { data: session } = useSession();
+
     const route = useRouter()
-    const [isClicked, setIsClicked] = useState(false);
     const iconClasses = "h-4 text-2xl";
-    const emails:string[] = ["gabrielpuneco@gmail.com"]
     const [showSideBar,setShowSideBar]= useState(false)
-  
-  
+
+
 const handleSideBar= ()=>{
 
 if(showSideBar){
@@ -48,13 +47,40 @@ if(showSideBar){
 else setShowSideBar(true)
 
 }
+
+useEffect(()=>{
+   if (!isTokenValid()){
+       route.push("/login")
+   }
+
+
+},[])
+const isTokenValid = () =>{
+     if(currentUser){
+
+    const decodedToken = jwtDecode(currentUser.token)
+
+    const currentDate = Date.now()/1000
+    console.log(decodedToken.exp)
+    console.log(currentDate)
+
+    return decodedToken.exp?  decodedToken.exp > currentDate  : false;
+     }
+}
+const signOut = ()=>
+{
+
+    removeUserLocalStorage().then(r => route.push("/login") );
+
+
+}
 return(
   <>
 
 
     <header  className=" h-24 bg-master_black  font-bold">
 
-<div className="ml-1  flex flex-row justify-between ">
+<div className="ml-1  flex flex-row justify-between h-full ">
 
   <Button  onMouseEnter={x=>setShowSideBar(true)} className="bg-master_black mt-6" >
     <IconSideBar  className=" rounded-lg h-10 text-white"  />
@@ -72,40 +98,24 @@ return(
   
 
 
-{session && session.user ? (
+{currentUser && currentUser.userName ? (
   
  
   <Dropdown className="p-0 rounded-md shadow-none border-2 border-black">
-  <DropdownTrigger>
-   
-     <Image
-  width={65}
-  height={22}
-  alt="Foto do Produto"
-  className="rounded-full h-16 mr-6 mt-2 hover:scale-110  ring-2 ring-gray-400"
-  src={session.user.image ?? ""}
-/>   
-  </DropdownTrigger>
-  <DropdownMenu
-    aria-label="Profile Actions"
-    variant="bordered"
-    className="bg-light mt-2   "
+      <DropdownTrigger>
+
+          <p className="font-semibold text-white my-auto mr-6 hover:underline text-[20px] p-3">
+              {currentUser.userName}
+          </p>
+      </DropdownTrigger>
+      <DropdownMenu
+          aria-label="Profile Actions"
+          variant="bordered"
+          className="bg-light mt-2 "
     color="success"
     disabledKeys={[""]}
   >
-    <DropdownItem
-      key="profile"
-      className="text-start pointer-events-none"
-      color="default"
-      endContent={<IconUser className = {iconClasses} />}
 
-    >
-      <p className="font-semibold text-base p-5">
-        {session.user.name}
-      </p>
-    </DropdownItem>
-
-    
     <DropdownItem
       key="logout"
       color="danger"

@@ -31,6 +31,7 @@ import autoTable from 'jspdf-autotable'
 
 import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
+import {currentUser} from "@/app/services/Auth.services";
 
 
 
@@ -88,7 +89,7 @@ const orcamento : IOrcamento = {
   endereco:endereco.trim().replace(/\s\s+/g, " "),
   desconto:0,
   tipoPagamento:metodoPagamento==""?"PIX":metodoPagamento,
-  responsavelOrcamento:session?.user?.name
+  responsavelOrcamento:currentUser.userName
 
 }
 

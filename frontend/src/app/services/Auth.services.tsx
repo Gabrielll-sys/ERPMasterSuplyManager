@@ -22,16 +22,19 @@ export const register = async (param:any) => {
 
 
 
-const gravaUserLogadoLocalStorage = async (token:any, userId:number,name:string) => {  
+const gravaUserLogadoLocalStorage = async (token:any, userId:number,name:string) => {
  
   var usuario = {
     token: token,
     userId:userId,
-    nome:name
+    userName:name,
   }  
   localStorage.setItem('currentUser', JSON.stringify(usuario));   
-} 
+}
+export const removeUserLocalStorage = async () => {
 
+  localStorage.removeItem("currentUser")
+}
 
 
 export const getUserLocalStorage =  () => {      
@@ -72,11 +75,10 @@ export const authenticate = async (param:any) => {
 
 
 
-export const getUserById = async (param:any) => {
+export const getUserById = async (id:any) => {
   try{
-    const userLogado =  getUserLocalStorage();
-    
-    return await axios.get(`${url}/Usuarios/${param}`, 
+
+    return await axios.get(`${url}/Usuarios/${id}`,
     { 
       headers: authHeader()
 
@@ -88,18 +90,20 @@ export const getUserById = async (param:any) => {
         return  null;
       }
     );
-  }catch(error){    
+  }
+  catch(error){
     return null;
   }
 }
 
 export const logoutUser = ()=>{
 
-  localStorage.removeItem("currentUser")
+   localStorage.removeItem("currentUser")
+   currentUser = []
 
 }
 
-export const currentUser = getUserLocalStorage();
+export let currentUser = getUserLocalStorage();
 
 
 
