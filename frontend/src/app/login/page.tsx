@@ -12,25 +12,29 @@ import { useEffect, useRef, useState } from "react";
 import "dayjs/locale/pt-br";
 
 import { useSession } from 'next-auth/react';
-
+import {EyeSlashFilledIcon} from "@nextui-org/shared-icons";
+import {EyeFilledIcon} from "@nextui-org/shared-icons";
 
 import axios from 'axios';
 import { authenticate, logoutUser, register } from '@/app/services/Auth.services';
 import { getMaterialById } from '@/app/services/Material.Services';
 import {jwtDecode} from "jwt-decode";
+import MailIcon from "@/app/assets/icons/MailIcon";
 
 
 
 export default function Login({params}:any){
+
     const route = useRouter()
     const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
     const [messageAlert, setMessageAlert] = useState<string>();
     const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
-    const [openDialog,setOpenDialog] = useState<boolean>(false)
     const[senha,setSenha] = useState<string>("1234")
     const[email,setEmail] = useState<string>("gabrielpuneco@gmail.com")
-    const[userRole,setUserRole] = useState<string>()
 
+    const [isVisible, setIsVisible] = useState(false);
+
+    const toggleVisibility = () => setIsVisible(!isVisible);
 
     const funcoesUsuario : string[] = ["Administrador", "Usuário","Personalizado", ];
 
@@ -44,9 +48,13 @@ export default function Login({params}:any){
         senha:senha
       }
       const res = await authenticate(user)
+        console.log(res)
       if(res)
       {
-      route.push("create-material")
+          setTimeout(()=>{
+              route.push("create-material")
+
+          },1800)
       }
       else
       {
@@ -73,36 +81,44 @@ return(
 
       
         
-          <div className=' justify-center flex flex-col h-screen '>
+          <div className=' justify-center flex flex-col h-[85vh] '>
 
-    
-            <h1 className='text-center text-2xl mt-4'>Informações Do usuario</h1>
 
-          <div className=' flex flex-col  items-center  text-center mx-auto rounded-md shadow-md shadow-black border-1 border-black p-8 w-[400px] gap-3 '>
+          <div className=' flex flex-col  items-center  text-center mx-auto rounded-md shadow-md shadow-black border-1 border-black p-8 w-[320px] gap-8 '>
 
 
             <Input
               labelPlacement='outside'
               value={email}
-              className="border-1 border-black justify-center rounded-md shadow-sm shadow-black  max-w-[200px]"
+              className="border-1 border-black justify-center rounded-md shadow-sm shadow-black  max-w-3xl"
               onValueChange={setEmail}
               label="Email"
+              endContent={
+                  <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+              }
             />
             <Input
               labelPlacement='outside'
               value={senha}
-              className="border-1 border-black rounded-md shadow-sm shadow-black  max-w-[200px]"
+              className="border-1 border-black rounded-md shadow-sm shadow-black  max-w-3xl"
               onValueChange={setSenha}
               label="Senha"
+              endContent={
+                  <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
+                      {isVisible ? (
+                          <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                      ) : (
+                          <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                      )}
+                  </button>
+              }
+              type={isVisible ? "text" : "password"}
             />
 
-
-          <Button  onPress={loginUser} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
+          <Button  onPress={loginUser} className='bg-master_black text-white p-4 rounded-lg font-bold text-base shadow-lg '>
                 Entrar
           </Button>
-              <Button  onPress={see} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
-                  see
-              </Button>
+
           </div>
 
 
