@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { url } from '../api/webApiUrl';
 import { authHeader } from '../_helpers/auth_headers';
+import {jwtDecode} from "jwt-decode";
 
 
 export const register = async (param:any) => {
@@ -72,7 +73,16 @@ export const authenticate = async (param:any) => {
   });
 
 }
+export const isTokenValid = (token:any) =>{
+    if(token){
+        console.log(token)
+        const decodedToken = jwtDecode(token)
 
+        const currentDate = Date.now()/1000
+
+        return decodedToken.exp?  decodedToken.exp > currentDate  : false;
+    }
+}
 
 
 export const getUserById = async (id:any) => {
@@ -99,7 +109,7 @@ export const getUserById = async (id:any) => {
 export const logoutUser = ()=>{
 
    localStorage.removeItem("currentUser")
-   currentUser = []
+   currentUser = {}
 
 }
 

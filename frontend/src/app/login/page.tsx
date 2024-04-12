@@ -1,7 +1,7 @@
 "use client"
 import {Link, Button,Autocomplete, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
 import MuiAlert from "@mui/material/Alert";
-import {currentUser} from "@/app/services/Auth.services";
+import {currentUser, getUserLocalStorage, isTokenValid} from "@/app/services/Auth.services";
 
 import  { AlertColor, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
 import { useRouter } from "next/navigation";
@@ -39,7 +39,13 @@ export default function Login({params}:any){
     const funcoesUsuario : string[] = ["Administrador", "Usuário","Personalizado", ];
 
 
+    useEffect(() => {
+        console.log(currentUser?.token)
+        if (isTokenValid(currentUser?.token)){
+            route.push("/create-material")
+        }
 
+    }, []);
 
     const loginUser = async()=>{
 
@@ -66,12 +72,7 @@ export default function Login({params}:any){
 
     }
 
-   const see = async()=>{
 
-
-
-   }
-      
 
 
 

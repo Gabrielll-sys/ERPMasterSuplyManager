@@ -2,7 +2,7 @@
 import React, {useState, useRef, useEffect} from "react";
 import { useReactToPrint } from 'react-to-print';
 import Link from "next/link";
-import Image from "next/image";
+
 import {
     Navbar,
     NavbarBrand,
@@ -16,21 +16,15 @@ import {
     NavbarItem,
 } from "@nextui-org/react";
 
-import { Sidebar } from 'flowbite-react';
-import IconQrCode from '@/app/assets/icons/IconQrCode';
-
 import { useRouter } from "next/navigation";
 import IconExit from "../assets/icons/IconExit";
 import AvatarLogin from "./AvatarLogin";
-import IconUser from "../assets/icons/IconUser";
-import TodoListPen from "../assets/icons/TodoListPen";
-import IconFilter from "../assets/icons/IconFilter";
-import IconMoneyBill from "../assets/icons/IconMoneyBill";
 import IconSideBar from "../assets/icons/IconSideBar";
 import SideBarLFT from "./SideBarLFT";
-import {currentUser, removeUserLocalStorage} from "@/app/services/Auth.services";
+import {currentUser, getUserLocalStorage, isTokenValid, removeUserLocalStorage} from "@/app/services/Auth.services";
 import {jwtDecode} from "jwt-decode";
 import {setNonce} from "get-nonce";
+import IconPersonFill from "@/app/assets/icons/IconPersonFill";
 
 const NavBar= ()=>{
 
@@ -56,30 +50,26 @@ const NavBar= ()=>{
     }
 
     useEffect(()=>{
+        const a = getUserLocalStorage()
+        if( a == undefined) setUserName("")
 
-        console.log(isTokenValid())
-        if (!isTokenValid()){
+
+        if (!isTokenValid(currentUser?.token)){
             route.push("/login")
         }
+        else{
+            route.push("/create-material")
 
-
-    },[])
-    const isTokenValid = () =>{
-        if(currentUser){
-
-            const decodedToken = jwtDecode(currentUser.token)
-
-            const currentDate = Date.now()/1000
-            console.log(decodedToken.exp)
-            console.log(currentDate)
-
-            return decodedToken.exp?  decodedToken.exp > currentDate  : false;
         }
-    }
+
+
+    },[currentUser])
+
     const signOut = ()=>
     {
 
         removeUserLocalStorage().then(r => route.push("/login") );
+        console.log(currentUser)
 
     }
     return(
@@ -121,11 +111,21 @@ const NavBar= ()=>{
                                 </DropdownTrigger>
                                 <DropdownMenu
                                     aria-label="Profile Actions"
-                                    variant="bordered"
-                                    className="bg-light mt-2 "
+
                                     color="success"
                                     disabledKeys={[""]}
                                 >
+                                    <DropdownItem
+                                        key="my-account"
+                                        color="danger"
+                                        variant="bordered"
+                                        className="bg-light mt-2 "
+                                        endContent={<IconPersonFill className={iconClasses}/>}
+                                        onClick={() => signOut()}
+                                    >
+                                        <p className="text-base p-1 hover:underline">Minha Conta</p>
+
+                                    </DropdownItem>
 
                                     <DropdownItem
                                         key="logout"
