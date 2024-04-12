@@ -13,6 +13,7 @@ namespace SupplyManager.Models
         public string? Email { get; set; }
 
         public string? Telefone { get; set; }
+        
         public string? Endereço { get; set; }
 
         public string? CPFOrCNPJ { get; set; }

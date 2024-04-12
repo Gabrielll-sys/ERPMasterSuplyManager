@@ -25,6 +25,7 @@ namespace SupplyManager.App
         
         public DbSet<LogAcoesUsuario> LogAcoesUsuarios{ get; set; }
  
+        public DbSet<RelatorioDiario> RelatorioDiarios{ get; set; }
 
     }
 }
