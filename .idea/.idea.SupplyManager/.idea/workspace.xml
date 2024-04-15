@@ -17,81 +17,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb5a7976-4a18-4836-970a-81862f90e640" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SupplyManager/Controllers/AtividadesRdController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SupplyManager/Interfaces/Generics/InterfaceGeneric.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SupplyManager/Repository/AtividadeRdRepository/IAtividadeRdRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SupplyManager/Services/AtividadeRdService/AtividadeRdService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SupplyManager/Services/AtividadeRdService/IAtividadeRdService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/(my-account)/layout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/(my-account)/my-account/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/services/User.Services.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SupplyManager/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SupplyManager/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/App/SqlContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/App/SqlContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Controllers/MateriaisController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Controllers/MateriaisController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Controllers/RelatoriosDiariosController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Controllers/RelatoriosDiariosController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Controllers/UsuariosController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Controllers/UsuariosController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Models/AtividadeRD.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Models/AtividadeRd.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Models/Material.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Models/Material.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Models/RelatorioObra.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Models/RelatorioDiario.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Models/Usuario.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Models/Usuario.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/FornecedorRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/FornecedorRepository/FornecedorRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/IFornecedorRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/FornecedorRepository/IFornecedorRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/IInventarioRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/InventarioRepository/IInventarioRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/IItemNotaFiscalRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/ItemNotaFiscalRepository/IItemNotaFiscalRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/IItemRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/ItemRepository/IItemRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/ILogAcoesUsuarioRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/LogAcoesUsuarioRepository/ILogAcoesUsuarioRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/IMaterialRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/MaterialRepository/IMaterialRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/INotaFiscalRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/NotaFiscalRepository/INotaFiscalRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/IOrcamentoRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/OrcamentoRepository/IOrcamentoRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/IOrdemServicoRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/OrdemServicoRepository/IOrdemServicoRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/IRelatorioDiarioRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/RelatorioDiarioRepository/IRelatorioDiarioRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/IUsuarioRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/UsuarioRepository/IUsuarioRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/InventarioRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/InventarioRepository/InventarioRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/ItemNotaFiscalRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/ItemNotaFiscalRepository/ItemNotaFiscalRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/ItemRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/ItemRepository/ItemRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/LogAcoesUsuarioRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/LogAcoesUsuarioRepository/LogAcoesUsuarioRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/MaterialRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/MaterialRepository/MaterialRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/NotaFiscalRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/NotaFiscalRepository/NotaFiscalRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/OrcamentoRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/OrcamentoRepository/OrcamentoRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/OrdemServicoRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/OrdemServicoRepository/OrdemServicoRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/RelatorioDiarioRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/RelatorioDiarioRepository/RelatorioDiarioRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/UsuarioRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/UsuarioRepository/UsuarioRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/DataBaseConnectionService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/FornecedorService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/FornecedorService/FornecedorService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/IFornecedorService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/FornecedorService/IFornecedorService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/IInventarioService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/InventarioService/IInventarioService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/IItemNotaFiscalService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/ItemNotaFiscalService/IItemNotaFiscalService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/IItemService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/ItemService/IItemService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/ILogAcoesUsuarioService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/LogAcoesUsuarioService/ILogAcoesUsuarioService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/IMaterialService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/MaterialService/IMaterialService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/INotaFiscalService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/NotaFiscalService/INotaFiscalService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/IOrcamentoService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/OrcamentoService/IOrcamentoService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/IOrdemServicoService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/OrdemServicoService/IOrdemServicoService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/IRelatorioDiarioService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/RelatorioDiarioService/IRelatorioDiarioService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/IUsuarioService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/UsuarioService/IUsuarioService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/InventarioService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/InventarioService/InventarioService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/ItemNotaFiscalService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/ItemNotaFiscalService/ItemNotaFiscalService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/ItemService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/ItemService/ItemService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/LogAcoesUsuariosService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/LogAcoesUsuarioService/LogAcoesUsuariosService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/MaterialService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/MaterialService/MaterialService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/NotaFiscalService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/NotaFiscalService/NotaFiscalService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/OrcamentoService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/OrcamentoService/OrcamentoService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/OrdemServicoService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/OrdemServicoService/OrdemServicoService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/RelatorioService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/RelatorioDiarioService/RelatorioDiarioService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/UsuarioService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/UsuarioService/UsuarioService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.exe" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.AssemblyInfoInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.assets.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.genruntimeconfig.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.sourcelink.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.sourcelink.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/apphost.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/ref/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/ref/SupplyManager.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/refint/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/refint/SupplyManager.dll" afterDir="false" />
@@ -102,9 +42,7 @@
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/project.packagespec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/rider.project.model.nuget.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/(budgeAndSell)/create-budge/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(budgeAndSell)/create-budge/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/componentes/NavBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/componentes/NavBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/services/Auth.services.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/services/Auth.services.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/(budgeAndSell)/manage-budges/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(budgeAndSell)/manage-budges/page.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,29 +64,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Project.SupplyManager.executor": "Run",
-    "Publish to IIS.SupplyManager: mastererp - FTP.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "feature",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "RiderIisExpressOptionsPageId",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Project.SupplyManager.executor&quot;: &quot;Run&quot;,
+    &quot;Publish to IIS.SupplyManager: mastererp - FTP.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;RiderIisExpressOptionsPageId&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\gabri\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache",
-      "C:\\Users\\gabri\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache",
-      "C:\\Users\\gabri\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\gabri\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\gabri\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\gabri\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Project.SupplyManager">
     <configuration name="SupplyManager: mastererp - FTP" type="DotNetMsBuildPublish" factoryName="Publish to IIS">
       <riderPublish configuration="Release" platform="Any CPU" publish_profile="mastererp - FTP.pubxml" pubxml_path="$PROJECT_DIR$/SupplyManager/Properties/PublishProfiles/mastererp - FTP.pubxml" user_name="mastererp\$mastererp" uuid_high="-3087707462186482965" uuid_low="-5283278916316385703" />
