@@ -15,6 +15,8 @@ public class RelatorioDiario
     
     public DateTime? DataRD { get; set; }
     
+    public bool? isFinished { get; set; }
+    
     
     
     

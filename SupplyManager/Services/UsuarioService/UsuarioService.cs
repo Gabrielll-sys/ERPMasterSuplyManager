@@ -50,8 +50,24 @@ namespace SupplyManager.Services
                 }
             }
 
-        
-        public async Task<Usuario> CreateAsync(Usuario model)
+            public async Task ResetUserPassword(int id)
+            {
+                try
+                {
+                    var user = await _usuarioRepository.GetByIdAsync(id);
+
+                    user.Senha = BCrypt.Net.BCrypt.HashPassword("1234") ;
+
+                    await _usuarioRepository.UpdateAsync(user);
+
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+
+            public async Task<Usuario> CreateAsync(Usuario model)
         {
             try
             {
@@ -78,11 +94,15 @@ namespace SupplyManager.Services
         {
             try
             {
-                var material = await _usuarioRepository.GetByIdAsync(model.Id) ?? throw new KeyNotFoundException();
+                var user = await _usuarioRepository.GetByIdAsync(model.Id) ?? throw new KeyNotFoundException();
+                
+                user.Senha = BCrypt.Net.BCrypt.HashPassword(model.Senha);
+                user.Email = model.Email;
+                user.Nome = model.Nome;
+                
+                await _usuarioRepository.UpdateAsync(user);
 
-                await _usuarioRepository.UpdateAsync(material);
-
-                return material;
+                return user;
 
             }
             catch

@@ -106,7 +106,35 @@ namespace SupplyManager.Controllers
             }
         }
 
-   
+        /// <summary>
+        /// Reseta senha do usuário
+        /// </summary>
+        /// <param name="Usuario"></param>
+        [HttpPut("reset-password/{id}")]
+        public async Task<ActionResult> ResetUserPassword(int id)
+        {
+
+            
+            try
+            {
+                await _usuarioService.ResetUserPassword(id);
+                 
+                return Ok();
+
+
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+
+            }
+        }
         private string GenerateJwtToken(Usuario model)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -121,7 +149,7 @@ namespace SupplyManager.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = claims,
-                Expires = DateTime.UtcNow.AddMinutes(2),
+                Expires = DateTime.UtcNow.AddHours(8),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature)
             };
@@ -140,12 +168,7 @@ namespace SupplyManager.Controllers
             if (usuarioDb is null || !BCrypt.Net.BCrypt.Verify(model.Senha, usuarioDb.Senha))
 
                 return Unauthorized();
-/*
-            if ((usuarioDb.PerfilUsuario.ToString() != "Diretor") &&
-                (model.PerfilAutorizado != null && !model.PerfilAutorizado.Any(p => p.ToString() == usuarioDb.PerfilUsuario.ToString())))
-            {
-                return Forbid();
-            }*/
+
 
             var jwt = GenerateJwtToken(usuarioDb);
 

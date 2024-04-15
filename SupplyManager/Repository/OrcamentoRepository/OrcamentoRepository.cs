@@ -126,7 +126,7 @@ public class OrcamentoRepository : IOrcamentoRepository
     
                     _context.Remove(ordemServico);
     
-                    _context.SaveChanges();
+                   await _context.SaveChangesAsync();
                 }
     
                 catch (Exception)

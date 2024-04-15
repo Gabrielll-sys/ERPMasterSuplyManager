@@ -31,15 +31,13 @@ namespace SupplyManager.Controllers
     {
         private readonly SqlContext _context;
         private readonly IMaterialService _materialService;
-        private readonly ILogAcoesUsuarioService _logAcoesUsuarioService;
+     
 
 
-        public MateriaisController(SqlContext context,IMaterialService materialService,ILogAcoesUsuarioService logAcoesUsuarioService)
+        public MateriaisController(SqlContext context,IMaterialService materialService)
         {
-
             _context = context;
             _materialService = materialService;
-            _logAcoesUsuarioService = logAcoesUsuarioService;
         }
 
         /// <summary>

@@ -109,6 +109,7 @@ const res = await axios.post(`${url}/Orcamentos`, orcamento).then(r=>{
 
 return(
     <>
+        <div className="justify-center flex flex-col h-[65vh] gap-4">
     <h1 className='text-center text-2xl mt-4'>Informações Do Cliente</h1>
     <div className='flex flex-row justify-center mt-8'>
 
@@ -153,6 +154,7 @@ return(
         label="CPF ou CNPJ" 
       />
     </div>
+
   {/* <h1 className='text-center text-2xl mt-7'>Informações do Orçamento</h1>
     <div className=' justify-center flex flex-row items-center gap-4'>
 
@@ -198,7 +200,7 @@ return(
         </Button>
       </div>
 
-
+        </div>
 
 
      </>

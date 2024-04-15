@@ -4,6 +4,20 @@
         <name>SupplyManager</name>
     </assembly>
     <members>
+        <member name="M:SupplyManager.Controllers.AtividadesRdController.Post(SupplyManager.Models.AtividadeRd)">
+            <summary>
+            Cria um relatório diário
+            </summary>
+            <param name="Usuario"></param>
+            <returns>O Relatorio Diario Criado </returns>
+            
+        </member>
+        <member name="M:SupplyManager.Controllers.AtividadesRdController.Put(System.Int32,SupplyManager.Models.AtividadeRd)">
+            <summary>
+            Atualiza um Relatório Diario
+            </summary>
+            <param name="Relatorio DiárioDiário"></param>
+        </member>
         <member name="T:SupplyManager.Controllers.FornecedoresController">
             <summary>
             Controlador para gerenciar os Fornecedores
@@ -301,6 +315,20 @@
             <param name="model">O objeto de ordem de serviço a ser atualizada</param>
             <returns></returns>
         </member>
+        <member name="M:SupplyManager.Controllers.RelatoriosDiariosController.Post(SupplyManager.Models.RelatorioDiario)">
+            <summary>
+            Cria um relatório diário
+            </summary>
+            <param name="Usuario"></param>
+            <returns>O Relatorio Diario Criado </returns>
+            
+        </member>
+        <member name="M:SupplyManager.Controllers.RelatoriosDiariosController.Put(System.Int32,SupplyManager.Models.RelatorioDiario)">
+            <summary>
+            Atualiza um Relatório Diario
+            </summary>
+            <param name="Relatorio DiárioDiário"></param>
+        </member>
         <member name="M:SupplyManager.Controllers.UsuariosController.Post(SupplyManager.Models.UsuarioDto)">
             <summary>
             Realiza a criação de usuário no Sistema
@@ -312,6 +340,12 @@
         <member name="M:SupplyManager.Controllers.UsuariosController.Put(System.Int32,SupplyManager.Models.Usuario)">
             <summary>
             Atualiza um usuário
+            </summary>
+            <param name="Usuario"></param>
+        </member>
+        <member name="M:SupplyManager.Controllers.UsuariosController.ResetUserPassword(System.Int32)">
+            <summary>
+            Reseta senha do usuário
             </summary>
             <param name="Usuario"></param>
         </member>

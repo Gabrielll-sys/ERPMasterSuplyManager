@@ -11,7 +11,11 @@ using SupplyManager.Interfaces;
 using SupplyManager.Services;
 
 namespace SupplyManager.Controllers;
-
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    /*[Authorize]
+    */
 public class RelatoriosDiariosController:ControllerBase
 {
     private readonly IRelatorioDiarioService _relatorioDiarioService;
@@ -21,11 +25,42 @@ public class RelatoriosDiariosController:ControllerBase
         _relatorioDiarioService = relatorioDiarioService;
     }
     
+    
+    [HttpGet]
+    public async Task<ActionResult<List<RelatorioDiario>>> GetAll()
+    {
+       
+        return Ok(await _relatorioDiarioService.GetAllAsync());
+
+
+    }
+    
+
+ 
+    [HttpGet("{id}")]
+    public async Task<ActionResult<RelatorioDiario>> Get(int id)
+    {
+        try
+        {
+            return Ok(await _relatorioDiarioService.GetByIdAsync(id));
+
+        }
+        catch (KeyNotFoundException)
+        {
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+        catch (Exception exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+        }
+    }
+
+    
      /// <summary>
-        /// Realiza a criação de usuário no Sistema
+        /// Cria um relatório diário
         /// </summary>
         /// <param name="Usuario"></param>
-        /// <returns>O Usuário Criado </returns>
+        /// <returns>O Relatorio Diario Criado </returns>
         /// 
         [HttpPost]
         /*[Authorize(Roles = "Diretor")]*/

@@ -85,26 +85,7 @@ export const isTokenValid = (token:any) =>{
 }
 
 
-export const getUserById = async (id:any) => {
-  try{
 
-    return await axios.get(`${url}/Usuarios/${id}`,
-    { 
-      headers: authHeader()
-
-    }).then( 
-      response => {        
-        return response.data;
-      },
-      error =>{        
-        return  null;
-      }
-    );
-  }
-  catch(error){
-    return null;
-  }
-}
 
 export const logoutUser = ()=>{
 

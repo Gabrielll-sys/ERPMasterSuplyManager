@@ -5,21 +5,23 @@ using SupplyManager.Models;
 
 namespace SupplyManager.Repository
 {
-    public class MaterialRepository :IMaterialRepository
+    public class OrdemServicoRepository: IOrdemServicoRepository
+
     {
+
         private readonly SqlContext _context;
 
 
-        public MaterialRepository(SqlContext context)
+        public OrdemServicoRepository(SqlContext context)
         {
             _context = context;
         }
 
-        public async Task<List<Material>> GetAllAsync()
+        public async Task<List<OrdemServico>> GetAllAsync()
         {
             try
             {
-                return await _context.Materiais.AsNoTracking().OrderBy(x=>x.Id).ToListAsync();
+                return await _context.OrdemServicos.ToListAsync();
 
             }
             catch (Exception)
@@ -28,12 +30,12 @@ namespace SupplyManager.Repository
             }
         }
 
-        public async Task<Material> GetByIdAsync(int? id)
+        public async Task<OrdemServico> GetByIdAsync(int? id)
         {
 
             try
             {
-                return await _context.Materiais.AsNoTracking().FirstOrDefaultAsync(x=>x.Id==id);
+                return await _context.OrdemServicos.FindAsync(id);
 
 
             }
@@ -42,38 +44,36 @@ namespace SupplyManager.Repository
                 throw;
             }
         }
-        public async Task<Material> CreateAsync(Material model)
+        public async Task<OrdemServico> CreateAsync(OrdemServico model)
         {
 
             try
             {
-                model.Id = null;
-
-                await _context.Materiais.AddAsync(model);
+                await _context.OrdemServicos.AddAsync(model);
 
                 await _context.SaveChangesAsync();
 
                 return model;
-              
+
 
             }
-            catch(Exception) 
+            catch (Exception)
             {
 
                 throw;
             }
 
         }
-        public async Task<Material> UpdateAsync(Material model)
+        public async Task UpdateAsync(OrdemServico model)
         {
             try
             {
 
-                _context.Materiais.Update(model);
+                _ = await _context.OrdemServicos.FindAsync(model.Id) ?? throw new KeyNotFoundException();
+
+                _context.OrdemServicos.Update(model);
 
                 await _context.SaveChangesAsync();
-            
-                return model;
 
             }
             catch (Exception)
@@ -89,11 +89,11 @@ namespace SupplyManager.Repository
             try
             {
 
-                var material = await _context.Materiais.FindAsync(id) ??throw new KeyNotFoundException();
+                var ordemServico = await _context.OrdemServicos.FindAsync(id) ?? throw new KeyNotFoundException();
 
-                _context.Remove(material);
+                _context.Remove(ordemServico);
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
             catch (Exception)
@@ -103,6 +103,6 @@ namespace SupplyManager.Repository
             }
         }
 
-      
+
     }
 }

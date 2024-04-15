@@ -57,10 +57,10 @@ const NavBar= ()=>{
         if (!isTokenValid(currentUser?.token)){
             route.push("/login")
         }
-        else{
-            route.push("/create-material")
-
-        }
+        // else{
+        //     route.push("/create-material")
+        //
+        // }
 
 
     },[currentUser])
@@ -121,7 +121,7 @@ const NavBar= ()=>{
                                         variant="bordered"
                                         className="bg-light mt-2 "
                                         endContent={<IconPersonFill className={iconClasses}/>}
-                                        onClick={() => signOut()}
+                                        onClick={() => route.push("/my-account")}
                                     >
                                         <p className="text-base p-1 hover:underline">Minha Conta</p>
 
