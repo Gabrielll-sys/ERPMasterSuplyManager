@@ -32,7 +32,18 @@ export default function SideBarLFT(props : any) {
           <Sidebar.Item  href="/create-material" className="text-black hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" icon={HiPencil}>
             Criar Material
           </Sidebar.Item>
-       
+          <Sidebar.Collapse className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out"label=" Relatório Diários" icon={HiPencilAlt}>
+
+            <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/create-budge" >
+              Relatórios
+            </Sidebar.Item>
+            <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/manage-budges" >
+             Criar Relatórios
+            </Sidebar.Item>
+            
+          </Sidebar.Collapse>
+
+
           <Sidebar.Item className="text-black mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/search-inventory" icon={HiInbox}>
             Gestão de Inventário
           </Sidebar.Item>
