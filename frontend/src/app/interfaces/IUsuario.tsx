@@ -1,9 +1,9 @@
 export interface IUsuario {
-    Id?: number;
-    Nome?: string;
-    Email?: string;
-    Senha?: string;
-    Cargo: string;
-    isActive: boolean;
-    DataCadastro?: Date;
+    id?: number;
+    nome?: string;
+    email?: string;
+    senha?: string;
+    cargo?: string;
+    isActive?: boolean;
+    dataCadastro?: Date;
 }

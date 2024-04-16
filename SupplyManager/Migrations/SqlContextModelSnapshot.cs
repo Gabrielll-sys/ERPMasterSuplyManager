@@ -19,6 +19,29 @@ namespace SupplyManager.Migrations
                 .HasAnnotation("ProductVersion", "7.0.17")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("SupplyManager.Models.AtividadeRd", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Descricao")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Observacoes")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UrlsFotos")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AtividadesRd");
+                });
+
             modelBuilder.Entity("SupplyManager.Models.Cliente", b =>
                 {
                     b.Property<int>("Id")
@@ -50,7 +73,7 @@ namespace SupplyManager.Migrations
 
                     b.HasIndex("OrcamentoId");
 
-                    b.ToTable("Clientes", (string)null);
+                    b.ToTable("Clientes");
                 });
 
             modelBuilder.Entity("SupplyManager.Models.Fornecedor", b =>
@@ -85,7 +108,7 @@ namespace SupplyManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Fornecedores", (string)null);
+                    b.ToTable("Fornecedores");
                 });
 
             modelBuilder.Entity("SupplyManager.Models.Inventario", b =>
@@ -120,7 +143,7 @@ namespace SupplyManager.Migrations
 
                     b.HasIndex("MaterialId");
 
-                    b.ToTable("Inventarios", (string)null);
+                    b.ToTable("Inventarios");
                 });
 
             modelBuilder.Entity("SupplyManager.Models.Item", b =>
@@ -157,7 +180,7 @@ namespace SupplyManager.Migrations
 
                     b.HasIndex("OrdemServicoId");
 
-                    b.ToTable("Itens", (string)null);
+                    b.ToTable("Itens");
                 });
 
             modelBuilder.Entity("SupplyManager.Models.ItemNotaFiscal", b =>
@@ -190,7 +213,7 @@ namespace SupplyManager.Migrations
 
                     b.HasIndex("NotaFiscalId");
 
-                    b.ToTable("ItensNotaFiscal", (string)null);
+                    b.ToTable("ItensNotaFiscal");
                 });
 
             modelBuilder.Entity("SupplyManager.Models.ItemOrcamento", b =>
@@ -220,7 +243,7 @@ namespace SupplyManager.Migrations
 
                     b.HasIndex("OrcamentoId");
 
-                    b.ToTable("ItensOrcamento", (string)null);
+                    b.ToTable("ItensOrcamento");
                 });
 
             modelBuilder.Entity("SupplyManager.Models.LogAcoesUsuario", b =>
@@ -240,7 +263,7 @@ namespace SupplyManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LogAcoesUsuarios", (string)null);
+                    b.ToTable("LogAcoesUsuarios");
                 });
 
             modelBuilder.Entity("SupplyManager.Models.Material", b =>
@@ -288,9 +311,12 @@ namespace SupplyManager.Migrations
                     b.Property<string>("Unidade")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("UrlImage")
+                        .HasColumnType("longtext");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Materiais", (string)null);
+                    b.ToTable("Materiais");
                 });
 
             modelBuilder.Entity("SupplyManager.Models.NotaFiscal", b =>
@@ -319,7 +345,7 @@ namespace SupplyManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NotasFiscais", (string)null);
+                    b.ToTable("NotasFiscais");
                 });
 
             modelBuilder.Entity("SupplyManager.Models.Orcamento", b =>
@@ -384,7 +410,7 @@ namespace SupplyManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orcamentos", (string)null);
+                    b.ToTable("Orcamentos");
                 });
 
             modelBuilder.Entity("SupplyManager.Models.OrdemServico", b =>
@@ -431,7 +457,33 @@ namespace SupplyManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrdemServicos", (string)null);
+                    b.ToTable("OrdemServicos");
+                });
+
+            modelBuilder.Entity("SupplyManager.Models.RelatorioDiario", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Contato")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("DataRD")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("HorarioAbertura")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Observacoes")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool?>("isFinished")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RelatorioDiarios");
                 });
 
             modelBuilder.Entity("SupplyManager.Models.Usuario", b =>
@@ -441,7 +493,6 @@ namespace SupplyManager.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Cargo")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime?>("DataCadastro")
@@ -456,12 +507,12 @@ namespace SupplyManager.Migrations
                     b.Property<string>("Senha")
                         .HasColumnType("longtext");
 
-                    b.Property<bool>("isActive")
+                    b.Property<bool?>("isActive")
                         .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuários", (string)null);
+                    b.ToTable("Usuários");
                 });
 
             modelBuilder.Entity("SupplyManager.Models.Cliente", b =>

@@ -17,7 +17,7 @@ namespace SupplyManager.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     /*[Authorize]
 */
-    public class UsuariosController:ControllerBase
+    public class UsuariosController : ControllerBase
     {
 
         private readonly IUsuarioService _usuarioService;
@@ -29,8 +29,26 @@ namespace SupplyManager.Controllers
             _usuarioService = usuarioService;
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Usuario>> Get(int id)
+        {
+            try
+            {
+        
+                return Ok( await _usuarioService.GetByIdAsync(id));
+            }
 
-        /// <summary>
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+        }
+
+    /// <summary>
         /// Realiza a criação de usuário no Sistema
         /// </summary>
         /// <param name="Usuario"></param>

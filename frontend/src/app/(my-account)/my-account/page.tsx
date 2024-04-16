@@ -32,6 +32,9 @@ import autoTable from 'jspdf-autotable'
 import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import {currentUser} from "@/app/services/Auth.services";
+import {getUserById, updateInfosUser} from "@/app/services/User.Services";
+import {EyeFilledIcon, EyeSlashFilledIcon} from "@nextui-org/shared-icons";
+import {IUsuario} from "@/app/interfaces/IUsuario";
 
 
 
@@ -39,17 +42,28 @@ export default function MyAccount({params}:any){
     const route = useRouter()
     const { data: session } = useSession();
   
-    const[nomeCliente,setNomeCliente] = useState<string>()
-    const[emailCliente,setEmailCliente] = useState<string>()
-    const[telefone,setTelefone] = useState<string>()
+    const[nomeUsuario,setNomeUsuario] = useState<string>()
+    const[emailUsuario,setEmailUsuario] = useState<string>()
+    const[senha,setSenha] = useState<string>()
+    const[usuario,setUsuario] = useState<IUsuario>()
 
-    const[nomeOrçamento,setNomeOrçamento] = useState<string>("")
+    const [isVisible, setIsVisible] = useState(false);
+
+    const toggleVisibility = () => setIsVisible(!isVisible);
+
+    useEffect(() => {
+        getInfosUser()
+    }, []);
 
 
-    const doc = new jsPDF()
-    let date = dayjs()
+    const getInfosUser = async ()=>{
 
+        const user = await getUserById(currentUser.userId)
+        setNomeUsuario(user.nome)
+        setEmailUsuario(user.email)
 
+        setUsuario(user)
+    }
 
 
   
@@ -58,7 +72,19 @@ export default function MyAccount({params}:any){
   }
 
 
-  
+  const updateUser = async ()=>
+  {
+  const user: IUsuario =
+      {
+        id:usuario?.id,
+          nome:nomeUsuario,
+          email:emailUsuario,
+          senha:senha
+      }
+
+      await updateInfosUser(user)
+
+  }
 
    
 
@@ -70,34 +96,43 @@ return(
             <div className='flex flex-row items-center  text-center mx-auto w-[600px] gap-w'>
 
                 <Input
-                    label="Nome Cliente"
+                    label="Nome"
                     labelPlacement='outside'
-                    value={nomeCliente}
-                    className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px] "
+                    value={nomeUsuario}
+                    className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[280px] "
                     onValueChange={(x) => handleNomeCliente(x)}
                 />
 
                 <Input
-                    label="Email Cliente"
+                    label="Email"
                     labelPlacement='outside'
-                    value={emailCliente}
-                    className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-                    onValueChange={setEmailCliente}
+                    value={emailUsuario}
+                    className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[280px]"
+                    onValueChange={setEmailUsuario}
 
                 />
                 <Input
                     labelPlacement='outside'
-                    value={telefone}
-                    className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-                    onValueChange={setTelefone}
-                    placeholder='99283-4235'
-                    label="Telefone"
+                    value={senha}
+                    className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[280px]"
+                    onValueChange={setSenha}
+                    label="Senha"
+                    endContent={
+                        <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
+                            {isVisible ? (
+                                <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                            ) : (
+                                <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                            )}
+                        </button>
+                    }
                 />
 
             </div>
 
             <div className='flex flex-row justify-center mt-16'>
-                <Button isDisabled={!nomeCliente}
+                <Button isDisabled={!nomeUsuario}
+                        onPress={updateUser}
                         className='bg-master_black text-white p-5 rounded-md font-bold text-2xl shadow-lg  '>
                     Atualizar
                 </Button>

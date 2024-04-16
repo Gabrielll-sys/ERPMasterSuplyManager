@@ -14,6 +14,7 @@
     <Content Remove="Validations\NovaPasta\**" />
     <EmbeddedResource Remove="Validations\NovaPasta\**" />
     <None Remove="Validations\NovaPasta\**" />
+    <Compile Remove="Models\FornecedorNF.cs" />
   </ItemGroup>
 
   <ItemGroup>

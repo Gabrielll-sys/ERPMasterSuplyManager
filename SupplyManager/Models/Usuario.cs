@@ -17,9 +17,9 @@ namespace SupplyManager.Models
 
         public string? Senha { get; set; }  
 
-        public string Cargo { get; set; }
+        public string? Cargo { get; set; }
 
-        public bool isActive { get; set; }
+        public bool? isActive { get; set; }
         public DateTime? DataCadastro { get; set; }
     }
 
