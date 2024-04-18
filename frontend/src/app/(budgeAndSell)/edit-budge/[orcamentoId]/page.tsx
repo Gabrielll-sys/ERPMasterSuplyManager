@@ -136,7 +136,6 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
         try{
   
           const res =  await searchByDescription(descricao)
-          console.log(res)
           setMateriais(res)
         }
       catch(e)
@@ -166,8 +165,11 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
   const getAllMateriaisInOrcamento = async(id:number)=>{
 
       const res = await axios.get(`${url}/ItensOrcamento/GetAllMateriaisOrcamento/${id}`).then((r)=>{
-        console.log(r.data)
         setMateriaisOrcamento(r.data)
+
+        for(let i in r.data ){
+          console.log(i)
+        }
         return r.data
 
       }).catch(e=>console.log(e))
@@ -229,7 +231,6 @@ const handleUpdateOrcamento = async()=>{
 
 
   }
-console.log(budge)
   const res = await axios.put(`${url}/Orcamentos/${orcamento?.id}`,budge).then(r=>{
 
     setOpenSnackBar(true);

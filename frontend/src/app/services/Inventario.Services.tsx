@@ -43,3 +43,21 @@ export const createInventario = async (idMaterial:number) => {
         console.log(e)
     }
 };
+export const getLastRegisterInventario = async (id:number) => {
+
+    try{
+
+        return await axios
+            .get(`${url}/Inventarios/getLastRegister/${id}`,{headers:authHeader()})
+            .then( (r)=> {
+
+                return r.data
+            })
+            .catch();
+
+    }
+    catch(e){
+
+        console.log(e)
+    }
+};

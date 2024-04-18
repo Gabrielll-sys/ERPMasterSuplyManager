@@ -236,9 +236,7 @@ namespace SupplyManager.Controllers
             try
             {
                 await _materialService.DeleteAsync(id);
-
-                await _context.SaveChangesAsync();
-
+                
                 return Ok();
             }
             catch (KeyNotFoundException)

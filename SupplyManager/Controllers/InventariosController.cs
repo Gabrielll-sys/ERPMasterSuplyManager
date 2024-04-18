@@ -54,6 +54,7 @@ namespace SupplyManager.Controllers
             var allItens = await _context.Inventarios.Include(x=>x.Material).AsNoTracking().ToListAsync();
 
             List<Inventario> result = new List<Inventario>();
+            
                 foreach (var i in allItens)
                 {
                     var invetoryWithMaterial = allItens
