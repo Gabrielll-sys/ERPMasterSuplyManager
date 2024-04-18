@@ -112,6 +112,13 @@ return(
 
                 />
                 <Input
+                    type = "file"
+                    labelPlacement='outside'
+                    className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[280px]"
+                    onValueChange={setEmailUsuario}
+
+                />
+                <Input
                     labelPlacement='outside'
                     value={senha}
                     className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[280px]"

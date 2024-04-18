@@ -28,7 +28,7 @@ namespace SupplyManager.Controllers
         {
             _usuarioService = usuarioService;
         }
-
+    
         [HttpGet("{id}")]
         public async Task<ActionResult<Usuario>> Get(int id)
         {

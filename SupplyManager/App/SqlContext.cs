@@ -29,6 +29,7 @@ namespace SupplyManager.App
  
         public DbSet<RelatorioDiario> RelatorioDiarios{ get; set; }
         
+        public DbSet<ImagemAtividadeRd> ImagensAtividadeRd { get; set; }
 
         
     }
