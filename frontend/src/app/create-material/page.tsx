@@ -2,12 +2,12 @@
 
 import { useRouter } from "next/navigation";
 
-import { Autocomplete, AutocompleteItem, Button } from "@nextui-org/react";
+import {Autocomplete, AutocompleteItem, Button, Image} from "@nextui-org/react";
 
 import Link from "next/link";
 import { url } from "../api/webApiUrl";
 import Header from "../componentes/Header";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
@@ -42,6 +42,7 @@ import { createMaterial, searchByDescription, searchByFabricanteCode } from "../
 import IconPencil from "../assets/icons/IconPencil";
 import IMaterial from "../interfaces/IMaterial";
 import CardImageAtividadeRd from "@/app/componentes/CardImageAtividadeRd";
+import banana from "@/app/assets/banana.jpeg";
 
  function CreateMaterial(){
   const route = useRouter()
@@ -191,10 +192,7 @@ const buscaCodigoFabricante = async(codigo:string)=>
     return(
        
       <>
- 
       <div className="flex flex-col gap-4">
-          <CardImageAtividadeRd/>
-
         <div className=' w-full flex flex-row flex-wrap justify-center mt-6  gap-6 '>
         
           <Input

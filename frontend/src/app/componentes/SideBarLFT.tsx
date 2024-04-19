@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { Sidebar } from "flowbite-react";
 import Image from "next/image";
 import IconPersonFill from "@/app/assets/icons/IconPersonFill";
+import CardImageAtividadeRd from "@/app/componentes/CardImageAtividadeRd";
 
 export default function SideBarLFT(props : any) {
 
@@ -20,6 +21,7 @@ export default function SideBarLFT(props : any) {
         <Sidebar.ItemGroup>
    
     <Button className="h-25 bg-white " >
+
 
     <Image  className="py-5 hover:scale-30 max-sm:mt-1 max-sm:w-[100px] max-sm:h-[80px] w-[130px] h-[105px]" src={require('../assets/logo_preta_sem_fundo.png')}  alt="logo master" />
     </Button>

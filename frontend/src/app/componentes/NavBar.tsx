@@ -54,13 +54,13 @@ const NavBar= ()=>{
         if( a == undefined) setUserName("")
 
 
-        if (!isTokenValid(currentUser?.token)){
-            route.push("/login")
-        }
-        // else{
-        //     route.push("/create-material")
-        //
+        // if (!isTokenValid(currentUser?.token)){
+        //     route.push("/login")
         // }
+        //  else{
+        //      route.push("/create-material")
+        //
+        //  }
 
 
     },[currentUser])
