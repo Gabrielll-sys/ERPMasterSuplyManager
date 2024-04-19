@@ -23,6 +23,45 @@
             Controlador para gerenciar os Fornecedores
              </summary>
         </member>
+        <member name="M:SupplyManager.Controllers.ImagensAtivididadesRdControlller.GetAll">
+            <summary>
+            Busca todos os as Imagens de das atividades
+            </summary>
+            <returns>Todos os materiais </returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.ImagensAtivididadesRdControlller.GetByid(System.Int32)">
+            <summary>
+            Obtem material por id
+            </summary>
+            <param name="id">Id da imamgem de uma atividade</param>
+            <returns>Materiais encontrado</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.ImagensAtivididadesRdControlller.ImagemAtividadeRd(SupplyManager.Models.ImagemAtividadeRd)">
+            <summary>
+            Criar novo Imagem de Um atividade de relatório diário
+            </summary>
+            <param name="id">Objeto material para ser criado</param>
+            <returns>Materiais criado</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.ImagensAtivididadesRdControlller.Update(System.Int32,SupplyManager.Models.ImagemAtividadeRd)">
+            <summary>
+            Atualizar o ImagemAtividadeRd pelo Id
+            </summary>
+            <param name="id">O Id do material a ser atualizado</param>
+            <param name="model">O objeto material a ser atualizado </param>
+            <response code="200">ImagemAtividadeRd encontrado</response>
+            <response code="400">Id do material não é valido</response>
+            <response code="404">ImagemAtividadeRd não encontrado</response>
+            <response code="500">Error no servidor</response>
+            <returns>O material atualizado</returns>
+        </member>
+        <member name="M:SupplyManager.Controllers.ImagensAtivididadesRdControlller.Delete(System.Int32)">
+            <summary>
+            Deleta o material pelo id fornecido
+            </summary>
+            <param name="id"> O id do material a ser deletado</param>
+            <returns></returns>
+        </member>
         <member name="T:SupplyManager.Controllers.InventariosController">
             <summary>
             Controlador para gerenciar os Materias

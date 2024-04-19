@@ -30,7 +30,7 @@ export default function Login({params}:any){
     const [messageAlert, setMessageAlert] = useState<string>();
     const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
     const[senha,setSenha] = useState<string>("1234")
-    const[email,setEmail] = useState<string>("gabrielpuneco@gmail.com")
+    const[email,setEmail] = useState<string>("bielpuneco@gmail.com")
 
     const [isVisible, setIsVisible] = useState(false);
 

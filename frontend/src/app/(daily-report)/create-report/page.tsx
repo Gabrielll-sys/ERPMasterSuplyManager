@@ -32,6 +32,7 @@ import autoTable from 'jspdf-autotable'
 import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import {currentUser} from "@/app/services/Auth.services";
+import CardImageAtividadeRd from "@/app/componentes/CardImageAtividadeRd";
 
 
 
@@ -58,29 +59,9 @@ export default function CreateReport({params}:any){
 
 
   
-  const handleNomeCliente = async(value:any)=>{
-    setNomeCliente(value)
-    if(!value.length){
-      setCpfOrCnpj("")
-      setTelefone("")
-      setEndereco("")
-      setEmailCliente("")
-   }
 
-    await axios.get(`${url}/Orcamentos/buscaCliente?cliente=${value?.trim()}`).then((r:AxiosResponse)=>{
-      console.log(r.data)
-     
-       setCpfOrCnpj(r.data.cpfOrCnpj)
-       setTelefone(r.data.telefone)
-       setEndereco(r.data.endereco)
-       setEmailCliente(r.data.emailCliente)
 
-    
-      
-    }).catch(e=>console.log(e))
-  }
-
-const handleCreateBudge = async ()=>{
+const handleCreateReport = async ()=>{
 
 const orcamento : IOrcamento = {
   nomeCliente:nomeCliente?.trim().replace(/\s\s+/g, " "),
@@ -109,17 +90,12 @@ const res = await axios.post(`${url}/Orcamentos`, orcamento).then(r=>{
 
 return(
     <>
+
         <div className="justify-center flex flex-col h-[65vh] gap-4">
     <h1 className='text-center text-2xl mt-4'>Informações Do Cliente</h1>
     <div className='flex flex-row justify-center mt-8'>
 
-    <Input
-        label = "Nome Cliente"
-        labelPlacement='outside'
-        value={nomeCliente}
-        className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px] "
-        onValueChange={(x)=>handleNomeCliente(x)}
-      />
+
 
     <Input
          label = "Email Cliente"
@@ -155,47 +131,8 @@ return(
       />
     </div>
 
-  {/* <h1 className='text-center text-2xl mt-7'>Informações do Orçamento</h1>
-    <div className=' justify-center flex flex-row items-center gap-4'>
-
-    <Input
-        labelPlacement='outside'
-        value={desconto}
-        type='text'
-        className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px]"
-        onValueChange={setDesconto}
-        placeholder='2.5%'
-        label="Desconto" 
-        endContent={<span>%</span>}
-      />
-
-  <Autocomplete
-                    label="Método Pagamento $"
-                
-                    className=" w-[250px] border-1 border-black rounded-md shadow-sm shadow-black mt-10  "
-                    allowsCustomValue
-                      value={metodoPagamento}
-                      onSelectionChange={setMetodoPagamento}
-                  >
-                  
-                  {formasPagamento.map((item:any) => (
-                    
-                      <AutocompleteItem
-                      key={item} 
-                      aria-label='teste'
-                      
-
-                    
-                        value={metodoPagamento}
-                        >
-                        {item}
-                      </AutocompleteItem>
-                    ))}
-                    </Autocomplete>
-
-    </div> */}
       <div className='flex flex-row justify-center mt-16'>
-        <Button  isDisabled={!nomeCliente} onPress={handleCreateBudge} className='bg-master_black text-white p-7 rounded-md font-bold text-2xl shadow-lg  '>
+        <Button  isDisabled={!nomeCliente} onPress={handleCreateReport} className='bg-master_black text-white p-7 rounded-md font-bold text-2xl shadow-lg  '>
            Criar Orçamento
         </Button>
       </div>

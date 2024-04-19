@@ -41,6 +41,7 @@ import { Table } from "flowbite-react";
 import { createMaterial, searchByDescription, searchByFabricanteCode } from "../services/Material.Services";
 import IconPencil from "../assets/icons/IconPencil";
 import IMaterial from "../interfaces/IMaterial";
+import CardImageAtividadeRd from "@/app/componentes/CardImageAtividadeRd";
 
  function CreateMaterial(){
   const route = useRouter()
@@ -192,6 +193,8 @@ const buscaCodigoFabricante = async(codigo:string)=>
       <>
  
       <div className="flex flex-col gap-4">
+          <CardImageAtividadeRd/>
+
         <div className=' w-full flex flex-row flex-wrap justify-center mt-6  gap-6 '>
         
           <Input

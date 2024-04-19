@@ -84,10 +84,8 @@ public class ImagensAtivididadesRdControlller:ControllerBase
 
             try
             {
-                
                 var material = await _imagemAtividadeRdService.CreateAsync(model);
-
-
+                
                 return Ok(material);
                 }
                

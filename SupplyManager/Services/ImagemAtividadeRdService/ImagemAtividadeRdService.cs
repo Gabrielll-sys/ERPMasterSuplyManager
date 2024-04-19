@@ -57,21 +57,21 @@ public class ImagemAtividadeRdService:IImagemAtividadeRdRepository
                 var all = await _imagemAtividadeRdRepository.GetAllAsync();
 
 
-                var ordemServico = await _imagemAtividadeRdRepository.CreateAsync(model);
+                var imagemAtividadeRd = await _imagemAtividadeRdRepository.CreateAsync(model);
 
                 
                 var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
                 
-                LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Criação de OS Nº{ordemServico.Id} do {ordemServico.Descricao}",
+                LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Adição de Imagem ao Relatorio Diário Nº{model.AtividadeRdId}",
                     responsavel: userName);
                 
                 await _logAcoesUsuarioService.CreateAsync(log);
                 
                 var lastItem = all.TakeLast(1).ToList();
 
-                ordemServico.Id = lastItem[0].Id + 1;
+                imagemAtividadeRd.Id = lastItem[0].Id + 1;
 
-                return ordemServico;
+                return imagemAtividadeRd;
 
             }
 

@@ -10,8 +10,6 @@ import Image from "next/image";
 import IconPersonFill from "@/app/assets/icons/IconPersonFill";
 
 export default function SideBarLFT(props : any) {
-    const route = useRouter()
-
 
     return (
   <>
@@ -38,7 +36,7 @@ export default function SideBarLFT(props : any) {
             <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/create-budge" >
               Relatórios
             </Sidebar.Item>
-            <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/manage-budges" >
+            <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/create-report" >
              Criar Relatórios
             </Sidebar.Item>
             
@@ -85,5 +83,5 @@ export default function SideBarLFT(props : any) {
     </Sidebar>
   
   </>
-    );
+    )
   }

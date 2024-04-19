@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SupplyManager.Models;
 
@@ -14,9 +15,10 @@ public class AtividadeRd
     
     public string? Observacoes { get; set; }
 
-    //Para não precisar criar outra tabela intermediaria intermediaria de fotos,todas as urls estarao em uma string,ficando divididas por
-    public string? UrlsFotos { get; set; }
+    [ForeignKey("RelatorioRdId")]
     
+    public RelatorioDiario RelatorioDiario { get; set; }
     
+    public int? RelatorioRdId { get; set; }
     
 }
