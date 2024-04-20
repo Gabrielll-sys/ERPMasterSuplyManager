@@ -4,6 +4,12 @@
         <name>SupplyManager</name>
     </assembly>
     <members>
+        <member name="M:SupplyManager.Controllers.AtividadesRdController.GetAllInRd(System.Int32)">
+            <summary>
+            Busca todas as atividades de um Rd
+            </summary>
+            <returns>Uma lista de atividades de um determinado Rd</returns>
+        </member>
         <member name="M:SupplyManager.Controllers.AtividadesRdController.Post(SupplyManager.Models.AtividadeRd)">
             <summary>
             Cria um relatório diário
@@ -911,28 +917,16 @@
         <member name="M:SupplyManager.Migrations.v43.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
-        <member name="T:SupplyManager.Migrations._44">
+        <member name="T:SupplyManager.Migrations.v44">
             <inheritdoc />
         </member>
-        <member name="M:SupplyManager.Migrations._44.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:SupplyManager.Migrations.v44.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:SupplyManager.Migrations._44.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:SupplyManager.Migrations.v44.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:SupplyManager.Migrations._44.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:SupplyManager.Migrations.v45">
-            <inheritdoc />
-        </member>
-        <member name="M:SupplyManager.Migrations.v45.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:SupplyManager.Migrations.v45.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:SupplyManager.Migrations.v45.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:SupplyManager.Migrations.v44.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
         <member name="T:Delivery.Users.API.Extensions.ResponseExtension">

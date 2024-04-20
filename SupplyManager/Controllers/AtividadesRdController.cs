@@ -19,6 +19,9 @@ using SupplyManager.Services;
 
 namespace SupplyManager.Controllers;
 
+[ApiController]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class AtividadesRdController:ControllerBase
 {
     private readonly IAtividadeRdService _atividadesRdService;
@@ -36,7 +39,18 @@ public class AtividadesRdController:ControllerBase
 
 
     }
-    
+    /// <summary>
+    /// Busca todas as atividades de um Rd
+    /// </summary>
+    /// <returns>Uma lista de atividades de um determinado Rd</returns>
+    [HttpGet("atividadesInRd/{id}")]
+    public async Task<ActionResult<List<AtividadeRd>>> GetAllInRd(int id)
+    {
+       
+        return Ok(await _atividadesRdService.GetAllInRdAsync(id));
+
+
+    }
 
  
     [HttpGet("{id}")]

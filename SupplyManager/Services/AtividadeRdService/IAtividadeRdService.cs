@@ -7,6 +7,7 @@ public interface IAtividadeRdService
     Task<AtividadeRd> GetByIdAsync(int id);
 
     Task<List<AtividadeRd>> GetAllAsync();
+    Task<List<AtividadeRd>> GetAllInRdAsync(int id);
 
     Task<AtividadeRd> CreateAsync(AtividadeRd model);
 

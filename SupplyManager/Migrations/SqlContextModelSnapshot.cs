@@ -31,13 +31,15 @@ namespace SupplyManager.Migrations
                     b.Property<string>("Observacoes")
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("RelatorioRdId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Status")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("UrlsFotos")
-                        .HasColumnType("longtext");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("RelatorioRdId");
 
                     b.ToTable("AtividadesRd");
                 });
@@ -109,6 +111,32 @@ namespace SupplyManager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Fornecedores");
+                });
+
+            modelBuilder.Entity("SupplyManager.Models.ImagemAtividadeRd", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AtividadeRdId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<string>("DataAdicao")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Descricao")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UrlImagem")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AtividadeRdId");
+
+                    b.ToTable("ImagensAtividadeRd");
                 });
 
             modelBuilder.Entity("SupplyManager.Models.Inventario", b =>
@@ -515,6 +543,15 @@ namespace SupplyManager.Migrations
                     b.ToTable("Usuários");
                 });
 
+            modelBuilder.Entity("SupplyManager.Models.AtividadeRd", b =>
+                {
+                    b.HasOne("SupplyManager.Models.RelatorioDiario", "RelatorioDiario")
+                        .WithMany()
+                        .HasForeignKey("RelatorioRdId");
+
+                    b.Navigation("RelatorioDiario");
+                });
+
             modelBuilder.Entity("SupplyManager.Models.Cliente", b =>
                 {
                     b.HasOne("SupplyManager.Models.Orcamento", "Orcamento")
@@ -524,6 +561,17 @@ namespace SupplyManager.Migrations
                         .IsRequired();
 
                     b.Navigation("Orcamento");
+                });
+
+            modelBuilder.Entity("SupplyManager.Models.ImagemAtividadeRd", b =>
+                {
+                    b.HasOne("SupplyManager.Models.AtividadeRd", "AtividadeRd")
+                        .WithMany()
+                        .HasForeignKey("AtividadeRdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AtividadeRd");
                 });
 
             modelBuilder.Entity("SupplyManager.Models.Inventario", b =>

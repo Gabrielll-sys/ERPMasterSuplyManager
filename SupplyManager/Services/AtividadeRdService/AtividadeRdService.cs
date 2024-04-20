@@ -57,7 +57,29 @@ public class AtividadeRdService : IAtividadeRdService
                     throw;
                 }
             }
-    
+            public async Task<List<AtividadeRd>> GetAllInRdAsync(int id)
+            {
+                try
+                {
+                    List<AtividadeRd> atividadeRdsOnRd = new List<AtividadeRd>();
+                    
+                    
+                    var all=  await _atividadeRdRepository.GetAllAsync();
+
+                    foreach (var item in all)
+                    {
+                        if(item.RelatorioRdId == id) atividadeRdsOnRd.Add(item);
+                        
+                    }
+
+                    return atividadeRdsOnRd;
+
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
             public async Task<AtividadeRd> GetByIdAsync(int id)
             {
                 try
@@ -82,4 +104,5 @@ public class AtividadeRdService : IAtividadeRdService
                     throw;
                 }
             }
+       
         }

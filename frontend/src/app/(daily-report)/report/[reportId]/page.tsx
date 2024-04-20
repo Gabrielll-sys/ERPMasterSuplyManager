@@ -34,6 +34,7 @@ import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import {currentUser} from "@/app/services/Auth.services";
 import CardImageAtividadeRd from "@/app/componentes/CardImageAtividadeRd";
 import IconPen from "@/app/assets/icons/IconPencil";
+import {createAtividadeRd} from "@/app/services/AtvidadeRd.Service";
 
 
 
@@ -45,19 +46,22 @@ export default function Report({params}:any){
     const[nomeCliente,setNomeCliente] = useState<string>()
     const[emailCliente,setEmailCliente] = useState<string>()
     const[telefone,setTelefone] = useState<string>()
-
+    const [descricaoAtividade,setDescricaoAtividade] = useState<string>("");
     const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Cartão De Débito"];
-  const doc = new jsPDF()
+    const doc = new jsPDF()
     let date = dayjs()
 
 
 
 
-const handleCreateReport = async ()=>{
+const handleCreateaAtividade = async ()=>{
 
-const orcamento : IOrcamento = {
+        const atividadeRd = {
+            descricao:descricaoAtividade,
+        }
 
-}
+        const res = await createAtividadeRd(atividadeRd)
+
 }
 
 const inputsIsEditable = ()=> {
@@ -109,20 +113,25 @@ return(
 </div>
 
 
-      <div className='flex flex-row justify-center mt-16'>
-        <Button  isDisabled={!nomeCliente} onPress={handleCreateReport} className='bg-master_black text-white p-7 rounded-md font-bold text-2xl shadow-lg  '>
-           Criar Orçamento
-        </Button>
-      </div>
-            <Input
-                labelPlacement='outside'
-                value={telefone}
-                className="bg-transparent mt-10 ml-5 mr-5 w-[200px]"
-                isReadOnly={inputIsEditable}
-                onValueChange={setTelefone}
-                placeholder='99283-4235'
-                label="Atividade"
-            />
+            <div className="flex flex-row gap-4 justify-center ">
+                <Input
+                    labelPlacement='outside'
+                    value={telefone}
+                    className="bg-transparent w-[200px]"
+                    isReadOnly={inputIsEditable}
+                    onValueChange={setTelefone}
+                    placeholder='99283-4235'
+                    label="Atividade"
+                />
+
+
+                <Button  isDisabled={!nomeCliente} onPress={handleCreateaAtividade} className='bg-master_black text-white rounded-md font-bold text-2xl shadow-lg  '>
+                    Adicionar Atividade
+                </Button>
+            </div>
+
+
+
             <div className="overflow-x-auto self-center w-[90%] mt-5 ml-5 ">
                 <Table  hoverable striped className="w-[100%] ">
                     <Table.Head className="border-1 border-black text-2xl text-center p-3 ">

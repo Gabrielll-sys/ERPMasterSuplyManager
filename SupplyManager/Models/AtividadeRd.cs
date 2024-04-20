@@ -17,7 +17,7 @@ public class AtividadeRd
 
     [ForeignKey("RelatorioRdId")]
     
-    public RelatorioDiario RelatorioDiario { get; set; }
+    public RelatorioDiario? RelatorioDiario { get; set; }
     
     public int? RelatorioRdId { get; set; }
     
