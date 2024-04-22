@@ -18,11 +18,9 @@
   <component name="ChangeListManager">
     <list default="true" id="bb5a7976-4a18-4836-970a-81862f90e640" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SupplyManager/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SupplyManager/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Controllers/AtividadesRdController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Controllers/AtividadesRdController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/Migrations/SqlContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Migrations/SqlContextModelSnapshot.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/Models/AtividadeRd.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Models/AtividadeRd.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/AtividadeRdRepository/AtividadeRdRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/AtividadeRdRepository/AtividadeRdRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/ImagemAtividadeRdService/ImagemAtividadeRdService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/ImagemAtividadeRdService/ImagemAtividadeRdService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/RelatorioDiarioService/RelatorioDiarioService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/RelatorioDiarioService/RelatorioDiarioService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/Services/AtividadeRdService/AtividadeRdService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/AtividadeRdService/AtividadeRdService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.exe" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.pdb" afterDir="false" />
@@ -36,6 +34,7 @@
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.genruntimeconfig.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.sourcelink.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/apphost.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/ref/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/ref/SupplyManager.dll" afterDir="false" />
@@ -47,13 +46,8 @@
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/project.packagespec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/rider.project.model.nuget.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/(daily-report)/create-report/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(daily-report)/create-report/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/(daily-report)/report/[reportId]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(daily-report)/report/[reportId]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/componentes/CardImageAtividadeRd.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/componentes/CardImageMiniature.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/componentes/SideBarLFT.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/componentes/SideBarLFT.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/create-material/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/create-material/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/services/ImagensAtividadeRd.Service.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/services/ImagensAtividadeRd.Service.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/tailwind.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/services/Images.Services.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/services/Images.Services.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +75,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET Project.SupplyManager.executor": "Debug",
+    ".NET Project.SupplyManager.executor": "Run",
     "Publish to IIS.SupplyManager: mastererp - FTP.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -209,6 +203,7 @@
       <workItem from="1713528719245" duration="4574000" />
       <workItem from="1713612794564" duration="8558000" />
       <workItem from="1713727205244" duration="8612000" />
+      <workItem from="1713787325564" duration="2907000" />
     </task>
     <servers />
   </component>

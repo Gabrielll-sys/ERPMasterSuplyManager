@@ -16,17 +16,19 @@ public class AtividadeRdService : IAtividadeRdService
             {
                 try
                 {
-    
-    
+                    
                     var all = await _atividadeRdRepository.GetAllAsync();
-    
+
+                    var numeroAtividadesInRelatorio = all.Where(x => x.RelatorioRdId == model.RelatorioRdId).ToList();
+                    
+                    model.NumeroAtividade = numeroAtividadesInRelatorio.Count + 1;
+                    
                     await _atividadeRdRepository.CreateAsync(model);
     
                     model.Id = all.Count + 1;
     
                     return model;
-    
-    
+                    
                 }
                 catch (Exception) 
                 {

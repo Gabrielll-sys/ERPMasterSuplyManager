@@ -9,8 +9,6 @@ import React, { useEffect, useRef, useState } from "react";
 
 import "dayjs/locale/pt-br";
 
-import autoTable from 'jspdf-autotable'
-
 import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import {currentUser} from "@/app/services/Auth.services";
@@ -18,22 +16,23 @@ import CardImageMiniature from "@/app/componentes/CardImageMiniature";
 import IconPen from "@/app/assets/icons/IconPencil";
 import {createAtividadeRd} from "@/app/services/AtvidadeRd.Service";
 import Image from "next/image";
+import {uploadImageToAzure} from "@/app/services/Images.Services";
 
 
 
 export default function Report({params}:any){
     const route = useRouter()
   const[inputIsEditable,setInputIsEditable] = useState<boolean>(true)
-    const [imageModal,setImageModal] = useState<>()
+    const [imageModal,setImageModal] = useState<any>()
     const[nomeCliente,setNomeCliente] = useState<string>()
     const[emailCliente,setEmailCliente] = useState<string>()
     const[telefone,setTelefone] = useState<string>()
     const [descricaoAtividade,setDescricaoAtividade] = useState<string>("");
     const status : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Cartão De Débito"];
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
-
+    const [image,setImage] = useState<File[]>([]);
     let date = dayjs()
-
+    const[checkBoxStatus,setCheckboxStatus] = useState<string>()
 
 
 
@@ -51,7 +50,23 @@ const inputsIsEditable = ()=> {
 
 }
 
+    const handleImageChange =  async (event :any) => {
+        const selectedImage: File = event.target.files[0];
 
+        const reader = new FileReader();
+
+        reader.onloadend = async () => {
+            // O resultado será um Blob representando a imagem
+            const imgBlob = reader.result as string;
+            // Agora você pode enviar esse Blob para o Azure Blob Storage
+          // await uploadImageToAzure(imgBlob,selectedImage.name);
+        };
+        reader.readAsDataURL(selectedImage);
+        if(selectedImage !=undefined){
+
+        setImage(current=>[...current,selectedImage]);
+        }
+    };
 
 
 return(
@@ -59,7 +74,7 @@ return(
 
         <div className="justify-center flex flex-col  gap-10">
     <h1 className='text-center text-2xl mt-4'>Relatório Diário N 20</h1>
-    <div className='flex flex-col gap-4 '>
+    <div className='flex flex-col gap-4 self-center itens-center justify-center  '>
 
 
     <Input
@@ -72,7 +87,6 @@ return(
 
       />
         <Textarea
-            label="Observações sobre a OS"
             placeholder="Observaçoes Sobre a Atividade"
             className="max-w-[330px] p-3 rounded-base shadow-sm shadow-black"
             rows = {5}
@@ -86,15 +100,7 @@ return(
     </div>
 
             <div className="flex flex-row gap-4 justify-center ">
-                <Input
-                    labelPlacement='outside'
-                    value={telefone}
-                    className="bg-transparent w-[200px]"
-                    isReadOnly={inputIsEditable}
-                    onValueChange={setTelefone}
-                    placeholder='99283-4235'
-                    label="Atividade"
-                />
+
 
 
 
@@ -107,45 +113,45 @@ return(
                     <Table.Head className="border-1 border-black  text-center p-3 ">
                     <p className="text-base p-3 font-bold">Atividades</p>
                     </Table.Head>
-                    <Table.Head className="border-1 border-black text-2xl text-center ">
-                        <Table.HeadCell className="text-center text-sm border-1 border-black  w-[100px]">Nº</Table.HeadCell>
-                        <Table.HeadCell className="text-center border-1 border-black text-sm">Atividade</Table.HeadCell>
 
-                    </Table.Head>
                     <Table.Body className="divide-y">
                             <Table.Row  className=" dark:border-gray-700 dark:bg-gray-800 ">
-                                <Table.Cell className="  text-center font-medium text-gray-900 dark:text-white max-w-[120px]">
-                                    teste
-                                </Table.Cell>
+
                                 <Table.Cell className="text-left text-black border-1 border-black " >
-                                <div className="flex flex-col max-sm:gap-8 md:gap-4">
+                                <div className="flex flex-col max-sm:gap-8 md:gap-6">
 
-
+                                <p className="text-2xl">Realizar ação </p>
+                                    <div className = "flex md:flex-row gap-4 max-sm:flex-col ">
+                                    <Checkbox color="success"  isSelected={checkBoxStatus=="Não Iniciada"} onValueChange={()=>setCheckboxStatus("Não Iniciada")}>
+                                        Não Iniciada
+                                    </Checkbox>
+                                    <Checkbox color="success"  isSelected={checkBoxStatus=="Em Andamento"} onValueChange={()=>setCheckboxStatus("Em Andamento")}>
+                                       Em Andamento
+                                    </Checkbox>
+                                    <Checkbox color="success"  isSelected={checkBoxStatus=="Concluída"} onValueChange={()=>setCheckboxStatus("Concluída")}>
+                                        Concluída
+                                    </Checkbox>
+                                    </div>
 
                                     <Textarea
-                                        label="Observações sobre a OS"
+
                                         placeholder="Observaçoes Sobre a Atividade"
-                                        className="max-w-[370px] p-3 rounded-base shadow-sm shadow-black"
+                                        className="max-w-[370px] p-3 rounded-base  bg-transparent shadow-sm shadow-black"
                                         rows = {5}
-                                        maxRows={7}
 
 
                                     />
-                                        <Button
-                                            color="primary"
-                                            variant="ghost"
-                                            onClick={setInputIsEditable}
-                                            className="w-[120px]"
-                                        >
-                                            Excluir item
 
-                                        </Button>
                                     <div className=" flex flex-wrap gap-4 ">
-                                    <Button  className="bg-white h-full hover:-translate-y-2" onPress={()=>{onOpenChange(),setImageModal(``)}}>
-                                        <CardImageMiniature  />
 
+                                        { image &&   image.map((x:File,index:number)=>(
+                                    <Button  key={index} className="bg-white h-full hover:-translate-y-2"  onPress={()=>{onOpenChange(),setImageModal(URL.createObjectURL(x))}}>
+
+                                          <Image  key={index}  height={150} width={150} src={URL.createObjectURL(x)} alt={"sa"}/>
                                     </Button>
-                                        <Input type="file" />
+                                            ))}
+
+                                        <Input className="w-[145px]" accept="image/*" type="file" onChange={handleImageChange} />
 
                                     </div>
                                 </div>
@@ -160,13 +166,21 @@ return(
                     <ModalContent>
                         {(onClose) => (
                             <>
-                                <ModalBody>
-                                    <Image  className= "hover:scale-30 max-sm:mt-1 max-sm:w-full w-[400px] h-[400px] self-center" src={require("@/app/assets/mpw18.jpg")} alt="" />
-
+                                <ModalBody className="flex flex-col gap-4 ">
+                                    <Image
+                                        width={200} height={200} className= "hover:scale-30 max-sm:mt-1 max-sm:w-full w-[400px] h-[400px] self-center" src={imageModal} alt="" />
                                     <p className='text-center font-bold'>
                                        Aqui será descricao da imagem
                                     </p>
+                                    <Button
+                                        color="primary"
+                                        variant="ghost"
+                                        onPress={()=>setInputIsEditable}
+                                        className="w-[120px] self-center"
+                                    >
+                                        Excluir item
 
+                                    </Button>
                                 </ModalBody>
                                 <ModalFooter>
                                     <Button color="danger" variant="light" onPress={onClose}>

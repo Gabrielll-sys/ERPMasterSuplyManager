@@ -8,6 +8,8 @@ public class AtividadeRd
     [Key]
     public int? Id { get; set; }
 
+    public int? NumeroAtividade { get; set; }
+    
     public string? Descricao { get; set; }
 
     //Concluida,Em Andamento e Não Iniciada
