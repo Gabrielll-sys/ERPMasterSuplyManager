@@ -26,10 +26,12 @@ public class AtividadesRdController:ControllerBase
 {
     private readonly IAtividadeRdService _atividadesRdService;
 
+    private readonly SqlContext _context;
 
-    public AtividadesRdController(IAtividadeRdService atividadesRdService)
+    public AtividadesRdController(IAtividadeRdService atividadesRdService, SqlContext context)
     {
         _atividadesRdService = atividadesRdService;
+        _context = context;
     }
      [HttpGet]
     public async Task<ActionResult<List<AtividadeRd>>> GetAll()
@@ -86,7 +88,7 @@ public class AtividadesRdController:ControllerBase
             {
                 
                 var rd = await _atividadesRdService.CreateAsync(model);
-                
+       
 
                 return Ok(rd);
 

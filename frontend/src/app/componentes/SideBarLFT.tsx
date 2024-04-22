@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { Sidebar } from "flowbite-react";
 import Image from "next/image";
 import IconPersonFill from "@/app/assets/icons/IconPersonFill";
-import CardImageAtividadeRd from "@/app/componentes/CardImageAtividadeRd";
+import CardImageMiniature from "@/app/componentes/CardImageMiniature";
 
 export default function SideBarLFT(props : any) {
 

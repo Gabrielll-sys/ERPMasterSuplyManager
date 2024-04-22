@@ -46,7 +46,8 @@ public class AtividadeRdRepository : IAtividadeRdRepository
     
                 try
                 {
-                    await _context.AtividadesRd.AddAsync(model);
+                    
+                   var a =  await _context.AtividadesRd.AddAsync(model);
     
                     await _context.SaveChangesAsync();
     

@@ -5,50 +5,33 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography
 import { useRouter } from "next/navigation";
 import { QRCode } from "react-qrcode-logo";
 import {Table, Textarea} from 'flowbite-react';
-import { useEffect, useRef, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
+import React, { useEffect, useRef, useState } from "react";
+
 import "dayjs/locale/pt-br";
-import { url } from '@/app/api/webApiUrl';
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import  updateInventory from "../style/updateInventory.module.css";
-import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import IMaterial from '@/app/interfaces/IMaterial';
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import TextField from "@mui/material/TextField";
-import axios, { AxiosResponse } from "axios";
-import imagem from '/src/app/assets/logo.png'
-import { useReactToPrint } from 'react-to-print';
-import ArrowLeft from '@/app/assets/icons/ArrowLeft';
-import { IFilterMaterial } from '@/app/interfaces/IFilterMaterial';
-import { IOrderServico } from '@/app/interfaces/IOrderServico';
-import { useSession } from 'next-auth/react';
-import { IInventario } from '@/app/interfaces/IInventarios';
-import IconBxTrashAlt from '@/app/assets/icons/IconBxTrashAlt';
-import IconPlus from '@/app/assets/icons/IconPlus';
-import { IItem } from '@/app/interfaces/IItem';
-import jsPDF from 'jspdf'
+
 import autoTable from 'jspdf-autotable'
 
 import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import {currentUser} from "@/app/services/Auth.services";
-import CardImageAtividadeRd from "@/app/componentes/CardImageAtividadeRd";
+import CardImageMiniature from "@/app/componentes/CardImageMiniature";
 import IconPen from "@/app/assets/icons/IconPencil";
 import {createAtividadeRd} from "@/app/services/AtvidadeRd.Service";
+import Image from "next/image";
 
 
 
 export default function Report({params}:any){
     const route = useRouter()
-    const { data: session } = useSession();
   const[inputIsEditable,setInputIsEditable] = useState<boolean>(true)
-
+    const [imageModal,setImageModal] = useState<>()
     const[nomeCliente,setNomeCliente] = useState<string>()
     const[emailCliente,setEmailCliente] = useState<string>()
     const[telefone,setTelefone] = useState<string>()
     const [descricaoAtividade,setDescricaoAtividade] = useState<string>("");
-    const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Cartão De Débito"];
-    const doc = new jsPDF()
+    const status : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Cartão De Débito"];
+    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+
     let date = dayjs()
 
 
@@ -74,9 +57,9 @@ const inputsIsEditable = ()=> {
 return(
     <>
 
-        <div className="justify-center flex flex-col  gap-4">
-    <h1 className='text-center text-2xl mt-4'>Informações Do Cliente</h1>
-    <div className='flex flex-row justify-center mt-8'>
+        <div className="justify-center flex flex-col  gap-10">
+    <h1 className='text-center text-2xl mt-4'>Relatório Diário N 20</h1>
+    <div className='flex flex-col gap-4 '>
 
 
     <Input
@@ -88,30 +71,19 @@ return(
         onValueChange={setEmailCliente}
 
       />
-    <Input
-        labelPlacement='outside'
-        value={telefone}
-        className="bg-transparent mt-10 ml-5 mr-5 w-[200px]"
-        isReadOnly={inputIsEditable}
-        onValueChange={setTelefone}
-        placeholder='99283-4235'
-        label="Telefone" 
-      />
+        <Textarea
+            label="Observações sobre a OS"
+            placeholder="Observaçoes Sobre a Atividade"
+            className="max-w-[330px] p-3 rounded-base shadow-sm shadow-black"
+            rows = {5}
+            maxRows={7}
 
+
+        />
+        <Button  isDisabled={!nomeCliente} onPress={handleCreateaAtividade} className='bg-master_black max-sm:w-[40%] md:w-[20%] max-sm:self-center text-white rounded-md font-bold text-base shadow-lg  '>
+            Adicionar Atividade
+        </Button>
     </div>
-            <IconPen onClick={(x)=>setInputIsEditable(false)} height={30} width={30} />
-
-<div className='flex flex-row flex-wrap  justify-center gap-3 w-full'>
-
-    <CardImageAtividadeRd/>
-    <CardImageAtividadeRd/>
-    <CardImageAtividadeRd/>
-    <CardImageAtividadeRd/>
-    <CardImageAtividadeRd/>
-    <CardImageAtividadeRd/>
-
-</div>
-
 
             <div className="flex flex-row gap-4 justify-center ">
                 <Input
@@ -125,17 +97,15 @@ return(
                 />
 
 
-                <Button  isDisabled={!nomeCliente} onPress={handleCreateaAtividade} className='bg-master_black text-white rounded-md font-bold text-2xl shadow-lg  '>
-                    Adicionar Atividade
-                </Button>
+
             </div>
 
 
 
-            <div className="overflow-x-auto self-center w-[90%] mt-5 ml-5 ">
+            <div className="overflow-x-auto self-center max-sm:w-[90%] md:w-[60%]   mt-5 ml-5 ">
                 <Table  hoverable striped className="w-[100%] ">
-                    <Table.Head className="border-1 border-black text-2xl text-center p-3 ">
-                        Atividades
+                    <Table.Head className="border-1 border-black  text-center p-3 ">
+                    <p className="text-base p-3 font-bold">Atividades</p>
                     </Table.Head>
                     <Table.Head className="border-1 border-black text-2xl text-center ">
                         <Table.HeadCell className="text-center text-sm border-1 border-black  w-[100px]">Nº</Table.HeadCell>
@@ -147,14 +117,66 @@ return(
                                 <Table.Cell className="  text-center font-medium text-gray-900 dark:text-white max-w-[120px]">
                                     teste
                                 </Table.Cell>
-                                <Table.Cell className="text-left text-black" >teste</Table.Cell>
+                                <Table.Cell className="text-left text-black border-1 border-black " >
+                                <div className="flex flex-col max-sm:gap-8 md:gap-4">
+
+
+
+                                    <Textarea
+                                        label="Observações sobre a OS"
+                                        placeholder="Observaçoes Sobre a Atividade"
+                                        className="max-w-[370px] p-3 rounded-base shadow-sm shadow-black"
+                                        rows = {5}
+                                        maxRows={7}
+
+
+                                    />
+                                        <Button
+                                            color="primary"
+                                            variant="ghost"
+                                            onClick={setInputIsEditable}
+                                            className="w-[120px]"
+                                        >
+                                            Excluir item
+
+                                        </Button>
+                                    <div className=" flex flex-wrap gap-4 ">
+                                    <Button  className="bg-white h-full hover:-translate-y-2" onPress={()=>{onOpenChange(),setImageModal(``)}}>
+                                        <CardImageMiniature  />
+
+                                    </Button>
+                                        <Input type="file" />
+
+                                    </div>
+                                </div>
+                                </Table.Cell>
 
                             </Table.Row>
 
                     </Table.Body>
 
                 </Table>
+                <Modal isOpen={isOpen} backdrop="blur" size='xl' onOpenChange={onOpenChange}>
+                    <ModalContent>
+                        {(onClose) => (
+                            <>
+                                <ModalBody>
+                                    <Image  className= "hover:scale-30 max-sm:mt-1 max-sm:w-full w-[400px] h-[400px] self-center" src={require("@/app/assets/mpw18.jpg")} alt="" />
 
+                                    <p className='text-center font-bold'>
+                                       Aqui será descricao da imagem
+                                    </p>
+
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button color="danger" variant="light" onPress={onClose}>
+                                        Fechar
+                                    </Button>
+                                </ModalFooter>
+                            </>
+                        )}
+                    </ModalContent>
+                </Modal>
 
             </div>
 

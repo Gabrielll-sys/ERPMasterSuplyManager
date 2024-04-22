@@ -41,7 +41,7 @@ import { Table } from "flowbite-react";
 import { createMaterial, searchByDescription, searchByFabricanteCode } from "../services/Material.Services";
 import IconPencil from "../assets/icons/IconPencil";
 import IMaterial from "../interfaces/IMaterial";
-import CardImageAtividadeRd from "@/app/componentes/CardImageAtividadeRd";
+import CardImageMiniature from "@/app/componentes/CardImageMiniature";
 import banana from "@/app/assets/banana.jpeg";
 
  function CreateMaterial(){

@@ -32,7 +32,7 @@ import autoTable from 'jspdf-autotable'
 import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import {currentUser} from "@/app/services/Auth.services";
-import CardImageAtividadeRd from "@/app/componentes/CardImageAtividadeRd";
+import CardImageMiniature from "@/app/componentes/CardImageMiniature";
 
 
 

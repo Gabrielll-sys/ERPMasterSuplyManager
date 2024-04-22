@@ -7,9 +7,9 @@ namespace SupplyManager.Services
 {
     public class RelatorioDiarioService : IRelatorioDiarioService
     {
-        private readonly IRelatorioDiarioService _relatorioDiarioRepository;
+        private readonly IRelatorioDiarioRepository _relatorioDiarioRepository;
         
-        public RelatorioDiarioService(IRelatorioDiarioService relatorioDiarioRepository)
+        public RelatorioDiarioService(IRelatorioDiarioRepository relatorioDiarioRepository)
         {
             _relatorioDiarioRepository = relatorioDiarioRepository;
         }

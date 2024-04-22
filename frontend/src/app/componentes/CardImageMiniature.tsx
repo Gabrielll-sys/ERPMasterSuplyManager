@@ -19,22 +19,19 @@ import IconBxTrashAlt from "@/app/assets/icons/IconBxTrashAlt";
 
 
 
-export default function CardImageAtividadeRd({ ...props }: any) {
+export default function CardImageMiniature(props : any) {
 
 
   const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
   const [messageAlert, setMessageAlert] = useState<string>("");
   const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
 
-  // Modal
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
 
 
   useEffect(() => {
 
 
-  }, []);
+  }, [])
 
 
 
@@ -48,12 +45,10 @@ export default function CardImageAtividadeRd({ ...props }: any) {
 
 
         <>
-          <div className="flex flex-col lg::flex-row justify-between w-[400px] my-1 gap-3 border-1 border-black shadow-black shadow-medium">
-            <div className="flex flex-row justify-between w-full h-[330px] ">
-
-            <Image  className=" hover:scale-30 max-sm:mt-1 max-sm:w-full w-full h-full self-center" src={require('../assets/mpw18.jpg')} alt="" />
+          <div className="flex flex-col lg::flex-row justify-between w-[100px] my-1 gap-3  shadow-black shadow-medium">
+            <div className="flex flex-row justify-between w-full h-[130px] ">
+            <Image  className= "hover:scale-30 max-sm:mt-1 max-sm:w-full [100px] h-[100px] self-center" src={require('../assets/mpw18.jpg')} alt="" />
             </div>
-            <p className="text-center mb-6">OIIII</p>
 
           </div>
 

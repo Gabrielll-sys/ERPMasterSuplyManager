@@ -1,5 +1,7 @@
 import type { Config } from 'tailwindcss'
-import { nextui } from '@nextui-org/react';
+
+const { nextui } = require("@nextui-org/react");
+
 const config: Config = {
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",

@@ -14,11 +14,13 @@ public class AtividadeRd
     public string? Status  { get; set; }
     
     public string? Observacoes { get; set; }
+    
+    public int? RelatorioRdId { get; set; }
+
 
     [ForeignKey("RelatorioRdId")]
     
-    public RelatorioDiario? RelatorioDiario { get; set; }
+    public RelatorioDiario RelatorioDiario { get; set; }
     
-    public int? RelatorioRdId { get; set; }
     
 }

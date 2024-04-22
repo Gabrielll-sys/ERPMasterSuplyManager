@@ -7,15 +7,15 @@ using SupplyManager.Services;
 
 namespace SupplyManager.Repository;
 
-public class ImagemAtividadeRdService:IImagemAtividadeRdRepository
+public class ImagemAtividadeRdService:IImagemAtividadeRdService
 {
-      private readonly IImagemAtividadeRdRepository _imagemAtividadeRdRepository;
+      private readonly IImagemAtividadeRdService _imagemAtividadeRdRepository;
 
         private readonly ILogAcoesUsuarioService _logAcoesUsuarioService;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         
-        public ImagemAtividadeRdService(IImagemAtividadeRdRepository imageServicoRepository,ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
+        public ImagemAtividadeRdService(IImagemAtividadeRdService imageServicoRepository,ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
         {
             _imagemAtividadeRdRepository = imageServicoRepository;
 
