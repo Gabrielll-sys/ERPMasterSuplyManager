@@ -22,6 +22,8 @@ public class AtividadeRdService : IAtividadeRdService
                     var numeroAtividadesInRelatorio = all.Where(x => x.RelatorioRdId == model.RelatorioRdId).ToList();
                     
                     model.NumeroAtividade = numeroAtividadesInRelatorio.Count + 1;
+
+                    model.Status = "Não Iniciada";
                     
                     await _atividadeRdRepository.CreateAsync(model);
     

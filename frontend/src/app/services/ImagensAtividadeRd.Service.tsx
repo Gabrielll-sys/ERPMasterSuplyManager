@@ -6,7 +6,7 @@ import {IImagemAtividadeRd} from "@/app/interfaces/IImagemAtividadeRd";
 
 export const addImagemAtividadeRd = async (model:IImagemAtividadeRd)=>{
 
-    const imagemAtividade: ImagemAtividadeRd = {
+    const imagemAtividade: IImagemAtividadeRd = {
         urlImagem: model.urlImagem,
         descricao: model.descricao,
         atividadeRdId: model.atividadeRdId
@@ -20,12 +20,13 @@ export const addImagemAtividadeRd = async (model:IImagemAtividadeRd)=>{
 }
 
 export const updateImagemAtividadeRd = async (model:IImagemAtividadeRd)=>{
-    const imagemAtividade: ImagemAtividadeRd = {
+    const imagemAtividade: IImagemAtividadeRd  = {
+        id: model.id,
         descricao: model.descricao,
         atividadeRdId: model.atividadeRdId
     };
     await axios
-        .put(`${url}/ImagensAtividadeRd/${id}`,imagemAtividade, {headers:authHeader()})
+        .put(`${url}/ImagensAtividadeRd/${model.id}`,imagemAtividade, {headers:authHeader()})
         .then((r) => {
             return r.data
         })

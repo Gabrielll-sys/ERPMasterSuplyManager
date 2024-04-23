@@ -46,7 +46,7 @@ public class AtividadeRdRepository : IAtividadeRdRepository
     
                 try
                 {
-                    
+                    model.RelatorioDiario = null;
                    var a =  await _context.AtividadesRd.AddAsync(model);
     
                     await _context.SaveChangesAsync();

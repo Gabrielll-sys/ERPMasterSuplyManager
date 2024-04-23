@@ -5,13 +5,9 @@ import {IRelatorioDiario} from "@/app/interfaces/IRelatorioDiario";
 import {IAtividadeRd} from "@/app/interfaces/IAtividadeRd";
 
 export const createAtividadeRd = async (model:IAtividadeRd)=>{
-    const AtividadeRd = {
-        descricao: model.descricao,
-        relatorioRdId:model.relatorioRdId,
-    };
 
-    await axios
-        .post(`${url}/AtividadesRd`, AtividadeRd,{headers:authHeader()})
+    return await axios
+        .post(`${url}/AtividadesRd`, model,{headers:authHeader()})
         .then((r) => {
             return r.data
         })

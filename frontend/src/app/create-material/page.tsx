@@ -1,16 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
 import {Autocomplete, AutocompleteItem, Button, Image} from "@nextui-org/react";
-
 import Link from "next/link";
 import { url } from "../api/webApiUrl";
-import Header from "../componentes/Header";
 import React, { useEffect, useRef, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
+
 import "dayjs/locale/pt-br";
 import { InputAdornment, Snackbar, TableFooter, TablePagination } from '@mui/material';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -21,19 +16,10 @@ import {
  } from '@nextui-org/react';
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
 
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import TextField from "@mui/material/TextField";
-import axios from "axios";
-import NavBar from '../componentes/NavBar';
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
 
-import SearchIcon from '@mui/icons-material/Search';
-import MenuItem from '@mui/material/MenuItem';
 import { useReactToPrint } from 'react-to-print';
 
-import Select from '@mui/material/Select';
-import dayjs from "dayjs";
+
 import { signIn, useSession } from "next-auth/react";
 import GoogleIcon from "../assets/icons/GoogleIcon";
 import SpinnerForButton from "../componentes/SpinnerButton";
@@ -41,8 +27,7 @@ import { Table } from "flowbite-react";
 import { createMaterial, searchByDescription, searchByFabricanteCode } from "../services/Material.Services";
 import IconPencil from "../assets/icons/IconPencil";
 import IMaterial from "../interfaces/IMaterial";
-import CardImageMiniature from "@/app/componentes/CardImageMiniature";
-import banana from "@/app/assets/banana.jpeg";
+
 
  function CreateMaterial(){
   const route = useRouter()
@@ -153,7 +138,6 @@ const buscaCodigoFabricante = async(codigo:string)=>
     } else {
 
       // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
-
 
       const material: IMaterial = {
         codigoFabricante: codigoFabricante.trim().replace(/\s\s+/g, " "),
