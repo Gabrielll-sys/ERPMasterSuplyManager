@@ -4,6 +4,16 @@ import {authHeader} from "@/app/_helpers/auth_headers";
 import {IRelatorioDiario} from "@/app/interfaces/IRelatorioDiario";
 import {IAtividadeRd} from "@/app/interfaces/IAtividadeRd";
 
+export const getAllAtivdadesInRd = async (id:number): Promise<IAtividadeRd[]> => {
+
+    return await  axios.get(`${url}/AtividadesRd/AtividadesInRd/${id}`,{headers:authHeader()})
+        .then((r) => {
+            return r.data
+        })
+        .catch();
+}
+
+
 export const createAtividadeRd = async (model:IAtividadeRd)=>{
 
     return await axios

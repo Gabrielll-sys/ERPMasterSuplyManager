@@ -45,7 +45,7 @@ public class AtividadesRdController:ControllerBase
     /// Busca todas as atividades de um Rd
     /// </summary>
     /// <returns>Uma lista de atividades de um determinado Rd</returns>
-    [HttpGet("atividadesInRd/{id}")]
+    [HttpGet("AtividadesInRd/{id}")]
     public async Task<ActionResult<List<AtividadeRd>>> GetAllInRd(int id)
     {
        
