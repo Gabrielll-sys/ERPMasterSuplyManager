@@ -23,6 +23,7 @@ export default function Atividade({ atividade, onUpdate }){
     const route = useRouter()
 
     const[observacoesRd,setObservacoesRd] = useState<string>("")
+    const [imageModal,setImageModal] = useState<any>()
     const[observacoes,setObservacoes] = useState<string>(atividade.observacoes)
     const [checkboxStatus, setCheckboxStatus] = useState(atividade.status);
     const [descricaoAtividade,setDescricaoAtividade] = useState<string>("");
@@ -36,8 +37,39 @@ export default function Atividade({ atividade, onUpdate }){
     const handleInputChange = () => {
         onUpdate(atividade, checkboxStatus, observacoes);
          }
+    const readImageFromFile = async (file:File): Promise<string> =>  {
 
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              resolve(reader.result as string);
+            };
+            reader.onerror = (error) => {
+                reject(error);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+    const handleImageChange =  async (event :any) => {
+        const selectedImage: File = event.target.files[0];
+
+
+            // const res =  await uploadImageToAzure(imgBlob,selectedImage.name);
+
+
+        if(selectedImage !=undefined){
+            const image =  readImageFromFile(selectedImage).then( async (imgBlob)=>{
+
+                await uploadImageToAzure(imgBlob,selectedImage.name)
+            })
+            setImage(current=>[...current,selectedImage]);
+        }
+    };
     return(
+
+
+<>
+
 
         <Table  hoverable striped className="w-[100%]  ">
             <Table.Head className="border-1 border-black  text-center p-3 ">
@@ -104,22 +136,22 @@ export default function Atividade({ atividade, onUpdate }){
                                                                 Salvar
 
                                                             </Button>
-                                                            {/*<Input className="w-[145px]" accept="image/*" type="file"*/}
-                                                            {/*       onChange={handleImageChange}/>*/}
+                                                            <Input className="w-[145px]" accept="image/*" type="file"
+                                                                   onChange={handleImageChange}/>
                                                             <div
                                                                 className=" flex md:flex-row max-sm:flex-col flex-wrap max-sm:items-center gap-4 mx-auto ">
 
-                                                                {/*{image && image.map((x: File, index: number) => (*/}
-                                                                {/*    <Button key={index}*/}
-                                                                {/*            className="bg-white h-full hover:-translate-y-2  "*/}
-                                                                {/*            onPress={() => {*/}
-                                                                {/*                onOpenChange(), setImageModal(URL.createObjectURL(x))*/}
-                                                                {/*            }}>*/}
+                                                                {image && image.map((x: File, index: number) => (
+                                                                    <Button key={index}
+                                                                            className="bg-white h-full hover:-translate-y-2  "
+                                                                            onPress={() => {
+                                                                                onOpenChange(), setImageModal(URL.createObjectURL(x))
+                                                                            }}>
 
-                                                                {/*        <Image className="my-auto " key={index} height={150} width={150}*/}
-                                                                {/*               src={URL.createObjectURL(x)} alt={"sa"}/>*/}
-                                                                {/*    </Button>*/}
-                                                                {/*))}*/}
+                                                                        <Image className="my-auto " key={index} height={150} width={150}
+                                                                               src={URL.createObjectURL(x)} alt={"sa"}/>
+                                                                    </Button>
+                                                                ))}
 
 
                                                             </div>
@@ -131,6 +163,37 @@ export default function Atividade({ atividade, onUpdate }){
                         </Table.Body>
 
                     </Table>
+
+    <Modal isOpen={isOpen} backdrop="blur" size='xl' onOpenChange={onOpenChange}>
+        <ModalContent>
+            {(onClose) => (
+                <>
+                    <ModalBody className="flex flex-col gap-4 ">
+                        <Image
+                            width={200} height={200} className= "hover:scale-30 max-sm:mt-1 max-sm:w-full w-[400px] h-[400px] self-center" src={imageModal} alt="" />
+                        <p className='text-center font-bold'>
+                            Aqui será descricao da imagem
+                        </p>
+                        <Button
+                            color="primary"
+                            variant="ghost"
+                            onPress={()=>console.log("dfds")}
+                            className="w-[120px] self-center"
+                        >
+                            Excluir item
+
+                        </Button>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="danger" variant="light" onPress={onClose}>
+                            Fechar
+                        </Button>
+                    </ModalFooter>
+                </>
+            )}
+        </ModalContent>
+    </Modal>
+</>
 
     )
 

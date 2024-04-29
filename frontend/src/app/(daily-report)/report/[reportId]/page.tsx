@@ -178,35 +178,7 @@ return(
 
 
 
-                <Modal isOpen={isOpen} backdrop="blur" size='xl' onOpenChange={onOpenChange}>
-                    <ModalContent>
-                        {(onClose) => (
-                            <>
-                                <ModalBody className="flex flex-col gap-4 ">
-                                    <Image
-                                        width={200} height={200} className= "hover:scale-30 max-sm:mt-1 max-sm:w-full w-[400px] h-[400px] self-center" src={imageModal} alt="" />
-                                    <p className='text-center font-bold'>
-                                       Aqui será descricao da imagem
-                                    </p>
-                                    <Button
-                                        color="primary"
-                                        variant="ghost"
-                                        onPress={()=>setInputIsEditable}
-                                        className="w-[120px] self-center"
-                                    >
-                                        Excluir item
 
-                                    </Button>
-                                </ModalBody>
-                                <ModalFooter>
-                                    <Button color="danger" variant="light" onPress={onClose}>
-                                        Fechar
-                                    </Button>
-                                </ModalFooter>
-                            </>
-                        )}
-                    </ModalContent>
-                </Modal>
 
             </div>
 
