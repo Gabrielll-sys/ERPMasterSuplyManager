@@ -91,9 +91,9 @@ const res = await axios.post(`${url}/Orcamentos`, orcamento).then(r=>{
 return(
     <>
 
-        <div className="justify-center flex flex-col h-[65vh] gap-4">
-    <h1 className='text-center text-2xl mt-4'>Informações Do Cliente</h1>
-    <div className='flex flex-row flex-wrap justify-center mt-8'>
+        <div className="justify-center flex flex-col h-[65vh] gap-4 ">
+    <h1 className='text-center text-2xl mt-4 max-sm:mt-7'>Informações Do Cliente</h1>
+    <div className='flex flex-row flex-wrap justify-center mt-8 max-sm:gap-4'>
 
 
 
@@ -131,8 +131,8 @@ return(
       />
     </div>
 
-      <div className='flex flex-row justify-center mt-16'>
-        <Button  isDisabled={!nomeCliente} onPress={handleCreateReport} className='bg-master_black text-white p-7 rounded-md font-bold text-2xl shadow-lg  '>
+      <div className='flex flex-row justify-center mt-16 max-sm:mt-4'>
+        <Button  isDisabled={!nomeCliente} onPress={handleCreateReport} className='bg-master_black text-white p-7 max-sm:p-4 rounded-md font-bold text-2xl shadow-lg  '>
            Criar Orçamento
         </Button>
       </div>

@@ -28,15 +28,19 @@ export const updateAtividadeRd = async (model:IAtividadeRd)=>{
 
     const AtividadeRd = {
         id:model.id,
+        relatorioRdId:model.relatorioRdId,
         descricao: model.descricao,
+        numeroAtividade: model.numeroAtividade,
         status:model.status,
-        observacoes:model,
+        observacoes:model.observacoes,
+        relatorioDiario:{}
     };
-
-    await axios
+console.log(AtividadeRd)
+   return await axios
         .put(`${url}/AtividadesRd/${model.id}`, AtividadeRd,{headers:authHeader()})
         .then((r) => {
-            return r.data
+            return r.status
+
         })
         .catch();
 }

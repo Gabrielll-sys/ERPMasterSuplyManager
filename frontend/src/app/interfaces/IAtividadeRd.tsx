@@ -5,7 +5,7 @@ export interface IAtividadeRd {
     descricao?: string;
     status?: string;
     observacoes?: string;
-    numeroAtividade:number,
+    numeroAtividade?:number,
     relatorioRdId?: number;
     relatorioDiario?: IRelatorioDiario;
 }

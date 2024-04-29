@@ -18,11 +18,9 @@ namespace SupplyManager.Repository
         {
             try
             {
-                var all = await _context.Fornecedores.ToListAsync();
-
+                
                 await _context.Fornecedores.AddAsync(model);
-
-                model.Id = all.Count + 1;
+                
                 await _context.SaveChangesAsync();
 
                 return model;
@@ -54,7 +52,7 @@ namespace SupplyManager.Repository
 
         public async Task<List<Fornecedor>> GetAllAsync()
         {
-            return await _context.Fornecedores.ToListAsync();
+            return await _context.Fornecedores.AsNoTracking().ToListAsync();
         }
 
         public async Task<Fornecedor> GetByIdAsync(int id)

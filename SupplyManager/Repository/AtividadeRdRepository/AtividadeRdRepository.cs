@@ -18,7 +18,7 @@ public class AtividadeRdRepository : IAtividadeRdRepository
             {
                 try
                 {
-                    return await _context.AtividadesRd.ToListAsync();
+                    return await _context.AtividadesRd.AsNoTracking().ToListAsync();
     
                 }
                 catch (Exception)
@@ -32,7 +32,7 @@ public class AtividadeRdRepository : IAtividadeRdRepository
     
                 try
                 {
-                    return await _context.AtividadesRd.FindAsync(id);
+                    return await _context.AtividadesRd.AsNoTracking().FirstOrDefaultAsync(x=>x.Id==id);
     
     
                 }
@@ -46,6 +46,7 @@ public class AtividadeRdRepository : IAtividadeRdRepository
     
                 try
                 {
+                    //Esta linha serve para NÃO criar um relatorio diario junto quando cria um Atividade,averiguar depois porquec
                     model.RelatorioDiario = null;
                    var a =  await _context.AtividadesRd.AddAsync(model);
     
@@ -66,9 +67,10 @@ public class AtividadeRdRepository : IAtividadeRdRepository
             {
                 try
                 {
-    
-                    _ = await _context.AtividadesRd.FindAsync(model.Id) ?? throw new KeyNotFoundException();
-    
+                    //Esta linha serve para NÃO criar um relatorio diario junto quando atualiza um Atividade,averiguar depois porquec
+
+                    model.RelatorioDiario = null;
+
                     _context.AtividadesRd.Update(model);
     
                     await _context.SaveChangesAsync();
@@ -88,8 +90,8 @@ public class AtividadeRdRepository : IAtividadeRdRepository
     
                 try
                 {
-    
-                    var atividadeRd = await _context.AtividadesRd.FindAsync(id) ?? throw new KeyNotFoundException();
+
+                    var atividadeRd = await GetByIdAsync(id);
     
                     _context.Remove(atividadeRd);
     
