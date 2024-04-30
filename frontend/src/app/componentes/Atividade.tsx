@@ -63,8 +63,8 @@ export default function Atividade({ atividade, onUpdate,onDelete }){
 
         if(selectedImage !=undefined){
             const image =  readImageFromFile(selectedImage).then( async (imgBlob)=>{
-
                 await uploadImageToAzure(imgBlob,selectedImage.name)
+
             })
             setImage(current=>[...current,selectedImage]);
         }
@@ -144,7 +144,7 @@ export default function Atividade({ atividade, onUpdate,onDelete }){
 
                                                             </Button>
                                                             </div>
-                                                            <Input className="w-[145px]" accept="image/*" type="file"
+                                                            <Input className="w-[145px]" type="file"
                                                                    onChange={handleImageChange}/>
                                                             <div
                                                                 className=" flex md:flex-row max-sm:flex-col flex-wrap max-sm:items-center gap-4 mx-auto ">
@@ -160,8 +160,8 @@ export default function Atividade({ atividade, onUpdate,onDelete }){
                                                                                src={URL.createObjectURL(x)} alt={"sa"}/>
                                                                     </Button>
                                                                 ))}
-
-
+                                                                <Image className="my-auto "  height={150} width={150}
+                                                                       src={process.env.NEXT_PUBLIC_URL} alt={"sa"}/>
                                                             </div>
                                                         </div>
                                                     </Table.Cell>

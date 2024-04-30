@@ -80,7 +80,14 @@ const handleCreateaAtividade = async ()=>{
 
 const handleDeleteAtividade = async(id:number)=>{
 
-    await deleteAtividadeRd(id)
+    const res = await deleteAtividadeRd(id)
+
+    if(res)
+    {
+        setOpenSnackBar(true);
+        setSeveridadeAlert("success");
+        setMessageAlert("Atividade Removida ");
+    }
 
     getAtividades(params.reportId)
 
