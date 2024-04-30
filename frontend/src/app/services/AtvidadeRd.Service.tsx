@@ -44,7 +44,17 @@ console.log(AtividadeRd)
         })
         .catch();
 }
+export const deleteAtividadeRd = async (id:number)=>{
 
+
+    await axios
+        .delete(`${url}/AtividadesRd/${id}`,{headers:authHeader()})
+        .then((r) => {
+            return r.status
+
+        })
+        .catch();
+}
 
 
 

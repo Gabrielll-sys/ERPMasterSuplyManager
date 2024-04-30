@@ -78,7 +78,7 @@ const NavBar= ()=>{
 
             <Navbar shouldHideOnScroll
                     maxWidth="full"
-                    className=" h-24  bg-master_black font-bold justify-between ">
+                    className=" h-24  max-sm:h-20 bg-master_black font-bold justify-between ">
 
                 <div className="  flex flex-row  h-full w-full justify-between ">
                     {currentUser ? (

@@ -19,7 +19,7 @@ import {getRelatorioDiario} from "@/app/services/RelatorioDiario.Services";
 
 
 
-export default function Atividade({ atividade, onUpdate }){
+export default function Atividade({ atividade, onUpdate,onDelete }){
     const route = useRouter()
 
     const[observacoesRd,setObservacoesRd] = useState<string>("")
@@ -37,6 +37,10 @@ export default function Atividade({ atividade, onUpdate }){
     const handleInputChange = () => {
         onUpdate(atividade, checkboxStatus, observacoes);
          }
+
+     const handleDeleteAtividade = (id:number)=>{
+        onDelete(id)
+     }
     const readImageFromFile = async (file:File): Promise<string> =>  {
 
         return new Promise((resolve, reject) => {
@@ -85,15 +89,7 @@ export default function Atividade({ atividade, onUpdate }){
 
                                                             <div className="flex flex-row gap-5">
                                                                 <p className="text-2xl"> Nº {atividade.numeroAtividade} - {atividade.descricao} </p>
-                                                                {/*<Button*/}
-                                                                {/*    color="primary"*/}
-                                                                {/*    variant="solid"*/}
-                                                                {/*    onPress={()=>setAtividadeRdEditing(atividade)}*/}
-                                                                {/*    className="w-[120px] self-center"*/}
-                                                                {/*>*/}
-                                                                {/*    Editar*/}
 
-                                                                {/*</Button>*/}
                                                             </div>
 
 
@@ -127,6 +123,7 @@ export default function Atividade({ atividade, onUpdate }){
                                                                 value={observacoes}
                                                                 onValueChange={setObservacoes}
                                                             />
+                                                            <div className="flex flex-row max-sm:flex-col gap-6 mx-auto">
                                                             <Button
                                                                 color="primary"
                                                                 variant="ghost"
@@ -136,6 +133,17 @@ export default function Atividade({ atividade, onUpdate }){
                                                                 Salvar
 
                                                             </Button>
+
+                                                            <Button
+                                                                color="danger"
+                                                                variant="ghost"
+                                                                onPress={()=>handleDeleteAtividade(atividade.id)}
+                                                                className="w-[120px] self-center"
+                                                            >
+                                                                Deletar Atividade
+
+                                                            </Button>
+                                                            </div>
                                                             <Input className="w-[145px]" accept="image/*" type="file"
                                                                    onChange={handleImageChange}/>
                                                             <div

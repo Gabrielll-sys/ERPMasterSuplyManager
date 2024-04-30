@@ -9,7 +9,12 @@ import "dayjs/locale/pt-br";
 
 import dayjs from 'dayjs';
 
-import {createAtividadeRd, getAllAtivdadesInRd, updateAtividadeRd} from "@/app/services/AtvidadeRd.Service";
+import {
+    createAtividadeRd,
+    deleteAtividadeRd,
+    getAllAtivdadesInRd,
+    updateAtividadeRd
+} from "@/app/services/AtvidadeRd.Service";
 import Image from "next/image";
 import {uploadImageToAzure} from "@/app/services/Images.Services";
 import MuiAlert, {AlertColor} from "@mui/material/Alert";
@@ -73,6 +78,21 @@ const handleCreateaAtividade = async ()=>{
         }
 }
 
+const handleDeleteAtividade = async(id:number)=>{
+
+    await deleteAtividadeRd(id)
+
+    getAtividades(params.reportId)
+
+}
+const updateRelatorioDiario = async()=>{
+    const relatorioDiario: IRelatorioDiario = {
+        contato:contato,
+        observacoes:observacoesRd,
+
+    }
+}
+
 const updateAtividade  = async(atividade: IAtividadeRd, status: string, observacoes: string)=>{
 
     const novaAtividade: IAtividadeRd[] = [...atividadesInRd]
@@ -129,7 +149,7 @@ return(
       />
         <Textarea
             placeholder="Observaçoes do Relatório Diário"
-            className="max-w-[330px] p-3 rounded-base shadow-sm shadow-black"
+            className="max-w-[390px] p-3 rounded-base shadow-sm shadow-black"
             rows = {5}
             value={observacoesRd}
             onValueChange = {setObservacoesRd}
@@ -150,21 +170,13 @@ return(
                 <Button  isDisabled={!descricaoAtividade} onPress={handleCreateaAtividade} className='bg-master_black max-sm:w-[50%] md:w-[20%] mx-auto text-white rounded-md font-bold text-base  '>
                     Adicionar Atividade
                 </Button>
-                <Button
-
-                    variant="solid"
-                    onPress={()=>console.log(atividadeRdEditing)}
-                    className="w-[120px] self-center bg-blue-300"
-                >
-                    see
-                </Button>
 
                         {atividadesInRd?.length ?
                             (
                             <>
                                 {atividadesInRd.map((atividade:IAtividadeRd)=>(
 
-                                    <Atividade  key={atividade.id} atividade={atividade}onUpdate={updateAtividade} />
+                                    <Atividade  key={atividade.id} atividade={atividade}onUpdate={updateAtividade} onDelete={handleDeleteAtividade} />
 
                                 ))}
 

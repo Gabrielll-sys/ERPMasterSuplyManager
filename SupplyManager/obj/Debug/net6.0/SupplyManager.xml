@@ -20,9 +20,15 @@
         </member>
         <member name="M:SupplyManager.Controllers.AtividadesRdController.Put(System.Int32,SupplyManager.Models.AtividadeRd)">
             <summary>
-            Atualiza um Relatório Diario
+            Atualiza uma atividade
             </summary>
             <param name="Relatorio DiárioDiário"></param>
+        </member>
+        <member name="M:SupplyManager.Controllers.AtividadesRdController.Delete(System.Int32)">
+            <summary>
+            Exclui uma Atividade
+            </summary>
+            <param name="Id da atividadedaatividade"></param>
         </member>
         <member name="T:SupplyManager.Controllers.FornecedoresController">
             <summary>

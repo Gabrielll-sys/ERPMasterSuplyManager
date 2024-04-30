@@ -102,7 +102,7 @@ public class AtividadesRdController:ControllerBase
         }
 
         /// <summary>
-        /// Atualiza um Relatório Diario
+        /// Atualiza uma atividade
         /// </summary>
         /// <param name="Relatorio Diário"></param>
         [HttpPut("{id}")]
@@ -132,5 +132,31 @@ public class AtividadesRdController:ControllerBase
             }
         }
 
-    
+        /// <summary>
+        /// Exclui uma Atividade
+        /// </summary>
+        /// <param name="Id da atividade"></param>
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            
+            try
+            {
+              await _atividadesRdService.DeleteAsync(id);
+              return Ok();
+                
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+
+            }
+        }
+
 }

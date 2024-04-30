@@ -30,7 +30,7 @@ export default function Login({params}:any){
     const [messageAlert, setMessageAlert] = useState<string>();
     const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
     const[senha,setSenha] = useState<string>("1234")
-    const[email,setEmail] = useState<string>("bielpuneco@gmail.com")
+    const[email,setEmail] = useState<string>("gabrielpuneco@gmail.com")
 
     const [isVisible, setIsVisible] = useState(false);
 
@@ -82,7 +82,7 @@ return(
 
       
         
-          <div className=' justify-center flex flex-col h-[85vh] '>
+          <div className=' justify-center flex flex-col h-[85vh] max-sm:h-[75vh] '>
 
 
           <div className=' flex flex-col  items-center  text-center mx-auto rounded-md shadow-md shadow-black border-1 border-black p-8 w-[320px] gap-8 '>

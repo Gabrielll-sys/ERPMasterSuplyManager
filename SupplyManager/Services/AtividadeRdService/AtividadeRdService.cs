@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using SupplyManager.Models;
 using SupplyManager.Repository;
 
@@ -6,10 +7,17 @@ namespace SupplyManager.Services;
 public class AtividadeRdService : IAtividadeRdService
 {
             private readonly IAtividadeRdRepository _atividadeRdRepository;
-    
-            public AtividadeRdService(IAtividadeRdRepository atividadeRepository)
+            
+            private readonly ILogAcoesUsuarioService _logAcoesUsuarioService;
+
+            private readonly IHttpContextAccessor _httpContextAccessor;
+            public AtividadeRdService(IAtividadeRdRepository atividadeRepository,ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
             {
                 _atividadeRdRepository = atividadeRepository;
+                
+                _logAcoesUsuarioService = logAcoesUsuarioService;
+
+                _httpContextAccessor = httpContextAccessor;
             }
     
             public async Task<AtividadeRd> CreateAsync(AtividadeRd model)
@@ -26,7 +34,16 @@ public class AtividadeRdService : IAtividadeRdService
                     model.Status = "Não Iniciada";
                     
                     await _atividadeRdRepository.CreateAsync(model);
-    
+                    
+                    var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+
+                    string logAction = $"Adição da Atividade {model.Descricao} ao Relatório Diário Nº {model.RelatorioRdId} ";
+                    
+                    LogAcoesUsuario log = new LogAcoesUsuario(acao: logAction,
+                        responsavel: userName);
+                
+                    await _logAcoesUsuarioService.CreateAsync(log);
+                    
                     model.Id = all.Count + 1;
     
                     return model;
@@ -42,6 +59,7 @@ public class AtividadeRdService : IAtividadeRdService
             {
                 try
                 {
+                
                     await _atividadeRdRepository.DeleteAsync(id);
                 }
                 catch (Exception)
