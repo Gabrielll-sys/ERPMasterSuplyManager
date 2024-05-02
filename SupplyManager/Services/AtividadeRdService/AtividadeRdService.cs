@@ -6,69 +6,96 @@ namespace SupplyManager.Services;
 
 public class AtividadeRdService : IAtividadeRdService
 {
-            private readonly IAtividadeRdRepository _atividadeRdRepository;
+    private readonly IAtividadeRdRepository _atividadeRdRepository;
+
+    private readonly ILogAcoesUsuarioService _logAcoesUsuarioService;
+
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public AtividadeRdService(IAtividadeRdRepository atividadeRepository,
+        ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
+    {
+        _atividadeRdRepository = atividadeRepository;
+
+        _logAcoesUsuarioService = logAcoesUsuarioService;
+
+        _httpContextAccessor = httpContextAccessor;
+    }
+
+    public async Task<AtividadeRd> CreateAsync(AtividadeRd model)
+    {
+        try
+        {
+
+            var all = await _atividadeRdRepository.GetAllAsync();
+
+            var numeroAtividadesInRelatorio = all.Where(x => x.RelatorioRdId == model.RelatorioRdId).ToList();
+
+            model.NumeroAtividade = numeroAtividadesInRelatorio.Count + 1;
+
+            model.Status = "Não Iniciada";
+
+            await _atividadeRdRepository.CreateAsync(model);
+
+            var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+
+            string logAction = $"Adição da Atividade {model.Descricao} ao Relatório Diário Nº {model.RelatorioRdId} ";
+
+            LogAcoesUsuario log = new LogAcoesUsuario(acao: logAction,
+                responsavel: userName);
+
+            await _logAcoesUsuarioService.CreateAsync(log);
+
+            model.Id = all.Count + 1;
+
+            return model;
+
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
+    public async Task DeleteAsync(int id)
+    {
+        try
+        {
+
+            await _atividadeRdRepository.DeleteAsync(id);
+
+            /*var item = await _atividadeRdRepository.GetByIdAsync(id);  
             
-            private readonly ILogAcoesUsuarioService _logAcoesUsuarioService;
+            
+            var atividades = await GetAllInRdAsync(item.RelatorioRdId);
 
-            private readonly IHttpContextAccessor _httpContextAccessor;
-            public AtividadeRdService(IAtividadeRdRepository atividadeRepository,ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
+            ReordarNumeroAtividadeAfterDelete(ref atividades);
+
+            foreach (var atividade in atividades)
             {
-                _atividadeRdRepository = atividadeRepository;
-                
-                _logAcoesUsuarioService = logAcoesUsuarioService;
+                await UpdateAsync(atividade);
+            }*/
 
-                _httpContextAccessor = httpContextAccessor;
-            }
-    
-            public async Task<AtividadeRd> CreateAsync(AtividadeRd model)
-            {
-                try
-                {
-                    
-                    var all = await _atividadeRdRepository.GetAllAsync();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
 
-                    var numeroAtividadesInRelatorio = all.Where(x => x.RelatorioRdId == model.RelatorioRdId).ToList();
-                    
-                    model.NumeroAtividade = numeroAtividadesInRelatorio.Count + 1;
+    public void ReordarNumeroAtividadeAfterDelete( ref List<AtividadeRd> atividadeRds)
+    {
+        //Renumera as atividades para ficarem em ordem
+        for (int i = 1; i <= atividadeRds.Count; i++)
+        {
+            atividadeRds[i].NumeroAtividade = i;
+        }
 
-                    model.Status = "Não Iniciada";
-                    
-                    await _atividadeRdRepository.CreateAsync(model);
-                    
-                    var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+        
+    }
 
-                    string logAction = $"Adição da Atividade {model.Descricao} ao Relatório Diário Nº {model.RelatorioRdId} ";
-                    
-                    LogAcoesUsuario log = new LogAcoesUsuario(acao: logAction,
-                        responsavel: userName);
-                
-                    await _logAcoesUsuarioService.CreateAsync(log);
-                    
-                    model.Id = all.Count + 1;
-    
-                    return model;
-                    
-                }
-                catch (Exception) 
-                {
-                    throw;
-                }
-            }
-    
-            public async Task DeleteAsync(int id)
-            {
-                try
-                {
-                
-                    await _atividadeRdRepository.DeleteAsync(id);
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
-    
-            public async Task<List<AtividadeRd>> GetAllAsync()
+
+public async Task<List<AtividadeRd>> GetAllAsync()
             {
                 try
                 {
@@ -79,7 +106,7 @@ public class AtividadeRdService : IAtividadeRdService
                     throw;
                 }
             }
-            public async Task<List<AtividadeRd>> GetAllInRdAsync(int id)
+            public async Task<List<AtividadeRd>> GetAllInRdAsync(int? id)
             {
                 try
                 {

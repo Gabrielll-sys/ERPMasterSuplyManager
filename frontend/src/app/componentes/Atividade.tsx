@@ -126,7 +126,7 @@ export default function Atividade({ atividade, onUpdate,onDelete }){
                                                             <div className="flex flex-row max-sm:flex-col gap-6 mx-auto">
                                                             <Button
                                                                 color="primary"
-                                                                variant="ghost"
+                                                                variant="solid"
                                                                 onPress={handleInputChange}
                                                                 className="w-[120px] self-center"
                                                             >
@@ -136,7 +136,7 @@ export default function Atividade({ atividade, onUpdate,onDelete }){
 
                                                             <Button
                                                                 color="danger"
-                                                                variant="ghost"
+                                                                variant="solid"
                                                                 onPress={()=>handleDeleteAtividade(atividade.id)}
                                                                 className="w-[120px] self-center"
                                                             >
@@ -160,8 +160,7 @@ export default function Atividade({ atividade, onUpdate,onDelete }){
                                                                                src={URL.createObjectURL(x)} alt={"sa"}/>
                                                                     </Button>
                                                                 ))}
-                                                                <Image className="my-auto "  height={150} width={150}
-                                                                       src={process.env.NEXT_PUBLIC_URL} alt={"sa"}/>
+
                                                             </div>
                                                         </div>
                                                     </Table.Cell>
