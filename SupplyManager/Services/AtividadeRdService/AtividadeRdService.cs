@@ -57,24 +57,36 @@ public class AtividadeRdService : IAtividadeRdService
         }
     }
 
+    
+    public async Task ReordarNumeroAtividadeAfterDelete(int id)
+    {
+        
+        var item = await GetByIdAsync(id);
+        
+        var atividades = await GetAllInRdAsync(item.RelatorioRdId);
+
+        //Renumera as atividades para ficarem em ordem
+
+        for (int i = 1; i <= atividades.Count; i++)
+        {
+            atividades[i].NumeroAtividade = i;
+           
+            await UpdateAsync(atividades[i]);
+
+        }
+
+        
+    }
+    
     public async Task DeleteAsync(int id)
     {
         try
         {
+            //Quando o metodo de reodernar vem antes do delete, ele consegue obter o item,verificar porque
+            await ReordarNumeroAtividadeAfterDelete(id);
 
             await _atividadeRdRepository.DeleteAsync(id);
 
-            /*var item = await _atividadeRdRepository.GetByIdAsync(id);  
-            
-            
-            var atividades = await GetAllInRdAsync(item.RelatorioRdId);
-
-            ReordarNumeroAtividadeAfterDelete(ref atividades);
-
-            foreach (var atividade in atividades)
-            {
-                await UpdateAsync(atividade);
-            }*/
 
         }
         catch (Exception)
@@ -83,19 +95,9 @@ public class AtividadeRdService : IAtividadeRdService
         }
     }
 
-    public void ReordarNumeroAtividadeAfterDelete( ref List<AtividadeRd> atividadeRds)
-    {
-        //Renumera as atividades para ficarem em ordem
-        for (int i = 1; i <= atividadeRds.Count; i++)
-        {
-            atividadeRds[i].NumeroAtividade = i;
-        }
-
-        
-    }
 
 
-public async Task<List<AtividadeRd>> GetAllAsync()
+        public async Task<List<AtividadeRd>> GetAllAsync()
             {
                 try
                 {
@@ -133,7 +135,8 @@ public async Task<List<AtividadeRd>> GetAllAsync()
             {
                 try
                 {
-                     return  await _atividadeRdRepository.GetByIdAsync(id);
+                    return  await _atividadeRdRepository.GetByIdAsync(id);
+                     
                 }
                 catch (Exception)
                 {

@@ -33,6 +33,7 @@ public class AtividadeRdRepository : IAtividadeRdRepository
                 try
                 {
                     return await _context.AtividadesRd.AsNoTracking().FirstOrDefaultAsync(x=>x.Id==id);
+                   
     
     
                 }
