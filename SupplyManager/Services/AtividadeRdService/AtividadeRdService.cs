@@ -83,7 +83,7 @@ public class AtividadeRdService : IAtividadeRdService
         try
         {
             //Quando o metodo de reodernar vem antes do delete, ele consegue obter o item,verificar porque
-            await ReordarNumeroAtividadeAfterDelete(id);
+            //await ReordarNumeroAtividadeAfterDelete(id);
 
             await _atividadeRdRepository.DeleteAsync(id);
 

@@ -175,23 +175,30 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
 
     const cabecalhoPlanilha = (ws:Excel.Worksheet,wb:Excel.Workbook )=>{
 
+        ws.getRow(2).height=20
+
+
         ws.getCell(`A1`).border= bordas
         ws.getCell(`B1`).border= bordas
         ws.getCell(`C1`).border= bordas
 
 
+        ws.mergeCells('A2','B2')
 
+        ws.getCell('B2').value = " Atividade"
+        ws.getCell('B2').alignment={vertical:'middle',horizontal:'center'}
 
-        ws.getCell('A2').value = "Numero"
-        ws.getCell('A2').border = bordas
-        ws.getCell('B2').value = "Atividade"
         ws.getCell('B2').border = bordas
-        ws.getCell('C2').value = "Status"
+
+        ws.getCell('C2').value = " Status"
+        ws.getCell('C2').alignment={vertical:'middle',horizontal:'center'}
         ws.getCell('C2').border = bordas
 
 
         ws.mergeCells('A1','B1')
-        ws.mergeCells('C1','E1')
+
+        ws.mergeCells('D1','E1')
+        ws.mergeCells('C2','E2')
 
         ws.getRow(1).height=80
 
@@ -201,7 +208,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
         ws.getColumn(4).width=15
         ws.getColumn(5).width=12
 
-        // ws.getCell('B1').value=nomeOrçamento
+         ws.getCell('B1').value=`Relatório Diário Nº ${relatorioDiario.id}`
 
         ws.getCell('B1').alignment={vertical:'middle',horizontal:'center'}
         ws.getCell('B1').font = {size:18}
@@ -220,6 +227,14 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
 
         */
 
+        let atividadesConcluidas = 0;
+
+         atividadesInRd.forEach((x)=>{
+            if(x.status == "Concluída") atividadesConcluidas++;
+         })
+
+        const totalConcluidas = (atividadesConcluidas/ atividadesInRd.length) * 100
+
         const workbook : Excel.Workbook = new Excel.Workbook();
 
         const ws :Excel.Worksheet = workbook.addWorksheet(`Relatório Diário Nº${relatorioDiario.id}`)
@@ -231,14 +246,16 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
         {
 
 
+            const observacoes = atividadesInRd[i].observacoes==null || atividadesInRd[i].observacoes ==""?" Sem observações no momento":atividadesInRd[i].observacoes
 
-            ws.getCell(letraPlanilha[0]+(Number(i)+3)).value = atividadesInRd[Number(i)].numeroAtividade
-            includeBorderCell(ws,letraPlanilha[0]+(Number(i)+3))
+            ws.mergeCells(`C${Number(i)+3}`,`E${Number(i)+3}`)
+            ws.mergeCells(`A${Number(i)+3}`,`B${Number(i)+3}`)
 
-            ws.getCell(letraPlanilha[1]+(Number(i)+3)).value = atividadesInRd[Number(i)].descricao
+
+            ws.getCell(letraPlanilha[1]+(Number(i)+3)).value = ` ${atividadesInRd[Number(i)].numeroAtividade} - ${atividadesInRd[Number(i)].descricao}\n${observacoes} `
             includeBorderCell(ws,letraPlanilha[1]+(Number(i)+3))
 
-            ws.getCell(letraPlanilha[1]+(Number(i)+3)).value = atividadesInRd[Number(i)].status
+            ws.getCell(letraPlanilha[2]+(Number(i)+3)).value = atividadesInRd[Number(i)].status
             includeBorderCell(ws,letraPlanilha[2]+(Number(i)+3))
 
             if(atividadesInRd[Number(i)].status == "Concluída"){
@@ -249,7 +266,6 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                 fgColor: { argb: 'FF00FF00' }, // Verde
             };
             }
-
 
 
 
@@ -265,7 +281,13 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
         ws.getCell(`B${atividadesInRd.length+3}`).alignment={vertical:'middle',horizontal:'center'}
         ws.getCell(`B${atividadesInRd.length+3}`).border=bordas
 
+        ws.mergeCells(`C${atividadesInRd.length+3}`,`E${atividadesInRd.length+3}`)
+        ws.getCell(`C${atividadesInRd.length+3}`).style.alignment={'vertical':"middle",'horizontal':"center"}
 
+        ws.getCell(`E${atividadesInRd.length+3}`).font = {size:16}
+        ws.getCell(`E${atividadesInRd.length+3}`).value= `% Atividades Concluída: ${totalConcluidas.toFixed(2)}%`
+        ws.getCell(`B${atividadesInRd.length+3}`).alignment={vertical:'middle',horizontal:'center'}
+        ws.getCell(`B${atividadesInRd.length+3}`).border=bordas
 
         const colD= ws.getColumn('D')
         colD.width= 30;
@@ -305,18 +327,12 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
         onValueChange={setContato}
 
       />
-        <Textarea
-            placeholder="Observaçoes do Relatório Diário"
-            className="max-w-[390px] p-3 rounded-base shadow-sm shadow-black"
-            rows = {5}
-            value={observacoesRd}
-            onValueChange = {setObservacoesRd}
-        />
+
 
     </div>
 
 
-            <div className="overflow-x-auto flex flex-col self-center max-sm:w-[90%] md:w-[60%]  gap-9   ">
+            <div className="overflow-x-auto flex flex-col self-center max-sm:w-[90%] md:w-[60%]  gap-9 border-1 border-black  ">
                 <Input
                     label = "Atividade"
                     labelPlacement='outside'
