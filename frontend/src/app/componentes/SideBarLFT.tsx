@@ -1,16 +1,28 @@
 import React from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/react";
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag,HiFilter, HiPencilAlt,HiQrcode,HiPencil } from 'react-icons/hi';
 import GoogleIcon from "../assets/icons/GoogleIcon";
-import { useRouter } from "next/navigation";
+
 import { Sidebar } from "flowbite-react";
 import Image from "next/image";
 import IconPersonFill from "@/app/assets/icons/IconPersonFill";
 import CardImageMiniature from "@/app/componentes/CardImageMiniature";
+import {createRelatorioDiario} from "@/app/services/RelatorioDiario.Services";
 
 export default function SideBarLFT(props : any) {
+
+  const route = useRouter()
+
+//Quando criar o relatório,ira redirecionar direto para a page dele
+  const handleCreateRelatorio = async()=>{
+    const res = await createRelatorioDiario()
+
+     route.push(`report/${res.id}`)
+
+  }
+
 
     return (
   <>
@@ -35,13 +47,15 @@ export default function SideBarLFT(props : any) {
           </Sidebar.Item>
           <Sidebar.Collapse className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out"label=" Relatório Diários" icon={HiPencilAlt}>
 
-            <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/create-budge" >
+            <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/reports" >
               Relatórios
             </Sidebar.Item>
-            <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/create-report" >
-             Criar Relatórios
+              <Button className="bg-transparent p-0" onPress={handleCreateRelatorio}>
+            <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out"   >
+             Criar Novo Relatório
             </Sidebar.Item>
-            
+              </Button>
+
           </Sidebar.Collapse>
 
 

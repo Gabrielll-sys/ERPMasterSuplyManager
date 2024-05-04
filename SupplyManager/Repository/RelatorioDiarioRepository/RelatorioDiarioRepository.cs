@@ -17,7 +17,7 @@ public class RelatorioDiarioRepository:IRelatorioDiarioRepository
         {
             try
             {
-                return await _context.RelatorioDiarios.AsNoTracking().OrderBy(x => x.Id).ToListAsync();
+                return await _context.RelatorioDiarios.AsNoTracking().OrderByDescending(x => x.HorarioAbertura).ToListAsync();
 
             }
             catch (Exception)
@@ -46,6 +46,7 @@ public class RelatorioDiarioRepository:IRelatorioDiarioRepository
 
             try
             {
+
                 model.Id = null;
 
                 await _context.RelatorioDiarios.AddAsync(model);

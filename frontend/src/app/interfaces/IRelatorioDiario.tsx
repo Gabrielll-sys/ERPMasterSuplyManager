@@ -1,6 +1,6 @@
 export interface IRelatorioDiario {
     id?: number;
-    observacoes?: string;
+    responsavel?: string;
     contato?: string;
     horarioAbertura?: Date;
     dataRD?: Date;

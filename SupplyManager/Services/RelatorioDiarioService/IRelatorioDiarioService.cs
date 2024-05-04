@@ -8,7 +8,7 @@ public interface IRelatorioDiarioService
     
     Task<List<RelatorioDiario>> GetAllAsync();
 
-    Task<RelatorioDiario> CreateAsync(RelatorioDiario model);
+    Task<RelatorioDiario> CreateAsync();
 
     Task<RelatorioDiario> UpdateAsync(RelatorioDiario model);
     

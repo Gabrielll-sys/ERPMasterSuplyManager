@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using SupplyManager.Interfaces;
 using SupplyManager.Models;
@@ -9,9 +10,15 @@ namespace SupplyManager.Services
     {
         private readonly IRelatorioDiarioRepository _relatorioDiarioRepository;
         
-        public RelatorioDiarioService(IRelatorioDiarioRepository relatorioDiarioRepository)
+        private readonly ILogAcoesUsuarioService _logAcoesUsuarioService;
+
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public RelatorioDiarioService(IRelatorioDiarioRepository relatorioDiarioRepository,ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
         {
             _relatorioDiarioRepository = relatorioDiarioRepository;
+            _logAcoesUsuarioService = logAcoesUsuarioService;
+
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<List<RelatorioDiario>> GetAllAsync()
         {
@@ -37,18 +44,28 @@ namespace SupplyManager.Services
         }
         
         
-        public async Task<RelatorioDiario> CreateAsync(RelatorioDiario model)
+        public async Task<RelatorioDiario> CreateAsync()
         {
             try
             {
                 var all = await _relatorioDiarioRepository.GetAllAsync();
 
-
-                var relatorioDiario = await _relatorioDiarioRepository.CreateAsync(model);
-
-                var lastItem = all.TakeLast(1).ToList();
-
+                var lastItem = all.TakeLast(1).ToList(); 
+                
+                var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+                
+                RelatorioDiario r1 = new RelatorioDiario(userName);
+                
+                var relatorioDiario = await _relatorioDiarioRepository.CreateAsync(r1);
+                
                 relatorioDiario.Id = lastItem[0].Id + 1;
+                
+                
+                LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Criação do Relatório Diário Nº {relatorioDiario.Id}",
+                    responsavel: userName);
+                
+                await _logAcoesUsuarioService.CreateAsync(log);
+             
 
                 return relatorioDiario;
 

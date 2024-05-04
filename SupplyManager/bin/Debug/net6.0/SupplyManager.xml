@@ -366,7 +366,7 @@
             <param name="model">O objeto de ordem de serviço a ser atualizada</param>
             <returns></returns>
         </member>
-        <member name="M:SupplyManager.Controllers.RelatoriosDiariosController.Post(SupplyManager.Models.RelatorioDiario)">
+        <member name="M:SupplyManager.Controllers.RelatoriosDiariosController.Post">
             <summary>
             Cria um relatório diário
             </summary>
@@ -957,6 +957,18 @@
             <inheritdoc />
         </member>
         <member name="M:SupplyManager.Migrations.v46.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:SupplyManager.Migrations.v47">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v47.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v47.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v47.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
         <member name="T:Delivery.Users.API.Extensions.ResponseExtension">

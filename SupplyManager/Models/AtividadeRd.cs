@@ -25,4 +25,6 @@ public class AtividadeRd
     public RelatorioDiario RelatorioDiario { get; set; }
     
     
+    
+    
 }

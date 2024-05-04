@@ -14,8 +14,8 @@ namespace SupplyManager.Controllers;
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    /*[Authorize]
-    */
+    [Authorize]
+    
 public class RelatoriosDiariosController:ControllerBase
 {
     private readonly IRelatorioDiarioService _relatorioDiarioService;
@@ -57,17 +57,16 @@ public class RelatoriosDiariosController:ControllerBase
      /// <summary>
         /// Cria um relatório diário
         /// </summary>
-        /// <param name="Usuario"></param>
+        /// <param name="Relatório Diário"></param>
         /// <returns>O Relatorio Diario Criado </returns>
         /// 
         [HttpPost]
-        /*[Authorize(Roles = "Diretor")]*/
-        public async Task<ActionResult> Post([FromBody] RelatorioDiario model)
+        public async Task<ActionResult> Post()
         {
             try
             {
                 
-                var rd = await _relatorioDiarioService.CreateAsync(model);
+                var rd = await _relatorioDiarioService.CreateAsync();
                 
 
                 return Ok(rd);

@@ -332,7 +332,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
     </div>
 
 
-            <div className="overflow-x-auto flex flex-col self-center max-sm:w-[90%] md:w-[60%]  gap-9 border-1 border-black  ">
+            <div className="overflow-x-auto flex flex-col self-center max-sm:w-[90%] md:w-[60%]  gap-9 border-1 border-black p-4  ">
                 <Input
                     label = "Atividade"
                     labelPlacement='outside'
