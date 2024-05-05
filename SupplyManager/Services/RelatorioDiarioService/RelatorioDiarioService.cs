@@ -81,8 +81,34 @@ namespace SupplyManager.Services
         {
             try
             {
-                var relatorioDiario = await _relatorioDiarioRepository.GetByIdAsync(model.Id) ?? throw new KeyNotFoundException();
+                var rd = await _relatorioDiarioRepository.GetByIdAsync(model.Id) ?? throw new KeyNotFoundException();
+                
+                rd.Contato = model.Contato;
+                
+                await _relatorioDiarioRepository.UpdateAsync(rd);
 
+                return model;
+
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// Define a proprieadade de autorizado com true
+        /// </summary>
+        /// <param name="id">Id do Relatório a ser Fechado/Autorizado</param>
+        public async Task<RelatorioDiario> UpdateCloseRelatorio(int id)
+        {
+            try
+            {
+                var relatorioDiario = await _relatorioDiarioRepository.GetByIdAsync(id) ?? throw new KeyNotFoundException();
+                
+                var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+                
+                relatorioDiario.FecharRelatorio( responsavelFechamento: userName);
+                
                 await _relatorioDiarioRepository.UpdateAsync(relatorioDiario);
 
                 return relatorioDiario;
@@ -93,6 +119,8 @@ namespace SupplyManager.Services
                 throw;
             }
         }
+        
+        
         public async Task DeleteAsync(int id)
         {
             try

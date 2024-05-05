@@ -44,13 +44,7 @@ export default function Reports({params}:any){
     },[])
 
 
-
     const route = useRouter()
-
-
-
-
-
 
 
 const getAll = async ()=>{

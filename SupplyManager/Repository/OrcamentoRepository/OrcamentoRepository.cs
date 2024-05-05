@@ -18,6 +18,7 @@ public class OrcamentoRepository : IOrcamentoRepository
             {
                 try
                 {
+                    
                   return await _context.Orcamentos.AsNoTracking().OrderByDescending(x=>x.DataOrcamento).ToListAsync();
     
                 }

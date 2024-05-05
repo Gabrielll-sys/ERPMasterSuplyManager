@@ -370,7 +370,7 @@
             <summary>
             Cria um relatório diário
             </summary>
-            <param name="Usuario"></param>
+            <param name="Relatório DiárioDiário"></param>
             <returns>O Relatorio Diario Criado </returns>
             
         </member>
@@ -379,6 +379,12 @@
             Atualiza um Relatório Diario
             </summary>
             <param name="Relatorio DiárioDiário"></param>
+        </member>
+        <member name="M:SupplyManager.Controllers.RelatoriosDiariosController.FinishRd(System.Int32)">
+            <summary>
+            Fecha um Relatório Diário
+            </summary>
+            <param name="Id"></param>
         </member>
         <member name="M:SupplyManager.Controllers.UsuariosController.Post(SupplyManager.Models.UsuarioDto)">
             <summary>
@@ -970,6 +976,12 @@
         </member>
         <member name="M:SupplyManager.Migrations.v47.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Services.RelatorioDiarioService.UpdateCloseRelatorio(System.Int32)">
+            <summary>
+            Define a proprieadade de autorizado com true
+            </summary>
+            <param name="id">Id do Relatório a ser Fechado/Autorizado</param>
         </member>
         <member name="T:Delivery.Users.API.Extensions.ResponseExtension">
             <summary>

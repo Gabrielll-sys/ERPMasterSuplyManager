@@ -10,6 +10,7 @@ import Image from "next/image";
 import IconPersonFill from "@/app/assets/icons/IconPersonFill";
 import CardImageMiniature from "@/app/componentes/CardImageMiniature";
 import {createRelatorioDiario} from "@/app/services/RelatorioDiario.Services";
+import IconReport from "@/app/assets/icons/IconReport";
 
 export default function SideBarLFT(props : any) {
 
@@ -34,30 +35,19 @@ export default function SideBarLFT(props : any) {
    
     <Button className="h-25 bg-white " >
 
-
     <Image  className="py-5 hover:scale-30 max-sm:mt-1 max-sm:w-[100px] max-sm:h-[80px] w-[130px] h-[105px]" src={require('../assets/logo_preta_sem_fundo.png')}  alt="logo master" />
     </Button>
     </Sidebar.ItemGroup>
 
 
-      <Sidebar.Items>
-        <Sidebar.ItemGroup>
+      <Sidebar.Items >
+        <Sidebar.ItemGroup >
           <Sidebar.Item  href="/create-material" className="text-black hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" icon={HiPencil}>
             Criar Material
           </Sidebar.Item>
-          <Sidebar.Collapse className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out"label=" Relatório Diários" icon={HiPencilAlt}>
-
-            <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/reports" >
+            <Sidebar.Item className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/reports" icon = {IconReport} >
               Relatórios
             </Sidebar.Item>
-              <Button className="bg-transparent p-0" onPress={handleCreateRelatorio}>
-            <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out"   >
-             Criar Novo Relatório
-            </Sidebar.Item>
-              </Button>
-
-          </Sidebar.Collapse>
-
 
           <Sidebar.Item className="text-black mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/search-inventory" icon={HiInbox}>
             Gestão de Inventário

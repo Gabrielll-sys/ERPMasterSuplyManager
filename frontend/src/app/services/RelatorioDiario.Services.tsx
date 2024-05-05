@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 import {url} from "@/app/api/webApiUrl";
 import {authHeader} from "@/app/_helpers/auth_headers";
 import {IRelatorioDiario} from "@/app/interfaces/IRelatorioDiario";
 import {useRouter} from "next/navigation";
 
 
-export const getAllRelatoriosDiarios = async () =>{
+export const getAllRelatoriosDiarios = async ()  =>{
 
 
     return await axios
@@ -16,7 +16,7 @@ export const getAllRelatoriosDiarios = async () =>{
         })
         .catch();
 }
-export const getRelatorioDiario = async (id:number) =>{
+export const getRelatorioDiario = async (id:number)  =>{
 
 
    return await axios
@@ -41,13 +41,22 @@ export const createRelatorioDiario = async ()=>{
 
 }
 
-export const updateRelatorioDiario = async (model:IRelatorioDiario)=>{
+export const updateRelatorioDiario = async (model:IRelatorioDiario) : Promise<number>=>{
 
-
-    await axios
-        .put(`${url}/AtividadesRd/${model.id}`, model,{headers:authHeader()})
+    console.log(model)
+   return  await axios
+        .put(`${url}/RelatoriosDiarios/${model.id}`, model,{headers:authHeader()})
         .then((r) => {
-            return r.data
+            return r.status
+        })
+        .catch();
+}
+export const updateFinishRelatorioDiario = async (id:number): Promise<number>=>{
+
+    return await axios
+        .put(`${url}/RelatoriosDiarios/finishRd/${id}`,{headers:authHeader()})
+        .then((r) => {
+            return r.status
         })
         .catch();
 }

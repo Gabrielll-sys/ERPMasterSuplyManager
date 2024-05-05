@@ -17,14 +17,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb5a7976-4a18-4836-970a-81862f90e640" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/(daily-report)/reports/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/assets/icons/IconReport.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SupplyManager/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SupplyManager/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/Controllers/RelatoriosDiariosController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Controllers/RelatoriosDiariosController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Migrations/SqlContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Migrations/SqlContextModelSnapshot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Models/AtividadeRd.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Models/AtividadeRd.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Models/Item.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Models/Item.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/Controllers/UsuariosController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Controllers/UsuariosController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/Models/RelatorioDiario.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Models/RelatorioDiario.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/RelatorioDiarioRepository/RelatorioDiarioRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/RelatorioDiarioRepository/RelatorioDiarioRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/Repository/OrcamentoRepository/OrcamentoRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Repository/OrcamentoRepository/OrcamentoRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/Services/RelatorioDiarioService/IRelatorioDiarioService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/RelatorioDiarioService/IRelatorioDiarioService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/Services/RelatorioDiarioService/RelatorioDiarioService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Services/RelatorioDiarioService/RelatorioDiarioService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.dll" afterDir="false" />
@@ -33,25 +31,16 @@
       <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.genruntimeconfig.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.sourcelink.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/SupplyManager.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/apphost.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/ref/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/ref/SupplyManager.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/refint/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/Debug/net6.0/refint/SupplyManager.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/SupplyManager.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/SupplyManager.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/SupplyManager.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/SupplyManager.csproj.nuget.g.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/project.packagespec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/rider.project.model.nuget.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/rider.project.restore.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/(daily-report)/report/[reportId]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(daily-report)/report/[reportId]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/(daily-report)/reports/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(daily-report)/reports/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/componentes/SideBarLFT.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/componentes/SideBarLFT.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/interfaces/IRelatorioDiario.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/interfaces/IRelatorioDiario.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/services/RelatorioDiario.Services.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/services/RelatorioDiario.Services.tsx" afterDir="false" />
@@ -80,29 +69,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Project.SupplyManager.executor&quot;: &quot;Run&quot;,
-    &quot;Publish to IIS.SupplyManager: mastererp - FTP.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Project.SupplyManager.executor": "Run",
+    "Publish to IIS.SupplyManager: mastererp - FTP.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "feature",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\gabri\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\gabri\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\gabri\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\gabri\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache",
+      "C:\\Users\\gabri\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache",
+      "C:\\Users\\gabri\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Project.SupplyManager">
     <configuration name="SupplyManager: mastererp - FTP" type="DotNetMsBuildPublish" factoryName="Publish to IIS">
       <riderPublish configuration="Release" platform="Any CPU" publish_profile="mastererp - FTP.pubxml" pubxml_path="$PROJECT_DIR$/SupplyManager/Properties/PublishProfiles/mastererp - FTP.pubxml" user_name="mastererp\$mastererp" uuid_high="-3087707462186482965" uuid_low="-5283278916316385703" />
@@ -222,11 +211,24 @@
       <workItem from="1714696806916" duration="3232000" />
       <workItem from="1714752507112" duration="2244000" />
       <workItem from="1714846115228" duration="6234000" />
+      <workItem from="1714926316858" duration="1127000" />
+      <workItem from="1714931906142" duration="6323000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />

@@ -20,7 +20,11 @@ import {uploadImageToAzure} from "@/app/services/Images.Services";
 import MuiAlert, {AlertColor} from "@mui/material/Alert";
 import {IAtividadeRd} from "@/app/interfaces/IAtividadeRd";
 import {IRelatorioDiario} from "@/app/interfaces/IRelatorioDiario";
-import {getRelatorioDiario} from "@/app/services/RelatorioDiario.Services";
+import {
+    getRelatorioDiario,
+    updateFinishRelatorioDiario,
+    updateRelatorioDiario
+} from "@/app/services/RelatorioDiario.Services";
 import Atividade from "@/app/componentes/Atividade";
 import Excel from "exceljs";
 import {logoBase64} from "@/app/assets/base64Logo";
@@ -29,10 +33,11 @@ import {logoBase64} from "@/app/assets/base64Logo";
 
 export default function Report({params}:any){
     const route = useRouter()
-  const[inputIsEditable,setInputIsEditable] = useState<boolean>(true)
+    const[confirmAuthorizeMessage,setconfirmAuthorizeMessage]= useState<string>()
+
     const [imageModal,setImageModal] = useState<any>()
     const[observacoesRd,setObservacoesRd] = useState<string>("")
-    const[contato,setContato] = useState<string>()
+    const[contato,setContato] = useState<string>("")
     const [descricaoAtividade,setDescricaoAtividade] = useState<string>("");
     const [atividadesInRd,setAtividadesInRd] = useState<IAtividadeRd[]>([])
     const status : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Cartão De Débito"];
@@ -63,7 +68,7 @@ export default function Report({params}:any){
 const getRelatorioDiarioById =async (id:number)=>
     {
         const res = await getRelatorioDiario(id)
-        setObservacoesRd(res.observacoes)
+        console.log(res)
         setContato (res.contato)
         setRelatorioDiario(res)
     }
@@ -71,6 +76,18 @@ const getAtividades = async(id:number)=>{
     const res = await getAllAtivdadesInRd(id)
     console.log(res)
     setAtividadesInRd(res)
+}
+
+const finalizarRelatorioDiario = async() =>{
+
+    const res = await updateFinishRelatorioDiario(params.reportId)
+
+    if ( res == 200) {
+        setOpenSnackBar(true);
+        setSeveridadeAlert("success");
+        setMessageAlert("Relatório Diário Fechado");
+    }
+
 }
 
 const handleCreateaAtividade = async ()=>{
@@ -103,12 +120,25 @@ const handleDeleteAtividade = async(id:number)=>{
     getAtividades(params.reportId)
 
 }
-const updateRelatorioDiario = async()=>{
-    const relatorioDiario: IRelatorioDiario = {
-        contato:contato,
-        observacoes:observacoesRd,
+const handleUpdateRelatorioDiario = async()=>{
 
+    const rd: IRelatorioDiario = {
+        id:12,
+        contato:contato,
+        responsavelAbertura:relatorioDiario.responsavelAbertura
     }
+    const res = await updateRelatorioDiario(rd)
+
+    if (res == 200){
+        setOpenSnackBar(true);
+        setSeveridadeAlert("success");
+        setMessageAlert("Relatório Diário Atualizada");
+    }
+
+}
+const handleFinishRelatorioDiario = async () =>{
+
+    const res = await updateFinishRelatorioDiario(params.reportId)
 }
 
 const updateAtividade  = async(atividade: IAtividadeRd, status: string, observacoes: string)=>{
@@ -306,7 +336,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
 
 
 
-        createXlsxPlanilha(workbook)
+         await createXlsxPlanilha(workbook)
 
 
     }
@@ -314,7 +344,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
     <>
 
         <div className="justify-center flex flex-col  gap-10">
-    <h1 className='text-center text-2xl mt-4'>Relatório Diário Nº {relatorioDiario?.id}</h1>
+    <h1 className='text-center text-2xl mt-4'>Relatório Diário Nº {relatorioDiario?.id} - Responsável : {relatorioDiario?.responsavel}</h1>
     <div className='flex flex-col gap-4 self-center itens-center justify-center  '>
 
 
@@ -322,13 +352,17 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
          label = "Contato"
         labelPlacement='outside'
         value={contato}
-         isReadOnly={inputIsEditable}
         className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px]"
         onValueChange={setContato}
 
       />
 
-
+        <Button  onPress={handleUpdateRelatorioDiario} className='bg-master_black max-sm:w-[50%] md:w-[80%] mx-auto text-white rounded-md font-bold text-base  '>
+            Atualizar Relatório
+        </Button>
+        <Button  onPress={onOpen} className='bg-master_black max-sm:w-[50%] md:w-[80%] mx-auto text-white rounded-md font-bold text-base  '>
+            fechar Relatório
+        </Button>
     </div>
 
 
@@ -366,16 +400,45 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
 
 
 
-
-
-
             </div>
 
         </div>
+        <Modal isOpen={isOpen} backdrop="blur" size='xl' onOpenChange={onOpenChange}>
+            <ModalContent>
+                {(onClose) => (
+                    <>
+                        <ModalBody>
+                            <h2 className=' text-red-950 font-bold text-center mt-4'>
+                                ATENÇÃO
+                            </h2>
+                            <p className='text-center font-bold'>
+                                Finalize o relatório somente quado tiver total certeza
+                            </p>
+                            <p className='text-center font-bold'>
+                                Digite AUTORIZAR
+                            </p>
+                            <Input
 
+                                className="border-1 self-center border-black rounded-xl shadow-sm shadow-black mt-2 ml-5 mr-5 w-[250px] max-h-16"
+                                onValueChange={setconfirmAuthorizeMessage}
+                                value={confirmAuthorizeMessage}
+                            />
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="danger" variant="light" onPress={onClose}>
+                                Fechar
+                            </Button>
+                            <Button isDisabled={confirmAuthorizeMessage!="AUTORIZAR"} color="primary" onPress={handleFinishRelatorioDiario}>
+                                Autorizar
+                            </Button>
+                        </ModalFooter>
+                    </>
+                )}
+            </ModalContent>
+        </Modal>
         <Snackbar
             open={openSnackBar}
-            autoHideDuration={3000}
+            autoHideDuration={2000}
             anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'center'

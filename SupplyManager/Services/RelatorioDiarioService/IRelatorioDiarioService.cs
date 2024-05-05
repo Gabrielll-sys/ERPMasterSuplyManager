@@ -11,6 +11,7 @@ public interface IRelatorioDiarioService
     Task<RelatorioDiario> CreateAsync();
 
     Task<RelatorioDiario> UpdateAsync(RelatorioDiario model);
-    
+
+    Task<RelatorioDiario> UpdateCloseRelatorio(int id);
     Task DeleteAsync(int id);
 }

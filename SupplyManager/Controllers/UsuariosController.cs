@@ -48,14 +48,15 @@ namespace SupplyManager.Controllers
             }
         }
 
-    /// <summary>
+        /// <summary>
         /// Realiza a criação de usuário no Sistema
         /// </summary>
         /// <param name="Usuario"></param>
         /// <returns>O Usuário Criado </returns>
         /// 
         [HttpPost]
-        /*[Authorize(Roles = "Diretor")]*/
+       // [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<ActionResult> Post([FromBody] UsuarioDto model)
         {
             try

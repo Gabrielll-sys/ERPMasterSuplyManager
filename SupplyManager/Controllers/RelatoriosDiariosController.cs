@@ -14,7 +14,7 @@ namespace SupplyManager.Controllers;
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    [Authorize]
+   // [Authorize]
     
 public class RelatoriosDiariosController:ControllerBase
 {
@@ -110,7 +110,35 @@ public class RelatoriosDiariosController:ControllerBase
 
             }
         }
+        /// <summary>
+        /// Fecha um Relatório Diário
+        /// </summary>
+        /// <param name="Id"></param>
+        [HttpPut("finishRd/{id}")]
+        public async Task<ActionResult> FinishRd([FromRoute] int id)
+        {
 
+            
+            try
+            {
+                var rd = await _relatorioDiarioService.UpdateCloseRelatorio(id);
+
+                return Ok(rd);
+
+
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+
+            }
+        }
         
     
     
