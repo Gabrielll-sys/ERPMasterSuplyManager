@@ -50,15 +50,15 @@ namespace SupplyManager.Services
             {
                 var all = await _relatorioDiarioRepository.GetAllAsync();
 
-                var lastItem = all.TakeLast(1).ToList(); 
-                
-                var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+                var lastItem = all.TakeLast(1).ToList();
+
+                var userName = _httpContextAccessor.HttpContext.User.Claims.First(x => x.Type== ClaimTypes.Name)?.Value;
                 
                 RelatorioDiario r1 = new RelatorioDiario(userName);
                 
                 var relatorioDiario = await _relatorioDiarioRepository.CreateAsync(r1);
-                
-                relatorioDiario.Id = lastItem[0].Id + 1;
+
+                //relatorioDiario.Id = lastItem[0].Id + 1;
                 
                 
                 LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Criação do Relatório Diário Nº {relatorioDiario.Id}",

@@ -3,6 +3,7 @@ import {url} from "@/app/api/webApiUrl";
 import {authHeader} from "@/app/_helpers/auth_headers";
 import {IRelatorioDiario} from "@/app/interfaces/IRelatorioDiario";
 import {useRouter} from "next/navigation";
+import {currentUser} from "@/app/services/Auth.services";
 
 
 export const getAllRelatoriosDiarios = async ()  =>{
@@ -28,18 +29,26 @@ export const getRelatorioDiario = async (id:number)  =>{
 }
 
 
-export const createRelatorioDiario = async ()=>{
+export const createRelatorioDiario = async () => {
+    try {
+        const response = await axios.post(
+            `${url}/RelatoriosDiarios`,
+            null, // Dados do corpo da requisição (se necessário)
+            {
+                headers: {
+                    Authorization: `Bearer ${currentUser.token}`,
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
 
-    return await axios
-        .post(`${url}/RelatoriosDiarios`,{headers:authHeader()})
-        .then((r) => {
-            console.log(r.data)
-            return r.data
-        })
-        .catch();
-
-
-}
+        console.log('Dados do relatório:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao criar relatório:', error);
+        throw error; // Lança o erro para quem chamar essa função
+    }
+};
 
 export const updateRelatorioDiario = async (model:IRelatorioDiario) : Promise<number>=>{
 

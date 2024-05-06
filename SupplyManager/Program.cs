@@ -123,6 +123,7 @@ builder.Services.AddScoped<IAtividadeRdRepository, AtividadeRdRepository>();
 builder.Services.AddTransient<IAtividadeRdService, AtividadeRdService>();
 builder.Services.AddScoped<IRelatorioDiarioRepository, RelatorioDiarioRepository>();
 builder.Services.AddTransient<IRelatorioDiarioService, RelatorioDiarioService>();
+builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

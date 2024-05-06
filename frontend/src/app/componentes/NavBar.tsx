@@ -34,10 +34,17 @@ const NavBar= ()=>{
     const [userName,setUserName]= useState<string>("")
 
     useEffect(() => {
+    const res = JSON.parse(localStorage.getItem("currentUser"));
+    console.log(res)
+    if(currentUser?.userName !=undefined)
+    {
+        setUserName(currentUser.userName)
 
-    currentUser?.userName !=undefined &&  setUserName(currentUser.userName)
-
-    }, [currentUser]);
+    }
+  else{
+      route.push('/login')
+    }
+    }, []);
 
     const handleSideBar= ()=>{
 
@@ -68,7 +75,11 @@ const NavBar= ()=>{
     const signOut = ()=>
     {
 
-        removeUserLocalStorage().then(r => route.push("/login") );
+        removeUserLocalStorage()
+
+        setTimeout (()=>{
+            route.push("/login")
+        },2000)
         console.log(currentUser)
 
     }

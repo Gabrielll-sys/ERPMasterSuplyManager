@@ -35,18 +35,20 @@ const gravaUserLogadoLocalStorage = async (token:any, userId:number,name:string)
 export const removeUserLocalStorage = async () => {
 
   localStorage.removeItem("currentUser")
+    const res=localStorage.getItem("currentUser")
+     console.log(res)
 }
 
 
 export const getUserLocalStorage =  () => {      
-    
-  const currentUser = localStorage.getItem('currentUser');
+    //@ts-ignore
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-  const currentUserSubject = JSON.parse(currentUser || '{}');
+  //const currentUserSubject = JSON.parse(currentUser || '{}');
 
   if(currentUser != null)
   {      
-      return currentUserSubject
+      return currentUser
   }   
 } 
 

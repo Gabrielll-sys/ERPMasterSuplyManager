@@ -22,9 +22,9 @@ public class RelatorioDiario
     public DateTime? HorarioFechamento{ get; set; }
 
 
-    public RelatorioDiario(string? responsavel)
+    public RelatorioDiario(string? responsavelAbertura)
     {
-        ResponsavelAbertura = responsavel;
+        ResponsavelAbertura = responsavelAbertura;
         Contato = "Sem Contato";
         HorarioAbertura = DateTime.UtcNow.AddHours(-3);;
         isFinished = false;

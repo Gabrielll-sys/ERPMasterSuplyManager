@@ -19,7 +19,8 @@ import {getRelatorioDiario} from "@/app/services/RelatorioDiario.Services";
 
 
 
-export default function Atividade({ atividade, onUpdate,onDelete }){
+// @ts-ignore
+export default function Atividade({ atividade, onUpdate,onDelete}){
     const route = useRouter()
 
     const[observacoesRd,setObservacoesRd] = useState<string>("")

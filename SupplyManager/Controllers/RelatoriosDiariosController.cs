@@ -14,7 +14,7 @@ namespace SupplyManager.Controllers;
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-   // [Authorize]
+   [Authorize]
     
 public class RelatoriosDiariosController:ControllerBase
 {
@@ -61,7 +61,7 @@ public class RelatoriosDiariosController:ControllerBase
         /// <returns>O Relatorio Diario Criado </returns>
         /// 
         [HttpPost]
-        public async Task<ActionResult> Post()
+        public async Task<ActionResult<RelatorioDiario>> Post()
         {
             try
             {

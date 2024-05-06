@@ -5,7 +5,7 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography
 import { useRouter } from "next/navigation";
 import { QRCode } from "react-qrcode-logo";
 import { Card, Dropdown, Table, Textarea } from 'flowbite-react';
-import { use, useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import "dayjs/locale/pt-br";
 import { url } from '@/app/api/webApiUrl';
@@ -30,7 +30,7 @@ import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import {currentUser} from "@/app/services/Auth.services";
 import {getUserById} from "@/app/services/User.Services";
 import {IRelatorioDiario} from "@/app/interfaces/IRelatorioDiario";
-import {getAllRelatoriosDiarios} from "@/app/services/RelatorioDiario.Services";
+import {createRelatorioDiario, getAllRelatoriosDiarios} from "@/app/services/RelatorioDiario.Services";
 
 
 
@@ -54,11 +54,21 @@ const getAll = async ()=>{
     if(res) setRelatorioDiarios(res)
 
 }
-
+const handleCreateRelatorio = async()=>{
+      const res = await createRelatorioDiario();
+      if(res) await getAll();
+}
 
 return(
     <>
+        <div className = "flex flex-col gap-5 justify-center">
+
+
       <h1 className='text-center text-2xl mt-4'>Relatórios Diários</h1>
+        <Button  onPress={handleCreateRelatorio} className='  bg-master_black max-sm:w-[50%] md:w-[10%] mx-auto text-white rounded-md font-bold text-base  '>
+            Criar novo relatório
+        </Button>
+        </div>
     <div className=' flex flex-row items-center justify-center flex-wrap gap-16 self-center mt-16'>
       
       { relatoriosDiarios!=undefined  && relatoriosDiarios.map((relatorioDiario:IRelatorioDiario)=>(

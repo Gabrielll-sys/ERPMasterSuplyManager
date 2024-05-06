@@ -40,6 +40,8 @@ export default function Login({params}:any){
 
 
     useEffect(() => {
+
+        localStorage.clear()
         console.log(currentUser?.token)
         if (isTokenValid(currentUser?.token)){
             route.push("/create-material")

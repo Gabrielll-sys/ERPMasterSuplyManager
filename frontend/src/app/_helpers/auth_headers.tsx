@@ -1,9 +1,10 @@
-import {currentUser} from "@/app/services/Auth.services";
+import {currentUser, getUserLocalStorage} from "@/app/services/Auth.services";
 
 export function authHeader() {
 
-    const user : any = currentUser
+    const user = currentUser
 
+    console.log(user)
     if (user && user.token) 
     { 
         return { Authorization: `Bearer ${user.token}`,

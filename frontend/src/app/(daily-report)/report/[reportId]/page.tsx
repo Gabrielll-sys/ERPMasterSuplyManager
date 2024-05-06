@@ -344,7 +344,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
     <>
 
         <div className="justify-center flex flex-col  gap-10">
-    <h1 className='text-center text-2xl mt-4'>Relatório Diário Nº {relatorioDiario?.id} - Responsável : {relatorioDiario?.responsavel}</h1>
+    <h1 className='text-center text-2xl mt-4'>Relatório Diário Nº {relatorioDiario?.id} - Responsável : {relatorioDiario?.responsavelAbertura}</h1>
     <div className='flex flex-col gap-4 self-center itens-center justify-center  '>
 
 
@@ -360,9 +360,12 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
         <Button  onPress={handleUpdateRelatorioDiario} className='bg-master_black max-sm:w-[50%] md:w-[80%] mx-auto text-white rounded-md font-bold text-base  '>
             Atualizar Relatório
         </Button>
+        { !relatorioDiario?.isFinished && (
+
         <Button  onPress={onOpen} className='bg-master_black max-sm:w-[50%] md:w-[80%] mx-auto text-white rounded-md font-bold text-base  '>
             fechar Relatório
         </Button>
+        )}
     </div>
 
 

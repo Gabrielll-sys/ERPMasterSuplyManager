@@ -977,6 +977,18 @@
         <member name="M:SupplyManager.Migrations.v47.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:SupplyManager.Migrations.v48">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v48.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v48.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:SupplyManager.Migrations.v48.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="M:SupplyManager.Services.RelatorioDiarioService.UpdateCloseRelatorio(System.Int32)">
             <summary>
             Define a proprieadade de autorizado com true
