@@ -20,13 +20,14 @@ import {getRelatorioDiario} from "@/app/services/RelatorioDiario.Services";
 
 
 // @ts-ignore
-export default function Atividade({ atividade, onUpdate,onDelete}){
+ const Atividade = ({ atividade, onUpdate,onDelete,isFinished})=>{
     const route = useRouter()
 
     const[observacoesRd,setObservacoesRd] = useState<string>("")
     const [imageModal,setImageModal] = useState<any>()
     const[observacoes,setObservacoes] = useState<string>(atividade.observacoes)
     const [checkboxStatus, setCheckboxStatus] = useState(atividade.status);
+    const [descricao, setDescricao] = useState(atividade.descricao);
     const [descricaoAtividade,setDescricaoAtividade] = useState<string>("");
     const [atividadesInRd,setAtividadesInRd] = useState<IAtividadeRd[]>([])
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -36,7 +37,7 @@ export default function Atividade({ atividade, onUpdate,onDelete}){
     const [atividadeRdEditing,setAtividadeRdEditing] = useState<IAtividadeRd>()
 
     const handleInputChange = () => {
-        onUpdate(atividade, checkboxStatus, observacoes);
+        onUpdate(atividade, checkboxStatus, observacoes,descricao);
          }
 
      const handleDeleteAtividade = (id:number)=>{
@@ -88,28 +89,36 @@ export default function Atividade({ atividade, onUpdate,onDelete}){
 
                                                         <div className="flex flex-col max-sm:gap-8 md:gap-6">
 
-                                                            <div className="flex flex-row gap-5">
-                                                                <p className="text-2xl"> Nº {atividade.numeroAtividade} - {atividade.descricao} </p>
-
+                                                            <div className="flex flex-col gap-5">
+                                                                <p className="md:text-2xl max-sm:text-[20px]"> Nº {atividade.numeroAtividade} - {atividade.descricao} </p>
+                                                                <Input className='bg-transparent max-sm:w-[200px] md:w-[250px]'
+                                                                  value={descricao}
+                                                                  onValueChange={setDescricao}
+                                                                
+                                                                 />
                                                             </div>
 
 
                                                             <div className="flex md:flex-row gap-4 max-sm:flex-col ">
                                                                 <Checkbox color="success"
-
+                                                                            isReadOnly = {isFinished}
 
                                                                           isSelected={checkboxStatus == "Não Iniciada"}
                                                                           onValueChange={() => setCheckboxStatus("Não Iniciada")}>
                                                                     Não Iniciada
                                                                 </Checkbox>
+
                                                                 <Checkbox
+                                                                            isReadOnly = {isFinished}
 
                                                                     color="success"
                                                                     isSelected={checkboxStatus == "Em Andamento"}
                                                                     onValueChange={() => setCheckboxStatus("Em Andamento")}>
                                                                     Em Andamento
                                                                 </Checkbox>
+
                                                                 <Checkbox
+                                                                    isReadOnly = {isFinished}
                                                                     color="success" isSelected={checkboxStatus == "Concluída"}
                                                                     onValueChange={() => setCheckboxStatus("Concluída")}>
                                                                     Concluída
@@ -117,6 +126,7 @@ export default function Atividade({ atividade, onUpdate,onDelete}){
                                                             </div>
 
                                                             <Textarea
+                                                                            isReadOnly = {isFinished}
 
                                                                 placeholder="Observaçoes Sobre a Atividade"
                                                                 className="w-full p-3 rounded-base  bg-transparent shadow-sm shadow-black"
@@ -124,6 +134,9 @@ export default function Atividade({ atividade, onUpdate,onDelete}){
                                                                 value={observacoes}
                                                                 onValueChange={setObservacoes}
                                                             />
+                                                            {!isFinished && (
+                                                                <>
+
                                                             <div className="flex flex-row max-sm:flex-col gap-6 mx-auto">
                                                             <Button
                                                                 color="primary"
@@ -145,7 +158,9 @@ export default function Atividade({ atividade, onUpdate,onDelete}){
 
                                                             </Button>
                                                             </div>
-                                                            <Input className="w-[145px]" type="file"
+                                                                </>
+                                                            )}
+                                                            {/* <Input className="w-[145px]" type="file"
                                                                    onChange={handleImageChange}/>
                                                             <div
                                                                 className=" flex md:flex-row max-sm:flex-col flex-wrap max-sm:items-center gap-4 mx-auto ">
@@ -162,7 +177,7 @@ export default function Atividade({ atividade, onUpdate,onDelete}){
                                                                     </Button>
                                                                 ))}
 
-                                                            </div>
+                                                            </div> */}
                                                         </div>
                                                     </Table.Cell>
 
@@ -208,3 +223,4 @@ export default function Atividade({ atividade, onUpdate,onDelete}){
 
 
 }
+export default Atividade;

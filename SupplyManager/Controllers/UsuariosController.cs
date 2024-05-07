@@ -76,6 +76,7 @@ namespace SupplyManager.Controllers
                     Nome = model.Nome,
                     Senha = BCrypt.Net.BCrypt.HashPassword(defaultCreatePassword),
                     Cargo = model.Cargo,
+                    isActive = true,
                     DataCadastro = DateTime.UtcNow.AddHours(-3)
                 };
 

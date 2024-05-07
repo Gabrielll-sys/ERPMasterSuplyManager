@@ -63,7 +63,7 @@ export const updateRelatorioDiario = async (model:IRelatorioDiario) : Promise<nu
 export const updateFinishRelatorioDiario = async (id:number): Promise<number>=>{
 
     return await axios
-        .put(`${url}/RelatoriosDiarios/finishRd/${id}`,{headers:authHeader()})
+        .put(`${url}/RelatoriosDiarios/finishRd/${id}`,null,{headers:authHeader()})
         .then((r) => {
             return r.status
         })

@@ -1,7 +1,7 @@
 "use client"
 import {Link, Button,Autocomplete, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
 import MuiAlert from "@mui/material/Alert";
-import {currentUser, getUserLocalStorage, isTokenValid} from "@/app/services/Auth.services";
+import {getUserLocalStorage, isTokenValid} from "@/app/services/Auth.services";
 
 import  { AlertColor, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
 import { useRouter } from "next/navigation";
@@ -33,17 +33,19 @@ export default function Login({params}:any){
     const[email,setEmail] = useState<string>("gabrielpuneco@gmail.com")
 
     const [isVisible, setIsVisible] = useState(false);
+    const [currentUser, setCurrentUser] = useState<any>(null);
 
     const toggleVisibility = () => setIsVisible(!isVisible);
 
-    const funcoesUsuario : string[] = ["Administrador", "Usuário","Personalizado", ];
 
 
     useEffect(() => {
 
-        localStorage.clear()
-        console.log(currentUser?.token)
-        if (isTokenValid(currentUser?.token)){
+        //@ts-ignore
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        setCurrentUser(user);
+        console.log(user?.token)
+        if (isTokenValid(user?.token) && user!= null){
             route.push("/create-material")
         }
 

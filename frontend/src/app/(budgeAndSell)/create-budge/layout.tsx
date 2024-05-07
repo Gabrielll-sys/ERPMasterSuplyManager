@@ -1,6 +1,5 @@
 import React from "react";
-import Footer from "../../componentes/Footer";
-
+import Footer from "@/app/componentes/Footer";
 export default function osManagementLayout({
   children,
 }: {

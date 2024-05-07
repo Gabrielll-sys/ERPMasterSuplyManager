@@ -51,6 +51,7 @@ export default function ManageBudges({params}:any){
   const[confirmAuthorizeMessage,setconfirmAuthorizeMessage]= useState<string>()
 
   const[itemToBeUpdated,setItemToBeUpdated] = useState<IItem>()
+  const [currentUser, setCurrentUser] = useState<any>(null);
 
 
   const[nomeOrçamento,setNomeOrçamento] = useState<string>("DF")
@@ -109,6 +110,13 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
       getAllMateriaisInOrcamento(params.orcamentoId)
       // getAllMaterial()
       getInfosBudge()
+      //@ts-ignore
+      const user = JSON.parse(localStorage.getItem("currentUser"));
+    if(user != null)
+    {
+        setCurrentUser(user)
+
+    }
     
      },[])
   useEffect(()=>{
@@ -863,7 +871,7 @@ return(
           >
             <PDFDownloadLink document={   <OrcamentoPDF
             materiaisOrcamento ={materiaisOrcamento}
-            nomeUsuario={session?.user?.name}
+            nomeUsuario={currentUser?.userName}
             orcamento={orcamento}
             desconto = {precoVendaComDesconto}
        

@@ -27,6 +27,7 @@ import { Table } from "flowbite-react";
 import { createMaterial, searchByDescription, searchByFabricanteCode } from "../services/Material.Services";
 import IconPencil from "../assets/icons/IconPencil";
 import IMaterial from "../interfaces/IMaterial";
+import {currentUser} from "@/app/services/Auth.services";
 
 
  function CreateMaterial(){
@@ -34,8 +35,8 @@ import IMaterial from "../interfaces/IMaterial";
 
 
   const [loadingButton,setLoadingButton] = useState<boolean>(false)  
-  const [loadingMateriais,setLoadingMateriais] = useState<boolean>(false)  
-  const [categoria, setCategoria] = useState<string>("");
+  const [loadingMateriais,setLoadingMateriais] = useState<boolean>(false)
+     const conditionsRoles = currentUser?.role == "Administrador" || currentUser?.role == "Diretor" || currentUser?.role == "SuporteTecnico"
 
   const [descricao, setDescricao] = useState<string>("");
   const [codigoInterno, setCodigoInterno] = useState<string>("");
@@ -284,14 +285,18 @@ const buscaCodigoFabricante = async(codigo:string)=>
 
 
 <>
+    {conditionsRoles && (
+        <>
       <div className='text-center mt-8 '>
       <Button  onPress={handleCreateMaterial} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
         <IconPencil/>
           {loadingButton?<Spinner size="md" color="warning"/>:"Criar Material"}
       </Button>
-     
-     
+
+
       </div>
+        </>
+    )}
       </>
 
  
@@ -312,10 +317,14 @@ const buscaCodigoFabricante = async(codigo:string)=>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Marca</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Tensão</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Estoque</Table.HeadCell>
+            {conditionsRoles && (
+                <>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Localização</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Preço Custo</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm ">Preço Venda</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Preço Total</Table.HeadCell>
+                </>
+            )}
           <Table.HeadCell className="text-center">
             <span className="sr-only">Edit</span>
           </Table.HeadCell>
@@ -333,10 +342,13 @@ const buscaCodigoFabricante = async(codigo:string)=>
           <Table.Cell className="text-center text-black">{row.material.tensao}</Table.Cell>
           <Table.Cell className="text-center text-black hover:underline" onClick={()=>route.push(`/update-inventory/${row.material.id}`)}>{row.saldoFinal==null?"Não registrado":row.saldoFinal +" "+row.material.unidade}</Table.Cell>
           <Table.Cell className="text-center text-black">{row.material.localizacao}</Table.Cell>
+              {conditionsRoles && (
+                  <>
+
           <Table.Cell className="text-center text-black">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</Table.Cell>
           <Table.Cell className="text-center text-black">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</Table.Cell>
           <Table.Cell className="text-center text-black">{row.material.precoVenda==null?"Sem registro":"R$ "+(row.material.precoCusto*row.saldoFinal).toFixed(2).toString().replace(".",",")}</Table.Cell>
-          
+
           <Table.Cell>
             <a  onClick={(x) =>
                       handleChangeUpdatePage(row.material.id)
@@ -344,6 +356,8 @@ const buscaCodigoFabricante = async(codigo:string)=>
               Editar
             </a>
           </Table.Cell>
+                  </>
+              )}
         </Table.Row>
 
 

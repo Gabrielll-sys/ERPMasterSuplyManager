@@ -9,12 +9,7 @@ const nextConfig = {
           port: "",
           pathname: "**",
         },
-          {
-          protocol: "https",
-          hostname: "*.mastererpstorage.blob.core.windows.net",
-          port: "",
-          pathname: "**",
-        },
+         
       ],
     },
 
