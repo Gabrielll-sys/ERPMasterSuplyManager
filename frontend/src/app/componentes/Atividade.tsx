@@ -20,7 +20,7 @@ import {getRelatorioDiario} from "@/app/services/RelatorioDiario.Services";
 
 
 // @ts-ignore
-export default function Atividade({ atividade, onUpdate,onDelete}){
+export default function Atividade({ atividade,onDelete,onUpdate,isFinished}){
     const route = useRouter()
 
     const[observacoesRd,setObservacoesRd] = useState<string>("")
@@ -96,20 +96,22 @@ export default function Atividade({ atividade, onUpdate,onDelete}){
 
                                                             <div className="flex md:flex-row gap-4 max-sm:flex-col ">
                                                                 <Checkbox color="success"
-
+                                                                          isReadOnly={isFinished}
 
                                                                           isSelected={checkboxStatus == "Não Iniciada"}
                                                                           onValueChange={() => setCheckboxStatus("Não Iniciada")}>
                                                                     Não Iniciada
                                                                 </Checkbox>
                                                                 <Checkbox
-
+                                                                    isReadOnly={isFinished}
                                                                     color="success"
                                                                     isSelected={checkboxStatus == "Em Andamento"}
                                                                     onValueChange={() => setCheckboxStatus("Em Andamento")}>
                                                                     Em Andamento
                                                                 </Checkbox>
                                                                 <Checkbox
+                                                                    isReadOnly={isFinished}
+
                                                                     color="success" isSelected={checkboxStatus == "Concluída"}
                                                                     onValueChange={() => setCheckboxStatus("Concluída")}>
                                                                     Concluída
@@ -117,13 +119,15 @@ export default function Atividade({ atividade, onUpdate,onDelete}){
                                                             </div>
 
                                                             <Textarea
-
+                                                                isReadOnly={isFinished}
                                                                 placeholder="Observaçoes Sobre a Atividade"
                                                                 className="w-full p-3 rounded-base  bg-transparent shadow-sm shadow-black"
                                                                 rows={5}
                                                                 value={observacoes}
                                                                 onValueChange={setObservacoes}
                                                             />
+                                                            {!isFinished && (
+                                                                <>
                                                             <div className="flex flex-row max-sm:flex-col gap-6 mx-auto">
                                                             <Button
                                                                 color="primary"
@@ -145,24 +149,26 @@ export default function Atividade({ atividade, onUpdate,onDelete}){
 
                                                             </Button>
                                                             </div>
-                                                            <Input className="w-[145px]" type="file"
-                                                                   onChange={handleImageChange}/>
-                                                            <div
-                                                                className=" flex md:flex-row max-sm:flex-col flex-wrap max-sm:items-center gap-4 mx-auto ">
+                                                            {/*<Input className="w-[145px]" type="file"*/}
+                                                            {/*       onChange={handleImageChange}/>*/}
+                                                            {/*<div*/}
+                                                            {/*    className=" flex md:flex-row max-sm:flex-col flex-wrap max-sm:items-center gap-4 mx-auto ">*/}
 
-                                                                {image && image.map((x: File, index: number) => (
-                                                                    <Button key={index}
-                                                                            className="bg-white h-full hover:-translate-y-2  "
-                                                                            onPress={() => {
-                                                                                onOpenChange(), setImageModal(URL.createObjectURL(x))
-                                                                            }}>
+                                                            {/*    {image && image.map((x: File, index: number) => (*/}
+                                                            {/*        <Button key={index}*/}
+                                                            {/*                className="bg-white h-full hover:-translate-y-2  "*/}
+                                                            {/*                onPress={() => {*/}
+                                                            {/*                    onOpenChange(), setImageModal(URL.createObjectURL(x))*/}
+                                                            {/*                }}>*/}
 
-                                                                        <Image className="my-auto " key={index} height={150} width={150}
-                                                                               src={URL.createObjectURL(x)} alt={"sa"}/>
-                                                                    </Button>
-                                                                ))}
+                                                            {/*            <Image className="my-auto " key={index} height={150} width={150}*/}
+                                                            {/*                   src={URL.createObjectURL(x)} alt={"sa"}/>*/}
+                                                            {/*        </Button>*/}
+                                                            {/*    ))}*/}
 
-                                                            </div>
+                                                            {/*</div>*/}
+                                                                </>
+                                                            )}
                                                         </div>
                                                     </Table.Cell>
 
@@ -185,7 +191,6 @@ export default function Atividade({ atividade, onUpdate,onDelete}){
                         <Button
                             color="primary"
                             variant="ghost"
-                            onPress={()=>console.log("dfds")}
                             className="w-[120px] self-center"
                         >
                             Excluir item

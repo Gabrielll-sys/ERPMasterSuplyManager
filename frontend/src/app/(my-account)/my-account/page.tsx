@@ -5,7 +5,7 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography
 import { useRouter } from "next/navigation";
 import { QRCode } from "react-qrcode-logo";
 import { Textarea } from 'flowbite-react';
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import "dayjs/locale/pt-br";
 import { url } from '@/app/api/webApiUrl';
@@ -48,7 +48,9 @@ export default function MyAccount({params}:any){
     const[usuario,setUsuario] = useState<IUsuario>()
 
     const [isVisible, setIsVisible] = useState(false);
-
+    const [openSnackBar, setOpenSnackBar] = useState(false);
+    const [messageAlert, setMessageAlert] = useState<string>();
+    const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
     const toggleVisibility = () => setIsVisible(!isVisible);
 
     useEffect(() => {
@@ -58,7 +60,7 @@ export default function MyAccount({params}:any){
 
     const getInfosUser = async ()=>{
 
-        const user = await getUserById(currentUser.userId)
+        const user = await getUserById(currentUser?.userId)
         setNomeUsuario(user.nome)
         setEmailUsuario(user.email)
 
@@ -82,7 +84,12 @@ export default function MyAccount({params}:any){
           senha:senha
       }
 
-      await updateInfosUser(user)
+      const res = await updateInfosUser(user)
+      if( res == 200) {
+          setOpenSnackBar(true);
+          setSeveridadeAlert("success");
+          setMessageAlert("Suas informações foram atualizadas com sucesso");
+      }
 
   }
 
@@ -100,7 +107,7 @@ return(
                     labelPlacement='outside'
                     value={nomeUsuario}
                     className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[280px] "
-                    onValueChange={(x) => handleNomeCliente(x)}
+                    onValueChange={setNomeUsuario}
                 />
 
                 <Input
@@ -111,13 +118,7 @@ return(
                     onValueChange={setEmailUsuario}
 
                 />
-                <Input
-                    type = "file"
-                    labelPlacement='outside'
-                    className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[280px]"
-                    onValueChange={setEmailUsuario}
 
-                />
                 <Input
                     labelPlacement='outside'
                     value={senha}
@@ -147,6 +148,23 @@ return(
 
 
         </div>
+        <Snackbar
+            open={openSnackBar}
+            autoHideDuration={2000}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center'
+            }}
+            onClose={(e) => setOpenSnackBar(false)}
+        >
+            <MuiAlert
+                onClose={(e) => setOpenSnackBar(false)}
+                severity={severidadeAlert}
+                sx={{ width: "100%" }}
+            >
+                {messageAlert}
+            </MuiAlert>
+        </Snackbar>
     </>
 )
 

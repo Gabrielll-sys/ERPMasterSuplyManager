@@ -23,12 +23,12 @@ export const register = async (param:any) => {
 
 
 
-const gravaUserLogadoLocalStorage = async (token:any, userId:number,name:string) => {
+const gravaUserLogadoLocalStorage = async (token:any, userId:number,name:string,role:string) => {
  
   var usuario = {
     token: token,
     userId:userId,
-    userName:name,
+    userName:name, role:role,
   }  
   localStorage.setItem('currentUser', JSON.stringify(usuario));   
 }
@@ -62,7 +62,7 @@ export const authenticate = async (param:any) => {
 
     if (response && response.data) {
 
-      gravaUserLogadoLocalStorage(response.data.jwtToken, response.data.userId,response.data.userName);
+      gravaUserLogadoLocalStorage(response.data.jwtToken, response.data.userId,response.data.userName,response.data.role);
 
       return response.data;
     }

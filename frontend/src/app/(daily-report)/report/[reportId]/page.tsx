@@ -2,7 +2,7 @@
 import {Link, Button,Autocomplete,Textarea, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
 import {  Snackbar} from '@mui/material';
 import { useRouter } from "next/navigation";
-
+import {currentUser} from "@/app/services/Auth.services";
 import {Table} from 'flowbite-react';
 import React, { useEffect, useRef, useState } from "react";
 import "dayjs/locale/pt-br";
@@ -139,6 +139,13 @@ const handleUpdateRelatorioDiario = async()=>{
 const handleFinishRelatorioDiario = async () =>{
 
     const res = await updateFinishRelatorioDiario(params.reportId)
+    if ( res == 200) {
+        setOpenSnackBar(true);
+        setSeveridadeAlert("success");
+        setMessageAlert("Relatório Finalizado");
+    }
+
+    await getRelatorioDiarioById(params.reportId)
 }
 
 const updateAtividade  = async(atividade: IAtividadeRd, status: string, observacoes: string)=>{
@@ -307,9 +314,18 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
         const colC= ws.getColumn('C')
         colC.width= 30;
 
-        ws.getCell(`B${atividadesInRd.length+3}`).value= `Observações: ${relatorioDiario.observacoes == null ? "Sem Observações": relatorioDiario.observacoes}`
+        ws.getCell(`B${atividadesInRd.length+3}`).value= `Status: ${!relatorioDiario.status  ? "Concluído": "Em Análise"}`
         ws.getCell(`B${atividadesInRd.length+3}`).alignment={vertical:'middle',horizontal:'center'}
         ws.getCell(`B${atividadesInRd.length+3}`).border=bordas
+        ws.getCell(`B${atividadesInRd.length+3}`).font = {size:16}
+        if(!relatorioDiario.status)
+        {
+        ws.getCell(`B${atividadesInRd.length+3}`).fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FF00FF00' }, // Verde
+        };
+        }
 
         ws.mergeCells(`C${atividadesInRd.length+3}`,`E${atividadesInRd.length+3}`)
         ws.getCell(`C${atividadesInRd.length+3}`).style.alignment={'vertical':"middle",'horizontal':"center"}
@@ -340,67 +356,80 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
 
 
     }
+
     return(
     <>
 
         <div className="justify-center flex flex-col  gap-10">
-    <h1 className='text-center text-2xl mt-4'>Relatório Diário Nº {relatorioDiario?.id} - Responsável : {relatorioDiario?.responsavelAbertura}</h1>
-    <div className='flex flex-col gap-4 self-center itens-center justify-center  '>
+            <h1 className='text-center text-2xl mt-4'>Relatório Diário Nº {relatorioDiario?.id} - Responsável
+                : {relatorioDiario?.responsavelAbertura}</h1>
+           <h2 className='text-center text-[20px] '> Status: {!relatorioDiario?.status ? "Concluído":"Em análise"}</h2>
+
+            <div className='flex flex-col gap-4 self-center itens-center justify-center  '>
 
 
-    <Input
-         label = "Contato"
-        labelPlacement='outside'
-        value={contato}
-        className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px]"
-        onValueChange={setContato}
-
-      />
-
-        <Button  onPress={handleUpdateRelatorioDiario} className='bg-master_black max-sm:w-[50%] md:w-[80%] mx-auto text-white rounded-md font-bold text-base  '>
-            Atualizar Relatório
-        </Button>
-        { !relatorioDiario?.isFinished && (
-
-        <Button  onPress={onOpen} className='bg-master_black max-sm:w-[50%] md:w-[80%] mx-auto text-white rounded-md font-bold text-base  '>
-            fechar Relatório
-        </Button>
-        )}
-    </div>
-
-
-            <div className="overflow-x-auto flex flex-col self-center max-sm:w-[90%] md:w-[60%]  gap-9 border-1 border-black p-4  ">
                 <Input
-                    label = "Atividade"
+                    label="Contato"
+                    labelPlacement='outside'
+                    value={contato}
+                    className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px]"
+                    onValueChange={setContato}
+
+                />
+
+                <Button onPress={handleUpdateRelatorioDiario}
+                        className='bg-master_black max-sm:w-[50%] md:w-[80%] mx-auto text-white rounded-md font-bold text-base  '>
+                    Atualizar Relatório
+                </Button>
+                {!relatorioDiario?.isFinished && (currentUser.role == "Diretor" || currentUser.role == "Administrador" || currentUser.role == "SuporteTecnico") && (
+
+
+                    <Button onPress={onOpen}
+                            className='bg-master_black max-sm:w-[50%] md:w-[80%] mx-auto text-white rounded-md font-bold text-base  '>
+                        fechar Relatório
+                    </Button>
+                )}
+            </div>
+
+
+            <div
+                className="overflow-x-auto flex flex-col self-center max-sm:w-[90%] md:w-[60%]  gap-9 border-1 border-black p-4  ">
+                {!relatorioDiario?.isFinished && (
+                    <>
+                <Input
+                    label="Atividade"
                     labelPlacement='outside'
                     value={descricaoAtividade}
                     className="border-1 border-black rounded-md shadow-sm shadow-black mx-auto w-[200px]"
                     onValueChange={setDescricaoAtividade}
 
                 />
-                <Button  isDisabled={!descricaoAtividade} onPress={handleCreateaAtividade} className='bg-master_black max-sm:w-[50%] md:w-[20%] mx-auto text-white rounded-md font-bold text-base  '>
+                <Button isDisabled={!descricaoAtividade} onPress={handleCreateaAtividade}
+                        className='bg-master_black max-sm:w-[50%] md:w-[20%] mx-auto text-white rounded-md font-bold text-base  '>
                     Adicionar Atividade
                 </Button>
-                <Button   onPress={generatePlanilha} >
-               Gerar Relatório
-            </Button>
-                        {atividadesInRd?.length ?
-                            (
-                            <>
-                                {atividadesInRd.map((atividade:IAtividadeRd)=>(
+                    </>
+                )}
+                <Button onPress={generatePlanilha}>
+                    Gerar Relatório
+                </Button>
+                {atividadesInRd?.length ?
+                    (
+                        <>
+                            {atividadesInRd.map((atividade: IAtividadeRd) => (
 
-                                    <Atividade  key={atividade.id} atividade={atividade}onUpdate={updateAtividade} onDelete={handleDeleteAtividade} />
-                                ))}
+                                <Atividade key={atividade.id} atividade={atividade} onUpdate={updateAtividade}
+                                           onDelete={handleDeleteAtividade} isFinished = {relatorioDiario?.isFinished}/>
+                            ))}
 
-                            </>
-                        ):(
-                            <div className="flex my-auto mx-auto">
+                        </>
+                    ) : (
+                        <div className="flex my-auto mx-auto">
 
-                        <p>Sem Atividades No Momento</p>
-                            </div>
-                        )
-                        }
-
+                            <p>Sem Atividades No Momento</p>
+                        </div>
+                    )
+                }
 
 
             </div>
@@ -431,9 +460,12 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                             <Button color="danger" variant="light" onPress={onClose}>
                                 Fechar
                             </Button>
+                            {!relatorioDiario.status && (
                             <Button isDisabled={confirmAuthorizeMessage!="AUTORIZAR"} color="primary" onPress={handleFinishRelatorioDiario}>
                                 Autorizar
                             </Button>
+
+                            )}
                         </ModalFooter>
                     </>
                 )}

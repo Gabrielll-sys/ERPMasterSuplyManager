@@ -48,7 +48,7 @@ export const updateInfosUser = async (model:IUsuario) => {
                 headers: authHeader()
             }).then(
             response => {
-                return response.data;
+                return response.status;
             },
             error =>{
                 return  null;

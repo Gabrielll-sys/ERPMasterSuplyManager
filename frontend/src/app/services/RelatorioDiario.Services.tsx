@@ -8,7 +8,6 @@ import {currentUser} from "@/app/services/Auth.services";
 
 export const getAllRelatoriosDiarios = async ()  =>{
 
-
     return await axios
         .get(`${url}/RelatoriosDiarios`,{headers:authHeader()})
         .then((r) => {
@@ -31,6 +30,8 @@ export const getRelatorioDiario = async (id:number)  =>{
 
 export const createRelatorioDiario = async () => {
     try {
+        console.log(authHeader())
+
         const response = await axios.post(
             `${url}/RelatoriosDiarios`,
             null, // Dados do corpo da requisição (se necessário)
@@ -63,7 +64,7 @@ export const updateRelatorioDiario = async (model:IRelatorioDiario) : Promise<nu
 export const updateFinishRelatorioDiario = async (id:number): Promise<number>=>{
 
     return await axios
-        .put(`${url}/RelatoriosDiarios/finishRd/${id}`,{headers:authHeader()})
+        .put(`${url}/RelatoriosDiarios/finishRd/${id}`,null,{headers:authHeader()})
         .then((r) => {
             return r.status
         })

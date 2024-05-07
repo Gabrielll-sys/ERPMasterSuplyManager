@@ -8,21 +8,6 @@ import { Card, Dropdown, Table, Textarea } from 'flowbite-react';
 import React, { use, useEffect, useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import "dayjs/locale/pt-br";
-import { url } from '@/app/api/webApiUrl';
-import { stringSimilarity } from "string-similarity-js";
-import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import IMaterial from '@/app/interfaces/IMaterial';
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import TextField from "@mui/material/TextField";
-import axios, { AxiosResponse } from "axios";
-import imagem from '/src/app/assets/logo.png'
-import { useReactToPrint } from 'react-to-print';
-import ArrowLeft from '@/app/assets/icons/ArrowLeft';
-import { IFilterMaterial } from '@/app/interfaces/IFilterMaterial';
-import { IOrderServico } from '@/app/interfaces/IOrderServico';
-import { useSession } from 'next-auth/react';
-import {IUsuario} from "@/app/interfaces/IUsuario";
-import jsPDF from 'jspdf'
 
 
 import dayjs from 'dayjs';
@@ -65,7 +50,7 @@ return(
 
 
       <h1 className='text-center text-2xl mt-4'>Relatórios Diários</h1>
-        <Button  onPress={handleCreateRelatorio} className='  bg-master_black max-sm:w-[50%] md:w-[10%] mx-auto text-white rounded-md font-bold text-base  '>
+        <Button  onPress={handleCreateRelatorio} className='  bg-master_black max-sm:w-[50%] md:w-[14%] mx-auto text-white rounded-md font-bold text-base  '>
             Criar novo relatório
         </Button>
         </div>
