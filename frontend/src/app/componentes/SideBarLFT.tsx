@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/react";
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
@@ -10,11 +10,24 @@ import Image from "next/image";
 import IconPersonFill from "@/app/assets/icons/IconPersonFill";
 import {createRelatorioDiario} from "@/app/services/RelatorioDiario.Services";
 import IconReport from "@/app/assets/icons/IconReport";
-import {currentUser} from "@/app/services/Auth.services";
+
 
 export default function SideBarLFT(props : any) {
 
   const route = useRouter()
+  const [currentUser, setCurrentUser] = useState<any>(null);
+ 
+  
+  
+  useEffect(()=>{
+      //@ts-ignore
+  const user = JSON.parse(localStorage.getItem("currentUser"));
+  if(user != null)
+  {
+      setCurrentUser(user)
+
+  }
+  },[])
 
   const conditionsRoles = currentUser?.role == "Administrador" || currentUser.role == "Diretor" || currentUser.role == "SuporteTecnico"
   console.log(conditionsRoles)

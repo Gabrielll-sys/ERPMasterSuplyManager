@@ -27,7 +27,7 @@ import { Table } from "flowbite-react";
 import { createMaterial, searchByDescription, searchByFabricanteCode } from "../services/Material.Services";
 import IconPencil from "../assets/icons/IconPencil";
 import IMaterial from "../interfaces/IMaterial";
-import {currentUser} from "@/app/services/Auth.services";
+
 
 
  function CreateMaterial(){
@@ -36,7 +36,6 @@ import {currentUser} from "@/app/services/Auth.services";
 
   const [loadingButton,setLoadingButton] = useState<boolean>(false)  
   const [loadingMateriais,setLoadingMateriais] = useState<boolean>(false)
-     const conditionsRoles = currentUser?.role == "Administrador" || currentUser?.role == "Diretor" || currentUser?.role == "SuporteTecnico"
 
   const [descricao, setDescricao] = useState<string>("");
   const [codigoInterno, setCodigoInterno] = useState<string>("");
@@ -58,8 +57,10 @@ import {currentUser} from "@/app/services/Auth.services";
   const unidadeMaterial : string[] = ["UN", "RL", "MT", "P"];
   const tensoes :string[]= ["","12V","24V","127V","220V","380V","440V","660V"]
   const { data: session } = useSession();
+  const [currentUser, setCurrentUser] = useState<any>(null);
   
   const componentRef: any = useRef();
+  const conditionsRoles = currentUser?.role == "Administrador" || currentUser?.role == "Diretor" || currentUser?.role == "SuporteTecnico"
 
   const handlePrint = useReactToPrint({
    content: () => componentRef.current,
@@ -67,7 +68,18 @@ import {currentUser} from "@/app/services/Auth.services";
    onAfterPrint: () => console.log('Printed PDF successfully!'),
   });
     
+ 
+  
+  
+  useEffect(()=>{
+      //@ts-ignore
+  const user = JSON.parse(localStorage.getItem("currentUser"));
+  if(user != null)
+  {
+      setCurrentUser(user)
 
+  }
+  },[])
 
 
 useEffect(()=>{

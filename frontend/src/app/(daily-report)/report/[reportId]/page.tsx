@@ -28,7 +28,6 @@ import {
 import Atividade from '@/app/componentes/Atividade';
 import Excel from "exceljs";
 import {logoBase64, logoComEnderecoBase64} from "@/app/assets/base64Logo";
-import {currentUser} from "@/app/services/Auth.services";
 import IconExcel from '@/app/assets/icons/IconExcel';
 
 
@@ -38,6 +37,7 @@ export default function Report({params}:any){
     const[confirmAuthorizeMessage,setconfirmAuthorizeMessage]= useState<string>()
     var dataAtual = new Date();
     const [imageModal,setImageModal] = useState<any>()
+    const [currentUser, setCurrentUser] = useState<any>(null);
     const conditionsRoles = currentUser?.role == "Administrador" || currentUser?.role == "Diretor" || currentUser?.role == "SuporteTecnico"
 
     const[contato,setContato] = useState<string>("")
@@ -53,6 +53,10 @@ export default function Report({params}:any){
     const [atividadeRdEditing,setAtividadeRdEditing] = useState<IAtividadeRd>()
     const letraPlanilha : string[] = ['A','B','C','D','E']
     var semana = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
+ 
+  
+  
+   
     let date = dayjs()
 
     const bordas:any= {
@@ -62,7 +66,13 @@ export default function Report({params}:any){
         right: {style:'thin'}
     }
     useEffect(() => {
-
+     //@ts-ignore
+     const user = JSON.parse(localStorage.getItem("currentUser"));
+     if(user != null)
+     {
+         setCurrentUser(user)
+   
+     }
          getRelatorioDiarioById(params.reportId)
          getAtividades(params.reportId)
     }, []);

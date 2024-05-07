@@ -21,7 +21,7 @@ import IconExit from "../assets/icons/IconExit";
 import AvatarLogin from "./AvatarLogin";
 import IconSideBar from "../assets/icons/IconSideBar";
 import SideBarLFT from "./SideBarLFT";
-import {getUserLocalStorage, isTokenValid, removeUserLocalStorage} from "@/app/services/Auth.services";
+import {isTokenValid} from "@/app/services/Auth.services";
 import {jwtDecode} from "jwt-decode";
 import {setNonce} from "get-nonce";
 import IconPersonFill from "@/app/assets/icons/IconPersonFill";

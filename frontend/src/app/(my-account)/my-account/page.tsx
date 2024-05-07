@@ -14,7 +14,7 @@ import MuiAlert, {AlertColor} from "@mui/material/Alert";
 
 import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
-import {currentUser} from "@/app/services/Auth.services";
+
 import {getUserById, updateInfosUser} from "@/app/services/User.Services";
 import {EyeFilledIcon, EyeSlashFilledIcon} from "@nextui-org/shared-icons";
 import {IUsuario} from "@/app/interfaces/IUsuario";
@@ -34,8 +34,20 @@ export default function MyAccount({params}:any){
     const [isVisible, setIsVisible] = useState(false);
 
     const toggleVisibility = () => setIsVisible(!isVisible);
+    const [currentUser, setCurrentUser] = useState<any>(null);
+ 
+  
+  
 
     useEffect(() => {
+             //@ts-ignore
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+    if(user != null)
+    {
+        setCurrentUser(user)
+  
+    }
+    
         getInfosUser()
     }, []);
 

@@ -32,7 +32,7 @@ import {getUserById} from "@/app/services/User.Services";
 
 
 
-export default function ManageBudges({params}:any){
+export default function ManageBudges(){
   const[cliente,setCliente] = useState<string>("")
   const[numeroOrcamento,setNumeroOrcamento] = useState<string>("")
   const[orcamentos,setOrcamentos] = useState<IOrcamento[]>()

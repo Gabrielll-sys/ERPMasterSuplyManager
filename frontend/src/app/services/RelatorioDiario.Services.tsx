@@ -3,7 +3,7 @@ import {url} from "@/app/api/webApiUrl";
 import {authHeader} from "@/app/_helpers/auth_headers";
 import {IRelatorioDiario} from "@/app/interfaces/IRelatorioDiario";
 import {useRouter} from "next/navigation";
-import {currentUser} from "@/app/services/Auth.services";
+
 
 
 export const getAllRelatoriosDiarios = async ()  =>{
@@ -30,13 +30,21 @@ export const getRelatorioDiario = async (id:number)  =>{
 
 
 export const createRelatorioDiario = async () => {
+   
+  
+  
+    
+
+         //@ts-ignore
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+ 
     try {
         const response = await axios.post(
             `${url}/RelatoriosDiarios`,
             null, // Dados do corpo da requisição (se necessário)
             {
                 headers: {
-                    Authorization: `Bearer ${currentUser.token}`,
+                    Authorization: `Bearer ${user.token}`,
                     'Content-Type': 'application/json',
                 },
             }

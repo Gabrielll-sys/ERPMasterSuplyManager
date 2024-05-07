@@ -20,7 +20,7 @@ import { IOrcamento } from '@/app/interfaces/IOrcamento';
 
 
 
-export default function BudgeManagement({params}:any){
+export default function CreateBudge({params}:any){
     const route = useRouter()
     const { data: session } = useSession();
   
@@ -150,45 +150,7 @@ return(
       />
     </div>
 
-  {/* <h1 className='text-center text-2xl mt-7'>Informações do Orçamento</h1>
-    <div className=' justify-center flex flex-row items-center gap-4'>
 
-    <Input
-        labelPlacement='outside'
-        value={desconto}
-        type='text'
-        className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px]"
-        onValueChange={setDesconto}
-        placeholder='2.5%'
-        label="Desconto" 
-        endContent={<span>%</span>}
-      />
-
-  <Autocomplete
-                    label="Método Pagamento $"
-                
-                    className=" w-[250px] border-1 border-black rounded-md shadow-sm shadow-black mt-10  "
-                    allowsCustomValue
-                      value={metodoPagamento}
-                      onSelectionChange={setMetodoPagamento}
-                  >
-                  
-                  {formasPagamento.map((item:any) => (
-                    
-                      <AutocompleteItem
-                      key={item} 
-                      aria-label='teste'
-                      
-
-                    
-                        value={metodoPagamento}
-                        >
-                        {item}
-                      </AutocompleteItem>
-                    ))}
-                    </Autocomplete>
-
-    </div> */}
       <div className='flex flex-row justify-center mt-16'>
         <Button  isDisabled={!nomeCliente} onPress={handleCreateBudge} className='bg-master_black text-white p-7 rounded-md font-bold text-2xl shadow-lg  '>
            Criar Orçamento

@@ -1,8 +1,9 @@
-import {currentUser, getUserLocalStorage} from "@/app/services/Auth.services";
+
 
 export function authHeader() {
-
-    const user = currentUser
+    
+    //@ts-ignore
+    const user =  JSON.parse(localStorage.getItem("currentUser"));
 
     console.log(user)
     if (user && user.token) 

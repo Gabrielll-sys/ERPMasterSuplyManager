@@ -1,3 +1,4 @@
+"use client"
 import axios from 'axios';
 import { url } from '../api/webApiUrl';
 import { authHeader } from '../_helpers/auth_headers';
@@ -41,18 +42,6 @@ export const removeUserLocalStorage = async () => {
 }
 
 
-export const getUserLocalStorage =  () => {      
-    //@ts-ignore
-  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
-  //const currentUserSubject = JSON.parse(currentUser || '{}');
-
-  if(currentUser != null)
-  {      
-      return currentUser
-  }   
-} 
-
 
 
 export const authenticate = async (param:any) => {   
@@ -90,14 +79,8 @@ export const isTokenValid = (token:any) =>{
 
 
 
-export const logoutUser = ()=>{
 
-   localStorage.removeItem("currentUser")
-   currentUser = {}
 
-}
-
-export let currentUser = getUserLocalStorage();
 
 
 

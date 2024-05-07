@@ -1,7 +1,7 @@
 "use client"
 import {Link, Button,Autocomplete, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
 import MuiAlert from "@mui/material/Alert";
-import {getUserLocalStorage, isTokenValid} from "@/app/services/Auth.services";
+import {isTokenValid} from "@/app/services/Auth.services";
 
 import  { AlertColor, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
 import { useRouter } from "next/navigation";
@@ -16,7 +16,7 @@ import {EyeSlashFilledIcon} from "@nextui-org/shared-icons";
 import {EyeFilledIcon} from "@nextui-org/shared-icons";
 
 import axios from 'axios';
-import { authenticate, logoutUser, register } from '@/app/services/Auth.services';
+import { authenticate } from '@/app/services/Auth.services';
 import { getMaterialById } from '@/app/services/Material.Services';
 import {jwtDecode} from "jwt-decode";
 import MailIcon from "@/app/assets/icons/MailIcon";
