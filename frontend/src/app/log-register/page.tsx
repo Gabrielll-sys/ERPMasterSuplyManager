@@ -18,12 +18,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import axios, {AxiosResponse} from "axios";
 import dayjs from "dayjs";
-
 import { getMaterialById, updateMaterial } from "@/app/services/Material.Services";
 import {Table} from "flowbite-react";
 import IconBxTrashAlt from "@/app/assets/icons/IconBxTrashAlt";
-import {authHeader} from "@/app/_helpers/auth_headers";
-
+import { authHeader } from "../_helpers/auth_headers";
 export default function LogRegister({params}:any){
   const route = useRouter()
 
@@ -100,7 +98,7 @@ const getLogByDate = async(data:any)=>{
 
                          <Table.Body className="divide-y">
 
-                             { logs.length>=1 && logs.map((row:LogAcoesUsuario) => (
+                             {  logs != undefined && logs.length>=1 && logs.map((row:LogAcoesUsuario) => (
                                  <Table.Row  key={row.id} className=" dark:border-gray-700 dark:bg-gray-800 ">
 
                                      <Table.Cell className="text-center text-black text-[18px] " >{row.acao}</Table.Cell>

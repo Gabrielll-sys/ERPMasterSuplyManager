@@ -532,7 +532,7 @@ namespace SupplyManager.Migrations
                     b.Property<string>("Cargo")
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime?>("DataCadastro")
+                    b.Property<DateTime?>("DataCadastrado")
                         .HasColumnType("datetime");
 
                     b.Property<string>("Email")

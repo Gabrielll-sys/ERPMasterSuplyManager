@@ -20,7 +20,8 @@ namespace SupplyManager.Models
         public string? Cargo { get; set; }
 
         public bool? isActive { get; set; }
-        public DateTime? DataCadastro { get; set; }
+
+        public DateTime? DataCadastrado { get; set; }
     }
 
 

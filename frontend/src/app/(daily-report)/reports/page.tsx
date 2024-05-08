@@ -12,7 +12,6 @@ import "dayjs/locale/pt-br";
 
 import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
-import {currentUser} from "@/app/services/Auth.services";
 import {getUserById} from "@/app/services/User.Services";
 import {IRelatorioDiario} from "@/app/interfaces/IRelatorioDiario";
 import {createRelatorioDiario, getAllRelatoriosDiarios} from "@/app/services/RelatorioDiario.Services";

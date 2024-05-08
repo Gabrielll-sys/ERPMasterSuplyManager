@@ -21,7 +21,7 @@ import IconExit from "../assets/icons/IconExit";
 import AvatarLogin from "./AvatarLogin";
 import IconSideBar from "../assets/icons/IconSideBar";
 import SideBarLFT from "./SideBarLFT";
-import {currentUser, getUserLocalStorage, isTokenValid, removeUserLocalStorage} from "@/app/services/Auth.services";
+import {isTokenValid} from "@/app/services/Auth.services";
 import {jwtDecode} from "jwt-decode";
 import {setNonce} from "get-nonce";
 import IconPersonFill from "@/app/assets/icons/IconPersonFill";
@@ -31,14 +31,15 @@ const NavBar= ()=>{
     const route = useRouter()
     const iconClasses = "h-4 text-2xl";
     const [showSideBar,setShowSideBar]= useState(false)
-    const [userName,setUserName]= useState<string>("")
+    const [currentUser, setCurrentUser] = useState<any>(null);
 
     useEffect(() => {
-    const res = JSON.parse(localStorage.getItem("currentUser"));
-    console.log(res)
-    if(currentUser?.userName !=undefined)
+        //@ts-ignore
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+    console.log(user)
+    if(user != null)
     {
-        setUserName(currentUser.userName)
+        setCurrentUser(user)
 
     }
   else{
@@ -57,17 +58,20 @@ const NavBar= ()=>{
     }
 
     useEffect(()=>{
-        const a = getUserLocalStorage()
-        if( a == undefined) setUserName("")
+        //@ts-ignore
 
+        const user = JSON.parse(localStorage.getItem("currentUser"));
 
-        // if (!isTokenValid(currentUser?.token)){
-        //     route.push("/login")
-        // }
-        //  else{
-        //      route.push("/create-material")
-        //
-        //  }
+        if( user == null) setCurrentUser(null)
+        console.log(!isTokenValid(user?.token))
+
+        if (!isTokenValid(user?.token)){
+            route.push("/login")
+        }
+         else{
+            //  route.push("/create-material")
+        
+         }
 
 
     },[currentUser])
@@ -75,12 +79,14 @@ const NavBar= ()=>{
     const signOut = ()=>
     {
 
-        removeUserLocalStorage()
+        localStorage.clear()
+        setCurrentUser(null)
+        //@ts-ignore
+        const current = JSON.parse(localStorage.getItem('currentUser'));
 
-        setTimeout (()=>{
-            route.push("/login")
-        },2000)
-        console.log(currentUser)
+
+        route.push("/login")
+
 
     }
     return(
@@ -111,12 +117,12 @@ const NavBar= ()=>{
                     )}
 
 
-                    {currentUser && currentUser.userName ? (
+                    {currentUser != null ? (
 
                             <Dropdown className="p-0 rounded-md shadow-none border-2 border-black">
                                 <DropdownTrigger>
 
-                                    <p className="font-semibold text-white my-auto mr-6 hover:underline text-[20px] p-3">
+                                    <p className="font-semibold text-white my-auto mr-6 hover:underline  max-sm:text-[15px] md:text-[20px] p-3">
                                         {currentUser.userName}
                                     </p>
                                 </DropdownTrigger>

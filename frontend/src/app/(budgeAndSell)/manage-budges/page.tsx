@@ -27,19 +27,29 @@ import jsPDF from 'jspdf'
 
 import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
-import {currentUser} from "@/app/services/Auth.services";
+
 import {getUserById} from "@/app/services/User.Services";
 
 
 
-export default function ManageBudges({params}:any){
+export default function ManageBudges(){
   const[cliente,setCliente] = useState<string>("")
   const[numeroOrcamento,setNumeroOrcamento] = useState<string>("")
   const[orcamentos,setOrcamentos] = useState<IOrcamento[]>()
   const[orcamento,setOrcamento] = useState<IOrcamento>()
-
+  const [currentUser, setCurrentUser] = useState<any>(null);
+ 
+  
+  
     useEffect(()=>{
         getAllOrcamentos()
+         //@ts-ignore
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+    if(user != null)
+    {
+        setCurrentUser(user)
+  
+    }
     },[])
 
     useEffect(()=>{

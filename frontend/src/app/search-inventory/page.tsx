@@ -1,7 +1,6 @@
 "use client"
 import NavBar from "../componentes/NavBar"
 import { Avatar, Button, Input } from "@nextui-org/react";
-import Header from "../componentes/Header";
 import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
@@ -21,15 +20,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
 
-import TextField from "@mui/material/TextField";
-import axios from "axios";
 import dayjs from "dayjs";
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
+
 
 import SearchIcon from '@mui/icons-material/Search';
 import Snackbar from "@mui/material/Snackbar";

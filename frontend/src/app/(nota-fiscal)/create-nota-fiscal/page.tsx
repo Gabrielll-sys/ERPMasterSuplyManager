@@ -6,7 +6,6 @@ import { Autocomplete, AutocompleteItem, Button } from "@nextui-org/react";
 
 import Link from "next/link";
 import { url } from "@/app/api/webApiUrl";
-import Header from "@/app/componentes/Header";
 import { useEffect, useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 

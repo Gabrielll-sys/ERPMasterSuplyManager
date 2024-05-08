@@ -15,8 +15,8 @@ namespace SupplyManager.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    /*[Authorize]
-*/
+   /* [Authorize]*/
+
     public class UsuariosController : ControllerBase
     {
 
@@ -76,7 +76,8 @@ namespace SupplyManager.Controllers
                     Nome = model.Nome,
                     Senha = BCrypt.Net.BCrypt.HashPassword(defaultCreatePassword),
                     Cargo = model.Cargo,
-                    DataCadastro = DateTime.UtcNow.AddHours(-3)
+                    isActive = true,
+                    DataCadastrado = DateTime.UtcNow.AddHours(-3)
                 };
 
 
@@ -177,7 +178,7 @@ namespace SupplyManager.Controllers
             return tokenHandler.WriteToken(token);
         }
 
-        [AllowAnonymous]
+     
         [HttpPost("authenticate")]
         public async Task<ActionResult> Authenticate(UserRequest model)
         {

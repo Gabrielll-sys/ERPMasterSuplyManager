@@ -1,3 +1,4 @@
+"use client"
 import axios from 'axios';
 import { url } from '../api/webApiUrl';
 import { authHeader } from '../_helpers/auth_headers';
@@ -28,7 +29,8 @@ const gravaUserLogadoLocalStorage = async (token:any, userId:number,name:string,
   var usuario = {
     token: token,
     userId:userId,
-    userName:name, role:role,
+    userName:name,
+    role:role,
   }  
   localStorage.setItem('currentUser', JSON.stringify(usuario));   
 }
@@ -40,23 +42,11 @@ export const removeUserLocalStorage = async () => {
 }
 
 
-export const getUserLocalStorage =  () => {      
-    //@ts-ignore
-  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
-  //const currentUserSubject = JSON.parse(currentUser || '{}');
-
-  if(currentUser != null)
-  {      
-      return currentUser
-  }   
-} 
-
 
 
 export const authenticate = async (param:any) => {   
 
-
+    console.log(param)
     return await axios.post(`${url}/Usuarios/authenticate`, param)
   .then(response => {
 
@@ -89,14 +79,8 @@ export const isTokenValid = (token:any) =>{
 
 
 
-export const logoutUser = ()=>{
 
-   localStorage.removeItem("currentUser")
-   currentUser = {}
 
-}
-
-export let currentUser = getUserLocalStorage();
 
 
 

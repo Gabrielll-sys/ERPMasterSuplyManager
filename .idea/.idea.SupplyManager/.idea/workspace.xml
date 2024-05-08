@@ -18,6 +18,7 @@
   <component name="ChangeListManager">
     <list default="true" id="bb5a7976-4a18-4836-970a-81862f90e640" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SupplyManager/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SupplyManager/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/SupplyManager/Controllers/OrcamentosController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/Controllers/OrcamentosController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.dll" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.exe" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/bin/Debug/net6.0/SupplyManager.exe" afterDir="false" />
@@ -39,15 +40,31 @@
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/project.assets.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/project.nuget.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/project.packagespec.json" afterDir="false" />
+=======
+>>>>>>> 74cfb6f2ad13e427b7dc0ed2101238222477ec00
       <change beforePath="$PROJECT_DIR$/SupplyManager/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/rider.project.model.nuget.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SupplyManager/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/SupplyManager/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/(budgeAndSell)/create-budge/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(budgeAndSell)/create-budge/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/(budgeAndSell)/create-budge/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(budgeAndSell)/create-budge/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/(budgeAndSell)/manage-budges/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(budgeAndSell)/manage-budges/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/(daily-report)/report/[reportId]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(daily-report)/report/[reportId]/page.tsx" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/frontend/src/app/(daily-report)/reports/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(daily-report)/reports/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/(my-account)/my-account/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(my-account)/my-account/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/componentes/Atividade.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/componentes/Atividade.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/services/Auth.services.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/services/Auth.services.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/services/RelatorioDiario.Services.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/services/RelatorioDiario.Services.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/services/User.Services.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/services/User.Services.tsx" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/(manage-users)/create-user/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(manage-users)/create-user/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/(my-account)/my-account/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/(my-account)/my-account/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/_helpers/auth_headers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/_helpers/auth_headers.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/componentes/NavBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/componentes/NavBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/componentes/SideBarLFT.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/componentes/SideBarLFT.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/create-material/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/create-material/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/login/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/services/Auth.services.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/services/Auth.services.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/services/RelatorioDiario.Services.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/services/RelatorioDiario.Services.tsx" afterDir="false" />
+>>>>>>> 74cfb6f2ad13e427b7dc0ed2101238222477ec00
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -217,8 +234,13 @@
       <workItem from="1714846115228" duration="6234000" />
       <workItem from="1714926316858" duration="1127000" />
       <workItem from="1714931906142" duration="6323000" />
+<<<<<<< HEAD
       <workItem from="1714992710183" duration="5000000" />
       <workItem from="1715036684664" duration="2564000" />
+=======
+      <workItem from="1714992710183" duration="5071000" />
+      <workItem from="1715080262442" duration="4624000" />
+>>>>>>> 74cfb6f2ad13e427b7dc0ed2101238222477ec00
     </task>
     <servers />
   </component>

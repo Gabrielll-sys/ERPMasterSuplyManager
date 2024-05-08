@@ -18,7 +18,7 @@ import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import { Box, Flex } from '@radix-ui/themes';
 import axios from 'axios';
-import { authenticate, logoutUser, register } from '@/app/services/Auth.services';
+
 import { getMaterialById } from '@/app/services/Material.Services';
 
 
@@ -58,10 +58,7 @@ export default function CreateUser({params}:any){
         email:"gabrielpuneco@gmail.com",
         senha:"1234"
       }
-      const res = await authenticate(user)
-
-     console.log(res)
-
+ 
     }
 
    const getMaterial = async()=>{
@@ -131,9 +128,7 @@ return(
                 Criar usuário
           </Button>
 
-          <Button  onPress={logoutUser} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
-                sair
-          </Button>
+          
 
           <Button  onPress={getMaterial} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
                 Buscar Material

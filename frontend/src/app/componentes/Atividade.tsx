@@ -20,13 +20,14 @@ import {getRelatorioDiario} from "@/app/services/RelatorioDiario.Services";
 
 
 // @ts-ignore
-export default function Atividade({ atividade,onDelete,onUpdate,isFinished}){
+ const Atividade = ({ atividade, onUpdate,onDelete,isFinished})=>{
     const route = useRouter()
 
     const[observacoesRd,setObservacoesRd] = useState<string>("")
     const [imageModal,setImageModal] = useState<any>()
     const[observacoes,setObservacoes] = useState<string>(atividade.observacoes)
     const [checkboxStatus, setCheckboxStatus] = useState(atividade.status);
+    const [descricao, setDescricao] = useState(atividade.descricao);
     const [descricaoAtividade,setDescricaoAtividade] = useState<string>("");
     const [atividadesInRd,setAtividadesInRd] = useState<IAtividadeRd[]>([])
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -36,7 +37,7 @@ export default function Atividade({ atividade,onDelete,onUpdate,isFinished}){
     const [atividadeRdEditing,setAtividadeRdEditing] = useState<IAtividadeRd>()
 
     const handleInputChange = () => {
-        onUpdate(atividade, checkboxStatus, observacoes);
+        onUpdate(atividade, checkboxStatus, observacoes,descricao);
          }
 
      const handleDeleteAtividade = (id:number)=>{
@@ -88,30 +89,37 @@ export default function Atividade({ atividade,onDelete,onUpdate,isFinished}){
 
                                                         <div className="flex flex-col max-sm:gap-8 md:gap-6">
 
-                                                            <div className="flex flex-row gap-5">
-                                                                <p className="text-2xl"> Nº {atividade.numeroAtividade} - {atividade.descricao} </p>
-
+                                                            <div className="flex flex-col gap-5">
+                                                                <p className="md:text-2xl max-sm:text-[20px]"> Nº {atividade.numeroAtividade} - {atividade.descricao} </p>
+                                                                <Input className='bg-transparent max-sm:w-[200px] md:w-[250px]'
+                                                                  isReadOnly = {isFinished}
+                                                                  value={descricao}
+                                                                  onValueChange={setDescricao}
+                                                                
+                                                                 />
                                                             </div>
 
 
                                                             <div className="flex md:flex-row gap-4 max-sm:flex-col ">
                                                                 <Checkbox color="success"
-                                                                          isReadOnly={isFinished}
+                                                                            isReadOnly = {isFinished}
 
                                                                           isSelected={checkboxStatus == "Não Iniciada"}
                                                                           onValueChange={() => setCheckboxStatus("Não Iniciada")}>
                                                                     Não Iniciada
                                                                 </Checkbox>
+
                                                                 <Checkbox
-                                                                    isReadOnly={isFinished}
+                                                                            isReadOnly = {isFinished}
+
                                                                     color="success"
                                                                     isSelected={checkboxStatus == "Em Andamento"}
                                                                     onValueChange={() => setCheckboxStatus("Em Andamento")}>
                                                                     Em Andamento
                                                                 </Checkbox>
-                                                                <Checkbox
-                                                                    isReadOnly={isFinished}
 
+                                                                <Checkbox
+                                                                    isReadOnly = {isFinished}
                                                                     color="success" isSelected={checkboxStatus == "Concluída"}
                                                                     onValueChange={() => setCheckboxStatus("Concluída")}>
                                                                     Concluída
@@ -119,7 +127,8 @@ export default function Atividade({ atividade,onDelete,onUpdate,isFinished}){
                                                             </div>
 
                                                             <Textarea
-                                                                isReadOnly={isFinished}
+                                                                            isReadOnly = {isFinished}
+
                                                                 placeholder="Observaçoes Sobre a Atividade"
                                                                 className="w-full p-3 rounded-base  bg-transparent shadow-sm shadow-black"
                                                                 rows={5}
@@ -128,6 +137,7 @@ export default function Atividade({ atividade,onDelete,onUpdate,isFinished}){
                                                             />
                                                             {!isFinished && (
                                                                 <>
+
                                                             <div className="flex flex-row max-sm:flex-col gap-6 mx-auto">
                                                             <Button
                                                                 color="primary"
@@ -149,26 +159,26 @@ export default function Atividade({ atividade,onDelete,onUpdate,isFinished}){
 
                                                             </Button>
                                                             </div>
-                                                            {/*<Input className="w-[145px]" type="file"*/}
-                                                            {/*       onChange={handleImageChange}/>*/}
-                                                            {/*<div*/}
-                                                            {/*    className=" flex md:flex-row max-sm:flex-col flex-wrap max-sm:items-center gap-4 mx-auto ">*/}
-
-                                                            {/*    {image && image.map((x: File, index: number) => (*/}
-                                                            {/*        <Button key={index}*/}
-                                                            {/*                className="bg-white h-full hover:-translate-y-2  "*/}
-                                                            {/*                onPress={() => {*/}
-                                                            {/*                    onOpenChange(), setImageModal(URL.createObjectURL(x))*/}
-                                                            {/*                }}>*/}
-
-                                                            {/*            <Image className="my-auto " key={index} height={150} width={150}*/}
-                                                            {/*                   src={URL.createObjectURL(x)} alt={"sa"}/>*/}
-                                                            {/*        </Button>*/}
-                                                            {/*    ))}*/}
-
-                                                            {/*</div>*/}
                                                                 </>
                                                             )}
+                                                            {/* <Input className="w-[145px]" type="file"
+                                                                   onChange={handleImageChange}/>
+                                                            <div
+                                                                className=" flex md:flex-row max-sm:flex-col flex-wrap max-sm:items-center gap-4 mx-auto ">
+
+                                                                {image && image.map((x: File, index: number) => (
+                                                                    <Button key={index}
+                                                                            className="bg-white h-full hover:-translate-y-2  "
+                                                                            onPress={() => {
+                                                                                onOpenChange(), setImageModal(URL.createObjectURL(x))
+                                                                            }}>
+
+                                                                        <Image className="my-auto " key={index} height={150} width={150}
+                                                                               src={URL.createObjectURL(x)} alt={"sa"}/>
+                                                                    </Button>
+                                                                ))}
+
+                                                            </div> */}
                                                         </div>
                                                     </Table.Cell>
 
@@ -191,6 +201,7 @@ export default function Atividade({ atividade,onDelete,onUpdate,isFinished}){
                         <Button
                             color="primary"
                             variant="ghost"
+                            onPress={()=>console.log("dfds")}
                             className="w-[120px] self-center"
                         >
                             Excluir item
@@ -213,3 +224,4 @@ export default function Atividade({ atividade,onDelete,onUpdate,isFinished}){
 
 
 }
+export default Atividade;

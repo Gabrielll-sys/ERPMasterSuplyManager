@@ -2,7 +2,7 @@
 import {Link, Button,Autocomplete,Textarea, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
 import {  Snackbar} from '@mui/material';
 import { useRouter } from "next/navigation";
-import {currentUser} from "@/app/services/Auth.services";
+
 import {Table} from 'flowbite-react';
 import React, { useEffect, useRef, useState } from "react";
 import "dayjs/locale/pt-br";
@@ -25,18 +25,21 @@ import {
     updateFinishRelatorioDiario,
     updateRelatorioDiario
 } from "@/app/services/RelatorioDiario.Services";
-import Atividade from "@/app/componentes/Atividade";
+import Atividade from '@/app/componentes/Atividade';
 import Excel from "exceljs";
-import {logoBase64} from "@/app/assets/base64Logo";
+import {logoBase64, logoComEnderecoBase64} from "@/app/assets/base64Logo";
+import IconExcel from '@/app/assets/icons/IconExcel';
 
 
 
 export default function Report({params}:any){
     const route = useRouter()
     const[confirmAuthorizeMessage,setconfirmAuthorizeMessage]= useState<string>()
-
+    var dataAtual = new Date();
     const [imageModal,setImageModal] = useState<any>()
-    const[observacoesRd,setObservacoesRd] = useState<string>("")
+    const [currentUser, setCurrentUser] = useState<any>(null);
+    const conditionsRoles = currentUser?.role == "Administrador" || currentUser?.role == "Diretor" || currentUser?.role == "SuporteTecnico"
+
     const[contato,setContato] = useState<string>("")
     const [descricaoAtividade,setDescricaoAtividade] = useState<string>("");
     const [atividadesInRd,setAtividadesInRd] = useState<IAtividadeRd[]>([])
@@ -49,7 +52,11 @@ export default function Report({params}:any){
     const [relatorioDiario,setRelatorioDiario] =  useState<IRelatorioDiario | any>()
     const [atividadeRdEditing,setAtividadeRdEditing] = useState<IAtividadeRd>()
     const letraPlanilha : string[] = ['A','B','C','D','E']
-    const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Cartão De Débito"];
+    var semana = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
+ 
+  
+  
+   
     let date = dayjs()
 
     const bordas:any= {
@@ -59,7 +66,13 @@ export default function Report({params}:any){
         right: {style:'thin'}
     }
     useEffect(() => {
-
+     //@ts-ignore
+     const user = JSON.parse(localStorage.getItem("currentUser"));
+     if(user != null)
+     {
+         setCurrentUser(user)
+   
+     }
          getRelatorioDiarioById(params.reportId)
          getAtividades(params.reportId)
     }, []);
@@ -103,6 +116,7 @@ const handleCreateaAtividade = async ()=>{
             setSeveridadeAlert("success");
             setMessageAlert("Atividade Adicionada Ao Relatório");
             await getAtividades(relatorioDiario.id)
+            setDescricaoAtividade("")
         }
 }
 
@@ -123,7 +137,7 @@ const handleDeleteAtividade = async(id:number)=>{
 const handleUpdateRelatorioDiario = async()=>{
 
     const rd: IRelatorioDiario = {
-        id:12,
+        id:relatorioDiario.id,
         contato:contato,
         responsavelAbertura:relatorioDiario.responsavelAbertura
     }
@@ -139,23 +153,18 @@ const handleUpdateRelatorioDiario = async()=>{
 const handleFinishRelatorioDiario = async () =>{
 
     const res = await updateFinishRelatorioDiario(params.reportId)
-    if ( res == 200) {
-        setOpenSnackBar(true);
-        setSeveridadeAlert("success");
-        setMessageAlert("Relatório Finalizado");
-    }
+    getRelatorioDiarioById(params.reportId)
 
-    await getRelatorioDiarioById(params.reportId)
 }
 
-const updateAtividade  = async(atividade: IAtividadeRd, status: string, observacoes: string)=>{
+const updateAtividade  = async(atividade: IAtividadeRd, status: string, observacoes: string,descricao:string)=>{
 
     const novaAtividade: IAtividadeRd[] = [...atividadesInRd]
     const index = atividadesInRd.findIndex(x=>x.id==atividade.id)
 
     novaAtividade[index].status =status ;
     novaAtividade[index].observacoes = observacoes;
-
+    novaAtividade[index].descricao = descricao;
      const res = await updateAtividadeRd(novaAtividade[index])
 
     if(res == 200)
@@ -163,6 +172,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
         setOpenSnackBar(true);
         setSeveridadeAlert("success");
         setMessageAlert("Atividade Atualizada");
+        getAtividades(relatorioDiario.id)
     }
 
 }
@@ -212,32 +222,51 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
 
     const cabecalhoPlanilha = (ws:Excel.Worksheet,wb:Excel.Workbook )=>{
 
+        ws.mergeCells('A1','C1')
+
+
         ws.getRow(2).height=20
 
 
-        ws.getCell(`A1`).border= bordas
         ws.getCell(`B1`).border= bordas
         ws.getCell(`C1`).border= bordas
+        ws.getCell(`D2`).border= bordas
+        
+        // CELULAS DE NUMERO DO RELATÓRIO E DO RESPOSNAVEL
+        ws.mergeCells('A2','C2')
+        ws.getCell(`A2`).border= bordas
+        ws.getCell('A2').style.alignment={'vertical':"middle",'horizontal':"center"}
+        ws.getCell('A2').font = {size:16}
+
+        ws.mergeCells('A3','B3')
+
+        ws.getCell('B3').value = " Atividade"
+        ws.getCell('B3').alignment={vertical:'middle',horizontal:'center'}
+        ws.getCell('B3').font = {size:14}
+
+        ws.getRow(3).height=20
+
+        ws.getCell('B3').border = bordas
+
+        ws.getCell('C3').value = " Status"
+        ws.getCell('C3').alignment={vertical:'middle',horizontal:'center'}
+        ws.getCell('C3').border = bordas
+        ws.getCell('C3').font = {size:14}
 
 
-        ws.mergeCells('A2','B2')
-
-        ws.getCell('B2').value = " Atividade"
-        ws.getCell('B2').alignment={vertical:'middle',horizontal:'center'}
-
-        ws.getCell('B2').border = bordas
-
-        ws.getCell('C2').value = " Status"
-        ws.getCell('C2').alignment={vertical:'middle',horizontal:'center'}
-        ws.getCell('C2').border = bordas
-
-
-        ws.mergeCells('A1','B1')
 
         ws.mergeCells('D1','E1')
-        ws.mergeCells('C2','E2')
+        ws.mergeCells('C3','E3')
+        ws.getCell('A2').value=`Relatório Diário Nº ${relatorioDiario.id}`
+
+        ws.mergeCells('D2','E2')
+        ws.getCell('D2').value=`Responsável: ${relatorioDiario.responsavelAbertura}\n Contratante/Contato: ${relatorioDiario.contato}`
+        ws.getCell('D2').font = {size:14}
+        ws.getCell('D2').alignment={vertical:'middle',horizontal:'center'}
+
 
         ws.getRow(1).height=80
+        ws.getRow(2).height=40
 
         ws.getColumn(1).width=5
         ws.getColumn(2).width=70
@@ -245,15 +274,17 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
         ws.getColumn(4).width=15
         ws.getColumn(5).width=12
 
-         ws.getCell('B1').value=`Relatório Diário Nº ${relatorioDiario.id}`
 
         ws.getCell('B1').alignment={vertical:'middle',horizontal:'center'}
-        ws.getCell('B1').font = {size:18}
+        ws.getCell('B1').font = {size:16}
 
-
-        ws.getCell('E1').value="Data Relatório:"+" "+dayjs(relatorioDiario.dataAbertura).format("DD/MM/YYYY").toString()
+        ws.getCell('E1').value=`Data Relatório: ${dayjs(relatorioDiario.dataAbertura).format("DD/MM/YYYY").toString()}\n ${semana[dataAtual.getDay()]}`
         ws.getCell('E1').style.alignment={'vertical':"middle",'horizontal':"center"}
         ws.getCell('E1').font = {size:16}
+        ws.getCell('E1').border = bordas
+
+
+
 
     }
     const generatePlanilha = async ()=>{
@@ -275,6 +306,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
         const workbook : Excel.Workbook = new Excel.Workbook();
 
         const ws :Excel.Worksheet = workbook.addWorksheet(`Relatório Diário Nº${relatorioDiario.id}`)
+        // ws.mergeCells("B1","C1")
 
         cabecalhoPlanilha(ws,workbook)
 
@@ -285,19 +317,24 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
 
             const observacoes = atividadesInRd[i].observacoes==null || atividadesInRd[i].observacoes ==""?" Sem observações no momento":atividadesInRd[i].observacoes
 
-            ws.mergeCells(`C${Number(i)+3}`,`E${Number(i)+3}`)
-            ws.mergeCells(`A${Number(i)+3}`,`B${Number(i)+3}`)
+            ws.getRow(Number(i)+4).height=30
 
 
-            ws.getCell(letraPlanilha[1]+(Number(i)+3)).value = ` ${atividadesInRd[Number(i)].numeroAtividade} - ${atividadesInRd[Number(i)].descricao}\n${observacoes} `
-            includeBorderCell(ws,letraPlanilha[1]+(Number(i)+3))
+            ws.mergeCells(`C${Number(i)+4}`,`E${Number(i)+4}`)
+            ws.mergeCells(`A${Number(i)+4}`,`B${Number(i)+4}`)
 
-            ws.getCell(letraPlanilha[2]+(Number(i)+3)).value = atividadesInRd[Number(i)].status
-            includeBorderCell(ws,letraPlanilha[2]+(Number(i)+3))
+
+            ws.getCell(letraPlanilha[1]+(Number(i)+4)).value = ` ${atividadesInRd[Number(i)].numeroAtividade} - ${atividadesInRd[Number(i)].descricao} \n${observacoes} `
+            includeBorderCell(ws,letraPlanilha[1]+(Number(i)+4))
+
+            ws.getCell(letraPlanilha[2]+(Number(i)+4)).value = atividadesInRd[Number(i)].status
+            includeBorderCell(ws,letraPlanilha[2]+(Number(i)+4))
+            ws.getCell(letraPlanilha[2]+(Number(i)+4)).style.alignment={'vertical':"middle",'horizontal':"center"}
+
 
             if(atividadesInRd[Number(i)].status == "Concluída"){
 
-            ws.getCell(letraPlanilha[2]+(Number(i)+3)).fill = {
+            ws.getCell(letraPlanilha[2]+(Number(i)+4)).fill = {
                 type: 'pattern',
                 pattern: 'solid',
                 fgColor: { argb: 'FF00FF00' }, // Verde
@@ -308,46 +345,43 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
 
         }
 
-        ws.getRow(atividadesInRd.length+3).height=50
+        ws.getRow(atividadesInRd.length+4).height=50
 
 
         const colC= ws.getColumn('C')
-        colC.width= 30;
+        colC.width= 10;
 
-        ws.getCell(`B${atividadesInRd.length+3}`).value= `Status: ${!relatorioDiario.status  ? "Concluído": "Em Análise"}`
-        ws.getCell(`B${atividadesInRd.length+3}`).alignment={vertical:'middle',horizontal:'center'}
-        ws.getCell(`B${atividadesInRd.length+3}`).border=bordas
-        ws.getCell(`B${atividadesInRd.length+3}`).font = {size:16}
-        if(!relatorioDiario.status)
-        {
-        ws.getCell(`B${atividadesInRd.length+3}`).fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: { argb: 'FF00FF00' }, // Verde
-        };
-        }
+        const colB= ws.getColumn('B')
+        colB.width= 50;
 
-        ws.mergeCells(`C${atividadesInRd.length+3}`,`E${atividadesInRd.length+3}`)
-        ws.getCell(`C${atividadesInRd.length+3}`).style.alignment={'vertical':"middle",'horizontal':"center"}
+        ws.mergeCells(`A${atividadesInRd.length+4}`,`B${atividadesInRd.length+4}`)
 
-        ws.getCell(`E${atividadesInRd.length+3}`).font = {size:16}
-        ws.getCell(`E${atividadesInRd.length+3}`).value= `% Atividades Concluída: ${totalConcluidas.toFixed(2)}%`
-        ws.getCell(`B${atividadesInRd.length+3}`).alignment={vertical:'middle',horizontal:'center'}
-        ws.getCell(`B${atividadesInRd.length+3}`).border=bordas
+        ws.getCell(`A${atividadesInRd.length+4}`).value= `Status Relátorio: ${relatorioDiario.isFinished ? `Relatório Concluído ${dayjs(relatorioDiario?.dataFechamento).format(`DD/MM/YYYY [as] HH:mm:ss`)} ` :"Em Análise"} `
+        ws.getCell(`A${atividadesInRd.length+4}`).alignment={vertical:'middle',horizontal:'center'}
+        ws.getCell(`A${atividadesInRd.length+4}`).border=bordas
+        ws.getCell(`A${atividadesInRd.length+4}`).font = {size:11}
+
+        ws.mergeCells(`C${atividadesInRd.length+4}`,`E${atividadesInRd.length+4}`)
+        ws.getCell(`C${atividadesInRd.length+4}`).style.alignment={'vertical':"middle",'horizontal':"center"}
+
+        ws.getCell(`E${atividadesInRd.length+4}`).font = {size:12}
+        ws.getCell(`E${atividadesInRd.length+4}`).value= `% Atividades Concluída: ${totalConcluidas.toFixed(2)}%`
+        ws.getCell(`B${atividadesInRd.length+4}`).alignment={vertical:'middle',horizontal:'center'}
+        ws.getCell(`B${atividadesInRd.length+4}`).border=bordas
 
         const colD= ws.getColumn('D')
         colD.width= 30;
 
 
         const logo = workbook.addImage({
-            base64: logoBase64,
+            base64: logoComEnderecoBase64,
             extension: 'png',
         })
 
 
         ws.addImage(logo, {
-            tl: { col: 0.7, row: 0.2 },
-            ext: { width: 115, height: 70 }
+            tl: { col: 0.3, row: 0.1 },
+            ext: { width: 440, height: 90 }
         });
 
 
@@ -356,80 +390,76 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
 
 
     }
-
     return(
     <>
 
         <div className="justify-center flex flex-col  gap-10">
-            <h1 className='text-center text-2xl mt-4'>Relatório Diário Nº {relatorioDiario?.id} - Responsável
-                : {relatorioDiario?.responsavelAbertura}</h1>
-           <h2 className='text-center text-[20px] '> Status: {!relatorioDiario?.status ? "Concluído":"Em análise"}</h2>
-
-            <div className='flex flex-col gap-4 self-center itens-center justify-center  '>
+    <h1 className='text-center max-sm:text-base md:text-2xl mt-4'>Relatório Diário Nº {relatorioDiario?.id} - Responsável : {relatorioDiario?.responsavelAbertura}</h1>
+    <h2 className='text-center max-sm:text-base md:text-2xl '>Status: {relatorioDiario?.isFinished?"Relatório Concluído":"Relatório Em Análise"}</h2>
+    <div className='flex flex-col gap-8 self-center itens-center justify-center  '>
 
 
-                <Input
-                    label="Contato"
-                    labelPlacement='outside'
-                    value={contato}
-                    className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px]"
-                    onValueChange={setContato}
+    <Input
+         label = "Contato"
+        labelPlacement='outside'
+        value={contato}
+        className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px] self-center"
+        onValueChange={setContato}
 
-                />
+      />
+        <div className='flex flex-row gap-4'>
+        <Button  onPress={handleUpdateRelatorioDiario} className='bg-master_black max-sm:w-[70%] md:w-[80%] mx-auto text-white rounded-md font-bold text-base  '>
+            Atualizar Relatório
+        </Button>
+        { !relatorioDiario?.isFinished && (
 
-                <Button onPress={handleUpdateRelatorioDiario}
-                        className='bg-master_black max-sm:w-[50%] md:w-[80%] mx-auto text-white rounded-md font-bold text-base  '>
-                    Atualizar Relatório
-                </Button>
-                {!relatorioDiario?.isFinished && (currentUser.role == "Diretor" || currentUser.role == "Administrador" || currentUser.role == "SuporteTecnico") && (
-
-
-                    <Button onPress={onOpen}
-                            className='bg-master_black max-sm:w-[50%] md:w-[80%] mx-auto text-white rounded-md font-bold text-base  '>
-                        fechar Relatório
-                    </Button>
-                )}
-            </div>
+        <Button  onPress={onOpen} className='bg-master_black max-sm:w-[50%] md:w-[80%] mx-auto text-white rounded-md font-bold text-base  '>
+            Fechar Relatório
+        </Button>
+        )}
+        </div>
+    </div>
 
 
-            <div
-                className="overflow-x-auto flex flex-col self-center max-sm:w-[90%] md:w-[60%]  gap-9 border-1 border-black p-4  ">
-                {!relatorioDiario?.isFinished && (
+            <div className="overflow-x-auto flex flex-col self-center max-sm:w-[90%] md:w-[60%]  gap-9 border-1 border-black p-4  ">
+                { !relatorioDiario?.isFinished && (
                     <>
+
                 <Input
-                    label="Atividade"
+                    label = "Atividade"
                     labelPlacement='outside'
                     value={descricaoAtividade}
                     className="border-1 border-black rounded-md shadow-sm shadow-black mx-auto w-[200px]"
                     onValueChange={setDescricaoAtividade}
 
                 />
-                <Button isDisabled={!descricaoAtividade} onPress={handleCreateaAtividade}
-                        className='bg-master_black max-sm:w-[50%] md:w-[20%] mx-auto text-white rounded-md font-bold text-base  '>
+                <Button  isDisabled={!descricaoAtividade} onPress={handleCreateaAtividade} className='bg-master_black max-sm:w-[50%] md:w-[20%] mx-auto text-white rounded-md font-bold text-base  '>
                     Adicionar Atividade
                 </Button>
                     </>
                 )}
-                <Button onPress={generatePlanilha}>
-                    Gerar Relatório
-                </Button>
-                {atividadesInRd?.length ?
-                    (
-                        <>
-                            {atividadesInRd.map((atividade: IAtividadeRd) => (
 
-                                <Atividade key={atividade.id} atividade={atividade} onUpdate={updateAtividade}
-                                           onDelete={handleDeleteAtividade} isFinished = {relatorioDiario?.isFinished}/>
-                            ))}
+                <Button className='max-sm:w-[50%] self-center'  color='success' variant='ghost'  onPress={generatePlanilha} >
+                    <IconExcel/>
+                Criar Relatório
+            </Button>
+                        {atividadesInRd?.length ?
+                            (
+                            <>
+                                {atividadesInRd.map((atividade:IAtividadeRd)=>(
 
-                        </>
-                    ) : (
-                        <div className="flex my-auto mx-auto">
+                                    <Atividade  key={atividade.id} atividade={atividade}onUpdate={updateAtividade} onDelete={handleDeleteAtividade} isFinished={relatorioDiario?.isFinished} />
+                                ))}
 
-                            <p>Sem Atividades No Momento</p>
-                        </div>
-                    )
-                }
+                            </>
+                        ):(
+                            <div className="flex my-auto mx-auto">
+
+                        <p>Sem Atividades No Momento</p>
+                            </div>
+                        )
+                        }
+
 
 
             </div>
@@ -460,11 +490,11 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                             <Button color="danger" variant="light" onPress={onClose}>
                                 Fechar
                             </Button>
-                            {!relatorioDiario.status && (
+                            {!relatorioDiario?.isFinished && (
+
                             <Button isDisabled={confirmAuthorizeMessage!="AUTORIZAR"} color="primary" onPress={handleFinishRelatorioDiario}>
                                 Autorizar
                             </Button>
-
                             )}
                         </ModalFooter>
                     </>
