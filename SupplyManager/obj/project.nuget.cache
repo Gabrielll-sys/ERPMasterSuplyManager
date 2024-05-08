@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "AiZDaAwa6rDsZ1Ea8dxSls4Pa8wnQJY9PZfPXs/6Dm/jAEtIYeej81h+EnUF3rUBFforncMgN2kKEVwIgZ5Wqg==",
+  "dgSpecHash": "rtyNWGfkBl3k1BiK0VhqrdhAAfAULmtKFr1sfz2rA4j7Sl+aCy/YwkeoC6iJcrbY+TjJqUZSNYXnbaFgm0UtYg==",
   "success": true,
   "projectFilePath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\SupplyManager.csproj",
   "expectedPackageFiles": [
@@ -90,7 +90,7 @@
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.17\\microsoft.entityframeworkcore.analyzers.7.0.17.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.entityframeworkcore.design\\7.0.17\\microsoft.entityframeworkcore.design.7.0.17.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\7.0.17\\microsoft.entityframeworkcore.relational.7.0.17.nupkg.sha512",
-    "C:\\Users\\gabri\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\7.0.9\\microsoft.entityframeworkcore.tools.7.0.9.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\7.0.17\\microsoft.entityframeworkcore.tools.7.0.17.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\7.0.0\\microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.extensions.caching.memory\\7.0.0\\microsoft.extensions.caching.memory.7.0.0.nupkg.sha512",

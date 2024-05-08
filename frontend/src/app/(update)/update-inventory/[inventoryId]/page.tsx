@@ -39,7 +39,7 @@ export default function UpdateInventory({params}:any){
     const [ messageAlert,setMessageAlert] = useState<string>();
     const [ severidadeAlert,setSeveridadeAlert] = useState<AlertColor>()
    const[stateBotao,setStateBotao] = useState<boolean>(false)
-   
+
    useEffect(()=>{
 
    getItemInventory(params.inventoryId).then().catch()

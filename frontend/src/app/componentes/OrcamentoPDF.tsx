@@ -158,7 +158,7 @@ return(
             <View style={{  width: "10%",  borderStyle: "solid", borderWidth: 1, borderLeftWidth: 1, borderTopWidth: 0,textAlign:"center",}}>
             {props.materiaisOrcamento.map((x:IInventario)=>(
   
-              <Text key={x.id} style={{fontSize: 10,padding:3,border:"solid",borderBottom:"1px"}}>{x.material.precoVenda!=null?"R$"+ x.material.precoVenda.toFixed(2).toString().replace('.',','):""}</Text>
+              <Text key={x.id} style={{fontSize: 10,padding:3,border:"solid",borderBottom:"1px"}}>{x.material.precoVenda!=null?"R$"+ x.material.precoVenda.toFixed(2).toString().replace('.',','):"R$0,00"}</Text>
   
               ))}
             </View>
@@ -167,7 +167,7 @@ return(
             {props.materiaisOrcamento.map((x:any)=>(
   
               <Text key={x.id} style={{fontSize: 10,padding:3
-                ,border:"solid",borderBottom:"1px"}}>{x.material.precoVenda!=null?"R$"+ (x.material.precoVenda.toFixed(2)* x.quantidadeMaterial).toFixed(2).toString().replace('.',','):""}</Text>
+                ,border:"solid",borderBottom:"1px"}}>{x.material.precoVenda!=null?"R$"+ (x.material.precoVenda.toFixed(2)* x.quantidadeMaterial).toFixed(2).toString().replace('.',','):"R$0,00"}</Text>
   
               ))}
             </View>

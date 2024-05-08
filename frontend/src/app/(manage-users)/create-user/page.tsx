@@ -17,6 +17,9 @@ import { useSession } from 'next-auth/react';
 import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import { Box, Flex } from '@radix-ui/themes';
+import axios from 'axios';
+
+import { getMaterialById } from '@/app/services/Material.Services';
 
 
 
@@ -33,29 +36,36 @@ export default function CreateUser({params}:any){
     const[userRole,setUserRole] = useState<string>()
     const [metodoPagamento,setMetodoPagamento] = useState<any>("")
 
+    const funcoesUsuario : string[] = ["Administrador", "Usuário","Personalizado", ];
 
-    let date = dayjs()
-    const funcoesUsuario : string[] = ["Administrador", "Personalizado", ];
+
 
 
     const createUser = async()=>{
-    
-    let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const see = localStorage.getItem("currentUser")
+    console.log(see)
+      // let emailRegex =  /\S+@\S+\.\S+/;
 
-    if(!emailRegex.test(email))
-    {
+      // if(!emailRegex.test(email))
+      // {
 
-      setOpenSnackBar(true);
-      setSeveridadeAlert("error");
-      setMessageAlert("Email inválido");
+      //   setOpenSnackBar(true);
+      //   setSeveridadeAlert("error");
+      //   setMessageAlert("Email inválido");
+      // }
+
+      const user = {
+        email:"gabrielpuneco@gmail.com",
+        senha:"1234"
+      }
+ 
     }
 
+   const getMaterial = async()=>{
 
+await getMaterialById(120)
 
-
-    }
-
-   
+   }
       
 
 
@@ -70,6 +80,7 @@ return(
 
     
             <h1 className='text-center text-2xl mt-4'>Informações Do usuario</h1>
+
           <div className=' flex-flex-col  rounded-md shadow-md shadow-black border-1 border-black p-8 w-[400px] mx-auto gap-8 '>
 
 
@@ -113,7 +124,19 @@ return(
                 </Autocomplete>
 
 
+          <Button  onPress={createUser} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
+                Criar usuário
+          </Button>
+
+          
+
+          <Button  onPress={getMaterial} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
+                Buscar Material
+          </Button>
           </div>
+
+
+
         </div>
    
 <Snackbar

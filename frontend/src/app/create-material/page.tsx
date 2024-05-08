@@ -1,16 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
-import { Autocomplete, AutocompleteItem, Button } from "@nextui-org/react";
-
+import {Autocomplete, AutocompleteItem, Button, Image} from "@nextui-org/react";
 import Link from "next/link";
 import { url } from "../api/webApiUrl";
-import Header from "../componentes/Header";
-import { useEffect, useRef, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
+import React, { useEffect, useRef, useState } from "react";
+
 import "dayjs/locale/pt-br";
 import { InputAdornment, Snackbar, TableFooter, TablePagination } from '@mui/material';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -21,33 +16,26 @@ import {
  } from '@nextui-org/react';
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
 
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import TextField from "@mui/material/TextField";
-import axios from "axios";
-import NavBar from '../componentes/NavBar';
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
 
-import SearchIcon from '@mui/icons-material/Search';
-import MenuItem from '@mui/material/MenuItem';
 import { useReactToPrint } from 'react-to-print';
 
-import Select from '@mui/material/Select';
-import dayjs from "dayjs";
+
 import { signIn, useSession } from "next-auth/react";
 import GoogleIcon from "../assets/icons/GoogleIcon";
 import SpinnerForButton from "../componentes/SpinnerButton";
 import { Table } from "flowbite-react";
-import { searchByDescription, searchByFabricanteCode } from "../services/MaterialServices";
+import { createMaterial, searchByDescription, searchByFabricanteCode } from "../services/Material.Services";
 import IconPencil from "../assets/icons/IconPencil";
+import IMaterial from "../interfaces/IMaterial";
 
-export default function CreateMaterial(){
+
+
+ function CreateMaterial(){
   const route = useRouter()
 
 
   const [loadingButton,setLoadingButton] = useState<boolean>(false)  
-  const [loadingMateriais,setLoadingMateriais] = useState<boolean>(false)  
-  const [categoria, setCategoria] = useState<string>("");
+  const [loadingMateriais,setLoadingMateriais] = useState<boolean>(false)
 
   const [descricao, setDescricao] = useState<string>("");
   const [codigoInterno, setCodigoInterno] = useState<string>("");
@@ -61,7 +49,7 @@ export default function CreateMaterial(){
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [messageAlert, setMessageAlert] = useState<string>();
   const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
- const[precoCusto,setPrecoCusto] = useState<string>()
+  const[precoCusto,setPrecoCusto] = useState<string>()
   const[markup,setMarkup] = useState<string>("")
   const [precoVenda,setPrecoVenda] = useState< string>()
   const [materiais, setMateriais] = useState([]);
@@ -69,8 +57,10 @@ export default function CreateMaterial(){
   const unidadeMaterial : string[] = ["UN", "RL", "MT", "P"];
   const tensoes :string[]= ["","12V","24V","127V","220V","380V","440V","660V"]
   const { data: session } = useSession();
+  const [currentUser, setCurrentUser] = useState<any>(null);
   
   const componentRef: any = useRef();
+  const conditionsRoles = currentUser?.role == "Administrador" || currentUser?.role == "Diretor" || currentUser?.role == "SuporteTecnico"
 
   const handlePrint = useReactToPrint({
    content: () => componentRef.current,
@@ -78,7 +68,18 @@ export default function CreateMaterial(){
    onAfterPrint: () => console.log('Printed PDF successfully!'),
   });
     
+ 
+  
+  
+  useEffect(()=>{
+      //@ts-ignore
+  const user = JSON.parse(localStorage.getItem("currentUser"));
+  if(user != null)
+  {
+      setCurrentUser(user)
 
+  }
+  },[])
 
 
 useEffect(()=>{
@@ -99,7 +100,7 @@ const buscarDescricao = async(descricao:string)=>
       try{
 
         const res =  await searchByDescription(descricao)
-        console.log(res)
+
         setMateriais(res)
       }
     catch(e)
@@ -134,38 +135,14 @@ const buscaCodigoFabricante = async(codigo:string)=>
    
     sessionStorage.setItem("description",descricao)
 
-
     route.push(`update-material/${id}`)
-    
-    
-      
+        
   };
 
-  const createInventario = async (idMaterial:number) => {
-    
-    
-    const invetario = {
-      materialId: idMaterial,
-      estoque:0,
-      material: {},
-    };
-    try{
-      await axios
-      .post(`${url}/Inventarios`, invetario)
-      .then((r) => {
-        return r.data
-      })
-      .catch();
-  }
-  catch(e){
-    console.log(e)
-
-  }
-    }
   
   const handleCreateMaterial = async () => {
+    
     setMateriais([])
-
 
     if (!descricao || !unidade) {
       setOpenSnackBar(true);
@@ -174,9 +151,8 @@ const buscaCodigoFabricante = async(codigo:string)=>
     } else {
 
       // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
-      setLoadingButton(true)
-      const material = {
-        codigoInterno: codigoInterno.trim().replace(/\s\s+/g, " "),
+
+      const material: IMaterial = {
         codigoFabricante: codigoFabricante.trim().replace(/\s\s+/g, " "),
         descricao: descricao.trim().replace(/\s\s+/g, " "),
         categoria: "",
@@ -187,50 +163,22 @@ const buscaCodigoFabricante = async(codigo:string)=>
         localizacao: localizacao.trim().replace(/\s\s+/g, " "),
         dataEntradaNF: dataentrada,
         precoCusto:precoCusto,
-        markup:markup == ""?null:markup,
+        markup:markup,
         
       };
 
-      const materialCriado = await axios
-        .post(`${url}/Materiais`, material)
-        .then((r) => {
-          createInventario(r.data.id);
+      const materialCriado = await createMaterial(material)
+       
+
+      console.log(materialCriado)
+        if(materialCriado)
+        {
           setLoadingButton(false)
           setOpenSnackBar(true);
           setSeveridadeAlert("success");
           setMessageAlert("Material Criado com sucesso");
-         setDescricao(r.data.descricao)
- 
-      
-          return r.data
-        })
-        .catch((e) => {
-          console.log(e.response.data.message);
-          if (e.response.data.message == "Código interno já existe") {
-            setOpenSnackBar(true);
-            setSeveridadeAlert("error");
-            setMessageAlert("Já existe um material com este mesmo código interno");
-          } else if (
-            e.response.data.message ==
-            "Código de fabricante já existe"
-          ) {
-            setOpenSnackBar(true);
-            setSeveridadeAlert("error");
-            setMessageAlert("Já existe um material com este mesmo código de fabricante");
-          }
-        });
 
-       
-
-          
-        
-      
-        //Quando criar o material.atualizara a  lista de materias que estao a amostra
-        // e se somente o material ter sido criado
-       
-       
-
-
+        }
 
 
 
@@ -241,7 +189,6 @@ const buscaCodigoFabricante = async(codigo:string)=>
     return(
        
       <>
- 
       <div className="flex flex-col gap-4">
         <div className=' w-full flex flex-row flex-wrap justify-center mt-6  gap-6 '>
         
@@ -348,18 +295,22 @@ const buscaCodigoFabricante = async(codigo:string)=>
         
       </div>
 
-        {session &&(
+
 <>
+    {conditionsRoles && (
+        <>
       <div className='text-center mt-8 '>
       <Button  onPress={handleCreateMaterial} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
         <IconPencil/>
           {loadingButton?<Spinner size="md" color="warning"/>:"Criar Material"}
       </Button>
-     
-     
+
+
       </div>
+        </>
+    )}
       </>
-        )}
+
  
 
    
@@ -378,10 +329,14 @@ const buscaCodigoFabricante = async(codigo:string)=>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Marca</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Tensão</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Estoque</Table.HeadCell>
+            {conditionsRoles && (
+                <>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Localização</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Preço Custo</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm ">Preço Venda</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Preço Total</Table.HeadCell>
+                </>
+            )}
           <Table.HeadCell className="text-center">
             <span className="sr-only">Edit</span>
           </Table.HeadCell>
@@ -399,10 +354,13 @@ const buscaCodigoFabricante = async(codigo:string)=>
           <Table.Cell className="text-center text-black">{row.material.tensao}</Table.Cell>
           <Table.Cell className="text-center text-black hover:underline" onClick={()=>route.push(`/update-inventory/${row.material.id}`)}>{row.saldoFinal==null?"Não registrado":row.saldoFinal +" "+row.material.unidade}</Table.Cell>
           <Table.Cell className="text-center text-black">{row.material.localizacao}</Table.Cell>
+              {conditionsRoles && (
+                  <>
+
           <Table.Cell className="text-center text-black">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</Table.Cell>
           <Table.Cell className="text-center text-black">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</Table.Cell>
           <Table.Cell className="text-center text-black">{row.material.precoVenda==null?"Sem registro":"R$ "+(row.material.precoCusto*row.saldoFinal).toFixed(2).toString().replace(".",",")}</Table.Cell>
-          
+
           <Table.Cell>
             <a  onClick={(x) =>
                       handleChangeUpdatePage(row.material.id)
@@ -410,6 +368,8 @@ const buscaCodigoFabricante = async(codigo:string)=>
               Editar
             </a>
           </Table.Cell>
+                  </>
+              )}
         </Table.Row>
 
 
@@ -457,3 +417,4 @@ const buscaCodigoFabricante = async(codigo:string)=>
 
     )
 }
+export default CreateMaterial;

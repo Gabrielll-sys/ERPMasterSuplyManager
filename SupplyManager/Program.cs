@@ -25,8 +25,12 @@ options.UseMySql(mySqlConnection, new MySqlServerVersion(new Version())
 builder.Services.AddDbContextPool<SqlContext>(options =>
 
 options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection)));
+builder.Services.AddHttpContextAccessor();
 
-
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RoleCreateUser", policy => policy.RequireRole("Diretor"));
+});
 
 builder.Services.AddAuthentication(options =>
 {
@@ -55,7 +59,7 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
-        //Versão da API
+        //Versï¿½o da API
         Version = "v1.0",
         Title = "Master ERP API",
         Description = "Service to get informations and manage the services of Master ERP"
@@ -95,6 +99,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
 builder.Services.AddTransient<IInventarioService, InventarioService>();
 builder.Services.AddScoped<IInventarioRepository, InventarioRepository>();
 builder.Services.AddTransient<IMaterialService, MaterialService>();
@@ -105,7 +111,19 @@ builder.Services.AddTransient<INotaFiscalService, NotaFiscalService>();
 builder.Services.AddScoped<INotaFiscalRepository, NotaFiscalRepository>();
 builder.Services.AddTransient<IItemNotaFiscalService, ItemNotaFiscalService>();
 builder.Services.AddScoped<IItemNotaFiscalRepository, ItemNotaFiscalRepository>();
-/*builder.Services.AddSingleton<IDataBaseConnectionService, DataBaseConnectionService>();*/
+builder.Services.AddScoped<IOrcamentoRepository, OrcamentoRepository>();
+builder.Services.AddTransient<IOrcamentoService, OrcamentoService>();
+builder.Services.AddScoped<IOrdemServicoRepository, OrdemServicoRepository>();
+builder.Services.AddTransient<IOrdemServicoService, OrdemServicoService>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddTransient<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<ILogAcoesUsuarioRepository, LogAcoesUsuarioRepository>();
+builder.Services.AddTransient<ILogAcoesUsuarioService, LogAcoesUsuarioService>();
+builder.Services.AddScoped<IAtividadeRdRepository, AtividadeRdRepository>();
+builder.Services.AddTransient<IAtividadeRdService, AtividadeRdService>();
+builder.Services.AddScoped<IRelatorioDiarioRepository, RelatorioDiarioRepository>();
+builder.Services.AddTransient<IRelatorioDiarioService, RelatorioDiarioService>();
+builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

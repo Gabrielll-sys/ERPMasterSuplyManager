@@ -54,10 +54,21 @@ export default function OsManagement(){
     const [messageAlert, setMessageAlert] = useState();
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [osModal,setOsModal] = useState<IOrderServico|undefined>(undefined)
-
+    const [currentUser, setCurrentUser] = useState<any>(null);
+ 
   
+  
+
   useEffect(()=>
   {
+          
+         //@ts-ignore
+         const user = JSON.parse(localStorage.getItem("currentUser"));
+         if(user != null)
+         {
+             setCurrentUser(user)
+       
+         }
   getAllOs()
     
   },[])
@@ -115,7 +126,7 @@ export default function OsManagement(){
       
     descricao:`${descricaoOsFormated}`,
     numeroOs:numeroOsFormated,
-    responsavelAbertura : session?.user?.name,
+    responsavelAbertura : currentUser?.userName,
     }
 
     

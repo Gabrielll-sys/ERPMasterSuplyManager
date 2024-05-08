@@ -16,8 +16,36 @@ namespace SupplyManager.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "7.0.17")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("SupplyManager.Models.AtividadeRd", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Descricao")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("NumeroAtividade")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Observacoes")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("RelatorioRdId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RelatorioRdId");
+
+                    b.ToTable("AtividadesRd");
+                });
 
             modelBuilder.Entity("SupplyManager.Models.Cliente", b =>
                 {
@@ -86,6 +114,32 @@ namespace SupplyManager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Fornecedores");
+                });
+
+            modelBuilder.Entity("SupplyManager.Models.ImagemAtividadeRd", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AtividadeRdId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<string>("DataAdicao")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Descricao")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UrlImagem")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AtividadeRdId");
+
+                    b.ToTable("ImagensAtividadeRd");
                 });
 
             modelBuilder.Entity("SupplyManager.Models.Inventario", b =>
@@ -223,6 +277,26 @@ namespace SupplyManager.Migrations
                     b.ToTable("ItensOrcamento");
                 });
 
+            modelBuilder.Entity("SupplyManager.Models.LogAcoesUsuario", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Acao")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("DataAcao")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Responsavel")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LogAcoesUsuarios");
+                });
+
             modelBuilder.Entity("SupplyManager.Models.Material", b =>
                 {
                     b.Property<int?>("Id")
@@ -266,6 +340,9 @@ namespace SupplyManager.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Unidade")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UrlImage")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -414,11 +491,49 @@ namespace SupplyManager.Migrations
                     b.ToTable("OrdemServicos");
                 });
 
+            modelBuilder.Entity("SupplyManager.Models.RelatorioDiario", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Contato")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("DataRD")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("HorarioAbertura")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("HorarioFechamento")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("ResponsavelAbertura")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ResponsavelFechamento")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool?>("isFinished")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RelatorioDiarios");
+                });
+
             modelBuilder.Entity("SupplyManager.Models.Usuario", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<string>("Cargo")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("DataCadastrado")
+                        .HasColumnType("datetime");
 
                     b.Property<string>("Email")
                         .HasColumnType("longtext");
@@ -426,15 +541,24 @@ namespace SupplyManager.Migrations
                     b.Property<string>("Nome")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("PerfilUsuario")
-                        .HasColumnType("int");
-
                     b.Property<string>("Senha")
                         .HasColumnType("longtext");
+
+                    b.Property<bool?>("isActive")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Usuários");
+                });
+
+            modelBuilder.Entity("SupplyManager.Models.AtividadeRd", b =>
+                {
+                    b.HasOne("SupplyManager.Models.RelatorioDiario", "RelatorioDiario")
+                        .WithMany()
+                        .HasForeignKey("RelatorioRdId");
+
+                    b.Navigation("RelatorioDiario");
                 });
 
             modelBuilder.Entity("SupplyManager.Models.Cliente", b =>
@@ -446,6 +570,17 @@ namespace SupplyManager.Migrations
                         .IsRequired();
 
                     b.Navigation("Orcamento");
+                });
+
+            modelBuilder.Entity("SupplyManager.Models.ImagemAtividadeRd", b =>
+                {
+                    b.HasOne("SupplyManager.Models.AtividadeRd", "AtividadeRd")
+                        .WithMany()
+                        .HasForeignKey("AtividadeRdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AtividadeRd");
                 });
 
             modelBuilder.Entity("SupplyManager.Models.Inventario", b =>

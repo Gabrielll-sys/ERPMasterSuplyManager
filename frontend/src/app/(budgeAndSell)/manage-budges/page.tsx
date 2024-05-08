@@ -21,23 +21,36 @@ import ArrowLeft from '@/app/assets/icons/ArrowLeft';
 import { IFilterMaterial } from '@/app/interfaces/IFilterMaterial';
 import { IOrderServico } from '@/app/interfaces/IOrderServico';
 import { useSession } from 'next-auth/react';
-
+import {IUsuario} from "@/app/interfaces/IUsuario";
 import jsPDF from 'jspdf'
 
 
 import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
 
+import {getUserById} from "@/app/services/User.Services";
+import { authHeader } from '@/app/_helpers/auth_headers';
 
 
-export default function ManageBudges({params}:any){
+
+export default function ManageBudges(){
   const[cliente,setCliente] = useState<string>("")
   const[numeroOrcamento,setNumeroOrcamento] = useState<string>("")
   const[orcamentos,setOrcamentos] = useState<IOrcamento[]>()
   const[orcamento,setOrcamento] = useState<IOrcamento>()
-
+  const [currentUser, setCurrentUser] = useState<any>(null);
+ 
+  
+  
     useEffect(()=>{
         getAllOrcamentos()
+         //@ts-ignore
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+    if(user != null)
+    {
+        setCurrentUser(user)
+  
+    }
     },[])
 
     useEffect(()=>{
@@ -83,7 +96,7 @@ const getOrcamentosByClient = async()=>{
 
   if(cliente.length && cliente!=""){
 
-    await axios.get(`${url}/Orcamentos/buscaNomeCliente?cliente=${cliente}`).then((r:AxiosResponse)=>{
+    await axios.get(`${url}/Orcamentos/buscaNomeCliente?cliente=${cliente}`,{headers:authHeader()}).then((r:AxiosResponse)=>{
    
       if(r.data.length==1) {
         setOrcamentos([])
@@ -101,17 +114,19 @@ const getOrcamentosByClient = async()=>{
 
 const getAllOrcamentos = async ()=>{
 
+        const user : IUsuario = await getUserById(currentUser.userId);
 if(cliente == "" && numeroOrcamento == "")
 {
 
-  await axios.get(`${url}/Orcamentos`).then((r:AxiosResponse)=>{
+  await axios.get(`${url}/Orcamentos`,{headers:authHeader()}).then((r:AxiosResponse)=>{
  
    console.log(r.data)
    if(r.data.length==1) {
      setOrcamento(r.data[0])
    }
    else if (r.data.length>1){
- 
+
+
      setOrcamentos(r.data)
    }
  }).catch(e=>console.log(e))
@@ -123,7 +138,7 @@ const getOrcamentoById = async()=>{
  
   if(numeroOrcamento != undefined){
 
-    await axios.get(`${url}/Orcamentos/${numeroOrcamento}`).then((r:AxiosResponse)=>{
+    await axios.get(`${url}/Orcamentos/${numeroOrcamento}`,{headers:authHeader()}).then((r:AxiosResponse)=>{
       setOrcamentos([])
       console.log(r.data)
       setOrcamento(r.data)
@@ -204,7 +219,6 @@ return(
 
      </>
 )
-
 
 
 }

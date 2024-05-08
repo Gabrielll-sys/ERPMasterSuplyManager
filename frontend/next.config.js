@@ -9,8 +9,10 @@ const nextConfig = {
           port: "",
           pathname: "**",
         },
+         
       ],
     },
+
     
 }
 

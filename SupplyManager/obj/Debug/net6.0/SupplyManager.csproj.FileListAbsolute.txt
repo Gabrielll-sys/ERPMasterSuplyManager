@@ -265,13 +265,13 @@ C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\ob
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.csproj.CoreCompileInputs.cache
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\staticwebassets.build.json
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\staticwebassets.development.json
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\staticwebassets\msbuild.SupplyManager.Microsoft.AspNetCore.StaticWebAssets.props
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\staticwebassets\msbuild.build.SupplyManager.props
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.SupplyManager.props
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.SupplyManager.props
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\staticwebassets.pack.json
-C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\staticwebassets.build.json
-C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\staticwebassets.development.json
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\scopedcss\bundle\SupplyManager.styles.css
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.csproj.CopyComplete
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\SupplyManager.dll

@@ -54,11 +54,17 @@ namespace SupplyManager.Controllers
             var allItens = await _context.Inventarios.Include(x=>x.Material).AsNoTracking().ToListAsync();
 
             List<Inventario> result = new List<Inventario>();
+            
                 foreach (var i in allItens)
                 {
-                    var invetoryWithMaterial = allItens.Where(x => x.MaterialId == i.MaterialId).TakeLast(1).ToList();
+                    var invetoryWithMaterial = allItens
+                        .Where(x => x.MaterialId == i.MaterialId)
+                        .TakeLast(1)
+                        .ToList();
+
                     if (!result.Contains(invetoryWithMaterial[0]))
                     {
+
                     result.Add(invetoryWithMaterial[0]);
 
                     }
@@ -129,9 +135,15 @@ namespace SupplyManager.Controllers
 
             try
             {
-                var inventarios = await _context.Inventarios.Include(x => x.Material).AsNoTracking().ToListAsync();
+                var inventarios = await _context.Inventarios
+                    .Include(x => x.Material)
+                    .AsNoTracking()
+                    .ToListAsync();
 
-                var material =  inventarios.Where(x=>x.MaterialId==id).TakeLast(1).ToList();
+                var material =  inventarios
+                    .Where(x=>x.MaterialId==id)
+                    .TakeLast(1)
+                    .ToList();
 
                 return Ok(material);
             }
@@ -167,14 +179,13 @@ namespace SupplyManager.Controllers
 
             {
 
-
                 var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == id);
 
 
-
-
-
-                var listInvetory = await _context.Inventarios.Where(x => x.MaterialId == id).Include(x => x.Material).ToListAsync();
+                var listInvetory = await _context.Inventarios
+                    .Where(x => x.MaterialId == id)
+                    .Include(x => x.Material)
+                    .ToListAsync();
                 //Ordena a busca de materia
 
 
@@ -231,8 +242,11 @@ namespace SupplyManager.Controllers
                     )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
-                        .Where(x => x.Material.PrecoVenda > model.PrecoVendaMin).OrderBy(x=>x.Material.PrecoVenda).ToListAsync();
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
+                        .Where(x => x.Material.PrecoVenda > model.PrecoVendaMin)
+                        .OrderBy(x=>x.Material.PrecoVenda)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -240,7 +254,10 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).OrderBy(x => x.Material.PrecoVenda).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .OrderBy(x => x.Material.PrecoVenda)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -266,8 +283,11 @@ namespace SupplyManager.Controllers
                 {
 
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
-                        .Where(x => x.Material.PrecoVenda < model.PrecoVendaMax).OrderByDescending(x => x.Material.PrecoVenda).ToListAsync();
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
+                        .Where(x => x.Material.PrecoVenda < model.PrecoVendaMax)
+                        .OrderByDescending(x => x.Material.PrecoVenda)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -275,7 +295,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -302,15 +324,21 @@ namespace SupplyManager.Controllers
                     )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
-                        .Where(x => x.Material.PrecoVenda < model.PrecoVendaMax && x.Material.PrecoVenda > model.PrecoVendaMin).OrderBy(x => x.Material.PrecoVenda).ToListAsync();
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
+                        .Where(x => x.Material.PrecoVenda < model.PrecoVendaMax && x.Material.PrecoVenda > model.PrecoVendaMin)
+                        .OrderBy(x => x.Material.PrecoVenda)
+                        .ToListAsync();
+
                     List<Inventario> list = new List<Inventario>();
 
                     /*          Após o filtro ser feito,ira realizar outro filtro agora no resultado
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -337,8 +365,11 @@ namespace SupplyManager.Controllers
                     )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
-                        .Where(x => x.Material.PrecoCusto > model.PrecoCustoMin).OrderBy(x => x.Material.PrecoCusto).ToListAsync();
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
+                        .Where(x => x.Material.PrecoCusto > model.PrecoCustoMin)
+                        .OrderBy(x => x.Material.PrecoCusto)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -346,7 +377,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -372,8 +405,11 @@ namespace SupplyManager.Controllers
                     )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
-                        .Where(x => x.Material.PrecoCusto < model.PrecoCustoMax).OrderByDescending(x => x.Material.PrecoCusto).ToListAsync();
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
+                        .Where(x => x.Material.PrecoCusto < model.PrecoCustoMax)
+                        .OrderByDescending(x => x.Material.PrecoCusto)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -381,7 +417,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -409,8 +447,11 @@ namespace SupplyManager.Controllers
                     )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
-                        .Where(x => x.Material.PrecoCusto < model.PrecoCustoMax && x.Material.PrecoCusto > model.PrecoCustoMin).OrderBy(x => x.Material.PrecoCusto).ToListAsync();
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
+                        .Where(x => x.Material.PrecoCusto < model.PrecoCustoMax && x.Material.PrecoCusto > model.PrecoCustoMin)
+                        .OrderBy(x => x.Material.PrecoCusto)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -418,7 +459,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -445,16 +488,21 @@ namespace SupplyManager.Controllers
                     )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
-                        .Where(x => x.Material.Descricao.Contains(model.Descricao)).ToListAsync();
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
+                        .Where(x => x.Material.Descricao.Contains(model.Descricao))
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
                     /*          Após o filtro ser feito,ira realizar outro filtro agora no resultado
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
+
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -479,8 +527,10 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
-                        .Where(x => x.Material.Marca.Contains(model.Marca)).ToListAsync();
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
+                        .Where(x => x.Material.Marca.Contains(model.Marca))
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -488,7 +538,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -514,8 +566,10 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
-                        .Where(x => x.Material.Descricao.Contains(model.Descricao) &&  x.Material.Marca.Contains(model.Marca)).ToListAsync();
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
+                        .Where(x => x.Material.Descricao.Contains(model.Descricao) &&  x.Material.Marca.Contains(model.Marca))
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -523,7 +577,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -549,8 +605,11 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
-                        .Where(x =>   x.Material.Marca.Contains(model.Marca) && x.Material.PrecoCusto > model.PrecoCustoMin).OrderBy(x => x.Material.PrecoCusto).ToListAsync();
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
+                        .Where(x =>   x.Material.Marca.Contains(model.Marca) && x.Material.PrecoCusto > model.PrecoCustoMin)
+                        .OrderBy(x => x.Material.PrecoCusto)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -558,7 +617,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -584,8 +645,11 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
-                        .Where(x => x.Material.Marca.Contains(model.Marca) && x.Material.PrecoCusto < model.PrecoCustoMax).OrderByDescending(x => x.Material.PrecoCusto).ToListAsync();
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
+                        .Where(x => x.Material.Marca.Contains(model.Marca) && x.Material.PrecoCusto < model.PrecoCustoMax)
+                        .OrderByDescending(x => x.Material.PrecoCusto)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -593,7 +657,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -619,9 +685,11 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
                         .Where(x => x.Material.Marca.Contains(model.Marca) && x.Material.PrecoCusto > model.PrecoCustoMin && x.Material.PrecoCusto < model.PrecoCustoMax)
-                        .OrderBy(x => x.Material.PrecoCusto).ToListAsync();
+                        .OrderBy(x => x.Material.PrecoCusto)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -629,7 +697,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -657,8 +727,11 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
-                        .Where(x => x.Material.Marca.Contains(model.Marca) && x.Material.PrecoVenda> model.PrecoVendaMin).OrderBy(x => x.Material.PrecoVenda).ToListAsync();
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
+                        .Where(x => x.Material.Marca.Contains(model.Marca) && x.Material.PrecoVenda> model.PrecoVendaMin)
+                        .OrderBy(x => x.Material.PrecoVenda)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -666,7 +739,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -692,8 +767,11 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
-                        .Where(x => x.Material.Marca.Contains(model.Marca) && x.Material.PrecoVenda < model.PrecoVendaMax).OrderByDescending(x => x.Material.PrecoVenda).ToListAsync();
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
+                        .Where(x => x.Material.Marca.Contains(model.Marca) && x.Material.PrecoVenda < model.PrecoVendaMax)
+                        .OrderByDescending(x => x.Material.PrecoVenda)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -701,7 +779,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -727,9 +807,12 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
                         .Where(x => x.Material.Marca.Contains(model.Marca) && x.Material.PrecoVenda > model.PrecoVendaMin 
-                        && x.Material.PrecoVenda < model.PrecoVendaMax).OrderBy(x=>x.Material.PrecoVenda).ToListAsync();
+                        && x.Material.PrecoVenda < model.PrecoVendaMax)
+                        .OrderBy(x=>x.Material.PrecoVenda)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -737,7 +820,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -763,9 +848,11 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
                         .Where(x => x.Material.Descricao.Contains(model.Descricao) && x.Material.PrecoVenda > model.PrecoVendaMin)
-                        .OrderBy(x => x.Material.PrecoVenda).ToListAsync();
+                        .OrderBy(x => x.Material.PrecoVenda)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -773,7 +860,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -799,9 +888,11 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
                         .Where(x => x.Material.Descricao.Contains(model.Descricao) && x.Material.PrecoVenda < model.PrecoVendaMax )
-                        .OrderByDescending(x => x.Material.PrecoVenda).ToListAsync();
+                        .OrderByDescending(x => x.Material.PrecoVenda)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -809,7 +900,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -836,9 +929,11 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                   var filterResult = await _context.Inventarios.Include(s => s.Material)
+                   var filterResult = await _context.Inventarios
+                       .Include(s => s.Material)
                        .Where(x => x.Material.Descricao.Contains(model.Descricao) && x.Material.PrecoVenda > model.PrecoVendaMin && x.Material.PrecoVenda < model.PrecoVendaMax)
-                       .OrderBy(x => x.Material.PrecoVenda).ToListAsync();
+                       .OrderBy(x => x.Material.PrecoVenda)
+                       .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -846,7 +941,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -872,9 +969,11 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
                         .Where(x => x.Material.Descricao.Contains(model.Descricao) && x.Material.PrecoCusto > model.PrecoCustoMin)
-                        .OrderBy(x => x.Material.PrecoCusto).ToListAsync();
+                        .OrderBy(x => x.Material.PrecoCusto)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -882,7 +981,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -908,9 +1009,11 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
                         .Where(x => x.Material.Descricao.Contains(model.Descricao) && x.Material.PrecoCusto < model.PrecoCustoMax)
-                        .OrderByDescending(x => x.Material.PrecoCusto).ToListAsync();
+                        .OrderByDescending(x => x.Material.PrecoCusto)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -918,7 +1021,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -944,9 +1049,11 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
                         .Where(x => x.Material.Descricao.Contains(model.Descricao) && x.Material.PrecoCusto > model.PrecoCustoMin && x.Material.PrecoCusto < model.PrecoCustoMax)
-                        .OrderBy(x => x.Material.PrecoCusto).ToListAsync();
+                        .OrderBy(x => x.Material.PrecoCusto)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -954,7 +1061,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -980,10 +1089,12 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
                         .Where(x => x.Material.Descricao.Contains(model.Descricao) && x.Material.Marca.Contains(model.Marca) 
                         && x.Material.PrecoCusto > model.PrecoCustoMin)
-                        .OrderBy(x => x.Material.PrecoCusto).ToListAsync();
+                        .OrderBy(x => x.Material.PrecoCusto)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -991,7 +1102,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -1017,10 +1130,12 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
                         .Where(x => x.Material.Descricao.Contains(model.Descricao) && x.Material.Marca.Contains(model.Marca)
                         && x.Material.PrecoCusto > model.PrecoCustoMin && x.Material.PrecoCusto < model.PrecoCustoMax)
-                        .OrderBy(x => x.Material.PrecoCusto).ToListAsync();
+                        .OrderBy(x => x.Material.PrecoCusto)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -1028,7 +1143,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -1055,10 +1172,12 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
                         .Where(x => x.Material.Descricao.Contains(model.Descricao) && x.Material.Marca.Contains(model.Marca)
                         && x.Material.PrecoVenda > model.PrecoVendaMin )
-                        .OrderBy(x => x.Material.PrecoVenda).ToListAsync();
+                        .OrderBy(x => x.Material.PrecoVenda)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -1066,7 +1185,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -1092,10 +1213,12 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
                         .Where(x => x.Material.Descricao.Contains(model.Descricao) && x.Material.Marca.Contains(model.Marca)
                         && x.Material.PrecoVenda < model.PrecoVendaMax)
-                        .OrderByDescending(x => x.Material.PrecoVenda).ToListAsync();
+                        .OrderByDescending(x => x.Material.PrecoVenda)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -1103,7 +1226,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -1129,10 +1254,12 @@ namespace SupplyManager.Controllers
                    )
                 {
 
-                    var filterResult = await _context.Inventarios.Include(s => s.Material)
+                    var filterResult = await _context.Inventarios
+                        .Include(s => s.Material)
                         .Where(x => x.Material.Descricao.Contains(model.Descricao) && x.Material.Marca.Contains(model.Marca)
                         && x.Material.PrecoVenda > model.PrecoVendaMin && x.Material.PrecoVenda < model.PrecoVendaMax)
-                        .OrderBy(x => x.Material.PrecoVenda).ToListAsync();
+                        .OrderBy(x => x.Material.PrecoVenda)
+                        .ToListAsync();
 
                     List<Inventario> list = new List<Inventario>();
 
@@ -1140,7 +1267,9 @@ namespace SupplyManager.Controllers
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var invetario = filterResult
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
                         if (!list.Contains(invetario[invetario.Count - 1]))
                         {
@@ -1194,13 +1323,18 @@ namespace SupplyManager.Controllers
 
 
                 //Realiza uma busca no banco de materias para buscar match na descrição de acordo com a busca
-                queryMaterial = queryMaterial.Where(x => x.CodigoFabricante.Contains(codigo)).OrderBy(x => x.Id);
+                queryMaterial = queryMaterial
+                    .Where(x => x.CodigoFabricante.Contains(codigo))
+                    .OrderBy(x => x.Id);
+
                 var materiais = await queryMaterial.ToListAsync();
                 //Faz um iteração em todos os materiais com aquela descrição
               foreach (var item in materiais)
                 {
                     //Realiza um filtro buscando todos os invetários daquele material,ou seja,retornara todos os registros de invetário daquele produto
-                    var inventarios = queryInvetory.Where(x => x.MaterialId == item.Id).ToList();
+                    var inventarios = queryInvetory
+                        .Where(x => x.MaterialId == item.Id)
+                        .ToList();
 
 
                     var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == inventarios[0].MaterialId);
@@ -1249,9 +1383,14 @@ namespace SupplyManager.Controllers
 
             try
             {
-                var queryMaterial = await _context.Materiais.AsNoTracking().ToListAsync();
+                var queryMaterial = await _context.Materiais
+                    .AsNoTracking()
+                    .ToListAsync();
             
-                var queryInvetory = await _context.Inventarios.AsNoTracking().Include(x=>x.Material).ToListAsync();
+                var queryInvetory = await _context.Inventarios
+                    .AsNoTracking()
+                    .Include(x=>x.Material)
+                    .ToListAsync();
 
 
 
@@ -1259,7 +1398,10 @@ namespace SupplyManager.Controllers
 
                 List<Material> l1 = new List<Material>();
                 //Realiza um split para separar a string em array de strings pelo ., e depois filtra para não incluir vazio
-                string[] splited = descricao.Split(".").Where(x => x != "").ToArray();
+                string[] splited = descricao
+                    .Split(".")
+                    .Where(x => x != "")
+                    .ToArray();
 
        
                 //Caractere que ira dividir a busca de string e ira realiza sub buscar de acordo com as string separadas pelo delimitador .
@@ -1300,13 +1442,18 @@ namespace SupplyManager.Controllers
 
                     if(descricao.ToUpper() == "TUDO")
                     {
-                       queryMaterial = queryMaterial.OrderByDescending(x => x.Id).ThenBy(x => x.PrecoCusto).ToList();
-                        var a = 20;
+                       queryMaterial = queryMaterial
+                            .OrderByDescending(x => x.Id)
+                            .ThenBy(x => x.PrecoCusto)
+                            .ToList();
+    
                     }
                     else
                     {
 
-                        queryMaterial = queryMaterial.Where(x => x.Descricao.Contains(descricao.ToUpper())).ToList();
+                        queryMaterial = queryMaterial
+                            .Where(x => x.Descricao.Contains(descricao.ToUpper()))
+                            .ToList();
                       
 
                     }
@@ -1320,7 +1467,11 @@ namespace SupplyManager.Controllers
                 {
                     //Realiza um filtro para buscar o ultimo registro de inventário daquele material
                   
-                    var inventarios = queryInvetory.Where(x => x.MaterialId == item.Id).OrderBy(x=>x.MaterialId).TakeLast(1).ToList();
+                    var inventarios = queryInvetory
+                        .Where(x => x.MaterialId == item.Id)
+                        .OrderBy(x=>x.MaterialId)
+                        .TakeLast(1)
+                        .ToList();
 
                     if (inventarios.Count is not 0)
                     {
@@ -1364,13 +1515,16 @@ namespace SupplyManager.Controllers
                 var queryMaterial = from query in _context.Inventarios select query;
 
 
-                queryMaterial = queryMaterial.Where(x => x.MaterialId == model.MaterialId).OrderBy(x => x.Id);
+                queryMaterial = queryMaterial
+                    .Where(x => x.MaterialId == model.MaterialId)
+                    .OrderBy(x => x.Id);
 
                 var b = await queryMaterial.ToListAsync();
+
                 //CASO SEJA O PRIMEIRO ITEM DO INVENTÁRIO OU QUANDO FOR CRIAR DE FATO O SEGUNDO ITEM
                 if (b.Count == 0 || b.Count == 1)
                 {
-                    InvetarioPostValidator ValidationInvetory = new InvetarioPostValidator();
+         
 
                     Inventario invetory1 = new Inventario
                         (
@@ -1393,8 +1547,7 @@ namespace SupplyManager.Controllers
                     return Ok(invetory1);
 
                 }
-                InvetarioPostValidator ValidationMaterial = new InvetarioPostValidator();
-
+                
                 Inventario i1 = new Inventario
                     (
                     model.Razao,
@@ -1596,7 +1749,7 @@ namespace SupplyManager.Controllers
                       null,
                       0,
                       null,
-                     null,
+                      null,
                       null,
                       material.Id
                       );

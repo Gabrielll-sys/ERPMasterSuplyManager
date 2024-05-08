@@ -14,9 +14,11 @@
     <Content Remove="Validations\NovaPasta\**" />
     <EmbeddedResource Remove="Validations\NovaPasta\**" />
     <None Remove="Validations\NovaPasta\**" />
+    <Compile Remove="Models\FornecedorNF.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="CodeFile.cs" />
     <Compile Remove="Models\Categoria.cs" />
     <Compile Remove="Validations\CategoriaPostValidation.cs" />
   </ItemGroup>
@@ -36,7 +38,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.9">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.17">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

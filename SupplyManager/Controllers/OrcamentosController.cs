@@ -4,6 +4,8 @@ using MySqlConnector;
 using SupplyManager.App;
 using SupplyManager.Models;
 using System;
+using Microsoft.AspNetCore.Authorization;
+using SupplyManager.Services;
 
 namespace SupplyManager.Controllers
 {    ///<summary>
@@ -12,48 +14,54 @@ namespace SupplyManager.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
+    [Authorize]
     public class OrcamentosController: ControllerBase
     {
         public readonly SqlContext _context;
 
-        public OrcamentosController(SqlContext context)
+        private readonly IOrcamentoService _orcamentoService;
+
+        public OrcamentosController(SqlContext context, IOrcamentoService orcamentoService )
         {
 
             _context = context;
+            _orcamentoService = orcamentoService;
         }
 
 
 
         [HttpGet]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
+
         public async Task<ActionResult<List<Orcamento>>> GetAll()
         {
        
-            return Ok(await _context.Orcamentos.AsNoTracking().OrderByDescending(x=>x.DataOrcamento).ToListAsync());
+            return Ok(await _orcamentoService.GetAllAsync());
 
 
         }
         [HttpGet("buscaNomeCliente")]
+        //         [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<ActionResult<List<Orcamento>>> GetByClientName(string cliente)
         {
 
 
-            return await _context.Orcamentos.AsNoTracking()
-                .Where(x => x.NomeCliente.Contains(cliente))
-                .OrderBy(x => x.DataOrcamento)
-                .ToListAsync();
+            return await _orcamentoService.GetByClientName(cliente);
 
         }
 
         //Busca cliente,para caso exista,preencher automaticamente informações do cliente
         [HttpGet("buscaCliente")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<ActionResult<Orcamento>> GetClient(string cliente)
         {
-
             try
             {
 
-            var a =  await _context.Orcamentos.AsNoTracking().Where(x => x.NomeCliente.Equals(cliente)).ToListAsync();
-            return a[0];
+                return await _orcamentoService.GetClient(cliente);
 
             }catch (Exception ex)
             {
@@ -66,6 +74,8 @@ namespace SupplyManager.Controllers
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<ActionResult<Orcamento>> Get(int id)
         {
             try
@@ -85,38 +95,17 @@ namespace SupplyManager.Controllers
 
     
         [HttpPost]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<ActionResult<Orcamento>> Post([FromBody] Orcamento model)
         {
             try
             {
-
-                Orcamento o1 = new Orcamento()
-                {
-                    Observacoes = model.Observacoes,
-                    ResponsavelOrcamento = model.ResponsavelOrcamento,
-                    DataOrcamento = DateTime.UtcNow.AddHours(-3),
-                    Acrescimo = model.Acrescimo,
-                    Desconto = model.Desconto,
-                    PrecoVendaTotal = model.PrecoVendaTotal,
-                    IsPayed = false,
-                    NomeCliente = model.NomeCliente,
-                    CpfOrCnpj = model.CpfOrCnpj,
-                    Empresa = model.Empresa,
-                    EmailCliente = model.EmailCliente,
-                    Endereco = model.Endereco,
-                    Telefone = model.Telefone,
-                    TipoPagamento = model.TipoPagamento,
-
-            };
-
-                await _context.Orcamentos.AddAsync(o1);
-
-                await _context.SaveChangesAsync();
-
-                return Ok(o1);
-
-
-
+                
+               var orcamento =  await _orcamentoService.CreateAsync(model);
+               
+               return Ok(orcamento);
+                
 
             }
             catch (Exception exception)
@@ -128,6 +117,8 @@ namespace SupplyManager.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<ActionResult> Put(int id, [FromBody] Orcamento model)
         {
 
@@ -135,36 +126,12 @@ namespace SupplyManager.Controllers
 
             try
             {
-                var o1 = await _context.Orcamentos.FindAsync(id) ?? throw new KeyNotFoundException();
-
-                o1.Observacoes = model.Observacoes;
-                o1.Acrescimo = model.Acrescimo;
-                o1.Desconto = model.Desconto;
-                o1.PrecoVendaTotal = model.PrecoVendaTotal;
-                o1.PrecoVendaComDesconto = model.PrecoVendaComDesconto;
-                o1.IsPayed = model.IsPayed;
-                o1.ResponsavelOrcamento = model.ResponsavelOrcamento;
-                o1.NomeCliente = model.NomeCliente;
-                o1.CpfOrCnpj = model.CpfOrCnpj;
-                o1.Empresa = model.Empresa;
-                o1.EmailCliente = model.EmailCliente;
-                o1.Endereco = model.Endereco;
-                o1.Telefone = model.Telefone;
-                o1.TipoPagamento = model.TipoPagamento;
-
-               
-
-                _context.Orcamentos.Update(o1);
-
-                await _context.SaveChangesAsync();
+                await _orcamentoService.UpdateAsync(model);
 
                 return Ok();
-
-
+                
             }
-
-
-
+            
             catch (KeyNotFoundException)
             {
                 return StatusCode(StatusCodes.Status404NotFound);
@@ -177,6 +144,8 @@ namespace SupplyManager.Controllers
             }
         }
         [HttpPut("sellUpdate/{id}")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<ActionResult> PutSell(int id, [FromBody] Orcamento model)
         {
 
@@ -216,14 +185,16 @@ namespace SupplyManager.Controllers
                         var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == item.MaterialId);
 
                         //Procura todos os inventários do material da tabela item,para posteriormente  subtrair do inventário a quantidade a ser utilizad na OS
-                        var inventario = inventarios.Where(x => x.MaterialId == item.MaterialId).ToList();
+                        var inventario = inventarios
+                            .Where(x => x.MaterialId == item.MaterialId)
+                            .ToList();
 
 
                         //Instacia um novo inventário para criar um novo inventário com a atualização de quantidade utilizada no orcamento e o motivo,a descricação da os
                         Inventario i1 = new Inventario
                          (
                         $"Utilizado Orcamento Nº {orcamento.Id}",
-                           inventario[inventario.Count - 1].SaldoFinal,
+                         inventario[inventario.Count - 1].SaldoFinal,
                          inventario[inventario.Count - 1].Movimentacao,
                          inventario[inventario.Count - 1].SaldoFinal,
                          inventario[inventario.Count - 1].Responsavel,
@@ -244,11 +215,7 @@ namespace SupplyManager.Controllers
                 await _context.SaveChangesAsync();
                 return Ok();
    
-
-             
-
-
-
+                
 
             }
 
@@ -268,16 +235,14 @@ namespace SupplyManager.Controllers
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<ActionResult> Delete(int id)
         {
             try
             {
 
-                var orcamento = await _context.Orcamentos.FindAsync(id) ?? throw new KeyNotFoundException();
-
-                _context.Orcamentos.Remove(orcamento);
-
-                await _context.SaveChangesAsync();
+                await _orcamentoService.DeleteAsync(id);
 
                 return Ok();
 

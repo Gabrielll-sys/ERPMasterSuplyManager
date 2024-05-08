@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using SupplyManager.App;
 using Microsoft.IdentityModel.Tokens;
 using NPOI.SS.Formula.Functions;
+using SupplyManager.Interfaces;
 
 namespace SupplyManager.Controllers
 {
@@ -14,42 +15,76 @@ namespace SupplyManager.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    /*[Authorize]
-*/
-    public class UsuariosController:ControllerBase
+    [Authorize]
+
+    public class UsuariosController : ControllerBase
     {
 
-        private readonly SqlContext _context;
+        private readonly IUsuarioService _usuarioService;
 
-        public UsuariosController(SqlContext context)
+        private const string defaultCreatePassword = "1234";
+
+        public UsuariosController(IUsuarioService usuarioService)
         {
-            _context = context;
+            _usuarioService = usuarioService;
+        }
+    
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Usuario>> Get(int id)
+        {
+            try
+            {
+       
+                return Ok( await _usuarioService.GetByIdAsync(id));
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
         }
 
-
-
+        /// <summary>
+        /// Realiza a criação de usuário no Sistema
+        /// </summary>
+        /// <param name="Usuario"></param>
+        /// <returns>O Usuário Criado </returns>
+        /// 
         [HttpPost]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<ActionResult> Post([FromBody] UsuarioDto model)
         {
             try
             {
+
+                var userDb = await _usuarioService.ExistsAsync(model.Email);
+
+                if( userDb is not null )
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, new { message = "Já Existe um usuário com este Email" });
+                }
 
                 Usuario u1 = new Usuario()
                 {
 
                     Email = model.Email,
                     Nome = model.Nome,
-                    Senha = BCrypt.Net.BCrypt.HashPassword(model.Senha),
-                    PerfilUsuario = model.PerfilUsuario
+                    Senha = BCrypt.Net.BCrypt.HashPassword(defaultCreatePassword),
+                    Cargo = model.Cargo,
+                    isActive = true,
+                    DataCadastrado = DateTime.UtcNow.AddHours(-3)
                 };
 
 
-                var user = await _context.Usuarios.AddAsync(u1);
+                var user = await _usuarioService.CreateAsync(u1);
+                
 
-                await _context.SaveChangesAsync();
-
-
-                return Ok();
+                return Ok(user);
 
             }
             catch (Exception exception)
@@ -60,7 +95,10 @@ namespace SupplyManager.Controllers
 
         }
 
-
+        /// <summary>
+        /// Atualiza um usuário
+        /// </summary>
+        /// <param name="Usuario"></param>
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] Usuario model)
         {
@@ -69,16 +107,9 @@ namespace SupplyManager.Controllers
 
             try
             {
-                var user = await _context.Usuarios.FindAsync(id) ?? throw new KeyNotFoundException();
+                var user = await _usuarioService.UpdateAsync(model);
 
-                user.Email = model.Email;
-                user.Nome = model.Nome;
-                user.Senha = BCrypt.Net.BCrypt.HashPassword(model.Senha);
-                
-                _context.Usuarios.Update(user);
-
-                await _context.SaveChangesAsync();
-                return Ok();
+                return Ok(user);
 
 
             }
@@ -95,24 +126,19 @@ namespace SupplyManager.Controllers
             }
         }
 
-        [HttpPut("promote-demote-user/{id}")]
-        public async Task<ActionResult> PutDemotePromote(int id, [FromBody] Usuario model)
+        /// <summary>
+        /// Reseta senha do usuário
+        /// </summary>
+        /// <param name="Usuario"></param>
+        [HttpPut("reset-password/{id}")]
+        public async Task<ActionResult> ResetUserPassword(int id)
         {
 
-            if (model.Id != id) return StatusCode(StatusCodes.Status400BadRequest);
-
+            
             try
             {
-                var user = await _context.Usuarios.FindAsync(id) ?? throw new KeyNotFoundException();
-
-                user.Email = model.Email;
-                user.Nome = model.Nome;
-                user.Senha = BCrypt.Net.BCrypt.HashPassword(model.Senha);
-
-                user.PerfilUsuario = user.PerfilUsuario;
-                _context.Usuarios.Update(user);
-
-                await _context.SaveChangesAsync();
+                await _usuarioService.ResetUserPassword(id);
+                 
                 return Ok();
 
 
@@ -129,47 +155,47 @@ namespace SupplyManager.Controllers
 
             }
         }
-
         private string GenerateJwtToken(Usuario model)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("Ry74cBQva5dThwbwchR9jhbtRFnJxWSZ");
+
             var claims = new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.NameIdentifier, model.Id.ToString()),
-                new Claim(ClaimTypes.Role, model.PerfilUsuario.ToString())
+                new Claim(ClaimTypes.Name, model.Nome),
+                new Claim(ClaimTypes.Role, model.Cargo)
             });
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = claims,
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddDays(30),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature)
             };
+
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<ActionResult> Authenticate(AuthenticateDto model)
+        public async Task<ActionResult> Authenticate(UserRequest model)
         {
-            var usuarioDb = await _context.Usuarios.FindAsync(model.Id);
+            var usuarioDb = await _usuarioService.ExistsAsync(model.Email);
 
-            if (usuarioDb == null || !BCrypt.Net.BCrypt.Verify(model.Senha, usuarioDb.Senha))
+
+            if (usuarioDb is null || !BCrypt.Net.BCrypt.Verify(model.Senha, usuarioDb.Senha))
 
                 return Unauthorized();
 
-            if ((usuarioDb.PerfilUsuario.ToString() != "Diretor") &&
-                (model.PerfilAutorizado != null && !model.PerfilAutorizado.Any(p => p.ToString() == usuarioDb.PerfilUsuario.ToString())))
-            {
-                return Forbid();
-            }
 
             var jwt = GenerateJwtToken(usuarioDb);
 
-            return Ok(new { jwtToken = jwt, userName = usuarioDb.Nome });
+            return Ok(new { jwtToken = jwt,userName = usuarioDb.Nome,userId=usuarioDb.Id,role = usuarioDb.Cargo });
+
+
         }
+      
     }
 }
