@@ -34,7 +34,7 @@ namespace SupplyManager.Controllers
         {
             try
             {
-        
+       
                 return Ok( await _usuarioService.GetByIdAsync(id));
             }
 

@@ -27,6 +27,7 @@ namespace SupplyManager.Services
         {
             try
             {
+                var a= await _usuarioRepository.GetByIdAsync(id);
                 return await _usuarioRepository.GetByIdAsync(id);
             }
             catch

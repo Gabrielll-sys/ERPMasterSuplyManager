@@ -18,6 +18,9 @@ import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import {getUserById, updateInfosUser} from "@/app/services/User.Services";
 import {EyeFilledIcon, EyeSlashFilledIcon} from "@nextui-org/shared-icons";
 import {IUsuario} from "@/app/interfaces/IUsuario";
+import { authHeader } from '@/app/_helpers/auth_headers';
+import axios from 'axios';
+import { url } from '@/app/api/webApiUrl';
 
 
 
@@ -39,26 +42,22 @@ export default function MyAccount({params}:any){
   
 
     useEffect(() => {
-             //@ts-ignore
-    const user = JSON.parse(localStorage.getItem("currentUser"));
-    if(user != null)
-    {
-        setCurrentUser(user)
   
-    }
-    
         getInfosUser()
     }, []);
 
 
     const getInfosUser = async ()=>{
         //@ts-ignore
-        const user = JSON.parse(localStorage.getItem("currentUser"));
-
-        setNomeUsuario(user.nome)
-        setEmailUsuario(user.email)
-
-        setUsuario(user)
+        const userLc = JSON.parse(localStorage.getItem("currentUser"));
+         await axios.get(`${url}/Usuarios/${userLc.userId}`,{headers:authHeader()}).then(r=>{
+      
+             setNomeUsuario(r.data.nome)
+             setEmailUsuario(r.data.email)
+     
+             setUsuario(r.data)
+            return r.data
+        })
     }
 
 
@@ -101,7 +100,7 @@ return(
                     labelPlacement='outside'
                     value={nomeUsuario}
                     className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 max-sm:w-[220px] md:w-[320px] "
-                    onValueChange={(x) => handleNomeCliente(x)}
+                    onValueChange={setNomeUsuario}
                 />
 
                 <Input

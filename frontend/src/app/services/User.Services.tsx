@@ -21,24 +21,11 @@ export const createUser = async (idMaterial:number) => {
 
 }
 export const getUserById = async (id:any) => {
-    try{
 
-        return await axios.get(`${url}/Usuarios/${id}`,
-            {
-                headers: authHeader()
-
-            }).then(
-            response => {
-                return response.data;
-            },
-            error =>{
-                return  null;
-            }
-        );
-    }
-    catch(error){
-        return null;
-    }
+console.log(id)
+    return await axios.get(`${url}/Usuarios/${id}`,{headers:authHeader()}).then(r=>{
+        return r.data
+    })
 }
 export const updateInfosUser = async (model:IUsuario) => {
     try{
