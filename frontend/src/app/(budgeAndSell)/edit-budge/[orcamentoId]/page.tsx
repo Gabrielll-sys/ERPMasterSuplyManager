@@ -873,7 +873,7 @@ return(
             <PDFDownloadLink document={   <OrcamentoPDF
             materiaisOrcamento ={materiaisOrcamento}
             nomeUsuario={currentUser?.userName}
-            orcamento={orcamento}
+n            orcamento={orcamento}
             desconto = {precoVendaComDesconto}
        
             />} fileName={"Orçamento Nº"+ orcamento?.id+ " Para "+ orcamento?.nomeCliente +".pdf"}>

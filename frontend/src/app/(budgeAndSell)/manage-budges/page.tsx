@@ -55,20 +55,21 @@ export default function ManageBudges(){
 
     useEffect(()=>{
         getOrcamentosByClient()
-        if(cliente?.length==0){
+        if(cliente == ""){
           getAllOrcamentos()
         }
     },[cliente])
 
     useEffect(()=>{
-      setCliente("")
-      setOrcamento(undefined)
-        if(numeroOrcamento?.length==0){
-     
-          setOrcamento(undefined)
+    
+        if(numeroOrcamento==""){
           getAllOrcamentos()
         }
+        else{
         getOrcamentoById()
+
+          setOrcamentos(undefined)
+        }
     },[numeroOrcamento])
 
     const route = useRouter()
@@ -93,7 +94,7 @@ export default function ManageBudges(){
 
 const getOrcamentosByClient = async()=>{
   setNumeroOrcamento("")
-
+  setOrcamentos(undefined)
   if(cliente.length && cliente!=""){
 
     await axios.get(`${url}/Orcamentos/buscaNomeCliente?cliente=${cliente}`,{headers:authHeader()}).then((r:AxiosResponse)=>{
@@ -114,7 +115,6 @@ const getOrcamentosByClient = async()=>{
 
 const getAllOrcamentos = async ()=>{
 
-        const user : IUsuario = await getUserById(currentUser.userId);
 if(cliente == "" && numeroOrcamento == "")
 {
 
