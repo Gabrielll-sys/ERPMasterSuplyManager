@@ -146,7 +146,6 @@ const getOrcamentoById = async()=>{
   }
 }
 
-console.log(stringSimilarity("DISJUNTOR MOTOR MPW80 50 - 65A","DISJUNTOR TRIPOLAR PARA MOTOR 50-65A MPW803U050 WEG"))
 return(
     <>
       <h1 className='text-center text-2xl mt-4' onClick={()=>console.log(orcamento)}>Orçamentos</h1>
