@@ -29,6 +29,7 @@ import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
 
 import {getUserById} from "@/app/services/User.Services";
+import { authHeader } from '@/app/_helpers/auth_headers';
 
 
 
@@ -95,7 +96,7 @@ const getOrcamentosByClient = async()=>{
 
   if(cliente.length && cliente!=""){
 
-    await axios.get(`${url}/Orcamentos/buscaNomeCliente?cliente=${cliente}`).then((r:AxiosResponse)=>{
+    await axios.get(`${url}/Orcamentos/buscaNomeCliente?cliente=${cliente}`,{headers:authHeader()}).then((r:AxiosResponse)=>{
    
       if(r.data.length==1) {
         setOrcamentos([])
@@ -117,7 +118,7 @@ const getAllOrcamentos = async ()=>{
 if(cliente == "" && numeroOrcamento == "")
 {
 
-  await axios.get(`${url}/Orcamentos`).then((r:AxiosResponse)=>{
+  await axios.get(`${url}/Orcamentos`,{headers:authHeader()}).then((r:AxiosResponse)=>{
  
    console.log(r.data)
    if(r.data.length==1) {
@@ -137,7 +138,7 @@ const getOrcamentoById = async()=>{
  
   if(numeroOrcamento != undefined){
 
-    await axios.get(`${url}/Orcamentos/${numeroOrcamento}`).then((r:AxiosResponse)=>{
+    await axios.get(`${url}/Orcamentos/${numeroOrcamento}`,{headers:authHeader()}).then((r:AxiosResponse)=>{
       setOrcamentos([])
       console.log(r.data)
       setOrcamento(r.data)

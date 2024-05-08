@@ -14,7 +14,7 @@ namespace SupplyManager.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    /*[Authorize]*/
+    [Authorize]
     public class OrcamentosController: ControllerBase
     {
         public readonly SqlContext _context;
@@ -31,7 +31,9 @@ namespace SupplyManager.Controllers
 
 
         [HttpGet]
-        // [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
+
         public async Task<ActionResult<List<Orcamento>>> GetAll()
         {
        
@@ -40,7 +42,8 @@ namespace SupplyManager.Controllers
 
         }
         [HttpGet("buscaNomeCliente")]
-        // [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+        //         [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<ActionResult<List<Orcamento>>> GetByClientName(string cliente)
         {
 
@@ -51,7 +54,8 @@ namespace SupplyManager.Controllers
 
         //Busca cliente,para caso exista,preencher automaticamente informações do cliente
         [HttpGet("buscaCliente")]
-        // [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<ActionResult<Orcamento>> GetClient(string cliente)
         {
             try
@@ -70,7 +74,8 @@ namespace SupplyManager.Controllers
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
-        // [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<ActionResult<Orcamento>> Get(int id)
         {
             try
@@ -90,7 +95,8 @@ namespace SupplyManager.Controllers
 
     
         [HttpPost]
-        // [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<ActionResult<Orcamento>> Post([FromBody] Orcamento model)
         {
             try
@@ -111,7 +117,8 @@ namespace SupplyManager.Controllers
         }
 
         [HttpPut("{id}")]
-        // [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<ActionResult> Put(int id, [FromBody] Orcamento model)
         {
 
@@ -137,7 +144,8 @@ namespace SupplyManager.Controllers
             }
         }
         [HttpPut("sellUpdate/{id}")]
-        // [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<ActionResult> PutSell(int id, [FromBody] Orcamento model)
         {
 
@@ -227,7 +235,8 @@ namespace SupplyManager.Controllers
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
-        // [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<ActionResult> Delete(int id)
         {
             try

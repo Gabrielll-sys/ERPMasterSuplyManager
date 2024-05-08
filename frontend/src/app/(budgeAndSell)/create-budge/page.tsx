@@ -17,6 +17,7 @@ import autoTable from 'jspdf-autotable'
 
 import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
+import { authHeader } from '@/app/_helpers/auth_headers';
 
 
 
@@ -62,7 +63,7 @@ useEffect(()=>{
       setEmailCliente("")
    }
 
-    await axios.get(`${url}/Orcamentos/buscaCliente?cliente=${value?.trim()}`).then((r:AxiosResponse)=>{
+    await axios.get(`${url}/Orcamentos/buscaCliente?cliente=${value?.trim()}`,{headers:authHeader()}).then((r:AxiosResponse)=>{
       console.log(r.data)
      
        setCpfOrCnpj(r.data.cpfOrCnpj)
@@ -88,7 +89,7 @@ const orcamento : IOrcamento = {
 
 }
 
-const res = await axios.post(`${url}/Orcamentos`, orcamento).then(r=>{
+const res = await axios.post(`${url}/Orcamentos`, orcamento,{headers:authHeader()}).then(r=>{
 
   route.push(`/edit-budge/${r.data.id}`)
 

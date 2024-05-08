@@ -40,6 +40,7 @@ import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import { searchByDescription } from '@/app/services/Material.Services';
 import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
 import IconPencil from '@/app/assets/icons/IconPencil';
+import { authHeader } from '@/app/_helpers/auth_headers';
 
 
 
@@ -158,7 +159,7 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
   const handleNomeCliente = async(value:any)=>{
     setNomeCliente(value)
     
-        await axios.get(`${url}/Orcamentos/buscaCliente?cliente=${value?.trim()}`).then((r:AxiosResponse)=>{
+        await axios.get(`${url}/Orcamentos/buscaCliente?cliente=${value?.trim()}`,{headers:authHeader()}).then((r:AxiosResponse)=>{
           console.log(r.data)
          
            setCpfOrCnpj(r.data.cpfOrCnpj)
@@ -172,7 +173,7 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
     
   const getAllMateriaisInOrcamento = async(id:number)=>{
 
-      const res = await axios.get(`${url}/ItensOrcamento/GetAllMateriaisOrcamento/${id}`).then((r)=>{
+      const res = await axios.get(`${url}/ItensOrcamento/GetAllMateriaisOrcamento/${id}`,{headers:authHeader()}).then((r)=>{
         setMateriaisOrcamento(r.data)
 
         for(let i in r.data ){
@@ -194,7 +195,7 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
   }
   const getAllItensOrcamento = async(id:number)=>{
 
-    const res = await axios.get(`${url}/ItensOrcamento/GetAllItensOrcamento/${id}`).then((r)=>{
+    const res = await axios.get(`${url}/ItensOrcamento/GetAllItensOrcamento/${id}`,{headers:authHeader()}).then((r)=>{
       console.log(r.data)
       setItensOrcamento(r.data)
     return r.data
@@ -239,7 +240,7 @@ const handleUpdateOrcamento = async()=>{
 
 
   }
-  const res = await axios.put(`${url}/Orcamentos/${orcamento?.id}`,budge).then(r=>{
+  const res = await axios.put(`${url}/Orcamentos/${orcamento?.id}`,budge,{headers:authHeader()}).then(r=>{
 
     setOpenSnackBar(true);
     setSeveridadeAlert("success");
@@ -275,7 +276,7 @@ const handleUpdateOrcamentoToSell = async()=>{
   }
   console.log(orcamento)
 
-  const res = await axios.put(`${url}/Orcamentos/sellUpdate/${orcamento?.id}`,budge).then(r=>{
+  const res = await axios.put(`${url}/Orcamentos/sellUpdate/${orcamento?.id}`,budge,{headers:authHeader()}).then(r=>{
 
     setOpenSnackBar(true);
     setSeveridadeAlert("success");
@@ -322,7 +323,7 @@ const handleUpdateOrcamentoToSell = async()=>{
 
    
 
-    const res = await axios.post(`${url}/ItensOrcamento/CreateItemOrcamento`,itemOrcamento).then(r=>{
+    const res = await axios.post(`${url}/ItensOrcamento/CreateItemOrcamento`,itemOrcamento,{headers:authHeader()}).then(r=>{
 
       setOpenSnackBar(true);
       setSeveridadeAlert("success");
@@ -336,7 +337,7 @@ const handleUpdateOrcamentoToSell = async()=>{
       handleCloseDialog()
     }
     const getInfosBudge =  async()=>{
-      await axios.get(`${url}/Orcamentos/${params.orcamentoId}`).then(r=>{
+      await axios.get(`${url}/Orcamentos/${params.orcamentoId}`,{headers:authHeader()}).then(r=>{
 
         console.log(r.data.tipoPagamento)
         setOrcamento(r.data)
@@ -393,7 +394,7 @@ console.log(item.quantidadeMaterial)
         }
       }
       console.log(itemOrcamento)
-      const res = await axios.put(`${url}/ItensOrcamento/${item.id}`,itemOrcamento).then(r=>{
+      const res = await axios.put(`${url}/ItensOrcamento/${item.id}`,itemOrcamento,{headers:authHeader()}).then(r=>{
 
         setOpenSnackBar(true);
         setSeveridadeAlert("success");
@@ -429,7 +430,7 @@ console.log(item.quantidadeMaterial)
               }
               console.log(itemOrcamento)
               
-            const res = await axios.put(`${url}/ItensOrcamento/${item.id}`,itemOrcamento).then(r=>{
+            const res = await axios.put(`${url}/ItensOrcamento/${item.id}`,itemOrcamento,{headers:authHeader()}).then(r=>{
       
               setOpenSnackBar(true);
               setSeveridadeAlert("success");
@@ -448,7 +449,7 @@ console.log(item.quantidadeMaterial)
       
           }
     const handleDelete =async  (id:number) =>{
-      const res = await axios.delete(`${url}/ItensOrcamento/${id}`).then(r=>{
+      const res = await axios.delete(`${url}/ItensOrcamento/${id}`,{headers:authHeader()}).then(r=>{
           setOpenSnackBar(true);
           setSeveridadeAlert("success");
           setMessageAlert("Material Removido do Orçamento");
