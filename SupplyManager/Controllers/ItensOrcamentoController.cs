@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SupplyManager.App;
@@ -10,6 +11,7 @@ namespace SupplyManager.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
+    [Authorize]
     public class ItensOrcamentoController : Controller
     {
         private readonly SqlContext _context;
@@ -26,6 +28,8 @@ namespace SupplyManager.Controllers
         /// <param name="id"></param>
         /// <returns>Todos os itens ja criados</returns>
         [HttpGet()]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<List<ItemOrcamento>> GetAll()
         {
             return (await _context.ItensOrcamento.AsNoTracking().ToListAsync());
@@ -37,6 +41,8 @@ namespace SupplyManager.Controllers
         /// <param name="id"></param>
         /// <returns>Todos os itens ja criados</returns>
         [HttpGet("getAllItensOrcamento/{id}")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<List<ItemOrcamento>> GetAllItenInOrcamento(int id)
         {
             return (await _context.ItensOrcamento.AsNoTracking().Where(x=>x.OrcamentoId==id).ToListAsync());
@@ -49,6 +55,8 @@ namespace SupplyManager.Controllers
         /// <param name="id">Id do item</param>
         /// <returns>Item encontrado</returns>
         [HttpGet("{id}")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -81,6 +89,8 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
 
         public async Task<ActionResult<ItemOrcamento>> GetAllMateriasOrcamento(int id)
         {
@@ -135,6 +145,9 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<ActionResult<ItemOrcamento>> Create(ItemOrcamento model)
         {
             try
@@ -187,6 +200,8 @@ namespace SupplyManager.Controllers
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+
         public async Task<ActionResult<ItemOrcamento>> Update([FromRoute] int id, [FromBody] ItemOrcamento model)
         {
 
@@ -213,6 +228,7 @@ namespace SupplyManager.Controllers
         /// <param name="id">Id do item a ser deletado</param>
         /// <returns></returns>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
 
         public async Task<ActionResult> Delete(int id)
         {
