@@ -59,18 +59,24 @@ export default function Login({params}:any){
       }
       const res = await authenticate(user)
         console.log(res)
-      if(res)
+      if(res == 200)
       {
           setTimeout(()=>{
               route.push("create-material")
 
           },1800)
       }
-      else
+      else if (res == 401)
       {
           setOpenSnackBar(true);
           setSeveridadeAlert("warning");
           setMessageAlert("Email ou Senha incorretas");
+      }
+
+      else if( res == 403){
+          setOpenSnackBar(true);
+          setSeveridadeAlert("warning");
+          setMessageAlert("Você Não possui mais permissão de acesso");
       }
 
 

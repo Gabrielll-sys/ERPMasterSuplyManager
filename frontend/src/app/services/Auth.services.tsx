@@ -38,7 +38,7 @@ export const removeUserLocalStorage = async () => {
 
   localStorage.removeItem("currentUser")
     const res=localStorage.getItem("currentUser")
-     console.log(res)
+
 }
 
 
@@ -46,19 +46,16 @@ export const removeUserLocalStorage = async () => {
 
 export const authenticate = async (param:any) => {   
 
-    console.log(param)
     return await axios.post(`${url}/Usuarios/authenticate`, param)
   .then(response => {
-
-    if (response && response.data) {
+    console.log(response)
+    if (response.status == 200 && response.data) {
 
       gravaUserLogadoLocalStorage(response.data.jwtToken, response.data.userId,response.data.userName,response.data.role);
 
-      return response.data;
     }
-     else {
-      return null;
-    }
+    
+    return response.status
   })
   .catch(error => {        
     return null;
@@ -67,7 +64,7 @@ export const authenticate = async (param:any) => {
 }
 export const isTokenValid = (token:any) =>{
     if(token){
-        console.log(token)
+      
         const decodedToken = jwtDecode(token)
 
         const currentDate = Date.now()/1000

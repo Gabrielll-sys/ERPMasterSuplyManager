@@ -55,7 +55,7 @@ export default function UpdateMaterial({params}:any){
  useEffect(()=>{
  
     getMaterial(params.materialId).then().catch()
-     
+     console.log("Disparei 1 vez")
 
  },[])
 

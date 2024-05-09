@@ -21,12 +21,12 @@ import IconExit from "../assets/icons/IconExit";
 import AvatarLogin from "./AvatarLogin";
 import IconSideBar from "../assets/icons/IconSideBar";
 import SideBarLFT from "./SideBarLFT";
-import {isTokenValid} from "@/app/services/Auth.services";
+import {authenticate, isTokenValid} from "@/app/services/Auth.services";
 import {jwtDecode} from "jwt-decode";
 import {setNonce} from "get-nonce";
 import IconPersonFill from "@/app/assets/icons/IconPersonFill";
 
-const NavBar= ()=>{
+ const NavBar= ()=>{
 
     const route = useRouter()
     const iconClasses = "h-4 text-2xl";
@@ -41,6 +41,7 @@ const NavBar= ()=>{
         //@ts-ignore
       const user = JSON.parse(localStorage.getItem('currentUser'));
       if (user) {
+        console.log(user)
         setCurrentUser(user);
       }
     };
@@ -60,7 +61,7 @@ const NavBar= ()=>{
     useEffect(() => {
         //@ts-ignore
     const user = JSON.parse(localStorage.getItem("currentUser"));
-    console.log(user)
+
     if(user != null)
     {
         setCurrentUser(user)
@@ -70,7 +71,11 @@ const NavBar= ()=>{
       route.push('/login')
     }
     }, []);
-
+    useEffect(() => {
+        //@ts-ignore
+    console.log("Foii")
+    }
+    , [authenticate]);
     const handleSideBar= ()=>{
 
         if(showSideBar){
@@ -87,7 +92,7 @@ const NavBar= ()=>{
         const user = JSON.parse(localStorage.getItem("currentUser"));
 
         if( user == null) setCurrentUser(null)
-        console.log(!isTokenValid(user?.token))
+      
 
         if (!isTokenValid(user?.token)){
             route.push("/login")

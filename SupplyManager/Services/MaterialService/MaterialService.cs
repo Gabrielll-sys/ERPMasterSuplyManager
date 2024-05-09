@@ -36,7 +36,15 @@ namespace SupplyManager.Services
         {
             try
             {
-                return await _materialRepository.GetByIdAsync(id);
+                var material = await _materialRepository.GetByIdAsync(id);
+
+                var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+
+                LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Editando Material {material.Id} - {material.Descricao}",
+                    responsavel: userName);
+
+                await _logAcoesUsuarioService.CreateAsync(log);
+                return material;
             }
             catch
             {

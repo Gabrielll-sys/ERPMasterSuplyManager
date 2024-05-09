@@ -139,9 +139,10 @@ const getOrcamentoById = async()=>{
   if(numeroOrcamento != undefined){
 
     await axios.get(`${url}/Orcamentos/${numeroOrcamento}`,{headers:authHeader()}).then((r:AxiosResponse)=>{
+
       setOrcamentos([])
-      console.log(r.data)
       setOrcamento(r.data)
+      
     }).catch(e=>console.log(e))
   }
 }

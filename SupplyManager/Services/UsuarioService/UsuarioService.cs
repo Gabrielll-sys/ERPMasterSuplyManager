@@ -67,8 +67,23 @@ namespace SupplyManager.Services
                     throw;
                 }
             }
+        public async Task TurnUserInactive(int id)
+        {
+            try
+            {
+                var user = await _usuarioRepository.GetByIdAsync(id);
 
-            public async Task<Usuario> CreateAsync(Usuario model)
+                user.isActive = false;
+
+                await _usuarioRepository.UpdateAsync(user);
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<Usuario> CreateAsync(Usuario model)
         {
             try
             {
