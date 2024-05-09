@@ -32,7 +32,31 @@ const NavBar= ()=>{
     const iconClasses = "h-4 text-2xl";
     const [showSideBar,setShowSideBar]= useState(false)
     const [currentUser, setCurrentUser] = useState<any>(null);
+    const [storageValue, setStorageValue] = useState(localStorage.getItem('currentUser'));
+    
+    
+  useEffect(() => {
+    // Define a função que será chamada sempre que o evento de armazenamento for acionado
+    const handleStorageChange = () => {
+        //@ts-ignore
+      const user = JSON.parse(localStorage.getItem('currentUser'));
+      if (user) {
+        setCurrentUser(user);
+      }
+    };
 
+    // Adiciona um ouvinte de eventos para o evento de armazenamento
+    window.addEventListener('storage', handleStorageChange);
+
+    // Chama a função manualmente para sincronizar com os dados do localStorage
+    handleStorageChange();
+
+    // Remove o ouvinte de eventos ao desmontar o componente
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []); // Executa somente uma vez, quando o componente é montado
+    
     useEffect(() => {
         //@ts-ignore
     const user = JSON.parse(localStorage.getItem("currentUser"));
