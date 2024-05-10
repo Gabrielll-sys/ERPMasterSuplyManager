@@ -83,9 +83,18 @@ namespace SupplyManager.Services
             {
                 var rd = await _relatorioDiarioRepository.GetByIdAsync(model.Id) ?? throw new KeyNotFoundException();
                 
+                var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+
+
+                LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Alteração do campo de contato do Relatório Diário Nº {rd.Id} de {rd.Contato} para {model.Contato}",
+                responsavel: userName);
+
                 rd.Contato = model.Contato;
                 
+
+
                 await _relatorioDiarioRepository.UpdateAsync(rd);
+
 
                 return model;
 
@@ -108,7 +117,11 @@ namespace SupplyManager.Services
                 var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
                 
                 relatorioDiario.FecharRelatorio( responsavelFechamento: userName);
-                
+
+
+                LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Fechamento do Relatório Diário Nº {relatorioDiario.Id}",
+                responsavel: userName);
+
                 await _relatorioDiarioRepository.UpdateAsync(relatorioDiario);
 
                 return relatorioDiario;
