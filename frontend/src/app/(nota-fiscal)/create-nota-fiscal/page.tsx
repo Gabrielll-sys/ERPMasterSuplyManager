@@ -2,43 +2,28 @@
 
 import { useRouter } from "next/navigation";
 
-import { Autocomplete, AutocompleteItem, Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 
-import Link from "next/link";
 import { url } from "@/app/api/webApiUrl";
-import { useEffect, useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
+import { useRef, useState } from "react";
 
-import "dayjs/locale/pt-br";
-import { InputAdornment, Snackbar, TableFooter, TablePagination } from '@mui/material';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { 
-  Spinner,
-  Avatar,
+import {
   Input
- } from '@nextui-org/react';
-import MuiAlert, { AlertColor } from "@mui/material/Alert";
+} from '@nextui-org/react';
+import "dayjs/locale/pt-br";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import TextField from "@mui/material/TextField";
 import axios from "axios";
 
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
-
-import SearchIcon from '@mui/icons-material/Search';
-import MenuItem from '@mui/material/MenuItem';
-import { useReactToPrint } from 'react-to-print';
-
-import Select from '@mui/material/Select';
-import dayjs from "dayjs";
-import { signIn, useSession } from "next-auth/react";
-import NavBar from "@/app/componentes/NavBar";
 
 
-export default function CreateMaterial(){
+import { useSession } from "next-auth/react";
+
+
+export default function CreateNotaFiscal(){
   const route = useRouter()
-
   const [numeroNF, setNumeroNF] = useState<string>("");
   const [frete, setFrete] = useState<string>("");
 
@@ -46,7 +31,7 @@ export default function CreateMaterial(){
   const [CFOP, setCFOP] = useState<string>("");
   const [dataEmissaoNF, setDataEmissaoNF] = useState<any>();
 
-  const { data: session } = useSession();
+
   
   const componentRef: any = useRef();
 
@@ -126,22 +111,10 @@ export default function CreateMaterial(){
           </LocalizationProvider>
           </div>
   
-        {session &&(
-<>
-      <div className='text-center mt-8 '>
-      <Button  onPress={handleCreateNF} className='bg-master_black text-white p-7 rounded-lg font-bold text-2xl shadow-lg '>
-         Criar Material
-      </Button>
      
-     
-      </div>
-      </>
-        )}
  
 
-   
-     
-          
+
      
         
     </>

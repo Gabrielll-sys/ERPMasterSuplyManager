@@ -1,34 +1,18 @@
 "use client"
-import {Link, Button,Autocomplete, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
-import Excel, { BorderStyle } from 'exceljs';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
-import { useRouter } from "next/navigation";
-import { QRCode } from "react-qrcode-logo";
-import { Card, Dropdown, Table, Textarea } from 'flowbite-react';
-import { use, useEffect, useRef, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
-import "dayjs/locale/pt-br";
 import { url } from '@/app/api/webApiUrl';
-import { stringSimilarity } from "string-similarity-js";
-import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import IMaterial from '@/app/interfaces/IMaterial';
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import TextField from "@mui/material/TextField";
+import { Input } from '@nextui-org/react';
 import axios, { AxiosResponse } from "axios";
-import imagem from '/src/app/assets/logo.png'
-import { useReactToPrint } from 'react-to-print';
-import ArrowLeft from '@/app/assets/icons/ArrowLeft';
-import { IFilterMaterial } from '@/app/interfaces/IFilterMaterial';
-import { IOrderServico } from '@/app/interfaces/IOrderServico';
+import "dayjs/locale/pt-br";
+import { Card } from 'flowbite-react';
+import jsPDF from 'jspdf';
 import { useSession } from 'next-auth/react';
-import {IUsuario} from "@/app/interfaces/IUsuario";
-import jsPDF from 'jspdf'
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 
-import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
+import dayjs from 'dayjs';
 
-import {getUserById} from "@/app/services/User.Services";
 import { authHeader } from '@/app/_helpers/auth_headers';
 
 
@@ -150,7 +134,7 @@ const getOrcamentoById = async()=>{
 return(
     <>
       <h1 className='text-center text-2xl mt-4' onClick={()=>console.log(orcamento)}>Orçamentos</h1>
-      <div className=' flex flex-row justify-center'>
+      <div className=' flex  flex-row justify-center'>
         <Input
           value={numeroOrcamento}
           type='number'

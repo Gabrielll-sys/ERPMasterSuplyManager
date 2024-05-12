@@ -1,29 +1,15 @@
 "use client"
-
 import { Button, Input, Link } from '@nextui-org/react';
-
 import { Snackbar } from '@mui/material';
 import { useRouter } from "next/navigation";
-
-import { useEffect, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
-import "dayjs/locale/pt-br";
 import { url } from '@/app/api/webApiUrl';
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import  updateInventory from "../style/updateInventory.module.css";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
-
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import TextField from "@mui/material/TextField";
-import axios from "axios";
-import dayjs from "dayjs";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+import "dayjs/locale/pt-br";
+import { useEffect, useState } from "react";
 import ArrowLeft from '@/app/assets/icons/ArrowLeft';
+import axios from "axios";
 export default function UpdateInventory({params}:any){
     
-
     //Variável que é passada pela rota na tela de criar material,aonde quando clicar no icone de editar,passara o id do material
 
   const route = useRouter()

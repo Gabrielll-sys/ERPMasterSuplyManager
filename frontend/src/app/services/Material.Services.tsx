@@ -51,7 +51,7 @@ import { createInventario } from "./Inventario.Services";
 // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
  
    const material = {
-       codigoInterno :"",
+   codigoInterno :"",
   codigoFabricante: model.codigoFabricante.trim().replace(/\s\s+/g, " "),
   descricao: model.descricao.trim().replace(/\s\s+/g, " "),
   categoria: "",
@@ -65,8 +65,8 @@ import { createInventario } from "./Inventario.Services";
   markup:model.markup == ""?null:model.markup,
   
 };
-       console.log(authHeader().Authorization)
-const materialCriado = await axios
+       
+return await axios
   .post(`${url}/Materiais`, material,{headers:authHeader()})
   .then((r) => {
     createInventario(r.data.id)
@@ -77,8 +77,6 @@ const materialCriado = await axios
   
     
   });
-
-  return materialCriado
 
    }
 

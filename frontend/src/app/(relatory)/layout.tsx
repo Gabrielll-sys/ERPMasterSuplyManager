@@ -1,5 +1,5 @@
 import React from "react";
-import Footer from "@/app/componentes/Footer";
+import Footer from "../componentes/Footer";
 
 export default function MaterialsRelatoryLayout({
   children,

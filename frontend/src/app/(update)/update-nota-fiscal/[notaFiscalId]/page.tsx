@@ -1,22 +1,18 @@
 "use client"
-import { useRouter } from "next/navigation";
-import { Autocomplete, AutocompleteItem, Button, Input, Link } from "@nextui-org/react";
-import { InputAdornment, Snackbar } from '@mui/material';
-import { useEffect, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
-import "dayjs/locale/pt-br";
 import { url } from "@/app/api/webApiUrl";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Snackbar } from '@mui/material';
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
+import { DatePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Autocomplete, AutocompleteItem, Button, Input, Link } from "@nextui-org/react";
+import "dayjs/locale/pt-br";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
+import ArrowLeft from "@/app/assets/icons/ArrowLeft";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import TextField from "@mui/material/TextField";
 import axios from "axios";
 import dayjs from "dayjs";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import ArrowLeft from "@/app/assets/icons/ArrowLeft";
 
 export default function UpdateNotaFiscal({params}:any){
   const route = useRouter()

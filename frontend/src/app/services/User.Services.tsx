@@ -22,7 +22,7 @@ export const createUser = async (idMaterial:number) => {
 }
 export const getUserById = async (id:any) => {
 
-console.log(id)
+
     return await axios.get(`${url}/Usuarios/${id}`,{headers:authHeader()}).then(r=>{
         return r.data
     })

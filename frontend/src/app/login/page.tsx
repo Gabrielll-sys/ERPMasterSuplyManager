@@ -1,36 +1,26 @@
 "use client"
-import {Link, Button,Autocomplete, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
+import { isTokenValid } from "@/app/services/Auth.services";
 import MuiAlert from "@mui/material/Alert";
-import {isTokenValid} from "@/app/services/Auth.services";
-
-import  { AlertColor, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
+import { Button, Input } from '@nextui-org/react';
+import { AlertColor, Snackbar } from '@mui/material';
 import { useRouter } from "next/navigation";
-
-
-import { useEffect, useRef, useState } from "react";
-
+import { useEffect, useState } from "react";
 import "dayjs/locale/pt-br";
+import { EyeFilledIcon, EyeSlashFilledIcon } from "@nextui-org/shared-icons";
 
-import { useSession } from 'next-auth/react';
-import {EyeSlashFilledIcon} from "@nextui-org/shared-icons";
-import {EyeFilledIcon} from "@nextui-org/shared-icons";
-
-import axios from 'axios';
-import { authenticate } from '@/app/services/Auth.services';
-import { getMaterialById } from '@/app/services/Material.Services';
-import {jwtDecode} from "jwt-decode";
 import MailIcon from "@/app/assets/icons/MailIcon";
+import { authenticate } from '@/app/services/Auth.services';
 
 
 
-export default function Login({params}:any){
+export default function Login(){
 
     const route = useRouter()
     const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
     const [messageAlert, setMessageAlert] = useState<string>();
     const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
-    const[senha,setSenha] = useState<string>("1234")
-    const[email,setEmail] = useState<string>("gabrielpuneco@gmail.com")
+    const[senha,setSenha] = useState<string>()
+    const[email,setEmail] = useState<string>()
 
     const [isVisible, setIsVisible] = useState(false);
     const [currentUser, setCurrentUser] = useState<any>(null);

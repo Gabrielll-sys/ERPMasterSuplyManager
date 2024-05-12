@@ -1,34 +1,31 @@
 "use client"
-import {Link, Button,Autocomplete,Textarea, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
-import {  Snackbar} from '@mui/material';
+import { Snackbar } from '@mui/material';
+import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, useDisclosure } from '@nextui-org/react';
 import { useRouter } from "next/navigation";
 
-import {Table} from 'flowbite-react';
-import React, { useEffect, useRef, useState } from "react";
 import "dayjs/locale/pt-br";
+import { useEffect, useState } from "react";
 
 import dayjs from 'dayjs';
 
+import { logoComEnderecoBase64 } from "@/app/assets/base64Logo";
+import IconExcel from '@/app/assets/icons/IconExcel';
+import Atividade from '@/app/componentes/Atividade';
+import { IAtividadeRd } from "@/app/interfaces/IAtividadeRd";
+import { IRelatorioDiario } from "@/app/interfaces/IRelatorioDiario";
 import {
     createAtividadeRd,
     deleteAtividadeRd,
     getAllAtivdadesInRd,
     updateAtividadeRd
 } from "@/app/services/AtvidadeRd.Service";
-import Image from "next/image";
-import {uploadImageToAzure} from "@/app/services/Images.Services";
-import MuiAlert, {AlertColor} from "@mui/material/Alert";
-import {IAtividadeRd} from "@/app/interfaces/IAtividadeRd";
-import {IRelatorioDiario} from "@/app/interfaces/IRelatorioDiario";
 import {
     getRelatorioDiario,
     updateFinishRelatorioDiario,
     updateRelatorioDiario
 } from "@/app/services/RelatorioDiario.Services";
-import Atividade from '@/app/componentes/Atividade';
+import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import Excel from "exceljs";
-import {logoBase64, logoComEnderecoBase64} from "@/app/assets/base64Logo";
-import IconExcel from '@/app/assets/icons/IconExcel';
 
 
 

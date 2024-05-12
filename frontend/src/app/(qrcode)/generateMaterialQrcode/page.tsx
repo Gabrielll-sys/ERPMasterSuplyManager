@@ -1,31 +1,18 @@
 "use client"
 
-import {Link, Button,Autocomplete, AutocompleteItem } from '@nextui-org/react';
+import { Autocomplete, AutocompleteItem, Button, Link } from '@nextui-org/react';
 
-import { Snackbar } from '@mui/material';
 import { useRouter } from "next/navigation";
-import { QRCode } from "react-qrcode-logo";
 
-import { useEffect, useRef, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
-import "dayjs/locale/pt-br";
 import { url } from '@/app/api/webApiUrl';
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import  updateInventory from "../style/updateInventory.module.css";
-import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import IMaterial from '@/app/interfaces/IMaterial';
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import TextField from "@mui/material/TextField";
-import axios from "axios";
-import dayjs from "dayjs";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
 import ArrowLeft from '@/app/assets/icons/ArrowLeft';
-import QrCodeMaterial from '@/app/componentes/QrCodeMaterial';
-import IconQrCode from '@/app/assets/icons/IconQrCode';
-import { IInventario } from '@/app/interfaces/IInventarios';
 import IconBxTrashAlt from '@/app/assets/icons/IconBxTrashAlt';
+import IconQrCode from '@/app/assets/icons/IconQrCode';
+import QrCodeMaterial from '@/app/componentes/QrCodeMaterial';
+import { AlertColor } from "@mui/material/Alert";
+import axios from "axios";
+import "dayjs/locale/pt-br";
+import { useEffect, useRef, useState } from "react";
 import { useReactToPrint } from 'react-to-print';
 
 export default function UpdateInventory({params}:any){

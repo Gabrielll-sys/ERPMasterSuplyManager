@@ -1,27 +1,24 @@
 "use client"
-import { Button, Input,  Accordion} from '@nextui-org/react';
+import { Button, Input } from '@nextui-org/react';
 
 import { useRouter } from "next/navigation";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-import "dayjs/locale/pt-br";
 import { url } from '@/app/api/webApiUrl';
 import axios, { AxiosResponse } from "axios";
-import imagem from '/src/app/assets/logo.png'
-;
+import "dayjs/locale/pt-br";
 import { useSession } from 'next-auth/react';
 
-import jsPDF from 'jspdf'
-import autoTable from 'jspdf-autotable'
+import jsPDF from 'jspdf';
 
-import dayjs from 'dayjs';
-import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import { authHeader } from '@/app/_helpers/auth_headers';
+import { IOrcamento } from '@/app/interfaces/IOrcamento';
+import dayjs from 'dayjs';
 
 
 
-export default function CreateBudge({params}:any){
+export default function CreateBudge(){
     const route = useRouter()
     const { data: session } = useSession();
   

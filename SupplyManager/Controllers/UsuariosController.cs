@@ -15,7 +15,7 @@ namespace SupplyManager.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    //[Authorize]
+   // [Authorize]
 
     public class UsuariosController : ControllerBase
     {
@@ -55,7 +55,7 @@ namespace SupplyManager.Controllers
         /// <returns>O Usuário Criado </returns>
         /// 
         [HttpPost]
-        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+      
 
         public async Task<ActionResult> Post([FromBody] UsuarioDto model)
         {

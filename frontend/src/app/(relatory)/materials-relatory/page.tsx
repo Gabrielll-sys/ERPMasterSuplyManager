@@ -1,31 +1,21 @@
 "use client"
 
-import {Link, Button,Autocomplete, AutocompleteItem, Input, Spinner } from '@nextui-org/react';
+import { Button, Input, Link, Spinner } from '@nextui-org/react';
 
-import { Paper, Snackbar} from '@mui/material';
 import { useRouter } from "next/navigation";
-import { QRCode } from "react-qrcode-logo";
 
-import { useEffect, useRef, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
-import "dayjs/locale/pt-br";
 import { url } from '@/app/api/webApiUrl';
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import  updateInventory from "../style/updateInventory.module.css";
-import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import IMaterial from '@/app/interfaces/IMaterial';
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import TextField from "@mui/material/TextField";
 import axios from "axios";
+import "dayjs/locale/pt-br";
+import { useRef, useState } from "react";
 
 
-import { useReactToPrint } from 'react-to-print';
 import ArrowLeft from '@/app/assets/icons/ArrowLeft';
-import { IFilterMaterial } from '@/app/interfaces/IFilterMaterial';
 import { IInventario } from '@/app/interfaces/IInventarios';
 import { Table } from 'flowbite-react';
+import { useReactToPrint } from 'react-to-print';
 
-export default function MaterialRelatory(params:any){
+export default function MaterialRelatory(){
    
     const route = useRouter()
    const componentRef: any = useRef();

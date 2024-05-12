@@ -1,32 +1,22 @@
 "use client";
 
+import { Autocomplete, AutocompleteItem, Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import {Autocomplete, AutocompleteItem, Button, Image} from "@nextui-org/react";
-import Link from "next/link";
-import { url } from "../api/webApiUrl";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import "dayjs/locale/pt-br";
-import { InputAdornment, Snackbar, TableFooter, TablePagination } from '@mui/material';
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { 
-  Spinner,
-  Avatar,
-  Input
- } from '@nextui-org/react';
+import { Snackbar } from '@mui/material';
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
-
-
+import {
+  Input,
+  Spinner
+} from '@nextui-org/react';
+import "dayjs/locale/pt-br";
 import { useReactToPrint } from 'react-to-print';
-
-
-import { signIn, useSession } from "next-auth/react";
-import GoogleIcon from "../assets/icons/GoogleIcon";
-import SpinnerForButton from "../componentes/SpinnerButton";
 import { Table } from "flowbite-react";
-import { createMaterial, searchByDescription, searchByFabricanteCode } from "../services/Material.Services";
+import { useSession } from "next-auth/react";
 import IconPencil from "../assets/icons/IconPencil";
 import IMaterial from "../interfaces/IMaterial";
+import { createMaterial, searchByDescription, searchByFabricanteCode } from "../services/Material.Services";
 
 
 
@@ -99,8 +89,10 @@ const buscarDescricao = async(descricao:string)=>
     {
       try{
 
+        setLoadingMateriais(true)
         const res =  await searchByDescription(descricao)
 
+        setLoadingMateriais(false)
         setMateriais(res)
       }
     catch(e)
@@ -118,7 +110,6 @@ const buscaCodigoFabricante = async(codigo:string)=>
   if(codigoFabricante.length>3)
     {
       try{
-
         const res =  await searchByFabricanteCode(codigoFabricante)
         setMateriais(res)
       }
@@ -142,14 +133,13 @@ const buscaCodigoFabricante = async(codigo:string)=>
   
   const handleCreateMaterial = async () => {
     
-    setMateriais([])
-
+      
     if (!descricao || !unidade) {
       setOpenSnackBar(true);
       setSeveridadeAlert("warning");
       setMessageAlert("Prencha todas as informações necessárias");
     } else {
-
+  
       // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
 
       const material: IMaterial = {
@@ -171,16 +161,13 @@ const buscaCodigoFabricante = async(codigo:string)=>
        
 
       console.log(materialCriado)
-        if(materialCriado)
-        {
-          setLoadingButton(false)
-          setOpenSnackBar(true);
-          setSeveridadeAlert("success");
-          setMessageAlert("Material Criado com sucesso");
+       if(materialCriado.id){
 
-        }
-
-
+         setMateriais(materialCriado)
+         setOpenSnackBar(true);
+         setSeveridadeAlert("success");
+         setMessageAlert("Material Criado com sucesso");
+       }
 
     }
   };
@@ -189,32 +176,32 @@ const buscaCodigoFabricante = async(codigo:string)=>
     return(
        
       <>
-      <div className="flex flex-col gap-4">
-        <div className=' w-full flex flex-row flex-wrap justify-center mt-6  gap-6 '>
+      <div className="flex flex-col gap-3">
+        <div className=' w-full flex flex-row flex-wrap justify-center mt-6  gap-6 max-sm:gap-8 '>
         
           <Input
             value={codigoFabricante}
-            className="border-1 border-black rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
+            className="border-1 border-black rounded-md shadow-sm shadow-black   max-w-[180px]"
             onValueChange={(e) => buscaCodigoFabricante(e)}
             label="Cód Fabricante"
         
           />
           <Input
             value={descricao}
-            className="border-1 border-black rounded-md shadow-sm shadow-black mt-10  w-[400px]"
+            className="border-1 border-black rounded-md shadow-sm shadow-black  max-sm:w-[380px] md:w-[400px]"
             onValueChange={(x)=>buscarDescricao(x)}
             label="Descrição"
             required
           />
           <Input
             value={marca}
-            className="border-1 border-black rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
+            className="border-1 border-black rounded-md shadow-sm shadow-black   max-w-[180px]"
             onValueChange={setMarca}
             label="Marca"
           />
           <Input
             value={localizacao}
-            className=" border-1 border-black rounded-md shadow-sm shadow-black mt-10  w-[180px]"
+            className=" border-1 border-black rounded-md shadow-sm shadow-black   w-[180px]"
             onValueChange={setLocalizacao}
             label="Localização"
           />
@@ -300,11 +287,14 @@ const buscaCodigoFabricante = async(codigo:string)=>
     {conditionsRoles && (
         <>
       <div className='text-center mt-8 '>
-      <Button  onPress={handleCreateMaterial} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg '>
+      <Button  onPress={handleCreateMaterial} 
+      color='primary' 
+      variant='ghost'
+      className='  p-4 rounded-lg font-bold text-2xl shadow-lg '>
         <IconPencil/>
           {loadingButton?<Spinner size="md" color="warning"/>:"Criar Material"}
       </Button>
-
+  
 
       </div>
         </>
@@ -318,7 +308,7 @@ const buscaCodigoFabricante = async(codigo:string)=>
        
 
 
-          {materiais.length>0?
+          {materiais.length?
           <>
           <div className="overflow-x-auto self-center w-[100%] ">
       <Table  hoverable striped className="w-[100%] ">
@@ -380,23 +370,7 @@ const buscaCodigoFabricante = async(codigo:string)=>
         </Table.Body>
       </Table>
     </div>
-        <Snackbar
-          open={openSnackBar}
-          autoHideDuration={3000}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center'
-          }}
-          onClose={(e) => setOpenSnackBar(false)}
-        >
-          <MuiAlert
-            onClose={(e) => setOpenSnackBar(false)}
-            severity={severidadeAlert}
-            sx={{ width: "100%" }}
-          >
-            {messageAlert}
-          </MuiAlert>
-        </Snackbar>
+   
         </>
           
           
@@ -408,7 +382,23 @@ const buscaCodigoFabricante = async(codigo:string)=>
             </div>
           )
           }
-          
+           <Snackbar
+            open={openSnackBar}
+            autoHideDuration={2000}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center'
+            }}
+            onClose={(e) => setOpenSnackBar(false)}
+        >
+            <MuiAlert
+                onClose={(e) => setOpenSnackBar(false)}
+                severity={severidadeAlert}
+                sx={{ width: "100%" }}
+            >
+                {messageAlert}
+            </MuiAlert>
+        </Snackbar>
         </div>
         
     </>

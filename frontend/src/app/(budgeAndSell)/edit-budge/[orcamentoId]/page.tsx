@@ -1,46 +1,34 @@
 "use client"
-import {Link, Button,Autocomplete,Textarea, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
-import Excel, { BorderStyle } from 'exceljs';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar } from '@mui/material';
+import { Autocomplete, AutocompleteItem, Button, Input, Link, Modal, ModalBody, ModalContent, ModalFooter, Textarea, useDisclosure } from '@nextui-org/react';
+import Excel from 'exceljs';
 import { useRouter } from "next/navigation";
-import DocumentViewer, { PDFViewer } from "@react-pdf/renderer"
 
 
-import { Card, Dropdown, Table} from 'flowbite-react';
-import { use, useEffect, useRef, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
-import "dayjs/locale/pt-br";
 import { url } from '@/app/api/webApiUrl';
+import "dayjs/locale/pt-br";
+import { Table } from 'flowbite-react';
+import { useEffect, useState } from "react";
 
-import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import IMaterial from '@/app/interfaces/IMaterial';
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import TextField from "@mui/material/TextField";
-import axios, { AxiosResponse } from "axios";
-import imagem from '/src/app/assets/logo.png'
-import { useReactToPrint } from 'react-to-print';
 import ArrowLeft from '@/app/assets/icons/ArrowLeft';
-import { IFilterMaterial } from '@/app/interfaces/IFilterMaterial';
-import { IOrderServico } from '@/app/interfaces/IOrderServico';
-import { useSession } from 'next-auth/react';
-import { IInventario } from '@/app/interfaces/IInventarios';
 import IconBxTrashAlt from '@/app/assets/icons/IconBxTrashAlt';
-import IconPlus from '@/app/assets/icons/IconPlus';
+import { IInventario } from '@/app/interfaces/IInventarios';
 import { IItem } from '@/app/interfaces/IItem';
-import jsPDF from 'jspdf'
+import MuiAlert, { AlertColor } from "@mui/material/Alert";
+import axios, { AxiosResponse } from "axios";
+import jsPDF from 'jspdf';
+import { useSession } from 'next-auth/react';
 
 
-import dayjs from 'dayjs';
+import { authHeader } from '@/app/_helpers/auth_headers';
 import { logoBase64 } from '@/app/assets/base64Logo';
-import { PDFDownloadLink } from '@react-pdf/renderer';
-import OrcamentoPDF from '@/app/componentes/OrcamentoPDF';
-import IconEdit from '@/app/assets/icons/IconEdit';
+import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
 import { SearchIcon } from '@/app/assets/icons/SearchIcon';
+import OrcamentoPDF from '@/app/componentes/OrcamentoPDF';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import { searchByDescription } from '@/app/services/Material.Services';
-import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
-import IconPencil from '@/app/assets/icons/IconPencil';
-import { authHeader } from '@/app/_helpers/auth_headers';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import dayjs from 'dayjs';
 
 
 
@@ -701,7 +689,7 @@ return(
       <div className='flex flex-col  mt-10  gap-3 justify-center text-center   '>
 
       <div className='flex flex-col self-center max-w-[1200px] gap-7 '>
-              <div className='flex flex-row  justify-between w-[600px]'>
+              <div className='flex md:flex-row max-sm:flex-col  md:justify-between max-sm:justify-center max-sm:items-center w-[600px] max-sm:gap-5 '>
                 <Input        
                               labelPlacement='outside'
                               value={nomeCliente}
@@ -720,7 +708,7 @@ return(
                               />
                      
               </div>
-                    <div className='flex flex-row justify-between w-[600px]'>
+                    <div className='flex md:flex-row max-sm:flex-col  md:justify-between max-sm:justify-center max-sm:items-center w-[600px] max-sm:gap-5'>
                       <Input
                               labelPlacement='outside'
                               value={emailCliente}
@@ -733,14 +721,14 @@ return(
                              <Input
                                    labelPlacement='outside'
                                   value={cpfOrCnpj}
-                                  className="border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px]"
+                                  className="border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px] "
                                   onValueChange={setCpfOrCnpj}
                                   placeholder='99283-4235'
                                   label="CPF OU CNPJ"
                                 />  
                       
                     </div>
-                         <div className=' flex flex-row w-[600px] justify-between '>
+                         <div className=' flex md:flex-row max-sm:flex-col  md:justify-between max-sm:justify-center max-sm:items-center w-[600px] max-sm:gap-5   '>
                        
                          <Input
                               labelPlacement='outside'
@@ -766,7 +754,7 @@ return(
                       <Textarea
                                             label="Observações sobre este Orçamento"
                                             placeholder="Observações"
-                                            className="max-w-lg border-1 ml-5 mt-3 mb-3 border-black rounded-md min-w-[210px] max-h-[320px]  shadow-sm shadow-black self-center "
+                                            className="md:max-w-lg max-sm:max-w-[260px] border-1  border-black rounded-md  max-h-[320px]  shadow-sm shadow-black self-center "
                                             
                                             maxRows={14}
                                             value={observacoes}
@@ -810,7 +798,7 @@ return(
               
                 </div>
              ):
-             <div className='flex flex-row gap-5 mt-4 self-center'>
+             <div className='flex md:flex-row  max-sm:flex-col gap-5 mt-4 self-center'>
              <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg shadow-lg ' onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
              <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg ' onPress={onOpen}>
                         Autorizar Orçamento
@@ -821,7 +809,7 @@ return(
               
                                        
         
-    <div className='flex flex-row  gap-4 self-center mt-5 max-w-[1200px]'>
+    <div className='flex md:flex-row max-sm:flex-col  gap-4 self-center mt-5 max-w-[1200px]'>
   
               {!orcamento?.isPayed && (
   
@@ -832,7 +820,7 @@ return(
              startContent={<SearchIcon className="text-default-400" strokeWidth={2.5} size={20} />}
             value={descricao}
             onValueChange={(x:any)=>buscarDescricao(x)}
-             className="max-w-[550px] min-w-[500px] ml-6 self-center border-1 border-black rounded-xl shadow-sm shadow-black"
+             className=" md:min-w-[500px] max-sm:w-[350px]  self-center border-1 border-black rounded-xl shadow-sm shadow-black"
            >
   
            {materiais.map((item:IInventario) => (
@@ -865,10 +853,12 @@ return(
               
    
 
-
+            <div className='flex md:flex-row max-sm:flex-col items-center'>
            <Button
-        isDisabled={!nomeOrçamento?.length}
-          className={`bg-master_black text-white w-[225px] ${orcamento?.isPayed?"w-[225px]":"w-[275px]"} p-3 my-auto rounded-lg font-bold text-base shadow-lg ml-3 `}
+           color='danger' 
+           variant='ghost'
+           isDisabled={!nomeOrçamento?.length}
+           className={`  ${orcamento?.isPayed?"w-[225px]":"w-[275px]"} p-3 my-auto max-sm:w-[60%] `}
           >
             <PDFDownloadLink document={   <OrcamentoPDF
             materiaisOrcamento ={materiaisOrcamento}
@@ -884,10 +874,8 @@ n            orcamento={orcamento}
               </PDFDownloadLink>
        
             </Button>
-            <Button  onPress={()=>route.push("/create-material")} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg  mt-3'>
-       Criar material
-          
-      </Button>
+
+      </div>
   </div>
 
            <Dialog open={openDialog} onClose={handleCloseDialog} >

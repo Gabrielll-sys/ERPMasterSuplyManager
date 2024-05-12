@@ -1,36 +1,23 @@
 "use client"
 
-import {Link, Button,Autocomplete, AutocompleteItem, Input,Textarea, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider } from '@nextui-org/react';
+import { Autocomplete, AutocompleteItem, Button, Divider, Input, Modal, ModalBody, ModalContent, ModalFooter, Textarea, useDisclosure } from '@nextui-org/react';
 
-import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar } from '@mui/material';
 import { useRouter } from "next/navigation";
-import { QRCode } from "react-qrcode-logo";
 
-import { useEffect, useRef, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
-import "dayjs/locale/pt-br";
 import { url } from '@/app/api/webApiUrl';
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import  updateInventory from "../style/updateInventory.module.css";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import IMaterial from '@/app/interfaces/IMaterial';
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import TextField from "@mui/material/TextField";
 import axios from "axios";
-
-
-import { useReactToPrint } from 'react-to-print';
-import ArrowLeft from '@/app/assets/icons/ArrowLeft';
-import { IFilterMaterial } from '@/app/interfaces/IFilterMaterial';
-import { IOrderServico } from '@/app/interfaces/IOrderServico';
-import { useSession } from 'next-auth/react';
-import { IInventario } from '@/app/interfaces/IInventarios';
+import "dayjs/locale/pt-br";
+import { useEffect, useRef, useState } from "react";
 import IconBxTrashAlt from '@/app/assets/icons/IconBxTrashAlt';
-import IconPlus from '@/app/assets/icons/IconPlus';
-import { IItem } from '@/app/interfaces/IItem';
-import IconEdit from '@/app/assets/icons/IconEdit';
 import IconPen from '@/app/assets/icons/IconPencil';
+import IconPlus from '@/app/assets/icons/IconPlus';
+import { IInventario } from '@/app/interfaces/IInventarios';
+import { IItem } from '@/app/interfaces/IItem';
+import { IOrderServico } from '@/app/interfaces/IOrderServico';
 import dayjs from 'dayjs';
+import { useSession } from 'next-auth/react';
 
 export default function EditingOs({params}:any){
       const route = useRouter()
