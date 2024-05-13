@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 
-import { Button } from "@nextui-org/react";
 
 import { url } from "@/app/api/webApiUrl";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -19,7 +18,6 @@ import axios from "axios";
 
 
 
-import { useSession } from "next-auth/react";
 
 
 export default function CreateNotaFiscal(){

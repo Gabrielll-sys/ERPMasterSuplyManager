@@ -12,11 +12,9 @@ import { Table } from "flowbite-react";
 import { authHeader } from "../_helpers/auth_headers";
 
 export default function LogRegister(){
-  const route = useRouter()
 
 
-
-  
+    const date = new Date();
   const [logs,setLogs] = useState<any>([])
   const [dateLog,setDateLog] = useState<any>()
     type LogAcoesUsuario = {
@@ -29,7 +27,9 @@ export default function LogRegister(){
  
  
  useEffect(()=>{
- 
+        
+
+ getLogByDate(date.toISOString())
 getLogs()
      
 
@@ -49,7 +49,7 @@ getLogs()
  }
  
 const getLogByDate = async(data:any)=>{
-        return await axios
+    return await axios
             .get(`${url}/LogAcoesUsuario/buscaLogsByDate?date=${data}`,{headers:authHeader()})
             .then( (r)=> {
                 console.log(r.data)

@@ -4,12 +4,10 @@ import { Input } from '@nextui-org/react';
 import axios, { AxiosResponse } from "axios";
 import "dayjs/locale/pt-br";
 import { Card } from 'flowbite-react';
-import jsPDF from 'jspdf';
 import { useSession } from 'next-auth/react';
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-
-
+import React from 'react';
+import { useEffect,useState } from 'react';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import dayjs from 'dayjs';
 
@@ -61,18 +59,7 @@ export default function ManageBudges(){
   
     
 
-    const[nomeOrçamento,setNomeOrçamento] = useState<string>("")
-
-    const formasPagamento : string[] = ["Boleto", "PIX", "Cartão Crédito", "Cartão Débito"];
-    const doc = new jsPDF()
-    let date = dayjs()
-
-    const bordas:any= {
-      top: {style:'thin'},
-      left: {style:'thin'},
-      bottom: {style:'thin'},
-      right: {style:'thin'}
-    }
+    
 
 
 
@@ -197,8 +184,6 @@ return(
 </Card>
 )}
     </div>
-
-
 
 
      </>

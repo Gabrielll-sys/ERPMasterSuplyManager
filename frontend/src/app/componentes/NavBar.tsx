@@ -1,30 +1,22 @@
 "use client"
-import React, {useState, useRef, useEffect} from "react";
-import { useReactToPrint } from 'react-to-print';
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import {
-    Navbar,
-    NavbarBrand,
-    NavbarContent,
-    DropdownItem,
-    DropdownTrigger,
-    Dropdown,
-    DropdownMenu,
-    Avatar,
     Button,
-    NavbarItem,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownTrigger,
+    Navbar
 } from "@nextui-org/react";
 
+import IconPersonFill from "@/app/assets/icons/IconPersonFill";
+import { authenticate, isTokenValid } from "@/app/services/Auth.services";
 import { useRouter } from "next/navigation";
 import IconExit from "../assets/icons/IconExit";
-import AvatarLogin from "./AvatarLogin";
 import IconSideBar from "../assets/icons/IconSideBar";
 import SideBarLFT from "./SideBarLFT";
-import {authenticate, isTokenValid} from "@/app/services/Auth.services";
-import {jwtDecode} from "jwt-decode";
-import {setNonce} from "get-nonce";
-import IconPersonFill from "@/app/assets/icons/IconPersonFill";
 
  const NavBar= ()=>{
 

@@ -1,11 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { Slider } from "@nextui-org/react";
 import { QRCode } from "react-qrcode-logo";
-import { IInventario } from "../interfaces/IInventarios";
 
 export default function QrCodeMaterial(props: any) {
   const [size, setSize] = useState<number | undefined>(105);

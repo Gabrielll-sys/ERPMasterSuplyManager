@@ -3,26 +3,23 @@
 import { Autocomplete, AutocompleteItem, Button, Divider, Input, Modal, ModalBody, ModalContent, ModalFooter, Textarea, useDisclosure } from '@nextui-org/react';
 
 import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar } from '@mui/material';
-import { useRouter } from "next/navigation";
 
 import { url } from '@/app/api/webApiUrl';
-import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import axios from "axios";
-import "dayjs/locale/pt-br";
-import { useEffect, useRef, useState } from "react";
 import IconBxTrashAlt from '@/app/assets/icons/IconBxTrashAlt';
 import IconPen from '@/app/assets/icons/IconPencil';
 import IconPlus from '@/app/assets/icons/IconPlus';
 import { IInventario } from '@/app/interfaces/IInventarios';
 import { IItem } from '@/app/interfaces/IItem';
 import { IOrderServico } from '@/app/interfaces/IOrderServico';
+import MuiAlert, { AlertColor } from "@mui/material/Alert";
+import axios from "axios";
 import dayjs from 'dayjs';
+import "dayjs/locale/pt-br";
 import { useSession } from 'next-auth/react';
+import { useEffect, useRef, useState } from "react";
 
 export default function EditingOs({params}:any){
-      const route = useRouter()
       const { data: session } = useSession();
-
       const componentRef: any = useRef();
       const[confirmAuthorizeMessage,setconfirmAuthorizeMessage]= useState<string>()
       const[itemToBeUpdated,setItemToBeUpdated] = useState<IItem>()

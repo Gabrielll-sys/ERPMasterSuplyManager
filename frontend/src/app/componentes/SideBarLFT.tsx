@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/react";
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag,HiFilter, HiPencilAlt,HiQrcode,HiPencil } from 'react-icons/hi';
-import GoogleIcon from "../assets/icons/GoogleIcon";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { HiFilter, HiInbox, HiPencil, HiPencilAlt, HiQrcode, HiShoppingBag } from 'react-icons/hi';
 
+import IconPersonFill from "@/app/assets/icons/IconPersonFill";
+import IconReport from "@/app/assets/icons/IconReport";
+import { createRelatorioDiario } from "@/app/services/RelatorioDiario.Services";
 import { Sidebar } from "flowbite-react";
 import Image from "next/image";
-import IconPersonFill from "@/app/assets/icons/IconPersonFill";
-import {createRelatorioDiario} from "@/app/services/RelatorioDiario.Services";
-import IconReport from "@/app/assets/icons/IconReport";
 
 
 export default function SideBarLFT(props : any) {

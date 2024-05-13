@@ -1,29 +1,32 @@
 "use client"
-import React, { useEffect, useState } from "react";
-import { AvatarIcon, 
-  Button, 
-  Input, 
-  Card, CardHeader, CardBody, CardFooter, Divider, Link, 
-  Modal, ModalContent, ModalHeader, 
-  ModalBody,
-  useDisclosure, 
-  ModalFooter,
+import {
   Autocomplete,
-  AutocompleteItem} from "@nextui-org/react";
+  AutocompleteItem,
+  Button,
+  Card,
+  CardBody, CardFooter,
+  CardHeader,
+  Divider,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure
+} from "@nextui-org/react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
-import { url } from "../../api/webApiUrl";
 import { useRouter } from "next/navigation";
+import { url } from "../../api/webApiUrl";
 
 import dayjs from "dayjs";
 
 
-import { useSession } from "next-auth/react";
 import IconCheckCircle from "@/app/assets/icons/IconCheckCircle";
 import IconEdit from "@/app/assets/icons/IconEdit";
 import { IOrderServico } from "@/app/interfaces/IOrderServico";
-import IconTools from "@/app/assets/icons/IconTools";
-import IconScrewdriver from "@/app/assets/icons/IconScrewDriver";
+import { useSession } from "next-auth/react";
 export default function OsManagement(){
    
     type Os = {

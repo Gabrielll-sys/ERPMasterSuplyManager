@@ -1,13 +1,10 @@
 "use client";
-import React from "react";
 
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 
 
 export default function Footer({ children, ...props }: any) {
-  const route = useRouter();
   return (
     <footer className="fixed  bottom-0 max-sm:h-20 left-0 w-screen " {...props}>
       <div className="grid grid-cols-2  bg-master_black text-light text-tiny h-32">

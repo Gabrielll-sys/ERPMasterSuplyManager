@@ -1,40 +1,25 @@
 "use client"
-import {Link, Button,Autocomplete,Textarea, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
-import {  Snackbar} from '@mui/material';
-import { useRouter } from "next/navigation";
+import { Button, Checkbox, Input, Modal, ModalBody, ModalContent, ModalFooter, Textarea, useDisclosure } from '@nextui-org/react';
 
-import {Table} from 'flowbite-react';
-import React, { useEffect, useRef, useState } from "react";
 import "dayjs/locale/pt-br";
+import { Table } from 'flowbite-react';
+import { useState } from "react";
 
-import dayjs from 'dayjs';
-
-import {createAtividadeRd, getAllAtivdadesInRd} from "@/app/services/AtvidadeRd.Service";
+import { uploadImageToAzure } from "@/app/services/Images.Services";
 import Image from "next/image";
-import {uploadImageToAzure} from "@/app/services/Images.Services";
-import MuiAlert, {AlertColor} from "@mui/material/Alert";
-import {IAtividadeRd} from "@/app/interfaces/IAtividadeRd";
-import {IRelatorioDiario} from "@/app/interfaces/IRelatorioDiario";
-import {getRelatorioDiario} from "@/app/services/RelatorioDiario.Services";
 
 
 
 // @ts-ignore
  const Atividade = ({ atividade, onUpdate,onDelete,isFinished})=>{
-    const route = useRouter()
-
-    const[observacoesRd,setObservacoesRd] = useState<string>("")
     const [imageModal,setImageModal] = useState<any>()
     const[observacoes,setObservacoes] = useState<string>(atividade.observacoes)
     const [checkboxStatus, setCheckboxStatus] = useState(atividade.status);
     const [descricao, setDescricao] = useState(atividade.descricao);
-    const [descricaoAtividade,setDescricaoAtividade] = useState<string>("");
-    const [atividadesInRd,setAtividadesInRd] = useState<IAtividadeRd[]>([])
+   
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [image,setImage] = useState<File[]>([]);
 
-
-    const [atividadeRdEditing,setAtividadeRdEditing] = useState<IAtividadeRd>()
 
     const handleInputChange = () => {
         onUpdate(atividade, checkboxStatus, observacoes,descricao);
