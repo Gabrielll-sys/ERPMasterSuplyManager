@@ -29,6 +29,7 @@ import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import { searchByDescription } from '@/app/services/Material.Services';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import dayjs from 'dayjs';
+import { IItemOrcamento } from '@/app/interfaces/IItemOrcamento';
 
 
 
@@ -68,8 +69,6 @@ export default function ManageBudges({params}:any){
   const [acrescimo,setAcrescimo] = useState<string>("")
   const [observacoes,setObservacoes] = useState<string>("")
 
-  const [itensOrcamento,setItensOrcamento]= useState<any[]>([])
-
 const[precoCustoTotalOrcamento,setPrecoCustoTotalOrcamento] = useState<number >();
 const[precoVendaTotalOrcamento,setPrecoVendaTotalOrcamento] = useState<number>();
 const[quantidadeMaterial,setQuantidadeMaterial] = useState<string>("")
@@ -79,9 +78,8 @@ const[precoVendaComDesconto,setPrecoVendaComDesconto] = useState<any>(null)
 const[openDialogPreco,setOpenDialogPreco] = useState<boolean>(false)
 const[descricao,setDescricao] = useState<string>("")
 
-const [loading, setLoading] = useState(false);
+const [haveNoEstoque,setHaveNoEstoque] = useState<boolean>(false)
 
-const doc = new jsPDF()
   let date = dayjs()
 const letraPlanilha : string[] = ['A','B','C','D','E']
 const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Cartão De Débito"];
@@ -162,11 +160,8 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
   const getAllMateriaisInOrcamento = async(id:number)=>{
 
       const res = await axios.get(`${url}/ItensOrcamento/GetAllMateriaisOrcamento/${id}`,{headers:authHeader()}).then((r)=>{
-        setMateriaisOrcamento(r.data)
 
-        for(let i in r.data ){
-          console.log(i)
-        }
+       
         return r.data
 
       }).catch(e=>console.log(e))
@@ -176,8 +171,25 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
       for(let item of res){
         
         if(item.precoItemOrcamento != null)
-        item.material.precoVenda = item.precoItemOrcamento
 
+        {
+          const estoque = await getEstoqueMaterial(item.materialId);
+
+          item.estoque = estoque.saldoFinal
+
+          item.material.precoVenda = item.precoItemOrcamento
+
+          console.log(estoque.saldoFinal)
+          console.log(estoque.saldoFinal == 0)
+          if(estoque.saldoFinal == null || estoque.saldoFinal == 0)
+            {
+            setHaveNoEstoque(true)
+          }
+        
+      }
+      setMateriaisOrcamento(res)
+
+    
       }
 
   }
@@ -185,7 +197,6 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
 
     const res = await axios.get(`${url}/ItensOrcamento/GetAllItensOrcamento/${id}`,{headers:authHeader()}).then((r)=>{
       console.log(r.data)
-      setItensOrcamento(r.data)
     return r.data
 
     }).catch(e=>console.log(e))
@@ -199,13 +210,15 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
 const getEstoqueMaterial =  async (id:number)=>{
 
   const res =  await axios.get(`${url}/Inventarios/GetLastRegister/${id}`).then((r)=>{
- console.log(r.data)
+
     setInventarioDialog(r.data[0])
    
   return r.data
 
   }).catch(e=>console.log(e))
-console.log(res)
+
+  return res
+
 }
   
 const handleUpdateOrcamento = async()=>{
@@ -341,8 +354,7 @@ const handleUpdateOrcamentoToSell = async()=>{
         setObservacoes(r.data.observacoes)
         setMetodoPagamento(r.data.tipoPagamento)
 
-      // if(r.data.precoVendaTotal !=null && r.data.precoVendaTotal>0)  setPrecoVendaTotalOrcamento(Number(r.data.precoVendaTotal))
-      // if(r.data.precoVendaComDesconto !=null && r.data.precoVendaComDesconto>0)  setPrecoVendaComDesconto(Number(r.data.precoVendaComDesconto))
+
 
         
 
@@ -818,8 +830,8 @@ return(
              isDisabled={!materiais}
              placeholder="Procure um material"
              startContent={<SearchIcon className="text-default-400" strokeWidth={2.5} size={20} />}
-            value={descricao}
-            onValueChange={(x:any)=>buscarDescricao(x)}
+             value={descricao}
+             onValueChange={(x:any)=>buscarDescricao(x)}
              className=" md:min-w-[500px] max-sm:w-[350px]  self-center border-1 border-black rounded-xl shadow-sm shadow-black"
            >
   
@@ -858,7 +870,7 @@ return(
            color='danger' 
            variant='ghost'
            isDisabled={!nomeOrçamento?.length}
-           className={`  ${orcamento?.isPayed?"w-[225px]":"w-[275px]"} p-3 my-auto max-sm:w-[60%] `}
+           className={`  ${orcamento?.isPayed?"w-[225px]":"w-[205px]"} p-3 my-auto max-sm:w-[60%] `}
           >
             <PDFDownloadLink document={   <OrcamentoPDF
             materiaisOrcamento ={materiaisOrcamento}
@@ -874,7 +886,16 @@ n            orcamento={orcamento}
               </PDFDownloadLink>
        
             </Button>
-
+          
+            <Button
+           color='danger' 
+           variant='ghost'
+           isDisabled={!nomeOrçamento?.length}
+           className={`  ${orcamento?.isPayed?"w-[225px]":"w-[205px]"} p-3 my-auto max-sm:w-[60%] `}
+          onClick={()=>console.log(haveNoEstoque)}>
+          
+       FSDF
+            </Button>
       </div>
   </div>
 
@@ -945,6 +966,7 @@ n            orcamento={orcamento}
           <Table.HeadCell className="text-center border-1 border-black text-sm">Descricao</Table.HeadCell>
           {/* <Table.HeadCell className="text-center border-1 border-black text-sm">Estoque</Table.HeadCell> */}
           <Table.HeadCell className="text-center border-1 border-black text-sm">Qntd</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Estoque</Table.HeadCell>
 
           
           <Table.HeadCell className="text-center border-1 border-black text-sm">Preço Custo</Table.HeadCell>
@@ -970,6 +992,8 @@ n            orcamento={orcamento}
           <Table.Cell className="text-center text-black hover:underline" onClick={()=>{getEstoqueMaterial(row.material.id),setItemToBeUpdated(row),setIsEditingOs(true),setOpenDialog(true)}} >{row.quantidadeMaterial}</Table.Cell>
 
           }
+          <Table.Cell className="text-center text-black " >{row.estoque} {row.material.unidade}</Table.Cell>
+
           <Table.Cell className="text-center text-black " >{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</Table.Cell>
            
             {orcamento?.isPayed ?(
@@ -1055,7 +1079,7 @@ n            orcamento={orcamento}
                 <Button color="danger" variant="light" onPress={onClose}>
                   Fechar
                 </Button>
-                <Button isDisabled={confirmAuthorizeMessage!="AUTORIZAR"|| orcamento?.isPayed } color="primary" onPress={handleUpdateOrcamentoToSell}>
+                <Button isDisabled={confirmAuthorizeMessage!="AUTORIZAR"|| orcamento?.isPayed || haveNoEstoque} color="primary" onPress={handleUpdateOrcamentoToSell}>
                   Autorizar
                 </Button>
               </ModalFooter>

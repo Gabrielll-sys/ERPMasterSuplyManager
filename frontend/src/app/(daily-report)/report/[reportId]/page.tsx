@@ -36,7 +36,6 @@ export default function Report({params}:any){
     const [imageModal,setImageModal] = useState<any>()
     const [currentUser, setCurrentUser] = useState<any>(null);
     const conditionsRoles = currentUser?.role == "Administrador" || currentUser?.role == "Diretor" || currentUser?.role == "SuporteTecnico"
-
     const[contato,setContato] = useState<string>("")
     const [descricaoAtividade,setDescricaoAtividade] = useState<string>("");
     const [atividadesInRd,setAtividadesInRd] = useState<IAtividadeRd[]>([])

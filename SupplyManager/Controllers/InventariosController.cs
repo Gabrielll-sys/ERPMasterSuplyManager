@@ -145,7 +145,7 @@ namespace SupplyManager.Controllers
                     .TakeLast(1)
                     .ToList();
 
-                return Ok(material);
+                return Ok(material[0]);
             }
 
             catch (KeyNotFoundException)

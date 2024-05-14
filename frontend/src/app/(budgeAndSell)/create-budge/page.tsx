@@ -31,7 +31,7 @@ export default function CreateBudge(){
     const [desconto,setDesconto] = useState<string>("")
     const [endereco,setEndereco] = useState<string>("")
 
-    const [currentUser, setCurrentUser] = useState<any>(null);
+    const [currentUser, setCurrentUser] = useState<any>();
     const[nomeOrçamento,setNomeOrçamento] = useState<string>("")
     
     const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Cartão De Débito"];
@@ -39,8 +39,12 @@ export default function CreateBudge(){
     let date = dayjs()
     
 useEffect(()=>{
-  //@ts-ignore
-  const user = JSON.parse(localStorage.getItem("currentUser"));
+  
+ 
+    //@ts-ignore
+
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+  
   console.log(user)
   if(user != null)
   {

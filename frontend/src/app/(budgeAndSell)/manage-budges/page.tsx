@@ -59,10 +59,6 @@ export default function ManageBudges(){
   
     
 
-    
-
-
-
 const getOrcamentosByClient = async()=>{
   setNumeroOrcamento("")
   setOrcamentos(undefined)

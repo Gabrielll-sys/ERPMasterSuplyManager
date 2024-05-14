@@ -7,9 +7,7 @@ namespace SupplyManager.Models
         public int Id { get; set; }
 
         public string? Nome { get; set; }
-        //Caso seja uma empresa
-        public string? Empresa { get; set; }
-
+     
         public string? Email { get; set; }
 
         public string? Telefone { get; set; }
@@ -24,6 +22,8 @@ namespace SupplyManager.Models
 
         [ForeignKey("OrcamentoId")]
         public Orcamento Orcamento { get; set; }
+
+        public int MyProperty { get; set; }
 
     }
 }
