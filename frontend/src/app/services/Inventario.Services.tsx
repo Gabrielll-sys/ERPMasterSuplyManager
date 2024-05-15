@@ -1,6 +1,6 @@
 import axios from "axios";
 import { url } from "../api/webApiUrl";
-import {authHeader} from "@/app/_helpers/auth_headers";
+import { authHeader } from "../_helpers/auth_headers";
 
 
 

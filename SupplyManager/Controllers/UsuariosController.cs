@@ -15,7 +15,7 @@ namespace SupplyManager.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    [Authorize]
+   // [Authorize]
 
     public class UsuariosController : ControllerBase
     {
@@ -55,7 +55,7 @@ namespace SupplyManager.Controllers
         /// <returns>O Usuário Criado </returns>
         /// 
         [HttpPost]
-        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+      
 
         public async Task<ActionResult> Post([FromBody] UsuarioDto model)
         {
@@ -131,6 +131,7 @@ namespace SupplyManager.Controllers
         /// </summary>
         /// <param name="Usuario"></param>
         [HttpPut("reset-password/{id}")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
         public async Task<ActionResult> ResetUserPassword(int id)
         {
 
@@ -141,6 +142,34 @@ namespace SupplyManager.Controllers
                  
                 return Ok();
 
+
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+
+            }
+        }
+
+        /// <summary>
+        /// Faz Com que o usuário se torne inativo,não podendo mais realizar login
+        /// </summary>
+        /// <param name="Id"></param>
+        [HttpPut("turn-inactive/{id}")]
+        public async Task<ActionResult> TurnInactive(int id)
+        {
+
+            try
+            {
+                await _usuarioService.TurnUserInactive(id);
+
+                return Ok();
 
             }
 
@@ -188,6 +217,13 @@ namespace SupplyManager.Controllers
             if (usuarioDb is null || !BCrypt.Net.BCrypt.Verify(model.Senha, usuarioDb.Senha))
 
                 return Unauthorized();
+
+
+            if(usuarioDb.isActive is false)
+            {
+                //Significa que o usuário esta autenticado mas não tem permissão para acessar o recurso
+                return Forbid();
+            }
 
 
             var jwt = GenerateJwtToken(usuarioDb);

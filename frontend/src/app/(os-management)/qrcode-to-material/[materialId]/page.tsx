@@ -1,34 +1,25 @@
 "use client"
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-import { Autocomplete, AutocompleteItem, Button, Input, Link } from "@nextui-org/react";
+import { Autocomplete, AutocompleteItem, Button, Input } from "@nextui-org/react";
 
 
-import { InputAdornment, Snackbar } from '@mui/material';
+import { Snackbar } from '@mui/material';
 
-import { Key, useEffect, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
-import "dayjs/locale/pt-br";
 import { url } from "@/app/api/webApiUrl";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
+import "dayjs/locale/pt-br";
+import { useEffect, useState } from "react";
 
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import TextField from "@mui/material/TextField";
-import axios, { AxiosError } from "axios";
-import dayjs from "dayjs";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import ArrowLeft from "@/app/assets/icons/ArrowLeft";
+import GoogleIcon from "@/app/assets/icons/GoogleIcon";
 import { IInventario } from "@/app/interfaces/IInventarios";
 import { IOrderServico } from "@/app/interfaces/IOrderServico";
-import GoogleIcon from "@/app/assets/icons/GoogleIcon";
+import axios, { AxiosError } from "axios";
+import dayjs from "dayjs";
 import { signIn, useSession } from "next-auth/react";
 
 export default function UpdateMaterial({params}:any){
-  const route = useRouter()
-
+ 
   const[ordemServicos,setOrdemServicos] = useState<IOrderServico[]>([])
   const [codigoInterno,setCodigoInterno] = useState<string>("")
   const [material,setMaterial] = useState<IInventario>()

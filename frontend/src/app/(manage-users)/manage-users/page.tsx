@@ -1,26 +1,18 @@
 "use client"
-import {Link, Button,Autocomplete, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
+import { Input } from '@nextui-org/react';
 
-import { useRouter } from "next/navigation";
-import { QRCode } from "react-qrcode-logo";
-import { Textarea } from 'flowbite-react';
-import { useEffect, useRef, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
 import "dayjs/locale/pt-br";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-import { IOrderServico } from '@/app/interfaces/IOrderServico';
 import { useSession } from 'next-auth/react';
 
-import jsPDF from 'jspdf'
-import autoTable from 'jspdf-autotable'
-
-import dayjs from 'dayjs';
-import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import { Flex } from '@radix-ui/themes';
+import dayjs from 'dayjs';
 
 
 
-export default function CreateUser({params}:any){
+export default function CreateUser(){
     const route = useRouter()
     const { data: session } = useSession();
   

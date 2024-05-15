@@ -1,28 +1,16 @@
 "use client"
 
 import { Button } from '@nextui-org/react';
-
 import { Snackbar } from '@mui/material';
 import { useRouter } from "next/navigation";
-
-import { useEffect, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
-import "dayjs/locale/pt-br";
 import { url } from "@/app/api/webApiUrl";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import  updateInventory from "../style/updateInventory.module.css";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import { signIn, signOut, useSession } from "next-auth/react";
-
-
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import "dayjs/locale/pt-br";
+import { signIn, useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import GoogleIcon from '@/app/assets/icons/GoogleIcon';
 import TextField from "@mui/material/TextField";
 import axios from "axios";
-import dayjs from "dayjs";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import GoogleIcon from '@/app/assets/icons/GoogleIcon';
 export default function AddMaterialOs({params}:any){
     
 

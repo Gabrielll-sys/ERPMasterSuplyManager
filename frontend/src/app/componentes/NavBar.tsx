@@ -1,42 +1,35 @@
 "use client"
-import React, {useState, useRef, useEffect} from "react";
-import { useReactToPrint } from 'react-to-print';
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import {
-    Navbar,
-    NavbarBrand,
-    NavbarContent,
-    DropdownItem,
-    DropdownTrigger,
-    Dropdown,
-    DropdownMenu,
-    Avatar,
     Button,
-    NavbarItem,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownTrigger,
+    Navbar
 } from "@nextui-org/react";
-
+import IconPersonFill from "../assets/icons/IconPersonFill";
+import { authenticate, getUserLocalStorage } from "../services/Auth.services";
+import { isTokenValid } from "../services/Auth.services";
 import { useRouter } from "next/navigation";
 import IconExit from "../assets/icons/IconExit";
-import AvatarLogin from "./AvatarLogin";
 import IconSideBar from "../assets/icons/IconSideBar";
 import SideBarLFT from "./SideBarLFT";
-import {isTokenValid} from "@/app/services/Auth.services";
-import {jwtDecode} from "jwt-decode";
-import {setNonce} from "get-nonce";
-import IconPersonFill from "@/app/assets/icons/IconPersonFill";
 
-const NavBar= ()=>{
+ const NavBar= ()=>{
 
     const route = useRouter()
     const iconClasses = "h-4 text-2xl";
     const [showSideBar,setShowSideBar]= useState(false)
     const [currentUser, setCurrentUser] = useState<any>(null);
-
+    
+    
     useEffect(() => {
-        //@ts-ignore
-    const user = JSON.parse(localStorage.getItem("currentUser"));
-    console.log(user)
+    
+        const user = getUserLocalStorage()
+
     if(user != null)
     {
         setCurrentUser(user)
@@ -46,24 +39,15 @@ const NavBar= ()=>{
       route.push('/login')
     }
     }, []);
-
-    const handleSideBar= ()=>{
-
-        if(showSideBar){
-            setShowSideBar(false)
-        }
-
-        else setShowSideBar(true)
-
-    }
-
+ 
+  
     useEffect(()=>{
         //@ts-ignore
 
         const user = JSON.parse(localStorage.getItem("currentUser"));
 
         if( user == null) setCurrentUser(null)
-        console.log(!isTokenValid(user?.token))
+      
 
         if (!isTokenValid(user?.token)){
             route.push("/login")

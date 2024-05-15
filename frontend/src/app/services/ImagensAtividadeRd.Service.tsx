@@ -1,7 +1,10 @@
 import axios from "axios";
-import {url} from "@/app/api/webApiUrl";
-import {authHeader} from "@/app/_helpers/auth_headers";
-import {IImagemAtividadeRd} from "@/app/interfaces/IImagemAtividadeRd";
+
+import { url } from "../api/webApiUrl";
+
+import { authHeader } from "../_helpers/auth_headers";
+
+import { IImagemAtividadeRd } from "../interfaces/IImagemAtividadeRd";
 
 
 export const addImagemAtividadeRd = async (model:IImagemAtividadeRd)=>{

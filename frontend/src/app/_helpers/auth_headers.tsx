@@ -1,18 +1,17 @@
+"use client"
 
+import { getUserLocalStorage } from "../services/Auth.services";
 
 export function authHeader() {
-    
-    //@ts-ignore
-    const user =  JSON.parse(localStorage.getItem("currentUser"));
 
-    console.log(user)
-    if (user && user.token) 
-    { 
-        return { Authorization: `Bearer ${user.token}`,
-                 'Content-Type': 'application/json' };
+        const user = getUserLocalStorage()
 
-    } 
-    else {
-        return {};
+        if (user && user.token) {
+            return {
+                Authorization: `Bearer ${user.token}`,
+                'Content-Type': 'application/json'
+        }
     }
+    
+    return {}; // Retorna um cabeçalho vazio se estamos no servidor ou se não há usuário
 }

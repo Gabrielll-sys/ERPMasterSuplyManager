@@ -1,46 +1,28 @@
 "use client"
-import {Link, Button,Autocomplete,Textarea, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
-import Excel, { BorderStyle } from 'exceljs';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar } from '@mui/material';
+import { Autocomplete, AutocompleteItem, Button, Input, Link, Modal, ModalBody, ModalContent, ModalFooter, Textarea, useDisclosure } from '@nextui-org/react';
+import Excel from 'exceljs';
 import { useRouter } from "next/navigation";
-import DocumentViewer, { PDFViewer } from "@react-pdf/renderer"
-
-
-import { Card, Dropdown, Table} from 'flowbite-react';
-import { use, useEffect, useRef, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
-import "dayjs/locale/pt-br";
 import { url } from '@/app/api/webApiUrl';
-
-import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import IMaterial from '@/app/interfaces/IMaterial';
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import TextField from "@mui/material/TextField";
-import axios, { AxiosResponse } from "axios";
-import imagem from '/src/app/assets/logo.png'
-import { useReactToPrint } from 'react-to-print';
+import "dayjs/locale/pt-br";
+import { Table } from 'flowbite-react';
+import { useEffect, useState } from "react";
 import ArrowLeft from '@/app/assets/icons/ArrowLeft';
-import { IFilterMaterial } from '@/app/interfaces/IFilterMaterial';
-import { IOrderServico } from '@/app/interfaces/IOrderServico';
-import { useSession } from 'next-auth/react';
-import { IInventario } from '@/app/interfaces/IInventarios';
 import IconBxTrashAlt from '@/app/assets/icons/IconBxTrashAlt';
-import IconPlus from '@/app/assets/icons/IconPlus';
+import { IInventario } from '@/app/interfaces/IInventarios';
 import { IItem } from '@/app/interfaces/IItem';
-import jsPDF from 'jspdf'
-
-
-import dayjs from 'dayjs';
+import MuiAlert, { AlertColor } from "@mui/material/Alert";
+import axios, { AxiosResponse } from "axios";
+import { useSession } from 'next-auth/react';
+import { authHeader } from '@/app/_helpers/auth_headers';
 import { logoBase64 } from '@/app/assets/base64Logo';
-import { PDFDownloadLink } from '@react-pdf/renderer';
-import OrcamentoPDF from '@/app/componentes/OrcamentoPDF';
-import IconEdit from '@/app/assets/icons/IconEdit';
+import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
 import { SearchIcon } from '@/app/assets/icons/SearchIcon';
+import OrcamentoPDF from '@/app/componentes/OrcamentoPDF';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import { searchByDescription } from '@/app/services/Material.Services';
-import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
-import IconPencil from '@/app/assets/icons/IconPencil';
-import { authHeader } from '@/app/_helpers/auth_headers';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import dayjs from 'dayjs';
 
 
 
@@ -80,8 +62,6 @@ export default function ManageBudges({params}:any){
   const [acrescimo,setAcrescimo] = useState<string>("")
   const [observacoes,setObservacoes] = useState<string>("")
 
-  const [itensOrcamento,setItensOrcamento]= useState<any[]>([])
-
 const[precoCustoTotalOrcamento,setPrecoCustoTotalOrcamento] = useState<number >();
 const[precoVendaTotalOrcamento,setPrecoVendaTotalOrcamento] = useState<number>();
 const[quantidadeMaterial,setQuantidadeMaterial] = useState<string>("")
@@ -91,9 +71,8 @@ const[precoVendaComDesconto,setPrecoVendaComDesconto] = useState<any>(null)
 const[openDialogPreco,setOpenDialogPreco] = useState<boolean>(false)
 const[descricao,setDescricao] = useState<string>("")
 
-const [loading, setLoading] = useState(false);
+const [haveNoEstoque,setHaveNoEstoque] = useState<boolean>(false)
 
-const doc = new jsPDF()
   let date = dayjs()
 const letraPlanilha : string[] = ['A','B','C','D','E']
 const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Cartão De Débito"];
@@ -174,11 +153,8 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
   const getAllMateriaisInOrcamento = async(id:number)=>{
 
       const res = await axios.get(`${url}/ItensOrcamento/GetAllMateriaisOrcamento/${id}`,{headers:authHeader()}).then((r)=>{
-        setMateriaisOrcamento(r.data)
 
-        for(let i in r.data ){
-          console.log(i)
-        }
+       
         return r.data
 
       }).catch(e=>console.log(e))
@@ -188,8 +164,27 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
       for(let item of res){
         
         if(item.precoItemOrcamento != null)
-        item.material.precoVenda = item.precoItemOrcamento
 
+        {
+          const estoque = await getEstoqueMaterial(item.materialId);
+
+
+          console.log(estoque)
+          item.estoque = estoque.saldoFinal
+
+          item.material.precoVenda = item.precoItemOrcamento
+
+          console.log(item.estoque)
+        
+          if(estoque.saldoFinal == null || estoque.saldoFinal == 0)
+            {
+            setHaveNoEstoque(true)
+          }
+        
+      }
+      setMateriaisOrcamento(res)
+
+    
       }
 
   }
@@ -197,7 +192,6 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
 
     const res = await axios.get(`${url}/ItensOrcamento/GetAllItensOrcamento/${id}`,{headers:authHeader()}).then((r)=>{
       console.log(r.data)
-      setItensOrcamento(r.data)
     return r.data
 
     }).catch(e=>console.log(e))
@@ -211,13 +205,15 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
 const getEstoqueMaterial =  async (id:number)=>{
 
   const res =  await axios.get(`${url}/Inventarios/GetLastRegister/${id}`).then((r)=>{
- console.log(r.data)
-    setInventarioDialog(r.data[0])
+
+    setInventarioDialog(r.data)
    
   return r.data
 
   }).catch(e=>console.log(e))
-console.log(res)
+
+  return res
+
 }
   
 const handleUpdateOrcamento = async()=>{
@@ -353,8 +349,7 @@ const handleUpdateOrcamentoToSell = async()=>{
         setObservacoes(r.data.observacoes)
         setMetodoPagamento(r.data.tipoPagamento)
 
-      // if(r.data.precoVendaTotal !=null && r.data.precoVendaTotal>0)  setPrecoVendaTotalOrcamento(Number(r.data.precoVendaTotal))
-      // if(r.data.precoVendaComDesconto !=null && r.data.precoVendaComDesconto>0)  setPrecoVendaComDesconto(Number(r.data.precoVendaComDesconto))
+
 
         
 
@@ -393,7 +388,6 @@ console.log(item.quantidadeMaterial)
           precoItemOrcamento:item.precoItemOrcamemento!= item.material.precoVenda && precoVendaNovoMaterial!=""?precoVendaNovoMaterial:item.material.precoVenda
         }
       }
-      console.log(itemOrcamento)
       const res = await axios.put(`${url}/ItensOrcamento/${item.id}`,itemOrcamento,{headers:authHeader()}).then(r=>{
 
         setOpenSnackBar(true);
@@ -428,7 +422,7 @@ console.log(item.quantidadeMaterial)
                 orcamento:{},
                 precoItemOrcamento: (item.precoItemOrcamemento!= item.material.precoVenda && precoVendaNovoMaterial!="") || item.material.precoVenda == null?precoVendaNovoMaterial:item.material.precoVenda,
               }
-              console.log(itemOrcamento)
+           
               
             const res = await axios.put(`${url}/ItensOrcamento/${item.id}`,itemOrcamento,{headers:authHeader()}).then(r=>{
       
@@ -473,9 +467,9 @@ console.log(item.quantidadeMaterial)
 
   
     const findInventory = (id:number)=>{
-      console.log(id)
+
       const inventoryFinded : IInventario | undefined = materiaisOrcamento.find((x:any)=>x.materialId==id)
-      console.log(inventoryFinded)
+
       setInventarioDialog(inventoryFinded)
      }
     const calcPrecoVenda = () =>{
@@ -701,7 +695,7 @@ return(
       <div className='flex flex-col  mt-10  gap-3 justify-center text-center   '>
 
       <div className='flex flex-col self-center max-w-[1200px] gap-7 '>
-              <div className='flex flex-row  justify-between w-[600px]'>
+              <div className='flex md:flex-row max-sm:flex-col  md:justify-between max-sm:justify-center max-sm:items-center w-[600px] max-sm:gap-5 '>
                 <Input        
                               labelPlacement='outside'
                               value={nomeCliente}
@@ -720,7 +714,7 @@ return(
                               />
                      
               </div>
-                    <div className='flex flex-row justify-between w-[600px]'>
+                    <div className='flex md:flex-row max-sm:flex-col  md:justify-between max-sm:justify-center max-sm:items-center w-[600px] max-sm:gap-5'>
                       <Input
                               labelPlacement='outside'
                               value={emailCliente}
@@ -733,14 +727,14 @@ return(
                              <Input
                                    labelPlacement='outside'
                                   value={cpfOrCnpj}
-                                  className="border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px]"
+                                  className="border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px] "
                                   onValueChange={setCpfOrCnpj}
                                   placeholder='99283-4235'
                                   label="CPF OU CNPJ"
                                 />  
                       
                     </div>
-                         <div className=' flex flex-row w-[600px] justify-between '>
+                         <div className=' flex md:flex-row max-sm:flex-col  md:justify-between max-sm:justify-center max-sm:items-center w-[600px] max-sm:gap-5   '>
                        
                          <Input
                               labelPlacement='outside'
@@ -766,7 +760,7 @@ return(
                       <Textarea
                                             label="Observações sobre este Orçamento"
                                             placeholder="Observações"
-                                            className="max-w-lg border-1 ml-5 mt-3 mb-3 border-black rounded-md min-w-[210px] max-h-[320px]  shadow-sm shadow-black self-center "
+                                            className="md:max-w-lg max-sm:max-w-[260px] border-1  border-black rounded-md  max-h-[320px]  shadow-sm shadow-black self-center "
                                             
                                             maxRows={14}
                                             value={observacoes}
@@ -810,7 +804,7 @@ return(
               
                 </div>
              ):
-             <div className='flex flex-row gap-5 mt-4 self-center'>
+             <div className='flex md:flex-row  max-sm:flex-col gap-5 mt-4 self-center'>
              <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg shadow-lg ' onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
              <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg ' onPress={onOpen}>
                         Autorizar Orçamento
@@ -821,7 +815,7 @@ return(
               
                                        
         
-    <div className='flex flex-row  gap-4 self-center mt-5 max-w-[1200px]'>
+    <div className='flex md:flex-row max-sm:flex-col  gap-4 self-center mt-5 max-w-[1200px]'>
   
               {!orcamento?.isPayed && (
   
@@ -830,9 +824,9 @@ return(
              isDisabled={!materiais}
              placeholder="Procure um material"
              startContent={<SearchIcon className="text-default-400" strokeWidth={2.5} size={20} />}
-            value={descricao}
-            onValueChange={(x:any)=>buscarDescricao(x)}
-             className="max-w-[550px] min-w-[500px] ml-6 self-center border-1 border-black rounded-xl shadow-sm shadow-black"
+             value={descricao}
+             onValueChange={(x:any)=>buscarDescricao(x)}
+             className=" md:min-w-[500px] max-sm:w-[350px]  self-center border-1 border-black rounded-xl shadow-sm shadow-black"
            >
   
            {materiais.map((item:IInventario) => (
@@ -865,10 +859,12 @@ return(
               
    
 
-
+            <div className='flex md:flex-row max-sm:flex-col items-center'>
            <Button
-        isDisabled={!nomeOrçamento?.length}
-          className={`bg-master_black text-white w-[225px] ${orcamento?.isPayed?"w-[225px]":"w-[275px]"} p-3 my-auto rounded-lg font-bold text-base shadow-lg ml-3 `}
+           color='danger' 
+           variant='ghost'
+           isDisabled={!nomeOrçamento?.length}
+           className={`  ${orcamento?.isPayed?"w-[225px]":"w-[205px]"} p-3 my-auto max-sm:w-[60%] `}
           >
             <PDFDownloadLink document={   <OrcamentoPDF
             materiaisOrcamento ={materiaisOrcamento}
@@ -884,10 +880,17 @@ n            orcamento={orcamento}
               </PDFDownloadLink>
        
             </Button>
-            <Button  onPress={()=>route.push("/create-material")} className='bg-master_black text-white p-4 rounded-lg font-bold text-2xl shadow-lg  mt-3'>
-       Criar material
           
-      </Button>
+            <Button
+           color='danger' 
+           variant='ghost'
+           isDisabled={!nomeOrçamento?.length}
+           className={`  ${orcamento?.isPayed?"w-[225px]":"w-[205px]"} p-3 my-auto max-sm:w-[60%] `}
+          onClick={()=>console.log(haveNoEstoque)}>
+          
+       FSDF
+            </Button>
+      </div>
   </div>
 
            <Dialog open={openDialog} onClose={handleCloseDialog} >
@@ -957,6 +960,7 @@ n            orcamento={orcamento}
           <Table.HeadCell className="text-center border-1 border-black text-sm">Descricao</Table.HeadCell>
           {/* <Table.HeadCell className="text-center border-1 border-black text-sm">Estoque</Table.HeadCell> */}
           <Table.HeadCell className="text-center border-1 border-black text-sm">Qntd</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm">Estoque</Table.HeadCell>
 
           
           <Table.HeadCell className="text-center border-1 border-black text-sm">Preço Custo</Table.HeadCell>
@@ -968,7 +972,7 @@ n            orcamento={orcamento}
         <Table.Body className="divide-y">
           
         { materiaisOrcamento.length>=1 && materiaisOrcamento.map((row:any) => (
-          <Table.Row  key={row.material.id} className=" dark:border-gray-700 dark:bg-gray-800 ">
+          <Table.Row onClick={()=>console.log(row)} key={row.material.id} className=" dark:border-gray-700 dark:bg-gray-800 ">
           <Table.Cell className="  text-center font-medium text-gray-900 dark:text-white max-w-[120px]">
           {row.material.id}
           </Table.Cell>
@@ -982,6 +986,8 @@ n            orcamento={orcamento}
           <Table.Cell className="text-center text-black hover:underline" onClick={()=>{getEstoqueMaterial(row.material.id),setItemToBeUpdated(row),setIsEditingOs(true),setOpenDialog(true)}} >{row.quantidadeMaterial}</Table.Cell>
 
           }
+          <Table.Cell className="text-center text-black " >{row.estoque} {row.material.unidade}</Table.Cell>
+
           <Table.Cell className="text-center text-black " >{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</Table.Cell>
            
             {orcamento?.isPayed ?(
@@ -1067,7 +1073,7 @@ n            orcamento={orcamento}
                 <Button color="danger" variant="light" onPress={onClose}>
                   Fechar
                 </Button>
-                <Button isDisabled={confirmAuthorizeMessage!="AUTORIZAR"|| orcamento?.isPayed } color="primary" onPress={handleUpdateOrcamentoToSell}>
+                <Button isDisabled={confirmAuthorizeMessage!="AUTORIZAR"|| orcamento?.isPayed || haveNoEstoque} color="primary" onPress={handleUpdateOrcamentoToSell}>
                   Autorizar
                 </Button>
               </ModalFooter>

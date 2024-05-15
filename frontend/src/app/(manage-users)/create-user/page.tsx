@@ -1,31 +1,17 @@
 "use client"
-import {Link, Button,Autocomplete, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
-import Excel, { BorderStyle } from 'exceljs';
 import MuiAlert from "@mui/material/Alert";
+import { Autocomplete, AutocompleteItem, Button, Input } from '@nextui-org/react';
 
-import  { AlertColor, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
-import { useRouter } from "next/navigation";
-import { QRCode } from "react-qrcode-logo";
-import { Textarea } from 'flowbite-react';
-import { useEffect, useRef, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
+import { AlertColor, Snackbar } from '@mui/material';
 import "dayjs/locale/pt-br";
-
-import { useSession } from 'next-auth/react';
-
-
-import dayjs from 'dayjs';
-import { IOrcamento } from '@/app/interfaces/IOrcamento';
-import { Box, Flex } from '@radix-ui/themes';
-import axios from 'axios';
-
-import { getMaterialById } from '@/app/services/Material.Services';
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { getMaterialById } from "@/app/services/Material.Services";
 
 
 
-export default function CreateUser({params}:any){
+export default function CreateUser(){
     const route = useRouter()
-    const { data: session } = useSession();
   const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
 
     const [messageAlert, setMessageAlert] = useState<string>();

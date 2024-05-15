@@ -1,0 +1,13 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SupplyManager.Models
+{
+    public class TarefaUsuario
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Tarefa { get; set; }
+
+        public int MyProperty { get; set; }
+    }
+}

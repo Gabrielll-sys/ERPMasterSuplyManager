@@ -1,4 +1,4 @@
-import {BlobServiceClient, BlockBlobClient, ContainerClient, StorageSharedKeyCredential} from "@azure/storage-blob";
+import { BlobServiceClient, BlockBlobClient, ContainerClient } from "@azure/storage-blob";
 
 const sas = process.env.NEXT_PUBLIC_AZURE_SAS
 

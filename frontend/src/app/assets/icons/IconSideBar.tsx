@@ -4,15 +4,21 @@ import * as React from "react";
 function IconSideBar(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
-      fill="currentColor"
-      viewBox="0 0 16 16"
-      height="1.8em"
-      width="1.8em"
-      {...props}
-    >
-      <path d="M12.5 3a.5.5 0 010 1h-5a.5.5 0 010-1h5zm0 3a.5.5 0 010 1h-5a.5.5 0 010-1h5zm.5 3.5a.5.5 0 00-.5-.5h-5a.5.5 0 000 1h5a.5.5 0 00.5-.5zm-.5 2.5a.5.5 0 010 1h-5a.5.5 0 010-1h5z" />
-      <path d="M16 2a2 2 0 00-2-2H2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2zM4 1v14H2a1 1 0 01-1-1V2a1 1 0 011-1h2zm1 0h9a1 1 0 011 1v12a1 1 0 01-1 1H5V1z" />
-    </svg>
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    height="1.8em"
+    width="1.em"
+    {...props}
+  >
+    <path
+      fillRule="evenodd"
+      d="M11.28 9.53L8.81 12l2.47 2.47a.75.75 0 11-1.06 1.06l-3-3a.75.75 0 010-1.06l3-3a.75.75 0 111.06 1.06z"
+    />
+    <path
+      fillRule="evenodd"
+      d="M3.75 2A1.75 1.75 0 002 3.75v16.5c0 .966.784 1.75 1.75 1.75h16.5A1.75 1.75 0 0022 20.25V3.75A1.75 1.75 0 0020.25 2H3.75zM3.5 3.75a.25.25 0 01.25-.25H15v17H3.75a.25.25 0 01-.25-.25V3.75zm13 16.75v-17h3.75a.25.25 0 01.25.25v16.5a.25.25 0 01-.25.25H16.5z"
+    />
+  </svg>
   );
 }
 

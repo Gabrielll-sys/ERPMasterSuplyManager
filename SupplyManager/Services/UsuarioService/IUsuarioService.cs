@@ -15,8 +15,9 @@ namespace SupplyManager.Interfaces
 
 
         Task<Usuario> ExistsAsync(string email);
-        
-        Task  ResetUserPassword(int id);
+        Task TurnUserInactive(int id);
+
+        Task ResetUserPassword(int id);
 
 
         Task DeleteAsync(int id);

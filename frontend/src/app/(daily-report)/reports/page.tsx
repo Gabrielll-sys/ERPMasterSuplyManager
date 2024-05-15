@@ -1,24 +1,16 @@
 "use client"
-import {Link, Button,Autocomplete, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
-import Excel, { BorderStyle } from 'exceljs';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
-import { useRouter } from "next/navigation";
-import { QRCode } from "react-qrcode-logo";
-import { Card, Dropdown, Table, Textarea } from 'flowbite-react';
-import React, { use, useEffect, useRef, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
+import { Button } from '@nextui-org/react';
 import "dayjs/locale/pt-br";
-
-
+import { Card } from 'flowbite-react';
+import { useRouter } from "next/navigation";
+import { useEffect,useState } from 'react';
+import { IRelatorioDiario } from '@/app/interfaces/IRelatorioDiario';
+import { createRelatorioDiario, getAllRelatoriosDiarios } from "@/app/services/RelatorioDiario.Services";
 import dayjs from 'dayjs';
-import { IOrcamento } from '@/app/interfaces/IOrcamento';
-import {getUserById} from "@/app/services/User.Services";
-import {IRelatorioDiario} from "@/app/interfaces/IRelatorioDiario";
-import {createRelatorioDiario, getAllRelatoriosDiarios} from "@/app/services/RelatorioDiario.Services";
 
 
 
-export default function Reports({params}:any){
+export default function Reports(){
   const[numeroOrcamento,setNumeroOrcamento] = useState<string>("")
   const[relatoriosDiarios,setRelatorioDiarios] = useState<IRelatorioDiario[]>()
 

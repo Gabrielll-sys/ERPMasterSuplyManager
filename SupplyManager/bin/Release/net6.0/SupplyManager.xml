@@ -406,6 +406,12 @@
             </summary>
             <param name="Usuario"></param>
         </member>
+        <member name="M:SupplyManager.Controllers.UsuariosController.TurnInactive(System.Int32)">
+            <summary>
+            Faz Com que o usuário se torne inativo,não podendo mais realizar login
+            </summary>
+            <param name="Id"></param>
+        </member>
         <member name="M:SupplyManager.Interfaces.IInventarioService.GetLastRegister(System.Int32)">
             <summary>
             Get the last move register os move of some material

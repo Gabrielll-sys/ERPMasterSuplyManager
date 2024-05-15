@@ -1,34 +1,23 @@
 "use client"
-import NavBar from "../componentes/NavBar"
-import { Avatar, Button, Input } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-
 import { useEffect, useState } from "react";
-
-import { url } from "../api/webApiUrl";
-import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import "dayjs/locale/pt-br";
-import DeleteIcon from "@mui/icons-material/Delete";
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import MuiAlert from "@mui/material/Alert";
+import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-
+import { TableRow } from "@mui/material";
+import "dayjs/locale/pt-br";
 import dayjs from "dayjs";
-
-
-import SearchIcon from '@mui/icons-material/Search';
+import { searchByInternCode } from "../services/Inventario.Services";
 import Snackbar from "@mui/material/Snackbar";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
-import {searchByInternCode} from "@/app/services/Inventario.Services";
 export default function SearchInvetory(){
     
 

@@ -1,33 +1,19 @@
 "use client"
-import { useRouter } from "next/navigation";
-
-import { Autocomplete, AutocompleteItem, Button, Input, Link } from "@nextui-org/react";
-
-
-import { Datepicker } from "flowbite-react";
-
-
-import { useEffect, useState } from "react";
+import { url } from "../api/webApiUrl";
 import { DatePicker } from "@mui/x-date-pickers";
-import "dayjs/locale/pt-br";
-import { url } from "@/app/api/webApiUrl";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import MuiAlert, { AlertColor } from "@mui/material/Alert";
-
+import "dayjs/locale/pt-br";
+import { useEffect, useState } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import TextField from "@mui/material/TextField";
-import axios, {AxiosResponse} from "axios";
+import axios, { AxiosResponse } from "axios";
 import dayjs from "dayjs";
-import { getMaterialById, updateMaterial } from "@/app/services/Material.Services";
-import {Table} from "flowbite-react";
-import IconBxTrashAlt from "@/app/assets/icons/IconBxTrashAlt";
+import { Table } from "flowbite-react";
 import { authHeader } from "../_helpers/auth_headers";
-export default function LogRegister({params}:any){
-  const route = useRouter()
+
+export default function LogRegister(){
 
 
-
-  
+    const date = new Date();
   const [logs,setLogs] = useState<any>([])
   const [dateLog,setDateLog] = useState<any>()
     type LogAcoesUsuario = {
@@ -40,7 +26,9 @@ export default function LogRegister({params}:any){
  
  
  useEffect(()=>{
- 
+        
+
+ getLogByDate(date.toISOString())
 getLogs()
      
 
@@ -60,7 +48,7 @@ getLogs()
  }
  
 const getLogByDate = async(data:any)=>{
-        return await axios
+    return await axios
             .get(`${url}/LogAcoesUsuario/buscaLogsByDate?date=${data}`,{headers:authHeader()})
             .then( (r)=> {
                 console.log(r.data)

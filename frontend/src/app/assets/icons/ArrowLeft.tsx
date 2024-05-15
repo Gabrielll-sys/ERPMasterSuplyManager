@@ -1,7 +1,7 @@
 // icon:arrow-left-circle | Bootstrap https://icons.getbootstrap.com/ | Bootstrap
 import * as React from "react";
 
-function ArrowLeft(props: React.SVGProps<SVGSVGElement>) {
+ function ArrowLeft(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       fill="currentColor"

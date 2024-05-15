@@ -1,27 +1,13 @@
 "use client"
 import { useRouter } from "next/navigation";
-
 import { Autocomplete, AutocompleteItem, Button, Input, Link } from "@nextui-org/react";
-
-
-import { InputAdornment, Snackbar } from '@mui/material';
-
-import { useEffect, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
-import "dayjs/locale/pt-br";
-import { url } from "@/app/api/webApiUrl";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Snackbar } from '@mui/material';
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
-
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import TextField from "@mui/material/TextField";
-import axios from "axios";
-import dayjs from "dayjs";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+import "dayjs/locale/pt-br";
+import { useEffect, useState } from "react";
 import ArrowLeft from "@/app/assets/icons/ArrowLeft";
-import { getMaterialById, updateMaterial } from "@/app/services/Material.Services";
+import { getMaterialById,updateMaterial } from "@/app/services/Material.Services";
+import dayjs from "dayjs";
 
 export default function UpdateMaterial({params}:any){
   const route = useRouter()
@@ -55,7 +41,7 @@ export default function UpdateMaterial({params}:any){
  useEffect(()=>{
  
     getMaterial(params.materialId).then().catch()
-     
+     console.log("Disparei 1 vez")
 
  },[])
 
@@ -64,19 +50,30 @@ export default function UpdateMaterial({params}:any){
  //Função para calcular o markup ja trocando as virgulas por pontos,pois a variável é string,para permitir usar , ao invés de .
  const  calcularMarkup= ()=>
  {
+  console.log(Number(precoVenda))
+  const PRECO_CUSTO = Number(precoCusto)
+
+  const PRECO_VENDA = Number(precoVenda)
+
+  console.log(PRECO_VENDA.toFixed(4))
+
   let markupCalculado = Number((Number(precoVenda?.toString().replace(`,`,`.`))/Number(precoCusto?.toString().replace(`,`,`.`))-1).toFixed(4))*100
+
     const positiveNumber = Math.abs(markupCalculado)
+
+    console.log(positiveNumber)
+
     setMarkup(positiveNumber.toFixed(2).toString().replace('.',','))
     
   if(Number.isNaN(markupCalculado))
   {
-  
+  console.log("FOIIII")
    setMarkup("")
 
   }
   else{
 
-    // setMarkup(markupCalculado.toFixed(2).toString().replace('.',','))
+    setMarkup(markupCalculado.toFixed(2).toString().replace('.',','))
   }
   return 
 
@@ -184,37 +181,23 @@ setTensao(material.tensao)
      <div className=' w-full flex flex-row justify-center mt-10 ' >
  
  
-     <Input 
-     
-     value={oldCategory} 
-     className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-      onValueChange={setOldCategory} label='Categoria' required/>
-     
- 
- 
-     {/* <TextField disabled={true}   value={codigoInterno} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
-     className={updateMaterial.inputs} onChange={e=>setCodigoInterno(e.target.value)} label='Cod Interno'  /> */}
- 
+  
      <Input   
-      value={codigoFabricante} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px'}}
+      value={codigoFabricante} 
       className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-    
-         onValueChange={setCodigoFabricante}  label='Cod Fabricante'  />
+      onValueChange={setCodigoFabricante}  label='Cod Fabricante'  />
  
     
-     {/* <InputText className='inputs' value={descricao} onChange={e=>setDescricao(e.target.value)} /> */}
-     <Input   value={descricao} style={{marginTop:'40px',marginLeft:'20px',marginRight:'20px',}}
-          className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[400px]"
+     <Input   value={descricao} 
+         className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[400px]"
          onValueChange={setDescricao} label='Descrição'  required />
  
     
      <Input   
-     
      value={marca}     
      className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-      onValueChange={setMarca}  label='Marca' />
+     onValueChange={setMarca}  label='Marca' />
       
- 
        <Input
            value={localizacao}
            className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
@@ -222,7 +205,7 @@ setTensao(material.tensao)
            onValueChange={setLocalizacao}
            label="Localização"
          />
-   </div>
+    </div>
 
       <div className=' w-full flex flex-row justify-center mt-6 ' >
 
@@ -238,13 +221,9 @@ setTensao(material.tensao)
          onValueChange={setPrecoCusto}
          label="Preço Custo"
 
-         
-      
        />
        <Input
           type="number"
-       labelPlacement="outside"
-        
            value={markup}
            className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
            onValueChange={(x)=>{setMarkup(x),calcularPrecoVenda()}}
@@ -320,26 +299,14 @@ setTensao(material.tensao)
       </Autocomplete>
       )}
       
-     {/* <div style={{marginTop:'40px',width:'206px'}}>
- 
-      <LocalizationProvider 
-        dateAdapter={AdapterDayjs} adapterLocale="pt-br" >
      
-         <DatePicker  
-         slotProps={{ textField: { variant: 'filled' }}}
-         label="Data Entrada NF"  
-         value={dataentrada} 
-         onChange={e=>setDataentrada(e)} />
-     
-     </LocalizationProvider> 
-     </div>
-      */}
- 
    
      </div>
 
      <div className='text-center mt-12'>
-     <Button  onPress={x=>handleUpdateMaterial(params.materialId)} className='bg-master_black text-white p-6 rounded-lg font-bold text-2xl  '>
+     <Button  onPress={x=>handleUpdateMaterial(params.materialId)} 
+      color='primary' 
+      variant='ghost' className=' p-6 rounded-lg font-bold text-2xl  '>
        Atualizar Material
       </Button>
       </div>

@@ -1,36 +1,17 @@
 "use client"
-import {Link, Button,Autocomplete, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
-import Excel, { BorderStyle } from 'exceljs';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
-import { useRouter } from "next/navigation";
-import { QRCode } from "react-qrcode-logo";
-import { Card, Dropdown, Table, Textarea } from 'flowbite-react';
-import { use, useEffect, useRef, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
-import "dayjs/locale/pt-br";
 import { url } from '@/app/api/webApiUrl';
-import { stringSimilarity } from "string-similarity-js";
-import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import IMaterial from '@/app/interfaces/IMaterial';
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import TextField from "@mui/material/TextField";
+import { Input } from '@nextui-org/react';
 import axios, { AxiosResponse } from "axios";
-import imagem from '/src/app/assets/logo.png'
-import { useReactToPrint } from 'react-to-print';
-import ArrowLeft from '@/app/assets/icons/ArrowLeft';
-import { IFilterMaterial } from '@/app/interfaces/IFilterMaterial';
-import { IOrderServico } from '@/app/interfaces/IOrderServico';
+import "dayjs/locale/pt-br";
+import { Card } from 'flowbite-react';
 import { useSession } from 'next-auth/react';
-import {IUsuario} from "@/app/interfaces/IUsuario";
-import jsPDF from 'jspdf'
-
-
-import dayjs from 'dayjs';
+import { useRouter } from "next/navigation";
+import React from 'react';
+import { useEffect,useState } from 'react';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
+import dayjs from 'dayjs';
 
-import {getUserById} from "@/app/services/User.Services";
 import { authHeader } from '@/app/_helpers/auth_headers';
-
 
 
 export default function ManageBudges(){
@@ -76,21 +57,6 @@ export default function ManageBudges(){
     const { data: session } = useSession();
   
     
-
-    const[nomeOrçamento,setNomeOrçamento] = useState<string>("")
-
-    const formasPagamento : string[] = ["Boleto", "PIX", "Cartão Crédito", "Cartão Débito"];
-    const doc = new jsPDF()
-    let date = dayjs()
-
-    const bordas:any= {
-      top: {style:'thin'},
-      left: {style:'thin'},
-      bottom: {style:'thin'},
-      right: {style:'thin'}
-    }
-
-
 
 const getOrcamentosByClient = async()=>{
   setNumeroOrcamento("")
@@ -139,18 +105,18 @@ const getOrcamentoById = async()=>{
   if(numeroOrcamento != undefined){
 
     await axios.get(`${url}/Orcamentos/${numeroOrcamento}`,{headers:authHeader()}).then((r:AxiosResponse)=>{
+
       setOrcamentos([])
-      console.log(r.data)
       setOrcamento(r.data)
+      
     }).catch(e=>console.log(e))
   }
 }
 
-console.log(stringSimilarity("DISJUNTOR MOTOR MPW80 50 - 65A","DISJUNTOR TRIPOLAR PARA MOTOR 50-65A MPW803U050 WEG"))
 return(
     <>
       <h1 className='text-center text-2xl mt-4' onClick={()=>console.log(orcamento)}>Orçamentos</h1>
-      <div className=' flex flex-row justify-center'>
+      <div className=' flex  flex-row justify-center'>
         <Input
           value={numeroOrcamento}
           type='number'
@@ -213,8 +179,6 @@ return(
 </Card>
 )}
     </div>
-
-
 
 
      </>

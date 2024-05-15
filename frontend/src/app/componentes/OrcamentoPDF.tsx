@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Page, Text, View, Document, StyleSheet,Image} from '@react-pdf/renderer';
-import { IInventario } from '../interfaces/IInventarios';
+"use client"
+import { Document, Image, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 import dayjs from 'dayjs';
-import { table } from 'console';
-import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 import { logoBase64 } from '../assets/base64Logo';
+import { IInventario } from '../interfaces/IInventarios';
 
 
 const OrcamentoPDF = (props:any)=>{
@@ -50,7 +49,6 @@ calcPrecoVenda()
 
 
   }
-console.log(props.desconto )
 
 return(
 

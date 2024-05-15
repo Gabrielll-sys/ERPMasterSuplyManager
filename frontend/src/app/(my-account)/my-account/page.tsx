@@ -1,30 +1,23 @@
 "use client"
-import {Link, Button,Autocomplete, AutocompleteItem, Input, useDisclosure, ModalFooter, ModalContent, ModalBody, ModalHeader, Modal, Popover, PopoverTrigger, PopoverContent, Divider, AccordionItem, Accordion, CheckboxGroup, Checkbox } from '@nextui-org/react';
-import Excel, { BorderStyle } from 'exceljs';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Typography } from '@mui/material';
+import { Snackbar } from '@mui/material';
+import { Button, Input } from '@nextui-org/react';
 import { useRouter } from "next/navigation";
 
-import { useEffect, useRef, useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
 import "dayjs/locale/pt-br";
+import { useEffect, useState } from "react";
 
-import { useSession } from 'next-auth/react';
-import MuiAlert, {AlertColor} from "@mui/material/Alert";
+import MuiAlert, { AlertColor } from "@mui/material/Alert";
 
-
-import dayjs from 'dayjs';
-import { IOrcamento } from '@/app/interfaces/IOrcamento';
-
-import {getUserById, updateInfosUser} from "@/app/services/User.Services";
-import {EyeFilledIcon, EyeSlashFilledIcon} from "@nextui-org/shared-icons";
-import {IUsuario} from "@/app/interfaces/IUsuario";
 import { authHeader } from '@/app/_helpers/auth_headers';
-import axios from 'axios';
 import { url } from '@/app/api/webApiUrl';
+import { IUsuario } from "@/app/interfaces/IUsuario";
+import { updateInfosUser } from "@/app/services/User.Services";
+import { EyeFilledIcon, EyeSlashFilledIcon } from "@nextui-org/shared-icons";
+import axios from 'axios';
 
 
 
-export default function MyAccount({params}:any){
+export default function MyAccount(){
     const route = useRouter()
  
     const[nomeUsuario,setNomeUsuario] = useState<string>()
