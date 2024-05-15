@@ -881,15 +881,7 @@ n            orcamento={orcamento}
        
             </Button>
           
-            <Button
-           color='danger' 
-           variant='ghost'
-           isDisabled={!nomeOrçamento?.length}
-           className={`  ${orcamento?.isPayed?"w-[225px]":"w-[205px]"} p-3 my-auto max-sm:w-[60%] `}
-          onClick={()=>console.log(haveNoEstoque)}>
-          
-       FSDF
-            </Button>
+       
       </div>
   </div>
 
