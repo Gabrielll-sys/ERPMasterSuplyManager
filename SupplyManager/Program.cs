@@ -119,7 +119,7 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddTransient<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<ILogAcoesUsuarioRepository, LogAcoesUsuarioRepository>();
 builder.Services.AddTransient<ILogAcoesUsuarioService, LogAcoesUsuarioService>();
-builder.Services.AddScoped<IAtividadeRdRepository, AtividadeRdRepository>();
+builder.Services.AddScoped<IClienteRepository, ClientRepository>();
 builder.Services.AddTransient<IAtividadeRdService, AtividadeRdService>();
 builder.Services.AddScoped<IRelatorioDiarioRepository, RelatorioDiarioRepository>();
 builder.Services.AddTransient<IRelatorioDiarioService, RelatorioDiarioService>();

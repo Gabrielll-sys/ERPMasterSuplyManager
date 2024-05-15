@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SupplyManager.App;
+using SupplyManager.Interfaces;
 using SupplyManager.Models;
+using SupplyManager.Services;
 using System;
 
 namespace SupplyManager.Controllers
@@ -13,31 +15,31 @@ namespace SupplyManager.Controllers
     public class ClientesController : ControllerBase
     {
 
-        public readonly SqlContext _context;
+        public readonly IClienteService _clientesService;
 
-        public ClientesController(SqlContext context)
+        public ClientesController(IClienteService clienteService)
         {
+            _clientesService = clienteService;
 
-            _context = context;
+
         }
-
-        
 
         [HttpGet]
         public async Task<ActionResult<List<Cliente>>> GetAll()
         {
-            return Ok(await _context.Inventarios.AsNoTracking().ToListAsync());
+
+            return Ok(await _clientesService.GetAllAsync());
+
 
         }
+       
 
-        
         [HttpGet("{id}")]
         public async Task<ActionResult<Cliente>> Get(int id)
         {
             try
             {
-                return Ok(await _context.Clientes.FirstOrDefaultAsync(x => x.Id == id));
-
+                return Ok(await _clientesService.GetByIdAsync(id));
 
             }
             catch (KeyNotFoundException)
@@ -51,96 +53,90 @@ namespace SupplyManager.Controllers
         }
 
 
+        /// <summary>
+        /// Cria um relatório diário
+        /// </summary>
+        /// <param name="Usuario"></param>
+        /// <returns>O Relatorio Diario Criado </returns>
+        /// 
         [HttpPost]
-            public async Task<ActionResult<Cliente>> Post([FromBody] Cliente model)
+        /*[Authorize(Roles = "Diretor")]*/
+        public async Task<ActionResult> Post([FromBody] Cliente model)
         {
             try
             {
 
-                    Cliente c1 = new Cliente()
-                    {
-                        Email = model.Email,
-                        Nome = model.Nome,
-                        Telefone = model.Telefone,
-                        CPFOrCNPJ = model.CPFOrCNPJ,
-                    };
+                var rd = await _clientesService.CreateAsync(model);
 
 
-                    var client = await _context.Clientes.AddAsync(c1);
-
-                    await _context.SaveChangesAsync();
-
-
-                    return Ok(client);
+                return Ok(rd);
 
             }
-                catch (Exception exception)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
-
-                }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
 
             }
 
-    
+        }
+
+        /// <summary>
+        /// Atualiza uma atividade
+        /// </summary>
+        /// <param name="Relatorio Diário"></param>
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] Cliente model)
         {
 
-                if(model.Id != id) return StatusCode(StatusCodes.Status400BadRequest);
+            if (model.Id != id) return StatusCode(StatusCodes.Status400BadRequest);
 
-                try
-                {
-                    var client = await _context.Clientes.FindAsync(id) ?? throw new KeyNotFoundException();
-
-                    client.Email = model.Email;
-                    client.Nome = model.Nome;
-                    client.CPFOrCNPJ = model.CPFOrCNPJ;
-                    client.Telefone = model.Telefone;
-
-                     _context.Clientes.Update(client);
-
-                    await _context.SaveChangesAsync();
-                    return Ok();
-
-
-                }
-
-                catch(KeyNotFoundException)
-                {
-                    return StatusCode(StatusCodes.Status404NotFound);
-
-                }
-                catch (Exception exception)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
-
-                }
-            }
-
-        
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
-        {
-           try
+            try
             {
-               var client = await _context.Clientes.FindAsync(id)?? throw new KeyNotFoundException();
+                var rd = await _clientesService.UpdateAsync(model);
 
-               _context.Clientes.Remove(client);
+                return Ok(rd);
 
-               await _context.SaveChangesAsync();
-               
-                    return Ok();
 
             }
-           catch (Exception exception)
+
+            catch (KeyNotFoundException)
             {
-               return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+                return StatusCode(StatusCodes.Status404NotFound);
 
             }
-
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
 
             }
         }
+
+        /// <summary>
+        /// Exclui uma Atividade
+        /// </summary>
+        /// <param name="Id da atividade"></param>
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+
+            try
+            {
+                await _clientesService.DeleteAsync(id);
+                return Ok();
+
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+
+            }
+        }
+    }
     }
 

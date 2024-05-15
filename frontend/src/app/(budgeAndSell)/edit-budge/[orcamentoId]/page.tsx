@@ -881,15 +881,7 @@ n            orcamento={orcamento}
        
             </Button>
           
-            <Button
-           color='danger' 
-           variant='ghost'
-           isDisabled={!nomeOrçamento?.length}
-           className={`  ${orcamento?.isPayed?"w-[225px]":"w-[205px]"} p-3 my-auto max-sm:w-[60%] `}
-          onClick={()=>console.log(haveNoEstoque)}>
-          
-       FSDF
-            </Button>
+        
       </div>
   </div>
 
@@ -898,7 +890,7 @@ n            orcamento={orcamento}
     <DialogContent className='flex flex-col justify-center' >
 
       <p className='text-center' onClick={()=>console.log(inventarioDialog)}>
-        Estoque Disponível: {inventarioDialog?.saldoFinal == 0 || null?0:inventarioDialog?.saldoFinal} {inventarioDialog?.material.unidade}
+        Estoque Disponível: {inventarioDialog?.saldoFinal == 0 || null?0:inventarioDialog?.saldoFinal} {inventarioDialog?.material?.unidade}
     
           </p>
       <div className=' flex flex-row justify-center'>
@@ -986,7 +978,7 @@ n            orcamento={orcamento}
           <Table.Cell className="text-center text-black hover:underline" onClick={()=>{getEstoqueMaterial(row.material.id),setItemToBeUpdated(row),setIsEditingOs(true),setOpenDialog(true)}} >{row.quantidadeMaterial}</Table.Cell>
 
           }
-          <Table.Cell className="text-center text-black " >{row.estoque} {row.material.unidade}</Table.Cell>
+          <Table.Cell className="text-center text-black " >{row.estoque} {row.material?.unidade}</Table.Cell>
 
           <Table.Cell className="text-center text-black " >{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</Table.Cell>
            
