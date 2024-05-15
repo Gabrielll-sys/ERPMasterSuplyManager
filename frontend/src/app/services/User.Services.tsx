@@ -1,7 +1,7 @@
 import axios from "axios";
-import {url} from "@/app/api/webApiUrl";
-import {authHeader} from "@/app/_helpers/auth_headers";
-import {IUsuario} from "@/app/interfaces/IUsuario";
+import { authHeader } from "../_helpers/auth_headers";
+import { IUsuario } from "../interfaces/IUsuario";
+import { url } from "../api/webApiUrl";
 
 export const createUser = async (idMaterial:number) => {
 

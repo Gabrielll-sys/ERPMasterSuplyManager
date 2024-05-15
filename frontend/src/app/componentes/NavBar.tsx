@@ -10,9 +10,9 @@ import {
     DropdownTrigger,
     Navbar
 } from "@nextui-org/react";
-
-import IconPersonFill from "@/app/assets/icons/IconPersonFill";
-import { authenticate, isTokenValid } from "@/app/services/Auth.services";
+import IconPersonFill from "../assets/icons/IconPersonFill";
+import { authenticate } from "../services/Auth.services";
+import { isTokenValid } from "../services/Auth.services";
 import { useRouter } from "next/navigation";
 import IconExit from "../assets/icons/IconExit";
 import IconSideBar from "../assets/icons/IconSideBar";

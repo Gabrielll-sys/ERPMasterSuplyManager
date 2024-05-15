@@ -1,24 +1,27 @@
 "use client"
-import { Button, Input } from '@nextui-org/react';
+import { Button, Input,  Accordion} from '@nextui-org/react';
 
 import { useRouter } from "next/navigation";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
+import "dayjs/locale/pt-br";
 import { url } from '@/app/api/webApiUrl';
 import axios, { AxiosResponse } from "axios";
-import "dayjs/locale/pt-br";
+import imagem from '/src/app/assets/logo.png'
+;
 import { useSession } from 'next-auth/react';
 
-import jsPDF from 'jspdf';
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
-import { authHeader } from '@/app/_helpers/auth_headers';
-import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import dayjs from 'dayjs';
+import { IOrcamento } from '@/app/interfaces/IOrcamento';
+import { authHeader } from '@/app/_helpers/auth_headers';
 
 
 
-export default function CreateBudge(){
+export default function CreateBudge({params}:any){
     const route = useRouter()
     const { data: session } = useSession();
   
@@ -31,7 +34,7 @@ export default function CreateBudge(){
     const [desconto,setDesconto] = useState<string>("")
     const [endereco,setEndereco] = useState<string>("")
 
-    const [currentUser, setCurrentUser] = useState<any>();
+    const [currentUser, setCurrentUser] = useState<any>(null);
     const[nomeOrçamento,setNomeOrçamento] = useState<string>("")
     
     const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Cartão De Débito"];
@@ -39,12 +42,8 @@ export default function CreateBudge(){
     let date = dayjs()
     
 useEffect(()=>{
-  
- 
-    //@ts-ignore
-
-    const user = JSON.parse(localStorage.getItem("currentUser"));
-  
+  //@ts-ignore
+  const user = JSON.parse(localStorage.getItem("currentUser"));
   console.log(user)
   if(user != null)
   {

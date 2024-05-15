@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 import dayjs from 'dayjs';
 
-import { logoComEnderecoBase64 } from "@/app/assets/base64Logo";
+import { logoComEnderecoBase64 } from '@/app/assets/base64Logo';
 import IconExcel from '@/app/assets/icons/IconExcel';
 import Atividade from '@/app/componentes/Atividade';
 import { IAtividadeRd } from "@/app/interfaces/IAtividadeRd";

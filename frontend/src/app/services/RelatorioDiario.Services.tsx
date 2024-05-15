@@ -1,8 +1,8 @@
 import axios, {AxiosResponse} from "axios";
-import {url} from "@/app/api/webApiUrl";
-import {authHeader} from "@/app/_helpers/auth_headers";
-import {IRelatorioDiario} from "@/app/interfaces/IRelatorioDiario";
-import {useRouter} from "next/navigation";
+import { url } from "../api/webApiUrl";
+import { authHeader } from "../_helpers/auth_headers";
+import { IRelatorioDiario } from "../interfaces/IRelatorioDiario";
+
 
 
 

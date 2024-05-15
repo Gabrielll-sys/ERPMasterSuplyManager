@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 
-import { url } from "@/app/api/webApiUrl";
+import { url } from '@/app/api/webApiUrl';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { CardActionArea, CardActions, FilledInput, Snackbar } from '@mui/material';

@@ -1,3 +1,4 @@
+"use client"
 import { Document, Image, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';

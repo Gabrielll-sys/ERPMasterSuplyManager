@@ -12,10 +12,10 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import { TableRow } from "@mui/material";
 import "dayjs/locale/pt-br";
 import dayjs from "dayjs";
-import { searchByInternCode } from "@/app/services/Inventario.Services";
+import { searchByInternCode } from "../services/Inventario.Services";
 import Snackbar from "@mui/material/Snackbar";
 import { useSession } from "next-auth/react";
 export default function SearchInvetory(){

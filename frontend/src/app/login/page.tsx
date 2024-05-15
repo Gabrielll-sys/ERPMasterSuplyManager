@@ -9,7 +9,7 @@ import "dayjs/locale/pt-br";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "@nextui-org/shared-icons";
 
 import MailIcon from "@/app/assets/icons/MailIcon";
-import { authenticate } from '@/app/services/Auth.services';
+import { authenticate } from "@/app/services/Auth.services";
 
 
 

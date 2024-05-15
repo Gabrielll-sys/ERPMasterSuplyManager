@@ -1,6 +1,9 @@
-import { authHeader } from "@/app/_helpers/auth_headers";
-import { url } from "@/app/api/webApiUrl";
-import { IAtividadeRd } from "@/app/interfaces/IAtividadeRd";
+import { authHeader } from "../_helpers/auth_headers";
+
+import { url } from "../api/webApiUrl";
+
+import { IAtividadeRd } from "../interfaces/IAtividadeRd";
+
 import axios from "axios";
 
 export const getAllAtivdadesInRd = async (id:number): Promise<IAtividadeRd[]> => {

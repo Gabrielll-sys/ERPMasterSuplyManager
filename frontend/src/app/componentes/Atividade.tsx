@@ -5,7 +5,7 @@ import "dayjs/locale/pt-br";
 import { Table } from 'flowbite-react';
 import { useState } from "react";
 
-import { uploadImageToAzure } from "@/app/services/Images.Services";
+import { uploadImageToAzure } from '../services/Images.Services';
 import Image from "next/image";
 
 

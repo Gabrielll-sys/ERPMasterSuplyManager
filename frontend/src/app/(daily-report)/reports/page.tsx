@@ -3,10 +3,8 @@ import { Button } from '@nextui-org/react';
 import "dayjs/locale/pt-br";
 import { Card } from 'flowbite-react';
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-
-
-import { IRelatorioDiario } from "@/app/interfaces/IRelatorioDiario";
+import { useEffect,useState } from 'react';
+import { IRelatorioDiario } from '@/app/interfaces/IRelatorioDiario';
 import { createRelatorioDiario, getAllRelatoriosDiarios } from "@/app/services/RelatorioDiario.Services";
 import dayjs from 'dayjs';
 

@@ -1,11 +1,11 @@
+"use client"
 import { Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HiFilter, HiInbox, HiPencil, HiPencilAlt, HiQrcode, HiShoppingBag } from 'react-icons/hi';
 
-import IconPersonFill from "@/app/assets/icons/IconPersonFill";
-import IconReport from "@/app/assets/icons/IconReport";
-import { createRelatorioDiario } from "@/app/services/RelatorioDiario.Services";
+import IconReport from "../assets/icons/IconReport";
+import { createRelatorioDiario } from "../services/RelatorioDiario.Services";
 import { Sidebar } from "flowbite-react";
 import Image from "next/image";
 
@@ -96,7 +96,7 @@ export default function SideBarLFT(props : any) {
 
             {conditionsRoles && (
                 <>
-          <Sidebar.Collapse className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out"label=" Gestão De Usuários" icon = {IconPersonFill}>
+          {/* <Sidebar.Collapse className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out"label=" Gestão De Usuários" icon = {IconPersonFill}>
 
 
           <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/create-user"   >
@@ -106,7 +106,7 @@ export default function SideBarLFT(props : any) {
           <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/manage-budges" >
               Gerenciar Usuários
           </Sidebar.Item>
-          </Sidebar.Collapse>
+          </Sidebar.Collapse> */}
           <Sidebar.Item className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/log-register" icon={HiPencil}>
             Registro de Ações
           </Sidebar.Item>
