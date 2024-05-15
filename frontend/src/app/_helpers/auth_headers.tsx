@@ -1,14 +1,15 @@
 "use client"
 
+import { getUserLocalStorage } from "../services/Auth.services";
+
 export function authHeader() {
-    if (typeof window !== 'undefined') { // Verifica se estamos no cliente
-        const user = JSON.parse(localStorage.getItem("currentUser") || "null");
+
+        const user = getUserLocalStorage()
 
         if (user && user.token) {
             return {
                 Authorization: `Bearer ${user.token}`,
                 'Content-Type': 'application/json'
-            };
         }
     }
     

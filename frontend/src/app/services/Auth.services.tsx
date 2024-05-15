@@ -22,7 +22,17 @@ export const register = async (param:any) => {
   }
 }
 
+export const getUserLocalStorage = ()=>{
+ 
+  if (typeof window !== 'undefined') { // Verifica se estamos no cliente
+    const user = JSON.parse(localStorage.getItem("currentUser") || "null");
 
+    
+    return user
+}
+
+
+}
 
 const gravaUserLogadoLocalStorage = async (token:any, userId:number,name:string,role:string) => {
  

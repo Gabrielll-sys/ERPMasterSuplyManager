@@ -3,13 +3,10 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar } from '@mu
 import { Autocomplete, AutocompleteItem, Button, Input, Link, Modal, ModalBody, ModalContent, ModalFooter, Textarea, useDisclosure } from '@nextui-org/react';
 import Excel from 'exceljs';
 import { useRouter } from "next/navigation";
-
-
 import { url } from '@/app/api/webApiUrl';
 import "dayjs/locale/pt-br";
 import { Table } from 'flowbite-react';
 import { useEffect, useState } from "react";
-
 import ArrowLeft from '@/app/assets/icons/ArrowLeft';
 import IconBxTrashAlt from '@/app/assets/icons/IconBxTrashAlt';
 import { IInventario } from '@/app/interfaces/IInventarios';
@@ -17,8 +14,6 @@ import { IItem } from '@/app/interfaces/IItem';
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import axios, { AxiosResponse } from "axios";
 import { useSession } from 'next-auth/react';
-
-
 import { authHeader } from '@/app/_helpers/auth_headers';
 import { logoBase64 } from '@/app/assets/base64Logo';
 import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
@@ -173,12 +168,14 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
         {
           const estoque = await getEstoqueMaterial(item.materialId);
 
+
+          console.log(estoque)
           item.estoque = estoque.saldoFinal
 
           item.material.precoVenda = item.precoItemOrcamento
 
-          console.log(estoque.saldoFinal)
-          console.log(estoque.saldoFinal == 0)
+          console.log(item.estoque)
+        
           if(estoque.saldoFinal == null || estoque.saldoFinal == 0)
             {
             setHaveNoEstoque(true)
@@ -209,7 +206,7 @@ const getEstoqueMaterial =  async (id:number)=>{
 
   const res =  await axios.get(`${url}/Inventarios/GetLastRegister/${id}`).then((r)=>{
 
-    setInventarioDialog(r.data[0])
+    setInventarioDialog(r.data)
    
   return r.data
 
@@ -391,7 +388,6 @@ console.log(item.quantidadeMaterial)
           precoItemOrcamento:item.precoItemOrcamemento!= item.material.precoVenda && precoVendaNovoMaterial!=""?precoVendaNovoMaterial:item.material.precoVenda
         }
       }
-      console.log(itemOrcamento)
       const res = await axios.put(`${url}/ItensOrcamento/${item.id}`,itemOrcamento,{headers:authHeader()}).then(r=>{
 
         setOpenSnackBar(true);
@@ -426,7 +422,7 @@ console.log(item.quantidadeMaterial)
                 orcamento:{},
                 precoItemOrcamento: (item.precoItemOrcamemento!= item.material.precoVenda && precoVendaNovoMaterial!="") || item.material.precoVenda == null?precoVendaNovoMaterial:item.material.precoVenda,
               }
-              console.log(itemOrcamento)
+           
               
             const res = await axios.put(`${url}/ItensOrcamento/${item.id}`,itemOrcamento,{headers:authHeader()}).then(r=>{
       
@@ -471,9 +467,9 @@ console.log(item.quantidadeMaterial)
 
   
     const findInventory = (id:number)=>{
-      console.log(id)
+
       const inventoryFinded : IInventario | undefined = materiaisOrcamento.find((x:any)=>x.materialId==id)
-      console.log(inventoryFinded)
+
       setInventarioDialog(inventoryFinded)
      }
     const calcPrecoVenda = () =>{
@@ -976,7 +972,7 @@ n            orcamento={orcamento}
         <Table.Body className="divide-y">
           
         { materiaisOrcamento.length>=1 && materiaisOrcamento.map((row:any) => (
-          <Table.Row  key={row.material.id} className=" dark:border-gray-700 dark:bg-gray-800 ">
+          <Table.Row onClick={()=>console.log(row)} key={row.material.id} className=" dark:border-gray-700 dark:bg-gray-800 ">
           <Table.Cell className="  text-center font-medium text-gray-900 dark:text-white max-w-[120px]">
           {row.material.id}
           </Table.Cell>

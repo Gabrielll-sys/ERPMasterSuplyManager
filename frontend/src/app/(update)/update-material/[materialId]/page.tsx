@@ -304,7 +304,9 @@ setTensao(material.tensao)
      </div>
 
      <div className='text-center mt-12'>
-     <Button  onPress={x=>handleUpdateMaterial(params.materialId)} className='bg-master_black text-white p-6 rounded-lg font-bold text-2xl  '>
+     <Button  onPress={x=>handleUpdateMaterial(params.materialId)} 
+      color='primary' 
+      variant='ghost' className=' p-6 rounded-lg font-bold text-2xl  '>
        Atualizar Material
       </Button>
       </div>

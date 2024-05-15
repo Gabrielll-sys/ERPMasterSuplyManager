@@ -11,7 +11,7 @@ import {
     Navbar
 } from "@nextui-org/react";
 import IconPersonFill from "../assets/icons/IconPersonFill";
-import { authenticate } from "../services/Auth.services";
+import { authenticate, getUserLocalStorage } from "../services/Auth.services";
 import { isTokenValid } from "../services/Auth.services";
 import { useRouter } from "next/navigation";
 import IconExit from "../assets/icons/IconExit";
@@ -24,35 +24,11 @@ import SideBarLFT from "./SideBarLFT";
     const iconClasses = "h-4 text-2xl";
     const [showSideBar,setShowSideBar]= useState(false)
     const [currentUser, setCurrentUser] = useState<any>(null);
-    const [storageValue, setStorageValue] = useState(localStorage.getItem('currentUser'));
     
-    
-  useEffect(() => {
-    // Define a função que será chamada sempre que o evento de armazenamento for acionado
-    const handleStorageChange = () => {
-        //@ts-ignore
-      const user = JSON.parse(localStorage.getItem('currentUser'));
-      if (user) {
-        console.log(user)
-        setCurrentUser(user);
-      }
-    };
-
-    // Adiciona um ouvinte de eventos para o evento de armazenamento
-    window.addEventListener('storage', handleStorageChange);
-
-    // Chama a função manualmente para sincronizar com os dados do localStorage
-    handleStorageChange();
-
-    // Remove o ouvinte de eventos ao desmontar o componente
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, []); // Executa somente uma vez, quando o componente é montado
     
     useEffect(() => {
-        //@ts-ignore
-    const user = JSON.parse(localStorage.getItem("currentUser"));
+    
+        const user = getUserLocalStorage()
 
     if(user != null)
     {
@@ -63,21 +39,8 @@ import SideBarLFT from "./SideBarLFT";
       route.push('/login')
     }
     }, []);
-    useEffect(() => {
-        //@ts-ignore
-    console.log("Foii")
-    }
-    , [authenticate]);
-    const handleSideBar= ()=>{
-
-        if(showSideBar){
-            setShowSideBar(false)
-        }
-
-        else setShowSideBar(true)
-
-    }
-
+ 
+  
     useEffect(()=>{
         //@ts-ignore
 
