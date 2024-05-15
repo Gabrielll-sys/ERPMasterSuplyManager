@@ -166,20 +166,16 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
         if(item.precoItemOrcamento != null)
 
         {
-          const estoque = await getEstoqueMaterial(item.materialId);
+          // const estoque = await getEstoqueMaterial(item.materialId);
 
 
-          console.log(estoque)
-          item.estoque = estoque.saldoFinal
+          // item.estoque = estoque.saldoFinal
 
           item.material.precoVenda = item.precoItemOrcamento
 
           console.log(item.estoque)
         
-          if(estoque.saldoFinal == null || estoque.saldoFinal == 0)
-            {
-            setHaveNoEstoque(true)
-          }
+         
         
       }
       setMateriaisOrcamento(res)
@@ -952,7 +948,7 @@ n            orcamento={orcamento}
           <Table.HeadCell className="text-center border-1 border-black text-sm">Descricao</Table.HeadCell>
           {/* <Table.HeadCell className="text-center border-1 border-black text-sm">Estoque</Table.HeadCell> */}
           <Table.HeadCell className="text-center border-1 border-black text-sm">Qntd</Table.HeadCell>
-          <Table.HeadCell className="text-center border-1 border-black text-sm">Estoque</Table.HeadCell>
+          {/* <Table.HeadCell className="text-center border-1 border-black text-sm">Estoque</Table.HeadCell> */}
 
           
           <Table.HeadCell className="text-center border-1 border-black text-sm">Preço Custo</Table.HeadCell>
@@ -978,7 +974,7 @@ n            orcamento={orcamento}
           <Table.Cell className="text-center text-black hover:underline" onClick={()=>{getEstoqueMaterial(row.material.id),setItemToBeUpdated(row),setIsEditingOs(true),setOpenDialog(true)}} >{row.quantidadeMaterial}</Table.Cell>
 
           }
-          <Table.Cell className="text-center text-black " >{row.estoque} {row.material?.unidade}</Table.Cell>
+          {/* <Table.Cell className="text-center text-black " >{row.estoque} {row.material?.unidade}</Table.Cell> */}
 
           <Table.Cell className="text-center text-black " >{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</Table.Cell>
            
