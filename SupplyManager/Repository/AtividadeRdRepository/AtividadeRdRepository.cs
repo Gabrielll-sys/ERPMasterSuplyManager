@@ -4,12 +4,12 @@ using SupplyManager.Models;
 
 namespace SupplyManager.Repository;
 
-public class ClientRepository : IAtividadeRdRepository
+public class AtividadeRdRepository : IAtividadeRdRepository
 {
     private readonly SqlContext _context;
     
     
-            public ClientRepository(SqlContext context)
+            public AtividadeRdRepository(SqlContext context)
             {
                 _context = context;
             }

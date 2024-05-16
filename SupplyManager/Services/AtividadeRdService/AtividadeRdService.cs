@@ -6,13 +6,13 @@ namespace SupplyManager.Services;
 
 public class AtividadeRdService : IAtividadeRdService
 {
-    private readonly IClienteRepository _atividadeRdRepository;
+    private readonly IAtividadeRdRepository _atividadeRdRepository;
 
     private readonly ILogAcoesUsuarioService _logAcoesUsuarioService;
 
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public AtividadeRdService(IClienteRepository atividadeRepository,
+    public AtividadeRdService(IAtividadeRdRepository atividadeRepository,
         ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
     {
         _atividadeRdRepository = atividadeRepository;

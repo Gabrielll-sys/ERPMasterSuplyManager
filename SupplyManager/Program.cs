@@ -105,8 +105,6 @@ builder.Services.AddTransient<IInventarioService, InventarioService>();
 builder.Services.AddScoped<IInventarioRepository, InventarioRepository>();
 builder.Services.AddTransient<IMaterialService, MaterialService>();
 builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
-builder.Services.AddScoped<IFornecedorService, FornecedorService>();
-builder.Services.AddScoped<IFornecedorRepository, FornecedorRepository>();
 builder.Services.AddTransient<INotaFiscalService, NotaFiscalService>();
 builder.Services.AddScoped<INotaFiscalRepository, NotaFiscalRepository>();
 builder.Services.AddTransient<IItemNotaFiscalService, ItemNotaFiscalService>();
@@ -119,11 +117,15 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddTransient<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<ILogAcoesUsuarioRepository, LogAcoesUsuarioRepository>();
 builder.Services.AddTransient<ILogAcoesUsuarioService, LogAcoesUsuarioService>();
-builder.Services.AddScoped<IClienteRepository, ClientRepository>();
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddTransient<IClienteService, ClienteService>();
+builder.Services.AddScoped<IAtividadeRdRepository, AtividadeRdRepository>();
 builder.Services.AddTransient<IAtividadeRdService, AtividadeRdService>();
 builder.Services.AddScoped<IRelatorioDiarioRepository, RelatorioDiarioRepository>();
 builder.Services.AddTransient<IRelatorioDiarioService, RelatorioDiarioService>();
 builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+
+
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

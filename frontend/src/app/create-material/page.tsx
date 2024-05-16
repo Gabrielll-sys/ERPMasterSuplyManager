@@ -42,7 +42,7 @@ import { createMaterial, searchByDescription, searchByFabricanteCode } from "../
   const[precoCusto,setPrecoCusto] = useState<string>()
   const[markup,setMarkup] = useState<string>("")
   const [precoVenda,setPrecoVenda] = useState< string>()
-  const [materiais, setMateriais] = useState([]);
+  const [materiais, setMateriais] = useState<IMaterial[]>([]);
 
   const unidadeMaterial : string[] = ["UN", "RL", "MT", "P"];
   const tensoes :string[]= ["","12V","24V","127V","220V","380V","440V","660V"]
@@ -75,8 +75,14 @@ import { createMaterial, searchByDescription, searchByFabricanteCode } from "../
 useEffect(()=>{
 
 const description = sessionStorage.getItem("description")
+//@ts-ignore
+const materiais  = JSON.parse(sessionStorage.getItem("materiais"))
+
+if(materiais!=null &&  materiais) setMateriais(materiais)
+
 
 if(description) setDescricao(description)
+
 
 
 },[])
@@ -125,6 +131,8 @@ const buscaCodigoFabricante = async(codigo:string)=>
   const handleChangeUpdatePage = async (id:number) => {
    
     sessionStorage.setItem("description",descricao)
+
+    sessionStorage.setItem("materiais",JSON.stringify(materiais))
 
     route.push(`update-material/${id}`)
         
@@ -333,13 +341,13 @@ const buscaCodigoFabricante = async(codigo:string)=>
         </Table.Head>
         <Table.Body className="divide-y">
           
-        { materiais.length>=1 && materiais.map((row:any) => (
+        { materiais !=null &&  materiais.length>=1 && materiais.map((row:any) => (
           <Table.Row  key={row.material.id} className=" dark:border-gray-700 dark:bg-gray-800 hover:bg-yellow-200">
           <Table.Cell className="  text-center font-medium text-gray-900 dark:text-white max-w-[120px]">
           {row.material.id}
           </Table.Cell>
           <Table.Cell className="text-center  text-black ">{row.material.codigoFabricante}</Table.Cell>
-          <Table.Cell className="text-center text-black" onClick={(x)=>setDescricao(row.material.descricao)}>{row.material.descricao}</Table.Cell>
+          <Table.Cell className="text-center text-black text-base hover:-translate-y-1 p-3" onClick={(x)=>setDescricao(row.material.descricao)}>{row.material.descricao}</Table.Cell>
           <Table.Cell className="text-center text-black">{row.material.marca}</Table.Cell>
           <Table.Cell className="text-center text-black">{row.material.tensao}</Table.Cell>
           <Table.Cell className="text-center text-black hover:underline" onClick={()=>route.push(`/update-inventory/${row.material.id}`)}>{row.saldoFinal==null?"Não registrado":row.saldoFinal +" "+row.material.unidade}</Table.Cell>
