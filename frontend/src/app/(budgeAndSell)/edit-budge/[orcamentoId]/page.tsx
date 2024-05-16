@@ -877,7 +877,7 @@ n            orcamento={orcamento}
        
             </Button>
           
-       
+        
       </div>
   </div>
 
@@ -974,7 +974,7 @@ n            orcamento={orcamento}
           <Table.Cell className="text-center text-black hover:underline" onClick={()=>{getEstoqueMaterial(row.material.id),setItemToBeUpdated(row),setIsEditingOs(true),setOpenDialog(true)}} >{row.quantidadeMaterial}</Table.Cell>
 
           }
-          {/* <Table.Cell className="text-center text-black " >{row.estoque} {row.material?.unidade}</Table.Cell> */}
+          <Table.Cell className="text-center text-black " >{row.estoque} {row.material?.unidade}</Table.Cell>
 
           <Table.Cell className="text-center text-black " >{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</Table.Cell>
            

@@ -29,10 +29,10 @@ public class AtividadesRdController:ControllerBase
 
     private readonly SqlContext _context;
 
-    public AtividadesRdController(IAtividadeRdService atividadesRdService, SqlContext context)
+    public AtividadesRdController(IAtividadeRdService atividadesRdService)
     {
         _atividadesRdService = atividadesRdService;
-        _context = context;
+        
     }
      [HttpGet]
     public async Task<ActionResult<List<AtividadeRd>>> GetAll()

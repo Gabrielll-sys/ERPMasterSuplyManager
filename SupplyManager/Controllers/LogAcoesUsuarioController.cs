@@ -67,7 +67,7 @@ public class LogAcoesUsuarioController:ControllerBase
 
         var result = await _logAcoesUsuarioService.GetAllAsync();
 
-        var r = result.Where(x => x.DataAcao is not null && x.DataAcao.Value.Date == date.Date).ToList();
+        var r = result.Where(x => x.DataAcao is not null && x.DataAcao.Value.Date == date.Date).OrderByDescending(x=>x.DataAcao).ToList();
 
         return r;
     }
