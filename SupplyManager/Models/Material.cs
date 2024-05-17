@@ -1,11 +1,16 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FluentValidation.Results;
 using SupplyManager.Interfaces;
+using SupplyManager.Validations.MateriaisValidations;
+using ValidationResult = FluentValidation.Results.ValidationResult;
+
 namespace SupplyManager.Models
 {
+
     [Table("Materiais")]
-    public class Material 
+    public sealed class Material 
     {
 
         [Key]
@@ -46,33 +51,29 @@ namespace SupplyManager.Models
         public Material(string? codigoInterno, string? codigoFabricante, string? descricao, string? categoria, string? marca, string? corrente, string? unidade, string? tensao, string? localizacao, DateTime? dataEntradaNF, float? precoCusto, float? markup)
 
         {
-            CodigoInterno = codigoInterno;
-            CodigoFabricante = codigoFabricante;
-            Descricao = descricao;
-            Categoria = categoria;
-            Marca = marca;
-            Corrente = corrente;
+            CodigoInterno = "-";
+            CodigoFabricante = codigoFabricante.ToUpper();
+            Descricao = descricao.ToUpper();
+            Categoria = "-";
+            Marca = marca.ToUpper();
+            Corrente = String.IsNullOrEmpty(corrente) ? "-" : corrente.ToUpper();
             Unidade = unidade;
-            Tensao = tensao;
-            Localizacao = localizacao;
+            Tensao = String.IsNullOrEmpty(tensao) ? "-" : tensao;
+            Localizacao = String.IsNullOrEmpty(localizacao) ? "-" : localizacao.ToUpper();
             DataEntradaNF = dataEntradaNF;
             PrecoCusto = precoCusto;
             Markup = markup;
             PrecoVenda = precoCusto + ((markup / 100) * precoCusto);
 
+           
+
         }
 
-        //Este método será chamado quando for realizar put do material
-        public void CalcularPrecoVenda()
+       public ValidationResult Validate()
         {
+             var materialValidation = new MateriaisPostValidator();
 
-            if (PrecoCusto != null && PrecoCusto != 0 && Markup != null && Markup != 0)
-            {
-
-                PrecoVenda = PrecoCusto + ((Markup / 100) * PrecoCusto);
-
-            }
-
+             return materialValidation.Validate(this);
         }
 
 
