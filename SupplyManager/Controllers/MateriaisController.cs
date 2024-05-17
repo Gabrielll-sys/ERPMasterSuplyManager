@@ -5,17 +5,16 @@ using SupplyManager.App;
 using SupplyManager.Models;
 using SupplyManager.Validations.MateriaisValidations;
 using System.Net;
-using System.Text.RegularExpressions;
-using System.IO;
-using SupplyManager.Extensions;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
-using System.ComponentModel;
-using System.Linq;
+
 using SupplyManager.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using MySqlConnector;
+using static Microsoft.AspNetCore.Http.StatusCodes;
+
 using SupplyManager.Services;
+using FluentValidation.Results;
+using Delivery.Users.API.Extensions;
+using Delivery.Users.Api.ViewModels;
+using Humanizer;
 
 namespace SupplyManager.Controllers
 {
@@ -26,7 +25,7 @@ namespace SupplyManager.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    [Authorize]
+ /*   [Authorize]*/
      public class MateriaisController : ControllerBase
     {
         private readonly SqlContext _context;
@@ -133,28 +132,22 @@ namespace SupplyManager.Controllers
         /// <param name="id">Objeto material para ser criado</param>
         /// <returns>Materiais criado</returns>
         [HttpPost()]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult> CreateMaterial([FromBody] Material model)
+
+        [ProducesResponseType(Status200OK, Type = typeof(MaterialDto))]
+        [ProducesResponseType(Status401Unauthorized, Type = typeof(MaterialDto))]
+        [ProducesResponseType(Status400BadRequest, Type = typeof(ValidationErrorResponse))]
+        [ProducesResponseType(Status500InternalServerError, Type = typeof(ErrorResponse))]
+        public async Task<ActionResult> CreateMaterial([FromBody] MaterialDto dto)
         {
 
             try
             {
                 var queryMaterial = from query in _context.Materiais select query;
 
-                MateriaisPostValidator ValidationMaterial = new MateriaisPostValidator();
-
-                //Verifica se o modelo o código digitado do material já existe,caso sim,retornara bad request e uma mensagem de material já existe
-                var checkInternCode = await _context.Materiais.FirstOrDefaultAsync(x => x.CodigoInterno == model.CodigoInterno);
-               
                 //Busca codigo do fabricante para ver se ja possui ,e tambem poe uma condição para caso seja diferente de vazio,pois a criação de material pode ter o código vazio
                 var checkFabricanteCode = await _context.Materiais
-                    .FirstOrDefaultAsync(x => x.CodigoFabricante == model.CodigoFabricante  &&  model.CodigoFabricante!="");
+                    .FirstOrDefaultAsync(x => x.CodigoFabricante == dto.CodigoFabricante  &&  dto.CodigoFabricante!="");
 
-                
 
                 if (checkFabricanteCode != null)
                 {
@@ -163,8 +156,31 @@ namespace SupplyManager.Controllers
 
                 }
 
+                var m1 = new Material(
+                 dto.CodigoInterno,
+                 dto.CodigoFabricante,
+                 dto.Descricao,
+                 dto.Categoria,
+                 dto.Marca,
+                 dto.Corrente,
+                 dto.Unidade,
+                 dto.Tensao,
+                 dto.Localizacao,
+                 dto.DataEntradaNF,
+                 dto.PrecoCusto,
+                 dto.Markup
+             );
 
-                var material = await _materialService.CreateAsync(model);
+
+                ValidationResult validationResult = m1.Validate();
+
+                if (validationResult != null)
+                {
+                    return StatusCode(Status400BadRequest, validationResult.ToValidationErrorReponse());
+
+                }
+
+                var material = await _materialService.CreateAsync(m1);
 
 
                 return Ok(material);

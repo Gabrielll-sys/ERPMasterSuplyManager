@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Humanizer;
 using SupplyManager.Interfaces;
 using SupplyManager.Models;
 using SupplyManager.Repository;
@@ -58,21 +59,21 @@ namespace SupplyManager.Services
             {
                 var all = await _materialRepository.GetAllAsync();
 
-                Material m1 = new Material(
-                model.CodigoInterno.ToUpper(),
-                model.CodigoFabricante.ToUpper(),
-                model.Descricao.ToUpper(),
-                model.Categoria.ToUpper(),
-                model.Marca.ToUpper(),
-                String.IsNullOrEmpty(model.Corrente) ? "-" : model.Corrente.ToUpper(),
-                model.Unidade,
-                String.IsNullOrEmpty(model.Tensao) ? "-" : model.Tensao,
-                String.IsNullOrEmpty(model.Localizacao) ? "-" : model.Localizacao.ToUpper(),
-                model.DataEntradaNF,
-                model.PrecoCusto,
-                model.Markup
 
-              );
+                var m1 = new Material(
+                            model.CodigoInterno,
+                            model.CodigoFabricante,
+                            model.Descricao,
+                            model.Categoria,
+                            model.Marca,
+                            model.Corrente,
+                            model.Unidade,
+                            model.Tensao,
+                            model.Localizacao,
+                            model.DataEntradaNF,
+                            model.PrecoCusto,
+                            model.Markup
+                        );
 
                 var material = await _materialRepository.CreateAsync(m1);
 

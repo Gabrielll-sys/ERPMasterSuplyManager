@@ -48,7 +48,7 @@ calcPrecoVenda()
 
 
   }
-console.log(props.desconto )
+
 
 return(
 
