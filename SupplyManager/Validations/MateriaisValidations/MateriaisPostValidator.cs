@@ -18,6 +18,7 @@ namespace SupplyManager.Validations.MateriaisValidations
                 .NotEmpty()
                 .WithMessage("Unidade não pode ser vazia");
 
+     
             
         
         }

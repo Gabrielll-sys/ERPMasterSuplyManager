@@ -30,10 +30,25 @@
             </summary>
             <param name="Id da atividadedaatividade"></param>
         </member>
-        <member name="T:SupplyManager.Controllers.FornecedoresController">
+        <member name="M:SupplyManager.Controllers.ClientesController.Post(SupplyManager.Models.Cliente)">
             <summary>
-            Controlador para gerenciar os Fornecedores
-             </summary>
+            Cria um relatório diário
+            </summary>
+            <param name="Usuario"></param>
+            <returns>O Relatorio Diario Criado </returns>
+            
+        </member>
+        <member name="M:SupplyManager.Controllers.ClientesController.Put(System.Int32,SupplyManager.Models.Cliente)">
+            <summary>
+            Atualiza uma atividade
+            </summary>
+            <param name="Relatorio DiárioDiário"></param>
+        </member>
+        <member name="M:SupplyManager.Controllers.ClientesController.Delete(System.Int32)">
+            <summary>
+            Exclui uma Atividade
+            </summary>
+            <param name="Id da atividadedaatividade"></param>
         </member>
         <member name="M:SupplyManager.Controllers.ImagensAtivididadesRdControlller.GetAll">
             <summary>
