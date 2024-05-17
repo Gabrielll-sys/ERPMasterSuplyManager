@@ -12,7 +12,7 @@ namespace SupplyManager.Validations.UsuariosValidations
             RuleFor(x => x.Email).EmailAddress().NotEmpty().WithMessage("Email inválido");
 
 
-            RuleFor(x => x.Senha).NotEmpty().MinimumLength(8).WithMessage("A senha não pode ser vazia e precisa ter comprimento de 8 caracteres");
+            RuleFor(x => x.Senha).NotEmpty().MinimumLength(6).WithMessage("A senha não pode ser vazia e precisa ter comprimento de 6 caracteres");
         
         
         

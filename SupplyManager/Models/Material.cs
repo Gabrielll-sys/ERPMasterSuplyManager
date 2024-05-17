@@ -69,13 +69,6 @@ namespace SupplyManager.Models
 
         }
 
-       public ValidationResult Validate()
-        {
-             var materialValidation = new MateriaisPostValidator();
-
-             return materialValidation.Validate(this);
-        }
-
-
+     
     }
 }

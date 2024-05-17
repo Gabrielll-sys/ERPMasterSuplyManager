@@ -312,6 +312,7 @@
             <summary>
             Criar novo material
             </summary>
+            <param name="dto"></param>
             <param name="id">Objeto material para ser criado</param>
             <returns>Materiais criado</returns>
         </member>

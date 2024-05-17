@@ -30,13 +30,12 @@ namespace SupplyManager.Controllers
     {
         private readonly SqlContext _context;
         private readonly IMaterialService _materialService;
-     
-
 
         public MateriaisController(SqlContext context,IMaterialService materialService)
         {
             _context = context;
             _materialService = materialService;
+           
         }
 
         /// <summary>
@@ -125,10 +124,11 @@ namespace SupplyManager.Controllers
 
 
         }
-        
+
         /// <summary>
         /// Criar novo material
         /// </summary>
+        /// <param name="dto"></param>
         /// <param name="id">Objeto material para ser criado</param>
         /// <returns>Materiais criado</returns>
         [HttpPost()]
@@ -171,8 +171,9 @@ namespace SupplyManager.Controllers
                  dto.Markup
              );
 
+                MaterialPostValidator validationRules = new MaterialPostValidator();
 
-                ValidationResult validationResult = m1.Validate();
+                ValidationResult validationResult = validationRules.Validate(m1);
 
                 if (validationResult != null)
                 {
