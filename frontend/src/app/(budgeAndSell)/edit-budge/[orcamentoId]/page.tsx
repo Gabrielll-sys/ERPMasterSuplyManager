@@ -171,18 +171,6 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
         if(item.precoItemOrcamento != null)
 
         {
-<<<<<<< HEAD
-          // const estoque = await getEstoqueMaterial(item.materialId);
-
-
-          // item.estoque = estoque.saldoFinal
-
-          item.material.precoVenda = item.precoItemOrcamento
-
-          console.log(item.estoque)
-        
-         
-=======
 
           item.material.precoVenda = item.precoItemOrcamento
 
@@ -192,7 +180,6 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
             {
             setHaveNoEstoque(true)
           }
->>>>>>> feature
         
       }
 
