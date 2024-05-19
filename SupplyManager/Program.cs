@@ -89,10 +89,7 @@ builder.Services.AddVersionedApiExplorer(options =>
 #endregion
 
 
-
-
 // Add services to the container.
-
 
 
 builder.Services.AddControllers();
@@ -100,6 +97,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+#region Containers de Injeção de Dependência
 
 builder.Services.AddTransient<IInventarioService, InventarioService>();
 builder.Services.AddScoped<IInventarioRepository, InventarioRepository>();
@@ -124,6 +122,7 @@ builder.Services.AddTransient<IAtividadeRdService, AtividadeRdService>();
 builder.Services.AddScoped<IRelatorioDiarioRepository, RelatorioDiarioRepository>();
 builder.Services.AddTransient<IRelatorioDiarioService, RelatorioDiarioService>();
 builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+#endregion
 
 
 

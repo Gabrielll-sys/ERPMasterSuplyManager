@@ -175,7 +175,7 @@ namespace SupplyManager.Controllers
 
                 ValidationResult validationResult = validationRules.Validate(m1);
 
-                if (validationResult != null)
+                if (!validationResult.IsValid)
                 {
                     return StatusCode(Status400BadRequest, validationResult.ToValidationErrorReponse());
 

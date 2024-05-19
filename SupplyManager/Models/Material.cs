@@ -49,26 +49,22 @@ namespace SupplyManager.Models
 
 
         public Material(string? codigoInterno, string? codigoFabricante, string? descricao, string? categoria, string? marca, string? corrente, string? unidade, string? tensao, string? localizacao, DateTime? dataEntradaNF, float? precoCusto, float? markup)
-
         {
             CodigoInterno = "-";
-            CodigoFabricante = codigoFabricante.ToUpper();
-            Descricao = descricao.ToUpper();
+            CodigoFabricante = codigoFabricante?.ToUpper() ?? "-";
+            Descricao = descricao?.ToUpper() ?? "-";
             Categoria = "-";
-            Marca = marca.ToUpper();
-            Corrente = String.IsNullOrEmpty(corrente) ? "-" : corrente.ToUpper();
+            Marca = marca?.ToUpper() ?? "-";
+            Corrente = string.IsNullOrEmpty(corrente) ? "-" : corrente.ToUpper();
             Unidade = unidade;
-            Tensao = String.IsNullOrEmpty(tensao) ? "-" : tensao;
-            Localizacao = String.IsNullOrEmpty(localizacao) ? "-" : localizacao.ToUpper();
+            Tensao = string.IsNullOrEmpty(tensao) ? "-" : tensao;
+            Localizacao = string.IsNullOrEmpty(localizacao) ? "-" : localizacao.ToUpper();
             DataEntradaNF = dataEntradaNF;
             PrecoCusto = precoCusto;
             Markup = markup;
             PrecoVenda = precoCusto + ((markup / 100) * precoCusto);
-
-           
-
         }
 
-     
+
     }
 }

@@ -8,7 +8,7 @@ namespace SupplyManager.Validations.MateriaisValidations
 
         public MaterialPostValidator() {
             RuleFor(x => x.Descricao)
-                .NotEmpty()
+                .NotNull()
                 .MinimumLength(4)
                 .WithMessage("Descrição não pode ser vazia e precisa ter comprimento maior que 3 letras");
 
@@ -20,8 +20,8 @@ namespace SupplyManager.Validations.MateriaisValidations
 
 
             RuleFor(x => x.Markup)
-                .LessThan(0)
-                .WithMessage("O Markup não pode ser menor que 0");
+                .GreaterThan(0)
+                .WithMessage("O Markup precisa ser maior que 0");
             
         
         }

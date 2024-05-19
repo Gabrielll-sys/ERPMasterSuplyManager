@@ -169,9 +169,7 @@ const buscaCodigoFabricante = async(codigo:string)=>
        
 
       console.log(materialCriado)
-       if(materialCriado.id){
-
-         setMateriais(materialCriado)
+       if(materialCriado == 200){
          setOpenSnackBar(true);
          setSeveridadeAlert("success");
          setMessageAlert("Material Criado com sucesso");
