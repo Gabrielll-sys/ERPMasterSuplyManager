@@ -5,8 +5,9 @@ import "dayjs/locale/pt-br";
 import { Table } from 'flowbite-react';
 import { useState } from "react";
 
-import { uploadImageToAzure } from '../services/Images.Services';
+import { deleteImageFromAzure, uploadImageToAzure } from '../services/Images.Services';
 import Image from "next/image";
+
 
 
 
@@ -20,6 +21,7 @@ import Image from "next/image";
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [image,setImage] = useState<File[]>([]);
 
+    const url = "https://mastererpstorage.blob.core.windows.net/images/1716227085081-Captura de tela 2023-05-22 101444.png"
 
     const handleInputChange = () => {
         onUpdate(atividade, checkboxStatus, observacoes,descricao);
@@ -43,10 +45,6 @@ import Image from "next/image";
     }
     const handleImageChange =  async (event :any) => {
         const selectedImage: File = event.target.files[0];
-
-
-            // const res =  await uploadImageToAzure(imgBlob,selectedImage.name);
-
 
         if(selectedImage !=undefined){
             const image =  readImageFromFile(selectedImage).then( async (imgBlob)=>{
@@ -146,7 +144,7 @@ import Image from "next/image";
                                                             </div>
                                                                 </>
                                                             )}
-                                                            {/* <Input className="w-[145px]" type="file"
+                                                            <Input className="w-[145px]" type="file"
                                                                    onChange={handleImageChange}/>
                                                             <div
                                                                 className=" flex md:flex-row max-sm:flex-col flex-wrap max-sm:items-center gap-4 mx-auto ">
@@ -162,8 +160,11 @@ import Image from "next/image";
                                                                                src={URL.createObjectURL(x)} alt={"sa"}/>
                                                                     </Button>
                                                                 ))}
+                                                             
 
-                                                            </div> */}
+                                                                <Image className='hover:scale-105 hover:border-3 hover:border-black' onClick={onOpen} alt='none' height={180} width={150} src={url}/>
+                                                                
+                                                            </div>
                                                         </div>
                                                     </Table.Cell>
 
@@ -179,14 +180,14 @@ import Image from "next/image";
                 <>
                     <ModalBody className="flex flex-col gap-4 ">
                         <Image
-                            width={200} height={200} className= "hover:scale-30 max-sm:mt-1 max-sm:w-full w-[400px] h-[400px] self-center" src={imageModal} alt="" />
+                            width={200} height={200} className= "hover:scale-30 max-sm:mt-1 max-sm:w-full w-[400px] h-[400px] self-center" src={url} alt="" />
                         <p className='text-center font-bold'>
                             Aqui será descricao da imagem
                         </p>
                         <Button
                             color="primary"
                             variant="ghost"
-                            onPress={()=>console.log("dfds")}
+                            onPress={()=>deleteImageFromAzure(url)}
                             className="w-[120px] self-center"
                         >
                             Excluir item

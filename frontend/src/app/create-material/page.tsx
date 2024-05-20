@@ -186,28 +186,29 @@ const buscaCodigoFabricante = async(codigo:string)=>
         <div className=' w-full flex flex-row flex-wrap justify-center mt-6  gap-6 max-sm:gap-8 '>
         
           <Input
+          
             value={codigoFabricante}
-            className="border-1 border-black rounded-md shadow-sm shadow-black   max-w-[180px]"
+            className=" rounded-md shadow-sm shadow-black   max-w-[180px]"
             onValueChange={(e) => buscaCodigoFabricante(e)}
             label="Cód Fabricante"
         
           />
           <Input
             value={descricao}
-            className="border-1 border-black rounded-md shadow-sm shadow-black  max-sm:w-[380px] md:w-[400px]"
+            className=" rounded-md shadow-sm shadow-black  max-sm:w-[380px] md:w-[400px]"
             onValueChange={(x)=>buscarDescricao(x)}
             label="Descrição"
             required
           />
           <Input
             value={marca}
-            className="border-1 border-black rounded-md shadow-sm shadow-black   max-w-[180px]"
+            className=" rounded-md shadow-sm shadow-black   max-w-[180px]"
             onValueChange={setMarca}
             label="Marca"
           />
           <Input
             value={localizacao}
-            className=" border-1 border-black rounded-md shadow-sm shadow-black   w-[180px]"
+            className="  rounded-md shadow-sm shadow-black   w-[180px]"
             onValueChange={setLocalizacao}
             label="Localização"
           />
@@ -216,7 +217,7 @@ const buscaCodigoFabricante = async(codigo:string)=>
           <Input
           type="number"
           value={precoCusto}
-          className="border-1 border-black rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
+          className=" rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
           onValueChange={setPrecoCusto}
           label="Preço Custo"
           startContent={
@@ -227,7 +228,7 @@ const buscaCodigoFabricante = async(codigo:string)=>
         <Input
             type="number"
             value={markup}
-            className="border-1 border-black rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
+            className=" rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
             onValueChange={setMarkup}
             endContent={
               <span>%</span>
@@ -237,14 +238,14 @@ const buscaCodigoFabricante = async(codigo:string)=>
           />
               <Input
             value={corrente}
-            className="border-1 border-black rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
+            className=" rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
             onValueChange={setCorrente}
             label="Corrente"
           />
             <Autocomplete
          label="Tensão"
          placeholder="EX:127V"
-         className="max-w-[180px] border-1 border-black rounded-md shadow-sm mt-10 shadow-black  "
+         className="max-w-[180px]  rounded-md shadow-sm mt-10 shadow-black  "
        
           
              >
@@ -268,7 +269,7 @@ const buscaCodigoFabricante = async(codigo:string)=>
             <Autocomplete
          label="Unidade "
          placeholder="EX:MT"
-         className="max-w-[180px] border-1 border-black rounded-md shadow-sm shadow-black mt-10  "
+         className="max-w-[180px]  rounded-md shadow-sm shadow-black mt-10  "
           value={unidade}
           onValueChange={setUnidade}
              >

@@ -308,10 +308,11 @@
             <param name="id">Id do material</param>
             <returns>Material e inventário encontrado</returns>
         </member>
-        <member name="M:SupplyManager.Controllers.MateriaisController.CreateMaterial(SupplyManager.Models.Material)">
+        <member name="M:SupplyManager.Controllers.MateriaisController.CreateMaterial(SupplyManager.Models.MaterialDto)">
             <summary>
             Criar novo material
             </summary>
+            <param name="dto"></param>
             <param name="id">Objeto material para ser criado</param>
             <returns>Materiais criado</returns>
         </member>
