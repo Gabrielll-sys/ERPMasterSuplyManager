@@ -83,9 +83,9 @@ public class OrcamentoService : IOrcamentoService
                 
                 await _logAcoesUsuarioService.CreateAsync(log);
                 
-                var lastItem = all.TakeLast(1).ToList();
+                var lastItem = all.FirstOrDefault();
 
-                ordemServico.Id = lastItem[0].Id + 1;
+                ordemServico.Id = lastItem.Id + 1;
 
                 return ordemServico;
 
