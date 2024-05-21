@@ -15,11 +15,11 @@ export const uploadImageToAzure = async (image:string,fileName:string) : Promise
     const blobName = `${Date.now()}-${fileName}`;
     const blockBlobClient =await containerClient.getBlockBlobClient(blobName);
 
-    // Converter a base64 para um ArrayBuffer (formato binário)
-    //Pega a segunda parte da string, ignorando o cabeçalho data:image/png;base64
-    const binaryImage = Buffer.from(image.split(",")[1], 'base64');
+    
+    const binaryImage = toArrayBuffer(image);
 
     try {
+
           await blockBlobClient.upload(binaryImage,image.length)
 
         console.log('Imagem adicionada com sucesso com sucesso!');
@@ -47,9 +47,18 @@ export const  deleteImageFromAzure = async (fileName: string) => {
     console.log(BlockBlobClient)
     try {
        const a =  await blockBlobClient.delete();
-       console.log(a)
         console.log('Imagem deletada com sucesso!');
     } catch (err) {
         console.error('Erro ao deletar a imagem:', err);
     }
 };
+
+// Converter a base64 para um ArrayBuffer (formato binário)
+//Pega a segunda parte da string, ignorando o cabeçalho data:image/png;base64
+const toArrayBuffer = (imagem:string)=>
+{
+
+ return Buffer.from(imagem.split(",")[1], 'base64')
+
+
+}
