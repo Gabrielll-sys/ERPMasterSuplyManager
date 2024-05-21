@@ -1,0 +1,11 @@
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\Mastererp.Domain\bin\Release\net6.0\MasterErp.Domain.deps.json
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\Mastererp.Domain\bin\Release\net6.0\MasterErp.Domain.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\Mastererp.Domain\bin\Release\net6.0\MasterErp.Domain.pdb
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\Mastererp.Domain\obj\Release\net6.0\MasterErp.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\Mastererp.Domain\obj\Release\net6.0\MasterErp.Domain.AssemblyInfoInputs.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\Mastererp.Domain\obj\Release\net6.0\MasterErp.Domain.AssemblyInfo.cs
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\Mastererp.Domain\obj\Release\net6.0\MasterErp.Domain.csproj.CoreCompileInputs.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\Mastererp.Domain\obj\Release\net6.0\MasterErp.Domain.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\Mastererp.Domain\obj\Release\net6.0\refint\MasterErp.Domain.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\Mastererp.Domain\obj\Release\net6.0\MasterErp.Domain.pdb
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\Mastererp.Domain\obj\Release\net6.0\ref\MasterErp.Domain.dll

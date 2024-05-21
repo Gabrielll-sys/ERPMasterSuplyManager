@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6xrgLpWppzUcSI+78LR0ecHGdTM/+t+oSNzxuv/GjmroZFkVJF6ccDWfe6M1lAgUe3n17WfboGKr530LUGwzcg==",
+  "dgSpecHash": "uYcO2lVOteQpYFscQ0zt9a/A6MJi/FqozFUBgSUsylJx+01MU13uR9c59/RZks2KZrd23Bm6Chsdw7T9g32B0w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\SupplyManager.csproj",
+  "projectFilePath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\MasterErp.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gabri\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\bouncycastle.cryptography\\2.2.1\\bouncycastle.cryptography.2.2.1.nupkg.sha512",

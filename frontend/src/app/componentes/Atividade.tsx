@@ -48,7 +48,7 @@ import Image from "next/image";
 
         if(selectedImage !=undefined){
             const image =  readImageFromFile(selectedImage).then( async (imgBlob)=>{
-                await uploadImageToAzure(imgBlob,selectedImage.name)
+                // await uploadImageToAzure(imgBlob,selectedImage.name)
 
             })
             setImage(current=>[...current,selectedImage]);

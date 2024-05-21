@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SupplyManager.App;
-using SupplyManager.Models;
+using MasterErp.Domain.Models;
 using System.Net;
 
 namespace SupplyManager.Controllers
