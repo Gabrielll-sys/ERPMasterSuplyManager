@@ -1,13 +1,12 @@
-﻿using SupplyManager.Interfaces;
-using SupplyManager.Repository;
-
-namespace SupplyManager.Services
+﻿using MasterErp.Domain.Interfaces.Repository;
+using MasterErp.Domain.Interfaces.Services;
+namespace MasterErp.Services
 {
     public class ItemService:IItemService
     {
-        private readonly ItemRepository _itemRepository;
+        private readonly IItemRepository _itemRepository;
 
-        public ItemService(ItemRepository itemRepository)
+        public ItemService(IItemRepository itemRepository)
         {
             itemRepository = itemRepository;
         }

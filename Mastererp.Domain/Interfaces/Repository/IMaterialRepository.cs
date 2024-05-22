@@ -1,6 +1,6 @@
 ﻿using MasterErp.Domain.Models;
 
-namespace MasterErp.Domain.Interfaces.Interfaces
+namespace MasterErp.Domain.Interfaces.Repository;
 {
     public interface IMaterialRepository
     {

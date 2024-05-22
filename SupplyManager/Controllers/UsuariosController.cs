@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using SupplyManager.Models;
+
 using System.Security.Claims;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
-using SupplyManager.App;
 using Microsoft.IdentityModel.Tokens;
 using NPOI.SS.Formula.Functions;
-using SupplyManager.Interfaces;
+using MasterErp.Domain.Interfaces.Services;
+using MasterErp.Domain.Models;
+namespace MasterErp.Api.Controllers;
 
-namespace SupplyManager.Controllers
 {
 
     [ApiController]

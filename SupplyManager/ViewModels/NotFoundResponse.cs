@@ -1,4 +1,4 @@
-﻿namespace Delivery.Users.Api.ViewModels
+﻿namespace MasterErp.Api.ViewModels
 {
     public class NotFoundResponse
     {

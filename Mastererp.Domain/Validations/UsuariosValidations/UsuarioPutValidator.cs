@@ -1,11 +1,13 @@
 ﻿using FluentValidation;
-using SupplyManager.Models;
+using MasterErp.Domain.Models;
 
-namespace SupplyManager.Validations.UsuariosValidations
+
+namespace MasterErp.Domain.Validations.UsuariosValidations
 {
-    public class UsuarioPutValidator: AbstractValidator<Usuario>
+    public class UsuarioPutValidator : AbstractValidator<Usuario>
     {
-        public UsuarioPutValidator() {
+        public UsuarioPutValidator()
+        {
 
 
 
@@ -18,9 +20,9 @@ namespace SupplyManager.Validations.UsuariosValidations
             RuleFor(x => x.Senha).NotEmpty().WithMessage("Senha não pode ser vazia");
 
 
-        
-        
-        
+
+
+
         }
 
     }

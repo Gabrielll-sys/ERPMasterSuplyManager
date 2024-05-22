@@ -6,7 +6,7 @@ using SupplyManager.App;
 using MasterErp.Domain.Models;
 using System.Net;
 
-namespace SupplyManager.Controllers
+namespace MasterErp.Api.Controllers;
 {
     [ApiController]
     [ApiVersion("1.0")]

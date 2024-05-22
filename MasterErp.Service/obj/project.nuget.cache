@@ -1,8 +1,21 @@
 {
   "version": 2,
-  "dgSpecHash": "lIrX0PqC3Hhar7q3kZdHkYjI/mU2DZP+g639C2qjT2VJ0h+Jq1yBvotNAWwYeb2J5Cahqk0APhAtHUfr/2NAEQ==",
-  "success": true,
+  "dgSpecHash": "+BYfC6AMx17C48aiFQM1aC5J6dn2ipqlWfQwMpjWlmBLLCUeBmrcV4pZzrH0M0MmEcCLw5wgiFr3GfyrDp4D5w==",
+  "success": false,
   "projectFilePath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\MasterErp.Service\\MasterErp.Services.csproj",
-  "expectedPackageFiles": [],
-  "logs": []
+  "expectedPackageFiles": [
+    "C:\\Users\\gabri\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\fluentvalidation\\11.9.1\\fluentvalidation.11.9.1.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1108",
+      "level": "Error",
+      "message": "Ciclo detectado. \r\n  MasterErp.Services -> MasterErp.Services.",
+      "libraryId": "MasterErp.Services",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
 }

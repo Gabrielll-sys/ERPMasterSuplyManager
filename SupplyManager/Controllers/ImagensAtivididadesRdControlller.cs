@@ -1,10 +1,9 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using MasterErp.
-using SupplyManager.Repository;
-using SupplyManager.Validations.MateriaisValidations;
+using MasterErp.Domain.Interfaces.Services;
+using MasterErp.Domain.Models;
 
-namespace SupplyManager.Controllers;
+namespace MasterErp.Api.Controllers;
 
 public class ImagensAtivididadesRdControlller:ControllerBase
 {

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using 
-using SupplyManager.Models;
-using LogAcoesUsuario = SupplyManager.Models.LogAcoesUsuario;
+using MasterErp.Domain.Models;
+
 
 namespace MasterErp.Infraestructure;
 

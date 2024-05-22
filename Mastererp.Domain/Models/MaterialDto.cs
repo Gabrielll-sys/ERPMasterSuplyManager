@@ -1,6 +1,6 @@
 ﻿
 namespace MasterErp.Domain.Models;
-{
+
     public class MaterialDto
     {
         public string? CodigoInterno { get; set; }
@@ -16,4 +16,4 @@ namespace MasterErp.Domain.Models;
         public float? PrecoCusto { get; set; }
         public float? Markup { get; set; }
     }
-}
+

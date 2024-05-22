@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
-using SupplyManager.App;
-using SupplyManager.Models;
-using System;
+using MasterErp.Domain.Interfaces.Services;
+using MasterErp.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
-using SupplyManager.Services;
 
-namespace SupplyManager.Controllers
+
+namespace MasterErp.Api.Controllers;
 {    ///<summary>
      ///Controlador para gerenciar Orçamentos
      /// </summary>

@@ -1,7 +1,7 @@
+
 using MasterErp.Domain.Models;
 
-namespace SupplyManager.Services;
-
+namespace MasterErp.Domain.Interfaces.Services;
 public interface IOrcamentoService
 {
     Task<List<Orcamento>> GetAllAsync();

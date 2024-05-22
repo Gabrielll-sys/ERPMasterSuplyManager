@@ -1,13 +1,12 @@
-﻿
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
-namespace SupplyManager.Extensions
+namespace MasterErp.Api.Extensions
 {
     public static class DateExtensions
     {
 
-        public static string GetOnlyDate(this DateTime? d1) => d1.ToString().Substring(0,10);
+        public static string GetOnlyDate(this DateTime? d1) => d1.ToString().Substring(0, 10);
 
 
-        }
+    }
 }

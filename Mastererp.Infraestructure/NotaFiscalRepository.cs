@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SupplyManager.App;
-using SupplyManager.Interfaces;
-using SupplyManager.Models;
+using MasterErp.Domain.Interfaces.Repository;
+using MasterErp.Domain.Models;
 
-namespace SupplyManager.Repository
-{
+
+namespace MasterErp.Infraestructure;
+
     public class NotaFiscalRepository : INotaFiscalRepository    {
         private readonly SqlContext _context;
 
@@ -94,4 +94,4 @@ namespace SupplyManager.Repository
 
         }
     }
-}
+

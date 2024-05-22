@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using SupplyManager.Models;
+using MasterErp.Domain.Models;
 
-namespace SupplyManager.Validations.InventarioValidations
+namespace MasterErp.Domain.Validations.InventarioValidations
 {
     public class InventarioIdValidator : AbstractValidator<int?>
     {
-        public InventarioIdValidator() 
+        public InventarioIdValidator()
         {
 
             RuleFor(x => x)

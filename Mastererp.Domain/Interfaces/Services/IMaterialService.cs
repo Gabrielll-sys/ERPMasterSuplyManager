@@ -1,6 +1,7 @@
-﻿using MasterErp.Domain.Models;
+﻿
+using MasterErp.Domain.Models;
 
-namespace MasterErp.Domain.Interfaces.Services
+namespace MasterErp.Domain.Interfaces.Services;
 {
     public interface IMaterialService
     {

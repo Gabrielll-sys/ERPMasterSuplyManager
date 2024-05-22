@@ -1,7 +1,7 @@
-using SupplyManager.Models;
 
-namespace SupplyManager.Services;
+using MasterErp.Domain.Models;
 
+namespace MasterErp.Domain.Interfaces.Services;
 public interface IAtividadeRdService 
 {
     Task<AtividadeRd> GetByIdAsync(int id);

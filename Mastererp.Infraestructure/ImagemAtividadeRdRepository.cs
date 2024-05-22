@@ -3,9 +3,9 @@ using MasterErp.Infraestructure;
 using MasterErp.Domain.Interfaces.Repository;
 using MasterErp.Domain.Models;
 
-namespace SupplyManager.Repository;
+namespace MasterErp.Infraestructure;
 
-public class ImagemAtividadeRdRepository:IImagemAtividadeRdService
+public class ImagemAtividadeRdRepository:IImagemAtividadeRdRepository
 {
       private readonly SqlContext _context;
         

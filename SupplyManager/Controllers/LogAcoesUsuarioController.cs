@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 using MySqlConnector;
 using SupplyManager.Services;
 
-namespace SupplyManager.Controllers;
+namespace MasterErp.Api.Controllers;
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]

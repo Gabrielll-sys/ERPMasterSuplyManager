@@ -1,8 +1,8 @@
-﻿using Delivery.Users.Api.ViewModels;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
+using MasterErp.Api.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Delivery.Users.API.Extensions
+namespace MasterErp.Api.Extensions
 {
     /// <summary>
     /// Extensions to handle with the responses
@@ -28,7 +28,7 @@ namespace Delivery.Users.API.Extensions
                 }).ToList()
             };
         }
-        
+
         // <summary>
         /// Handle with not found objects
         /// </summary>
@@ -42,7 +42,7 @@ namespace Delivery.Users.API.Extensions
                 Detail = $"{entityName} not found"
             };
         }
-        
+
         /// <summary>
         /// Handle the exceptions to a readable format
         /// </summary>

@@ -3,24 +3,17 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.DotNet.Scaffolding.Shared.Project;
 using Microsoft.EntityFrameworkCore;
-using Dapper;
-using SupplyManager.App;
-using SupplyManager.Interfaces;
-using SupplyManager.Models;
-using SupplyManager.Services;
-using SupplyManager.Validations.InventarioValidations;
-using SupplyManager.Validations.MateriaisValidations;
-using static NPOI.HSSF.Util.HSSFColor;
-using MySqlConnector;
+using MasterErp.Domain.Interfaces.Services;
+using MasterErp.Domain.Models;
+using MasterErp.Domain.Validations.InventarioValidations;
 
-namespace SupplyManager.Controllers
-{
-    ///<summary>
-    ///Controlador para gerenciar os Materias
-    /// </summary>
-    [ApiController]
+namespace MasterErp.Api.Controllers;
+
+///<summary>
+///Controlador para gerenciar os Materias
+/// </summary>
+[ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class InventariosController : ControllerBase
@@ -1773,7 +1766,7 @@ namespace SupplyManager.Controllers
 
         }
     }
-}
+
 
 
 

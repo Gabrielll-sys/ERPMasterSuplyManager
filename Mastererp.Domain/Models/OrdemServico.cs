@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +7,7 @@ using MasterErp.Domain.Interfaces.Services;
 
 
 namespace MasterErp.Domain.Models;
-{
+
     public class OrdemServico 
     {
         [Key]
@@ -60,4 +60,4 @@ namespace MasterErp.Domain.Models;
         }
 
     }
-}
+

@@ -1,8 +1,11 @@
 using System.Security.Claims;
-using SupplyManager.Models;
-using SupplyManager.Repository;
 
-namespace SupplyManager.Services;
+using MasterErp.Domain.Interfaces.Repository;
+using MasterErp.Domain.Interfaces.Services;
+using MasterErp.Domain.Models;
+using Microsoft.AspNetCore.Http;
+
+namespace MasterErp.Services;
 
 public class AtividadeRdService : IAtividadeRdService
 {

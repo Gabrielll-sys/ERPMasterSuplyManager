@@ -1,13 +1,14 @@
 ﻿using FluentValidation;
-using SupplyManager.Models;
+using MasterErp.Domain.Models;
 
-namespace SupplyManager.Validations.MateriaisValidations
+namespace MasterErp.Domain.Validations.MateriaisValidations
 {
     public class MaterialPutValidator : AbstractValidator<Material>
     {
 
 
-        public MaterialPutValidator() {
+        public MaterialPutValidator()
+        {
 
             RuleFor(x => x.Id)
                     .GreaterThan(0)

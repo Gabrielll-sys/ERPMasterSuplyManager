@@ -54,7 +54,7 @@
           }
         }
       },
-      "FluentValidation/11.6.0": {
+      "FluentValidation/11.9.1": {
         "type": "package",
         "compile": {
           "lib/net6.0/FluentValidation.dll": {
@@ -4126,6 +4126,19 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
+      },
+      "MasterErp.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "FluentValidation": "11.9.1"
+        },
+        "compile": {
+          "bin/placeholder/MasterErp.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MasterErp.Domain.dll": {}
+        }
       }
     }
   },
@@ -4234,16 +4247,16 @@
         "lib/netstandard2.1/Enums.NET.xml"
       ]
     },
-    "FluentValidation/11.6.0": {
-      "sha512": "DWKd0jHA33d7BXVWytSoN5Oafj9nYuiLUyyFoaUboOZZiaN5tlXdcJpkRbmrrWBUTWdSxjTwIoyUs38KSU/7OQ==",
+    "FluentValidation/11.9.1": {
+      "sha512": "C+PqISSMdlOZZJx0Hx25atW32tv4vbpsaiQB+PLjK+ZGLzOFuHl1fUJ3Lny77mIZ31ZtYtNG0JgUjxa3wwLsWg==",
       "type": "package",
-      "path": "fluentvalidation/11.6.0",
+      "path": "fluentvalidation/11.9.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "README.md",
         "fluent-validation-icon.png",
-        "fluentvalidation.11.6.0.nupkg.sha512",
+        "fluentvalidation.11.9.1.nupkg.sha512",
         "fluentvalidation.nuspec",
         "lib/net5.0/FluentValidation.dll",
         "lib/net5.0/FluentValidation.xml",
@@ -4251,6 +4264,8 @@
         "lib/net6.0/FluentValidation.xml",
         "lib/net7.0/FluentValidation.dll",
         "lib/net7.0/FluentValidation.xml",
+        "lib/net8.0/FluentValidation.dll",
+        "lib/net8.0/FluentValidation.xml",
         "lib/netstandard2.0/FluentValidation.dll",
         "lib/netstandard2.0/FluentValidation.xml",
         "lib/netstandard2.1/FluentValidation.dll",
@@ -11613,13 +11628,18 @@
         "system.xml.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xdocument.nuspec"
       ]
+    },
+    "MasterErp.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Mastererp.Domain/MasterErp.Domain.csproj",
+      "msbuildProject": "../Mastererp.Domain/MasterErp.Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
       "BCrypt.Net-Next >= 4.0.3",
       "Dapper >= 2.1.28",
-      "FluentValidation >= 11.6.0",
+      "MasterErp.Domain >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.28",
       "Microsoft.AspNetCore.OData.Versioning.ApiExplorer >= 5.1.0",
       "Microsoft.EntityFrameworkCore >= 7.0.17",
@@ -11634,7 +11654,8 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\gabri\\.nuget\\packages\\": {}
+    "C:\\Users\\gabri\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
@@ -11645,8 +11666,12 @@
       "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
         "C:\\Users\\gabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11659,7 +11684,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Domain\\MasterErp.Domain.csproj": {
+              "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Domain\\MasterErp.Domain.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -11679,10 +11708,6 @@
           "Dapper": {
             "target": "Package",
             "version": "[2.1.28, )"
-          },
-          "FluentValidation": {
-            "target": "Package",
-            "version": "[11.6.0, )"
           },
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
@@ -11752,7 +11777,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

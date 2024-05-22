@@ -1,11 +1,13 @@
 ﻿using FluentValidation;
-using SupplyManager.Models;
+using MasterErp.Domain.Models;
 
-namespace SupplyManager.Validations.UsuariosValidations
+
+namespace MasterErp.Domain.Validations.UsuariosValidations
 {
     public class UsuarioPostValidatior : AbstractValidator<Usuario>
     {
-        public UsuarioPostValidatior() {
+        public UsuarioPostValidatior()
+        {
 
             RuleFor(x => x.Nome).NotEmpty().WithMessage("Nome não pode ser vázio");
 
@@ -13,9 +15,9 @@ namespace SupplyManager.Validations.UsuariosValidations
 
 
             RuleFor(x => x.Senha).NotEmpty().MinimumLength(6).WithMessage("A senha não pode ser vazia e precisa ter comprimento de 6 caracteres");
-        
-        
-        
+
+
+
         }
 
     }

@@ -2,7 +2,7 @@
 
 
 namespace MasterErp.Domain.Models;
-{
+
     public class Orcamento
     {
         //O ORÇAMENTO NÃO É UMA VENDA,MAS CASO OS MATERIAS SEJAM DE FATOS VENDIDOS AI SIM SE TORNARÁ UMA VENDA
@@ -41,5 +41,5 @@ namespace MasterErp.Domain.Models;
 
        
     }
-}
+
 

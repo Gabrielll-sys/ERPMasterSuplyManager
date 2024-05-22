@@ -4,8 +4,7 @@ using SupplyManager.App;
 using SupplyManager.Interfaces;
 using SupplyManager.Models;
 using System.Net;
-
-namespace SupplyManager.Controllers
+namespace MasterErp.Api.Controllers;
 {
     ///<summary>
     ///Controlador para gerenciar os Itens da Nota Fiscal

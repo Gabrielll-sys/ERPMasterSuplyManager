@@ -10,23 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Validations\ItemValidations\**" />
-    <Compile Remove="Validations\NovaPasta\**" />
-    <Compile Remove="Validations\OrdemServicoValidations\**" />
-    <Content Remove="Validations\ItemValidations\**" />
-    <Content Remove="Validations\NovaPasta\**" />
-    <Content Remove="Validations\OrdemServicoValidations\**" />
-    <EmbeddedResource Remove="Validations\ItemValidations\**" />
-    <EmbeddedResource Remove="Validations\NovaPasta\**" />
-    <EmbeddedResource Remove="Validations\OrdemServicoValidations\**" />
-    <None Remove="Validations\ItemValidations\**" />
-    <None Remove="Validations\NovaPasta\**" />
-    <None Remove="Validations\OrdemServicoValidations\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Remove="CodeFile.cs" />
-    <Compile Remove="Validations\CategoriaPostValidation.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,7 +20,6 @@
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Dapper" Version="2.1.28" />
-    <PackageReference Include="FluentValidation" Version="11.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.28" />
     <PackageReference Include="Microsoft.AspNetCore.OData.Versioning.ApiExplorer" Version="5.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.17" />
@@ -54,6 +37,16 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <ProjectReference Include="..\Mastererp.Domain\MasterErp.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Mastererp.Infraestructure">
+      <HintPath>..\Mastererp.Infraestructure\obj\Release\net6.0\Mastererp.Infraestructure.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

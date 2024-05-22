@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SupplyManager.App;
-using SupplyManager.Interfaces;
-using SupplyManager.Models;
+using MasterErp.Domain.Interfaces.Repository;
+using MasterErp.Domain.Models;
 
-namespace SupplyManager.Repository
-{
+
+namespace MasterErp.Infraestructure;
+
     public class UsuarioRepository: IUsuarioRepository
     {
 
@@ -120,4 +120,4 @@ namespace SupplyManager.Repository
         }
 
     }
-}
+

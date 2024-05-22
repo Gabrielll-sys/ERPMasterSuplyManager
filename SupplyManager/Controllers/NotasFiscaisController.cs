@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SupplyManager.App;
-using SupplyManager.Interfaces;
-using SupplyManager.Models;
-using SupplyManager.Services;
+using MasterErp.Domain.Interfaces.Services;
+using MasterErp.Domain.Models;
 using System.Net;
 
-namespace SupplyManager.Controllers
-{
+namespace MasterErp.Api.Controllers;
+
 
     ///<summary>
     ///Controlador para gerenciar as Notas Fiscais
@@ -171,5 +169,5 @@ namespace SupplyManager.Controllers
 
     }
 
-    }
+    
 

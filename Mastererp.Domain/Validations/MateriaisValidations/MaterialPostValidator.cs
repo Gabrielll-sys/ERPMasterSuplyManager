@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
-using SupplyManager.Models;
+using MasterErp.Domain.Models;
 
-namespace SupplyManager.Validations.MateriaisValidations
+namespace MasterErp.Domain.Validations.MateriaisValidations
 {
-    public class MaterialPostValidator:AbstractValidator<Material>
+    public class MaterialPostValidator : AbstractValidator<Material>
     {
 
-        public MaterialPostValidator() {
+        public MaterialPostValidator()
+        {
             RuleFor(x => x.Descricao)
                 .NotNull()
                 .MinimumLength(4)
@@ -22,8 +23,8 @@ namespace SupplyManager.Validations.MateriaisValidations
             RuleFor(x => x.Markup)
                 .GreaterThan(0)
                 .WithMessage("O Markup precisa ser maior que 0");
-            
-        
+
+
         }
     }
 }

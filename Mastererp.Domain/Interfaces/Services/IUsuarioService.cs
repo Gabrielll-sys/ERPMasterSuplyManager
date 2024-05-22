@@ -1,7 +1,8 @@
-﻿using MasterErp.Domain.Models;
+﻿
+using MasterErp.Domain.Models;
 
-namespace SupplyManager.Interfaces
-{
+namespace MasterErp.Domain.Interfaces.Services;
+
     public interface IUsuarioService
     {
         Task<Usuario> GetByIdAsync(int? id);
@@ -24,4 +25,4 @@ namespace SupplyManager.Interfaces
 
         Task Authenticate(AuthenticateDto model);
     }
-}
+

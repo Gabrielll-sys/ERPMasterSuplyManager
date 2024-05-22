@@ -1,6 +1,7 @@
-using MasterErp.Domain.Models;
-namespace SupplyManager.Repository;
 
+using MasterErp.Domain.Models;
+
+namespace MasterErp.Domain.Interfaces.Services;
 public interface IImagemAtividadeRdService
 {
     Task<ImagemAtividadeRd > GetByIdAsync(int? id);

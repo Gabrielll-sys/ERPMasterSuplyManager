@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SupplyManager.App;
 using SupplyManager.Models;
-using SupplyManager.Validations.MateriaisValidations;
 using System.Net;
 
 using SupplyManager.Interfaces;
@@ -12,11 +11,12 @@ using static Microsoft.AspNetCore.Http.StatusCodes;
 
 using SupplyManager.Services;
 using FluentValidation.Results;
-using Delivery.Users.API.Extensions;
-using Delivery.Users.Api.ViewModels;
 using Humanizer;
+using MasterErp.Api.ViewModels;
+using MasterErp.Api.Extensions;
+using MasterErp.Domain.Validations.MateriaisValidations;
 
-namespace SupplyManager.Controllers
+namespace MasterErp.Api.Controllers;
 {
 
     ///<summary>

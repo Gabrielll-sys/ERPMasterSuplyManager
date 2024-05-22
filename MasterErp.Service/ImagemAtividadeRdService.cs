@@ -1,11 +1,9 @@
 using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
-using SupplyManager.App;
-using SupplyManager.Interfaces;
-using SupplyManager.Models;
-using SupplyManager.Services;
+using MasterErp.Domain.Interfaces.Repository;
+using MasterErp.Domain.Interfaces.Services;
+using MasterErp.Domain.Models;
 
-namespace SupplyManager.Repository;
+namespace MasterErp.Services;
 
 public class ImagemAtividadeRdService:IImagemAtividadeRdService
 {

@@ -1,10 +1,9 @@
 using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
-using SupplyManager.Interfaces;
-using SupplyManager.Models;
-using SupplyManager.Repository;
+using MasterErp.Domain.Interfaces.Repository;
+using MasterErp.Domain.Interfaces.Services;
+using MasterErp.Domain.Models;
 
-namespace SupplyManager.Services
+namespace MasterErp.Services
 {
     public class RelatorioDiarioService : IRelatorioDiarioService
     {

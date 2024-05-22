@@ -1,7 +1,7 @@
 ﻿using MasterErp.Domain.Models;
 
 namespace MasterErp.Domain.Interfaces.Repository;
-{
+
     public interface IInventarioRepository
     {
 
@@ -18,4 +18,5 @@ namespace MasterErp.Domain.Interfaces.Repository;
 
         Task DeleteAsync(int id);
     }
-}
+
+

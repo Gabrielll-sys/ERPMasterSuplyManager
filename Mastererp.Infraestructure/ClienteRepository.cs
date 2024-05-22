@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MasterErp.Infraestructure;
 using MasterErp.Domain.Interfaces.Repository;
 using MasterErp.Domain.Models;
-namespace SupplyManager.Repository;
+namespace MasterErp.Infraestructure;
 
 public class ClienteRepository : IClienteRepository
 {

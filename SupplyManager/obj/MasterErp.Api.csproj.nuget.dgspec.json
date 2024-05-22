@@ -4,17 +4,21 @@
     "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\MasterErp.Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\MasterErp.Api.csproj": {
+    "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Domain\\MasterErp.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\MasterErp.Api.csproj",
-        "projectName": "MasterErp.Api",
-        "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\MasterErp.Api.csproj",
+        "projectUniqueName": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Domain\\MasterErp.Domain.csproj",
+        "projectName": "MasterErp.Domain",
+        "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Domain\\MasterErp.Domain.csproj",
         "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\obj\\",
+        "outputPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Domain\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\gabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -40,6 +44,75 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[11.9.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\MasterErp.Api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\MasterErp.Api.csproj",
+        "projectName": "MasterErp.Api",
+        "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\MasterErp.Api.csproj",
+        "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\gabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Domain\\MasterErp.Domain.csproj": {
+                "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Domain\\MasterErp.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.0.3, )"
@@ -47,10 +120,6 @@
             "Dapper": {
               "target": "Package",
               "version": "[2.1.28, )"
-            },
-            "FluentValidation": {
-              "target": "Package",
-              "version": "[11.6.0, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
@@ -120,7 +189,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

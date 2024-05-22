@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SupplyManager.Interfaces;
-using SupplyManager.Models;
-using SupplyManager.Repository;
+﻿
 
-namespace SupplyManager.Services
+
+
+using MasterErp.Domain.Models;
+using MasterErp.Domain.Interfaces.Services;
+using MasterErp.Domain.Interfaces.Repository;
+using BCrypt.Net;
+namespace MasterErp.Services
 {
     public class UsuarioService : IUsuarioService
     {

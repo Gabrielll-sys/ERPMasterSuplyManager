@@ -1,6 +1,7 @@
-﻿using MasterErp.Domain.Models;
+﻿
+using MasterErp.Domain.Models;
 
-namespace SupplyManager.Interfaces
+namespace MasterErp.Domain.Interfaces.Services;
 {
     public interface INotaFiscalService
     {
