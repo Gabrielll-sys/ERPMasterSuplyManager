@@ -3,11 +3,11 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SupplyManager.App;
+using MasterErp.Infraestructure;
 
 #nullable disable
 
-namespace SupplyManager.Migrations
+namespace MasterErp.Api.Migrations
 {
     [DbContext(typeof(SqlContext))]
     partial class SqlContextModelSnapshot : ModelSnapshot

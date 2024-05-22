@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MasterErp.Domain.Interfaces.Services;
 using MasterErp.Domain.Models;
 using System.Net;
+using MasterErp.Infraestructure;
 
 namespace MasterErp.Api.Controllers;
 
@@ -90,7 +91,7 @@ namespace MasterErp.Api.Controllers;
                     Observacoes = model.Observacoes,
                 };
 
-                var a = await _context.OrdemServicos.ToListAsync();
+                List<OrdemServico> a = await _context.OrdemServicos.ToListAsync();
 
                 var findNumeroOs = a.FirstOrDefault(x => x.NumeroOs == model.NumeroOs);
 
@@ -184,8 +185,8 @@ namespace MasterErp.Api.Controllers;
                         //Busca o material presente no item para pegar a unidade 
                         var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == item.MaterialId);
 
-                        //Procura todos os inventários do material da tabela item,para posteriormente  subtrair do inventário a quantidade a ser utilizad na OS
-                        var inventario = inventarios.Where(x => x.MaterialId == item.MaterialId).ToList();
+                    //Procura todos os inventários do material da tabela item,para posteriormente  subtrair do inventário a quantidade a ser utilizad na OS
+                    List<Inventario> inventario = inventarios.Where(x => x.MaterialId == item.MaterialId).ToList();
 
                         
                         //Instacia um novo inventário para criar um novo inventário com a atualização de quantidade utilizada na os e o motivo,a descricação da os

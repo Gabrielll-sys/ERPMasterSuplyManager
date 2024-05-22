@@ -2,7 +2,7 @@
 using MasterErp.Domain.Models;
 
 namespace MasterErp.Domain.Interfaces.Services;
-{
+
     public interface IOrdemServicoService
     {
         Task<List<OrdemServico>> GetAllAsync();
@@ -12,4 +12,4 @@ namespace MasterErp.Domain.Interfaces.Services;
         Task<OrdemServico> UpdateAsync(OrdemServico model);
         Task DeleteAsync(int id);
     }
-}
+

@@ -2,7 +2,7 @@
 using MasterErp.Domain.Models;
 
 namespace MasterErp.Domain.Interfaces.Services;
-{
+
     public interface IClienteService
     {
 
@@ -13,4 +13,4 @@ namespace MasterErp.Domain.Interfaces.Services;
         Task<Cliente> UpdateAsync(Cliente model);
         Task DeleteAsync(int id);
     }
-}
+

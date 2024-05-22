@@ -1,0 +1,5 @@
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\MasterErp.Service\obj\Debug\net6.0\MasterErp.Services.csproj.AssemblyReference.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\MasterErp.Service\obj\Debug\net6.0\MasterErp.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\MasterErp.Service\obj\Debug\net6.0\MasterErp.Services.AssemblyInfoInputs.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\MasterErp.Service\obj\Debug\net6.0\MasterErp.Services.AssemblyInfo.cs
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\MasterErp.Service\obj\Debug\net6.0\MasterErp.Services.csproj.CoreCompileInputs.cache

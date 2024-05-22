@@ -3,9 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using MasterErp.Domain.Models;
 using System.Diagnostics.Metrics;
 using System.Net;
+using MasterErp.Infraestructure;
 
 namespace MasterErp.Api.Controllers;
-{
+
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -221,4 +222,4 @@ namespace MasterErp.Api.Controllers;
 
         }
     }
-}
+

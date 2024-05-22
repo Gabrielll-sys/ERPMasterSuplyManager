@@ -1,14 +1,11 @@
 
+using MasterErp.Infraestructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using SupplyManager.App;
-using SupplyManager.Interfaces;
-using SupplyManager.Models;
-using SupplyManager.Repository;
-using SupplyManager.Services;
+
 using System;
 using System.Collections.Generic;
 using System.IO;

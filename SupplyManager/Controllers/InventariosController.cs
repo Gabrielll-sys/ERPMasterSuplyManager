@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using MasterErp.Domain.Interfaces.Services;
 using MasterErp.Domain.Models;
 using MasterErp.Domain.Validations.InventarioValidations;
-
+using MasterErp.Infraestructure;
 namespace MasterErp.Api.Controllers;
 
 ///<summary>
@@ -23,7 +23,7 @@ namespace MasterErp.Api.Controllers;
 
         public InventariosController(SqlContext context,IInventarioService inventarioService)
         {
-
+          
             _context = context;
             _inventarioService = inventarioService;
 
@@ -217,7 +217,7 @@ namespace MasterErp.Api.Controllers;
 
             try
             {
-
+                
 
                 var queryMaterial = from query in _context.Materiais select query;
 
@@ -247,14 +247,14 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                    List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .OrderBy(x => x.Material.PrecoVenda)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -288,13 +288,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -329,13 +329,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -370,13 +370,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -410,13 +410,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -452,13 +452,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -493,13 +493,13 @@ namespace MasterErp.Api.Controllers;
 
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
                          
 
                         }
@@ -531,13 +531,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -570,13 +570,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -610,13 +610,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -650,13 +650,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -690,13 +690,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -732,13 +732,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -772,13 +772,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -813,13 +813,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -853,13 +853,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -893,13 +893,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -934,13 +934,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -974,13 +974,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -1014,13 +1014,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -1054,13 +1054,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -1095,13 +1095,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -1136,13 +1136,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -1178,13 +1178,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -1219,13 +1219,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -1260,13 +1260,13 @@ namespace MasterErp.Api.Controllers;
                               de inventários,para pegar somente o ultimo registro de movimentação de inventário daquele material*/
                     foreach (var item in filterResult)
                     {
-                        var invetario = filterResult
+                        List<Inventario> inventario = filterResult
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
-                        if (!list.Contains(invetario[invetario.Count - 1]))
+                        if (!list.Contains(inventario[inventario.Count - 1]))
                         {
-                            list.Add(invetario[invetario.Count - 1]);
+                            list.Add(inventario[inventario.Count - 1]);
 
 
                         }
@@ -1325,7 +1325,7 @@ namespace MasterErp.Api.Controllers;
               foreach (var item in materiais)
                 {
                     //Realiza um filtro buscando todos os invetários daquele material,ou seja,retornara todos os registros de invetário daquele produto
-                    var inventarios = queryInvetory
+                    List<Inventario> inventarios = queryInvetory
                         .Where(x => x.MaterialId == item.Id)
                         .ToList();
 
@@ -1460,7 +1460,7 @@ namespace MasterErp.Api.Controllers;
                 {
                     //Realiza um filtro para buscar o ultimo registro de inventário daquele material
                   
-                    var inventarios = queryInvetory
+                    List<Inventario> inventarios = queryInvetory
                         .Where(x => x.MaterialId == item.Id)
                         .OrderBy(x=>x.MaterialId)
                         .TakeLast(1)
@@ -1737,7 +1737,7 @@ namespace MasterErp.Api.Controllers;
 
                 if (findInvetory == null)
                 {
-                    Inventario invetario = new Inventario
+                    Inventario inventario = new Inventario
                       (
                       null,
                       0,
@@ -1749,7 +1749,7 @@ namespace MasterErp.Api.Controllers;
 
 
 
-                    await _context.Inventarios.AddAsync(invetario);
+                    await _context.Inventarios.AddAsync(inventario);
 
 
 

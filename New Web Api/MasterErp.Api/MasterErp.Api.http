@@ -1,0 +1,6 @@
+@MasterErp.Api_HostAddress = http://localhost:5285
+
+GET {{MasterErp.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

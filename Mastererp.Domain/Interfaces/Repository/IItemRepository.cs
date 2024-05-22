@@ -1,7 +1,7 @@
 ﻿using MasterErp.Domain.Models;
 
 namespace MasterErp.Domain.Interfaces.Repository;
-{
+
     public interface IItemRepository
     {
         Task<Item> GetByIdAsync(int id);
@@ -18,4 +18,4 @@ namespace MasterErp.Domain.Interfaces.Repository;
 
 
     }
-}
+

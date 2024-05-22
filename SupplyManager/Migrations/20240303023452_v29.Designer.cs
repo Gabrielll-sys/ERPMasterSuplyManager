@@ -8,7 +8,7 @@ using SupplyManager.App;
 
 #nullable disable
 
-namespace SupplyManager.Migrations
+namespace MasterErp.Api.Migrations
 {
     [DbContext(typeof(SqlContext))]
     [Migration("20240303023452_v29")]

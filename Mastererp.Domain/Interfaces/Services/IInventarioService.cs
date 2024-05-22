@@ -3,7 +3,7 @@ using MasterErp.Domain.Models;
 
 namespace MasterErp.Domain.Interfaces.Services;
 
-{
+
     public interface IInventarioService
     {
 
@@ -26,4 +26,4 @@ namespace MasterErp.Domain.Interfaces.Services;
 
 
     }
-}
+

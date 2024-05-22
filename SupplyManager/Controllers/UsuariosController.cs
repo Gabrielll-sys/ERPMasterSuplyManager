@@ -10,7 +10,7 @@ using MasterErp.Domain.Interfaces.Services;
 using MasterErp.Domain.Models;
 namespace MasterErp.Api.Controllers;
 
-{
+
 
     [ApiController]
     [ApiVersion("1.0")]
@@ -234,4 +234,4 @@ namespace MasterErp.Api.Controllers;
         }
       
     }
-}
+

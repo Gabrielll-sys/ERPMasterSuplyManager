@@ -9,3 +9,4 @@ C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\Mastererp.Infrae
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\Mastererp.Infraestructure\obj\Release\net6.0\refint\Mastererp.Infraestructure.dll
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\Mastererp.Infraestructure\obj\Release\net6.0\Mastererp.Infraestructure.pdb
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\Mastererp.Infraestructure\obj\Release\net6.0\ref\Mastererp.Infraestructure.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\Mastererp.Infraestructure\obj\Release\net6.0\MasterErp.Infraestructure.csproj.AssemblyReference.cache

@@ -1,7 +1,7 @@
 ﻿using MasterErp.Domain.Models;
 
-namespace MasterErp.Domain.Interfaces.Repository
-{
+namespace MasterErp.Domain.Interfaces.Repository;
+
     public interface INotaFiscalRepository
     {
         Task<NotaFiscal> GetByIdAsync(int id);
@@ -17,4 +17,4 @@ namespace MasterErp.Domain.Interfaces.Repository
         Task DeleteAsync(int id);
 
     }
-}
+

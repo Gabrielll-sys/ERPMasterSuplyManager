@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SupplyManager.App;
+using MasterErp.Infraestructure;
 using MasterErp.Domain.Models;
 using System.Net;
 
 namespace MasterErp.Api.Controllers;
-{
+
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -254,5 +254,5 @@ namespace MasterErp.Api.Controllers;
 
         }
     }
-}
+
 

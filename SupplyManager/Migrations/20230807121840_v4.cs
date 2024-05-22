@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace SupplyManager.Migrations
+namespace MasterErp.Api.Migrations
+
 {
     /// <inheritdoc />
     public partial class v4 : Migration

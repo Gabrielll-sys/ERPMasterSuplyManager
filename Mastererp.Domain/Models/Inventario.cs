@@ -1,4 +1,4 @@
-﻿using SupplyManager.Interfaces;
+﻿
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MasterErp.Domain.Models

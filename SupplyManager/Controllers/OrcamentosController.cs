@@ -4,10 +4,10 @@ using MySqlConnector;
 using MasterErp.Domain.Interfaces.Services;
 using MasterErp.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
-
+using MasterErp.Infraestructure;
 
 namespace MasterErp.Api.Controllers;
-{    ///<summary>
+    ///<summary>
      ///Controlador para gerenciar Orçamentos
      /// </summary>
     [ApiController]
@@ -183,8 +183,8 @@ namespace MasterErp.Api.Controllers;
                         //Busca o material presente no item para pegar a unidade 
                         var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == item.MaterialId);
 
-                        //Procura todos os inventários do material da tabela item,para posteriormente  subtrair do inventário a quantidade a ser utilizad na OS
-                        var inventario = inventarios
+                    //Procura todos os inventários do material da tabela item,para posteriormente  subtrair do inventário a quantidade a ser utilizad na OS
+                    List<Inventario> inventario = inventarios
                             .Where(x => x.MaterialId == item.MaterialId)
                             .ToList();
 
@@ -256,5 +256,5 @@ namespace MasterErp.Api.Controllers;
         }
     }
 
-}
+
 

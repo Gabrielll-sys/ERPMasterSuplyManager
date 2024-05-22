@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SupplyManager.App;
-using SupplyManager.Interfaces;
-using SupplyManager.Models;
+using MasterErp.Domain.Interfaces.Services;
+using MasterErp.Domain.Models;
 using System.Net;
+using MasterErp.Infraestructure;
+
 namespace MasterErp.Api.Controllers;
-{
+
     ///<summary>
     ///Controlador para gerenciar os Itens da Nota Fiscal
     /// </summary>
@@ -167,4 +168,4 @@ namespace MasterErp.Api.Controllers;
 
 
     }
-}
+

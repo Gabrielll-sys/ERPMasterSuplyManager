@@ -2,7 +2,7 @@
 using MasterErp.Domain.Models;
 
 namespace MasterErp.Domain.Interfaces.Services;
-{
+
     public interface INotaFiscalService
     {
         Task<NotaFiscal> GetByIdAsync(int id);
@@ -17,4 +17,4 @@ namespace MasterErp.Domain.Interfaces.Services;
 
         Task DeleteAsync(int id);
     }
-}
+

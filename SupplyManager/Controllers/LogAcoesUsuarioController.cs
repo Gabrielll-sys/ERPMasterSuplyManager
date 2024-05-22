@@ -1,21 +1,16 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SupplyManager.App;
-using SupplyManager.Models;
-using SupplyManager.Validations.MateriaisValidations;
+using MasterErp.Domain.Validations;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.IO;
-using SupplyManager.Extensions;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
-using System.ComponentModel;
-using System.Linq;
-using SupplyManager.Interfaces;
+using MasterErp.Api.Extensions;
+using MasterErp.Infraestructure;
+using MasterErp.Domain.Interfaces.Services;
+using MasterErp.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
-using MySqlConnector;
-using SupplyManager.Services;
+
 
 namespace MasterErp.Api.Controllers;
 [ApiController]

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace SupplyManager.Migrations
+namespace MasterErp.Api.Migrations
 {
     /// <inheritdoc />
     public partial class v19 : Migration

@@ -1,23 +1,21 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SupplyManager.App;
-using SupplyManager.Models;
-using System.Net;
-
-using SupplyManager.Interfaces;
+using MasterErp.Domain.Interfaces.Services;
+using MasterErp.Domain.Models;
+using MasterErp.Infraestructure;
 using Microsoft.AspNetCore.Authorization;
 using static Microsoft.AspNetCore.Http.StatusCodes;
 
-using SupplyManager.Services;
+
 using FluentValidation.Results;
 using Humanizer;
 using MasterErp.Api.ViewModels;
 using MasterErp.Api.Extensions;
 using MasterErp.Domain.Validations.MateriaisValidations;
+using System.Net;
 
 namespace MasterErp.Api.Controllers;
-{
 
     ///<summary>
     ///Controlador para gerenciar os Materias
@@ -104,7 +102,7 @@ namespace MasterErp.Api.Controllers;
 
             try
             {
-                var materialWithInventory = await _context.Inventarios
+                List<Inventario> materialWithInventory = await _context.Inventarios
                     .Include(s => s.Material)
                     .Where(x =>x.MaterialId==id)
                     .ToListAsync();
@@ -271,4 +269,3 @@ namespace MasterErp.Api.Controllers;
         }
 
     }
-}

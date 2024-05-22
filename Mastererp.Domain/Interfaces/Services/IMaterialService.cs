@@ -2,7 +2,7 @@
 using MasterErp.Domain.Models;
 
 namespace MasterErp.Domain.Interfaces.Services;
-{
+
     public interface IMaterialService
     {
 
@@ -13,4 +13,4 @@ namespace MasterErp.Domain.Interfaces.Services;
         Task<Material> UpdateAsync(Material model);
         Task DeleteAsync(int id);
     }
-}
+
