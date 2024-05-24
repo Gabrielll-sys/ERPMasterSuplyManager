@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using MasterErp.Domain.Models;
 namespace MasterErp.Domain.Models;
 
 public class AtividadeRd

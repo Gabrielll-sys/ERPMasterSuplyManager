@@ -5,7 +5,6 @@ using System.Security.Claims;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
-using NPOI.SS.Formula.Functions;
 using MasterErp.Domain.Interfaces.Services;
 using MasterErp.Domain.Models;
 namespace MasterErp.Api.Controllers;
@@ -165,15 +164,15 @@ namespace MasterErp.Api.Controllers;
         public async Task<ActionResult> TurnInactive(int id)
         {
 
-            try
-            {
-                await _usuarioService.TurnUserInactive(id);
+        try
+        {
+            await _usuarioService.TurnUserInactive(id);
 
-                return Ok();
+            return Ok();
 
-            }
+        }
 
-            catch (KeyNotFoundException)
+        catch (KeyNotFoundException)
             {
                 return StatusCode(StatusCodes.Status404NotFound);
 

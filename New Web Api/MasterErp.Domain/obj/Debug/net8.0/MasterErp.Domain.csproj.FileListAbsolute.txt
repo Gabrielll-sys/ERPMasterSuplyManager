@@ -1,0 +1,13 @@
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Domain\obj\Debug\net8.0\MasterErp.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Domain\obj\Debug\net8.0\MasterErp.Domain.AssemblyInfoInputs.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Domain\obj\Debug\net8.0\MasterErp.Domain.AssemblyInfo.cs
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Domain\obj\Debug\net8.0\MasterErp.Domain.csproj.CoreCompileInputs.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Domain\obj\Debug\net8.0\MasterErp.Domain.sourcelink.json
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Domain\bin\Debug\net8.0\MasterErp.Domain.deps.json
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Domain\bin\Debug\net8.0\MasterErp.Domain.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Domain\bin\Debug\net8.0\MasterErp.Domain.pdb
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Domain\obj\Debug\net8.0\MasterErp.Domain.csproj.AssemblyReference.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Domain\obj\Debug\net8.0\MasterErp.Domain.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Domain\obj\Debug\net8.0\refint\MasterErp.Domain.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Domain\obj\Debug\net8.0\MasterErp.Domain.pdb
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Domain\obj\Debug\net8.0\ref\MasterErp.Domain.dll

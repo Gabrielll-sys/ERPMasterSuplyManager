@@ -1,16 +1,19 @@
 
-using MasterErp.Infraestructure;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-
+using MasterErp.Services;
+using MasterErp.Domain.Interfaces.Repository;
+using MasterErp.Domain.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using MasterErp.Infraestructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -94,7 +97,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-#region Containers de Injeção de Dependência
+#region Containers de Injeï¿½ï¿½o de Dependï¿½ncia
 
 builder.Services.AddTransient<IInventarioService, InventarioService>();
 builder.Services.AddScoped<IInventarioRepository, InventarioRepository>();

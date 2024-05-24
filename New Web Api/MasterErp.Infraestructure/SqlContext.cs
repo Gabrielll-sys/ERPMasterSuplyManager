@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+
+using Microsoft.EntityFrameworkCore;
 using MasterErp.Domain.Models;
-
-
 namespace MasterErp.Infraestructure;
-
 public class SqlContext : DbContext
 {
 

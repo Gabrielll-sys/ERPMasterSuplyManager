@@ -5,11 +5,11 @@ VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterErp.Api", "MasterErp.Api\MasterErp.Api.csproj", "{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterErp.Domain", "MasterErp.Domain\MasterErp.Domain.csproj", "{483C1AE4-B1B6-47C4-B66A-74C2F87ED930}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterErp.Domain", "MasterErp.Domain\MasterErp.Domain.csproj", "{483C1AE4-B1B6-47C4-B66A-74C2F87ED930}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterErp.Infraestructure", "MasterErp.Infraestructure\MasterErp.Infraestructure.csproj", "{225C95E7-B90F-4614-8256-88AA8D61D9B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterErp.Infraestructure", "MasterErp.Infraestructure\MasterErp.Infraestructure.csproj", "{225C95E7-B90F-4614-8256-88AA8D61D9B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterErp.Services", "MasterErp.Services\MasterErp.Services.csproj", "{1E76A0B2-A430-413A-9A35-919474E1CCA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterErp.Services", "MasterErp.Services\MasterErp.Services.csproj", "{1E76A0B2-A430-413A-9A35-919474E1CCA4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

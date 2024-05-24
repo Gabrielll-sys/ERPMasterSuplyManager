@@ -1,0 +1,16 @@
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Services\obj\Debug\net8.0\MasterErp.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Services\obj\Debug\net8.0\MasterErp.Services.AssemblyInfoInputs.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Services\obj\Debug\net8.0\MasterErp.Services.AssemblyInfo.cs
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Services\obj\Debug\net8.0\MasterErp.Services.csproj.CoreCompileInputs.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Services\obj\Debug\net8.0\MasterErp.Services.sourcelink.json
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Services\bin\Debug\net8.0\MasterErp.Services.deps.json
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Services\bin\Debug\net8.0\MasterErp.Services.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Services\bin\Debug\net8.0\MasterErp.Services.pdb
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Services\bin\Debug\net8.0\MasterErp.Domain.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Services\bin\Debug\net8.0\MasterErp.Domain.pdb
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Services\obj\Debug\net8.0\MasterErp.Services.csproj.AssemblyReference.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Services\obj\Debug\net8.0\MasterEr.D07A09A2.Up2Date
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Services\obj\Debug\net8.0\MasterErp.Services.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Services\obj\Debug\net8.0\refint\MasterErp.Services.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Services\obj\Debug\net8.0\MasterErp.Services.pdb
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Services\obj\Debug\net8.0\ref\MasterErp.Services.dll

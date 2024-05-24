@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FQ6wlIM9Gv4=",
+  "dgSpecHash": "/p+6x4yLUW0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\Mastererp.Infraestructure\\MasterErp.Infraestructure.csproj",
+  "projectFilePath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Infraestructure\\MasterErp.Infraestructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gabri\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\bouncycastle.cryptography\\2.2.1\\bouncycastle.cryptography.2.2.1.nupkg.sha512",

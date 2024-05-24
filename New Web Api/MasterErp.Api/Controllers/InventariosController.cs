@@ -1505,14 +1505,14 @@ namespace MasterErp.Api.Controllers;
 
             try
             {
-                var queryMaterial = from query in _context.Inventarios select query;
+               List<Inventario>queryMaterial = await _context.Inventarios.ToListAsync();
 
 
-                queryMaterial = queryMaterial
+                List<Inventario >b= queryMaterial
                     .Where(x => x.MaterialId == model.MaterialId)
-                    .OrderBy(x => x.Id);
+                    .OrderBy(x => x.Id).ToList();
 
-                var b = await queryMaterial.ToListAsync();
+        
 
                 //CASO SEJA O PRIMEIRO ITEM DO INVENTÁRIO OU QUANDO FOR CRIAR DE FATO O SEGUNDO ITEM
                 if (b.Count == 0 || b.Count == 1)

@@ -1,4 +1,4 @@
-using FluentValidation;
+
 using Microsoft.AspNetCore.Mvc;
 using MasterErp.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -8,7 +8,7 @@ namespace MasterErp.Api.Controllers;
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
-[Authorize]
+/*[Authorize]*/
 public class AtividadesRdController:ControllerBase
 {
     private readonly IAtividadeRdService _atividadesRdService;

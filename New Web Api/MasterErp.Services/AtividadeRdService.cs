@@ -13,7 +13,8 @@ public class AtividadeRdService : IAtividadeRdService
 
     private readonly ILogAcoesUsuarioService _logAcoesUsuarioService;
 
-    private readonly IHttpContextAccessor _httpContextAccessor;
+       private readonly IHttpContextAccessor _httpContextAccessor;
+
 
     public AtividadeRdService(IAtividadeRdRepository atividadeRepository,
         ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)

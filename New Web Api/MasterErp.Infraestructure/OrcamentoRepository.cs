@@ -1,10 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using MasterErp.Domain.Interfaces.Repository;
 using MasterErp.Domain.Models;
-
-
-namespace MasterErp.Infraestructure;
-
+namespace MasterErp.Infraestructure
+{
+    
 public class OrcamentoRepository : IOrcamentoRepository
 {
     private readonly SqlContext _context;
@@ -140,3 +139,5 @@ public class OrcamentoRepository : IOrcamentoRepository
     
     
         }
+}
+

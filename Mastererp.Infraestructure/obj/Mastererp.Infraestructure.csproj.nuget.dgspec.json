@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\Mastererp.Infraestructure\\MasterErp.Infraestructure.csproj": {}
+    "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Infraestructure\\MasterErp.Infraestructure.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\Mastererp.Domain\\MasterErp.Domain.csproj": {
+    "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Domain\\MasterErp.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\Mastererp.Domain\\MasterErp.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Domain\\MasterErp.Domain.csproj",
         "projectName": "MasterErp.Domain",
-        "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\Mastererp.Domain\\MasterErp.Domain.csproj",
+        "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Domain\\MasterErp.Domain.csproj",
         "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\Mastererp.Domain\\obj\\",
+        "outputPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Domain\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\gabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -71,17 +75,21 @@
         }
       }
     },
-    "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\Mastererp.Infraestructure\\MasterErp.Infraestructure.csproj": {
+    "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Infraestructure\\MasterErp.Infraestructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\Mastererp.Infraestructure\\MasterErp.Infraestructure.csproj",
+        "projectUniqueName": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Infraestructure\\MasterErp.Infraestructure.csproj",
         "projectName": "MasterErp.Infraestructure",
-        "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\Mastererp.Infraestructure\\MasterErp.Infraestructure.csproj",
+        "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Infraestructure\\MasterErp.Infraestructure.csproj",
         "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\Mastererp.Infraestructure\\obj\\",
+        "outputPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Infraestructure\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\gabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -96,14 +104,14 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\Mastererp.Domain\\MasterErp.Domain.csproj": {
-                "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\Mastererp.Domain\\MasterErp.Domain.csproj"
+              "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Domain\\MasterErp.Domain.csproj": {
+                "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Domain\\MasterErp.Domain.csproj"
               },
-              "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\MasterErp.Service\\MasterErp.Services.csproj": {
-                "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\MasterErp.Service\\MasterErp.Services.csproj"
+              "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\MasterErp.Service\\MasterErp.Services.csproj": {
+                "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\MasterErp.Service\\MasterErp.Services.csproj"
               },
-              "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\SupplyManager\\MasterErp.Api.csproj": {
-                "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\SupplyManager\\MasterErp.Api.csproj"
+              "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\MasterErp.Api.csproj": {
+                "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\MasterErp.Api.csproj"
               }
             }
           }
@@ -152,17 +160,21 @@
         }
       }
     },
-    "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\MasterErp.Service\\MasterErp.Services.csproj": {
+    "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\MasterErp.Service\\MasterErp.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\MasterErp.Service\\MasterErp.Services.csproj",
+        "projectUniqueName": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\MasterErp.Service\\MasterErp.Services.csproj",
         "projectName": "MasterErp.Services",
-        "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\MasterErp.Service\\MasterErp.Services.csproj",
+        "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\MasterErp.Service\\MasterErp.Services.csproj",
         "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\MasterErp.Service\\obj\\",
+        "outputPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\MasterErp.Service\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\gabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -177,8 +189,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\Mastererp.Domain\\MasterErp.Domain.csproj": {
-                "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\Mastererp.Domain\\MasterErp.Domain.csproj"
+              "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Domain\\MasterErp.Domain.csproj": {
+                "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Domain\\MasterErp.Domain.csproj"
               }
             }
           }
@@ -227,17 +239,21 @@
         }
       }
     },
-    "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\SupplyManager\\MasterErp.Api.csproj": {
+    "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\MasterErp.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\SupplyManager\\MasterErp.Api.csproj",
+        "projectUniqueName": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\MasterErp.Api.csproj",
         "projectName": "MasterErp.Api",
-        "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\SupplyManager\\MasterErp.Api.csproj",
+        "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\MasterErp.Api.csproj",
         "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\SupplyManager\\obj\\",
+        "outputPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\SupplyManager\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\gabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -252,8 +268,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\Mastererp.Domain\\MasterErp.Domain.csproj": {
-                "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\Mastererp.Domain\\MasterErp.Domain.csproj"
+              "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Domain\\MasterErp.Domain.csproj": {
+                "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\Mastererp.Domain\\MasterErp.Domain.csproj"
               }
             }
           }
