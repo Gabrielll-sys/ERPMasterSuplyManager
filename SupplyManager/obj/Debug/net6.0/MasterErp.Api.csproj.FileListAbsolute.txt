@@ -1,7 +1,0 @@
-C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\MasterErp.Api.csproj.AssemblyReference.cache
-C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\MasterErp.Api.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\MasterErp.Api.AssemblyInfoInputs.cache
-C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\MasterErp.Api.AssemblyInfo.cs
-C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\MasterErp.Api.csproj.CoreCompileInputs.cache
-C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\MasterErp.Api.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\SupplyManager\obj\Debug\net6.0\MasterErp.Api.MvcApplicationPartsAssemblyInfo.cache
