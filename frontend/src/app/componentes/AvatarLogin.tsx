@@ -4,16 +4,13 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
-    Navbar,
-    NavbarBrand,
-    NavbarContent,
+
     DropdownItem,
     DropdownTrigger,
     Dropdown,
     DropdownMenu,
     Avatar,
-    Button,
-    NavbarItem,
+
   } from "@nextui-org/react";
 
 import { signOut, useSession } from "next-auth/react";

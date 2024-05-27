@@ -6,8 +6,8 @@ namespace MasterErp.Domain.Models;
     {
         [Key]
         public int Id { get; set; }
-        public string Tarefa { get; set; }
+        public string NomeTarefa { get; set; }
 
-        public int MyProperty { get; set; }
+        public bool Status { get; set; }
     }
 

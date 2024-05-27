@@ -103,7 +103,7 @@ import SideBarLFT from "./SideBarLFT";
 
                     {currentUser != null ? (
 
-                            <Dropdown className="p-0 rounded-md shadow-none border-2 border-black">
+                            <Dropdown className="p-2 rounded-md shadow-none border-2 border-black">
                                 <DropdownTrigger>
 
                                     <p className="font-semibold text-white my-auto mr-6 hover:underline  max-sm:text-[15px] md:text-[23px] p-3">
@@ -125,6 +125,17 @@ import SideBarLFT from "./SideBarLFT";
                                         onClick={() => route.push("/my-account")}
                                     >
                                         <p className="text-base p-1 hover:underline">Minha Conta</p>
+
+                                    </DropdownItem>
+                                    <DropdownItem
+                                        key="my-account"
+                                        color="danger"
+                                        variant="bordered"
+                                        className="bg-light mt-2 "
+                                        endContent={<IconPersonFill className={iconClasses}/>}
+                                        onClick={() => route.push("/my-tasks")}
+                                    >
+                                        <p className="text-base p-1 hover:underline">Minhas Tarefas Diárias</p>
 
                                     </DropdownItem>
 

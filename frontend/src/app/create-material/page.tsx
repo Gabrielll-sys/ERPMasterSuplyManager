@@ -17,6 +17,7 @@ import { useSession } from "next-auth/react";
 import IconPencil from "../assets/icons/IconPencil";
 import IMaterial from "../interfaces/IMaterial";
 import { createMaterial, searchByDescription, searchByFabricanteCode } from "../services/Material.Services";
+import TaskUser from "../componentes/TaskUser";
 
 
 
@@ -242,6 +243,7 @@ const buscaCodigoFabricante = async(codigo:string)=>
             onValueChange={setCorrente}
             label="Corrente"
           />
+          <TaskUser  status = {false} tarefa={"Kill Bill"}/>
             <Autocomplete
          label="Tensão"
          placeholder="EX:127V"
