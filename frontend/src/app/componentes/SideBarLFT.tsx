@@ -110,6 +110,11 @@ export default function SideBarLFT(props : any) {
           <Sidebar.Item className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/log-register" icon={HiPencil}>
             Registro de Ações
           </Sidebar.Item>
+          <Sidebar.Collapse className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out"label=" Utilitários" icon={HiPencilAlt}>
+            <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/current-motor-weg" >
+                Corrente Motor WEG
+            </Sidebar.Item>
+            </Sidebar.Collapse>
                 </>
             )}
         </Sidebar.ItemGroup>

@@ -28,6 +28,7 @@ public class SqlContext : DbContext
     public DbSet<RelatorioDiario> RelatorioDiarios{ get; set; }
     
     public DbSet<ImagemAtividadeRd> ImagensAtividadeRd { get; set; }
+    public DbSet<TarefaUsuario> TarefaUsuarios { get; set; }
 
-    
+
 }
