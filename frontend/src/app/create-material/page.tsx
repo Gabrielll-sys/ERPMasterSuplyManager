@@ -243,7 +243,6 @@ const buscaCodigoFabricante = async(codigo:string)=>
             onValueChange={setCorrente}
             label="Corrente"
           />
-          <TaskUser  status = {false} tarefa={"Kill Bill"}/>
             <Autocomplete
          label="Tensão"
          placeholder="EX:127V"

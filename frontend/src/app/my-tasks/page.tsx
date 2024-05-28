@@ -10,6 +10,7 @@ import { EyeFilledIcon, EyeSlashFilledIcon } from "@nextui-org/shared-icons";
 
 import MailIcon from "@/app/assets/icons/MailIcon";
 import { authenticate } from "@/app/services/Auth.services";
+import TaskUser from "../componentes/TaskUser";
 
 
 
@@ -31,47 +32,10 @@ export default function MyTasks(){
 
     useEffect(() => {
 
-        //@ts-ignore
-        const user = JSON.parse(localStorage.getItem('currentUser'));
-        setCurrentUser(user);
-        console.log(user?.token)
-        if (isTokenValid(user?.token) && user!= null){
-            route.push("/create-material")
-        }
 
     }, []);
 
-    const loginUser = async()=>{
-
-      const user = {
-        email:email,
-        senha:senha
-      }
-      const res = await authenticate(user)
-        console.log(res)
-      if(res == 200)
-      {
-          setTimeout(()=>{
-              route.push("create-material")
-
-          },1800)
-      }
-      else if (res == 401)
-      {
-          setOpenSnackBar(true);
-          setSeveridadeAlert("warning");
-          setMessageAlert("Email ou Senha incorretas");
-      }
-
-      else if( res == 403){
-          setOpenSnackBar(true);
-          setSeveridadeAlert("warning");
-          setMessageAlert("Você Não possui mais permissão de acesso");
-      }
-
-
-    }
-
+ 
 
 
 
@@ -82,48 +46,16 @@ return(
 
       
         
-          <div className=' justify-center flex flex-col h-[85vh] max-sm:h-[75vh] '>
+         
+          <TaskUser prioridade={"Altissíma"} status = {true} tarefa={"Kill Bill"}/>
 
 
-          <div className=' flex flex-col  items-center  text-center mx-auto rounded-md shadow-md shadow-black border-1 border-black p-8 w-[320px] gap-8 '>
+      
+
+   
 
 
-            <Input
-              labelPlacement='outside'
-              value={email}
-              className="border-1 border-black justify-center rounded-md shadow-sm shadow-black  max-w-3xl"
-              onValueChange={setEmail}
-              label="Email"
-              endContent={
-                  <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-              }
-            />
-            <Input
-              labelPlacement='outside'
-              value={senha}
-              className="border-1 border-black rounded-md shadow-sm shadow-black  max-w-3xl"
-              onValueChange={setSenha}
-              label="Senha"
-              endContent={
-                  <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
-                      {isVisible ? (
-                          <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                      ) : (
-                          <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                      )}
-                  </button>
-              }
-              type={isVisible ? "text" : "password"}
-            />
-
-          <Button  onPress={loginUser} className='bg-master_black text-white p-4 rounded-lg font-bold text-base shadow-lg '>
-                Entrar
-          </Button>
-
-          </div>
-
-
-        </div>
+   
    
 <Snackbar
             open={openSnackBar}
