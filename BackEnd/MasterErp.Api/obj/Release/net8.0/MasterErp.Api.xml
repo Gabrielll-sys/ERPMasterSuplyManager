@@ -402,6 +402,20 @@
             </summary>
             <param name="Id"></param>
         </member>
+        <member name="M:MasterErp.Api.Controllers.TarefasUsuariosController.Post(MasterErp.Domain.Models.TarefaUsuario)">
+            <summary>
+            Cria um relatório diário
+            </summary>
+            <param name="Relatório DiárioDiário"></param>
+            <returns>O Relatorio Diario Criado </returns>
+            
+        </member>
+        <member name="M:MasterErp.Api.Controllers.TarefasUsuariosController.Put(System.Int32,MasterErp.Domain.Models.TarefaUsuario)">
+            <summary>
+            Atualiza um Relatório Diario
+            </summary>
+            <param name="Relatorio DiárioDiário"></param>
+        </member>
         <member name="M:MasterErp.Api.Controllers.UsuariosController.Post(MasterErp.Domain.Models.UsuarioDto)">
             <summary>
             Realiza a criação de usuário no Sistema

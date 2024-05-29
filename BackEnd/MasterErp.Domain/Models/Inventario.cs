@@ -38,7 +38,7 @@ namespace MasterErp.Domain.Models
             SaldoFinal = saldoFinal;
             Responsavel = responsavel;
             MaterialId = materialId;
-            DataAlteracao = DateTime.Now;
+            DataAlteracao = DateTime.UtcNow.AddHours(-3);
             
         }
 

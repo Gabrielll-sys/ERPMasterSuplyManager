@@ -11,6 +11,9 @@ import { EyeFilledIcon, EyeSlashFilledIcon } from "@nextui-org/shared-icons";
 import MailIcon from "@/app/assets/icons/MailIcon";
 import { authenticate } from "@/app/services/Auth.services";
 import TaskUser from "../componentes/TaskUser";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { ITarefaUsuario } from "../interfaces/ITarefaUsuario";
 
 
 
@@ -20,14 +23,14 @@ export default function MyTasks(){
     const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
     const [messageAlert, setMessageAlert] = useState<string>();
     const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
-    const[senha,setSenha] = useState<string>()
-    const[email,setEmail] = useState<string>()
+    const[dateTasks,setDateTask] = useState<Date>()
+    const[tarefaDia,setTarefaDia] = useState<ITarefaUsuario[]>()
+    
 
-    const [isVisible, setIsVisible] = useState(false);
-    const [currentUser, setCurrentUser] = useState<any>(null);
+    const getTasksByDate = async(data:any)=>{
 
-    const toggleVisibility = () => setIsVisible(!isVisible);
 
+    }
 
 
     useEffect(() => {
@@ -43,7 +46,18 @@ export default function MyTasks(){
 return(
     <>
 
-
+<LocalizationProvider
+                     dateAdapter={AdapterDayjs}
+                     adapterLocale="pt-br"
+                 >
+                     <DatePicker
+                         label="Dia de Registro de Ações"
+                         className="shadow-lg w-[250px] self-center "
+                         value={dateTasks}
+                         onChange={(e) => getTasksByDate(e)}
+                         slotProps={{ textField: { variant: 'filled' }}}
+                     />
+                 </LocalizationProvider>
       
         
          

@@ -112,7 +112,21 @@ namespace MasterErp.Services
             }
 
         }
+        public async Task<List<TarefaUsuario>> SearchUserTasks()
+        {
 
+            var userId = _httpContextAccessor.HttpContext.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+
+            var tasks = await _tarefaUsuarioRepository.GetAllAsync();
+
+
+            var userTasks = tasks.Where(x => x.UsuarioId == Int32.Parse(userId)).ToList();
+
+            return userTasks;
+
+
+        }
         
     }
 }

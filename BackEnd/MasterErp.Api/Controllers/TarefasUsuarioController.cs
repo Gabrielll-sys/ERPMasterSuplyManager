@@ -49,15 +49,32 @@ public class TarefasUsuariosController:ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
         }
     }
+    [HttpGet("search-user-tasks")]
+    public async Task<ActionResult<TarefaUsuario>> SearchUserTasks(int id)
+    {
+        try
+        {
+            return Ok(await _tarefaUsuarioService.SearchUserTasks());
 
-    
-     /// <summary>
-        /// Cria um relatório diário
-        /// </summary>
-        /// <param name="Relatório Diário"></param>
-        /// <returns>O Relatorio Diario Criado </returns>
-        /// 
-        [HttpPost]
+        }
+        catch (KeyNotFoundException)
+        {
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+        catch (Exception exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+        }
+    }
+
+
+    /// <summary>
+    /// Cria um relatório diário
+    /// </summary>
+    /// <param name="Relatório Diário"></param>
+    /// <returns>O Relatorio Diario Criado </returns>
+    /// 
+    [HttpPost]
         public async Task<ActionResult<TarefaUsuario>> Post(TarefaUsuario model)
         {
             try

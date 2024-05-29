@@ -16,3 +16,21 @@ C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\Mast
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Infraestructure\obj\Release\net8.0\MasterErp.Infraestructure.pdb
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Infraestructure\obj\Release\net8.0\MasterErp.Infraestructure.genruntimeconfig.cache
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\New Web Api\MasterErp.Infraestructure\obj\Release\net8.0\ref\MasterErp.Infraestructure.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Infraestructure\bin\Release\net8.0\MasterErp.Infraestructure.deps.json
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Infraestructure\bin\Release\net8.0\MasterErp.Infraestructure.runtimeconfig.json
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Infraestructure\bin\Release\net8.0\MasterErp.Infraestructure.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Infraestructure\bin\Release\net8.0\MasterErp.Infraestructure.pdb
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Infraestructure\bin\Release\net8.0\MasterErp.Domain.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Infraestructure\bin\Release\net8.0\MasterErp.Domain.pdb
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Infraestructure\obj\Release\net8.0\MasterErp.Infraestructure.csproj.AssemblyReference.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Infraestructure\obj\Release\net8.0\MasterErp.Infraestructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Infraestructure\obj\Release\net8.0\MasterErp.Infraestructure.AssemblyInfoInputs.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Infraestructure\obj\Release\net8.0\MasterErp.Infraestructure.AssemblyInfo.cs
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Infraestructure\obj\Release\net8.0\MasterErp.Infraestructure.csproj.CoreCompileInputs.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Infraestructure\obj\Release\net8.0\MasterErp.Infraestructure.sourcelink.json
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Infraestructure\obj\Release\net8.0\MasterEr.5F82F6E7.Up2Date
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Infraestructure\obj\Release\net8.0\MasterErp.Infraestructure.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Infraestructure\obj\Release\net8.0\refint\MasterErp.Infraestructure.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Infraestructure\obj\Release\net8.0\MasterErp.Infraestructure.pdb
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Infraestructure\obj\Release\net8.0\MasterErp.Infraestructure.genruntimeconfig.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Infraestructure\obj\Release\net8.0\ref\MasterErp.Infraestructure.dll
