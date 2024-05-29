@@ -515,6 +515,33 @@ namespace MasterErp.Infraestructure.Migrations
                     b.ToTable("RelatorioDiarios");
                 });
 
+            modelBuilder.Entity("MasterErp.Domain.Models.TarefaUsuario", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int?>("Id"));
+
+                    b.Property<string>("NomeTarefa")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Prioridade")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool?>("Status")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int?>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("TarefaUsuarios");
+                });
+
             modelBuilder.Entity("MasterErp.Domain.Models.Usuario", b =>
                 {
                     b.Property<int?>("Id")
@@ -639,6 +666,15 @@ namespace MasterErp.Infraestructure.Migrations
                     b.Navigation("Material");
 
                     b.Navigation("Orcamento");
+                });
+
+            modelBuilder.Entity("MasterErp.Domain.Models.TarefaUsuario", b =>
+                {
+                    b.HasOne("MasterErp.Domain.Models.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId");
+
+                    b.Navigation("Usuario");
                 });
 #pragma warning restore 612, 618
         }

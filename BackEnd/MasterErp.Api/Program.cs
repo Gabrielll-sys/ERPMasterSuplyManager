@@ -121,6 +121,8 @@ builder.Services.AddScoped<IAtividadeRdRepository, AtividadeRdRepository>();
 builder.Services.AddTransient<IAtividadeRdService, AtividadeRdService>();
 builder.Services.AddScoped<IRelatorioDiarioRepository, RelatorioDiarioRepository>();
 builder.Services.AddTransient<IRelatorioDiarioService, RelatorioDiarioService>();
+builder.Services.AddScoped<ITarefaUsuarioRepository, TarefaUsuarioRepository>();
+builder.Services.AddTransient<ITarefaUsuarioService, TarefaUsuarioService>();
 builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 #endregion
 

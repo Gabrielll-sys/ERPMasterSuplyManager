@@ -191,7 +191,8 @@ namespace MasterErp.Api.Controllers;
             var claims = new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Name, model.Nome),
-                new Claim(ClaimTypes.Role, model.Cargo)
+                new Claim(ClaimTypes.Role, model.Cargo),
+                new Claim(ClaimTypes.NameIdentifier, model.Id.ToString())
             });
 
             var tokenDescriptor = new SecurityTokenDescriptor

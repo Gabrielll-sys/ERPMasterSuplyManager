@@ -48,7 +48,7 @@ public class TarefaUsuarioRepository : ITarefaUsuarioRepository
 
             try
             {
-
+                model.Usuario = null;
                 model.Id = null;
 
                 await _context.TarefaUsuarios.AddAsync(model);
@@ -95,7 +95,7 @@ public class TarefaUsuarioRepository : ITarefaUsuarioRepository
 
                 _context.Remove(material);
 
-                _context.SaveChanges();
+               await  _context.SaveChangesAsync();
             }
 
             catch (Exception)
@@ -105,4 +105,5 @@ public class TarefaUsuarioRepository : ITarefaUsuarioRepository
             }
         }
     }
+}
 
