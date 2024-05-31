@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import { Autocomplete, AutocompleteItem, Checkbox, Input, Slider } from "@nextui-org/react";
 import IconPen from "../assets/icons/IconPen";
+import { ITarefaUsuario } from "../interfaces/ITarefaUsuario";
 // @ts-ignore
 export default function TaskUser({tarefa,status,prioridade,onUpdateTarefa}) {
   
@@ -30,6 +31,16 @@ export default function TaskUser({tarefa,status,prioridade,onUpdateTarefa}) {
     onUpdateDescricaoTarefa(descricao);
 
   };
+
+  const handleUpdateTarefa = ()=>{
+
+    const tarefa: ITarefaUsuario = {
+      id:
+    }
+
+    onUpdateTarefa()
+
+  }
   return (
     <>
     <div className=" flex flex-col items-center text-center">
@@ -38,7 +49,7 @@ export default function TaskUser({tarefa,status,prioridade,onUpdateTarefa}) {
       
     <Checkbox color="success"
             isSelected={status}
-            onValueChange={() => onStatusChange}>
+            onValueChange={() => onUpdateTarefa()}>
 
     </Checkbox>
 

@@ -26,7 +26,7 @@ export default function MyTasks(){
     const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
     const[dateTasks,setDateTask] = useState<Date>()
     const[tarefasDia,setTarefaDia] = useState<ITarefaUsuario[]>()
-    
+    const date = new Date()
 
     const getTasksByDate = async(data:any)=>{
 
@@ -38,9 +38,10 @@ export default function MyTasks(){
 
     useEffect(() => {
 
-const user = getUserLocalStorage()
-getAllUserTask()
-    }, []);
+    const user = getUserLocalStorage()
+    getAllUserTask()
+    getTasksByDate(date)
+        }, []);
 
     const getAllUserTask = async()=>{
 
@@ -77,12 +78,13 @@ return(
                          slotProps={{ textField: { variant: 'filled' }}}
                      />
                  </LocalizationProvider>
-      
+                 <div className=" flex flex-col gap-4">
         {tarefasDia?.map((tarefa)=>(
-
-          <TaskUser prioridade={tarefa.prioridade} onUpdateTarefa={updateTarefa} status = {tarefa.status} tarefa={tarefa.nomeTarefa}/>
-
+          
+          <TaskUser  prioridade={tarefa.prioridade} onUpdateTarefa={updateTarefa} status = {tarefa.status} tarefa={tarefa.nomeTarefa}/>
+          
         ))}
+      </div>
          
 
 
