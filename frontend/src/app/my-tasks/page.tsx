@@ -1,5 +1,5 @@
 "use client"
-import { isTokenValid } from "@/app/services/Auth.services";
+import { getUserLocalStorage, isTokenValid } from "@/app/services/Auth.services";
 import MuiAlert from "@mui/material/Alert";
 import { Button, Input } from '@nextui-org/react';
 import { AlertColor, Snackbar } from '@mui/material';
@@ -14,6 +14,7 @@ import TaskUser from "../componentes/TaskUser";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { ITarefaUsuario } from "../interfaces/ITarefaUsuario";
+import { getUserTasksByDate, updateTarefaUsuario } from "../services/TarefasUsuarios.Services";
 
 
 
@@ -24,22 +25,40 @@ export default function MyTasks(){
     const [messageAlert, setMessageAlert] = useState<string>();
     const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
     const[dateTasks,setDateTask] = useState<Date>()
-    const[tarefaDia,setTarefaDia] = useState<ITarefaUsuario[]>()
+    const[tarefasDia,setTarefaDia] = useState<ITarefaUsuario[]>()
     
 
     const getTasksByDate = async(data:any)=>{
 
+      const res : ITarefaUsuario[] = await getUserTasksByDate(data.toISOString())
+      setTarefaDia(res);
 
     }
 
 
     useEffect(() => {
 
-
+const user = getUserLocalStorage()
+getAllUserTask()
     }, []);
 
+    const getAllUserTask = async()=>{
+
+    }
  
 
+    const updateTarefa = async(model:ITarefaUsuario)=>{
+
+      const res = await updateTarefaUsuario(model)
+
+      if( res == 200)
+      {
+        setOpenSnackBar(true);
+        setSeveridadeAlert("success");
+        setMessageAlert("Atividade Atualizada");
+        getAllUserTask()
+      }
+    }
 
 
 
@@ -59,9 +78,12 @@ return(
                      />
                  </LocalizationProvider>
       
-        
+        {tarefasDia?.map((tarefa)=>(
+
+          <TaskUser prioridade={tarefa.prioridade} onUpdateTarefa={updateTarefa} status = {tarefa.status} tarefa={tarefa.nomeTarefa}/>
+
+        ))}
          
-          <TaskUser prioridade={"Altissíma"} status = {true} tarefa={"Kill Bill"}/>
 
 
       

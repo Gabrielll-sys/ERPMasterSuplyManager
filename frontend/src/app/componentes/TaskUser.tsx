@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Autocomplete, AutocompleteItem, Checkbox, Input, Slider } from "@nextui-org/react";
 import IconPen from "../assets/icons/IconPen";
 // @ts-ignore
-export default function TaskUser({tarefa,status,prioridade,onStatusChange,onUpdateDescricaoTarefa}) {
+export default function TaskUser({tarefa,status,prioridade,onUpdateTarefa}) {
   
   const corPrioridade = prioridade == "Altissima"?"text-red-900":"text-red-800"
   const prioridades = ["Baixa","Média","Alta","Altissíma"]
@@ -38,7 +38,7 @@ export default function TaskUser({tarefa,status,prioridade,onStatusChange,onUpda
       
     <Checkbox color="success"
             isSelected={status}
-            onValueChange={() => onStatusChange()}>
+            onValueChange={() => onStatusChange}>
 
     </Checkbox>
 

@@ -13,7 +13,7 @@ public interface ITarefaUsuarioService
 
     Task<TarefaUsuario> UpdateAsync(TarefaUsuario model);
 
-    Task<List<TarefaUsuario>> SearchUserTasks();
+    Task<List<TarefaUsuario>> SearchUserTasksByDate(DateTime date);
 
     Task DeleteAsync(int id);
 }

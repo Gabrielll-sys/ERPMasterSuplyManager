@@ -49,12 +49,12 @@ public class TarefasUsuariosController:ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
         }
     }
-    [HttpGet("search-user-tasks")]
-    public async Task<ActionResult<TarefaUsuario>> SearchUserTasks(int id)
+    [HttpGet("tasks-user-by-date")]
+    public async Task<ActionResult<TarefaUsuario>> SearchUserTasksByDate(DateTime date)
     {
         try
         {
-            return Ok(await _tarefaUsuarioService.SearchUserTasks());
+            return Ok(await _tarefaUsuarioService.SearchUserTasksByDate(date));
 
         }
         catch (KeyNotFoundException)

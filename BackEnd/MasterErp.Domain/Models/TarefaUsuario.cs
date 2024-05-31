@@ -10,10 +10,19 @@ namespace MasterErp.Domain.Models;
         public string? NomeTarefa { get; set; }
         public string? Prioridade { get; set; }
 
-        public bool? Status { get; set; }
+        public bool? isFineshed { get; set; }
         public int? UsuarioId { get; set; }
+    
+        public DateTime? DataTarefa { get; set; }
 
         [ForeignKey("UsuarioId")]
         public Usuario Usuario { get; set; }
 
+    public TarefaUsuario(string? nomeTarefa, string? prioridade )
+    {
+        NomeTarefa = nomeTarefa;
+        Prioridade = prioridade;
+        isFineshed = false;
+        DataTarefa = DateTime.UtcNow.AddHours(-3);
+    }
 }

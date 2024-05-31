@@ -51,6 +51,8 @@ public class TarefaUsuarioRepository : ITarefaUsuarioRepository
                 model.Usuario = null;
                 model.Id = null;
 
+                TarefaUsuario t1 = new TarefaUsuario(model.NomeTarefa,model.Prioridade);
+
                 await _context.TarefaUsuarios.AddAsync(model);
 
                 await _context.SaveChangesAsync();

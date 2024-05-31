@@ -3,6 +3,7 @@ using MasterErp.Domain.Interfaces.Repository;
 using MasterErp.Domain.Interfaces.Services;
 using MasterErp.Domain.Models;
 using Microsoft.AspNetCore.Http;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace MasterErp.Services
 {
     public class TarefaUsuarioService : ITarefaUsuarioService
@@ -112,7 +113,7 @@ namespace MasterErp.Services
             }
 
         }
-        public async Task<List<TarefaUsuario>> SearchUserTasks()
+        public async Task<List<TarefaUsuario>> SearchUserTasksByDate(DateTime date)
         {
 
             var userId = _httpContextAccessor.HttpContext.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -122,6 +123,9 @@ namespace MasterErp.Services
 
 
             var userTasks = tasks.Where(x => x.UsuarioId == Int32.Parse(userId)).ToList();
+
+            var result = userTasks.Where(x => x.DataTarefa is not null && x.DataTarefa.Value.Date == date.Date).OrderByDescending(x => x.Prioridade).ToList();
+
 
             return userTasks;
 
