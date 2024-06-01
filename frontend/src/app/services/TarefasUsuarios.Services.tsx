@@ -40,8 +40,9 @@ export const updateTarefaUsuario = async (model:ITarefaUsuario)=>{
     const TarefaUsuario : ITarefaUsuario = {
         id:model.id,
         nomeTarefa:model.nomeTarefa,
-        prioridade:model.prioridade,  
-        usuarioId:0,
+         prioridade:model.prioridade,
+        usuarioId:model.usuarioId,
+        isFinished:model.isFinished,
         usuario:{}
     };
 console.log(TarefaUsuario)

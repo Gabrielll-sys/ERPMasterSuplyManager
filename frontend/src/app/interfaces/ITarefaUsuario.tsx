@@ -4,7 +4,7 @@ export interface ITarefaUsuario {
     id?: number;
     nomeTarefa?: string;
     prioridade?: string;
-    status?: boolean;
+    isFinished?: boolean;
     usuarioId?: number;
     usuario: IUsuario;
   }

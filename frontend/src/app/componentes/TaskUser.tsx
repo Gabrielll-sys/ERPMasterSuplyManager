@@ -4,87 +4,113 @@ import { useState } from "react";
 import { Autocomplete, AutocompleteItem, Checkbox, Input, Slider } from "@nextui-org/react";
 import IconPen from "../assets/icons/IconPen";
 import { ITarefaUsuario } from "../interfaces/ITarefaUsuario";
+
 // @ts-ignore
-export default function TaskUser({tarefa,status,prioridade,onUpdateTarefa}) {
+export default function TaskUser({tarefa,onUpdateTarefa}) {
   
-  const corPrioridade = prioridade == "Altissima"?"text-red-900":"text-red-800"
+  const corPrioridade = tarefa.prioridade == "Altissima"?"text-red-900":"text-red-800"
   const prioridades = ["Baixa","Média","Alta","Altissíma"]
-  const [descricao, setDescricao] = useState<string>(tarefa);
-  const [prioridadeTarefa,setPrioridadeTarefa] = useState<any>(prioridade)
+  const [nomeTarefa, setNomeTarefa] = useState<string>(tarefa.nomeTarefa);
+  const [prioridadeTarefa,setPrioridadeTarefa] = useState<any>(tarefa.prioridade)
   const [isEditing,setIsEditing] = useState<boolean>(false);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    console.log(nomeTarefa)
 
+    const task: ITarefaUsuario = {
+      id: tarefa.id,
+      nomeTarefa: nomeTarefa,
+      prioridade: prioridadeTarefa,
+      isFinished: tarefa.isFinished,
+      usuarioId: tarefa.usuarioId,
+      usuario: {}
+    }
+
+    console.log(task)
     if (event.key === "Enter") {
 
       setIsEditing(false);
 
-      onUpdateDescricaoTarefa(descricao);
+      onUpdateTarefa(task);
 
     }
   };
 
   const handleBlur = () => {
-
+    const task: ITarefaUsuario = {
+      id: tarefa.id,
+      nomeTarefa: tarefa.nomeTarefa,
+      prioridade: prioridadeTarefa,
+      isFinished: tarefa.isFinished,
+      usuarioId: tarefa.usuarioId,
+      usuario: {}
+    }
     setIsEditing(false);
 
-    onUpdateDescricaoTarefa(descricao);
+    onUpdateTarefa(task);
 
   };
 
-  const handleUpdateTarefa = ()=>{
+  const handleUpdateStatus = ()=>{
 
-    const tarefa: ITarefaUsuario = {
-      id:
+    const task: ITarefaUsuario = {
+      id: tarefa.id,
+      nomeTarefa: nomeTarefa,
+      prioridade: prioridadeTarefa,
+      isFinished: !tarefa.isFinished,
+      usuarioId: tarefa.usuarioId,
+      usuario: {}
     }
 
-    onUpdateTarefa()
+    onUpdateTarefa(task)
 
   }
+  console.log(tarefa.prioridade)
   return (
     <>
     <div className=" flex flex-col items-center text-center">
 
-    <div className=" flex flex-row items-center justify-between gap-6 text-center w-[40%]">
+    <div className=" flex flex-row items-center justify-between gap-6 text-center w-[70%]">
       
     <Checkbox color="success"
-            isSelected={status}
-            onValueChange={() => onUpdateTarefa()}>
+    className="border-1 border-black "
+            isSelected={tarefa.isFinished}
+            onValueChange={handleUpdateStatus}>
 
     </Checkbox>
 
       {!isEditing && (
-      <p className="text-base font-extrabold">{descricao}</p>
-                                                )}
-      { isEditing && (
+      <p className="text-base font-extrabold min-w-[290px] max-w-[290px] ">{nomeTarefa}</p>
+                                                )}      { isEditing && (
 
      <Input className='bg-transparent max-sm:w-[200px] md:w-[250px]'
-      value={descricao}
-      onValueChange={setDescricao}
+      value={nomeTarefa}
+      onValueChange={setNomeTarefa}
       onKeyDown={handleKeyDown}
       onBlur={handleBlur}
      
        />
       )}
       
-      {isEditing && (
+      {isEditing && tarefa.prioridade && (
 
       <Autocomplete
-              label="Tensão"
-              placeholder="EX:127V"
+              label="Prioridade"
               className="bg-transparent max-sm:w-[200px] md:w-[250px] "
-              value={prioridade}
+              allowsCustomValue
+              value={prioridadeTarefa}
               onBlur={handleBlur}
-              onSelectionChange={(x)=>{setPrioridadeTarefa(x),setIsEditing(false)}}
+              defaultSelectedKey={prioridadeTarefa}
+              onSelectionChange={setPrioridadeTarefa}
                   >
                   
                   {prioridades.map((item:any) => (
               
                 <AutocompleteItem
-                key={item.id}
-                aria-label='teste'
+                key={item}
+                aria-label='Prioridade'
                 
-                  value={item}
+                  value={prioridadeTarefa}
                   >
                   {item}
                 </AutocompleteItem>
@@ -93,7 +119,9 @@ export default function TaskUser({tarefa,status,prioridade,onUpdateTarefa}) {
       )}
       {!isEditing && (
 
-            <p className={`text-base font-extrabold  ${corPrioridade} `}>{prioridade}</p>
+  
+              <p className={`text-base font-extrabold  ${corPrioridade}  `}>{tarefa.prioridade}</p>
+
       )}
       
  <IconPen className="hover:bg-yellow-100" onClick={()=>setIsEditing(!isEditing)}/>

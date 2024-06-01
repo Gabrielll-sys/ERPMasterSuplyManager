@@ -25,7 +25,7 @@ export default function MyTasks(){
     const [messageAlert, setMessageAlert] = useState<string>();
     const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
     const[dateTasks,setDateTask] = useState<Date>()
-    const[tarefasDia,setTarefaDia] = useState<ITarefaUsuario[]>()
+    const[tarefasDia,setTarefaDia] = useState<ITarefaUsuario[]>([])
     const date = new Date()
 
     const getTasksByDate = async(data:any)=>{
@@ -39,25 +39,32 @@ export default function MyTasks(){
     useEffect(() => {
 
     const user = getUserLocalStorage()
-    getAllUserTask()
+ 
     getTasksByDate(date)
         }, []);
 
-    const getAllUserTask = async()=>{
-
-    }
+    
  
 
     const updateTarefa = async(model:ITarefaUsuario)=>{
-
-      const res = await updateTarefaUsuario(model)
+      
+      const novaTarefaUsuario: ITarefaUsuario[] = [...tarefasDia]
+      const index = tarefasDia.findIndex(x=>x.id==model.id)
+  
+      novaTarefaUsuario[index].isFinished =model.isFinished ;
+      novaTarefaUsuario[index].prioridade = model.prioridade;
+      novaTarefaUsuario[index].nomeTarefa = model.nomeTarefa;
+      novaTarefaUsuario[index].isFinished = model.isFinished;
+      console.log(novaTarefaUsuario[index])
+      const res = await updateTarefaUsuario(novaTarefaUsuario[index])
 
       if( res == 200)
       {
         setOpenSnackBar(true);
         setSeveridadeAlert("success");
         setMessageAlert("Atividade Atualizada");
-        getAllUserTask()
+        getTasksByDate(date)
+
       }
     }
 
@@ -79,9 +86,9 @@ return(
                      />
                  </LocalizationProvider>
                  <div className=" flex flex-col gap-4">
-        {tarefasDia?.map((tarefa)=>(
+        {tarefasDia?.map((task)=>(
           
-          <TaskUser  prioridade={tarefa.prioridade} onUpdateTarefa={updateTarefa} status = {tarefa.status} tarefa={tarefa.nomeTarefa}/>
+          <TaskUser tarefa={task}   onUpdateTarefa={updateTarefa} />
           
         ))}
       </div>

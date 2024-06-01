@@ -10,7 +10,7 @@ namespace MasterErp.Domain.Models;
         public string? NomeTarefa { get; set; }
         public string? Prioridade { get; set; }
 
-        public bool? isFineshed { get; set; }
+        public bool? isFinished { get; set; }
         public int? UsuarioId { get; set; }
     
         public DateTime? DataTarefa { get; set; }
@@ -22,7 +22,7 @@ namespace MasterErp.Domain.Models;
     {
         NomeTarefa = nomeTarefa;
         Prioridade = prioridade;
-        isFineshed = false;
+        isFinished = false;
         DataTarefa = DateTime.UtcNow.AddHours(-3);
     }
 }

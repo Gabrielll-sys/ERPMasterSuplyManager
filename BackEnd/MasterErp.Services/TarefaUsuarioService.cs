@@ -82,11 +82,12 @@ namespace MasterErp.Services
         {
             try
             {
-                var rd = await _tarefaUsuarioRepository.GetByIdAsync(model.Id) ?? throw new KeyNotFoundException();
+                _ = await _tarefaUsuarioRepository.GetByIdAsync(model.Id) ?? throw new KeyNotFoundException();
                 
-                var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;  
+                var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
 
-                await _tarefaUsuarioRepository.UpdateAsync(rd);
+   
+                await _tarefaUsuarioRepository.UpdateAsync(model);
 
 
                 return model;

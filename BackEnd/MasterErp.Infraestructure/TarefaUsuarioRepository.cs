@@ -72,6 +72,7 @@ public class TarefaUsuarioRepository : ITarefaUsuarioRepository
         {
             try
             {
+                model.Usuario = null;
 
                 _context.TarefaUsuarios.Update(model);
 
