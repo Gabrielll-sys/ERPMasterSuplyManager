@@ -7,7 +7,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import "dayjs/locale/pt-br";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "@nextui-org/shared-icons";
-
+import {Calendar} from "@nextui-org/calendar";
+import {parseDate} from "@internationalized/date";
 import MailIcon from "@/app/assets/icons/MailIcon";
 import { authenticate } from "@/app/services/Auth.services";
 import TaskUser from "../componentes/TaskUser";
@@ -30,7 +31,7 @@ export default function MyTasks(){
 
     const getTasksByDate = async(data:any)=>{
 
-      const res : ITarefaUsuario[] = await getUserTasksByDate(data.toISOString())
+      const res : ITarefaUsuario[] = await getUserTasksByDate(data)
       setTarefaDia(res);
 
     }
@@ -38,9 +39,7 @@ export default function MyTasks(){
 
     useEffect(() => {
 
-    const user = getUserLocalStorage()
- 
-    getTasksByDate(date)
+    // getTasksByDate(date.toDateString())
         }, []);
 
     
@@ -70,21 +69,11 @@ export default function MyTasks(){
 
 
 
+
 return(
     <>
+ <Calendar aria-label="Date (Uncontrolled)" onChange={(e) => getTasksByDate(e.toString())} autoFocus />
 
-<LocalizationProvider
-                     dateAdapter={AdapterDayjs}
-                     adapterLocale="pt-br"
-                 >
-                     <DatePicker
-                         label="Dia de Registro de Ações"
-                         className="shadow-lg w-[250px] self-center "
-                         value={dateTasks}
-                         onChange={(e) => getTasksByDate(e)}
-                         slotProps={{ textField: { variant: 'filled' }}}
-                     />
-                 </LocalizationProvider>
                  <div className=" flex flex-col gap-4">
         {tarefasDia?.map((task)=>(
           

@@ -4,7 +4,6 @@ import { Button, Checkbox, Input, Modal, ModalBody, ModalContent, ModalFooter, T
 import "dayjs/locale/pt-br";
 import { Table } from 'flowbite-react';
 import { useState } from "react";
-
 import { deleteImageFromAzure, uploadImageToAzure } from '../services/Images.Services';
 import Image from "next/image";
 

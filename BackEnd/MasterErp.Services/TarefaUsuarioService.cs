@@ -128,7 +128,7 @@ namespace MasterErp.Services
             var result = userTasks.Where(x => x.DataTarefa is not null && x.DataTarefa.Value.Date == date.Date).OrderByDescending(x => x.Prioridade).ToList();
 
 
-            return userTasks;
+            return result;
 
 
         }
