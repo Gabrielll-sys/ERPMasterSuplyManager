@@ -68,19 +68,27 @@ export default function TaskUser({tarefa,onUpdateTarefa}) {
   console.log(tarefa.prioridade)
   return (
     <>
-    <div className=" flex flex-col items-center text-center">
+    <div className=" flex flex-row items-center text-center">
 
-    <div className=" flex flex-row items-center justify-between gap-6 text-center w-[70%]">
-      
     <Checkbox color="success"
-    className="border-1 border-black "
+    
             isSelected={tarefa.isFinished}
-            onValueChange={handleUpdateStatus}>
+            onValueChange={handleUpdateStatus}
+            radius="full"
+            size="lg"
+            >
+            
 
     </Checkbox>
+    <div className=" flex flex-col items-center justify-between gap-6 text-center w-[80%]">
+      
 
       {!isEditing && (
-      <p className="text-base font-extrabold min-w-[290px] max-w-[290px] ">{nomeTarefa}</p>
+      <p className="text-base font-extrabold min-w-[290px] max-w-[290px] "
+      onClick={()=>setIsEditing(!false)}
+      
+
+      >{nomeTarefa}</p>
                                                 )}      { isEditing && (
 
      <Input className='bg-transparent max-sm:w-[200px] md:w-[250px]'

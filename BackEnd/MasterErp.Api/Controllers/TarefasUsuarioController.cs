@@ -108,7 +108,7 @@ public class TarefasUsuariosController:ControllerBase
             {
                 var rd = await _tarefaUsuarioService.UpdateAsync(model);
 
-                return Ok(rd);
+                return Ok();
 
 
             }
