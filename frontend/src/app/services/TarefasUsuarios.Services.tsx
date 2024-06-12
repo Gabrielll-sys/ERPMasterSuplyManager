@@ -30,7 +30,7 @@ export const createTarefaUsuario = async (model:ITarefaUsuario)=>{
     return await axios
         .post(`${url}/TarefasUsuarios`, model,{headers:authHeader()})
         .then((r) => {
-            return r.data
+            return r.status
         })
         .catch();
 }

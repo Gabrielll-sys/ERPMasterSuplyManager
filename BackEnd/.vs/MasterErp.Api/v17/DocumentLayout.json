@@ -509,7 +509,7 @@
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\TarefasUsuarioController.cs",
               "ToolTip": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\MasterErp\\BackEnd\\MasterErp.Api\\Controllers\\TarefasUsuarioController.cs",
               "RelativeToolTip": "MasterErp.Api\\Controllers\\TarefasUsuarioController.cs",
-              "ViewState": "AQIAAE8AAAAAAAAAAAAmwG4AAAAQAAAA",
+              "ViewState": "AQIAAE8AAAAAAAAAAAAmwFsAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-29T00:47:11.829Z",
               "EditorCaption": ""
@@ -1388,8 +1388,7 @@
               "RelativeToolTip": "MasterErp.Api\\Program.cs",
               "ViewState": "AQIAABsAAAAAAAAAAAAAAC8AAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-22T19:50:38.181Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-22T19:50:38.181Z"
             },
             {
               "$type": "Document",

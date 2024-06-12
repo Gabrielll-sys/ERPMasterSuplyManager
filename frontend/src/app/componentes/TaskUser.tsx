@@ -65,31 +65,33 @@ export default function TaskUser({tarefa,onUpdateTarefa}) {
     onUpdateTarefa(task)
 
   }
-  console.log(tarefa.prioridade)
+
   return (
     <>
     <div className=" flex flex-row items-center text-center">
 
-    <Checkbox color="success"
-    
-            isSelected={tarefa.isFinished}
-            onValueChange={handleUpdateStatus}
-            radius="full"
-            size="lg"
-            >
-            
-
-    </Checkbox>
-    <div className=" flex flex-col items-center justify-between gap-6 text-center w-[80%]">
+    <div className=" flex flex-row items-center justify-between gap-6 text-center w-[80%]">
       
 
-      {!isEditing && (
-      <p className="text-base font-extrabold min-w-[290px] max-w-[290px] "
-      onClick={()=>setIsEditing(!false)}
+    <div className=" border-1 rounded-md border-gray-400 p-2 flex flex-row ">
+      <Checkbox color="success"
       
+              isSelected={tarefa.isFinished}
+              onValueChange={handleUpdateStatus}
+              
+              size="md"
+              >
+      
+      </Checkbox>
+        {!isEditing && (
+        <p className="text-base font-extrabold min-w-[290px] max-w-[290px]  "
+        onClick={()=>setIsEditing(!false)}
+      
+        >{nomeTarefa}</p>
+                                                  )}
+    </div>   
 
-      >{nomeTarefa}</p>
-                                                )}      { isEditing && (
+                                                { isEditing && (
 
      <Input className='bg-transparent max-sm:w-[200px] md:w-[250px]'
       value={nomeTarefa}
@@ -100,7 +102,7 @@ export default function TaskUser({tarefa,onUpdateTarefa}) {
        />
       )}
       
-      {isEditing && tarefa.prioridade && (
+      {/* {isEditing && tarefa.prioridade && (
 
       <Autocomplete
               label="Prioridade"
@@ -124,15 +126,9 @@ export default function TaskUser({tarefa,onUpdateTarefa}) {
                 </AutocompleteItem>
               ))}
               </Autocomplete>
-      )}
-      {!isEditing && (
+      )} */}
+    
 
-  
-              <p className={`text-base font-extrabold  ${corPrioridade}  `}>{tarefa.prioridade}</p>
-
-      )}
-      
- <IconPen className="hover:bg-yellow-100" onClick={()=>setIsEditing(!isEditing)}/>
     </div>
    
 

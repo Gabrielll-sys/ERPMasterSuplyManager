@@ -396,7 +396,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
 
 
     <Input
-         label = "Contato"
+         label = "Cliente"
         labelPlacement='outside'
         value={contato}
         className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px] self-center"
