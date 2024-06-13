@@ -55,7 +55,7 @@ console.log(TarefaUsuario)
         .catch();
 }
 
-export const deleteAtividadeRd = async (id:number)=>{
+export const deleteTarefaUsuario = async (id:number)=>{
 
     return await axios
         .delete(`${url}/TarefasUsuarios/${id}`,{headers:authHeader()})

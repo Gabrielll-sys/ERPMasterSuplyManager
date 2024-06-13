@@ -6,6 +6,8 @@ import { Table } from 'flowbite-react';
 import { useState } from "react";
 import { deleteImageFromAzure, uploadImageToAzure } from '../services/Images.Services';
 import Image from "next/image";
+import { IImagemAtividadeRd } from '../interfaces/IImagemAtividadeRd';
+import { addImagemAtividadeRd } from '../services/ImagensAtividadeRd.Service';
 
 
 
@@ -47,7 +49,25 @@ import Image from "next/image";
 
         if(selectedImage !=undefined){
             const image =  readImageFromFile(selectedImage).then( async (imgBlob)=>{
-                // await uploadImageToAzure(imgBlob,selectedImage.name)
+
+                const urlImagem =  await uploadImageToAzure(imgBlob,selectedImage.name)
+
+                if(urlImagem)
+                {
+                  const imagemAtividadeRd : IImagemAtividadeRd = {
+                  atividadeRdId:atividade.id,
+                  descricao:atividade.descricao,
+                  urlImagem:urlImagem,  
+                  
+                }
+                console.log(imagemAtividadeRd)
+                    const res = await addImagemAtividadeRd(imagemAtividadeRd)
+
+                    if(res == 200){
+
+                    }
+
+                }
 
             })
             setImage(current=>[...current,selectedImage]);

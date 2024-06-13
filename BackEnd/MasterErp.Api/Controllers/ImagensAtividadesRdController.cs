@@ -5,11 +5,16 @@ using MasterErp.Domain.Models;
 
 namespace MasterErp.Api.Controllers;
 
-public class ImagensAtivididadesRdControlller:ControllerBase
+
+
+[ApiController]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
+public class ImagensAtividadesRdController:ControllerBase
 {
     private readonly IImagemAtividadeRdService _imagemAtividadeRdService;
     
-    public ImagensAtivididadesRdControlller( IImagemAtividadeRdService imagemAtividadeRdService)
+    public ImagensAtividadesRdController( IImagemAtividadeRdService imagemAtividadeRdService)
     {
         _imagemAtividadeRdService = imagemAtividadeRdService;
     }

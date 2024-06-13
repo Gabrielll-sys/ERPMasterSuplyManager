@@ -47,7 +47,7 @@ public class ImagemAtividadeRdRepository:IImagemAtividadeRdRepository
         
                     try
                     {
-                        model.Id = null;
+                        model.AtividadeRd = null;
         
                         await _context.ImagensAtividadeRd.AddAsync(model);
         
@@ -69,6 +69,7 @@ public class ImagemAtividadeRdRepository:IImagemAtividadeRdRepository
                 {
                     try
                     {
+                        model.AtividadeRd = null;
 
                         _context.ImagensAtividadeRd.Update(model);
 

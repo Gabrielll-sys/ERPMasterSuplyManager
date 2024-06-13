@@ -256,7 +256,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
         ws.getCell('A2').value=`Relatório Diário Nº ${relatorioDiario.id}`
 
         ws.mergeCells('D2','E2')
-        ws.getCell('D2').value=`Responsável: ${relatorioDiario.responsavelAbertura}\n Contratante/Contato: ${relatorioDiario.contato}`
+        ws.getCell('D2').value=`Responsável: ${relatorioDiario.responsavelAbertura}\n Cliente: ${relatorioDiario.contato}`
         ws.getCell('D2').font = {size:14}
         ws.getCell('D2').alignment={vertical:'middle',horizontal:'center'}
 
@@ -361,7 +361,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
         ws.getCell(`C${atividadesInRd.length+4}`).style.alignment={'vertical':"middle",'horizontal':"center"}
 
         ws.getCell(`E${atividadesInRd.length+4}`).font = {size:12}
-        ws.getCell(`E${atividadesInRd.length+4}`).value= `% Atividades Concluída: ${totalConcluidas.toFixed(2)}%`
+        ws.getCell(`E${atividadesInRd.length+4}`).value= `% Atividades Concluídas: ${totalConcluidas.toFixed(2)}%`
         ws.getCell(`B${atividadesInRd.length+4}`).alignment={vertical:'middle',horizontal:'center'}
         ws.getCell(`B${atividadesInRd.length+4}`).border=bordas
 

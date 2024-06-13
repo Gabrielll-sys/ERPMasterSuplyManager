@@ -4,9 +4,11 @@ import { useState } from "react";
 import { Autocomplete, AutocompleteItem, Checkbox, Input, Slider } from "@nextui-org/react";
 import IconPen from "../assets/icons/IconPen";
 import { ITarefaUsuario } from "../interfaces/ITarefaUsuario";
+import IconBagX from "../assets/icons/IconBagX";
+import IconBxTrashAlt from "../assets/icons/IconBxTrashAlt";
 
 // @ts-ignore
-export default function TaskUser({tarefa,onUpdateTarefa}) {
+export default function TaskUser({tarefa,onUpdateTarefa,onDeleteTarefa}) {
   
   const corPrioridade = tarefa.prioridade == "Altissima"?"text-red-900":"text-red-800"
   const prioridades = ["Baixa","Média","Alta","Altissíma"]
@@ -26,7 +28,7 @@ export default function TaskUser({tarefa,onUpdateTarefa}) {
       usuario: {}
     }
 
-    console.log(task)
+    
     if (event.key === "Enter") {
 
       setIsEditing(false);
@@ -65,7 +67,12 @@ export default function TaskUser({tarefa,onUpdateTarefa}) {
     onUpdateTarefa(task)
 
   }
+  const handleDeleteTarefa = ()=>{
 
+   
+    onDeleteTarefa(tarefa.id)
+
+  }
   return (
     <>
     <div className=" flex flex-row items-center text-center">
@@ -73,7 +80,7 @@ export default function TaskUser({tarefa,onUpdateTarefa}) {
     <div className=" flex flex-row items-center justify-between gap-6 text-center w-[80%]">
       
 
-    <div className=" border-1 rounded-md border-gray-400 p-2 flex flex-row ">
+    <div className=" border-1 rounded-md border-gray-400 p-2 flex flex-row shadow-sm shadow-black ">
       <Checkbox color="success"
       
               isSelected={tarefa.isFinished}
@@ -84,10 +91,13 @@ export default function TaskUser({tarefa,onUpdateTarefa}) {
       
       </Checkbox>
         {!isEditing && (
+          <>
         <p className="text-base font-extrabold min-w-[290px] max-w-[290px]  "
-        onClick={()=>setIsEditing(!false)}
+        onClick={()=>setIsEditing(!isEditing)}
       
         >{nomeTarefa}</p>
+        <IconBxTrashAlt onClick={handleDeleteTarefa}/>
+        </>
                                                   )}
     </div>   
 
@@ -102,31 +112,7 @@ export default function TaskUser({tarefa,onUpdateTarefa}) {
        />
       )}
       
-      {/* {isEditing && tarefa.prioridade && (
-
-      <Autocomplete
-              label="Prioridade"
-              className="bg-transparent max-sm:w-[200px] md:w-[250px] "
-              allowsCustomValue
-              value={prioridadeTarefa}
-              onBlur={handleBlur}
-              defaultSelectedKey={prioridadeTarefa}
-              onSelectionChange={setPrioridadeTarefa}
-                  >
-                  
-                  {prioridades.map((item:any) => (
-              
-                <AutocompleteItem
-                key={item}
-                aria-label='Prioridade'
-                
-                  value={prioridadeTarefa}
-                  >
-                  {item}
-                </AutocompleteItem>
-              ))}
-              </Autocomplete>
-      )} */}
+   
     
 
     </div>

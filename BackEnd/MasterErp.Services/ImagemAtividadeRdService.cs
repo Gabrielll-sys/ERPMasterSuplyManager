@@ -8,15 +8,15 @@ namespace MasterErp.Services;
 
 public class ImagemAtividadeRdService:IImagemAtividadeRdService
 {
-      private readonly IImagemAtividadeRdService _imagemAtividadeRdRepository;
+      private readonly IImagemAtividadeRdRepository _imagemAtividadeRdRepository;
 
         private readonly ILogAcoesUsuarioService _logAcoesUsuarioService;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         
-        public ImagemAtividadeRdService(IImagemAtividadeRdService imageServicoRepository,ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
+        public ImagemAtividadeRdService(IImagemAtividadeRdRepository imagemServicoRepository,ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
         {
-            _imagemAtividadeRdRepository = imageServicoRepository;
+            _imagemAtividadeRdRepository = imagemServicoRepository;
 
             _logAcoesUsuarioService = logAcoesUsuarioService;
 
@@ -69,6 +69,7 @@ public class ImagemAtividadeRdService:IImagemAtividadeRdService
                 var lastItem = all.TakeLast(1).ToList();
 
                 imagemAtividadeRd.Id = lastItem[0].Id + 1;
+            imagemAtividadeRd.DataAdicao = DateTime.UtcNow.AddHours(-3);
 
                 return imagemAtividadeRd;
 

@@ -11,10 +11,11 @@ import {Calendar, DateValue} from "@nextui-org/calendar";
 import TaskUser from "../componentes/TaskUser";
 import { DragDropContext } from "react-beautiful-dnd";
 import { ITarefaUsuario } from "../interfaces/ITarefaUsuario";
-import { createTarefaUsuario, getUserTasksByDate, updateTarefaUsuario } from "../services/TarefasUsuarios.Services";
+import { createTarefaUsuario, deleteTarefaUsuario, getUserTasksByDate, updateTarefaUsuario } from "../services/TarefasUsuarios.Services";
 import dayjs from "dayjs";
 import {today, getLocalTimeZone} from "@internationalized/date"
 import IconPlus from "../assets/icons/IconPlus";
+import { deleteImagemAtividadeRd } from "../services/ImagensAtividadeRd.Service";
 
 
 export default function MyTasks(){
@@ -119,7 +120,7 @@ export default function MyTasks(){
          else listTasksFinisheds.push(tarefa)
 
       });
-      console.log(listTasksFinisheds)
+      
       setTaskHighPriority(listHighPriority)
       setTaskMidPriority(listMidPriority)
       setTaskLowPriority(listLowPriority)
@@ -144,11 +145,14 @@ export default function MyTasks(){
 
     const updateTarefa = async(model:ITarefaUsuario)=>{
 
+      console.log(finishedsTask.includes(model))
+      const list = finishedsTask.find((x)=>x.id == model.id)
       let novaTarefaUsuario: ITarefaUsuario[] = []
       let index : number = 0;
       model.isFinished = !model.isFinished
-      
-      if(finishedsTask.includes(model))
+
+
+      if(list)
         {
 
           index = finishedsTask.findIndex(x=>x.id==model.id)
@@ -180,7 +184,7 @@ export default function MyTasks(){
       }
 
   
-      
+      console.log(index)
       novaTarefaUsuario[index].isFinished = !model.isFinished ;
       novaTarefaUsuario[index].prioridade = model.prioridade;
       novaTarefaUsuario[index].nomeTarefa = model.nomeTarefa;
@@ -197,76 +201,92 @@ export default function MyTasks(){
     }
 
 
+    const deleteTarefa = async(id:number) =>{
+
+      const res = await deleteTarefaUsuario(id)
+
+
+      if(res == 200)
+        {
+        setOpenSnackBar(true);
+        setSeveridadeAlert("success");
+        setMessageAlert("Tarefa Atualizada");
+        getTasksByDate(date.toDateString())
+      }
+    }
 
 
 return(
     <>
  <div className=" flex flex-row  w-[60%] justify-between">
-   <Calendar aria-label="Date (Uncontrolled)" onChange={(e) =>{getTasksByDate(e.toString()),setDateTask(e),handleDate(e) } } autoFocus />
+   <Calendar aria-label="Date (Uncontrolled)" className="mb-4" onChange={(e) =>{getTasksByDate(e.toString()),setDateTask(e),handleDate(e) } } autoFocus />
    
    <h1 className="text-2xl mt-20 h-4 mx-auto">Minhas Tarefas de {diaSemana} - {dayjs(dateTasks).format("DD/MM/YYYY").toString()}</h1>
  </div>
-                 <div className=" flex flex-col gap-4">
+            
 
-                  <div className="flex flex-row justify-center gap-6">
+                  <div className="flex flex-row justify-center gap-6 ">
 
                   
-                    <div className="flex flex-col gap-5">
-                        <p className="bg-lime-400 p-2 font-bold rounded-md">Tarefas Concluídas </p>
+                    <div className="flex flex-col gap-3">
+                        <p className="bg-lime-400 p-[6px] font-bold rounded-md text-left shadow-sm shadow-black max-w-[160px]">Tarefas Concluídas </p>
                         {finishedsTask?.map((task)=>(
-                        <TaskUser tarefa={task} key={task.id}  onUpdateTarefa={updateTarefa} />
+                        <TaskUser onDeleteTarefa={deleteTarefa} tarefa={task} key={task.id}  onUpdateTarefa={updateTarefa} />
                           ))}
                        
                         </div>
          
 
-                  <div className="flex flex-col gap-5">
+                  <div className="flex flex-col gap-3">
 
-                    <p className="bg-red-300 p-2 font-bold rounded-md">Alta Prioridade </p>
+                    <p className="bg-red-300 p-[6px] font-bold rounded-md text-left shadow-sm shadow-black max-w-[160px]">Alta Prioridade </p>
+
                     {tasksHighPriority?.map((task)=>(
           
-                     <TaskUser tarefa={task} key={task.id}  onUpdateTarefa={updateTarefa} />
+                     <TaskUser onDeleteTarefa={deleteTarefa} tarefa={task} key={task.id}  onUpdateTarefa={updateTarefa} />
           
                        ))}
-                   <div className="flex flex-row items-center gap-3">
+                   <div className="flex flex-row items-center gap-2">
                     <IconPlus onClick={createHighPriorityTask} height={"1.7em"} width={"1.7em"} color="grey"/> 
                   <p> Adicionar Nova Tarefa</p>
                     </div>
                    
                   </div>
 
-                  <div className="flex flex-col gap-5">
+                  <div className="flex flex-col gap-3">
 
-                  <p className="bg-orange-400 p-2 rounded-md font-bold">Média Prioridade </p>
+                  <p className="bg-orange-400 p-[6px] rounded-md font-bold text-left shadow-sm shadow-black max-w-[160px] ">Média Prioridade </p>
                   {tasksMidPriority?.map((task)=>(
           
-                   <TaskUser tarefa={task}  key={task.id}   onUpdateTarefa={updateTarefa} />
+                   <TaskUser tarefa={task} onDeleteTarefa={deleteTarefa} key={task.id}   onUpdateTarefa={updateTarefa} />
 
                    ))}
-                   <div className="flex flex-row items-center gap-3">
+                   <div className="flex flex-row items-center gap-2">
                     <IconPlus  onClick={createMidPriorityTask} height={"1.7em"} width={"1.7em"} color="grey"/> 
                   <p > Adicionar Nova Tarefa</p>
                     </div>
 
                   </div>
 
-                  <div className="flex flex-col gap-5">
+                  <div className="flex flex-col gap-3">
 
-                  <p className="bg-yellow-300 p-2 font-bold rounded-md">Baixa Prioridade</p>
+                  <p className="bg-yellow-300 p-[6px] font-bold rounded-md text-left shadow-sm shadow-black max-w-[160px]">Baixa Prioridade</p>
                   {tasksLowPriority?.map((task)=>(
                     
-                    <TaskUser tarefa={task}  key={task.id}   onUpdateTarefa={updateTarefa} />
+                    <TaskUser tarefa={task}  key={task.id} onDeleteTarefa={deleteTarefa}  onUpdateTarefa={updateTarefa} />
 
                     ))}
-                    <div className="flex flex-row items-center gap-3">
+                    <div className="flex flex-row gap-2">
                     <IconPlus onClick={createLowPriorityTask} height={"1.7em"} width={"1.7em"} color="grey" /> 
-                  <p> Adicionar Nova Tarefa</p>
+                  
+                    <p> Adicionar Nova Tarefa</p>
+                    
                     </div>
 
                   </div>
                   </div>
         
-      </div>
+ 
          
 
 

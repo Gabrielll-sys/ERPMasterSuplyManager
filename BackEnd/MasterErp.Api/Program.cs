@@ -119,6 +119,8 @@ builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddTransient<IClienteService, ClienteService>();
 builder.Services.AddScoped<IAtividadeRdRepository, AtividadeRdRepository>();
 builder.Services.AddTransient<IAtividadeRdService, AtividadeRdService>();
+builder.Services.AddScoped<IImagemAtividadeRdRepository, ImagemAtividadeRdRepository>();
+builder.Services.AddTransient<IImagemAtividadeRdService, ImagemAtividadeRdService>();
 builder.Services.AddScoped<IRelatorioDiarioRepository, RelatorioDiarioRepository>();
 builder.Services.AddTransient<IRelatorioDiarioService, RelatorioDiarioService>();
 builder.Services.AddScoped<ITarefaUsuarioRepository, TarefaUsuarioRepository>();

@@ -15,7 +15,7 @@ public class ImagemAtividadeRd
     
     public string? Descricao { get; set; }
 
-    public string? DataAdicao { get; set; }
+    public DateTime? DataAdicao { get; set; }
     
     public int? AtividadeRdId { get; set; }
 

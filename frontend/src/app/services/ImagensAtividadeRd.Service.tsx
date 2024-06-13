@@ -12,12 +12,13 @@ export const addImagemAtividadeRd = async (model:IImagemAtividadeRd)=>{
     const imagemAtividade: IImagemAtividadeRd = {
         urlImagem: model.urlImagem,
         descricao: model.descricao,
-        atividadeRdId: model.atividadeRdId
+        atividadeRdId: model.atividadeRdId,
+        atividadeRd:{},
     };
-    await axios
+   return  await axios
         .post(`${url}/ImagensAtividadeRd`, imagemAtividade,{headers:authHeader()})
         .then((r) => {
-            return r.data
+            return r.status
         })
         .catch();
 }
