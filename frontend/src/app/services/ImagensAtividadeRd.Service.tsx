@@ -7,16 +7,31 @@ import { authHeader } from "../_helpers/auth_headers";
 import { IImagemAtividadeRd } from "../interfaces/IImagemAtividadeRd";
 
 
+
+export const getAllImagensInAtividade = async(id:number) =>{
+
+   return await axios.get(`${url}/ImagensAtividadesRd/getImagesInAtividade/${id}`)
+            .then((r)=>{
+            return r.data
+
+            })
+            .catch();
+}
+
 export const addImagemAtividadeRd = async (model:IImagemAtividadeRd)=>{
 
     const imagemAtividade: IImagemAtividadeRd = {
         urlImagem: model.urlImagem,
         descricao: model.descricao,
         atividadeRdId: model.atividadeRdId,
-        atividadeRd:{},
+        atividadeRd:{
+            relatorioDiario:{}
+        },
     };
+
+    console.log(imagemAtividade)
    return  await axios
-        .post(`${url}/ImagensAtividadeRd`, imagemAtividade,{headers:authHeader()})
+        .post(`${url}/ImagensAtividadesRd`, imagemAtividade,{headers:authHeader()})
         .then((r) => {
             return r.status
         })

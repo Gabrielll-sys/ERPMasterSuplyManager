@@ -38,13 +38,30 @@ public class ImagensAtividadesRdController:ControllerBase
   
 
         }
-
         /// <summary>
-        /// Obtem material por id
+        /// Busca todos os as Imagens de das atividades
         /// </summary>
-        /// <param name="id">Id da imamgem de uma atividade</param>
-        /// <returns>Materiais encontrado</returns>
-        [HttpGet("{id}")]
+        /// <returns>Todos os materiais </returns>
+        [HttpGet("getImagesInAtividade/{id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<List<ImagemAtividadeRd>>> GetAllImagesInAtividade(int id)
+        {
+
+
+            return Ok(await _imagemAtividadeRdService.GetAllImagensInAtividade(id));
+
+
+        }
+    /// <summary>
+    /// Obtem material por id
+    /// </summary>
+    /// <param name="id">Id da imamgem de uma atividade</param>
+    /// <returns>Materiais encontrado</returns>
+    [HttpGet("{id}")]
      
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]

@@ -13,6 +13,6 @@ public interface IImagemAtividadeRdService
 
     Task<ImagemAtividadeRd> UpdateAsync(ImagemAtividadeRd  model);
 
-
+    Task<List<ImagemAtividadeRd>> GetAllImagensInAtividade(int? id);
     Task DeleteAsync(int id);
 }

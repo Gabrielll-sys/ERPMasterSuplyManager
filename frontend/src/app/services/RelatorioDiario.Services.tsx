@@ -30,9 +30,6 @@ export const getRelatorioDiario = async (id:number)  =>{
 
 export const createRelatorioDiario = async () => {
    
-  
-  
-    
 
          //@ts-ignore
     const user = JSON.parse(localStorage.getItem("currentUser"));

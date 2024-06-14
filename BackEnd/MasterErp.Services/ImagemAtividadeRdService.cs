@@ -45,18 +45,33 @@ public class ImagemAtividadeRdService:IImagemAtividadeRdService
                 throw;
             }
         }
-        
-       
 
-        
-        public async Task<ImagemAtividadeRd> CreateAsync(ImagemAtividadeRd model)
+    public async Task<List<ImagemAtividadeRd>> GetAllImagensInAtividade(int? id)
+    {
+        try
+        {
+            var all = await _imagemAtividadeRdRepository.GetAllAsync();
+
+            return all.Where(x=>x.AtividadeRdId == id).ToList();
+
+        }
+        catch
+        {
+            throw;
+        }
+    }
+
+
+
+    public async Task<ImagemAtividadeRd> CreateAsync(ImagemAtividadeRd model)
         {
             try
             {
                 var all = await _imagemAtividadeRdRepository.GetAllAsync();
 
+                model.DataAdicao = DateTime.UtcNow.AddHours(-3);
 
-                var imagemAtividadeRd = await _imagemAtividadeRdRepository.CreateAsync(model);
+            var imagemAtividadeRd = await _imagemAtividadeRdRepository.CreateAsync(model);
 
                 
                 var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
@@ -69,9 +84,8 @@ public class ImagemAtividadeRdService:IImagemAtividadeRdService
                 var lastItem = all.TakeLast(1).ToList();
 
                 imagemAtividadeRd.Id = lastItem[0].Id + 1;
-            imagemAtividadeRd.DataAdicao = DateTime.UtcNow.AddHours(-3);
 
-                return imagemAtividadeRd;
+                 return imagemAtividadeRd;
 
             }
 

@@ -56,6 +56,12 @@
             </summary>
             <returns>Todos os materiais </returns>
         </member>
+        <member name="M:MasterErp.Api.Controllers.ImagensAtividadesRdController.GetAllImagesInAtividade(System.Int32)">
+            <summary>
+            Busca todos os as Imagens de das atividades
+            </summary>
+            <returns>Todos os materiais </returns>
+        </member>
         <member name="M:MasterErp.Api.Controllers.ImagensAtividadesRdController.GetByid(System.Int32)">
             <summary>
             Obtem material por id

@@ -1,28 +1,46 @@
 "use client"
 import { Button, Checkbox, Input, Modal, ModalBody, ModalContent, ModalFooter, Textarea, useDisclosure } from '@nextui-org/react';
-
+import MuiAlert from "@mui/material/Alert";
 import "dayjs/locale/pt-br";
 import { Table } from 'flowbite-react';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { deleteImageFromAzure, uploadImageToAzure } from '../services/Images.Services';
 import Image from "next/image";
 import { IImagemAtividadeRd } from '../interfaces/IImagemAtividadeRd';
-import { addImagemAtividadeRd } from '../services/ImagensAtividadeRd.Service';
+import { addImagemAtividadeRd, getAllImagensInAtividade } from '../services/ImagensAtividadeRd.Service';
+import { AlertColor, Snackbar } from '@mui/material';
 
 
 
 
 // @ts-ignore
- const Atividade = ({ atividade, onUpdate,onDelete,isFinished})=>{
+ const Atividade = ({ atividade,onUpdate,onDelete,isFinished})=>{
     const [imageModal,setImageModal] = useState<any>()
     const[observacoes,setObservacoes] = useState<string>(atividade.observacoes)
     const [checkboxStatus, setCheckboxStatus] = useState(atividade.status);
     const [descricao, setDescricao] = useState(atividade.descricao);
-   
+    const[imagesInAtividades,setImagesInAtividades] = useState<IImagemAtividadeRd[]>()
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [image,setImage] = useState<File[]>([]);
+    const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
+    const [messageAlert, setMessageAlert] = useState<string>();
+    const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
+   
 
-    const url = "https://mastererpstorage.blob.core.windows.net/images/1716227085081-Captura de tela 2023-05-22 101444.png"
+    useEffect(()=>{
+
+        getImages()
+
+
+
+    },[])
+
+const getImages = async()=>{
+
+    const res   =  await getAllImagensInAtividade(atividade.id)
+    setImagesInAtividades(res)
+
+}
 
     const handleInputChange = () => {
         onUpdate(atividade, checkboxStatus, observacoes,descricao);
@@ -60,17 +78,19 @@ import { addImagemAtividadeRd } from '../services/ImagensAtividadeRd.Service';
                   urlImagem:urlImagem,  
                   
                 }
-                console.log(imagemAtividadeRd)
                     const res = await addImagemAtividadeRd(imagemAtividadeRd)
 
                     if(res == 200){
-
+                        setOpenSnackBar(true);
+                        setSeveridadeAlert("success");
+                        setMessageAlert("Imagem Adicionada a atividade");
+                        getImages()
                     }
 
                 }
 
             })
-            setImage(current=>[...current,selectedImage]);
+         
         }
     };
     return(
@@ -180,8 +200,10 @@ import { addImagemAtividadeRd } from '../services/ImagensAtividadeRd.Service';
                                                                     </Button>
                                                                 ))}
                                                              
-
-                                                                <Image className='hover:scale-105 hover:border-3 hover:border-black' onClick={onOpen} alt='none' height={180} width={150} src={url}/>
+                                                                {imagesInAtividades && imagesInAtividades.map((image: IImagemAtividadeRd)=>(
+                                                                    
+                                                                <Image className='hover:scale-105 hover:border-3 hover:border-black' onClick={onOpen} alt='none' height={180} width={150} src={image?.urlImagem}/>
+                                                                ))}
                                                                 
                                                             </div>
                                                         </div>
@@ -199,7 +221,7 @@ import { addImagemAtividadeRd } from '../services/ImagensAtividadeRd.Service';
                 <>
                     <ModalBody className="flex flex-col gap-4 ">
                         <Image
-                            width={200} height={200} className= "hover:scale-30 max-sm:mt-1 max-sm:w-full w-[400px] h-[400px] self-center" src={url} alt="" />
+                            width={200} height={200} className= "hover:scale-30 max-sm:mt-1 max-sm:w-full w-[400px] h-[400px] self-center" src={imageModal} alt="" />
                         <p className='text-center font-bold'>
                             Aqui será descricao da imagem
                         </p>
@@ -222,6 +244,25 @@ import { addImagemAtividadeRd } from '../services/ImagensAtividadeRd.Service';
             )}
         </ModalContent>
     </Modal>
+
+    <Snackbar
+            open={openSnackBar}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center'
+              }}
+            autoHideDuration={2000}
+            onClose={(e) => setOpenSnackBar(false)}
+          >
+            <MuiAlert
+              onClose={(e) => setOpenSnackBar(false)}
+              severity={severidadeAlert}
+              sx={{ width: "100%" }}
+            >
+              {messageAlert}
+            </MuiAlert>
+          </Snackbar>
+
 </>
 
     )
