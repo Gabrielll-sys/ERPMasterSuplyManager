@@ -45,16 +45,16 @@ export const updateImagemAtividadeRd = async (model:IImagemAtividadeRd)=>{
         atividadeRdId: model.atividadeRdId
     };
     await axios
-        .put(`${url}/ImagensAtividadeRd/${model.id}`,imagemAtividade, {headers:authHeader()})
+        .put(`${url}/ImagensAtividadesRd/${model.id}`,imagemAtividade, {headers:authHeader()})
         .then((r) => {
             return r.data
         })
         .catch();
 }
-export const deleteImagemAtividadeRd = async (id:number)=>{
-
+export const deleteImagemAtividadeRd = async (id:number| undefined)=>{
+    console.log(id)
     await axios
-        .delete(`${url}/ImagensAtividadeRd/${id}`, {headers:authHeader()})
+        .delete(`${url}/ImagensAtividadesRd/${id}`, {headers:authHeader()})
         .then((r) => {
             return r.data
         })

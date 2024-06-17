@@ -1,4 +1,5 @@
 import { BlobServiceClient, BlockBlobClient, ContainerClient } from "@azure/storage-blob";
+import { IImageDimensions } from "../interfaces/IImageDimensions";
 
 const sas = process.env.NEXT_PUBLIC_AZURE_SAS
 
@@ -28,20 +29,22 @@ export const uploadImageToAzure = async (image:string,fileName:string) : Promise
     }
 
 
-    const urlImagem = blockBlobClient.url;
+    const urlImagem = "https://mastererpstorage.blob.core.windows.net/images/"+blockBlobClient.name;
     console.log(urlImagem)
     return urlImagem
 
 }
 
-export const  deleteImageFromAzure = async (fileName: string) => {
+export const  deleteImageFromAzure = async (blobUrl: string | undefined) => {
 
-    const blobName = fileName.split('/').slice(2).join('/');
-
+    
+    const blobName = extractNameBlobFromUrl(blobUrl);
+    
+    console.log(blobName)
     // @ts-ignore
     const blobServiceClient = new BlobServiceClient(`https://${accountName}.blob.core.windows.net?${sas}`);
     // @ts-ignore
-    const containerClient : ContainerClient = await  blobServiceClient.getContainerClient(process.env.AZURE_CONTAINER_NAME);
+    const containerClient : ContainerClient = await  blobServiceClient.getContainerClient(containerName);
     const blockBlobClient : BlockBlobClient = await containerClient.getBlockBlobClient(blobName);
 
     console.log(BlockBlobClient)
@@ -53,6 +56,21 @@ export const  deleteImageFromAzure = async (fileName: string) => {
     }
 };
 
+
+export async function getImageDimensions(url:string | undefined) : Promise<IImageDimensions> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        resolve({ width: img.width, height: img.height });
+      };
+      img.onerror = (error) => {
+        reject(error);
+      };
+      //@ts-ignore
+      img.src = url;
+    });
+  }
+
 // Converter a base64 para um ArrayBuffer (formato binário)
 //Pega a segunda parte da string, ignorando o cabeçalho data:image/png;base64
 const toArrayBuffer = (imagem:string)=>
@@ -61,4 +79,7 @@ const toArrayBuffer = (imagem:string)=>
  return Buffer.from(imagem.split(",")[1], 'base64')
 
 
+}
+const extractNameBlobFromUrl = (url:string | undefined)=>{
+    return url?.split("/")[4]
 }

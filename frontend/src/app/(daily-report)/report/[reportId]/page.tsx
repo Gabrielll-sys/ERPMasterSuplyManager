@@ -26,6 +26,10 @@ import {
 } from "@/app/services/RelatorioDiario.Services";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import Excel from "exceljs";
+import RelatorioDiarioPDF from '@/app/componentes/RelatorioDiarioPdf';
+import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+
 
 
 
@@ -62,6 +66,7 @@ export default function Report({params}:any){
         right: {style:'thin'}
     }
     useEffect(() => {
+
      //@ts-ignore
      const user = JSON.parse(localStorage.getItem("currentUser"));
      if(user != null)
@@ -435,9 +440,23 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                     </>
                 )}
 
-                <Button className='max-sm:w-[50%] self-center'  color='success' variant='ghost'  onPress={generatePlanilha} >
-                    <IconExcel/>
-                Criar Relatório
+<Button
+           color='danger' 
+           variant='ghost'
+          
+           className={`w-[225px] p-3 my-auto max-sm:w-[60%] `}
+          >
+            <PDFDownloadLink document={   <RelatorioDiarioPDF
+                atividades={atividadesInRd}
+                relatorioDiarioId = {params.reportId}
+       
+            />} fileName={"Relatorio Diário Nº"+ params.reportId+".pdf"}>
+                <div className='flex flex-row gap-2'>
+                  <IconFileEarmarkPdf  height="1.3em" width="1.3em" />
+                  Gerar PDF do Relatório Diário
+                </div>
+              </PDFDownloadLink>
+       
             </Button>
                         {atividadesInRd?.length ?
                             (

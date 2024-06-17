@@ -4,18 +4,22 @@ import MuiAlert from "@mui/material/Alert";
 import "dayjs/locale/pt-br";
 import { Table } from 'flowbite-react';
 import { useEffect, useState } from "react";
-import { deleteImageFromAzure, uploadImageToAzure } from '../services/Images.Services';
+import { deleteImageFromAzure, getImageDimensions, uploadImageToAzure } from '../services/Images.Services';
 import Image from "next/image";
 import { IImagemAtividadeRd } from '../interfaces/IImagemAtividadeRd';
-import { addImagemAtividadeRd, getAllImagensInAtividade } from '../services/ImagensAtividadeRd.Service';
+import { addImagemAtividadeRd, deleteImagemAtividadeRd, getAllImagensInAtividade } from '../services/ImagensAtividadeRd.Service';
 import { AlertColor, Snackbar } from '@mui/material';
-
-
+import sizeOf from "image-size";
+import { IImageDimensions } from '../interfaces/IImageDimensions';
+import dayjs from 'dayjs';
+import IconWatch from '../assets/icons/IconWatch';
 
 
 // @ts-ignore
  const Atividade = ({ atividade,onUpdate,onDelete,isFinished})=>{
-    const [imageModal,setImageModal] = useState<any>()
+    const [imageModal,setImageModal] = useState<IImagemAtividadeRd>()
+    const[widthImageModal,setWidthImageModal] = useState<number>(0)
+    const[heightImageModal,setheightImageModal] = useState<number>(0)
     const[observacoes,setObservacoes] = useState<string>(atividade.observacoes)
     const [checkboxStatus, setCheckboxStatus] = useState(atividade.status);
     const [descricao, setDescricao] = useState(atividade.descricao);
@@ -35,10 +39,30 @@ import { AlertColor, Snackbar } from '@mui/material';
 
     },[])
 
+
+
+const handleImageModal = async(imageModal:IImagemAtividadeRd) =>{
+
+    const res :any = await getImageDimensions(imageModal.urlImagem)
+    setWidthImageModal(res.width)
+    setheightImageModal(res.height)
+    setImageModal(imageModal)
+}
 const getImages = async()=>{
 
-    const res   =  await getAllImagensInAtividade(atividade.id)
-    setImagesInAtividades(res)
+    const res : IImagemAtividadeRd[]   =  await getAllImagensInAtividade(atividade.id)
+    let dimensoesImagem : IImageDimensions;
+    console.log(res)
+
+    for(let imagem of res){
+      
+        const dimensions = await getImageDimensions(imagem.urlImagem)
+        imagem.height = dimensions.height
+        imagem.width = dimensions.width
+    }
+    console.log(res)
+  
+     setImagesInAtividades(res)
 
 }
 
@@ -49,6 +73,16 @@ const getImages = async()=>{
      const handleDeleteAtividade = (id:number)=>{
         onDelete(id)
      }
+
+     const handleDeleteImagemAtividade = async ()=>
+    {
+
+         await deleteImageFromAzure(imageModal?.urlImagem)
+         await deleteImagemAtividadeRd(imageModal?.id),
+         getImages()
+   
+     }
+
     const readImageFromFile = async (file:File): Promise<string> =>  {
 
         return new Promise((resolve, reject) => {
@@ -186,24 +220,22 @@ const getImages = async()=>{
                                                             <Input className="w-[145px]" type="file"
                                                                    onChange={handleImageChange}/>
                                                             <div
-                                                                className=" flex md:flex-row max-sm:flex-col flex-wrap max-sm:items-center gap-4 mx-auto ">
+                                                                className=" flex md:flex-row max-sm:flex-col flex-wrap max-sm:items-center gap-4 mx-auto max-w-[750px] ">
 
-                                                                {image && image.map((x: File, index: number) => (
-                                                                    <Button key={index}
-                                                                            className="bg-white h-full hover:-translate-y-2  "
-                                                                            onPress={() => {
-                                                                                onOpenChange(), setImageModal(URL.createObjectURL(x))
-                                                                            }}>
+                                                              
+                                                                { imagesInAtividades && imagesInAtividades.map((image: IImagemAtividadeRd)=>(
+                                                                 <Button key={image.id}
+                                                                 className="bg-white h-full hover:-translate-y-2  "
+                                                                 onPress={() => {
+                                                                     onOpenChange(), handleImageModal(image)
+                                                                 }}>  
+                                                               
 
-                                                                        <Image className="my-auto " key={index} height={150} width={150}
-                                                                               src={URL.createObjectURL(x)} alt={"sa"}/>
-                                                                    </Button>
-                                                                ))}
-                                                             
-                                                                {imagesInAtividades && imagesInAtividades.map((image: IImagemAtividadeRd)=>(
-                                                                    
-                                                                <Image className='hover:scale-105 hover:border-3 hover:border-black' onClick={onOpen} alt='none' height={180} width={150} src={image?.urlImagem}/>
-                                                                ))}
+                                                                <Image  quality={100} className='hover:scale-105 hover:border-3 w-[300px]  hover:border-black' onClick={onOpen} alt='none' height={300} width={300} src={image.urlImagem}/>
+                                                        
+                                                                </Button>
+
+                                                                ))} 
                                                                 
                                                             </div>
                                                         </div>
@@ -215,20 +247,32 @@ const getImages = async()=>{
 
                     </Table>
 
-    <Modal isOpen={isOpen} backdrop="blur" size='xl' onOpenChange={onOpenChange}>
+    <Modal isOpen={isOpen } backdrop="blur" size='xl' onOpenChange={onOpenChange} >
         <ModalContent>
             {(onClose) => (
                 <>
-                    <ModalBody className="flex flex-col gap-4 ">
+                    <ModalBody  className={` flex flex-col gap-4 w-[${widthImageModal}] h-[${heightImageModal}]`}>
+                        { widthImageModal && heightImageModal && (
+
                         <Image
-                            width={200} height={200} className= "hover:scale-30 max-sm:mt-1 max-sm:w-full w-[400px] h-[400px] self-center" src={imageModal} alt="" />
-                        <p className='text-center font-bold'>
-                            Aqui será descricao da imagem
+                            quality={100}
+                            width={widthImageModal}
+                            height={heightImageModal}
+                             className= {`hover:scale-30 max-sm:mt-1 max-sm:w-full  self-center border-1 border-black rounded-md`} src={imageModal?.urlImagem} alt="" />
+                        )}
+                        <p className='text-center font-bold' >
+                            {imageModal?.descricao} 
                         </p>
+                        <div className='flex flex-row self-center gap-2'>
+                                <IconWatch  height={"1.2em"} width={"1.2em"}/>
+                            <p className=' font-bold' >
+                                Adicionada as {dayjs(imageModal?.dataAdicao).format("DD/MM/YYYY [as] HH:mm:ss").toString()}
+                            </p>
+                        </div>
                         <Button
                             color="primary"
                             variant="ghost"
-                            onPress={()=>deleteImageFromAzure(url)}
+                            onPress={()=>{handleDeleteImagemAtividade(),onClose}}
                             className="w-[120px] self-center"
                         >
                             Excluir item
