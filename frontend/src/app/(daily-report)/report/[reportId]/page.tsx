@@ -26,7 +26,7 @@ import {
 } from "@/app/services/RelatorioDiario.Services";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import Excel from "exceljs";
-import RelatorioDiarioPDF from '@/app/componentes/RelatorioDiarioPdf';
+import RelatorioDiarioPDF from '@/app/componentes/RelatorioDiarioPDF';
 import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 
@@ -439,25 +439,27 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                 </Button>
                     </>
                 )}
-
-<Button
-           color='danger' 
-           variant='ghost'
-          
-           className={`w-[225px] p-3 my-auto max-sm:w-[60%] `}
-          >
-            <PDFDownloadLink document={   <RelatorioDiarioPDF
-                atividades={atividadesInRd}
-                relatorioDiarioId = {params.reportId}
-       
-            />} fileName={"Relatorio Diário Nº"+ params.reportId+".pdf"}>
-                <div className='flex flex-row gap-2'>
-                  <IconFileEarmarkPdf  height="1.3em" width="1.3em" />
-                  Gerar PDF do Relatório Diário
-                </div>
-              </PDFDownloadLink>
-       
-            </Button>
+                {relatorioDiario && (
+                    <Button
+                        color='danger' 
+                        variant='ghost'
+                        
+                        className={`w-[225px] p-3 my-auto max-sm:w-[60%] `}
+                        >
+                            <PDFDownloadLink document={   <RelatorioDiarioPDF
+                                atividades={atividadesInRd}
+                                relatorioDiario = {relatorioDiario}
+                    
+                            />} fileName={"Relatorio Diário Nº.pdf"}>
+                                <div className='flex flex-row gap-2'>
+                                <IconFileEarmarkPdf  height="1.3em" width="1.3em" />
+                                Gerar PDF do Relatório Diário
+                                </div>
+                            </PDFDownloadLink>
+                    
+                            </Button>
+                )}
+        
                         {atividadesInRd?.length ?
                             (
                             <>
