@@ -42,11 +42,11 @@ console.log(relatorioDiario)
 return(
 
     <Document key={key} >
-    <Page size="A4" style={{maxHeight:"80%"}}  wrap={true}>
-    <View style={{display:"flex",width:"450px",flexDirection:"row",justifyContent:"space-between"}}>
-  <Image  style ={{width:"100px",marginLeft:30,marginTop:20}}src={logoBase64}/>
+    <Page size="A4" style={{maxHeight:"90%"}}  wrap={true}>
+    <View style={{display:"flex",width:"450px",marginLeft:20,flexDirection:"row",justifyContent:"space-between"}}>
+  <Image  style ={{width:"140px",marginLeft:30,marginTop:20}}src={logoBase64}/>
            
-        <View  style={{display:"flex",flexDirection:"column",width:"50%",marginRight:50,marginTop:10,}}>
+        <View  style={{display:"flex",flexDirection:"column",width:"50%",marginRight:25,marginLeft:50,marginTop:10,}}>
         
          <Text style={{fontWeight:"bold",fontSize:10,marginTop:5}}>Master Elétrica Comércio e Serviço LTDA</Text>
          <Text style={{fontWeight:"bold",fontSize:10,marginTop:5}}>35.051.479/0001-70</Text>
@@ -55,8 +55,8 @@ return(
         
         </View>
 
-        <View>
-        <Text style={{fontWeight:"bold",fontSize:10,marginTop:5}}> RELATÓRIO DIÁRIO </Text>
+        <View style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+        <Text style={{fontWeight:"bold",fontSize:10,marginTop:5,alignSelf:"center"}}> RELATÓRIO DIÁRIO </Text>
         <Text style={{fontWeight:"bold",fontSize:10,marginTop:5}}> Data de Abertura {dayjs(relatorioDiario.dataAbertura).format("DD/MM/YYYY [as] HH:mm:ss").toString()}</Text>
 
         </View>
@@ -153,7 +153,9 @@ return(
     </View>
 
 
-
+    <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (
+        `${pageNumber} / ${totalPages}`
+      )} fixed />
  
     </Page>
    
@@ -195,6 +197,15 @@ const styles = StyleSheet.create({
       marginTop:4,
         width:250,
         height:250
-      }
+      },
+      pageNumber: {
+        position: 'absolute',
+        fontSize: 12,
+        bottom: 30,
+        left: 0,
+        right: 0,
+        textAlign: 'center',
+        color: 'grey',
+      },
   });
   export default RelatorioDiarioPDF;
