@@ -38,15 +38,14 @@ useEffect(()=>{
 
 
 
-console.log(relatorioDiario)
 return(
 
     <Document key={key} >
     <Page size="A4" style={{maxHeight:"90%"}}  wrap={true}>
     <View style={{display:"flex",width:"450px",marginLeft:20,flexDirection:"row",justifyContent:"space-between"}}>
-  <Image  style ={{width:"140px",marginLeft:30,marginTop:20}}src={logoBase64}/>
+  <Image  style ={{width:"120px",height:"60px",marginLeft:10,marginTop:20}}src={logoBase64}/>
            
-        <View  style={{display:"flex",flexDirection:"column",width:"50%",marginRight:25,marginLeft:50,marginTop:10,}}>
+        <View  style={{display:"flex",flexDirection:"column",width:"50%",marginRight:25,marginLeft:10,marginTop:10,}}>
         
          <Text style={{fontWeight:"bold",fontSize:10,marginTop:5}}>Master Elétrica Comércio e Serviço LTDA</Text>
          <Text style={{fontWeight:"bold",fontSize:10,marginTop:5}}>35.051.479/0001-70</Text>
@@ -56,7 +55,7 @@ return(
         </View>
 
         <View style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
-        <Text style={{fontWeight:"bold",fontSize:10,marginTop:5,alignSelf:"center"}}> RELATÓRIO DIÁRIO </Text>
+        <Text style={{fontWeight:"bold",fontSize:10,marginTop:5,alignSelf:"center" ,marginLeft:25}}> RELATÓRIO DIÁRIO Nº {relatorioDiario.id} </Text>
         <Text style={{fontWeight:"bold",fontSize:10,marginTop:5}}> Data de Abertura {dayjs(relatorioDiario.dataAbertura).format("DD/MM/YYYY [as] HH:mm:ss").toString()}</Text>
 
         </View>
@@ -66,7 +65,18 @@ return(
   
     </View>
 
-    
+    <View style={{display:"flex",flexDirection:"column", marginLeft:30,marginTop:10,border:"solid",borderTop:"2px",width:"90%"}}>
+     
+      <Text style={styles.tableCell}>
+        Cliente:{relatorioDiario.contato}
+      </Text>
+      <Text style={styles.tableCell}>
+        Endereço: "sfgkpsdfjkopgksdop´f"
+      </Text>
+      <Text style={styles.tableCell}>
+        Atendente:{relatorioDiario.responsavelAbertura}
+      </Text>
+     </View>
     <View style ={{minHeight:"350px"}}>
 
         <View style={styles.table}>

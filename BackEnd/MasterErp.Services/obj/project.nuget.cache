@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8iPlcYfi17Y=",
+  "dgSpecHash": "uTese0X5r78=",
   "success": true,
-  "projectFilePath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\BackEnd\\MasterErp.Services\\MasterErp.Services.csproj",
+  "projectFilePath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\MasterErp.Services.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gabri\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\fluentvalidation\\11.9.1\\fluentvalidation.11.9.1.nupkg.sha512",
