@@ -52,15 +52,14 @@ const getImages = async()=>{
 
     const res : IImagemAtividadeRd[]   =  await getAllImagensInAtividade(atividade.id)
     let dimensoesImagem : IImageDimensions;
-    console.log(res)
-
+   
     for(let imagem of res){
       
         const dimensions = await getImageDimensions(imagem.urlImagem)
         imagem.height = dimensions.height
         imagem.width = dimensions.width
     }
-    console.log(res)
+   
   
      setImagesInAtividades(res)
 

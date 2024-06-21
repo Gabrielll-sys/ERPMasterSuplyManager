@@ -52,6 +52,7 @@ export default function Report({params}:any){
     const [relatorioDiario,setRelatorioDiario] =  useState<IRelatorioDiario | any>()
     const [atividadeRdEditing,setAtividadeRdEditing] = useState<IAtividadeRd>()
     const letraPlanilha : string[] = ['A','B','C','D','E']
+    const [width,setWidth] = useState<string>("1200")
     var semana = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
  
   
@@ -177,25 +178,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
     }
 
 }
-    const handleImageChange =  async (event :any) => {
-        const selectedImage: File = event.target.files[0];
-
-        const reader = new FileReader();
-
-        reader.onloadend = async () => {
-            // O resultado será um Blob representando a imagem
-            const imgBlob = reader.result as string;
-            // Agora você pode enviar esse Blob para o Azure Blob Storage
-          // await uploadImageToAzure(imgBlob,selectedImage.name);
-        };
-        reader.readAsDataURL(selectedImage);
-
-        if(selectedImage !=undefined){
-
-
-        setImage(current=>[...current,selectedImage]);
-        }
-    };
+  
 
     const createXlsxPlanilha = async (workbook:Excel.Workbook)=>{
 
@@ -408,9 +391,17 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
         onValueChange={setContato}
 
       />
+    <Input
+         label = "Clientsssssse"
+        labelPlacement='outside'
+        value={width}
+        className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px] self-center"
+        onValueChange={setWidth}
+
+      />
       {relatorioDiario  && (
 
-       <PDFViewer width="600" height="600">
+       <PDFViewer width={width} height="600">
       <RelatorioDiarioPDF
       atividades={atividadesInRd}
       relatorioDiario = {relatorioDiario}
@@ -448,6 +439,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                 </Button>
                     </>
                 )}
+
                 {relatorioDiario && (
                     <Button
                         color='danger' 
@@ -455,11 +447,11 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                         
                         className={`w-[225px] p-3 my-auto max-sm:w-[60%] `}
                         >
-                            <PDFDownloadLink document={   <RelatorioDiarioPDF
+                            <PDFDownloadLink document={<RelatorioDiarioPDF
                                 atividades={atividadesInRd}
                                 relatorioDiario = {relatorioDiario}
                     
-                            />} fileName={"Relatorio Diário Nº.pdf"}>
+                            />} fileName={`Relatorio Diário Nº${relatorioDiario.id}.pdf`}>
                                 <div className='flex flex-row gap-2'>
                                 <IconFileEarmarkPdf  height="1.3em" width="1.3em" />
                                 Gerar PDF do Relatório Diário

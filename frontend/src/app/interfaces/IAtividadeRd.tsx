@@ -1,4 +1,5 @@
 import {IRelatorioDiario} from "@/app/interfaces/IRelatorioDiario";
+import { IImagemAtividadeRd } from "./IImagemAtividadeRd";
 
 export interface IAtividadeRd {
     id?: number;
@@ -8,4 +9,6 @@ export interface IAtividadeRd {
     numeroAtividade?:number,
     relatorioRdId?: number;
     relatorioDiario?: IRelatorioDiario;
+    imagensAtividades?:IImagemAtividadeRd[];
+
 }
