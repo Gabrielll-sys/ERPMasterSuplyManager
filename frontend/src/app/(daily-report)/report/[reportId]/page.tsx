@@ -28,7 +28,7 @@ import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import Excel from "exceljs";
 import RelatorioDiarioPDF from '@/app/componentes/RelatorioDiarioPDF';
 import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
-import { PDFDownloadLink } from '@react-pdf/renderer';
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 
 
 
@@ -408,6 +408,15 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
         onValueChange={setContato}
 
       />
+      {relatorioDiario  && (
+
+       <PDFViewer width="600" height="600">
+      <RelatorioDiarioPDF
+      atividades={atividadesInRd}
+      relatorioDiario = {relatorioDiario}
+      />
+    </PDFViewer>
+      )}
         <div className='flex flex-row gap-4'>
         <Button  onPress={handleUpdateRelatorioDiario} className='bg-master_black max-sm:w-[70%] md:w-[80%] mx-auto text-white rounded-md font-bold text-base  '>
             Atualizar Relatório
