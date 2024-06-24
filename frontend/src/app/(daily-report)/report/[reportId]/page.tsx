@@ -29,8 +29,9 @@ import Excel from "exceljs";
 import RelatorioDiarioPDF from '@/app/componentes/RelatorioDiarioPDF';
 import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
-import { deleteAllImagensFromAzure, getAllImagensInAtividade } from '@/app/services/ImagensAtividadeRd.Service';
+import {  getAllImagensInAtividade } from '@/app/services/ImagensAtividadeRd.Service';
 import { deleteAllImagesFromAtividadeFromAzure } from '@/app/services/Images.Services';
+import IconPlus from '@/app/assets/icons/IconPlus';
 
 
 
@@ -397,17 +398,10 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
         onValueChange={setContato}
 
       />
-    <Input
-         label = "Clientsssssse"
-        labelPlacement='outside'
-        value={width}
-        className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px] self-center"
-        onValueChange={setWidth}
 
-      />
       {relatorioDiario  && (
 
-       <PDFViewer width={width} height="600">
+       <PDFViewer width="1500" height="600">
       <RelatorioDiarioPDF
       relatorioDiario = {relatorioDiario}
       />
@@ -435,13 +429,16 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                     label = "Atividade"
                     labelPlacement='outside'
                     value={descricaoAtividade}
-                    className="border-1 border-black rounded-md shadow-sm shadow-black mx-auto w-[200px]"
+                    className="border-1 border-black rounded-md shadow-sm shadow-black mx-auto w-[250px]"
                     onValueChange={setDescricaoAtividade}
+                    endContent={
+                        <Button isDisabled={!descricaoAtividade} className='bg-transparent ' onPress={handleCreateaAtividade}>
 
+                            <IconPlus/>
+                        </Button>
+                }
                 />
-                <Button  isDisabled={!descricaoAtividade} onPress={handleCreateaAtividade} className='bg-master_black max-sm:w-[50%] md:w-[20%] mx-auto text-white rounded-md font-bold text-base  '>
-                    Adicionar Atividade
-                </Button>
+               
                     </>
                 )}
 

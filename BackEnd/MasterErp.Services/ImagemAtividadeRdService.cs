@@ -10,13 +10,17 @@ public class ImagemAtividadeRdService:IImagemAtividadeRdService
 {
       private readonly IImagemAtividadeRdRepository _imagemAtividadeRdRepository;
 
-        private readonly ILogAcoesUsuarioService _logAcoesUsuarioService;
+      private readonly IAtividadeRdRepository _atividadeRdRepository;
+
+    private readonly ILogAcoesUsuarioService _logAcoesUsuarioService;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         
-        public ImagemAtividadeRdService(IImagemAtividadeRdRepository imagemServicoRepository,ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
+        public ImagemAtividadeRdService(IImagemAtividadeRdRepository imagemServicoRepository, IAtividadeRdRepository atividadeRdRepository, ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
         {
             _imagemAtividadeRdRepository = imagemServicoRepository;
+
+            _atividadeRdRepository = atividadeRdRepository;
 
             _logAcoesUsuarioService = logAcoesUsuarioService;
 
@@ -71,12 +75,14 @@ public class ImagemAtividadeRdService:IImagemAtividadeRdService
 
                 model.DataAdicao = DateTime.UtcNow.AddHours(-3);
 
-            var imagemAtividadeRd = await _imagemAtividadeRdRepository.CreateAsync(model);
+                var imagemAtividadeRd = await _imagemAtividadeRdRepository.CreateAsync(model);
+
+                var atividade = await _atividadeRdRepository.GetByIdAsync(model.AtividadeRdId);
 
                 
                 var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
                 
-                LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Adição de Imagem ao Relatorio Diário Nº{model.AtividadeRdId}",
+                LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Imagem adicionada a Atividade Nº{atividade.NumeroAtividade} do Relatório Diário Nº{atividade.RelatorioRdId} por {userName} ",
                     responsavel: userName);
                 
                 await _logAcoesUsuarioService.CreateAsync(log);

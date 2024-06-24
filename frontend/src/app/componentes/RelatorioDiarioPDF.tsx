@@ -72,16 +72,15 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
             <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>CNPJ:345634565356</Text>
           </View>
           <View style={{display:"flex",flexDirection:"row",justifyContent:"space-between",width:"90%",marginLeft:"10px",marginTop:"6px"}}>
-            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Endereço:Rua Jaime Carlos Afonso Teixeira,Alto Bela Vista,33010515{relatorioDiario.contato}</Text>
-            <View style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Endereço:Rua Jaime Carlos Afonso Teixeira,Alto Bela Vista</Text>
+            <View style={{display:"flex",flexDirection:"row",justifyContent:"space-between",gap:2}}>
               <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Contato:Hilas</Text>
               <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Telefone:9987727256</Text>
             </View>
           </View>
-          
           <View style={{display:"flex",flexDirection:"row",justifyContent:"space-between",width:"90%",marginLeft:"10px",marginTop:"6px"}}>
 
-            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Endereço:Rua Jaime Carlos Afonso Teixeira</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Atendente:Gabriel</Text>
             
           </View>
           <View style={{ marginTop: 10, border: "solid", borderTop: "1px", width: "100%" }}>

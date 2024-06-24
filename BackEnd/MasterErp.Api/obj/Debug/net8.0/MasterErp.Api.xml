@@ -294,12 +294,6 @@
             Controlador para gerenciar os Materias
              </summary>
         </member>
-        <member name="M:MasterErp.Api.Controllers.MateriaisController.GetAll">
-            <summary>
-            Busca todos os materiais
-            </summary>
-            <returns>Todos os materiais </returns>
-        </member>
         <member name="M:MasterErp.Api.Controllers.MateriaisController.GetMaterial(System.Int32)">
             <summary>
             Obtem material por id
