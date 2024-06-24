@@ -5,6 +5,7 @@ import { url } from "../api/webApiUrl";
 import { authHeader } from "../_helpers/auth_headers";
 
 import { IImagemAtividadeRd } from "../interfaces/IImagemAtividadeRd";
+import { deleteAllImagesFromAtividadeFromAzure } from "./Images.Services";
 
 
 

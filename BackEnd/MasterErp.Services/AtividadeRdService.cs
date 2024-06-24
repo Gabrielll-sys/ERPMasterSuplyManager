@@ -62,23 +62,19 @@ public class AtividadeRdService : IAtividadeRdService
     }
 
     
-    public async Task ReordarNumeroAtividadeAfterDelete(int id)
+    public async Task ReordarNumeroAtividadeAfterDelete(int? id)
     {
         
-        var item = await GetByIdAsync(id);
-        
-        var atividades = await GetAllInRdAsync(item.RelatorioRdId);
-
+        var atividades = await GetAllInRdAsync(id);
         //Renumera as atividades para ficarem em ordem
 
-        for (int i = 1; i <= atividades.Count; i++)
+        for (int i = 0; i <= atividades.Count-1; i++)
         {
-            atividades[i].NumeroAtividade = i;
-           
-            await UpdateAsync(atividades[i]);
-
+            atividades[i].NumeroAtividade = i+1;
+ 
         }
 
+        await UpdateAllAsync(atividades);
         
     }
     
@@ -87,11 +83,13 @@ public class AtividadeRdService : IAtividadeRdService
         try
         {
             //Quando o metodo de reodernar vem antes do delete, ele consegue obter o item,verificar porque
-            //await ReordarNumeroAtividadeAfterDelete(id);
+
+            var atividadeRd = await _atividadeRdRepository.GetByIdAsync(id);
 
             await _atividadeRdRepository.DeleteAsync(id);
 
-
+            await ReordarNumeroAtividadeAfterDelete(atividadeRd.RelatorioRdId);
+         
         }
         catch (Exception)
         {
@@ -161,4 +159,15 @@ public class AtividadeRdService : IAtividadeRdService
                 }
             }
        
-        }
+             private async Task UpdateAllAsync(List<AtividadeRd> atividades) 
+                {
+                    
+                    foreach (var atividade in atividades) 
+                    {
+
+                         await UpdateAsync(atividade);
+
+                     }
+
+    }
+}

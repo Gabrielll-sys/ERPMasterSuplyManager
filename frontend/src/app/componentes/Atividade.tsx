@@ -126,6 +126,7 @@ const getImages = async()=>{
          
         }
     };
+
     return(
 
 
@@ -222,7 +223,7 @@ const getImages = async()=>{
                                                                 className=" flex md:flex-row max-sm:flex-col flex-wrap max-sm:items-center gap-4 mx-auto max-w-[750px] ">
 
                                                               
-                                                                { imagesInAtividades && imagesInAtividades.map((image: IImagemAtividadeRd)=>(
+                                                                { imagesInAtividades && imagesInAtividades.map((image: IImagemAtividadeRd,index:number)=>(
                                                                  <Button key={image.id}
                                                                  className="bg-white h-full hover:-translate-y-2  "
                                                                  onPress={() => {
@@ -230,7 +231,7 @@ const getImages = async()=>{
                                                                  }}>  
                                                                
 
-                                                                <Image  quality={100} className='hover:scale-105 hover:border-3 w-[300px]  hover:border-black' onClick={onOpen} alt='none' height={300} width={300} src={image.urlImagem}/>
+                                                                <Image  quality={100} className={`hover:scale-105 hover:border-3 w-[300px] ml-auto mr-auto hover:border-black`} onClick={onOpen} alt='none' height={300} width={300} src={image.urlImagem}/>
                                                         
                                                                 </Button>
 

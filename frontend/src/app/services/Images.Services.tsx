@@ -1,5 +1,6 @@
 import { BlobServiceClient, BlockBlobClient, ContainerClient } from "@azure/storage-blob";
 import { IImageDimensions } from "../interfaces/IImageDimensions";
+import { IImagemAtividadeRd } from "../interfaces/IImagemAtividadeRd";
 
 const sas = process.env.NEXT_PUBLIC_AZURE_SAS
 
@@ -40,7 +41,7 @@ export const  deleteImageFromAzure = async (blobUrl: string | undefined) => {
     
     const blobName = extractNameBlobFromUrl(blobUrl);
     
-    console.log(blobName)
+
     // @ts-ignore
     const blobServiceClient = new BlobServiceClient(`https://${accountName}.blob.core.windows.net?${sas}`);
     // @ts-ignore
@@ -55,6 +56,19 @@ export const  deleteImageFromAzure = async (blobUrl: string | undefined) => {
         console.error('Erro ao deletar a imagem:', err);
     }
 };
+
+//Deleta todas as imagens de uma atividade caso o usuário delete a atividade e a mesma possuir imagens
+
+export const  deleteAllImagesFromAtividadeFromAzure = async (imagens: IImagemAtividadeRd[]) => 
+  {
+
+    for (let imagem of imagens)
+      {
+        await deleteImageFromAzure(imagem.urlImagem)
+      }
+
+  };
+
 
 
 export async function getImageDimensions(url:string | undefined) : Promise<IImageDimensions> {
@@ -80,6 +94,9 @@ const toArrayBuffer = (imagem:string)=>
 
 
 }
-const extractNameBlobFromUrl = (url:string | undefined)=>{
-    return url?.split("/")[4]
+const extractNameBlobFromUrl = (url:string | undefined) :string =>{
+    
+    if (!url) return ""
+
+    return url?.split("/")[4] || ""
 }

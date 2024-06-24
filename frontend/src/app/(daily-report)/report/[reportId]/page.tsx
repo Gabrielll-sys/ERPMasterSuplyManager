@@ -29,6 +29,8 @@ import Excel from "exceljs";
 import RelatorioDiarioPDF from '@/app/componentes/RelatorioDiarioPDF';
 import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
+import { deleteAllImagensFromAzure, getAllImagensInAtividade } from '@/app/services/ImagensAtividadeRd.Service';
+import { deleteAllImagesFromAtividadeFromAzure } from '@/app/services/Images.Services';
 
 
 
@@ -123,8 +125,12 @@ const handleCreateaAtividade = async ()=>{
 }
 
 const handleDeleteAtividade = async(id:number)=>{
-
-    const res = await deleteAtividadeRd(id)
+    
+    const imagens = await getAllImagensInAtividade(id)
+    //Caso o usuário deleta a atividade Direto ,sem deletar as imagens,ira iterar sobre todas as imagens daquela atiivdade antes de deletá-la e apagar as imagens do azure
+     await deleteAllImagesFromAtividadeFromAzure(imagens)
+     
+     const res = await deleteAtividadeRd(id)
 
     if(res)
     {
@@ -403,7 +409,6 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
 
        <PDFViewer width={width} height="600">
       <RelatorioDiarioPDF
-      atividades={atividadesInRd}
       relatorioDiario = {relatorioDiario}
       />
     </PDFViewer>
@@ -422,7 +427,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
     </div>
 
 
-            <div className="overflow-x-auto flex flex-col self-center max-sm:w-[90%] md:w-[60%]  gap-9 border-1 border-black p-4  ">
+            <div className="overflow-x-auto flex flex-col self-center max-sm:w-[90%] md:w-[60%]  gap-9 border-1 border-black p-4 rounded-md  ">
                 { !relatorioDiario?.isFinished && (
                     <>
 
@@ -448,7 +453,6 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                         className={`w-[225px] p-3 my-auto max-sm:w-[60%] `}
                         >
                             <PDFDownloadLink document={<RelatorioDiarioPDF
-                                atividades={atividadesInRd}
                                 relatorioDiario = {relatorioDiario}
                     
                             />} fileName={`Relatorio Diário Nº${relatorioDiario.id}.pdf`}>
@@ -542,3 +546,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
 
 
 }
+
+
+
+
