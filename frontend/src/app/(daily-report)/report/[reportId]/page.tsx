@@ -31,6 +31,7 @@ import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import { deleteAllImagensFromAzure, getAllImagensInAtividade } from '@/app/services/ImagensAtividadeRd.Service';
 import { deleteAllImagesFromAtividadeFromAzure } from '@/app/services/Images.Services';
+import IconCamera from '@/app/assets/icons/IconCamera';
 
 
 
@@ -450,7 +451,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                         color='danger' 
                         variant='ghost'
                         
-                        className={`w-[225px] p-3 my-auto max-sm:w-[60%] `}
+                        className={`w-[225px] p-3 my-auto max-sm:w-[60%] self-center `}
                         >
                             <PDFDownloadLink document={<RelatorioDiarioPDF
                                 relatorioDiario = {relatorioDiario}
@@ -461,7 +462,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                                 Gerar PDF do Relatório Diário
                                 </div>
                             </PDFDownloadLink>
-                    
+                                
                             </Button>
                 )}
         

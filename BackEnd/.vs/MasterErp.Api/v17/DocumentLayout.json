@@ -582,8 +582,7 @@
               "RelativeToolTip": "MasterErp.Api\\Controllers\\TarefasUsuarioController.cs",
               "ViewState": "AQIAAAwAAAAAAAAAAAAQwFsAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T00:47:11.829Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-29T00:47:11.829Z"
             },
             {
               "$type": "Document",
@@ -595,8 +594,7 @@
               "RelativeToolTip": "MasterErp.Services\\TarefaUsuarioService.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAFkAAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T00:37:47.06Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-29T00:37:47.06Z"
             },
             {
               "$type": "Document",
@@ -704,8 +702,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\TarefaUsuario.cs",
               "ViewState": "AQIAAAEAAAAAAAAAAAAewBgAAAAOAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-27T18:09:59.662Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-27T18:09:59.662Z"
             },
             {
               "$type": "Document",
@@ -871,7 +868,7 @@
               "RelativeDocumentMoniker": "MasterErp.Services\\AtividadeRdService.cs",
               "ToolTip": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\AtividadeRdService.cs",
               "RelativeToolTip": "MasterErp.Services\\AtividadeRdService.cs",
-              "ViewState": "AQIAADAAAAAAAAAAAAAowDoAAAAJAAAA",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAQwBsAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-23T23:51:05.277Z",
               "EditorCaption": ""
@@ -1282,8 +1279,7 @@
               "RelativeToolTip": "MasterErp.Api\\Controllers\\AtividadesRdController.cs",
               "ViewState": "AQIAAHMAAAAAAAAAAAAcwAoAAAAPAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:23:19.342Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:23:19.342Z"
             },
             {
               "$type": "Document",
@@ -1463,8 +1459,7 @@
               "RelativeToolTip": "MasterErp.Api\\Program.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-22T19:50:38.181Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-22T19:50:38.181Z"
             },
             {
               "$type": "Document",
