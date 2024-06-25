@@ -10,6 +10,7 @@ import { getAllImagensInAtividade } from '../services/ImagensAtividadeRd.Service
 import Atividade from './Atividade';
 import { getImageDimensions } from '../services/Images.Services';
 import { getAllAtivdadesInRd } from '../services/AtvidadeRd.Service';
+import { Button } from '@nextui-org/react';
 
 interface RelatorioDiarioPDFProps {
   relatorioDiario: IRelatorioDiario;
@@ -88,10 +89,11 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
           <View style={{ width: "100%" }}>
             {atividades.map((atividade: IAtividadeRd, index: number) => (
               <>
-                <View key={atividade.id} style={{ width: "100%", borderStyle: "solid", alignSelf: "center",marginTop:"25px" }} >
+                <View key={atividade.id} style={{ width: "100%", borderStyle: "solid", alignSelf: "center", }} >
                   <Text style={styles.textTitleAtividade} break={(index + 1) % 4 === 0}>{atividade.numeroAtividade} - {atividade.descricao} - {atividade.status}</Text>
                   <View style={styles.imageContainer}>
                     { atividade.imagensAtividades && atividade.imagensAtividades.map((imagem: IImagemAtividadeRd, imgIndex: number) => (
+                      <>
                       <Image
                         key={imagem.id}
                         style={[
@@ -102,6 +104,8 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
                         ]}
                         src={imagem.urlImagem}
                       />
+                    
+                    </>
                     ))}
                   </View>
                   <Text style={styles.text}>{atividade.observacoes}</Text>
@@ -109,6 +113,7 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
               </>
             ))}
           </View>
+          
           <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (
             `${pageNumber} / ${totalPages}`
           )} fixed />
@@ -146,8 +151,10 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "48%",
-    height: 195,
+    height: 280,
     marginBottom: 10,
+    borderRadius:"6px"
+
   },
   centeredImage: {
     marginLeft: "auto",

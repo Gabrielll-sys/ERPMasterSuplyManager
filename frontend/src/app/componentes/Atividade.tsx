@@ -9,12 +9,13 @@ import Image from "next/image";
 import { IImagemAtividadeRd } from '../interfaces/IImagemAtividadeRd';
 import { addImagemAtividadeRd, deleteImagemAtividadeRd, getAllImagensInAtividade } from '../services/ImagensAtividadeRd.Service';
 import { AlertColor, Snackbar } from '@mui/material';
-import sizeOf from "image-size";
+import imageCompression from 'browser-image-compression';
 import { IImageDimensions } from '../interfaces/IImageDimensions';
 import dayjs from 'dayjs';
 import IconWatch from '../assets/icons/IconWatch';
-
-
+import { useRef } from 'react';
+import IconCamera from '../assets/icons/IconCamera';
+import IconArrowDownCircle from '../assets/icons/IconArrowDownCircleFill';
 // @ts-ignore
  const Atividade = ({ atividade,onUpdate,onDelete,isFinished})=>{
     const [imageModal,setImageModal] = useState<IImagemAtividadeRd>()
@@ -29,7 +30,7 @@ import IconWatch from '../assets/icons/IconWatch';
     const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
     const [messageAlert, setMessageAlert] = useState<string>();
     const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
-   
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(()=>{
 
@@ -82,59 +83,72 @@ const getImages = async()=>{
    
      }
 
-    const readImageFromFile = async (file:File): Promise<string> =>  {
-
+     const readImageFromFile = (file: File): Promise<string> => {
         return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              resolve(reader.result as string);
-            };
-            reader.onerror = (error) => {
-                reject(error);
-            };
-            reader.readAsDataURL(file);
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            resolve(reader.result as string);
+          };
+          reader.onerror = (error) => {
+            reject(error);
+          };
+          reader.readAsDataURL(file);
         });
-    }
-    const handleImageChange =  async (event :any) => {
+      };
+      
+      // Função para converter uma imagem para PNG usando browser-image-compression
+      const convertToPng = async (file: File): Promise<File> => {
+        const options = {
+          maxSizeMb:3,
+          maxWidthOrHeight: 2000,
+          fileType: 'image/png',
+          
+        };
+        return await imageCompression(file, options);
+      };
+      
+      const handleImageChange = async (event: any) => {
         const selectedImage: File = event.target.files[0];
-
-        if(selectedImage !=undefined){
-            const image =  readImageFromFile(selectedImage).then( async (imgBlob)=>{
-
-                const urlImagem =  await uploadImageToAzure(imgBlob,selectedImage.name)
-
-                if(urlImagem)
-                {
-                  const imagemAtividadeRd : IImagemAtividadeRd = {
-                  atividadeRdId:atividade.id,
-                  descricao:atividade.descricao,
-                  urlImagem:urlImagem,  
-                  
-                }
-                    const res = await addImagemAtividadeRd(imagemAtividadeRd)
-
-                    if(res == 200){
-                        setOpenSnackBar(true);
-                        setSeveridadeAlert("success");
-                        setMessageAlert("Imagem Adicionada a atividade");
-                        getImages()
-                    }
-
-                }
-
-            })
-         
+      
+        if (selectedImage !== undefined) {
+          let imageFile = selectedImage;
+      
+          // Se o arquivo for JPEG, converta-o para PNG
+          if (selectedImage.type === 'image/jpeg') {
+            imageFile = await convertToPng(selectedImage);
+          }
+      
+          const imageBase64 = await readImageFromFile(imageFile);
+          const urlImagem = await uploadImageToAzure(imageBase64, imageFile.name);
+          await handleImageUploadResponse(urlImagem);
         }
+      };
+      
+      // Função para tratar a resposta do upload da imagem
+const handleImageUploadResponse = async (urlImagem: string) => {
+    const imagemAtividadeRd: IImagemAtividadeRd = {
+      atividadeRdId: atividade.id,
+      descricao: atividade.descricao,
+      urlImagem: urlImagem,
     };
-
+    const res = await addImagemAtividadeRd(imagemAtividadeRd);
+  
+    if (res === 200) {
+      setOpenSnackBar(true);
+      setSeveridadeAlert('success');
+      setMessageAlert('Imagem Adicionada a atividade');
+      getImages();
+    }
+  };
+  
     return(
 
 
 <>
 
 
-        <Table  hoverable striped className="w-[100%]  ">
-            <Table.Head className="border-1 border-black  text-center p-3 ">
+        <Table  hoverable striped className="w-[100%]   ">
+            <Table.Head className="border-1 border-black  text-center p-3 rounded-md ">
                 <p className="text-base p-3 font-bold">Atividade</p>
             </Table.Head>
         <Table.Body className="divide-y">
@@ -217,13 +231,27 @@ const getImages = async()=>{
                                                             </div>
                                                                 </>
                                                             )}
-                                                            <Input className="w-[145px]" type="file"
-                                                                   onChange={handleImageChange}/>
+                                                             <div className="flex flex-col items-center my-2">
+                                                            <input
+                                                                type="file"
+                                                                ref={fileInputRef}
+                                                                onChange={handleImageChange}
+                                                                className="hidden"
+                                                            />
+                                                            <button
+                                                                className="bg-blue-500 text-white py-2 px-4 rounded-md items-center gap-2  hover:bg-blue-700 flex flex-row"
+                                                                onClick={() => fileInputRef.current?.click()}
+                                                            >
+                                                                Subir Imagem
+                                                                <IconCamera height="1.4em" width="1.4em"/>
+                                                            </button>
+                                                            </div>
                                                             <div
                                                                 className=" flex md:flex-row max-sm:flex-col flex-wrap max-sm:items-center gap-4 mx-auto max-w-[750px] ">
 
                                                               
                                                                 { imagesInAtividades && imagesInAtividades.map((image: IImagemAtividadeRd,index:number)=>(
+                                                                    <>
                                                                  <Button key={image.id}
                                                                  className="bg-white h-full hover:-translate-y-2  "
                                                                  onPress={() => {
@@ -231,10 +259,10 @@ const getImages = async()=>{
                                                                  }}>  
                                                                
 
-                                                                <Image  quality={100} className={`hover:scale-105 hover:border-3 w-[300px] ml-auto mr-auto hover:border-black`} onClick={onOpen} alt='none' height={300} width={300} src={image.urlImagem}/>
-                                                        
+                                                                <Image  quality={100} className={`hover:scale-105 hover:border-3 w-[300px] ml-auto mr-auto  rounded-md`} onClick={onOpen} alt='none' height={300} width={300} src={image.urlImagem}/>
                                                                 </Button>
-
+                                                                    
+                                                                    </>
                                                                 ))} 
                                                                 
                                                             </div>
@@ -260,6 +288,8 @@ const getImages = async()=>{
                             height={heightImageModal}
                              className= {`hover:scale-30 max-sm:mt-1 max-sm:w-full  self-center border-1 border-black rounded-md`} src={imageModal?.urlImagem} alt="" />
                         )}
+                   
+
                         <p className='text-center font-bold' >
                             {imageModal?.descricao} 
                         </p>
@@ -269,15 +299,26 @@ const getImages = async()=>{
                                 Adicionada as {dayjs(imageModal?.dataAdicao).format("DD/MM/YYYY [as] HH:mm:ss").toString()}
                             </p>
                         </div>
-                        <Button
-                            color="primary"
-                            variant="ghost"
-                            onPress={()=>{handleDeleteImagemAtividade(),onClose}}
-                            className="w-[120px] self-center"
-                        >
-                            Excluir item
-
-                        </Button>
+                        <div className='flex flex-row gap-6 items-center justify-center'>
+                            <Button
+                                color="primary"
+                                variant="ghost"
+                                onPress={()=>{handleDeleteImagemAtividade(),onClose}}
+                                className="w-[120px] self-center"
+                            >
+                                Excluir item
+                            </Button>
+                            <a
+                              href={imageModal?.urlImagem}
+                              download={imageModal?.descricao}
+                              
+                                    >
+      
+                                    <IconArrowDownCircle height={"1.4em"} width={"1.4em"}  />
+                            </a>
+                        </div>
+                
+                        
                     </ModalBody>
                     <ModalFooter>
                         <Button color="danger" variant="light" onPress={onClose}>
@@ -315,3 +356,5 @@ const getImages = async()=>{
 
 }
 export default Atividade;
+
+

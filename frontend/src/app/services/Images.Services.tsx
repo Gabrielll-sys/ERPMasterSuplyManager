@@ -87,13 +87,22 @@ export async function getImageDimensions(url:string | undefined) : Promise<IImag
 
 // Converter a base64 para um ArrayBuffer (formato binário)
 //Pega a segunda parte da string, ignorando o cabeçalho data:image/png;base64
-const toArrayBuffer = (imagem:string)=>
-{
+// const toArrayBuffer = (imagem:string)=>
+// {
 
- return Buffer.from(imagem.split(",")[1], 'base64')
+//  return Buffer.from(imagem.split(",")[1], 'base64')
 
 
-}
+// }
+const toArrayBuffer = (base64: string): ArrayBuffer => {
+  const binaryString = window.atob(base64.split(',')[1]);
+  const len = binaryString.length;
+  const bytes = new Uint8Array(len);
+  for (let i = 0; i < len; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+  return bytes.buffer;
+};
 const extractNameBlobFromUrl = (url:string | undefined) :string =>{
     
     if (!url) return ""
