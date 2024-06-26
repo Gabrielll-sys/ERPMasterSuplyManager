@@ -44,7 +44,7 @@ export default function Report({params}:any){
     const [imageModal,setImageModal] = useState<any>()
     const [currentUser, setCurrentUser] = useState<any>(null);
     const conditionsRoles = currentUser?.role == "Administrador" || currentUser?.role == "Diretor" || currentUser?.role == "SuporteTecnico"
-    const[contato,setContato] = useState<string>("")
+    const[empresa,setEmpresa] = useState<string>("")
     const [descricaoAtividade,setDescricaoAtividade] = useState<string>("");
     const [atividadesInRd,setAtividadesInRd] = useState<IAtividadeRd[]>([])
     const status : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Cartão De Débito"];
@@ -88,7 +88,7 @@ const getRelatorioDiarioById =async (id:number)=>
     {
         const res = await getRelatorioDiario(id)
         console.log(res)
-        setContato (res.contato)
+        setEmpresa (res.empresa)
         setRelatorioDiario(res)
     }
 const getAtividades = async(id:number)=>{
@@ -148,7 +148,7 @@ const handleUpdateRelatorioDiario = async()=>{
 
     const rd: IRelatorioDiario = {
         id:relatorioDiario.id,
-        contato:contato,
+        empresa:empresa,
         responsavelAbertura:relatorioDiario.responsavelAbertura
     }
     const res = await updateRelatorioDiario(rd)
@@ -394,9 +394,9 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
     <Input
          label = "Cliente"
         labelPlacement='outside'
-        value={contato}
+        value={empresa}
         className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px] self-center"
-        onValueChange={setContato}
+        onValueChange={setEmpresa}
 
       />
 

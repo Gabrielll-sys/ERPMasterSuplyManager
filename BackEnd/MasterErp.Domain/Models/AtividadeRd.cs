@@ -19,6 +19,8 @@ public class AtividadeRd
     
     public int? RelatorioRdId { get; set; }
 
+    public DateTime DataAdicao { get; set; }
+
 
     [ForeignKey("RelatorioRdId")]
     

@@ -11,8 +11,11 @@ public class RelatorioDiario
     
     public string? ResponsavelFechamento { get; set; }
 
+    public string? Empresa { get; set; }
+
     public string? Contato { get; set; }
-    
+
+
     public DateTime? HorarioAbertura { get; set; }
     
     public DateTime? DataRD { get; set; }
