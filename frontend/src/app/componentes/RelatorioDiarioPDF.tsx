@@ -84,7 +84,7 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
             <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Atendente:Gabriel</Text>
             
           </View>
-          <View style={{ marginTop: 10, border: "solid", borderTop: "1px", width: "100%" }}>
+          <View style={{ marginTop: 10, border: "solid", borderTop: "1px", width: "98%" }}>
           </View>
           <View style={{ width: "100%" }}>
             {atividades.map((atividade: IAtividadeRd, index: number) => (
@@ -110,10 +110,13 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
                   </View>
                   <Text style={styles.text}>{atividade.observacoes}</Text>
                 </View>
+                <View style={{ marginTop: 10, border: "solid", borderTop: "2px", width: "100%" }}>
+                </View>
+              
               </>
             ))}
           </View>
-          
+      
           <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (
             `${pageNumber} / ${totalPages}`
           )} fixed />
@@ -137,7 +140,7 @@ const styles = StyleSheet.create({
   },
   textTitleAtividade: {
     margin: 12,
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: "bold",
     textAlign: 'justify',
     fontFamily: 'Times-Roman'

@@ -29,10 +29,11 @@ import Excel from "exceljs";
 import RelatorioDiarioPDF from '@/app/componentes/RelatorioDiarioPDF';
 import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
-import {  getAllImagensInAtividade } from '@/app/services/ImagensAtividadeRd.Service';
+import {  deleteImagemAtividadeRd, getAllImagensInAtividade } from '@/app/services/ImagensAtividadeRd.Service';
 import { deleteAllImagesFromAtividadeFromAzure } from '@/app/services/Images.Services';
 import IconCamera from '@/app/assets/icons/IconCamera';
 import IconPlus from '@/app/assets/icons/IconPlus';
+import { IImagemAtividadeRd } from '@/app/interfaces/IImagemAtividadeRd';
 
 
 
@@ -128,18 +129,29 @@ const handleCreateaAtividade = async ()=>{
 
 const handleDeleteAtividade = async(id:number)=>{
     
-    const imagens = await getAllImagensInAtividade(id)
+    const imagens :IImagemAtividadeRd []= await getAllImagensInAtividade(id)
+ 
     //Caso o usuário deleta a atividade Direto ,sem deletar as imagens,ira iterar sobre todas as imagens daquela atiivdade antes de deletá-la e apagar as imagens do azure
-     await deleteAllImagesFromAtividadeFromAzure(imagens)
-     
-     const res = await deleteAtividadeRd(id)
 
-    if(res)
+    if(imagens.length > 1 )
     {
-        setOpenSnackBar(true);
-        setSeveridadeAlert("success");
-        setMessageAlert("Atividade Removida ");
+        console.log("foiii")
+        await deleteAllImagesFromAtividadeFromAzure(imagens)
+         await deleteAtividadeRd(id)
+
     }
+    else{
+        await deleteImagemAtividadeRd(imagens[0].id)
+        const res = await deleteAtividadeRd(id)
+
+        if(res)
+        {
+            setOpenSnackBar(true);
+            setSeveridadeAlert("success");
+            setMessageAlert("Atividade Removida ");
+        }
+    }
+
 
     getAtividades(params.reportId)
 

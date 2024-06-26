@@ -40,7 +40,7 @@ export const  deleteImageFromAzure = async (blobUrl: string | undefined) => {
 
     
     const blobName = extractNameBlobFromUrl(blobUrl);
-    
+    console.log(blobName)
 
     // @ts-ignore
     const blobServiceClient = new BlobServiceClient(`https://${accountName}.blob.core.windows.net?${sas}`);
@@ -48,7 +48,7 @@ export const  deleteImageFromAzure = async (blobUrl: string | undefined) => {
     const containerClient : ContainerClient = await  blobServiceClient.getContainerClient(containerName);
     const blockBlobClient : BlockBlobClient = await containerClient.getBlockBlobClient(blobName);
 
-    console.log(BlockBlobClient)
+   
     try {
        const a =  await blockBlobClient.delete();
         console.log('Imagem deletada com sucesso!');
