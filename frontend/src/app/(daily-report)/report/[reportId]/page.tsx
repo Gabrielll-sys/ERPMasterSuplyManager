@@ -8,10 +8,12 @@ import { useEffect, useState } from "react";
 
 import dayjs from 'dayjs';
 
-import { logoComEnderecoBase64 } from '@/app/assets/base64Logo';
-import IconExcel from '@/app/assets/icons/IconExcel';
+import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
+import IconPlus from '@/app/assets/icons/IconPlus';
 import Atividade from '@/app/componentes/Atividade';
+import RelatorioDiarioPDF from '@/app/componentes/RelatorioDiarioPDF';
 import { IAtividadeRd } from "@/app/interfaces/IAtividadeRd";
+import { IImagemAtividadeRd } from '@/app/interfaces/IImagemAtividadeRd';
 import { IRelatorioDiario } from "@/app/interfaces/IRelatorioDiario";
 import {
     createAtividadeRd,
@@ -19,21 +21,15 @@ import {
     getAllAtivdadesInRd,
     updateAtividadeRd
 } from "@/app/services/AtvidadeRd.Service";
+import { deleteImagemAtividadeRd, getAllImagensInAtividade } from '@/app/services/ImagensAtividadeRd.Service';
+import { deleteAllImagesFromAtividadeFromAzure } from '@/app/services/Images.Services';
 import {
     getRelatorioDiario,
     updateFinishRelatorioDiario,
     updateRelatorioDiario
 } from "@/app/services/RelatorioDiario.Services";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import Excel from "exceljs";
-import RelatorioDiarioPDF from '@/app/componentes/RelatorioDiarioPDF';
-import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
-import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
-import {  deleteImagemAtividadeRd, getAllImagensInAtividade } from '@/app/services/ImagensAtividadeRd.Service';
-import { deleteAllImagesFromAtividadeFromAzure } from '@/app/services/Images.Services';
-import IconCamera from '@/app/assets/icons/IconCamera';
-import IconPlus from '@/app/assets/icons/IconPlus';
-import { IImagemAtividadeRd } from '@/app/interfaces/IImagemAtividadeRd';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 
 
@@ -200,200 +196,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
 }
   
 
-    const createXlsxPlanilha = async (workbook:Excel.Workbook)=>{
-
-        let buffer = await workbook.xlsx.writeBuffer();
-        let blob = new Blob([buffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
-
-        // Cria um objeto URL a partir do Blob
-        let url = URL.createObjectURL(blob);
-
-        // Cria um link de download e clica nele
-        console.log(url)
-        let a = document.createElement('a');
-        a.href = url;
-        a.download = `Relatório Diário Nº${relatorioDiario.id}.xlsx`
-        a.click();
-
-    }
-
-    const includeBorderCell = (ws:Excel.Worksheet,celula:string)=>{
-
-        ws.getCell(celula).border=bordas
-        ws.getCell(celula).alignment={vertical:'middle',horizontal:'left'}
-
-    }
-
-    const cabecalhoPlanilha = (ws:Excel.Worksheet,wb:Excel.Workbook )=>{
-
-        ws.mergeCells('A1','C1')
-
-
-        ws.getRow(2).height=20
-
-
-        ws.getCell(`B1`).border= bordas
-        ws.getCell(`C1`).border= bordas
-        ws.getCell(`D2`).border= bordas
-        
-        // CELULAS DE NUMERO DO RELATÓRIO E DO RESPOSNAVEL
-        ws.mergeCells('A2','C2')
-        ws.getCell(`A2`).border= bordas
-        ws.getCell('A2').style.alignment={'vertical':"middle",'horizontal':"center"}
-        ws.getCell('A2').font = {size:16}
-
-        ws.mergeCells('A3','B3')
-
-        ws.getCell('B3').value = " Atividade"
-        ws.getCell('B3').alignment={vertical:'middle',horizontal:'center'}
-        ws.getCell('B3').font = {size:14}
-
-        ws.getRow(3).height=20
-
-        ws.getCell('B3').border = bordas
-
-        ws.getCell('C3').value = " Status"
-        ws.getCell('C3').alignment={vertical:'middle',horizontal:'center'}
-        ws.getCell('C3').border = bordas
-        ws.getCell('C3').font = {size:14}
-
-
-
-        ws.mergeCells('D1','E1')
-        ws.mergeCells('C3','E3')
-        ws.getCell('A2').value=`Relatório Diário Nº ${relatorioDiario.id}`
-
-        ws.mergeCells('D2','E2')
-        ws.getCell('D2').value=`Responsável: ${relatorioDiario.responsavelAbertura}\n Cliente: ${relatorioDiario.contato}`
-        ws.getCell('D2').font = {size:14}
-        ws.getCell('D2').alignment={vertical:'middle',horizontal:'center'}
-
-
-        ws.getRow(1).height=80
-        ws.getRow(2).height=40
-
-        ws.getColumn(1).width=5
-        ws.getColumn(2).width=70
-        ws.getColumn(3).width=15
-        ws.getColumn(4).width=15
-        ws.getColumn(5).width=12
-
-
-        ws.getCell('B1').alignment={vertical:'middle',horizontal:'center'}
-        ws.getCell('B1').font = {size:16}
-
-        ws.getCell('E1').value=`Data Relatório: ${dayjs(relatorioDiario.dataAbertura).format("DD/MM/YYYY").toString()}\n ${semana[dataAtual.getDay()]}`
-        ws.getCell('E1').style.alignment={'vertical':"middle",'horizontal':"center"}
-        ws.getCell('E1').font = {size:16}
-        ws.getCell('E1').border = bordas
-
-
-
-
-    }
-    const generatePlanilha = async ()=>{
-
-        /*
-           Itera sobre a lista de materiais escolhidas no orçamento e poe numa respectiva célula,aonde cada iteração somara 3
-           por que os itens de cada linha começa a partir da 3 linha,pois antes vem o cabeçalho e o título de cada item da linha
-
-        */
-
-        let atividadesConcluidas = 0;
-
-         atividadesInRd.forEach((x)=>{
-            if(x.status == "Concluída") atividadesConcluidas++;
-         })
-
-        const totalConcluidas = (atividadesConcluidas/ atividadesInRd.length) * 100
-
-        const workbook : Excel.Workbook = new Excel.Workbook();
-
-        const ws :Excel.Worksheet = workbook.addWorksheet(`Relatório Diário Nº${relatorioDiario.id}`)
-        // ws.mergeCells("B1","C1")
-
-        cabecalhoPlanilha(ws,workbook)
-
-
-        for(let i in atividadesInRd)
-        {
-
-
-            const observacoes = atividadesInRd[i].observacoes==null || atividadesInRd[i].observacoes ==""?" Sem observações no momento":atividadesInRd[i].observacoes
-
-            ws.getRow(Number(i)+4).height=30
-
-
-            ws.mergeCells(`C${Number(i)+4}`,`E${Number(i)+4}`)
-            ws.mergeCells(`A${Number(i)+4}`,`B${Number(i)+4}`)
-
-
-            ws.getCell(letraPlanilha[1]+(Number(i)+4)).value = ` ${atividadesInRd[Number(i)].numeroAtividade} - ${atividadesInRd[Number(i)].descricao} \n${observacoes} `
-            includeBorderCell(ws,letraPlanilha[1]+(Number(i)+4))
-
-            ws.getCell(letraPlanilha[2]+(Number(i)+4)).value = atividadesInRd[Number(i)].status
-            includeBorderCell(ws,letraPlanilha[2]+(Number(i)+4))
-            ws.getCell(letraPlanilha[2]+(Number(i)+4)).style.alignment={'vertical':"middle",'horizontal':"center"}
-
-
-            if(atividadesInRd[Number(i)].status == "Concluída"){
-
-            ws.getCell(letraPlanilha[2]+(Number(i)+4)).fill = {
-                type: 'pattern',
-                pattern: 'solid',
-                fgColor: { argb: 'FF00FF00' }, // Verde
-            };
-            }
-
-
-
-        }
-
-        ws.getRow(atividadesInRd.length+4).height=50
-
-
-        const colC= ws.getColumn('C')
-        colC.width= 10;
-
-        const colB= ws.getColumn('B')
-        colB.width= 50;
-
-        ws.mergeCells(`A${atividadesInRd.length+4}`,`B${atividadesInRd.length+4}`)
-
-        ws.getCell(`A${atividadesInRd.length+4}`).value= `Status Relátorio: ${relatorioDiario.isFinished ? `Relatório Concluído ${dayjs(relatorioDiario?.dataFechamento).format(`DD/MM/YYYY [as] HH:mm:ss`)} ` :"Em Análise"} `
-        ws.getCell(`A${atividadesInRd.length+4}`).alignment={vertical:'middle',horizontal:'center'}
-        ws.getCell(`A${atividadesInRd.length+4}`).border=bordas
-        ws.getCell(`A${atividadesInRd.length+4}`).font = {size:11}
-
-        ws.mergeCells(`C${atividadesInRd.length+4}`,`E${atividadesInRd.length+4}`)
-        ws.getCell(`C${atividadesInRd.length+4}`).style.alignment={'vertical':"middle",'horizontal':"center"}
-
-        ws.getCell(`E${atividadesInRd.length+4}`).font = {size:12}
-        ws.getCell(`E${atividadesInRd.length+4}`).value= `% Atividades Concluídas: ${totalConcluidas.toFixed(2)}%`
-        ws.getCell(`B${atividadesInRd.length+4}`).alignment={vertical:'middle',horizontal:'center'}
-        ws.getCell(`B${atividadesInRd.length+4}`).border=bordas
-
-        const colD= ws.getColumn('D')
-        colD.width= 30;
-
-
-        const logo = workbook.addImage({
-            base64: logoComEnderecoBase64,
-            extension: 'png',
-        })
-
-
-        ws.addImage(logo, {
-            tl: { col: 0.3, row: 0.1 },
-            ext: { width: 440, height: 90 }
-        });
-
-
-
-         await createXlsxPlanilha(workbook)
-
-
-    }
+   
     return(
     <>
 

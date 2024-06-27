@@ -4,13 +4,10 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { logoBase64 } from '../assets/base64Logo';
 import { IAtividadeRd } from '../interfaces/IAtividadeRd';
-import { IRelatorioDiario } from '../interfaces/IRelatorioDiario';
 import { IImagemAtividadeRd } from '../interfaces/IImagemAtividadeRd';
-import { getAllImagensInAtividade } from '../services/ImagensAtividadeRd.Service';
-import Atividade from './Atividade';
-import { getImageDimensions } from '../services/Images.Services';
+import { IRelatorioDiario } from '../interfaces/IRelatorioDiario';
 import { getAllAtivdadesInRd } from '../services/AtvidadeRd.Service';
-import { Button } from '@nextui-org/react';
+import { getAllImagensInAtividade } from '../services/ImagensAtividadeRd.Service';
 
 interface RelatorioDiarioPDFProps {
   relatorioDiario: IRelatorioDiario;
@@ -43,12 +40,10 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
     setAtividades(atividades)
   }
 
-  const [buffer, setBuffer] = useState<any>(null);
-
   useEffect(() => {
     const buffer = "/src/app/assets/logo preta.jpg";
     const base64 = Buffer.from(buffer).toString("base64");
-    setBuffer(base64);
+  
   }, [atividades])
 
   return (
@@ -56,7 +51,7 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
       <Page size="A4" style={styles.body} wrap>
 
           <View style={{ display: "flex", width: "100%", flexDirection: "row", justifyContent: "space-between"}}>
-            <Image style={{ width: "120px", height: "60px", marginLeft: 10, marginTop: 20 }} src={logoBase64} />
+            <Image style={{ width: "150px", height: "60px", marginLeft: 10, marginTop: 20 }} src={logoBase64} />
             <View style={{ display: "flex", flexDirection: "column", width: "50%", marginRight: 25, marginLeft: 10, marginTop: 10, }}>
               <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Master Elétrica Comércio e Serviço LTDA</Text>
               <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>35.051.479/0001-70</Text>
@@ -94,17 +89,21 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
                   <View style={styles.imageContainer}>
                     { atividade.imagensAtividades && atividade.imagensAtividades.map((imagem: IImagemAtividadeRd, imgIndex: number) => (
                       <>
-                      <Image
-                        key={imagem.id}
-                        style={[
-                          styles.image,
-                          atividade.imagensAtividades.length % 2 !== 0 && imgIndex === atividade.imagensAtividades.length - 1
-                          ? styles.centeredImage
-                          : {}
-                        ]}
-                        src={imagem.urlImagem}
-                      />
-                    
+
+                   
+                        <Image
+                          key={imagem.id}
+                          style={[
+                            styles.image,
+                            atividade.imagensAtividades.length % 2 !== 0 && imgIndex === atividade.imagensAtividades.length - 1
+                            ? styles.centeredImage
+                            : {}
+                          ]}
+                          src={imagem.urlImagem}
+                        />
+                        {/* <Text style={{fontWeight: "bold", fontSize: 10,textAlign:"center"}}>{dayjs(imagem.dataAdicao).format("DD/MM/YYYY [as] HH:mm:ss").toString()}</Text> */}
+           
+                  \
                     </>
                     ))}
                   </View>
@@ -149,7 +148,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     marginBottom: 10,
   },
   image: {
