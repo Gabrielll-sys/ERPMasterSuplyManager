@@ -30,6 +30,7 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
   }, []);
 
   const getAllImagesFromAtividades = async () => {
+    
     const atividades = await getAllAtivdadesInRd(relatorioDiario.id)
     
     for (let atividade of atividades) {
@@ -126,7 +127,7 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
 
 const styles = StyleSheet.create({
   body: {
-    paddingTop: 5,
+    paddingTop: 2,
     paddingBottom: 65,
     paddingHorizontal: 25,
 
@@ -149,11 +150,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-evenly",
-    marginBottom: 10,
+    marginBottom: 1,
   },
   image: {
     width: "48%",
-    height: 280,
+    height: 260,
     marginBottom: 10,
     borderRadius:"6px"
 

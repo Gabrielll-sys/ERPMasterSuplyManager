@@ -91,7 +91,8 @@ namespace MasterErp.Services
 
                 rd.Contato = model.Contato;
                 
-
+                rd.Empresa = model.Empresa;
+                
 
                 await _relatorioDiarioRepository.UpdateAsync(rd);
 

@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import dayjs from 'dayjs';
 
 import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
-import IconPlus from '@/app/assets/icons/IconPlus';
+import IconPlusSquare from '@/app/assets/icons/IconPlus';
 import Atividade from '@/app/componentes/Atividade';
 import RelatorioDiarioPDF from '@/app/componentes/RelatorioDiarioPDF';
 import { IAtividadeRd } from "@/app/interfaces/IAtividadeRd";
@@ -94,18 +94,14 @@ const getAtividades = async(id:number)=>{
     setAtividadesInRd(res)
 }
 
-const finalizarRelatorioDiario = async() =>{
+const handleKeyDown =async (event: React.KeyboardEvent<HTMLInputElement>) => {
+   
+    if (event.key === "Enter") {
 
-    const res = await updateFinishRelatorioDiario(params.reportId)
+      await handleUpdateRelatorioDiario()
 
-    if ( res == 200) {
-        setOpenSnackBar(true);
-        setSeveridadeAlert("success");
-        setMessageAlert("Relatório Diário Fechado");
     }
-
-}
-
+  };
 const handleCreateaAtividade = async ()=>{
 
         const atividadeRd:IAtividadeRd = {
@@ -124,9 +120,9 @@ const handleCreateaAtividade = async ()=>{
 }
 
 const handleDeleteAtividade = async(id:number)=>{
-    
+
     const imagens :IImagemAtividadeRd []= await getAllImagensInAtividade(id)
- 
+    
     //Caso o usuário deleta a atividade Direto ,sem deletar as imagens,ira iterar sobre todas as imagens daquela atiivdade antes de deletá-la e apagar as imagens do azure
 
     if(imagens.length > 1 )
@@ -137,7 +133,8 @@ const handleDeleteAtividade = async(id:number)=>{
 
     }
     else{
-        await deleteImagemAtividadeRd(imagens[0].id)
+        
+        if(imagens.length) await deleteImagemAtividadeRd(imagens[0].id) 
         const res = await deleteAtividadeRd(id)
 
         if(res)
@@ -210,6 +207,8 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
          label = "Cliente"
         labelPlacement='outside'
         value={empresa}
+        onKeyDown={handleKeyDown}
+        onBlur={handleUpdateRelatorioDiario}
         className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px] self-center"
         onValueChange={setEmpresa}
 
@@ -223,13 +222,11 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
       />
     </PDFViewer>
       )} */}
-        <div className='flex flex-row gap-4'>
-        <Button  onPress={handleUpdateRelatorioDiario} className='bg-master_black max-sm:w-[70%] md:w-[80%] mx-auto text-white rounded-md font-bold text-base  '>
-            Atualizar Relatório
-        </Button>
+        <div className='flex flex-row justify-center'>
+
         { !relatorioDiario?.isFinished && (
 
-        <Button  onPress={onOpen} className='bg-master_black max-sm:w-[50%] md:w-[80%] mx-auto text-white rounded-md font-bold text-base  '>
+        <Button  onPress={onOpen} className='bg-master_black max-sm:w-[70%] md:w-[80%] mx-auto text-white rounded-md font-bold text-base  '>
             Fechar Relatório
         </Button>
         )}
@@ -241,20 +238,16 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                 { !relatorioDiario?.isFinished && (
                     <>
 
-                <Input
-                    label = "Atividade"
-                    labelPlacement='outside'
-                    value={descricaoAtividade}
-                    className="border-1 border-black rounded-md shadow-sm shadow-black mx-auto w-[250px]"
-                    onValueChange={setDescricaoAtividade}
-                    endContent={
-                        <Button isDisabled={!descricaoAtividade} className='bg-transparent ' onPress={handleCreateaAtividade}>
-
-                            <IconPlus/>
-                        </Button>
-                }
-                />
-               
+                    <div className='flex flex-row items-center justify-center gap-4'>
+                    <Input
+                        label="Atividade"
+                        labelPlacement='outside'
+                        value={descricaoAtividade}
+                        className="border-1 border-black rounded-md shadow-sm shadow-black w-[250px]"
+                        onValueChange={setDescricaoAtividade}
+                    />
+                    <IconPlusSquare className=' cursor-pointer mt-6' height={"1.5em"} width={"1.5em"} onClick={handleCreateaAtividade} />
+                    </div>
                     </>
                 )}
 

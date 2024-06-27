@@ -15,7 +15,7 @@ import { deleteImageFromAzure, getImageDimensions, uploadImageToAzure } from '..
 
 
 //@ts-ignore
-const Atividade = ({ atividade, onUpdate, onDelete, isFinished }) => {
+const Atividade = ({ atividade, onUpdate, onDelete, isFinished}) => {
   const [imageModal, setImageModal] = useState<IImagemAtividadeRd>();
   const [widthImageModal, setWidthImageModal] = useState<number>(0);
   const [heightImageModal, setHeightImageModal] = useState<number>(0);
@@ -28,6 +28,7 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished }) => {
   const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
   const [messageAlert, setMessageAlert] = useState<string>();
   const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
+  const[blockButton,setBlockButton] = useState<boolean>(false)
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -53,12 +54,24 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished }) => {
 
  
   const handleDeleteAtividade = (id: number) => {
+    setBlockButton(true)
+
+    setTimeout(()=>{
+
+    },6000)
     onDelete(id);
   };
 
   const handleDeleteImagemAtividade = async () => {
+
+    setBlockButton(true)
     await deleteImageFromAzure(imageModal?.urlImagem);
     await deleteImagemAtividadeRd(imageModal?.id);
+
+    setTimeout(()=>{
+      setBlockButton(false)
+    },2000)
+
     getImages();
   };
 
@@ -93,7 +106,7 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished }) => {
       if (selectedImage.type === 'image/jpeg') {
         imageFile = await convertToPng(selectedImage);
       }
-
+    
       const imageBase64 = await readImageFromFile(imageFile);
       const urlImagem = await uploadImageToAzure(imageBase64, imageFile.name);
       await handleImageUploadResponse(urlImagem);
@@ -128,14 +141,15 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished }) => {
   return (
     <>
       <div className="p-4">
-        <h2 className="text-center text-2xl font-bold mb-4">ATIVIDADE Nº {atividade.numeroAtividade}</h2>
+        <h2 className="text-center text-2xl font-bold mb-4 ">ATIVIDADE Nº {atividade.numeroAtividade}</h2>
         <div className="border p-4 rounded-lg shadow-sm">
           <div className="mb-4">
-            <label className="block text-gray-700">{atividade.descricao}</label>
+            <label className="block text-gray-700 ml-2">{atividade.descricao}</label>
             <Input
-              className='bg-transparent w-full mt-2'
-              isReadOnly={isFinished}
+              className='bg-transparent w-[250px] mt-2'
+
               value={descricao}
+              isDisabled={isFinished}
               onValueChange={setDescricao}
               onKeyDown={handleKeyDown}
               onBlur={()=>onUpdate(atividade, checkboxStatus, observacoes, descricao)}
@@ -143,7 +157,7 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished }) => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700">Status:</label>
+            <label className="block text-gray-700 mb-4 ml-2">Status:</label>
             <div className="flex md:flex-row gap-4 max-sm:flex-col ">
               <Checkbox color="success"
                 isReadOnly={isFinished}
@@ -171,15 +185,18 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished }) => {
           <div className="mb-4">
             <label className="block text-gray-700">Observações Sobre a Atividade:</label>
             <Textarea
-              isReadOnly={isFinished}
+              isDisabled={isFinished}
               placeholder="Observações Sobre a Atividade"
-              className="w-full mt-2 p-3 rounded-base bg-transparent shadow-sm"
+              className="w-full mt-2 p-3 rounded-sm bg-transparent shadow-sm"
               rows={5}
               value={observacoes}
               onValueChange={setObservacoes}
               onBlur={()=>onUpdate(atividade, checkboxStatus, observacoes, descricao)}
             />
           </div>
+
+
+      {!isFinished && (
 
           <div className="flex flex-col justify-center items-center mb-4 gap-5">
           
@@ -188,6 +205,7 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished }) => {
               variant="solid"
               onPress={() => handleDeleteAtividade(atividade.id)}
               className="ml-2"
+              isDisabled={blockButton}
             >
               Deletar Atividade
             </Button>
@@ -205,6 +223,7 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished }) => {
               <IconCamera height="1.4em" width="1.4em" />
             </button>
           </div>
+      )}
 
   
 
@@ -261,7 +280,7 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished }) => {
              
             </ModalBody>
             <ModalFooter className="flex flex-row justify-between">
-              <Button color="danger" onPress={handleDeleteImagemAtividade}>Deletar Imagem</Button>
+              <Button color="danger" isDisabled={blockButton} onPress={handleDeleteImagemAtividade}>Deletar Imagem</Button>
               <Button color="danger" variant="light" onPress={()=>{onClose(),setImageModal(undefined)}}>
                              Fechar
                          </Button>

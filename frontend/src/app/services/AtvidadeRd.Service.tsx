@@ -6,7 +6,7 @@ import { IAtividadeRd } from "../interfaces/IAtividadeRd";
 
 import axios from "axios";
 
-export const getAllAtivdadesInRd = async (id:number): Promise<IAtividadeRd[]> => {
+export const getAllAtivdadesInRd = async (id:number| undefined): Promise<IAtividadeRd[]> => {
 
     return await  axios.get(`${url}/AtividadesRd/AtividadesInRd/${id}`,{headers:authHeader()})
         .then((r) => {
@@ -45,10 +45,11 @@ console.log(AtividadeRd)
 
         })
         .catch();
+        
 }
 
 export const deleteAtividadeRd = async (id:number)=>{
-
+    console.log(id)
     return await axios
         .delete(`${url}/AtividadesRd/${id}`,{headers:authHeader()})
         .then((r) => {

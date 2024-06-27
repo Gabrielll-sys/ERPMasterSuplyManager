@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MasterErp.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1d35fc3f9369d0a31db9142b9d85335ba4addb24")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3fe50c7bde27315299e45cd6defeac9e9a0c5c6e")]
 [assembly: System.Reflection.AssemblyProductAttribute("MasterErp.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MasterErp.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

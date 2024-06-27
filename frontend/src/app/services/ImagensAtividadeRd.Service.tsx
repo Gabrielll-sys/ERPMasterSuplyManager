@@ -9,7 +9,7 @@ import { deleteAllImagesFromAtividadeFromAzure } from "./Images.Services";
 
 
 
-export const getAllImagensInAtividade = async(id:number) =>{
+export const getAllImagensInAtividade = async(id:number | undefined) =>{
 
    return await axios.get(`${url}/ImagensAtividadesRd/getImagesInAtividade/${id}`)
             .then((r)=>{

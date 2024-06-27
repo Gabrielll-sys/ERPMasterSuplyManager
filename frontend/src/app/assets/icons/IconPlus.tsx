@@ -1,18 +1,19 @@
+// icon:plus-square | Ant Design Icons https://ant.design/components/icon/ | Ant Design
 import * as React from "react";
 
-function IconPlus(props: React.SVGProps<SVGSVGElement>) {
+function IconPlusSquare(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
-      viewBox="0 0 580 1000"
+      viewBox="0 0 1024 1024"
       fill="currentColor"
-      
       height="1em"
       width="1em"
       {...props}
     >
-      <path d="M550 450c20 0 30 16.667 30 50s-10 50-30 50H340v210c0 20-16.667 30-50 30s-50-10-50-30V550H30c-20 0-30-16.667-30-50s10-50 30-50h210V240c0-20 16.667-30 50-30s50 10 50 30v210h210" />
+      <path d="M328 544h152v152c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V544h152c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8H544V328c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v152H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8z" />
+      <path d="M880 112H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zm-40 728H184V184h656v656z" />
     </svg>
   );
 }
 
-export default IconPlus;
+export default IconPlusSquare;
