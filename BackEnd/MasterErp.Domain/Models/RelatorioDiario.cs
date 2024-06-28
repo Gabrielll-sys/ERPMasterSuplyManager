@@ -14,7 +14,9 @@ public class RelatorioDiario
     public string? Empresa { get; set; }
 
     public string? Contato { get; set; }
-
+    public string? Cnpj { get; set; }
+    public string? Telefone { get; set; }
+    public string? Endereco { get; set; }
 
     public DateTime? HorarioAbertura { get; set; }
     
@@ -28,7 +30,10 @@ public class RelatorioDiario
     public RelatorioDiario(string? responsavelAbertura)
     {
         ResponsavelAbertura = responsavelAbertura;
-        Contato = "Sem Contato";
+        Contato = "-";
+        Empresa = "-";
+        Telefone = "-";
+        Cnpj = "-";
         HorarioAbertura = DateTime.UtcNow.AddHours(-3);;
         isFinished = false;
     }

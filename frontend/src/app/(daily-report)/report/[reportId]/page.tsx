@@ -30,6 +30,7 @@ import {
 } from "@/app/services/RelatorioDiario.Services";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import { PDFDownloadLink } from '@react-pdf/renderer';
+import { ProgressBar } from '@/app/componentes/ProgressBar';
 
 
 
@@ -42,21 +43,23 @@ export default function Report({params}:any){
     const [currentUser, setCurrentUser] = useState<any>(null);
     const conditionsRoles = currentUser?.role == "Administrador" || currentUser?.role == "Diretor" || currentUser?.role == "SuporteTecnico"
     const[empresa,setEmpresa] = useState<string>("")
+    const [contato, setContato] = useState<string>('');
+    const [cnpj, setCnpj] = useState<string>('');
+    const [telefone, setTelefone] = useState<string>('');
+    const [endereco, setEndereco] = useState<string>('');
+  
     const [descricaoAtividade,setDescricaoAtividade] = useState<string>("");
     const [atividadesInRd,setAtividadesInRd] = useState<IAtividadeRd[]>([])
-    const status : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Cartão De Débito"];
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [image,setImage] = useState<File[]>([]);
     const [openSnackBar, setOpenSnackBar] = useState(false);
     const [messageAlert, setMessageAlert] = useState<string>();
     const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
     const [relatorioDiario,setRelatorioDiario] =  useState<IRelatorioDiario | any>()
-    const [atividadeRdEditing,setAtividadeRdEditing] = useState<IAtividadeRd>()
-    const letraPlanilha : string[] = ['A','B','C','D','E']
-    const [width,setWidth] = useState<string>("1200")
+    const[delayNovaAtividade,setDelayNovaAtividade] = useState<boolean>()
     var semana = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
- 
-  
+
+    const completePercentage =30
   
    
     let date = dayjs()
@@ -83,9 +86,12 @@ export default function Report({params}:any){
 
 const getRelatorioDiarioById =async (id:number)=>
     {
-        const res = await getRelatorioDiario(id)
-        console.log(res)
+        const res  = await getRelatorioDiario(id)
         setEmpresa (res.empresa)
+        setContato(res.contato)
+        setTelefone(res.telefone)
+        setEndereco(res.endereco)
+        setCnpj(res.cnpj)
         setRelatorioDiario(res)
     }
 const getAtividades = async(id:number)=>{
@@ -104,6 +110,7 @@ const handleKeyDown =async (event: React.KeyboardEvent<HTMLInputElement>) => {
   };
 const handleCreateaAtividade = async ()=>{
 
+    setDelayNovaAtividade(true)
         const atividadeRd:IAtividadeRd = {
             descricao:descricaoAtividade,
             relatorioRdId: relatorioDiario.id,
@@ -117,6 +124,9 @@ const handleCreateaAtividade = async ()=>{
             await getAtividades(relatorioDiario.id)
             setDescricaoAtividade("")
         }
+        setTimeout(()=>{
+        setDelayNovaAtividade(false)
+        },1200)
 }
 
 const handleDeleteAtividade = async(id:number)=>{
@@ -153,9 +163,14 @@ const handleUpdateRelatorioDiario = async()=>{
 
     const rd: IRelatorioDiario = {
         id:relatorioDiario.id,
-        empresa:empresa,
+        empresa:empresa.trim(),
+        contato:contato.trim(),
+        cnpj:cnpj.trim(),
+        telefone:telefone.trim(),
+        endereco:endereco.trim(),
         responsavelAbertura:relatorioDiario.responsavelAbertura
     }
+    console.log(rd)
     const res = await updateRelatorioDiario(rd)
 
     if (res == 200){
@@ -202,17 +217,50 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
     <h2 className='text-center max-sm:text-base md:text-2xl '>Status: {relatorioDiario?.isFinished?"Relatório Concluído":"Relatório Em Análise"}</h2>
     <div className='flex flex-col gap-8 self-center itens-center justify-center  '>
 
+        {/* <ProgressBar progress = {completePercentage}/> */}
 
-    <Input
-         label = "Cliente"
-        labelPlacement='outside'
-        value={empresa}
-        onKeyDown={handleKeyDown}
-        onBlur={handleUpdateRelatorioDiario}
-        className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px] self-center"
-        onValueChange={setEmpresa}
-
-      />
+    <div className='flex flex-col gap-4'>
+        <div className='flex flex-row gap-4 '>
+            <Input
+                 label = "Cliente"
+                labelPlacement='outside'
+                value={empresa}
+                onKeyDown={handleKeyDown}
+                onBlur={handleUpdateRelatorioDiario}
+                className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px] self-center"
+                onValueChange={setEmpresa}
+              />
+            <Input
+                 label = "Endereço"
+                labelPlacement='outside'
+                value={endereco}
+                onKeyDown={handleKeyDown}
+                onBlur={handleUpdateRelatorioDiario}
+                className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px] self-center"
+                onValueChange={setEndereco}
+              />
+        </div>
+        <div className='flex flex-row gap-4'>
+            <Input
+                 label = "CNPJ"
+                labelPlacement='outside'
+                value={cnpj}
+                onKeyDown={handleKeyDown}
+                onBlur={handleUpdateRelatorioDiario}
+                className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px] self-center"
+                onValueChange={setCnpj}
+              />
+            <Input
+                 label = "Telefone"
+                labelPlacement='outside'
+                value={telefone}
+                onKeyDown={handleKeyDown}
+                onBlur={handleUpdateRelatorioDiario}
+                className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px] self-center"
+                onValueChange={setTelefone}
+              />
+        </div>
+    </div>
 
       {/* {relatorioDiario  && (
 
@@ -224,7 +272,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
       )} */}
         <div className='flex flex-row justify-center'>
 
-        { !relatorioDiario?.isFinished && (
+        { conditionsRoles && !relatorioDiario?.isFinished && (
 
         <Button  onPress={onOpen} className='bg-master_black max-sm:w-[70%] md:w-[80%] mx-auto text-white rounded-md font-bold text-base  '>
             Fechar Relatório
@@ -246,7 +294,10 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                         className="border-1 border-black rounded-md shadow-sm shadow-black w-[250px]"
                         onValueChange={setDescricaoAtividade}
                     />
-                    <IconPlusSquare className=' cursor-pointer mt-6' height={"1.5em"} width={"1.5em"} onClick={handleCreateaAtividade} />
+                    {!delayNovaAtividade && (
+
+                    <IconPlusSquare  className=' cursor-pointer mt-6' height={"1.5em"} width={"1.5em"} onClick={handleCreateaAtividade} />
+                    )}
                     </div>
                     </>
                 )}
@@ -260,7 +311,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                         >
                             <PDFDownloadLink document={<RelatorioDiarioPDF
                                 relatorioDiario = {relatorioDiario}
-                    
+                                atividadesRd = {atividadesInRd}
                             />} fileName={`Relatorio Diário Nº${relatorioDiario.id}.pdf`}>
                                 <div className='flex flex-row gap-2'>
                                 <IconFileEarmarkPdf  height="1.3em" width="1.3em" />

@@ -1433,7 +1433,7 @@ namespace MasterErp.Api.Controllers;
                 else
                 {
 
-                    if(descricao.ToUpper() == "TUDO")
+                    if(string.Equals(descricao,"tudo",StringComparison.OrdinalIgnoreCase))
                     {
                        queryMaterial = queryMaterial
                             .OrderByDescending(x => x.Id)

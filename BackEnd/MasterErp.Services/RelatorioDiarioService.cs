@@ -93,6 +93,12 @@ namespace MasterErp.Services
                 
                 rd.Empresa = model.Empresa;
                 
+                rd.Cnpj = model.Cnpj;
+
+                rd.Endereco = model.Endereco;
+
+                rd.Telefone = model.Telefone;
+                
 
                 await _relatorioDiarioRepository.UpdateAsync(rd);
 

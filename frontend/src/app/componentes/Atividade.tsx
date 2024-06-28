@@ -142,7 +142,7 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished}) => {
     <>
       <div className="p-4">
         <h2 className="text-center text-2xl font-bold mb-4 ">ATIVIDADE Nº {atividade.numeroAtividade}</h2>
-        <div className="border p-4 rounded-lg shadow-sm">
+        <div className="border p-4 rounded-lg shadow-sm flex flex-col gap-6">
           <div className="mb-4">
             <label className="block text-gray-700 ml-2">{atividade.descricao}</label>
             <Input
@@ -180,7 +180,7 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished}) => {
                 Concluída
               </Checkbox>
             </div>
-          </div>
+          </div>  
 
           <div className="mb-4">
             <label className="block text-gray-700">Observações Sobre a Atividade:</label>
@@ -228,7 +228,7 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished}) => {
   
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {imagesInAtividades?.map((image) => (
+            { imagesInAtividades?.map((image) => (
               <div
                 key={image.id}
                 className="relative flex justify-center items-center bg-gray-200 rounded-lg shadow-md overflow-hidden"
@@ -242,8 +242,8 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished}) => {
               >
               
                 <Image
-                  src={image.urlImagem}
-                  alt={image.descricao}
+                  src={ image.urlImagem != undefined ?image.urlImagem:""}
+                  alt={image.descricao != undefined ?image.descricao:""}
                   layout="fill"
                   objectFit="cover"
                   className="cursor-pointer"
@@ -261,7 +261,7 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished}) => {
             <ModalBody className="flex flex-col items-center justify-center relative">
               {imageModal ? (
                 <Image
-                  src={imageModal?.urlImagem}
+                  src={imageModal.urlImagem != undefined ?imageModal.urlImagem:""}
                   alt="Imagem da Atividade"
                   width={widthImageModal}
                   height={heightImageModal}

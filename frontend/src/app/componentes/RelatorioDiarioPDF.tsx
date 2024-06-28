@@ -8,11 +8,13 @@ import { IImagemAtividadeRd } from '../interfaces/IImagemAtividadeRd';
 import { IRelatorioDiario } from '../interfaces/IRelatorioDiario';
 import { getAllAtivdadesInRd } from '../services/AtvidadeRd.Service';
 import { getAllImagensInAtividade } from '../services/ImagensAtividadeRd.Service';
+import { getRelatorioDiario } from '../services/RelatorioDiario.Services';
 
 interface RelatorioDiarioPDFProps {
   relatorioDiario: IRelatorioDiario;
+  atividadesRd:IAtividadeRd[]
 }
-const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario }) => {
+const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario,atividadesRd }) => {
 
   const [key, setKey] = useState(Date.now());
   const [imagensRd, setImagensRd] = useState<IImagemAtividadeRd[]>([])
@@ -29,6 +31,17 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
 
   }, []);
 
+  useEffect(() => {
+
+
+    const getImages = async () => {
+      await getAllImagesFromAtividades()
+    }
+
+    getImages()
+
+  }, [atividadesRd]);
+ 
   const getAllImagesFromAtividades = async () => {
     
     const atividades = await getAllAtivdadesInRd(relatorioDiario.id)
@@ -65,15 +78,16 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
             </View>
           </View>
           <View style={{display:"flex",flexDirection:"row",justifyContent:"space-between",width:"90%",marginLeft:"10px",marginTop:"10px"}}>
-            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Cliente {relatorioDiario.contato}</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Cliente: {relatorioDiario.empresa}</Text>
             <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>CNPJ:345634565356</Text>
           </View>
           <View style={{display:"flex",flexDirection:"row",justifyContent:"space-between",width:"90%",marginLeft:"10px",marginTop:"6px"}}>
-            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Endereço:Rua Jaime Carlos Afonso Teixeira,Alto Bela Vista</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Endereço:{relatorioDiario.endereco}</Text>
             <View style={{display:"flex",flexDirection:"row",justifyContent:"space-between",gap:2}}>
-              <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Contato:Hilas</Text>
-              <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Telefone:9987727256</Text>
+              
+              <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Telefone:{relatorioDiario.telefone}</Text>
             </View>
+            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Contato:{relatorioDiario.contato}</Text>
           </View>
           <View style={{display:"flex",flexDirection:"row",justifyContent:"space-between",width:"90%",marginLeft:"10px",marginTop:"6px"}}>
 
@@ -96,7 +110,7 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
                           key={imagem.id}
                           style={[
                             styles.image,
-                            atividade.imagensAtividades.length % 2 !== 0 && imgIndex === atividade.imagensAtividades.length - 1
+                           atividade.imagensAtividades!=undefined &&  atividade.imagensAtividades.length % 2 !== 0 && imgIndex === atividade.imagensAtividades.length - 1
                             ? styles.centeredImage
                             : {}
                           ]}
