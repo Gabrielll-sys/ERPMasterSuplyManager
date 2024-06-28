@@ -13,8 +13,8 @@ import dayjs from 'dayjs';
 export default function Reports(){
   const[numeroOrcamento,setNumeroOrcamento] = useState<string>("")
   const[relatoriosDiarios,setRelatorioDiarios] = useState<IRelatorioDiario[]>()
-
-
+  var semana = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
+  var dataAtual = new Date();
     useEffect(()=>{
         getAll()
     },[])
@@ -54,7 +54,7 @@ return(
         <div className="flex flex-col items-center pb-4">
       
           <h5 className="mb-1 text-xl font-xl mt-2 dark:text-white">Relatório Diário Nº {relatorioDiario.id}</h5>
-          <span className="text-lg mt-2">Data Abertura:{dayjs(relatorioDiario.horarioAbertura).format("DD/MM/YYYY HH:mm:ss")}</span>
+          <span className="text-lg mt-2">Data Abertura:{dayjs(relatorioDiario.horarioAbertura).format("DD/MM/YY")} {semana[dataAtual.getDay()]}</span>
           <span className="text-lg mt-2">Status:{relatorioDiario.isFinished?"Relatório Concluído":"Relatório Em Análise"}</span>
           <div className="mt-4 flex space-x-3 lg:mt-6">
             <p

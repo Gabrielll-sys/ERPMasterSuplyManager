@@ -78,20 +78,18 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
             </View>
           </View>
           <View style={{display:"flex",flexDirection:"row",justifyContent:"space-between",width:"90%",marginLeft:"10px",marginTop:"10px"}}>
-            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Cliente: {relatorioDiario.empresa}</Text>
-            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>CNPJ:345634565356</Text>
+
+            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5,lineHeight:1.5 }}>CLIENTE: {relatorioDiario.empresa} | CNPJ: {relatorioDiario.cnpj} | Endereço:{relatorioDiario.endereco} </Text>
+    
           </View>
           <View style={{display:"flex",flexDirection:"row",justifyContent:"space-between",width:"90%",marginLeft:"10px",marginTop:"6px"}}>
-            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Endereço:{relatorioDiario.endereco}</Text>
-            <View style={{display:"flex",flexDirection:"row",justifyContent:"space-between",gap:2}}>
-              
-              <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Telefone:{relatorioDiario.telefone}</Text>
-            </View>
-            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Contato:{relatorioDiario.contato}</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 2 }}>CONTATO:{relatorioDiario.contato} | TELEFONE:{relatorioDiario.telefone}</Text>
+            
+        
           </View>
           <View style={{display:"flex",flexDirection:"row",justifyContent:"space-between",width:"90%",marginLeft:"10px",marginTop:"6px"}}>
 
-            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>Atendente:Gabriel</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>ATENDENTE:Gabriel</Text>
             
           </View>
           <View style={{ marginTop: 10, border: "solid", borderTop: "1px", width: "98%" }}>

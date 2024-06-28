@@ -29,7 +29,7 @@ import {
     updateRelatorioDiario
 } from "@/app/services/RelatorioDiario.Services";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import { PDFDownloadLink } from '@react-pdf/renderer';
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import { ProgressBar } from '@/app/componentes/ProgressBar';
 
 
@@ -163,8 +163,8 @@ const handleUpdateRelatorioDiario = async()=>{
 
     const rd: IRelatorioDiario = {
         id:relatorioDiario.id,
-        empresa:empresa.trim(),
-        contato:contato.trim(),
+        empresa:empresa.toUpperCase().trim(),
+        contato:contato.toUpperCase().trim(),
         cnpj:cnpj.trim(),
         telefone:telefone.trim(),
         endereco:endereco.trim(),
@@ -262,14 +262,14 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
         </div>
     </div>
 
-      {/* {relatorioDiario  && (
+      {relatorioDiario  && (
 
        <PDFViewer width="1500" height="600">
       <RelatorioDiarioPDF
       relatorioDiario = {relatorioDiario}
       />
     </PDFViewer>
-      )} */}
+      )}
         <div className='flex flex-row justify-center'>
 
         { conditionsRoles && !relatorioDiario?.isFinished && (
