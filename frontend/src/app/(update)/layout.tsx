@@ -6,7 +6,7 @@ export default function UpdateLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="mx-auto pb-20">
+  return <div className="mx-auto pb-40">
     
     {children}
     <Footer/>

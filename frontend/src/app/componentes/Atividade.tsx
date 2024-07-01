@@ -15,7 +15,7 @@ import { deleteImageFromAzure, getImageDimensions, uploadImageToAzure } from '..
 
 
 //@ts-ignore
-const Atividade = ({ atividade, onUpdate, onDelete, isFinished}) => {
+const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished}) => {
   const [imageModal, setImageModal] = useState<IImagemAtividadeRd>();
   const [widthImageModal, setWidthImageModal] = useState<number>(0);
   const [heightImageModal, setHeightImageModal] = useState<number>(0);
@@ -32,6 +32,7 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished}) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    
     getImages();
   }, []);
 
@@ -65,7 +66,7 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished}) => {
   const handleDeleteImagemAtividade = async () => {
 
     setBlockButton(true)
-    await deleteImageFromAzure(imageModal?.urlImagem);
+    await deleteImageFromAzure(imageModal?.urlImagem,"images");
     await deleteImagemAtividadeRd(imageModal?.id);
 
     setTimeout(()=>{
@@ -76,6 +77,7 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished}) => {
   };
 
   const readImageFromFile = (file: File): Promise<string> => {
+
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -106,9 +108,11 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished}) => {
       if (selectedImage.type === 'image/jpeg') {
         imageFile = await convertToPng(selectedImage);
       }
-    
+      
+      
       const imageBase64 = await readImageFromFile(imageFile);
-      const urlImagem = await uploadImageToAzure(imageBase64, imageFile.name);
+      const urlImagem = await uploadImageToAzure(imageBase64, imageFile.name,"images");
+
       await handleImageUploadResponse(urlImagem);
     }
   };
@@ -141,7 +145,7 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished}) => {
   return (
     <>
       <div className="p-4">
-        <h2 className="text-center text-2xl font-bold mb-4 ">ATIVIDADE Nº {atividade.numeroAtividade}</h2>
+        <h2 className="text-center max-md-text-2xl max-sm:text-[20px] font-bold mb-4 ">ATIVIDADE Nº {atividade.numeroAtividade}</h2>
         <div className="border p-4 rounded-lg shadow-sm flex flex-col gap-6">
           <div className="mb-4">
             <label className="block text-gray-700 ml-2">{atividade.descricao}</label>
@@ -280,7 +284,10 @@ const Atividade = ({ atividade, onUpdate, onDelete, isFinished}) => {
              
             </ModalBody>
             <ModalFooter className="flex flex-row justify-between">
+              {!relatorioDiario?.isFinished && (
+                
               <Button color="danger" isDisabled={blockButton} onPress={handleDeleteImagemAtividade}>Deletar Imagem</Button>
+              )}
               <Button color="danger" variant="light" onPress={()=>{onClose(),setImageModal(undefined)}}>
                              Fechar
                          </Button>

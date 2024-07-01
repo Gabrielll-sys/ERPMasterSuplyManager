@@ -106,7 +106,7 @@ import SideBarLFT from "./SideBarLFT";
                             <Dropdown className="p-2 rounded-md shadow-none border-2 border-black">
                                 <DropdownTrigger>
 
-                                    <p className="font-semibold text-white my-auto mr-6 hover:underline  max-sm:text-[15px] md:text-[23px] p-3">
+                                    <p className="font-semibold text-white my-auto mr-6 hover:underline  max-sm:text-[18px] md:text-[23px] p-3">
                                         {currentUser.userName}
                                     </p>
                                 </DropdownTrigger>

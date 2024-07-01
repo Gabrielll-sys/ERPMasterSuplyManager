@@ -1,14 +1,12 @@
 import { BlobServiceClient, BlockBlobClient, ContainerClient } from "@azure/storage-blob";
-import { IImageDimensions } from "../interfaces/IImageDimensions";
+import { IImage } from "../interfaces/IImage";
 import { IImagemAtividadeRd } from "../interfaces/IImagemAtividadeRd";
 
 const sas = process.env.NEXT_PUBLIC_AZURE_SAS
 
 const accountName = process.env.NEXT_PUBLIC_AZURE_NAME
 
-const containerName = "images"
-
-export const uploadImageToAzure = async (image:string,fileName:string) : Promise<string>  =>
+export const uploadImageToAzure = async (image:string,fileName:string,containerName:string) : Promise<string>  =>
 {
 
     const blobServiceClient = new BlobServiceClient(`https://${accountName}.blob.core.windows.net?${sas}`);
@@ -30,13 +28,12 @@ export const uploadImageToAzure = async (image:string,fileName:string) : Promise
     }
 
 
-    const urlImagem = "https://mastererpstorage.blob.core.windows.net/images/"+blockBlobClient.name;
-    console.log(urlImagem)
+    const urlImagem = `https://mastererpstorage.blob.core.windows.net/${containerName}/${blockBlobClient.name}`;
     return urlImagem
 
 }
 
-export const  deleteImageFromAzure = async (blobUrl: string | undefined) => {
+export const  deleteImageFromAzure = async (blobUrl: string | undefined,containerName:string) => {
 
     
     const blobName = extractNameBlobFromUrl(blobUrl);
@@ -64,18 +61,18 @@ export const  deleteAllImagesFromAtividadeFromAzure = async (imagens: IImagemAti
 
     for (let imagem of imagens)
       {
-        await deleteImageFromAzure(imagem.urlImagem)
+        await deleteImageFromAzure(imagem.urlImagem,"images")
       }
 
   };
 
 
 
-export async function getImageDimensions(url:string | undefined) : Promise<IImageDimensions> {
+export async function getImageDimensions(url:string | undefined) : Promise<IImage> {
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = () => {
-        resolve({ width: img.width, height: img.height });
+        resolve({ width: img.width, height: img.height,urlImagem:url });
       };
       img.onerror = (error) => {
         reject(error);

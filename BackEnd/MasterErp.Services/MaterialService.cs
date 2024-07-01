@@ -220,6 +220,7 @@ namespace MasterErp.Services
                 material.PrecoCusto = model.PrecoCusto;
                 material.PrecoVenda = model.PrecoVenda;
                 material.Markup = model.Markup;
+                material.UrlImage = model.UrlImage;
 
                 
                

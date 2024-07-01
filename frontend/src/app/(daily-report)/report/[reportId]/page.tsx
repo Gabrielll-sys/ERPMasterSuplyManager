@@ -96,7 +96,6 @@ const getRelatorioDiarioById =async (id:number)=>
     }
 const getAtividades = async(id:number)=>{
     const res = await getAllAtivdadesInRd(id)
-    console.log(res)
     setAtividadesInRd(res)
 }
 
@@ -213,21 +212,21 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
     <>
 
         <div className="justify-center flex flex-col  gap-10">
-    <h1 className='text-center max-sm:text-base md:text-2xl mt-4'>Relatório Diário Nº {relatorioDiario?.id} - Responsável : {relatorioDiario?.responsavelAbertura}</h1>
-    <h2 className='text-center max-sm:text-base md:text-2xl '>Status: {relatorioDiario?.isFinished?"Relatório Concluído":"Relatório Em Análise"}</h2>
+    <h1 className='text-center max-sm:text-[21px] md:text-2xl  mt-4 font-bold'>Relatório Diário Nº {relatorioDiario?.id} - Responsável - {relatorioDiario?.responsavelAbertura}</h1>
+    <h2 className={`text-center max-sm:text-2xl md:text-2xl font-bold ${relatorioDiario?.isFinished ?"italic":"not-italic"}`  }>Status: {relatorioDiario?.isFinished?"Relatório Concluído":"Relatório Em Análise"}</h2>
     <div className='flex flex-col gap-8 self-center itens-center justify-center  '>
 
         {/* <ProgressBar progress = {completePercentage}/> */}
 
-    <div className='flex flex-col gap-4'>
-        <div className='flex flex-row gap-4 '>
+    <div className='flex flex-col gap-4 w-[600px]'>
+        <div className='flex flex-row gap-4 max-sm:flex-wrap max-sm:justify-center w-[100%] '>
             <Input
                  label = "Cliente"
                 labelPlacement='outside'
                 value={empresa}
                 onKeyDown={handleKeyDown}
                 onBlur={handleUpdateRelatorioDiario}
-                className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px] self-center"
+                className="border-1 border-black rounded-md shadow-sm shadow-black max-md:w-[280px] max-sm:w-[300px]  self-center"
                 onValueChange={setEmpresa}
               />
             <Input
@@ -236,18 +235,18 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                 value={endereco}
                 onKeyDown={handleKeyDown}
                 onBlur={handleUpdateRelatorioDiario}
-                className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px] self-center"
+                className="border-1 border-black rounded-md shadow-sm shadow-black  max-md:w-[250px] max-sm:w-[300px] self-center"
                 onValueChange={setEndereco}
               />
         </div>
-        <div className='flex flex-row gap-4'>
+        <div className='flex flex-row max-sm:flex-wrap gap-4 max-sm:justify-center'>
             <Input
                  label = "CNPJ"
                 labelPlacement='outside'
                 value={cnpj}
                 onKeyDown={handleKeyDown}
                 onBlur={handleUpdateRelatorioDiario}
-                className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px] self-center"
+                className="border-1 border-black rounded-md shadow-sm shadow-black  max-md:w-[250px] max-sm:w-[300px] self-center"
                 onValueChange={setCnpj}
               />
             <Input
@@ -256,25 +255,25 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                 value={telefone}
                 onKeyDown={handleKeyDown}
                 onBlur={handleUpdateRelatorioDiario}
-                className="border-1 border-black rounded-md shadow-sm shadow-black  w-[200px] self-center"
+                className="border-1 border-black rounded-md shadow-sm shadow-black  max-md:w-[250px] max-sm:w-[300px] self-center"
                 onValueChange={setTelefone}
               />
         </div>
     </div>
 
-      {relatorioDiario  && (
+      {/* {relatorioDiario  && (
 
        <PDFViewer width="1500" height="600">
       <RelatorioDiarioPDF
       relatorioDiario = {relatorioDiario}
       />
     </PDFViewer>
-      )}
+      )} */}
         <div className='flex flex-row justify-center'>
 
         { conditionsRoles && !relatorioDiario?.isFinished && (
 
-        <Button  onPress={onOpen} className='bg-master_black max-sm:w-[70%] md:w-[80%] mx-auto text-white rounded-md font-bold text-base  '>
+        <Button  onPress={onOpen} className='bg-master_black max-sm:w-[60%] md:w-[30%] mx-auto text-white rounded-md font-bold text-base  '>
             Fechar Relatório
         </Button>
         )}
@@ -286,7 +285,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                 { !relatorioDiario?.isFinished && (
                     <>
 
-                    <div className='flex flex-row items-center justify-center gap-4'>
+                    <div className='flex flex-row items-center justify-center gap-4 max-sm:flex-wrap'>
                     <Input
                         label="Atividade"
                         labelPlacement='outside'
@@ -294,9 +293,9 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                         className="border-1 border-black rounded-md shadow-sm shadow-black w-[250px]"
                         onValueChange={setDescricaoAtividade}
                     />
-                    {!delayNovaAtividade && (
+                    {!delayNovaAtividade && descricaoAtividade.length != 0 && (
 
-                    <IconPlusSquare  className=' cursor-pointer mt-6' height={"1.5em"} width={"1.5em"} onClick={handleCreateaAtividade} />
+                    <IconPlusSquare   className=' cursor-pointer mt-6' height={"1.5em"} width={"1.5em"} onClick={handleCreateaAtividade} />
                     )}
                     </div>
                     </>
@@ -313,7 +312,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                                 relatorioDiario = {relatorioDiario}
                                 atividadesRd = {atividadesInRd}
                             />} fileName={`Relatorio Diário Nº${relatorioDiario.id}.pdf`}>
-                                <div className='flex flex-row gap-2'>
+                                <div className='flex flex-row gap-2 max-sm:text-sm'>
                                 <IconFileEarmarkPdf  height="1.3em" width="1.3em" />
                                 Gerar PDF do Relatório Diário
                                 </div>
@@ -327,7 +326,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                             <>
                                 {atividadesInRd.map((atividade:IAtividadeRd)=>(
 
-                                    <Atividade  key={atividade.id} atividade={atividade}onUpdate={updateAtividade} onDelete={handleDeleteAtividade} isFinished={relatorioDiario?.isFinished} />
+                                    <Atividade  key={atividade.id} relatorioDiario = {relatorioDiario} atividade={atividade}onUpdate={updateAtividade} onDelete={handleDeleteAtividade} isFinished={relatorioDiario?.isFinished} />
                                 ))}
 
                             </>

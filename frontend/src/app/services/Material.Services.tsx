@@ -84,12 +84,12 @@ return await axios
    }
 
 
-   export const updateMaterial = async(material:IMaterial,idMaterial:number)=>
+   export const updateMaterial = async(material:IMaterial)=>
    {
 
-      return  await axios.put(`${url}/Materiais/${idMaterial}`,material,{headers:authHeader()})
+      return  await axios.put(`${url}/Materiais/${material.id}`,material,{headers:authHeader()})
       .then(r=>{
-         return r.data
+         return r.status
       })
 
 

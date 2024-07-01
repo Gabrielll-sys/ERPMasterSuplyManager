@@ -11,7 +11,8 @@ markup?: string| number | null ,
 precoCusto?: number | string,
 precoVenda?: number | string,
 tensao: string,
-unidade: string
+unidade: string,
+urlImage?:string | null,
 }
 
 

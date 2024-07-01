@@ -93,7 +93,7 @@ public class RelatoriosDiariosController:ControllerBase
 
 
             }
-        s
+        
             catch (KeyNotFoundException)
             {
                 return StatusCode(StatusCodes.Status404NotFound);

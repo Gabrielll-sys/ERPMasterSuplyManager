@@ -1,18 +1,32 @@
 "use client"
-import { useRouter } from "next/navigation";
-import { Autocomplete, AutocompleteItem, Button, Input, Link } from "@nextui-org/react";
+import ArrowLeft from "@/app/assets/icons/ArrowLeft";
+import { getMaterialById, updateMaterial } from "@/app/services/Material.Services";
 import { Snackbar } from '@mui/material';
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import "dayjs/locale/pt-br";
-import { useEffect, useState } from "react";
-import ArrowLeft from "@/app/assets/icons/ArrowLeft";
-import { getMaterialById,updateMaterial } from "@/app/services/Material.Services";
+import { Autocomplete, AutocompleteItem, Button, Input, Link, useDisclosure } from "@nextui-org/react";
 import dayjs from "dayjs";
+
+import Image from "next/image";
+
+
+
+import IconCamera from "@/app/assets/icons/IconCamera";
+import { IImage } from "@/app/interfaces/IImage";
+import { deleteImageFromAzure, getImageDimensions, uploadImageToAzure } from "@/app/services/Images.Services";
+import { Modal, ModalBody, ModalContent, ModalFooter } from '@nextui-org/react';
+import imageCompression from "browser-image-compression";
+import "dayjs/locale/pt-br";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import IconArrowDownCircle from "@/app/assets/icons/IconArrowDownCircleFill";
+import IMaterial from "@/app/interfaces/IMaterial";
+import { deleteImagemAtividadeRd } from "@/app/services/ImagensAtividadeRd.Service";
 
 export default function UpdateMaterial({params}:any){
   const route = useRouter()
 
-  const[categoria,setCategoria]=useState<string>("")
+  const [widthImageModal, setWidthImageModal] = useState<number>(0);
+  const [heightImageModal, setHeightImageModal] = useState<number>(0);
   const [descricao,setDescricao] = useState<string>("")
   const [codigoInterno,setCodigoInterno] = useState<string>("")
   const [codigoFabricante,setCodigoFabricante] = useState<string>("")
@@ -21,31 +35,141 @@ export default function UpdateMaterial({params}:any){
   const [corrente,setCorrente] = useState<string>("")
   const [localizacao,setLocalizacao] = useState<string>("")
   const [ unidade,setUnidade] = useState<any>("")
-  const[dataentrada,setDataentrada] = useState<any>(undefined)
+
   const [openSnackBar,setOpenSnackBar]= useState(false)
   const [ messageAlert,setMessageAlert] = useState<string>();
   const [ severidadeAlert,setSeveridadeAlert] = useState<AlertColor>()
-   const [idCategoria,setIdCategoria] = useState<number>()
+
   const[oldCategory,setOldCategory]= useState<string>("")
-  const [materiais, setMateriais] = useState<any>([]);
+  const { isOpen, onOpen, onOpenChange,onClose } = useDisclosure();
+
   const[precoCusto,setPrecoCusto] = useState<string >()
   const[precoVenda,setPrecoVenda] = useState<string>()
   const[markup,setMarkup] = useState< string>()
+  const[imagem,setImagem] = useState<IImage>()
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [unidadeMaterial,setUnidadeMaterial] = useState<any>(["UN","RL","PC","MT","P"])
-  // const unidadeMaterial: string[] = ["UN","RL","PC","MT","P"]
   const tensoes : string[] = ["12V","24V","127V","220V","380V","440V","660V"]
   const [descricaoMaterial,setDescricaoMaterial] = useState<string>()
+  const [imageModal, setImageModal] = useState<IImage>();
  
+  const[blockButton,setBlockButton] = useState<boolean>(false)
  
  useEffect(()=>{
  
     getMaterial(params.materialId).then().catch()
-     console.log("Disparei 1 vez")
+    
 
  },[])
+ const handleImageModal = async (urlImagem: string | undefined) => {
+  const res: any = await getImageDimensions(urlImagem);
+  setWidthImageModal(res.width);
+  setHeightImageModal(res.height);
+  setImageModal(res);
+};
+
+const handleDeleteImagemMaterial = async () => {
+
+  setBlockButton(true)
+  await deleteImageFromAzure(imageModal?.urlImagem,"materiais-images");
+
+  const material = {
+    id:params.materialId,
+    codigoInterno:"",
+    codigoFabricante:codigoFabricante.trim().replace(/\s\s+/g, ' '),
+    categoria: oldCategory.trim().replace(/\s\s+/g, " "),
+    descricao:descricao.trim().replace(/\s\s+/g, ' '),
+    marca:marca.trim().replace(/\s\s+/g, ' '),
+    corrente:corrente.trim().replace(/\s\s+/g, ' '),
+    unidade:unidade,
+    tensao:tensao,
+    localizacao:localizacao.trim().replace(/\s\s+/g, ' '),
+    precoCusto:Number(precoCusto)==0?0:Number(precoCusto?.toString().replace(',','.')),
+    precoVenda:Number(precoVenda)==0?0:Number(precoVenda?.toString().replace(',','.')),
+    markup:Number(markup)==0?null:Number(markup?.toString().replace(',','.')),
+    urlImage:null
+    }
+
+   
+  await updateMaterial(material)
+
+  setTimeout(()=>{
+    setBlockButton(false)
+  },2000)
+  setImagem(undefined)
+ await getMaterial(params.materialId).then().catch()
+
+};
+
+ const readImageFromFile = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      resolve(reader.result as string);
+    };
+    reader.onerror = (error) => {
+      reject(error);
+    };
+    reader.readAsDataURL(file);
+  });
+};
+
+const convertToPng = async (file: File): Promise<File> => {
+  const options = {
+    maxSizeMb: 3,
+    maxWidthOrHeight: 2000,
+    fileType: 'image/png',
+  };
+  return await imageCompression(file, options);
+};
+
+const handleImageChange = async (event: any) => {
+  const selectedImage: File = event.target.files[0];
+
+  if (selectedImage !== undefined) {
+    let imageFile = selectedImage;
+
+    if (selectedImage.type === 'image/jpeg') {
+      imageFile = await convertToPng(selectedImage);
+    }
+  
+    const imageBase64 = await readImageFromFile(imageFile);
+    const urlImagem = await uploadImageToAzure(imageBase64, imageFile.name,"materiais-images");
+    await handleImageUploadResponse(urlImagem);
+  }
+};
+
+const handleImageUploadResponse = async (urlImagem: string) => {
+
+  const material = {
+    id:params.materialId,
+    codigoInterno:"",
+    codigoFabricante:codigoFabricante.trim().replace(/\s\s+/g, ' '),
+    categoria: oldCategory.trim().replace(/\s\s+/g, " "),
+    descricao:descricao.trim().replace(/\s\s+/g, ' '),
+    marca:marca.trim().replace(/\s\s+/g, ' '),
+    corrente:corrente.trim().replace(/\s\s+/g, ' '),
+    unidade:unidade,
+    tensao:tensao,
+    localizacao:localizacao.trim().replace(/\s\s+/g, ' '),
+    precoCusto:Number(precoCusto)==0?0:Number(precoCusto?.toString().replace(',','.')),
+    precoVenda:Number(precoVenda)==0?0:Number(precoVenda?.toString().replace(',','.')),
+    markup:Number(markup)==0?null:Number(markup?.toString().replace(',','.')),
+    urlImage:urlImagem,
+    }
 
 
+  const res=  await updateMaterial(material)
+
+
+  if (res === 200) {
+    setOpenSnackBar(true);
+    setSeveridadeAlert('success');
+    setMessageAlert('Imagem Adicionada ao Material');
+    getMaterial(params.materialId)
+  }
+};
 
  //Função para calcular o markup ja trocando as virgulas por pontos,pois a variável é string,para permitir usar , ao invés de .
  const  calcularMarkup= ()=>
@@ -67,7 +191,7 @@ export default function UpdateMaterial({params}:any){
     
   if(Number.isNaN(markupCalculado))
   {
-  console.log("FOIIII")
+ 
    setMarkup("")
 
   }
@@ -97,8 +221,8 @@ export default function UpdateMaterial({params}:any){
 
   const getMaterial = async(id:number)=>{
    const material = await getMaterialById(id)
-  console.log(material)
-setDataentrada(material.dataEntradaNF==undefined?undefined:dayjs(material.dataEntradaNF))
+
+
 setCodigoInterno(material.id)
 setUnidade(material.unidade)
 setCodigoFabricante(verifyNull(material.codigoFabricante))
@@ -113,6 +237,11 @@ setPrecoVenda(material.precoVenda == null?"0":material.precoVenda.toFixed(2))
 setMarkup(verifyNull(material.markup))
 
 setTensao(material.tensao)
+
+const image  = await getImageDimensions(material.urlImage);
+console.log(image)
+  setImagem(image)
+
   }
  
  
@@ -141,7 +270,7 @@ setTensao(material.tensao)
      }
 
      
-   const materialAtualizado =  await updateMaterial(material,id)
+   const materialAtualizado =  await updateMaterial(material)
    
      
    if (materialAtualizado){
@@ -155,8 +284,6 @@ setTensao(material.tensao)
    }
    
    
-  
- 
  
  }
  
@@ -207,7 +334,7 @@ setTensao(material.tensao)
          />
     </div>
 
-      <div className=' w-full flex flex-row justify-center mt-6 ' >
+      <div className=' w-full flex flex-row justify-center  ' >
 
            <Input
           type="number"
@@ -303,14 +430,98 @@ setTensao(material.tensao)
    
      </div>
 
-     <div className='text-center mt-12'>
+     <div className=' w-[100%] text-center mt-12 flex flex-col gap-4 items-center'>
      <Button  onPress={x=>handleUpdateMaterial(params.materialId)} 
       color='primary' 
-      variant='ghost' className=' p-6 rounded-lg font-bold text-2xl  '>
+      variant='ghost' className=' p-6 rounded-lg font-bold text-2xl w-[230px]   '>
        Atualizar Material
       </Button>
-      </div>
+      <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleImageChange}
+              className="hidden"
+            />
+            <button
+              className="bg-master_yellow text-black py-2 px-4 rounded-md items-center gap-2 hover:bg-white hover:border-1 hover:border-black flex flex-row"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              Subir Imagem
+              <IconCamera height="1.4em" width="1.4em" />
+            </button>
+            {imagem && (
+              <>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-[100%]">
+    {/* Empty div to fill the first column and create the centering effect */}
+    <div className="hidden md:block"></div>
     
+    <div
+        className="relative flex justify-center items-center bg-gray-200 rounded-lg shadow-md overflow-hidden"
+        style={{
+            width: '100%',
+            height: 350,
+        }}
+        onClick={() => {
+            onOpenChange(), handleImageModal(imagem?.urlImagem)
+        }}
+    >
+        <Image
+            src={imagem.urlImagem != undefined ? imagem.urlImagem : ""}
+            alt={`Imagem ${descricao} `}
+            layout="fill"
+            objectFit="cover"
+            className="cursor-pointer"
+        />
+    </div>
+    
+    {/* Empty div to fill the third column */}
+    <div className="hidden md:block"></div>
+</div>
+              
+              
+              
+              </>
+            )}
+      </div>
+      <Modal isOpen={isOpen } backdrop="blur" size='xl' onOpenChange={onOpenChange} >
+          <ModalContent>
+          {(onClose) => (
+                 <>
+            <ModalBody className="flex flex-col items-center justify-center relative">
+              {imageModal ? (
+                <Image
+                  src={imageModal.urlImagem != undefined ?imageModal.urlImagem:""}
+                  alt="Imagem da Atividade"
+                  width={imageModal.width}
+                  height={heightImageModal}
+                />
+              ) : (
+                <p>Carregando...</p>
+              )}
+              <a
+                               href={imageModal?.urlImagem}
+                               download={descricao}
+                                className="absolute top-2 left-2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"
+                                     >
+      
+                                     <IconArrowDownCircle height={"1.4em"} width={"1.4em"}  />
+                             </a>
+             
+            </ModalBody>
+            <ModalFooter className="flex flex-row justify-between">
+           
+              <Button color="danger" isDisabled={blockButton} onPress={handleDeleteImagemMaterial}>Deletar Imagem</Button>
+       
+              <Button color="danger" variant="light" onPress={()=>{onClose(),setImageModal(undefined)}}>
+                             Fechar
+                         </Button>
+            </ModalFooter>
+                 </>
+                             )}
+          </ModalContent>
+        </Modal>
+
      <Snackbar open={openSnackBar} autoHideDuration={3000} onClose={e=>setOpenSnackBar(false)}
       anchorOrigin={{
         vertical: 'bottom',

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MasterErp.Infraestructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c73796d321af538d6c77ff166a90d4232fbea591")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5e2a6cc8b65c7020f6387777241a3ac3738cc778")]
 [assembly: System.Reflection.AssemblyProductAttribute("MasterErp.Infraestructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MasterErp.Infraestructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
