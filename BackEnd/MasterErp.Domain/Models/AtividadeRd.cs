@@ -16,10 +16,11 @@ public class AtividadeRd
     public string? Status  { get; set; }
     
     public string? Observacoes { get; set; }
-    
+
     public int? RelatorioRdId { get; set; }
 
-    public DateTime DataAdicao { get; set; }
+     //public DateTime? DataAdicao { get; set; }
+    public DateTime? DataAtividade{ get; set; }
 
 
     [ForeignKey("RelatorioRdId")]

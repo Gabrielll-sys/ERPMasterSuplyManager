@@ -136,7 +136,7 @@ const handleDeleteAtividade = async(id:number)=>{
 
     if(imagens.length > 1 )
     {
-        console.log("foiii")
+   
         await deleteAllImagesFromAtividadeFromAzure(imagens)
          await deleteAtividadeRd(id)
 
@@ -162,14 +162,14 @@ const handleUpdateRelatorioDiario = async()=>{
 
     const rd: IRelatorioDiario = {
         id:relatorioDiario.id,
-        empresa:empresa.toUpperCase().trim(),
-        contato:contato.toUpperCase().trim(),
-        cnpj:cnpj.trim(),
-        telefone:telefone.trim(),
-        endereco:endereco.trim(),
+        empresa:empresa.toUpperCase(),
+        contato:contato.toUpperCase(),
+        cnpj:cnpj,
+        telefone:telefone,
+        endereco:endereco,
         responsavelAbertura:relatorioDiario.responsavelAbertura
     }
-    console.log(rd)
+console.log(rd)
     const res = await updateRelatorioDiario(rd)
 
     if (res == 200){

@@ -89,15 +89,15 @@ namespace MasterErp.Services
                 LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Alteração do campo de contato do Relatório Diário Nº {rd.Id} de {rd.Contato} para {model.Contato}",
                 responsavel: userName);
 
-                rd.Contato = model.Contato;
+                rd.Contato = model.Contato.Trim();
                 
-                rd.Empresa = model.Empresa;
+                rd.Empresa = model.Empresa.Trim();
                 
-                rd.Cnpj = model.Cnpj;
+                rd.Cnpj = model.Cnpj.Trim();
 
-                rd.Endereco = model.Endereco;
+                rd.Endereco = model.Endereco.Trim();
 
-                rd.Telefone = model.Telefone;
+                rd.Telefone = model.Telefone.Trim();
                 
 
                 await _relatorioDiarioRepository.UpdateAsync(rd);

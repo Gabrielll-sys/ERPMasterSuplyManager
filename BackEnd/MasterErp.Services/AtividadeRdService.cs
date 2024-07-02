@@ -39,7 +39,7 @@ public class AtividadeRdService : IAtividadeRdService
 
             model.Status = "Não Iniciada";
 
-            model.DataAdicao = DateTime.UtcNow.AddHours(-3);
+            model.DataAtividade = DateTime.UtcNow.AddHours(-3);
 
             await _atividadeRdRepository.CreateAsync(model);
 

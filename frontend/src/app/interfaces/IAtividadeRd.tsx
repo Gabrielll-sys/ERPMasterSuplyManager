@@ -8,6 +8,7 @@ export interface IAtividadeRd {
     observacoes?: string;
     numeroAtividade?:number,
     relatorioRdId?: number;
+    dataAtividade?:Date;
     relatorioDiario?: IRelatorioDiario;
     imagensAtividades?:IImagemAtividadeRd[];
 

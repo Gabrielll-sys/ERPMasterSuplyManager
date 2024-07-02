@@ -30,7 +30,10 @@ namespace MasterErp.Infraestructure.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int?>("Id"));
 
-                    b.Property<DateTime>("DataAdicao")
+                    b.Property<DateTime?>("DataAdicao")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("DataAtividade")
                         .HasColumnType("datetime");
 
                     b.Property<string>("Descricao")
@@ -52,7 +55,7 @@ namespace MasterErp.Infraestructure.Migrations
 
                     b.HasIndex("RelatorioRdId");
 
-                    b.ToTable("AtividadesRd");
+                    b.ToTable("AtividadesRd", (string)null);
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.Cliente", b =>
@@ -88,7 +91,7 @@ namespace MasterErp.Infraestructure.Migrations
 
                     b.HasIndex("OrcamentoId");
 
-                    b.ToTable("Clientes");
+                    b.ToTable("Clientes", (string)null);
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.ImagemAtividadeRd", b =>
@@ -115,7 +118,7 @@ namespace MasterErp.Infraestructure.Migrations
 
                     b.HasIndex("AtividadeRdId");
 
-                    b.ToTable("ImagensAtividadeRd");
+                    b.ToTable("ImagensAtividadeRd", (string)null);
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.Inventario", b =>
@@ -151,7 +154,7 @@ namespace MasterErp.Infraestructure.Migrations
 
                     b.HasIndex("MaterialId");
 
-                    b.ToTable("Inventarios");
+                    b.ToTable("Inventarios", (string)null);
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.Item", b =>
@@ -190,7 +193,7 @@ namespace MasterErp.Infraestructure.Migrations
 
                     b.HasIndex("OrdemServicoId");
 
-                    b.ToTable("Itens");
+                    b.ToTable("Itens", (string)null);
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.ItemNotaFiscal", b =>
@@ -225,7 +228,7 @@ namespace MasterErp.Infraestructure.Migrations
 
                     b.HasIndex("NotaFiscalId");
 
-                    b.ToTable("ItensNotaFiscal");
+                    b.ToTable("ItensNotaFiscal", (string)null);
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.ItemOrcamento", b =>
@@ -257,7 +260,7 @@ namespace MasterErp.Infraestructure.Migrations
 
                     b.HasIndex("OrcamentoId");
 
-                    b.ToTable("ItensOrcamento");
+                    b.ToTable("ItensOrcamento", (string)null);
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.LogAcoesUsuario", b =>
@@ -279,7 +282,7 @@ namespace MasterErp.Infraestructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LogAcoesUsuarios");
+                    b.ToTable("LogAcoesUsuarios", (string)null);
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.Material", b =>
@@ -334,7 +337,7 @@ namespace MasterErp.Infraestructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Materiais");
+                    b.ToTable("Materiais", (string)null);
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.NotaFiscal", b =>
@@ -365,7 +368,7 @@ namespace MasterErp.Infraestructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NotasFiscais");
+                    b.ToTable("NotasFiscais", (string)null);
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.Orcamento", b =>
@@ -432,7 +435,7 @@ namespace MasterErp.Infraestructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orcamentos");
+                    b.ToTable("Orcamentos", (string)null);
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.OrdemServico", b =>
@@ -481,7 +484,7 @@ namespace MasterErp.Infraestructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrdemServicos");
+                    b.ToTable("OrdemServicos", (string)null);
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.RelatorioDiario", b =>
@@ -527,7 +530,7 @@ namespace MasterErp.Infraestructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RelatorioDiarios");
+                    b.ToTable("RelatorioDiarios", (string)null);
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.TarefaUsuario", b =>
@@ -557,7 +560,7 @@ namespace MasterErp.Infraestructure.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("TarefaUsuarios");
+                    b.ToTable("TarefaUsuarios", (string)null);
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.Usuario", b =>
@@ -588,7 +591,7 @@ namespace MasterErp.Infraestructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuários");
+                    b.ToTable("Usuários", (string)null);
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.AtividadeRd", b =>

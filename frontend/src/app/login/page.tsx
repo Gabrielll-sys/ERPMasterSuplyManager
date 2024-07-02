@@ -52,7 +52,7 @@ export default function Login(){
       if(res == 200)
       {
           setTimeout(()=>{
-              route.push("create-material")
+              route.push("reports")
 
           },1800)
       }

@@ -50,27 +50,33 @@
             </summary>
             <param name="Id da atividadedaatividade"></param>
         </member>
-        <member name="M:MasterErp.Api.Controllers.ImagensAtivididadesRdControlller.GetAll">
+        <member name="M:MasterErp.Api.Controllers.ImagensAtividadesRdController.GetAll">
             <summary>
             Busca todos os as Imagens de das atividades
             </summary>
             <returns>Todos os materiais </returns>
         </member>
-        <member name="M:MasterErp.Api.Controllers.ImagensAtivididadesRdControlller.GetByid(System.Int32)">
+        <member name="M:MasterErp.Api.Controllers.ImagensAtividadesRdController.GetAllImagesInAtividade(System.Int32)">
+            <summary>
+            Busca todos os as Imagens de das atividades
+            </summary>
+            <returns>Todos os materiais </returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.ImagensAtividadesRdController.GetByid(System.Int32)">
             <summary>
             Obtem material por id
             </summary>
             <param name="id">Id da imamgem de uma atividade</param>
             <returns>Materiais encontrado</returns>
         </member>
-        <member name="M:MasterErp.Api.Controllers.ImagensAtivididadesRdControlller.ImagemAtividadeRd(MasterErp.Domain.Models.ImagemAtividadeRd)">
+        <member name="M:MasterErp.Api.Controllers.ImagensAtividadesRdController.ImagemAtividadeRd(MasterErp.Domain.Models.ImagemAtividadeRd)">
             <summary>
             Criar novo Imagem de Um atividade de relatório diário
             </summary>
             <param name="id">Objeto material para ser criado</param>
             <returns>Materiais criado</returns>
         </member>
-        <member name="M:MasterErp.Api.Controllers.ImagensAtivididadesRdControlller.Update(System.Int32,MasterErp.Domain.Models.ImagemAtividadeRd)">
+        <member name="M:MasterErp.Api.Controllers.ImagensAtividadesRdController.Update(System.Int32,MasterErp.Domain.Models.ImagemAtividadeRd)">
             <summary>
             Atualizar o ImagemAtividadeRd pelo Id
             </summary>
@@ -82,7 +88,7 @@
             <response code="500">Error no servidor</response>
             <returns>O material atualizado</returns>
         </member>
-        <member name="M:MasterErp.Api.Controllers.ImagensAtivididadesRdControlller.Delete(System.Int32)">
+        <member name="M:MasterErp.Api.Controllers.ImagensAtividadesRdController.Delete(System.Int32)">
             <summary>
             Deleta o material pelo id fornecido
             </summary>
@@ -287,12 +293,6 @@
             <summary>
             Controlador para gerenciar os Materias
              </summary>
-        </member>
-        <member name="M:MasterErp.Api.Controllers.MateriaisController.GetAll">
-            <summary>
-            Busca todos os materiais
-            </summary>
-            <returns>Todos os materiais </returns>
         </member>
         <member name="M:MasterErp.Api.Controllers.MateriaisController.GetMaterial(System.Int32)">
             <summary>
