@@ -207,6 +207,24 @@ namespace MasterErp.Services
 
                 }
 
+                if (model.UrlImage != material.UrlImage)
+
+                {
+                    LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Adição de Imagem a {model.Descricao}",
+                                   responsavel: userName);
+
+                    await _logAcoesUsuarioService.CreateAsync(log);
+
+                }
+                if (model.UrlImage == null && !String.IsNullOrEmpty(material.UrlImage))
+
+                {
+                    LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Remoção de Imagem do {model.Descricao}",
+                                   responsavel: userName);
+
+                    await _logAcoesUsuarioService.CreateAsync(log);
+
+                }
                 material.CodigoInterno = model.CodigoInterno.ToUpper();
                 material.CodigoFabricante = model.CodigoFabricante.ToUpper();
                 material.Descricao = model.Descricao.ToUpper();
