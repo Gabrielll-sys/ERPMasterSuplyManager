@@ -2,95 +2,71 @@ import { BlobServiceClient, BlockBlobClient, ContainerClient } from "@azure/stor
 import { IImage } from "../interfaces/IImage";
 import { IImagemAtividadeRd } from "../interfaces/IImagemAtividadeRd";
 
-const sas = process.env.NEXT_PUBLIC_AZURE_SAS
+const sas = process.env.NEXT_PUBLIC_AZURE_SAS;
+const accountName = process.env.NEXT_PUBLIC_AZURE_NAME;
 
-const accountName = process.env.NEXT_PUBLIC_AZURE_NAME
-
-export const uploadImageToAzure = async (image:string,fileName:string,containerName:string) : Promise<string>  =>
-{
-
-    const blobServiceClient = new BlobServiceClient(`https://${accountName}.blob.core.windows.net?${sas}`);
-    // @ts-ignore
-    const containerClient = await blobServiceClient.getContainerClient(containerName);
-    const blobName = `${Date.now()}-${fileName}`;
-    const blockBlobClient =await containerClient.getBlockBlobClient(blobName);
-
-    
-    const binaryImage = toArrayBuffer(image);
-
-    try {
-
-          await blockBlobClient.upload(binaryImage,image.length)
-
-        console.log('Imagem adicionada com sucesso com sucesso!');
-    } catch (err) {
-        console.error('Erro ao adicionar a imagem:', err);
-    }
-
-
-    const urlImagem = `https://mastererpstorage.blob.core.windows.net/${containerName}/${blockBlobClient.name}`;
-    return urlImagem
-
+if (!sas || !accountName) {
+  throw new Error('Azure SAS token or account name is missing.');
 }
 
-export const  deleteImageFromAzure = async (blobUrl: string | undefined,containerName:string) => {
+const blobServiceClient = new BlobServiceClient(`https://${accountName}.blob.core.windows.net?${sas}`);
 
+export const uploadImageToAzure = async (image: string, fileName: string, containerName: string): Promise<string> => {
+  try {
+    const containerClient = await blobServiceClient.getContainerClient(containerName);
+    const blobName = `${Date.now()}-${fileName}`;
+    const blockBlobClient = await containerClient.getBlockBlobClient(blobName);
     
+    const binaryImage = toArrayBuffer(image);
+    await blockBlobClient.upload(binaryImage, binaryImage.byteLength);
+    
+    console.log('Imagem adicionada com sucesso!');
+    const urlImagem = `https://${accountName}.blob.core.windows.net/${containerName}/${blockBlobClient.name}`;
+    return urlImagem;
+  } catch (err) {
+    console.error('Erro ao adicionar a imagem:', err);
+    throw err;
+  }
+}
+
+export const deleteImageFromAzure = async (blobUrl: string | undefined, containerName: string) => {
+  try {
     const blobName = extractNameBlobFromUrl(blobUrl);
-    console.log(blobName)
-
-    // @ts-ignore
-    const blobServiceClient = new BlobServiceClient(`https://${accountName}.blob.core.windows.net?${sas}`);
-    // @ts-ignore
-    const containerClient : ContainerClient = await  blobServiceClient.getContainerClient(containerName);
-    const blockBlobClient : BlockBlobClient = await containerClient.getBlockBlobClient(blobName);
-
-   
-    try {
-       const a =  await blockBlobClient.delete();
-        console.log('Imagem deletada com sucesso!');
-    } catch (err) {
-        console.error('Erro ao deletar a imagem:', err);
-    }
+    const containerClient = await blobServiceClient.getContainerClient(containerName);
+    const blockBlobClient = await containerClient.getBlockBlobClient(blobName);
+    
+    await blockBlobClient.delete();
+    console.log('Imagem deletada com sucesso!');
+  } catch (err) {
+    console.error('Erro ao deletar a imagem:', err);
+    throw err;
+  }
 };
 
-//Deleta todas as imagens de uma atividade caso o usuário delete a atividade e a mesma possuir imagens
-
-export const  deleteAllImagesFromAtividadeFromAzure = async (imagens: IImagemAtividadeRd[]) => 
-  {
-
-    for (let imagem of imagens)
-      {
-        await deleteImageFromAzure(imagem.urlImagem,"images")
-      }
-
-  };
-
-
-
-export async function getImageDimensions(url:string | undefined) : Promise<IImage> {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => {
-        resolve({ width: img.width, height: img.height,urlImagem:url });
-      };
-      img.onerror = (error) => {
-        reject(error);
-      };
-      //@ts-ignore
-      img.src = url;
-    });
+export const deleteAllImagesFromAtividadeFromAzure = async (imagens: IImagemAtividadeRd[]) => {
+  try {
+    for (let imagem of imagens) {
+      await deleteImageFromAzure(imagem.urlImagem, "images");
+    }
+  } catch (err) {
+    console.error('Erro ao deletar imagens da atividade:', err);
+    throw err;
   }
+};
 
-// Converter a base64 para um ArrayBuffer (formato binário)
-//Pega a segunda parte da string, ignorando o cabeçalho data:image/png;base64
-// const toArrayBuffer = (imagem:string)=>
-// {
+export async function getImageDimensions(url: string | undefined): Promise<IImage> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      resolve({ width: img.width, height: img.height, urlImagem: url });
+    };
+    img.onerror = (error) => {
+      reject(error);
+    };
+    img.src = url || '';
+  });
+}
 
-//  return Buffer.from(imagem.split(",")[1], 'base64')
-
-
-// }
 const toArrayBuffer = (base64: string): ArrayBuffer => {
   const binaryString = window.atob(base64.split(',')[1]);
   const len = binaryString.length;
@@ -100,9 +76,8 @@ const toArrayBuffer = (base64: string): ArrayBuffer => {
   }
   return bytes.buffer;
 };
-const extractNameBlobFromUrl = (url:string | undefined) :string =>{
-    
-    if (!url) return ""
 
-    return url?.split("/")[4] || ""
-}
+const extractNameBlobFromUrl = (url: string | undefined): string => {
+  if (!url) return "";
+  return url.split("/").pop() || "";
+};
