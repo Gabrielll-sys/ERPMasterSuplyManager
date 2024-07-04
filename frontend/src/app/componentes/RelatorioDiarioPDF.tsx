@@ -74,7 +74,7 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
             <View style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginRight: 10,width:"50%" }}>
               <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5, alignSelf: "center" }}> RELATÓRIO DIÁRIO Nº {relatorioDiario.id} </Text>
               <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}> Data de Abertura {dayjs(relatorioDiario.horarioAbertura).format("DD/MM/YYYY [as] HH:mm:ss").toString()}</Text>
-              <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>{semana[dataAtual.getDay()]}</Text>
+              <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>{semana[dayjs(relatorioDiario.horarioAbertura).day()]}</Text>
             </View>
           </View>
           <View style={{display:"flex",flexDirection:"row",justifyContent:"space-between",width:"90%",marginLeft:"10px",marginTop:"10px"}}>
