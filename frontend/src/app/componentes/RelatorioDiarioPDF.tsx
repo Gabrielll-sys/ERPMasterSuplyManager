@@ -89,7 +89,7 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
           </View>
           <View style={{display:"flex",flexDirection:"row",width:"100%",marginLeft:"10px",marginTop:"6px"}}>
 
-            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>ATENDENTE: Gabriel</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>ATENDENTE: {relatorioDiario.responsavelAbertura}</Text>
             <Text style={{ fontWeight: "bold", fontSize: 15, marginTop: 2,marginLeft:100 }}>Relatório {relatorioDiario.isFinished?"Finalizado":"Em Andamento"}</Text>
           </View>
           <View style={{ marginTop: 10, border: "solid", borderTop: "1px", width: "98%" }}>
