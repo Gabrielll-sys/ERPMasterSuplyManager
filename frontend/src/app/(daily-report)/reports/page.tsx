@@ -43,7 +43,7 @@ export default function Reports() {
                 {relatoriosDiarios != undefined && relatoriosDiarios.map((relatorioDiario: IRelatorioDiario) => (
                     <Card key={relatorioDiario.id} className="w-full max-w-xs p-5 bg-white rounded-lg shadow-lg transition transform hover:scale-105">
                         <h5 className="text-xl font-semibold mb-2 text-center">Relatório Diário Nº {relatorioDiario.id}</h5>
-                        <p className="text-center text-gray-700">Data Abertura: {dayjs(relatorioDiario.horarioAbertura).format("DD/MM/YY")} - {semana[dataAtual.getDay()]}</p>
+                        <p className="text-center text-gray-700">Data Abertura: {dayjs(relatorioDiario.horarioAbertura).format("DD/MM/YY")} - {semana[dayjs(relatorioDiario.horarioAbertura).day()]}</p>
                         <p className="text-center text-gray-700 mb-4">Status: {relatorioDiario.isFinished ? "Relatório Concluído" : "Relatório Em Análise"}</p>
                         <div className="text-center">
                             <button
