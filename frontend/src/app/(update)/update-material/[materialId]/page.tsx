@@ -174,7 +174,8 @@ const handleImageUploadResponse = async (urlImagem: string) => {
  //Função para calcular o markup ja trocando as virgulas por pontos,pois a variável é string,para permitir usar , ao invés de .
  const  calcularMarkup= ()=>
  {
-
+  
+  const PRECO_CUSTO = Number(precoCusto)
 
   const PRECO_VENDA = Number(precoVenda)
 
