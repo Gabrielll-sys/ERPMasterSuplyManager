@@ -79,7 +79,7 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
           </View>
           <View style={{display:"flex",flexDirection:"row",justifyContent:"space-between",width:"90%",marginLeft:"10px",marginTop:"10px"}}>
 
-            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5,lineHeight:1.5 }}>CLIENTE: {relatorioDiario.empresa} | CNPJ: {relatorioDiario.cnpj} | Endereço:{relatorioDiario.endereco} </Text>
+            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5,lineHeight:1.5 }}>CLIENTE: {relatorioDiario.empresa} | CNPJ: {relatorioDiario.cnpj} | Endereço:{relatorioDiario.endereco}  </Text>
     
           </View>
           <View style={{display:"flex",flexDirection:"row",justifyContent:"space-between",width:"90%",marginLeft:"10px",marginTop:"6px"}}>
@@ -90,9 +90,16 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
           <View style={{display:"flex",flexDirection:"row",width:"100%",marginLeft:"10px",marginTop:"6px"}}>
 
             <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>ATENDENTE: {relatorioDiario.responsavelAbertura}</Text>
-            <Text style={{ fontWeight: "bold", fontSize: 15, marginTop: 2,marginLeft:100 }}>Relatório {relatorioDiario.isFinished?"Finalizado":"Em Andamento"}</Text>
+            {relatorioDiario.isFinished ? (
+            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 2,marginLeft:80,fontStyle:"italic"} }>Relatório Finalizado</Text>
+
+            ):(
+              <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 2,marginLeft:80,fontStyle: "italic"} }>Relatório Finalizado</Text>
+
+            )}
+           
           </View>
-          <View style={{ marginTop: 10, border: "solid", borderTop: "1px", width: "98%" }}>
+          <View style={{ marginTop: 10, border: "solid", borderTop: "1px", width: "100%" }}>
           </View>
           <View style={{ width: "100%" }}>
             {atividades.map((atividade: IAtividadeRd, index: number) => (

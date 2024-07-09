@@ -28,7 +28,7 @@ namespace MasterErp.Api.Controllers;
     {
         private readonly SqlContext _context;
         private readonly IMaterialService _materialService;
-
+   
         public MateriaisController(SqlContext context,IMaterialService materialService)
         {
             _context = context;
@@ -42,6 +42,7 @@ namespace MasterErp.Api.Controllers;
         /// Busca todos os materiais
         /// </summary>
         /// <returns>Todos os materiais </returns>
+        
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -56,7 +57,7 @@ namespace MasterErp.Api.Controllers;
   
 
         }
-
+    
         /// <summary>
         /// Obtem material por id
         /// </summary>

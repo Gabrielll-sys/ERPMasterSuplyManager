@@ -261,14 +261,14 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
         </div>
     </div>
 
-      {/* {relatorioDiario  && (
+      {relatorioDiario  && (
 
        <PDFViewer width="1500" height="600">
       <RelatorioDiarioPDF
       relatorioDiario = {relatorioDiario}
       />
     </PDFViewer>
-      )} */}
+      )}
         <div className='flex flex-row justify-center'>
 
         { conditionsRoles && !relatorioDiario?.isFinished && (
