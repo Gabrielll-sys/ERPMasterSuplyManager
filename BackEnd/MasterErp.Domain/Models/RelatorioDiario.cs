@@ -33,6 +33,7 @@ public class RelatorioDiario
         Contato = "-";
         Empresa = "-";
         Telefone = "-";
+        Endereco = "-";
         Cnpj = "-";
         HorarioAbertura = DateTime.UtcNow.AddHours(-3);;
         isFinished = false;

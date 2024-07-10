@@ -43,7 +43,16 @@ namespace MasterErp.Services
             }
         }
         
-        
+        public async Task<RelatorioDiario> SearchClient (string cliente)
+        {
+
+            var rds = await _relatorioDiarioRepository.GetAllAsync();
+
+            var clientes = rds.Where(x=>x.Empresa.Contains(cliente,StringComparison.OrdinalIgnoreCase)).OrderBy(x=>x.HorarioAbertura).ToList();
+             
+            return clientes[0];
+
+        }
         public async Task<RelatorioDiario> CreateAsync()
         {
             try
@@ -89,15 +98,15 @@ namespace MasterErp.Services
                 LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Alteração do campo de contato do Relatório Diário Nº {rd.Id} de {rd.Contato} para {model.Contato}",
                 responsavel: userName);
 
-                rd.Contato = model.Contato.Trim();
+                rd.Contato = model.Contato.Trim() ?? "-";
                 
-                rd.Empresa = model.Empresa.Trim();
+                rd.Empresa = model.Empresa.Trim() ?? "-";
                 
-                rd.Cnpj = model.Cnpj.Trim();
+                rd.Cnpj = model.Cnpj.Trim() ?? "-";
 
-                rd.Endereco = model.Endereco.Trim();
+                rd.Endereco = model.Endereco.Trim() ?? "-";
 
-                rd.Telefone = model.Telefone.Trim();
+                rd.Telefone = model.Telefone.Trim() ?? "-";
                 
 
                 await _relatorioDiarioRepository.UpdateAsync(rd);

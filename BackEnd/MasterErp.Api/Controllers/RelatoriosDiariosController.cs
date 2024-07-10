@@ -7,10 +7,10 @@ using MasterErp.Domain.Models;
 
 namespace MasterErp.Api.Controllers;
 [ApiController]
-    [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/[controller]")]
-    [Authorize]
-    
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
+[Authorize]
+
 public class RelatoriosDiariosController:ControllerBase
 {
     private readonly IRelatorioDiarioService _relatorioDiarioService;
@@ -36,6 +36,24 @@ public class RelatoriosDiariosController:ControllerBase
         try
         {
             return Ok(await _relatorioDiarioService.GetByIdAsync(id));
+
+        }
+        catch (KeyNotFoundException)
+        {
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+        catch (Exception exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+        }
+    } 
+    
+    [HttpGet("buscaClienteEmpresa")]
+    public async Task<ActionResult<RelatorioDiario>> BuscaCliente(string cliente)
+    {
+        try
+        {
+            return Ok(await _relatorioDiarioService.SearchClient(cliente));
 
         }
         catch (KeyNotFoundException)

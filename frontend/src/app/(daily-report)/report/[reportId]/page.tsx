@@ -24,6 +24,7 @@ import {
 import { deleteImagemAtividadeRd, getAllImagensInAtividade } from '@/app/services/ImagensAtividadeRd.Service';
 import { deleteAllImagesFromAtividadeFromAzure } from '@/app/services/Images.Services';
 import {
+    getEmpresaRelatorioDiario,
     getRelatorioDiario,
     updateFinishRelatorioDiario,
     updateRelatorioDiario
@@ -94,6 +95,19 @@ const getRelatorioDiarioById =async (id:number)=>
         setCnpj(res.cnpj)
         setRelatorioDiario(res)
     }
+
+const getInformacoesEmpresaRd = async(empresa:string)=>{
+
+    if(empresa.length){
+
+        const res = await getEmpresaRelatorioDiario(empresa)
+        setCnpj(res.cnpj)
+        setContato(res.contato)
+        setEndereco(res.endereco)
+        setTelefone(res.telefone)
+        handleUpdateRelatorioDiario()
+    }
+}
 const getAtividades = async(id:number)=>{
     const res = await getAllAtivdadesInRd(id)
     setAtividadesInRd(res)
@@ -227,7 +241,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                 onKeyDown={handleKeyDown}
                 onBlur={handleUpdateRelatorioDiario}
                 className="border-1 border-black rounded-md shadow-sm shadow-black max-md:w-[280px] max-sm:w-[300px]  self-center"
-                onValueChange={setEmpresa}
+                onValueChange={(x)=>{setEmpresa(x),getInformacoesEmpresaRd(x)}}
               />
             <Input
                  label = "Endereço"
@@ -261,14 +275,14 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
         </div>
     </div>
 
-      {relatorioDiario  && (
+      {/* {relatorioDiario  && (
 
        <PDFViewer width="1500" height="600">
       <RelatorioDiarioPDF
       relatorioDiario = {relatorioDiario}
       />
     </PDFViewer>
-      )}
+      )} */}
         <div className='flex flex-row justify-center'>
 
         { conditionsRoles && !relatorioDiario?.isFinished && (

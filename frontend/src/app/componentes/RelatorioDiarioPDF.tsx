@@ -91,10 +91,10 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
 
             <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 5 }}>ATENDENTE: {relatorioDiario.responsavelAbertura}</Text>
             {relatorioDiario.isFinished ? (
-            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 2,marginLeft:80,fontStyle:"italic"} }>Relatório Finalizado</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 2,marginLeft:90,fontStyle:"italic"} }>Relatório Finalizado</Text>
 
             ):(
-              <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 2,marginLeft:80,fontStyle: "italic"} }>Relatório Finalizado</Text>
+              <Text style={{ fontWeight: "bold", fontSize: 10, marginTop: 2,marginLeft:90,fontStyle: "italic"} }>Relatório Finalizado</Text>
 
             )}
            
