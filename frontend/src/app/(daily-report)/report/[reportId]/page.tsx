@@ -14,6 +14,8 @@ import Atividade from '@/app/componentes/Atividade';
 import RelatorioDiarioPDF from '@/app/componentes/RelatorioDiarioPDF';
 import { IAtividadeRd } from "@/app/interfaces/IAtividadeRd";
 import { IImagemAtividadeRd } from '@/app/interfaces/IImagemAtividadeRd';
+import { TextField } from "@radix-ui/themes";
+
 import { IRelatorioDiario } from "@/app/interfaces/IRelatorioDiario";
 import {
     createAtividadeRd,
@@ -32,6 +34,7 @@ import {
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import { ProgressBar } from '@/app/componentes/ProgressBar';
+import IconBagX from '@/app/assets/icons/IconBagX';
 
 
 
@@ -234,6 +237,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
 
     <div className='flex flex-col gap-4 w-[600px]'>
         <div className='flex flex-row gap-4 max-sm:flex-wrap max-sm:justify-center w-[100%] '>
+        
             <Input
                  label = "Cliente"
                 labelPlacement='outside'
