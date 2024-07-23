@@ -5,6 +5,7 @@ export interface IImagemAtividadeRd {
     urlImagem?: string;
     descricao?: string;
     dataAdicao?: string;
+    imageName?:string;
     atividadeRdId?: number;
     width?:number;
     height?:number;

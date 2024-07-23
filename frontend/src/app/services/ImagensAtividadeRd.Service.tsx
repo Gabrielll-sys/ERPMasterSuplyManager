@@ -24,6 +24,7 @@ export const addImagemAtividadeRd = async (model:IImagemAtividadeRd)=>{
     const imagemAtividade: IImagemAtividadeRd = {
         urlImagem: model.urlImagem,
         descricao: model.descricao,
+        
         atividadeRdId: model.atividadeRdId,
         atividadeRd:{
             relatorioDiario:{}

@@ -236,19 +236,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
 
     <Flex direction="column" gap="4" className='flex flex-col gap-4 w-[600px]'>
         <div className='flex flex-row gap-4 max-sm:flex-wrap max-sm:justify-center  w-[100%] '>
-            <TextField.Root >
-                <TextField.Input 
-                value={empresa}
-                className='w-[250px]'
-                variant='classic'
-                onKeyDown={handleKeyDown}
-                onBlur={handleUpdateRelatorioDiario}
-                onChange={(x)=>{setEmpresa(x.target.value),getInformacoesEmpresaRd(x.target.value)}}
-                placeholder='Cliente'>
-
-                </TextField.Input>
-            </TextField.Root>
-
+           
             <TextField.Root >
                 <TextField.Input
                 className='w-[250px]' 

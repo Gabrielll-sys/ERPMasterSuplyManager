@@ -17,7 +17,7 @@ import { useSession } from "next-auth/react";
 import IconPencil from "../assets/icons/IconPencil";
 import IMaterial from "../interfaces/IMaterial";
 import { createMaterial, searchByDescription, searchByFabricanteCode } from "../services/Material.Services";
-import { Box, TextField } from "@radix-ui/themes";
+import TaskUser from "../componentes/TaskUser";
 
 
 
@@ -183,51 +183,66 @@ const buscaCodigoFabricante = async(codigo:string)=>
     return(
        
       <>
-       
-        
       <div className="flex flex-col gap-3">
         <div className=' w-full flex flex-row flex-wrap justify-center mt-6  gap-6 max-sm:gap-8 '>
-          <TextField.Root>
-            <TextField.Input placeholder="Descrição" value={descricao} onChange={(x)=>buscarDescricao(x.target.value)} variant="classic" size="3" className="w-[200px]">
-
-            </TextField.Input>
-          </TextField.Root>
-
-          <TextField.Root>
-            <TextField.Input value={marca} onChange={(x)=>setMarca(x.target.value)} variant="classic" size="3" className="w-[200px]">
-
-            </TextField.Input>
-          </TextField.Root>
-
-          <TextField.Root>
-            <TextField.Input value={localizacao} onChange={(x)=>setLocalizacao(x.target.value)} variant="classic" size="3" className="w-[200px]">
-
-            </TextField.Input>
-          </TextField.Root>
-         
-      
-         
+        
+          <Input
+          
+            value={codigoFabricante}
+            className=" rounded-md shadow-sm shadow-black   max-w-[180px]"
+            onValueChange={(e) => buscaCodigoFabricante(e)}
+            label="Cód Fabricante"
+        
+          />
+          <Input
+            value={descricao}
+            className=" rounded-md shadow-sm shadow-black  max-sm:w-[380px] md:w-[400px]"
+            onValueChange={(x)=>buscarDescricao(x)}
+            label="Descrição"
+            required
+          />
+          <Input
+            value={marca}
+            className=" rounded-md shadow-sm shadow-black   max-w-[180px]"
+            onValueChange={setMarca}
+            label="Marca"
+          />
+          <Input
+            value={localizacao}
+            className="  rounded-md shadow-sm shadow-black   w-[180px]"
+            onValueChange={setLocalizacao}
+            label="Localização"
+          />
             </div>
         <div className=' w-full flex flex-row flex-wrap justify-center gap-7 '>
-
-        <TextField.Root>
-            <TextField.Input value={precoCusto} onChange={(x)=>setPrecoCusto(x.target.value)} variant="classic" size="3" className="w-[200px]">
-             
-            </TextField.Input>
-          </TextField.Root>
-
-      
-           <TextField.Root>
-            <TextField.Input value={markup} onChange={(x)=>setMarkup(x.target.value)} variant="classic" size="3" className="w-[200px]">
-
-            </TextField.Input>
-          </TextField.Root>
-
-          <TextField.Root>
-            <TextField.Input value={corrente} onChange={(x)=>setCorrente(x.target.value)} variant="classic" size="3" className="w-[200px]">
-
-            </TextField.Input>
-          </TextField.Root>
+          <Input
+          type="number"
+          value={precoCusto}
+          className=" rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
+          onValueChange={setPrecoCusto}
+          label="Preço Custo"
+          startContent={
+            <span>R$</span>
+          }
+        
+        />
+        <Input
+            type="number"
+            value={markup}
+            className=" rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
+            onValueChange={setMarkup}
+            endContent={
+              <span>%</span>
+            }
+            label="Markup"
+        
+          />
+              <Input
+            value={corrente}
+            className=" rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
+            onValueChange={setCorrente}
+            label="Corrente"
+          />
             <Autocomplete
          label="Tensão"
          placeholder="EX:127V"
