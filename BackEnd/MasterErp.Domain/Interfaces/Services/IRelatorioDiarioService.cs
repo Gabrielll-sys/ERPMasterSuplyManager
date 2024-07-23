@@ -6,7 +6,8 @@ namespace MasterErp.Domain.Interfaces.Services;
 public interface IRelatorioDiarioService
 {
     Task<RelatorioDiario> GetByIdAsync(int? id);
-    
+
+    Task<RelatorioDiario> SearchClient(string cliente);
     Task<List<RelatorioDiario>> GetAllAsync();
 
     Task<RelatorioDiario> CreateAsync();

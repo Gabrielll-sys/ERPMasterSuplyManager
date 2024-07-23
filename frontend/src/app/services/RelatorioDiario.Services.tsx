@@ -16,6 +16,18 @@ export const getAllRelatoriosDiarios = async ()  =>{
         })
         .catch();
 }
+
+export const getEmpresaRelatorioDiario = async (cliente:string)  =>{
+
+
+    return await axios
+         .get(`${url}/RelatoriosDiarios/buscaClienteEmpresa?cliente=${cliente}`,{headers:authHeader()})
+         .then((r) => {
+             return r.data
+         })
+         .catch();
+ }
+
 export const getRelatorioDiario = async (id:number)  =>{
 
 

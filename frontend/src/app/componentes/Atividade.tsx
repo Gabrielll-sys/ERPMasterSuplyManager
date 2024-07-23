@@ -12,6 +12,7 @@ import IconCamera from '../assets/icons/IconCamera';
 import { IImagemAtividadeRd } from '../interfaces/IImagemAtividadeRd';
 import { addImagemAtividadeRd, deleteImagemAtividadeRd, getAllImagensInAtividade } from '../services/ImagensAtividadeRd.Service';
 import { deleteImageFromAzure, getImageDimensions, uploadImageToAzure } from '../services/Images.Services';
+import { Box, Flex, TextField } from '@radix-ui/themes';
 
 
 //@ts-ignore
@@ -144,20 +145,29 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished}
 
   return (
     <>
-      <div className="p-4">
+      <div className="p-6">
         <h2 className="text-center max-md-text-2xl max-sm:text-[20px] font-bold mb-4 ">ATIVIDADE Nº {atividade.numeroAtividade}</h2>
-        <div className="border p-4 rounded-lg shadow-sm flex flex-col gap-6">
+        <div className="border p-4 rounded-md shadow-sm flex flex-col gap-5">
           <div className="mb-4">
-            <label className="block text-gray-700 ml-2">{atividade.descricao}</label>
-            <Input
-              className='bg-transparent w-[250px] mt-2'
 
-              value={descricao}
-              isDisabled={isFinished}
-              onValueChange={setDescricao}
-              onKeyDown={handleKeyDown}
-              onBlur={()=>onUpdate(atividade, checkboxStatus, observacoes, descricao)}
-            />
+            <Flex direction="column" gap={'3'} >
+              <label className="block text-gray-700 ">{atividade.descricao}</label>
+              {!isFinished && (
+              
+                 <TextField.Root   >
+                    <TextField.Input
+              
+                    value={descricao}
+              
+                    variant='classic'
+                    onKeyDown={handleKeyDown}
+                    onBlur={()=>onUpdate(atividade, checkboxStatus, observacoes, descricao)}
+                    onChange={(x)=>setDescricao(x.target.value)}
+                    placeholder='Descrição'>
+                    </TextField.Input>
+                    </TextField.Root>
+              )}
+            </Flex>
           </div>
 
           <div className="mb-4">

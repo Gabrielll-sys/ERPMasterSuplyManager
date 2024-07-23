@@ -29,7 +29,24 @@ public class RelatoriosDiariosController:ControllerBase
 
 
     }
-    
+    [HttpGet("buscaClienteEmpresa")]
+    public async Task<ActionResult<RelatorioDiario>> BuscaCliente(string cliente)
+    {
+        try
+        {
+            return Ok(await _relatorioDiarioService.SearchClient(cliente));
+
+        }
+        catch (KeyNotFoundException)
+        {
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+        catch (Exception exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+        }
+    }
+
     [HttpGet("{id}")]
     public async Task<ActionResult<RelatorioDiario>> Get(int id)
     {

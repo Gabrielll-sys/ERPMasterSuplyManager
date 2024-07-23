@@ -1,6 +1,6 @@
 "use client"
 import { Snackbar } from '@mui/material';
-import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, useDisclosure } from '@nextui-org/react';
+import {  Input, Modal, ModalBody, ModalContent, ModalFooter, useDisclosure } from '@nextui-org/react';
 import { useRouter } from "next/navigation";
 
 import "dayjs/locale/pt-br";
@@ -24,6 +24,7 @@ import {
 import { deleteImagemAtividadeRd, getAllImagensInAtividade } from '@/app/services/ImagensAtividadeRd.Service';
 import { deleteAllImagesFromAtividadeFromAzure } from '@/app/services/Images.Services';
 import {
+    getEmpresaRelatorioDiario,
     getRelatorioDiario,
     updateFinishRelatorioDiario,
     updateRelatorioDiario
@@ -31,7 +32,8 @@ import {
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import { ProgressBar } from '@/app/componentes/ProgressBar';
-
+import { Flex, TextField } from '@radix-ui/themes';
+import { Button } from '@radix-ui/themes';
 
 
 
@@ -59,7 +61,7 @@ export default function Report({params}:any){
     const[delayNovaAtividade,setDelayNovaAtividade] = useState<boolean>()
     var semana = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
 
-    const completePercentage =30
+ 
   
    
     let date = dayjs()
@@ -107,6 +109,18 @@ const handleKeyDown =async (event: React.KeyboardEvent<HTMLInputElement>) => {
 
     }
   };
+  const getInformacoesEmpresaRd = async(empresa:string)=>{
+
+    if(empresa.length){
+
+        const res = await getEmpresaRelatorioDiario(empresa)
+        setCnpj(res.cnpj)
+        setContato(res.contato)
+        setEndereco(res.endereco)
+        setTelefone(res.telefone)
+        handleUpdateRelatorioDiario()
+    }
+}
 const handleCreateaAtividade = async ()=>{
 
     setDelayNovaAtividade(true)
@@ -218,48 +232,63 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
 
         {/* <ProgressBar progress = {completePercentage}/> */}
 
-    <div className='flex flex-col gap-4 w-[600px]'>
-        <div className='flex flex-row gap-4 max-sm:flex-wrap max-sm:justify-center w-[100%] '>
-            <Input
-                 label = "Cliente"
-                labelPlacement='outside'
+    <Flex direction="column" gap="4" className='flex flex-col gap-4 w-[600px]'>
+        <div className='flex flex-row gap-4 max-sm:flex-wrap max-sm:justify-center  w-[100%] '>
+            <TextField.Root >
+                <TextField.Input 
                 value={empresa}
+                className='w-[250px]'
+                variant='classic'
                 onKeyDown={handleKeyDown}
                 onBlur={handleUpdateRelatorioDiario}
-                className="border-1 border-black rounded-md shadow-sm shadow-black max-md:w-[280px] max-sm:w-[300px]  self-center"
-                onValueChange={setEmpresa}
-              />
-            <Input
-                 label = "Endereço"
-                labelPlacement='outside'
+                onChange={(x)=>{setEmpresa(x.target.value),getInformacoesEmpresaRd(x.target.value)}}
+                placeholder='Cliente'>
+
+                </TextField.Input>
+            </TextField.Root>
+
+            <TextField.Root >
+                <TextField.Input
+                className='w-[250px]' 
                 value={endereco}
+                variant='classic'
                 onKeyDown={handleKeyDown}
                 onBlur={handleUpdateRelatorioDiario}
-                className="border-1 border-black rounded-md shadow-sm shadow-black  max-md:w-[250px] max-sm:w-[300px] self-center"
-                onValueChange={setEndereco}
-              />
+                onChange={(x)=>setEndereco(x.target.value)}
+                placeholder='Endereço'>
+
+                </TextField.Input>
+            </TextField.Root>
+            
         </div>
-        <div className='flex flex-row max-sm:flex-wrap gap-4 max-sm:justify-center'>
-            <Input
-                 label = "CNPJ"
-                labelPlacement='outside'
+        <div  className='flex flex-row max-sm:flex-wrap gap-4 max-sm:justify-center'>
+            
+            <TextField.Root  >
+                <TextField.Input 
+                className='w-[250px]'
                 value={cnpj}
+                variant='classic'
                 onKeyDown={handleKeyDown}
                 onBlur={handleUpdateRelatorioDiario}
-                className="border-1 border-black rounded-md shadow-sm shadow-black  max-md:w-[250px] max-sm:w-[300px] self-center"
-                onValueChange={setCnpj}
-              />
-            <Input
-                 label = "Telefone"
-                labelPlacement='outside'
+                onChange={(x)=>setCnpj(x.target.value)}
+                placeholder='CNPJ'>
+
+                </TextField.Input>
+            </TextField.Root>
+            <TextField.Root >
+                <TextField.Input 
                 value={telefone}
+                className='w-[250px]'
+                variant='classic'
                 onKeyDown={handleKeyDown}
                 onBlur={handleUpdateRelatorioDiario}
-                className="border-1 border-black rounded-md shadow-sm shadow-black  max-md:w-[250px] max-sm:w-[300px] self-center"
-                onValueChange={setTelefone}
-              />
+                onChange={(x)=>setTelefone(x.target.value)}
+                placeholder='Telefone'>
+
+                </TextField.Input>
+            </TextField.Root>
         </div>
-    </div>
+    </Flex>
 
       {/* {relatorioDiario  && (
 
@@ -273,7 +302,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
 
         { conditionsRoles && !relatorioDiario?.isFinished && (
 
-        <Button  onPress={onOpen} className='bg-master_black max-sm:w-[60%] md:w-[30%] mx-auto text-white rounded-md font-bold text-base  '>
+        <Button  onClick={onOpen} >
             Fechar Relatório
         </Button>
         )}
@@ -286,16 +315,21 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                     <>
 
                     <div className='flex flex-row items-center justify-center gap-4 max-sm:flex-wrap'>
-                    <Input
-                        label="Atividade"
-                        labelPlacement='outside'
+                    <TextField.Root >
+                        <TextField.Input 
                         value={descricaoAtividade}
-                        className="border-1 border-black rounded-md shadow-sm shadow-black w-[250px]"
-                        onValueChange={setDescricaoAtividade}
-                    />
+                        className='w-[250px]'
+                        variant='classic'
+                        onKeyDown={handleKeyDown}
+                        onBlur={handleUpdateRelatorioDiario}
+                        onChange={(x)=>setDescricaoAtividade(x.target.value)}
+                        placeholder='Atividade'>
+
+                        </TextField.Input>
+            </TextField.Root>
                     {!delayNovaAtividade && descricaoAtividade.length != 0 && (
 
-                    <IconPlusSquare   className=' cursor-pointer mt-6' height={"1.5em"} width={"1.5em"} onClick={handleCreateaAtividade} />
+                    <IconPlusSquare   className=' cursor-pointer ' height={"1.5em"} width={"1.5em"} onClick={handleCreateaAtividade} />
                     )}
                     </div>
                     </>
@@ -303,10 +337,10 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
 
                 {relatorioDiario && (
                     <Button
-                        color='danger' 
-                        variant='ghost'
-                        
-                        className={`w-[225px] p-3 my-auto max-sm:w-[70%] self-center`}
+                        color='crimson' 
+                        variant='outline'
+                        highContrast
+                        className={`w-[255px] p-3 my-auto max-sm:w-[40%] self-center`}
                         >
                             <PDFDownloadLink document={<RelatorioDiarioPDF
                                 relatorioDiario = {relatorioDiario}
@@ -364,13 +398,14 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                                 value={confirmAuthorizeMessage}
                             />
                         </ModalBody>
-                        <ModalFooter>
-                            <Button color="danger" variant="light" onPress={onClose}>
+                        <ModalFooter className='flex fle-row gap-4 '>
+                            <Button color="crimson" size='3' variant="solid" className='p-2' onClick={onClose}>
                                 Fechar
                             </Button>
-                            {!relatorioDiario?.isFinished && (
+                            {!relatorioDiario?.isFinished && confirmAuthorizeMessage=="AUTORIZAR"  && (
+                            
 
-                            <Button isDisabled={confirmAuthorizeMessage!="AUTORIZAR"} color="primary" onPress={handleFinishRelatorioDiario}>
+                            <Button variant='outline' className='p-2' size="3" color='blue'  onClick={handleFinishRelatorioDiario}>
                                 Autorizar
                             </Button>
                             )}

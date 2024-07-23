@@ -63,7 +63,7 @@ namespace MasterErp.Api.Controllers;
         /// <param name="id">Id do material para ser obtido</param>
         /// <returns>Materiais encontrado</returns>
         [HttpGet("{id}")]
-     
+            [AllowAnonymous]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
