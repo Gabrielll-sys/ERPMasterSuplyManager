@@ -27,7 +27,7 @@ export default function AddMaterialOs({params}:any){
     const [openSnackBar,setOpenSnackBar]= useState<boolean>(false)
     const [ messageAlert,setMessageAlert] = useState<string>();
     const [ severidadeAlert,setSeveridadeAlert] = useState<AlertColor>()
-   const[stateBotao,setStateBotao] = useState<boolean>(false)
+    const [currentUser, setCurrentUser] = useState<any>(null);
    const { data: session } = useSession();
    
 
@@ -37,8 +37,18 @@ export default function AddMaterialOs({params}:any){
 
    getMaterial(params.materialId).then().catch()
    
+    //@ts-ignore
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+    if(user != null)
+    {
+        setCurrentUser(user)
+    
+    }
+
    },[])
-   
+   useEffect(()=>{
+
+},[])
    
     
    const getMaterial = async(id:number)=>{
@@ -109,7 +119,7 @@ export default function AddMaterialOs({params}:any){
    
        
      
-      { session && session.user ? (
+      { currentUser ? (
        <>
 
 

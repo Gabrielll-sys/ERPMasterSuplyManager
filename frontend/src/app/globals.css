@@ -4,7 +4,7 @@
 
 @import "tailwindcss/utilities";
 
-@import "@radix-ui/themes/styles.css";
+@import '@radix-ui/themes/styles.css';
 
 @layer base {
     input[type="number"]::-webkit-inner-spin-button,

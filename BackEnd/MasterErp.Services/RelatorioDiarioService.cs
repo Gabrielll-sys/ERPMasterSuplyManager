@@ -42,14 +42,21 @@ namespace MasterErp.Services
                 throw;
             }
         }
+
         
         public async Task<RelatorioDiario> SearchClient (string cliente)
+
+
         {
 
             var rds = await _relatorioDiarioRepository.GetAllAsync();
 
+
             var clientes = rds.Where(x=>x.Empresa.Contains(cliente,StringComparison.OrdinalIgnoreCase)).OrderBy(x=>x.HorarioAbertura).ToList();
              
+
+
+
             return clientes[0];
 
         }

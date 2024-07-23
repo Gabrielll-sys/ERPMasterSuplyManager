@@ -1,7 +1,6 @@
 "use client"
-import { useRouter } from "next/navigation";
 
-import { Autocomplete, AutocompleteItem, Button, Input } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 
 
 import { Snackbar } from '@mui/material';
@@ -10,13 +9,13 @@ import { url } from "@/app/api/webApiUrl";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import "dayjs/locale/pt-br";
 import { useEffect, useState } from "react";
-
-import GoogleIcon from "@/app/assets/icons/GoogleIcon";
+import { Text } from "@radix-ui/themes";
+import { authHeader } from "@/app/_helpers/auth_headers";
 import { IInventario } from "@/app/interfaces/IInventarios";
 import { IOrderServico } from "@/app/interfaces/IOrderServico";
+import { TextField } from "@radix-ui/themes";
 import axios, { AxiosError } from "axios";
-import dayjs from "dayjs";
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 export default function UpdateMaterial({params}:any){
  
@@ -24,8 +23,8 @@ export default function UpdateMaterial({params}:any){
   const [codigoInterno,setCodigoInterno] = useState<string>("")
   const [material,setMaterial] = useState<IInventario>()
   const [ordemServicoEscolhida,setOrdemServicoEscolhida] = useState<IOrderServico>()
-
-  const[quantidade,setQuantidade] = useState<string>("0")
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const[quantidade,setQuantidade] = useState<string>("1")
   const [openSnackBar,setOpenSnackBar]= useState(false)
   const [ messageAlert,setMessageAlert] = useState<string>();
   const [ severidadeAlert,setSeveridadeAlert] = useState<AlertColor>()
@@ -43,6 +42,13 @@ export default function UpdateMaterial({params}:any){
  
     getMaterial(params.materialId).then().catch()
     getAllOs()
+       //@ts-ignore
+       const user = JSON.parse(localStorage.getItem("currentUser"));
+       if(user != null)
+       {
+           setCurrentUser(user)
+     
+       }
 
  },[])
 
@@ -58,17 +64,11 @@ const getAllOs = async()=>{
   }
  
 
- //esta função serve para verificar se o item é nulo,aonde quando importamos os dados do excel os dados vem como nulo
- //e para realizar a  edição aqui
- const verifyNull = (item:any)=>{
- 
-   return item==null?"":item
- 
- }
+
 
   const getMaterial = async(id:number)=>{
  
-  await axios.get(`${url}/Materiais/getMaterialWithInvetory/${id}`).then(r=>{
+  await axios.get(`${url}/Materiais/getMaterialWithInvetory/${id}`,{headers:authHeader()}).then(r=>{
 
     setMaterial(r.data)
   
@@ -118,8 +118,6 @@ catch(error){
 
   } 
  
-
-
 
 const removeQtdMaterialInvetario = async ()=>
 {
@@ -174,35 +172,33 @@ const setValue = (id:any)=>{
      <>
  
 
- {session  && session.user?(
+ {currentUser&&(
   <>
   <h1  className='text-center font-bold text-2xl mt-20 max-sm:text-base'>{material?.material.id} - {material?.material.descricao}</h1>
   <h1  className='text-center font-bold text-2xl mt-2 max-sm:text-base'>Estoque:{material?.saldoFinal} {material?.material.unidade}</h1>
   {material?.material.marca!=""&& (<h1 className='text-center font-bold text-2xl  max-sm:text-lg'>({material?.material.marca})</h1>)}
    
-   <div className=' w-full flex sm:flex-row   justify-center mt-20 max-sm:mt-5 gap-4 max-sm: flex-col   ' >
+   <div className=' w-full flex sm:flex-row   justify-center mt-10 max-sm:mt-2 gap- max-sm:    ' >
 
 
-   <Input
-        type="number"
-        label="Quantidade"
-        isRequired
-        radius="md"
-        className="w-32  max-sm:mx-auto border-1 border-black rounded-md shadow-sm shadow-black  "
-        max={material?.saldoFinal}
-        min={1}
-        placeholder="0" 
-        value={quantidade}
-        onValueChange={onValueChange}
-        labelPlacement="inside"
-        endContent={
-          <div className="pointer-events-none flex items-center">
-            <span className="text-default-400 text-small">{material?.material.unidade}</span>
-          </div>
-        }
-      />
+    <TextField.Root   size="2" >
+                <TextField.Input 
+              
+                value={quantidade}
+                max={material?.saldoFinal}
+                
+                variant='classic'
+                min={1}
+                onChange={(x)=>onValueChange(x.target.value)}
+                placeholder='Quantidade'>
+                </TextField.Input>
+                <TextField.Slot >
+                <Text>{material?.material.unidade}</Text>
+              </TextField.Slot>
+            </TextField.Root>
 
-  
+
+{/*   
 <Autocomplete
        label="Ordem de Serviço "
        placeholder="Procure uma OS"
@@ -231,7 +227,7 @@ const setValue = (id:any)=>{
           {item.descricao}
         </AutocompleteItem>
       ))}
-      </Autocomplete>
+      </Autocomplete> */}
 
    
 
@@ -239,7 +235,7 @@ const setValue = (id:any)=>{
    </div>
 
    <div className='text-center mt-12 ml-4 flex flex-row  max-sm:justify-evenly gap-3   justify-center'>
-   <Button 
+   {/* <Button 
    onPress={()=>handleCreateItem(ordemServicoEscolhida?.id)} 
    isDisabled={quantidade=="0"|| quantidade=="" || !ordemServicoEscolhida}
 
@@ -247,7 +243,7 @@ const setValue = (id:any)=>{
 
      Adicionar material a OS
 
-    </Button>
+    </Button> */}
    <Button 
    onPress={removeQtdMaterialInvetario} 
    isDisabled={quantidade=="0" || quantidade==""}
@@ -270,25 +266,8 @@ const setValue = (id:any)=>{
           </Snackbar>
  
   </>
- ):(
- 
-  <div className='flex flex-col items-center max-sm:mt-24 mt-56 content-center text-center  '>
-  <p className='text-2xl max-sm:text-xl p-6'>Você precisa estar logado para realizar esta ação</p>
-        <Button // Continuar com Google
-        variant="flat"
-        className="hover:opacity-90 hover:scale-105  p-10 bg-red-600 max-sm:bg-red-600 text-white border-2 border-black rounded-md shadow-md" 
-        onClick={() => signIn("google")}
-      >
-        <div className="flex gap-3">
-        <GoogleIcon className="text-2xl mt-1" />
-        <p className="text-2xl max-sm:text-lg self-center " >Continuar com Google</p>
-        </div>
-      </Button>
-      </div>
- )}
-     
-   
-
+ )
+ }
 
      </>
      

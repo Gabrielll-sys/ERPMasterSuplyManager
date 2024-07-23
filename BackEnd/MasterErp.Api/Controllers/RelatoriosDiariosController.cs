@@ -29,7 +29,8 @@ public class RelatoriosDiariosController:ControllerBase
 
 
     }
-    
+   
+
     [HttpGet("{id}")]
     public async Task<ActionResult<RelatorioDiario>> Get(int id)
     {
