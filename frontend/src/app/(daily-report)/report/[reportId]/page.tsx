@@ -26,7 +26,7 @@ import { deleteImagemAtividadeRd, getAllImagensInAtividade } from '@/app/service
 import { deleteAllImagesFromAtividadeFromAzure } from '@/app/services/Images.Services';
 import {
     getEmpresaRelatorioDiario,
-    getRelatorioDiario,
+    getRelatorioDiarioById,
     updateFinishRelatorioDiario,
     updateRelatorioDiario
 } from "@/app/services/RelatorioDiario.Services";
@@ -35,6 +35,7 @@ import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import { ProgressBar } from '@/app/componentes/ProgressBar';
 import { Flex, TextField } from '@radix-ui/themes';
 import { Button } from '@radix-ui/themes';
+import { useMutation, useQuery } from 'react-query';
 
 
 
@@ -42,7 +43,6 @@ export default function Report({params}:any){
     const route = useRouter()
     const[confirmAuthorizeMessage,setconfirmAuthorizeMessage]= useState<string>()
     var dataAtual = new Date();
-    const [imageModal,setImageModal] = useState<any>()
     const [currentUser, setCurrentUser] = useState<any>(null);
     const conditionsRoles = currentUser?.role == "Administrador" || currentUser?.role == "Diretor" || currentUser?.role == "SuporteTecnico"
     const[empresa,setEmpresa] = useState<string>("")
@@ -58,7 +58,6 @@ export default function Report({params}:any){
     const [openSnackBar, setOpenSnackBar] = useState(false);
     const [messageAlert, setMessageAlert] = useState<string>();
     const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
-    const [relatorioDiario,setRelatorioDiario] =  useState<IRelatorioDiario | any>()
     const[delayNovaAtividade,setDelayNovaAtividade] = useState<boolean>()
     var semana = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
 
@@ -82,26 +81,32 @@ export default function Report({params}:any){
          setCurrentUser(user)
    
      }
-         getRelatorioDiarioById(params.reportId)
-         getAtividades(params.reportId)
+       
     }, []);
 
 
-const getRelatorioDiarioById =async (id:number)=>
-    {
-        const res  = await getRelatorioDiario(id)
+    const {data:relatorioDiario,refetch:refetchRelatorioDiario} = useQuery({
+    queryKey:["relatorio-diario",params.reportId],
+    queryFn:()=>getRelatorioDiarioById(params.reportId),
+    staleTime:72000000,
+    cacheTime:72000000,
+    onSuccess:(res)=>{
         setEmpresa (res.empresa)
         setContato(res.contato)
         setTelefone(res.telefone)
         setEndereco(res.endereco)
         setCnpj(res.cnpj)
-        setRelatorioDiario(res)
     }
+})
 
-const getAtividades = async(id:number)=>{
-    const res = await getAllAtivdadesInRd(id)
-    setAtividadesInRd(res)
-}
+const {data:atividades,refetch:refetchAtividades} =useQuery<IAtividadeRd[]>({
+    queryKey:["atividades",`atividades-rd-${params.reportId}`],
+    queryFn:()=>getAllAtivdadesInRd(params.reportId),
+    staleTime:1000*60*60,
+    cacheTime:1000*60*60
+
+})
+
 
 const handleKeyDown =async (event: React.KeyboardEvent<HTMLInputElement>) => {
    
@@ -136,7 +141,7 @@ const handleCreateaAtividade = async ()=>{
             setOpenSnackBar(true);
             setSeveridadeAlert("success");
             setMessageAlert("Atividade Adicionada Ao Relatório");
-            await getAtividades(relatorioDiario.id)
+            refetchAtividades()
             setDescricaoAtividade("")
         }
         setTimeout(()=>{
@@ -171,7 +176,7 @@ const handleDeleteAtividade = async(id:number)=>{
     }
 
 
-    getAtividades(params.reportId)
+    refetchAtividades()
 
 }
 const handleUpdateRelatorioDiario = async()=>{
@@ -185,7 +190,7 @@ const handleUpdateRelatorioDiario = async()=>{
         endereco:endereco,
         responsavelAbertura:relatorioDiario.responsavelAbertura
     }
-console.log(rd)
+
     const res = await updateRelatorioDiario(rd)
 
     if (res == 200){
@@ -195,12 +200,12 @@ console.log(rd)
     }
 
 }
-const handleFinishRelatorioDiario = async () =>{
+const finalizarRelatorioDiario = useMutation({
+    mutationKey:[`finalizar-rd`,`finish-relatorio-diario-${params.reportId}`],
+    mutationFn:()=>updateFinishRelatorioDiario(params.reportId),
+    onSuccess:()=>refetchRelatorioDiario()
+})
 
-    const res = await updateFinishRelatorioDiario(params.reportId)
-    getRelatorioDiarioById(params.reportId)
-
-}
 
 const updateAtividade  = async(atividade: IAtividadeRd, status: string, observacoes: string,descricao:string)=>{
 
@@ -217,7 +222,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
         setOpenSnackBar(true);
         setSeveridadeAlert("success");
         setMessageAlert("Atividade Atualizada");
-        getAtividades(relatorioDiario.id)
+        refetchAtividades()
     }
 
 }
@@ -357,10 +362,10 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                             </Button>
                 )}
         
-                        {atividadesInRd?.length ?
+                        {atividades?.length ?
                             (
                             <>
-                                {atividadesInRd.map((atividade:IAtividadeRd)=>(
+                                {  atividades?.map((atividade:IAtividadeRd)=>(
 
                                     <Atividade  key={atividade.id} relatorioDiario = {relatorioDiario} atividade={atividade}onUpdate={updateAtividade} onDelete={handleDeleteAtividade} isFinished={relatorioDiario?.isFinished} />
                                 ))}
@@ -407,7 +412,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                             {!relatorioDiario?.isFinished && confirmAuthorizeMessage=="AUTORIZAR"  && (
                             
 
-                            <Button variant='outline' className='p-2' size="3" color='blue'  onClick={handleFinishRelatorioDiario}>
+                            <Button variant='outline' className='p-2' size="3" color='blue'  onClick={()=>finalizarRelatorioDiario.mutate()}>
                                 Autorizar
                             </Button>
                             )}

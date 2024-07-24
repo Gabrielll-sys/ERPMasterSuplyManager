@@ -7,41 +7,43 @@ import { useEffect, useState } from 'react';
 import { IRelatorioDiario } from '@/app/interfaces/IRelatorioDiario';
 import { createRelatorioDiario, getAllRelatoriosDiarios } from "@/app/services/RelatorioDiario.Services";
 import dayjs from 'dayjs';
+import { useMutation, useQuery } from 'react-query';
 
 export default function Reports() {
-    const [numeroOrcamento, setNumeroOrcamento] = useState<string>("");
-    const [relatoriosDiarios, setRelatorioDiarios] = useState<IRelatorioDiario[]>();
+
+    const route = useRouter();
     var semana = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
     var dataAtual = new Date();
 
-    useEffect(() => {
-        getAll();
-    }, []);
+   
+    //staleTime:Tempo que os dados são considerados frescos
+    //cacheTime:Tempo que os dados ficam no cache,
+    //Para ambos é 8 Horas
+    const {data:relatoriosDiarios,refetch:refetchRds,isSuccess}= useQuery({
+        queryKey:['relatorios'],
+        queryFn:getAllRelatoriosDiarios,
+        staleTime:1*1000*60*60*8,
+        cacheTime:1*1000*60*60*8
 
-    const route = useRouter();
+    })
+    
 
-    const getAll = async () => {
-        const res: any = await getAllRelatoriosDiarios();
-        if (res) setRelatorioDiarios(res);
-    };
-
-    const handleCreateRelatorio = async () => {
-        const res = await createRelatorioDiario();
-        if (res) await getAll();
-    };
-
-  
+    const relatorioDiarioMutation = useMutation({
+        mutationFn:createRelatorioDiario,
+        onSuccess:refetchRds
+    })
+   
     return (
         <>
             <div className="flex flex-col gap-5 justify-center items-center mt-10">
                 <h1 className='text-center text-3xl font-bold mb-4'>Relatórios Diários</h1>
-                <Button onPress={handleCreateRelatorio} className='bg-blue-500 hover:bg-blue-700 text-2xl text-white font-bold py-2 px-4 rounded'>
+                <Button onPress={()=>relatorioDiarioMutation.mutate()} className='bg-blue-500 hover:bg-blue-700 text-2xl text-white font-bold py-2 px-4 rounded'>
                     Criar novo relatório
                 </Button>
             </div>
 
             <div className='flex flex-wrap justify-center gap-6 mt-10'>
-                {relatoriosDiarios != undefined && relatoriosDiarios.map((relatorioDiario: IRelatorioDiario) => (
+                {isSuccess && relatoriosDiarios.map((relatorioDiario: IRelatorioDiario) => (
                     <Card key={relatorioDiario.id} className="w-full max-w-xs p-5 bg-white rounded-lg shadow-lg transition transform hover:scale-105">
                         <h5 className="text-xl font-semibold mb-2 text-center">Relatório Diário Nº {relatorioDiario.id}</h5>
                         <p className="text-center text-gray-700">Data Abertura: {dayjs(relatorioDiario.horarioAbertura).format("DD/MM/YY")} - {semana[dayjs(relatorioDiario.horarioAbertura).day()]}</p>

@@ -246,7 +246,9 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
                 <Image
                   src={image.urlImagem != undefined ? image.urlImagem : ""}
                   alt={image.descricao != undefined ? image.descricao : ""}
-                  layout="fill"
+                  layout="responsive"
+                  width={100}
+                  height={100}
                   objectFit="cover"
                   className="cursor-pointer"
                 />

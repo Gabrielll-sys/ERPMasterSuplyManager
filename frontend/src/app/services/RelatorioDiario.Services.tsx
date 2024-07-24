@@ -28,7 +28,7 @@ export const getEmpresaRelatorioDiario = async (cliente:string)  =>{
          .catch();
  }
 
-export const getRelatorioDiario = async (id:number)  =>{
+export const getRelatorioDiarioById = async (id:number)  =>{
 
 
    return await axios
