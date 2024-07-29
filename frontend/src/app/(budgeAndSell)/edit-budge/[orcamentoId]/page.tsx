@@ -1,28 +1,30 @@
 "use client"
-import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar } from '@mui/material';
-import { Autocomplete, AutocompleteItem, Button, Input, Link, Modal, ModalBody, ModalContent, ModalFooter, Textarea, useDisclosure } from '@nextui-org/react';
-import Excel from 'exceljs';
-import { useRouter } from "next/navigation";
+import { authHeader } from '@/app/_helpers/auth_headers';
 import { url } from '@/app/api/webApiUrl';
-import "dayjs/locale/pt-br";
-import { Table } from 'flowbite-react';
-import { useEffect, useState } from "react";
 import ArrowLeft from '@/app/assets/icons/ArrowLeft';
 import IconBxTrashAlt from '@/app/assets/icons/IconBxTrashAlt';
-import { IInventario } from '@/app/interfaces/IInventarios';
-import { IItem } from '@/app/interfaces/IItem';
-import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import axios, { AxiosResponse } from "axios";
-import { useSession } from 'next-auth/react';
-import { authHeader } from '@/app/_helpers/auth_headers';
-import { logoBase64 } from '@/app/assets/base64Logo';
 import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
 import { SearchIcon } from '@/app/assets/icons/SearchIcon';
 import OrcamentoPDF from '@/app/componentes/OrcamentoPDF';
+import { IInventario } from '@/app/interfaces/IInventarios';
+import { IItem } from '@/app/interfaces/IItem';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import { searchByDescription } from '@/app/services/Material.Services';
+import { getOrcamentoById } from '@/app/services/Orcamentos.Service';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar } from '@mui/material';
+import MuiAlert, { AlertColor } from "@mui/material/Alert";
+import { Autocomplete, AutocompleteItem, Input, Link, Modal, ModalBody, ModalContent, ModalFooter, useDisclosure } from '@nextui-org/react';
+import { Button, Flex, TextArea, TextField } from '@radix-ui/themes';
 import { PDFDownloadLink } from '@react-pdf/renderer';
+import axios, { AxiosResponse } from "axios";
 import dayjs from 'dayjs';
+import "dayjs/locale/pt-br";
+import Excel from 'exceljs';
+import { Table } from 'flowbite-react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useQuery } from 'react-query';
 
 
 
@@ -40,7 +42,6 @@ export default function ManageBudges({params}:any){
   const[nomeOrçamento,setNomeOrçamento] = useState<string>("DF")
 
   const[inventarioDialog,setInventarioDialog] = useState<IInventario>()
-  const [orcamento,setOrcamento]= useState<IOrcamento>()
 
   const [materiais,setMateriais]= useState<IInventario[] >([])
   const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
@@ -86,10 +87,9 @@ const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Car
    
     useEffect(()=>{
 
-      getAllItensOrcamento(params.orcamentoId)
+
       getAllMateriaisInOrcamento(params.orcamentoId)
-      // getAllMaterial()
-      getInfosBudge()
+      
       //@ts-ignore
       const user = JSON.parse(localStorage.getItem("currentUser"));
     if(user != null)
@@ -240,7 +240,7 @@ const handleUpdateOrcamento = async()=>{
     setOpenSnackBar(true);
     setSeveridadeAlert("success");
     setMessageAlert("Orcamento Atualizado com sucesso");
-    getInfosBudge()
+    refetchOrcamento()
 
 
   }).catch(e=>console.log(e))
@@ -276,7 +276,7 @@ const handleUpdateOrcamentoToSell = async()=>{
     setOpenSnackBar(true);
     setSeveridadeAlert("success");
     setMessageAlert("Orcamento Atualizado com sucesso");
-    getInfosBudge()
+    refetchOrcamento()
 
 
   }).catch(e=>console.log(e))
@@ -331,29 +331,31 @@ const handleUpdateOrcamentoToSell = async()=>{
       setDescricao("")
       handleCloseDialog()
     }
-    const getInfosBudge =  async()=>{
-      await axios.get(`${url}/Orcamentos/${params.orcamentoId}`,{headers:authHeader()}).then(r=>{
-
-        console.log(r.data.tipoPagamento)
-        setOrcamento(r.data)
-        setEndereco(r.data.endereco)
-        setAcrescimo(r.data.acrescimo)
-        setNomeCliente(r.data.nomeCliente)
-        setEmailCliente(r.data.emailCliente)
-        setEmpresa(r.data.empresa)
-        setTelefone(r.data.telefone)
-        setDesconto(r.data.desconto)
-        setCpfOrCnpj(r.data.cpfOrCnpj)
-        setMetodoPagamento(r.data.tipoPagamento)
-        setObservacoes(r.data.observacoes)
-        setMetodoPagamento(r.data.tipoPagamento)
 
 
+    const {data:orcamento,refetch:refetchOrcamento} = useQuery({
+      queryKey:['orcamento',params.orcamentoId],
+      queryFn:()=>getOrcamentoById(params.orcamentoId),
+      staleTime:1*1000*60*60*8,
+      cacheTime:1*1000*60*60*8,
 
-        
+      onSuccess:(res)=>{
+        setEndereco(res.endereco)
+        setAcrescimo(res.acrescimo)
+        setNomeCliente(res.nomeCliente)
+        setEmailCliente(res.emailCliente)
+        setEmpresa(res.empresa)
+        setTelefone(res.telefone)
+        setDesconto(res.desconto)
+        setCpfOrCnpj(res.cpfOrCnpj)
+        setMetodoPagamento(res.tipoPagamento)
+        setObservacoes(res.observacoes)
+        setMetodoPagamento(res.tipoPagamento)
+      }
 
-      })
-    }
+
+    })
+ 
     const handleUpdateItem = async (item?:any) =>{
 
 console.log(item.quantidadeMaterial)
@@ -545,138 +547,7 @@ console.log(item.quantidadeMaterial)
 
     }
 
-const includeBorderCell = (ws:Excel.Worksheet,celula:string)=>{
 
-  ws.getCell(celula).border=bordas
-  ws.getCell(celula).alignment={vertical:'middle',horizontal:'left'}
-
-}
-
-    const cabecalhoPlanilha = (ws:Excel.Worksheet,wb:Excel.Workbook )=>{
-
-      ws.getCell(`A1`).border= bordas
-      ws.getCell(`B1`).border= bordas
-      ws.getCell(`C1`).border= bordas
-
-
-
-
-      ws.getCell('A2').value = "Id"
-      ws.getCell('A2').border = bordas
-      ws.getCell('B2').value = "Descrição Material"
-      ws.getCell('B2').border = bordas
-      ws.getCell('C2').value = "Preço Custo"
-      ws.getCell('C2').border = bordas
-      ws.getCell('D2').value = "Preço Venda"
-      ws.getCell('D2').border = bordas
-      ws.getCell('E2').value = "Quantidade"
-      ws.getCell('E2').border = bordas
-
-      ws.mergeCells('A1','B1')
-      ws.mergeCells('C1','E1')
-
-      ws.getRow(1).height=80
-
-      ws.getColumn(1).width=5
-      ws.getColumn(2).width=70
-      ws.getColumn(3).width=15
-      ws.getColumn(4).width=15
-      ws.getColumn(5).width=12
-
-      ws.getCell('B1').value=nomeOrçamento
-      
-      ws.getCell('B1').alignment={vertical:'middle',horizontal:'center'}
-      ws.getCell('B1').font = {size:18}
-
- 
-      ws.getCell('E1').value="Data Orçamento:"+" "+dayjs(date).format("DD/MM/YYYY").toString()
-      ws.getCell('E1').style.alignment={'vertical':"middle",'horizontal':"center"}
-      ws.getCell('E1').font = {size:16}
-      
-    }
-    
-    
-
-
-
-    const generatePlanilha = async ()=>{
-      
-      /*
-         Itera sobre a lista de materiais escolhidas no orçamento e poe numa respectiva célula,aonde cada iteração somara 3
-         por que os itens de cada linha começa a partir da 3 linha,pois antes vem o cabeçalho e o título de cada item da linha
- 
-      */
-
-      const workbook : Excel.Workbook = new Excel.Workbook();
-      
-      const ws :Excel.Worksheet = workbook.addWorksheet(nomeOrçamento)
-     
-      cabecalhoPlanilha(ws,workbook)
-      
-
-      for(let i in materiaisOrcamento)
-      {
-    
-        let precoCusto = isNullIsZero(materiaisOrcamento[Number(i)].material.precoCusto)
-        let precoVenda = isNullIsZero(materiaisOrcamento[Number(i)].material.precoVenda)
-
-        ws.getCell(letraPlanilha[0]+(Number(i)+3)).value = materiaisOrcamento[Number(i)].material.id
-        includeBorderCell(ws,letraPlanilha[0]+(Number(i)+3))
-
-        ws.getCell(letraPlanilha[1]+(Number(i)+3)).value = materiaisOrcamento[Number(i)].material.descricao
-        includeBorderCell(ws,letraPlanilha[1]+(Number(i)+3))
-
-        ws.getCell(letraPlanilha[2]+(Number(i)+3)).value ="R$"+ precoCusto
-        includeBorderCell(ws,letraPlanilha[2]+Number(i))
-
-        ws.getCell(letraPlanilha[3]+(Number(i)+3)).value = "R$" + precoVenda
-        includeBorderCell(ws,letraPlanilha[3]+(Number(i)+3))
-
-        ws.getCell(letraPlanilha[4]+(Number(i)+3)).value = materiaisOrcamento[Number(i)].quantidadeMaterial+" "+materiaisOrcamento[Number(i)].material.unidade
-        includeBorderCell(ws,letraPlanilha[4]+(Number(i)+3))
-
-
-    }
-
-  ws.getRow(materiaisOrcamento.length+3).height=50
-  
-
-  const colC= ws.getColumn('C')
-  colC.width= 30;
-
-  ws.getCell(`B${materiaisOrcamento.length+3}`).value= `Quantidade De Materias No Orçamento:${materiaisOrcamento.length}`
-  ws.getCell(`B${materiaisOrcamento.length+3}`).alignment={vertical:'middle',horizontal:'center'}
-  ws.getCell(`B${materiaisOrcamento.length+3}`).border=bordas
-
-  ws.getCell(`C${materiaisOrcamento.length+3}`).value= `Preço Custo Total:R$${precoCustoTotalOrcamento?.toFixed(2)}`
-  ws.getCell(`C${materiaisOrcamento.length+3}`).alignment={vertical:'middle',horizontal:'center'}
-  ws.getCell(`C${materiaisOrcamento.length+3}`).border=bordas
-
-  ws.getCell(`D${materiaisOrcamento.length+3}`).value= `Preço Venda Total:R$${precoVendaTotalOrcamento?.toFixed(2)}`
-  ws.getCell(`D${materiaisOrcamento.length+3}`).alignment={vertical:'middle',horizontal:'center'}
-  ws.getCell(`D${materiaisOrcamento.length+3}`).border=bordas
-
- const colD= ws.getColumn('D')
-  colD.width= 30;
-
-
-  const logo = workbook.addImage({
-    base64: logoBase64,
-    extension: 'png',
-  })
-
-
-ws.addImage(logo, {
-  tl: { col: 0.7, row: 0.2 },
-  ext: { width: 115, height: 70 }
-});
-
-
- 
-  createXlsxPlanilha(workbook)
-
-  
-     }
 
 
 return(
@@ -691,79 +562,95 @@ return(
       </Link>
 
       <h1 className='text-center text-2xl mt-4'>Orçamento Nº {orcamento?.id}</h1>
-      <div className='flex flex-col  mt-10  gap-3 justify-center text-center   '>
+      <Flex direction="column" gap="3" className='flex flex-col  mt-10   justify-center text-center   '>
 
       <div className='flex flex-col self-center max-w-[1200px] gap-7 '>
-              <div className='flex md:flex-row max-sm:flex-col  md:justify-between max-sm:justify-center max-sm:items-center w-[600px] max-sm:gap-5 '>
-                <Input        
-                              labelPlacement='outside'
-                              value={nomeCliente}
-                              className=" border-1 border-black rounded-md shadow-sm shadow-black max-w-[254px]  min-w-[254px]"
-                              onValueChange={(x)=>handleNomeCliente(x)}
-                              placeholder='99283-4235'
-                              label="Nome do Cliente"
-                            />
-                                <Input
-                                 labelPlacement='outside'
-                              value={endereco}
-                              className=" border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px]"
-                              onValueChange={setEndereco}
-                              placeholder='Rua Numero e Bairro'
-                              label="Endereço"
-                              />
+              <Flex direction='row' justify="center" gap="5" >
+              <TextField.Root>
+                    <TextField.Input
+                      value={nomeCliente}
+                      variant='classic'
+                      onChange={(x) => handleNomeCliente(x.target.value)}
+                      placeholder='Nome Cliente'
+                      className='w-[350px]'
+                      size="3"
+                      onBlur={handleUpdateOrcamento}
+                    />
+              </TextField.Root>
+              <TextField.Root>
+                    <TextField.Input
+                      value={endereco}
+                      variant='classic'
+                      onChange={(x) => setEndereco(x.target.value)}
+                      placeholder='Endereço'
+                       className='w-[350px]'
+                      size="3"
+                      onBlur={handleUpdateOrcamento}
+                    />
+              </TextField.Root>
+            
+                          
                      
-              </div>
-                    <div className='flex md:flex-row max-sm:flex-col  md:justify-between max-sm:justify-center max-sm:items-center w-[600px] max-sm:gap-5'>
-                      <Input
-                              labelPlacement='outside'
-                              value={emailCliente}
-                              className=" border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px]"
-                              onValueChange={setEmailCliente}
-                              placeholder='abcde@gmail.com'
-                              label="Email"
-                            />
+              </Flex>
+                <Flex direction='row' justify="center" gap="5" >
+                    <TextField.Root>
+                    <TextField.Input
+                      value={emailCliente}
+                      variant='classic'
+                      onChange={(x) => setEmailCliente(x.target.value)}
+                      placeholder='Endereço'
+                       className='w-[350px]'
+                      size="3"
+                      onBlur={handleUpdateOrcamento}
+                    />
+              </TextField.Root>
                             
-                             <Input
-                                   labelPlacement='outside'
-                                  value={cpfOrCnpj}
-                                  className="border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px] "
-                                  onValueChange={setCpfOrCnpj}
-                                  placeholder='99283-4235'
-                                  label="CPF OU CNPJ"
-                                />  
+              <TextField.Root>
+                    <TextField.Input
+                      value={cpfOrCnpj}
+                      variant='classic'
+                      onChange={(x) => setCpfOrCnpj(x.target.value)}
+                      placeholder='CPF/CNPJ'
+                       className='w-[350px]'
+                      size="3"
+                      onBlur={handleUpdateOrcamento}
+                    />
+              </TextField.Root>
                       
-                    </div>
-                         <div className=' flex md:flex-row max-sm:flex-col  md:justify-between max-sm:justify-center max-sm:items-center w-[600px] max-sm:gap-5   '>
+                    </Flex>
+                         <Flex direction='row' justify="center" gap="5"   >
                        
-                         <Input
-                              labelPlacement='outside'
-                              value={telefone}
-                              className="border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px]"
-                              onValueChange={setTelefone}
-                              placeholder='99283-4235'
-                              label="Telefone"
-                            />              
+                         <TextField.Root>
+                          <TextField.Input
+                            value={telefone}
+                            variant='classic'
+                            onChange={(x) => setTelefone(x.target.value)}
+                            placeholder='Telefone'
+                             className='w-[350px]'
+                            size="3"
+                            onBlur={handleUpdateOrcamento}
+                          />
+              </TextField.Root>             
 
-                <Input
-                        labelPlacement='outside'
-                        value={desconto}
-                        type='number'
-                        className="  border-1 border-black rounded-md shadow-sm shadow-black  max-w-[254px]  min-w-[254px]"
-                        onValueChange={setDesconto}
-                        isReadOnly = {orcamento?.isPayed}
-                        label="Desconto % Sobre Total do Orçamento"
-                        endContent={<span>%</span>}
-                      />
-                         </div>
+              <TextField.Root>
+                    <TextField.Input
+                      value={desconto}
+                      variant='classic'
+                      onChange={(x) => setDesconto(x.target.value)}
+                      placeholder='Endereço'
+                       className='w-[350px]'
+                      size="3"
+                      onBlur={handleUpdateOrcamento}
+                    />
+              </TextField.Root>
+                         </Flex>
                       
-                      <Textarea
-                                            label="Observações sobre este Orçamento"
-                                            placeholder="Observações"
-                                            className="md:max-w-lg max-sm:max-w-[260px] border-1  border-black rounded-md  max-h-[320px]  shadow-sm shadow-black self-center "
-                                            
-                                            maxRows={14}
-                                            value={observacoes}
-                                            onValueChange={setObservacoes}
+                      <TextArea              
+                            placeholder="Observações"
+                            size="3"
+                            value={observacoes}
+                            onChange={(x)=>setObservacoes(x.target.value)}
+                            onBlur={handleUpdateOrcamento}
                                         
                                           />
                                      
@@ -799,16 +686,16 @@ return(
 
              {orcamento?.isPayed ? (
                   <div className='flex flex-row mt-4 self-center'>
-                  <Button  className='bg-master_black max-w-[200px]  text-white p-5 mx-auto rounded-lg font-bold text-lg shadow-lg ' onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
+                  <Button  className='bg-master_black max-w-[200px]  text-white p-5 mx-auto rounded-lg font-bold text-lg shadow-lg ' onClick={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
               
                 </div>
              ):
-             <div className='flex md:flex-row  max-sm:flex-col gap-5 mt-4 self-center'>
-             <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg shadow-lg ' onPress={()=> handleUpdateOrcamento()}>Atualizar Orçamento</Button>
-             <Button  className='bg-master_black max-w-[200px] text-white p-5 ml-10 rounded-lg font-bold text-lg ' onPress={onOpen}>
+             <Flex className='flex md:flex-row  max-sm:flex-col gap-5 mt-4 self-center'>
+            
+             <Button  className=' text-white    font-bold text-lg ' onClick={onOpen}>
                         Autorizar Orçamento
                        </Button>
-           </div>
+           </Flex>
              }
             
               
@@ -825,7 +712,7 @@ return(
              startContent={<SearchIcon className="text-default-400" strokeWidth={2.5} size={20} />}
              value={descricao}
              onValueChange={(x:any)=>buscarDescricao(x)}
-             className=" md:min-w-[500px] max-sm:w-[350px]  self-center border-1 border-black rounded-xl shadow-sm shadow-black"
+             className=" md:min-w-[500px] max-sm:w-[350px]  self-center "
            >
   
            {materiais.map((item:IInventario) => (
@@ -860,10 +747,10 @@ return(
 
             <div className='flex md:flex-row max-sm:flex-col items-center'>
            <Button
-           color='danger' 
-           variant='ghost'
-           isDisabled={!nomeOrçamento?.length}
-           className={`  ${orcamento?.isPayed?"w-[225px]":"w-[205px]"} p-3 my-auto max-sm:w-[60%] `}
+           color='red' 
+           variant='outline'
+           
+           className={`  ${orcamento?.isPayed?"w-[225px]":"w-[255px]"} p-3 my-auto max-sm:w-[60%] `}
           >
             <PDFDownloadLink document={   <OrcamentoPDF
             materiaisOrcamento ={materiaisOrcamento}
@@ -905,9 +792,9 @@ n            orcamento={orcamento}
       </div>
     </DialogContent>
     <DialogActions>
-      <Button onPress={handleCloseDialog}>Fechar</Button>
+      <Button onClick={handleCloseDialog}>Fechar</Button>
        
-        <Button  onPress={()=> !isEditingOs ?handleAddMaterialOrcamento(inventarioDialog):handleUpdateItem(itemToBeUpdated)}>{isEditingOs?"Atualizar Quantidade":"Adicionar material"}</Button>
+        <Button  onClick={()=> !isEditingOs ?handleAddMaterialOrcamento(inventarioDialog):handleUpdateItem(itemToBeUpdated)}>{isEditingOs?"Atualizar Quantidade":"Adicionar material"}</Button>
     </DialogActions>
   </Dialog>
         
@@ -932,9 +819,9 @@ n            orcamento={orcamento}
       </div>
     </DialogContent>
     <DialogActions>
-      <Button onPress={handleCloseDialogPreco}>Fechar</Button>
+      <Button onClick={handleCloseDialogPreco} color="crimson" size='3' variant="solid" className='p-2 '>Fechar</Button>
        
-        <Button  onPress={()=> handleUpdatePrecoItem(itemToBeUpdated)}>Atualizar Preço</Button>
+        <Button className='p-2' size="3" variant='solid' color='blue' onClick={()=> handleUpdatePrecoItem(itemToBeUpdated)}>Atualizar Preço</Button>
     </DialogActions>
   </Dialog>
 
@@ -947,7 +834,7 @@ n            orcamento={orcamento}
               <div className="overflow-x-auto self-center w-[100%] mt-5 ml-5 ">
       <Table  hoverable striped className="w-[100%] ">
         <Table.Head className="border-1 border-black">
-          <Table.HeadCell className="text-center border-1 border-black text-sm max-w-[140px] " >Cod.Interno</Table.HeadCell>
+          <Table.HeadCell className="text-center border-1 border-black text-sm max-w-[170px] " >Cod.Interno</Table.HeadCell>
           <Table.HeadCell className="text-center border-1 border-black text-sm">Descricao</Table.HeadCell>
           {/* <Table.HeadCell className="text-center border-1 border-black text-sm">Estoque</Table.HeadCell> */}
           <Table.HeadCell className="text-center border-1 border-black text-sm">Qntd</Table.HeadCell>
@@ -1018,7 +905,7 @@ n            orcamento={orcamento}
         
       </div>
 
-     </div>
+     </Flex>
  <Snackbar
             open={openSnackBar}
             anchorOrigin={{
@@ -1060,12 +947,16 @@ n            orcamento={orcamento}
         />
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button color="crimson" size='3' variant="solid" className='p-2 '  onClick={onClose}>
                   Fechar
                 </Button>
-                <Button isDisabled={confirmAuthorizeMessage!="AUTORIZAR"|| orcamento?.isPayed || haveNoEstoque} color="primary" onPress={handleUpdateOrcamentoToSell}>
+
+                {confirmAuthorizeMessage==="AUTORIZAR"|| haveNoEstoque && (
+                <Button className='p-2' size="3" variant='solid' color='blue' onClick={handleUpdateOrcamentoToSell}>
                   Autorizar
                 </Button>
+
+                )}
               </ModalFooter>
             </>
           )}

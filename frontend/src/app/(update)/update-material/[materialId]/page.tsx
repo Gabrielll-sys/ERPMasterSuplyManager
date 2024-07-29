@@ -3,25 +3,19 @@ import ArrowLeft from "@/app/assets/icons/ArrowLeft";
 import { getMaterialById, updateMaterial } from "@/app/services/Material.Services";
 import { Snackbar } from '@mui/material';
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import { Autocomplete, AutocompleteItem, Button, Input, Link, useDisclosure } from "@nextui-org/react";
-import dayjs from "dayjs";
-
+import { Autocomplete, AutocompleteItem, Link, useDisclosure } from "@nextui-org/react";
 import Image from "next/image";
-
-
-
+import IconArrowDownCircle from "@/app/assets/icons/IconArrowDownCircleFill";
 import IconCamera from "@/app/assets/icons/IconCamera";
 import { IImage } from "@/app/interfaces/IImage";
 import { deleteImageFromAzure, getImageDimensions, uploadImageToAzure } from "@/app/services/Images.Services";
 import { Modal, ModalBody, ModalContent, ModalFooter } from '@nextui-org/react';
+import { Flex, TextField } from "@radix-ui/themes";
 import imageCompression from "browser-image-compression";
 import "dayjs/locale/pt-br";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import IconArrowDownCircle from "@/app/assets/icons/IconArrowDownCircleFill";
-import IMaterial from "@/app/interfaces/IMaterial";
-import { deleteImagemAtividadeRd } from "@/app/services/ImagensAtividadeRd.Service";
-
+import { Button } from "@radix-ui/themes";
 export default function UpdateMaterial({params}:any){
   const route = useRouter()
 
@@ -305,135 +299,143 @@ console.log(image)
       </Link>
      <h1  className='text-center font-bold text-2xl mt-10'>Editando {descricaoMaterial}  (Codigo Interno: {codigoInterno}) </h1>
    
-     <div className=' w-full flex flex-row justify-center mt-10 ' >
- 
- 
-  
-     <Input   
-      value={codigoFabricante} 
-      className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-      onValueChange={setCodigoFabricante}  label='Cod Fabricante'  />
- 
-    
-     <Input   value={descricao} 
-         className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[400px]"
-         onValueChange={setDescricao} label='Descrição'  required />
- 
-    
-     <Input   
-     value={marca}     
-     className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-     onValueChange={setMarca}  label='Marca' />
-      
-       <Input
-           value={localizacao}
-           className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-           
-           onValueChange={setLocalizacao}
-           label="Localização"
-         />
-    </div>
-
-      <div className=' w-full flex flex-row justify-center  ' >
-
-           <Input
-          type="number"
-          className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-
-         value={precoCusto}
-         startContent={
-          <span>R$</span>
-        }
-        
-         onValueChange={setPrecoCusto}
-         label="Preço Custo"
-
-       />
-       <Input
-          type="number"
-           value={markup}
-           className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-           onValueChange={(x)=>{setMarkup(x),calcularPrecoVenda()}}
-           label="Markup "
-           endContent={
-            <span>%</span>
-          }
+     <Flex direction="column" gap="6">
+       <Flex direction="row" justify="center"  gap="6" height="7" className=' mt-10' >
+        <TextField.Root>
+                    <TextField.Input
+                      value={codigoFabricante}
+                      variant='classic'
+                      onChange={(x) => setCodigoFabricante(x.target.value)}
+                      placeholder='Código Fabricante'
+                      size="3"
+                    />
+                  </TextField.Root>
+          <TextField.Root>
+                    <TextField.Input
+                      value={descricao}
+                      variant='classic'
+                      onChange={(x) => setDescricao(x.target.value)}
+                      placeholder='Descricao'
+                      className="w-[400px]"
+                      size="3"
+                    />
+                  </TextField.Root>
+           <TextField.Root>
+                    <TextField.Input
+                      value={marca}
+                      variant='classic'
+                      onChange={(x) => setMarca(x.target.value)}
+                      placeholder='Marca'
+                      size="3"
+                    />
+                  </TextField.Root>
+            <TextField.Root>
+                    <TextField.Input
+                      value={localizacao}
+                      variant='classic'
+                      onChange={(x) => setLocalizacao(x.target.value)}
+                      placeholder='Localização'
+                      size="3"
+                    />
+                  </TextField.Root>
           
-         />
-       <Input
-           value={precoVenda}
-           onValueChange={(x)=>{setPrecoVenda(x),calcularMarkup()}}
-           label="Preço Venda"
-           startContent={
-            <span>R$</span>
-          }
-           className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-         />
-         {tensao && (
-            <Autocomplete
-            label="Tensão "
-            className="max-w-[180px] border-1 border-black rounded-md shadow-sm shadow-black h-14 mt-10 ml-5 mr-5 w"
-            allowsCustomValue
-            value={tensao}
-            onSelectionChange={setTensao}
-            defaultSelectedKey={tensao}
+       
+           </Flex>
+
+        <Flex direction="row" justify="center"  gap="6" height="7" >
+        <TextField.Root>
+                    <TextField.Input
+                      value={precoCusto}
+                      variant='classic'
+                      onChange={(x) => setPrecoCusto(x.target.value)}
+                      placeholder='Preço De Custo'
+                      size="3"
+                    />
+                  </TextField.Root>
+            <TextField.Root>
+                    <TextField.Input
+                      value={markup}
+                      variant='classic'
+                      onChange={(x) => setMarkup(x.target.value)}
+                      placeholder='Markup'
+                      size="3"
+                    />
+              </TextField.Root>
+       
+              <TextField.Root>
+                    <TextField.Input
+                      value={precoVenda}
+                      variant='classic'
+                      onChange={(x) => setPrecoVenda(x.target.value)}
+                      placeholder='Preço de Venda'
+                      size="3"
+                    />
+              </TextField.Root>
+
+              <TextField.Root>
+                    <TextField.Input
+                      value={corrente}
+                      variant='classic'
+                      onChange={(x) => setCorrente(x.target.value)}
+                      placeholder='Corrente'
+                      size="3"
+                    />
+              </TextField.Root>
+           {tensao && (
+              <Autocomplete
+              label="Tensão "
+              className="max-w-[180px] "
+              allowsCustomValue
+              value={tensao}
+              onSelectionChange={setTensao}
+              defaultSelectedKey={tensao}
+              >
+              {tensoes.map((item:any) => (
+                <AutocompleteItem
+                key={item}
+                aria-label=''
+                  value={tensao}
+                  >
+                  {item}
+                </AutocompleteItem>
+              ))}
+              </Autocomplete>
+           )}
+          
+        {unidade && (
+       
+        <Autocomplete
+         label="Unidade "
+         placeholder="EX:MT"
+         className="max-w-[180px]  "
+          value={unidadeMaterial}
+          onSelectionChange={setUnidade}
+          allowsCustomValue
+          defaultSelectedKey={unidade==""?"":unidade}
+       >
+       
+       {unidadeMaterial.map((item:any) => (
+       
+          <AutocompleteItem
+           key={item}
+           aria-label='teste'
+       
+            value={unidade}
             >
-
-            {tensoes.map((item:any) => (
-
-              <AutocompleteItem
-              key={item} 
-              aria-label=''
-
-                value={tensao}
-                >
-                {item}
-              </AutocompleteItem>
-            ))}
-            </Autocomplete>
-         )}
-   
-         <Input
-           value={corrente}
-           className="border-1 border-black rounded-md shadow-sm shadow-black mt-10 ml-5 mr-5 w-[200px]"
-           onValueChange={setCorrente}
-           label="Corrente"
-         />
- 
-      {unidade && (
-
- <Autocomplete
-       label="Unidade "
-       placeholder="EX:MT"
-       className="max-w-[180px] border-1 border-black rounded-md shadow-sm shadow-black h-14 mt-10 ml-5 mr-5 w"
-        value={unidadeMaterial}
-        onSelectionChange={setUnidade}
-        allowsCustomValue
-        defaultSelectedKey={unidade==""?"":unidade}
-     >
-     
-     {unidadeMaterial.map((item:any) => (
-      
-        <AutocompleteItem
-         key={item} 
-         aria-label='teste'
-      
-          value={unidade}
-          >
-          {item}
-        </AutocompleteItem>
-      ))}
-      </Autocomplete>
-      )}
-      
-     
-   
-     </div>
+            {item}
+          </AutocompleteItem>
+        ))}
+        </Autocomplete>
+        )}
+       
+       
+       </Flex>
+     </Flex>
 
      <div className=' w-[100%] text-center mt-12 flex flex-col gap-4 items-center'>
-     <Button  onPress={x=>handleUpdateMaterial(params.materialId)} 
-      color='primary' 
-      variant='ghost' className=' p-6 rounded-lg font-bold text-2xl w-[230px]   '>
+     <Button  onClick={x=>handleUpdateMaterial(params.materialId)} 
+      size="4"
+      variant='outline' className=' p-6 rounded-lg font-bold cursor-pointer   '>
        Atualizar Material
       </Button>
       <input
@@ -511,9 +513,11 @@ console.log(image)
             </ModalBody>
             <ModalFooter className="flex flex-row justify-between">
            
-              <Button color="danger" isDisabled={blockButton} onPress={handleDeleteImagemMaterial}>Deletar Imagem</Button>
-       
-              <Button color="danger" variant="light" onPress={()=>{onClose(),setImageModal(undefined)}}>
+              
+              <Button color="crimson" size='3' variant="solid" className='p-2 cursor-pointer ' onClick={handleDeleteImagemMaterial}>
+                                Deletar Imagem
+                            </Button>
+              <Button color="blue" variant="outline" className='p-2 cursor-pointer ' onClick={()=>{onClose(),setImageModal(undefined)}}>
                              Fechar
                          </Button>
             </ModalFooter>
