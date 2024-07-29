@@ -406,7 +406,7 @@ const updateAtividade  = async(atividade: IAtividadeRd, status: string, observac
                             />
                         </ModalBody>
                         <ModalFooter className='flex fle-row gap-4 '>
-                            <Button color="crimson" size='3' variant="solid" className='p-2' onClick={onClose}>
+                            <Button color="crimson" size='3' variant="solid" className='p-2 ' onClick={onClose}>
                                 Fechar
                             </Button>
                             {!relatorioDiario?.isFinished && confirmAuthorizeMessage=="AUTORIZAR"  && (
