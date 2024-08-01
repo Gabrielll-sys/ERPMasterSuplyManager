@@ -6,6 +6,7 @@ import IconPen from "../assets/icons/IconPen";
 import { ITarefaUsuario } from "../interfaces/ITarefaUsuario";
 import IconBagX from "../assets/icons/IconBagX";
 import IconBxTrashAlt from "../assets/icons/IconBxTrashAlt";
+import { Flex, Text } from "@radix-ui/themes";
 
 // @ts-ignore
 export default function TaskUser({tarefa,onUpdateTarefa,onDeleteTarefa}) {
@@ -75,31 +76,36 @@ export default function TaskUser({tarefa,onUpdateTarefa,onDeleteTarefa}) {
   }
   return (
     <>
-    <div className=" flex flex-row items-center text-center">
 
-    <div className=" flex flex-row items-center justify-between gap-6 text-center w-[80%]">
+
+    <Flex className=" flex flex-row items-center justify-between gap-6 text-center w-[40%]">
       
 
-    <div className=" border-1 rounded-md border-gray-400 p-2 flex flex-row shadow-sm shadow-black ">
-      <Checkbox color="success"
-      
-              isSelected={tarefa.isFinished}
-              onValueChange={handleUpdateStatus}
-              
-              size="md"
-              >
-      
-      </Checkbox>
-        {!isEditing && (
-          <>
-        <p className="text-base font-extrabold min-w-[290px] max-w-[290px]  "
-        onClick={()=>setIsEditing(!isEditing)}
-      
-        >{nomeTarefa}</p>
-        <IconBxTrashAlt onClick={handleDeleteTarefa}/>
-        </>
-                                                  )}
-    </div>   
+    <Flex direction="row" justify="start" gap = "3" className=" border-1 rounded-sm border-gray-400 p-2  shadow-sm shadow-black ">
+      <Flex direction="row" gap="2" className="w-[300px]" >
+
+        <Checkbox color="success"
+                radius="none"
+                isSelected={tarefa.isFinished}
+                onValueChange={handleUpdateStatus}
+        
+                size="md"
+                >
+        
+        </Checkbox>
+          {!isEditing && (
+            <>
+          <Text className="text-base   "
+          onClick={()=>setIsEditing(!isEditing)}
+        
+          >{nomeTarefa}</Text>
+          {!tarefa.isFinished && (
+          <IconBxTrashAlt onClick={handleDeleteTarefa}/>
+          )}
+          </>
+                                                    )}
+      </Flex>
+    </Flex>   
 
                                                 { isEditing && (
 
@@ -115,10 +121,10 @@ export default function TaskUser({tarefa,onUpdateTarefa,onDeleteTarefa}) {
    
     
 
-    </div>
+    </Flex>
    
 
- </div>
+
       </>
   );
 }

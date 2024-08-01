@@ -50,21 +50,13 @@ import LeftSearchParameters from "../componentes/LeftSearchParameters";
 
   const unidadeMaterial : string[] = ["UN", "RL", "MT", "P"];
   const tensoes :string[]= ["","12V","24V","127V","220V","380V","440V","660V"]
-  const { data: session } = useSession();
   const [currentUser, setCurrentUser] = useState<any>(null);
   
-  const componentRef: any = useRef();
+
   const conditionsRoles = currentUser?.role == "Administrador" || currentUser?.role == "Diretor" || currentUser?.role == "SuporteTecnico"
 
-  const handlePrint = useReactToPrint({
-   content: () => componentRef.current,
-   documentTitle: 'Visitor Pass',
-   onAfterPrint: () => console.log('Printed PDF successfully!'),
-  });
-    
+   
  
-  
-  
   useEffect(()=>{
       //@ts-ignore
   const user = JSON.parse(localStorage.getItem("currentUser"));
@@ -114,6 +106,13 @@ const buscarDescricao = async(descricao:string)=>
 
 
 }
+
+const realizarFiltro = ()=>{
+
+
+  
+}
+
 const buscaCodigoFabricante = async(codigo:string)=>
 {
   setCodigoFabricante(codigo)

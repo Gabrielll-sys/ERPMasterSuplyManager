@@ -1,13 +1,13 @@
 "use client";
-import { Button } from '@nextui-org/react';
+import { Button, Text } from "@radix-ui/themes";
 import "dayjs/locale/pt-br";
 import { Card } from 'flowbite-react';
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from 'react';
 import { IRelatorioDiario } from '@/app/interfaces/IRelatorioDiario';
 import { createRelatorioDiario, getAllRelatoriosDiarios } from "@/app/services/RelatorioDiario.Services";
 import dayjs from 'dayjs';
 import { useMutation, useQuery } from 'react-query';
+import { Flex } from '@radix-ui/themes';
 
 export default function Reports() {
 
@@ -35,30 +35,39 @@ export default function Reports() {
    
     return (
         <>
-            <div className="flex flex-col gap-5 justify-center items-center mt-10">
-                <h1 className='text-center text-3xl font-bold mb-4'>Relatórios Diários</h1>
-                <Button onPress={()=>relatorioDiarioMutation.mutate()} className='bg-blue-500 hover:bg-blue-700 text-2xl text-white font-bold py-2 px-4 rounded'>
-                    Criar novo relatório
-                </Button>
-            </div>
+            <Flex justify="center" className="  w-full ">
+                <Flex direction="row"  justify="between"  className="  w-[1400px] mt-10">
+                    <Text className=' text-2xl ml-10 font-bold '>Relatórios Diários</Text>
+                    <Button onClick={()=>relatorioDiarioMutation.mutate()} className=' hover:bg-blue-500 text-base text-white font-bold px-4 py-5 rounded'>
+                        Criar novo relatório
+                    </Button>
+                </Flex>
+            </Flex>
 
-            <div className='flex flex-wrap justify-center gap-6 mt-10'>
-                {isSuccess && relatoriosDiarios.map((relatorioDiario: IRelatorioDiario) => (
-                    <Card key={relatorioDiario.id} className="w-full max-w-xs p-5 bg-white rounded-lg shadow-lg transition transform hover:scale-105">
-                        <h5 className="text-xl font-semibold mb-2 text-center">Relatório Diário Nº {relatorioDiario.id}</h5>
-                        <p className="text-center text-gray-700">Data Abertura: {dayjs(relatorioDiario.horarioAbertura).format("DD/MM/YY")} - {semana[dayjs(relatorioDiario.horarioAbertura).day()]}</p>
-                        <p className="text-center text-gray-700 mb-4">Status: {relatorioDiario.isFinished ? "Relatório Concluído" : "Relatório Em Análise"}</p>
-                        <div className="text-center">
-                            <button
-                                onClick={() => route.push(`/report/${relatorioDiario.id}`)}
-                                className="inline-flex items-center px-4 py-2 bg-green-500 text-black text-base rounded-md hover:bg-green-700 hover:underline"
-                            >
-                                Editar
-                            </button>
-                        </div>
-                    </Card>
-                ))}
-            </div>
+            <Flex justify="center">
+                <Flex justify="center" wrap="wrap" gap="6" mt="7" className="max-w-[1400px]" >
+                    {isSuccess && relatoriosDiarios.map((relatorioDiario: IRelatorioDiario) => (
+                        <Card key={relatorioDiario.id} className=" shadow-md border-l-4 hover:transform hover:-translate-y-1 hover:shadow-lg transition duration-300 max-w-72 p-2 bg-white rounded-lg">
+                            <h5 className="text-xl font-semibold mb-2 text-left">Relatório Diário Nº {relatorioDiario.id}</h5>
+                            <Text className="text-left text-gray-700">Data Abertura: {dayjs(relatorioDiario.horarioAbertura).format("DD/MM/YY")} </Text>
+                            <Text className="text-left text-gray-700">{semana[dayjs(relatorioDiario.horarioAbertura).day()]}</Text>
+                            <Text className={`text-center text-gray-700 mb-4 ${relatorioDiario.isFinished?"bg-[#d4edda] text-[#155724] b-l-[#28a745]":""} `}>Status: {relatorioDiario.isFinished ? "Relatório Concluído" : "Relatório Em Análise"}</Text>
+                
+                                <Flex justify="end"  >
+                                    <Button
+                                        onClick={() => route.push(`/report/${relatorioDiario.id}`)}
+                
+                                        className="text-white text-base rounded-md hover:underline w-[100px] self-end "
+                
+                                    >
+                                        Editar
+                
+                                                            </Button>
+                                </Flex>
+                        </Card>
+                    ))}
+                </Flex>
+            </Flex>
         </>
     );
 }
