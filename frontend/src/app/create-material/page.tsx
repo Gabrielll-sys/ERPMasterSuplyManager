@@ -1,26 +1,20 @@
 "use client";
 
-import { Autocomplete, AutocompleteItem, Button } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { Text, TextField } from "@radix-ui/themes";
 import { Snackbar } from '@mui/material';
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import {
-  Input,
-  Spinner
-} from '@nextui-org/react';
+import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
+import { Text, TextField } from "@radix-ui/themes";
 import "dayjs/locale/pt-br";
-import { useReactToPrint } from 'react-to-print';
-
-import { useSession } from "next-auth/react";
-import IconPencil from "../assets/icons/IconPencil";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+ 
+import { Box, Flex, Table } from "@radix-ui/themes";
+import { useMutation } from "react-query";
+import LeftSearchParameters from "../componentes/LeftSearchParameters";
+import { IInventario } from "../interfaces/IInventarios";
 import IMaterial from "../interfaces/IMaterial";
 import { createMaterial, searchByDescription, searchByFabricanteCode } from "../services/Material.Services";
-import { Box, Flex, Table } from "@radix-ui/themes";
-import { IInventario } from "../interfaces/IInventarios";
-import LeftSearchParameters from "../componentes/LeftSearchParameters";
-
+import { Button } from '@radix-ui/themes';
 
 
 
@@ -131,7 +125,7 @@ const buscaCodigoFabricante = async(codigo:string)=>
 
 }
   
-  const handleChangeUpdatePage = async (id:number) => {
+  const handleChangeUpdatePage = async (id:string | number) => {
    
    if(descricao !=undefined){
 
@@ -145,18 +139,31 @@ const buscaCodigoFabricante = async(codigo:string)=>
   };
 
   
-  const handleCreateMaterial = async () => {
-    
-      
-    if (!descricao || !unidade) {
-      setOpenSnackBar(true);
-      setSeveridadeAlert("warning");
-      setMessageAlert("Prencha todas as informações necessárias");
-    } else {
+  const mutationMaterial = useMutation({
+    mutationFn: createMaterial,
+    onSuccess: (res:IInventario) => {
+        setOpenSnackBar(true);
+        setSeveridadeAlert("success");
+        setMessageAlert("Material Criado com sucesso")
+        console.log(res)
+        materiais.push(res)
+        
+   
+    },
   
-      // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
+});
 
-      const material: IMaterial = {
+const handleCreateMaterial = () => {
+
+    if (!descricao || !unidade) {
+        setOpenSnackBar(true);
+        setSeveridadeAlert("warning");
+        setMessageAlert("Preencha todas as informações necessárias");
+        return; // Yearly return
+    }
+
+    // Prepare the material object, removing extra spaces
+    const material: IMaterial = {
         codigoFabricante: codigoFabricante.trim().replace(/\s\s+/g, " "),
         descricao: descricao.trim().replace(/\s\s+/g, " "),
         categoria: "",
@@ -166,23 +173,13 @@ const buscaCodigoFabricante = async(codigo:string)=>
         tensao: tensao.trim().replace(/\s\s+/g, " "),
         localizacao: localizacao.trim().replace(/\s\s+/g, " "),
         dataEntradaNF: dataentrada,
-        precoCusto:precoCusto,
-        markup:markup,
-        
-      };
+        precoCusto: precoCusto,
+        markup: markup,
+    };
 
-      const materialCriado = await createMaterial(material)
-       
-
-      console.log(materialCriado)
-       if(materialCriado == 200){
-         setOpenSnackBar(true);
-         setSeveridadeAlert("success");
-         setMessageAlert("Material Criado com sucesso");
-       }
-
-    }
-  };
+    // Call the mutation to create the material
+    mutationMaterial.mutate(material);
+};
 
   
     return(
@@ -325,10 +322,10 @@ const buscaCodigoFabricante = async(codigo:string)=>
                </AutocompleteItem>
              ))}
              </Autocomplete>
-             <Button  onPress={handleCreateMaterial}
-         color='primary'
-         variant='ghost'
-         className='  p-4 rounded-lg font-bold text-2xl shadow-lg '>
+             <Button  onClick={handleCreateMaterial}
+         
+            variant='solid'
+            className='  p-2 rounded-md font-bold text-base my-3 '>
              Criar Material
          </Button>
         </Flex>
@@ -353,13 +350,23 @@ const buscaCodigoFabricante = async(codigo:string)=>
                  <Table.Row className="hover:bg-master_yellow">
                    <Table.Cell align="center" className="max-w-[80px] p-4" >{inventario.material.id}</Table.Cell>
                    <Table.Cell align="center" className="max-w-[100px] p-4">{inventario.material.codigoFabricante}</Table.Cell>
-                   <Table.RowHeaderCell className="max-w-[400px] p-4" onClick={()=>setDescricao(inventario?.material?.descricao)} >{inventario.material.descricao}</Table.RowHeaderCell>
+                   <Table.RowHeaderCell className="max-w-[400px] p-4" onClick={()=>{setDescricao(inventario?.material?.descricao),searchByDescription(inventario?.material?.descricao)}} >{inventario.material.descricao}</Table.RowHeaderCell>
                    <Table.Cell align="center">{inventario.material.marca}</Table.Cell>
                    <Table.Cell align="center">{inventario.material.tensao}</Table.Cell>
                    <Table.Cell align="center">{inventario.saldoFinal}</Table.Cell>
                    <Table.Cell align="center" className="max-w-[100px] p-4">{inventario.material.localizacao}</Table.Cell>
                    <Table.Cell align="center">R${inventario.material.precoVenda==null?"0,00":inventario.material.precoVenda.toFixed(2).toString().replace('.',",")}</Table.Cell>
                    <Table.Cell align="center">R${inventario.material.precoVenda==null && inventario.saldoFinal==0?"0,00":(inventario.material.precoVenda * inventario.saldoFinal).toFixed(2).toString().replace('.',",")}</Table.Cell>
+                   <Table.Cell align="center"> 
+                    <Button
+                                        onClick={() => handleChangeUpdatePage(inventario?.material?.id)}
+                                        className="text-white text-sm rounded-md hover:underline w-[50px] "
+                
+                                    >
+                                        Editar
+                
+                                                            </Button>
+                                                            </Table.Cell>
                  </Table.Row>
                  ))}
                </Table.Body>
@@ -369,30 +376,30 @@ const buscaCodigoFabricante = async(codigo:string)=>
       </Flex>
         
        
-      
+      <Snackbar
+            open={openSnackBar}
+            autoHideDuration={2000}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center'
+            }}
+            onClose={(e) => setOpenSnackBar(false)}
+        >
+            <MuiAlert
+                onClose={(e) => setOpenSnackBar(false)}
+                severity={severidadeAlert}
+                sx={{ width: "100%" }}
+            >
+                {messageAlert}
+            </MuiAlert>
+        </Snackbar>
   
     </Flex>
 
+     
 
 
 
-        //    <Snackbar
-        //     open={openSnackBar}
-        //     autoHideDuration={2000}
-        //     anchorOrigin={{
-        //         vertical: 'bottom',
-        //         horizontal: 'center'
-        //     }}
-        //     onClose={(e) => setOpenSnackBar(false)}
-        // >
-        //     <MuiAlert
-        //         onClose={(e) => setOpenSnackBar(false)}
-        //         severity={severidadeAlert}
-        //         sx={{ width: "100%" }}
-        //     >
-        //         {messageAlert}
-        //     </MuiAlert>
-        // </Snackbar>
     )
 }
 export default CreateMaterial;

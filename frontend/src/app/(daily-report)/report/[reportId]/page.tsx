@@ -63,15 +63,6 @@ export default function Report({params}:any){
 
  
   
-   
-    let date = dayjs()
-
-    const bordas:any= {
-        top: {style:'thin'},
-        left: {style:'thin'},
-        bottom: {style:'thin'},
-        right: {style:'thin'}
-    }
     useEffect(() => {
 
      //@ts-ignore
@@ -149,6 +140,7 @@ const handleCreateaAtividade = async ()=>{
         },1200)
 }
 
+
 const handleDeleteAtividade = async(id:number)=>{
 
     const imagens :IImagemAtividadeRd []= await getAllImagensInAtividade(id)
@@ -207,23 +199,32 @@ const finalizarRelatorioDiario = useMutation({
 })
 
 
-const updateAtividade  = async(atividade: IAtividadeRd, status: string, observacoes: string,descricao:string)=>{
+const atualizarTarefaMutation = useMutation({
+    mutationFn:(task:IAtividadeRd)=>updateAtividadeRd(task),
+    onSuccess:()=>{
 
-    const novaAtividade: IAtividadeRd[] = [...atividadesInRd]
-    const index = atividadesInRd.findIndex(x=>x.id==atividade.id)
-
-    novaAtividade[index].status =status ;
-    novaAtividade[index].observacoes = observacoes;
-    novaAtividade[index].descricao = descricao;
-     const res = await updateAtividadeRd(novaAtividade[index])
-
-    if(res == 200)
-    {
-        setOpenSnackBar(true);
-        setSeveridadeAlert("success");
-        setMessageAlert("Atividade Atualizada");
-        refetchAtividades()
+                setOpenSnackBar(true);
+                setSeveridadeAlert("success");
+                setMessageAlert("Atividade Atualizada");
+                refetchAtividades()
+            
     }
+
+})
+
+const updateAtividade  = (atividade: IAtividadeRd , status: string, observacoes: string,descricao:string)=>{
+
+    if(atividades!= undefined){
+
+        const novaAtividade: IAtividadeRd[] = [...atividades]
+        const index = atividades.findIndex(x=>x.id==atividade.id)
+        novaAtividade[index].status =status ;
+        novaAtividade[index].observacoes = observacoes;
+        novaAtividade[index].descricao = descricao;
+    
+        atualizarTarefaMutation.mutate(novaAtividade[index])
+    }
+
 
 }
   

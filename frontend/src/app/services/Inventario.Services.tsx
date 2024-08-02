@@ -9,9 +9,10 @@ export const createInventario = async (idMaterial: number) => {
     material: {},
   };
 
-  await axios
+  return await axios
     .post(`${url}/Inventarios`, inventario, { headers: authHeader() })
     .then((r) => {
+      
       return r.data;
     })
     .catch();
