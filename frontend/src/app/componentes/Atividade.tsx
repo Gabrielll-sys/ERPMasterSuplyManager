@@ -41,7 +41,7 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
   const [blockButton, setBlockButton] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [subindoImagem,setSubindoImagem] = useState(false)
-
+  const queryClient = useQueryClient();
   const { data: imagesInAtividades, refetch: refetchImagensInAtividadeRd } = useQuery<IImagemAtividadeRd[]>(
   {
     queryKey:['imagesInAtividades', atividade.id],
@@ -68,7 +68,19 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
       onSuccess: () => setBlockButton(false),
     }
   );
-
+  const addImagemAtividadeMutation = useMutation(addImagemAtividadeRd, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['imagens', atividade.id]);
+      setOpenSnackBar(true);
+      setSeveridadeAlert('success');
+      setMessageAlert('Imagem adicionada à atividade');
+    },
+    onError: () => {
+      setOpenSnackBar(true);
+      setSeveridadeAlert('error');
+      setMessageAlert('Erro ao adicionar imagem');
+    }
+  });
   const deleteImagemAtividadeMutation = useMutation(
     async () => {
       if (imageModal) {
