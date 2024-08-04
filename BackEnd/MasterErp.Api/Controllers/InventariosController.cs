@@ -680,6 +680,7 @@ namespace MasterErp.Api.Controllers;
 
                     var filterResult = await _context.Inventarios
                         .Include(s => s.Material)
+
                         .Where(x => x.Material.Marca.Contains(model.Marca) && x.Material.PrecoCusto > model.PrecoCustoMin && x.Material.PrecoCusto < model.PrecoCustoMax)
                         .OrderBy(x => x.Material.PrecoCusto)
                         .ToListAsync();

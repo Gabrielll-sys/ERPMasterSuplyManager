@@ -3,7 +3,7 @@
 import { Snackbar } from '@mui/material';
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
-import { Text, TextField } from "@radix-ui/themes";
+import { HoverCard, Text, TextField } from "@radix-ui/themes";
 import "dayjs/locale/pt-br";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -15,6 +15,9 @@ import { IInventario } from "../interfaces/IInventarios";
 import IMaterial from "../interfaces/IMaterial";
 import { createMaterial, searchByDescription, searchByFabricanteCode } from "../services/Material.Services";
 import { Button } from '@radix-ui/themes';
+import Image from 'next/image';
+import { filterMateriais } from '../services/Inventario.Services';
+import IconCurrencyReal from '../assets/icons/IconCurrencyReal';
 
 
 
@@ -78,9 +81,11 @@ if(description) setDescricao(description)
 },[])
 
 
-const buscarDescricao = async(descricao:string)=>
+const buscarDescricao = async(descricao:string | undefined)=>
 {
-  setDescricao(descricao)
+setDescricao(descricao)
+  if(descricao!= undefined){
+
     if(descricao.length>3)
     {
       try{
@@ -97,13 +102,15 @@ const buscarDescricao = async(descricao:string)=>
     }
     
     }
+  }
 
 
 }
 
-const realizarFiltro = ()=>{
+const handleFiltro = async (filtro:any)=>{
 
-
+  const materiaisFiltrados = await filterMateriais(filtro)
+   setMateriais(materiaisFiltrados)
   
 }
 
@@ -146,7 +153,7 @@ const buscaCodigoFabricante = async(codigo:string)=>
         setSeveridadeAlert("success");
         setMessageAlert("Material Criado com sucesso")
         console.log(res)
-        materiais.push(res)
+      
         
    
     },
@@ -187,9 +194,9 @@ const handleCreateMaterial = () => {
   
     <Flex direction="row" justify="between" gap="5" className="mt-7" >
 
-        <Box className="min-w-[400px]" >
+        <Box className="min-w-[400px] ml-6 " >
           
-            <LeftSearchParameters/>
+            <LeftSearchParameters onFilter={handleFiltro} />
         </Box>
 
       <Flex  direction="column" wrap="wrap" gap="3" >
@@ -245,16 +252,18 @@ const handleCreateMaterial = () => {
 
         
               <TextField.Root>
+              
                     <TextField.Input
                       type="number"
                       value={precoCusto}
                       variant='classic'
                       onChange={(x) => setPrecoCusto(x.target.value)}
                       placeholder='Preço Custo'
-                      className='w-[600px]'
+                      className='w-[600px] max-w-'
                       size="3"
 
                     />
+                     
               </TextField.Root>
 
             <TextField.Root>
@@ -283,7 +292,7 @@ const handleCreateMaterial = () => {
                  <Autocomplete
               label="Tensão"
               placeholder="EX:127V"
-              className="max-w-[180px]  rounded-none     "
+              className="max-w-[180px]  rounded-none "
         
         
                   >
@@ -328,9 +337,13 @@ const handleCreateMaterial = () => {
             className='  p-2 rounded-md font-bold text-base my-3 '>
              Criar Material
          </Button>
+         {materiais.length>0 && (
+
+         <Text className='w-full' align="center">Resultados dessa Pesquisa : {materiais.length} Itens </Text>
+         )}
         </Flex>
             <Flex direction="column" justify="start" >
-              <Text>Resultados Da Busca</Text>
+          
                          <Table.Root className=" overflow-hidden" variant="surface"  >
                <Table.Header>
                  <Table.Row  >
@@ -347,10 +360,13 @@ const handleCreateMaterial = () => {
                </Table.Header>
                <Table.Body>
                  {materiais.map((inventario:IInventario)=>(
-                 <Table.Row className="hover:bg-master_yellow">
+                 <Table.Row key={inventario.material.id} className="hover:bg-master_yellow">
                    <Table.Cell align="center" className="max-w-[80px] p-4" >{inventario.material.id}</Table.Cell>
                    <Table.Cell align="center" className="max-w-[100px] p-4">{inventario.material.codigoFabricante}</Table.Cell>
-                   <Table.RowHeaderCell className="max-w-[400px] p-4" onClick={()=>{setDescricao(inventario?.material?.descricao),searchByDescription(inventario?.material?.descricao)}} >{inventario.material.descricao}</Table.RowHeaderCell>
+              
+ <Table.RowHeaderCell className="max-w-[400px] p-4" onClick={()=>{setDescricao(inventario?.material?.descricao),buscarDescricao(inventario?.material?.descricao)}} >{inventario.material.descricao}</Table.RowHeaderCell>
+                   
+                   
                    <Table.Cell align="center">{inventario.material.marca}</Table.Cell>
                    <Table.Cell align="center">{inventario.material.tensao}</Table.Cell>
                    <Table.Cell align="center">{inventario.saldoFinal}</Table.Cell>

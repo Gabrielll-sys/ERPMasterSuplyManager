@@ -212,7 +212,7 @@ const atualizarTarefaMutation = useMutation({
 
 })
 
-const updateAtividade  = (atividade: IAtividadeRd , status: string, observacoes: string,descricao:string)=>{
+const updateAtividade  = (atividade: IAtividadeRd , status: string | undefined, observacoes: string | undefined ,descricao: string | undefined)=>{
 
     if(atividades!= undefined){
 
@@ -368,8 +368,9 @@ const updateAtividade  = (atividade: IAtividadeRd , status: string, observacoes:
                             <>
                                 {  atividades?.map((atividade:IAtividadeRd)=>(
 
-                                    <Atividade  key={atividade.id} relatorioDiario = {relatorioDiario} atividade={atividade}onUpdate={updateAtividade} onDelete={handleDeleteAtividade} isFinished={relatorioDiario?.isFinished} />
-                                ))}
+                                    <Atividade  key={atividade.id} relatorioDiario = {relatorioDiario} atividade={atividade} onUpdate={updateAtividade} onDelete={handleDeleteAtividade} isFinished={relatorioDiario?.isFinished} />
+                                    
+                                ))} 
 
                             </>
                         ):(

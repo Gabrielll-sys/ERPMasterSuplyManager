@@ -22,8 +22,8 @@ export interface IInventario  {
       precoCusto: number,
       precoVenda: number,
       tensao?: string,
-      unidade?: string
-      
+      unidade?: string,
+      urlImage?:string | null,
 
     },
 quantidadeMaterial:number

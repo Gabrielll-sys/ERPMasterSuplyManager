@@ -1,7 +1,7 @@
 "use client"
 import { AlertColor, Snackbar } from '@mui/material';
 import MuiAlert from "@mui/material/Alert";
-import { Button, Checkbox, Input, Modal, ModalBody, ModalContent, ModalFooter, Textarea, useDisclosure } from '@nextui-org/react';
+import {Checkbox, Input, Modal, ModalBody, ModalContent, ModalFooter, Spinner, Textarea, useDisclosure } from '@nextui-org/react';
 import imageCompression from 'browser-image-compression';
 import "dayjs/locale/pt-br";
 import Image from "next/image";
@@ -12,13 +12,25 @@ import { IImagemAtividadeRd } from '../interfaces/IImagemAtividadeRd';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { addImagemAtividadeRd, deleteImagemAtividadeRd, getAllImagensInAtividade } from '../services/ImagensAtividadeRd.Service';
 import { deleteImageFromAzure, getImageDimensions, uploadImageToAzure } from '../services/Images.Services';
-import { Box, Flex, TextField } from '@radix-ui/themes';
-//@ts-ignore
-const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished }) => {
+import {  AlertDialog, Button, Flex, Text, TextField } from '@radix-ui/themes';
+import { IRelatorioDiario } from '../interfaces/IRelatorioDiario';
+import { IAtividadeRd } from '../interfaces/IAtividadeRd';
+import IconTrash from '../assets/icons/IconTrash';
+
+type AtividadeProps =  {
+  relatorioDiario:IRelatorioDiario,
+  atividade:IAtividadeRd,
+  onUpdate:(atividade: IAtividadeRd , status: string | undefined, observacoes: string | undefined,descricao:string | undefined)=>void,
+  onDelete:any,
+  isFinished:boolean,
+}
+
+
+const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished }:AtividadeProps) => {
   const [imageModal, setImageModal] = useState<IImagemAtividadeRd>();
   const [widthImageModal, setWidthImageModal] = useState<number>(0);
   const [heightImageModal, setHeightImageModal] = useState<number>(0);
-  const [observacoes, setObservacoes] = useState<string>(atividade.observacoes);
+  const [observacoes, setObservacoes] = useState<string | undefined>(atividade.observacoes);
   const [checkboxStatus, setCheckboxStatus] = useState(atividade.status);
   const [descricao, setDescricao] = useState(atividade.descricao);
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -28,24 +40,29 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
   const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
   const [blockButton, setBlockButton] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const queryClient = useQueryClient();
+  const [subindoImagem,setSubindoImagem] = useState(false)
 
-  const { data: imagesInAtividades, refetch } = useQuery<IImagemAtividadeRd[]>(
-    ['imagesInAtividades', atividade.id],
-    () => getAllImagensInAtividade(atividade.id),
-    {
+  const { data: imagesInAtividades, refetch: refetchImagensInAtividadeRd } = useQuery<IImagemAtividadeRd[]>(
+  {
+    queryKey:['imagesInAtividades', atividade.id],
+    enabled:relatorioDiario.id !=undefined,
+    staleTime:isFinished?(1*1000*60*60*24)*20:1*1000*60*60*8,
+    cacheTime:isFinished?(1*1000*60*60*24)*20:1*1000*60*60*8,
+    queryFn:() => getAllImagensInAtividade(atividade.id),
       onSuccess: (data) => {
         data.forEach(async (image) => {
           const dimensions = await getImageDimensions(image.urlImagem);
           image.height = dimensions.height;
           image.width = dimensions.width;
+          
         });
       },
-    }
+    
+     }
   );
 
   const deleteAtividadeMutation = useMutation(
-    (id: number) => onDelete(id),
+    (id: number | undefined) => onDelete(id),
     {
       onMutate: () => setBlockButton(true),
       onSuccess: () => setBlockButton(false),
@@ -63,24 +80,13 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
       onMutate: () => setBlockButton(true),
       onSuccess: () => {
         setBlockButton(false);
-        refetch();
+        refetchImagensInAtividadeRd();
       },
     }
   );
 
-  const addImagemAtividadeMutation = useMutation(addImagemAtividadeRd, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['imagens', atividade.id]);
-      setOpenSnackBar(true);
-      setSeveridadeAlert('success');
-      setMessageAlert('Imagem adicionada à atividade');
-    },
-    onError: () => {
-      setOpenSnackBar(true);
-      setSeveridadeAlert('error');
-      setMessageAlert('Erro ao adicionar imagem');
-    }
-  });
+
+
 
   const handleImageChange = async (event: any) => {
   const selectedImage: File = event.target.files[0];
@@ -91,9 +97,11 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
     if (selectedImage.type === 'image/jpeg') {
       imageFile = await convertToPng(selectedImage);
     }
-    console.log(imageFile.name)
+
 
     const imageBase64 = await readImageFromFile(imageFile);
+
+    setSubindoImagem(true)
     const urlImagem = await uploadImageToAzure(imageBase64, imageFile.name, "images");
 
    //@ts-ignore
@@ -104,6 +112,8 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
       imageName: imageFile.name // Passando o nome da imagem diretamente
     });
   }
+  setSubindoImagem(false)
+
 };
 
   const handleImageModal = async (imageModal: IImagemAtividadeRd) => {
@@ -148,7 +158,7 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
         <div className="border p-4 rounded-md shadow-sm flex flex-col gap-5">
           <div className="mb-4">
             <Flex direction="column" gap={'3'}>
-              <label className="block text-gray-700 ">{atividade.descricao}</label>
+              <Text className=" text-gray-700 font-bold ">{atividade.descricao}</Text>
               {!isFinished && (
                 <TextField.Root>
                   <TextField.Input
@@ -164,9 +174,13 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
             </Flex>
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-4 ml-2">Status:</label>
+            <label className="block text-gray-700 mb-4">Status:</label>
             <div className="flex md:flex-row gap-4 max-sm:flex-col ">
-              <Checkbox
+              {relatorioDiario.isFinished ?(
+                <Text className='bg-[#d4edda] text-[#155724] b-l-[#28a745] p-1'>Atividade {atividade.status}</Text>
+              ):(
+                <>
+                <Checkbox
                 color="success"
                 isReadOnly={isFinished}
                 isSelected={checkboxStatus == "Não Iniciada"}
@@ -190,12 +204,18 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
               >
                 Concluída
               </Checkbox>
+              </>
+              )}
+            
             </div>
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700">Observações Sobre a Atividade:</label>
+            <label className="block mb-5 text-gray-700">Observações Sobre a Atividade</label>
+            {!relatorioDiario.isFinished ? (
+
+
             <Textarea
-              isDisabled={isFinished}
+              
               placeholder="Observações Sobre a Atividade"
               className="w-full mt-2 p-3 rounded-sm bg-transparent shadow-sm"
               rows={5}
@@ -203,18 +223,54 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
               onValueChange={setObservacoes}
               onBlur={() => onUpdate(atividade, checkboxStatus, observacoes, descricao)}
             />
+            ):
+            <Text className='mt-7 italic'>{observacoes}</Text>
+            }
           </div>
+
           {!isFinished && (
-            <div className="flex flex-col justify-center items-center mb-4 gap-5">
-              <Button
-                color="danger"
-                variant="solid"
-                onPress={() => deleteAtividadeMutation.mutate(atividade.id)}
-                className="ml-2"
-                isDisabled={blockButton}
-              >
-                Deletar Atividade
-              </Button>
+            <div className="flex flex-row justify-center items-center mb-4 gap-5">
+                <AlertDialog.Root>
+                <AlertDialog.Trigger>
+                <Button
+                  color="crimson"
+                  variant="outline"
+                  className="hover:opacity-50 text-base"
+                 
+                >
+                 <IconTrash/>
+                  Excluir Atividade
+                </Button>
+                </AlertDialog.Trigger>
+                <AlertDialog.Content>
+                  <AlertDialog.Title>Excluir Atividade</AlertDialog.Title>
+                  <AlertDialog.Description size="2">
+                    
+                  Tem certeza que deseja a atividade? Todas as imagens vinculadas a esta atividades tambem serão apagadas
+                  </AlertDialog.Description>
+
+                  <Flex gap="3" mt="4" justify="end">
+                    <AlertDialog.Cancel>
+                      <Button variant="soft" color="blue">
+                        Cancelar
+                      </Button>
+                    </AlertDialog.Cancel>
+                    <AlertDialog.Action>
+                    <Button
+                           color="crimson"
+                  variant="outline"
+                        onClick={() => deleteAtividadeMutation.mutate(atividade.id)}
+                        className="ml-2"
+                       
+                      >
+                        Deletar Atividade
+                      </Button>
+                    </AlertDialog.Action>
+                  </Flex>
+                </AlertDialog.Content>
+              </AlertDialog.Root>
+              
+            
               <input
                 type="file"
                 ref={fileInputRef}
@@ -234,7 +290,7 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
             {imagesInAtividades?.map((image) => (
               <div
                 key={image.id}
-                className="relative flex justify-center items-center bg-gray-200 rounded-lg shadow-md overflow-hidden"
+                className="relative flex justify-center items-center bg-gray-200 rounded-md shadow-md overflow-hidden"
                 style={{
                   width: '100%',
                   height: 250,
@@ -254,6 +310,10 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
                 />
               </div>
             ))}
+            {subindoImagem && (
+
+          <Spinner size='lg'/>
+            )}
           </div>
         </div>
         <Modal isOpen={isOpen} backdrop="blur" size='xl' onOpenChange={onOpenChange}>
@@ -281,9 +341,9 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
                 </ModalBody>
                 <ModalFooter className="flex flex-row justify-between">
                   {!relatorioDiario?.isFinished && (
-                    <Button color="danger" isDisabled={blockButton} onPress={() => deleteImagemAtividadeMutation.mutate()}>Deletar Imagem</Button>
+                    <Button color="red"  onClick={() => deleteImagemAtividadeMutation.mutate()}>Deletar Imagem</Button>
                   )}
-                  <Button color="danger" variant="light" onPress={() => { onClose(), setImageModal(undefined) }}>
+                  <Button color="red" variant="soft" onClick={() => { onClose(), setImageModal(undefined) }}>
                     Fechar
                   </Button>
                 </ModalFooter>

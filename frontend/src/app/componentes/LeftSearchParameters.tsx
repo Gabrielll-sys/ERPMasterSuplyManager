@@ -5,25 +5,49 @@ import IconTrash from '../assets/icons/IconTrash'
 
 
 type LeftSearchParametersProps ={
-    onFilterChange:()=>void
+    onFilter:(filtro:any)=>void
 }
 
-export default function LeftSearchParameters({onFilterChange}:LeftSearchParametersProps) {
+export default function LeftSearchParameters({onFilter}:LeftSearchParametersProps) {
   
-    const[minValueProduct,setMinValueProduct] = useState(0)
-    const[maxValueProduct,setMaxValueProduct] = useState(1000000)
-    const [marca,setMarca] = useState<string>("")
+    const[precoCustoMinimo,setPrecoCustoMinimo] = useState("")
+    const[precoCustoMaximo,setPrecoCustoMaximo] = useState("")
+    const[precoVendaMaximo,setPrecoVendaMaximo] = useState("")
+    const[precoVendaMinimo,setPrecoVendaMinimo] = useState("")
+    const[marca,setMarca] = useState("")
     const [descricao,setDescricao] = useState<string>("")
-    const handleValueChange = (values: number[]) => {
-        setMinValueProduct(values[0]);
-        setMaxValueProduct(values[1]);
+
+    const verifyNumberIsEmpty = (item:string | undefined)=>{
+ 
+        return !item?.length ? null: Number(item?.replace(',','.')).toFixed(2)
+      
+      }
+    const handleFiltro = ()=>{
+        const filtro  = {
+            descricao: descricao,
+            marca: marca,
+            precoVendaMin:verifyNumberIsEmpty(precoVendaMinimo),
+            precoVendaMax:verifyNumberIsEmpty(precoVendaMaximo),
+            precoCustoMin:verifyNumberIsEmpty(precoCustoMinimo),
+            precoCustoMax:verifyNumberIsEmpty(precoCustoMaximo),
+    
+        }
+        onFilter(filtro)
+    }
+    const limparFiltros = ()=> {
+        setDescricao("")
+        setMarca("")
+        setPrecoCustoMinimo("")
+        setPrecoCustoMaximo("")
+        setPrecoVendaMinimo("")
+        setPrecoVendaMaximo("")
     }
     return (
-    <Box className='w-[400px]' >
+    <Box className='w-[300px]' >
 
-    <Flex direction="column" wrap="wrap" className='w-[400px]' gap="5">
+    <Flex direction="column" wrap="wrap" className='w-[300px]' gap="5">
   
-            <Button variant="surface" className='text-[16px] cursor-pointer'>
+            <Button onClick={limparFiltros} variant="surface" className='text-[16px] cursor-pointer'>
                 <IconTrash height="20" width="20" /> Limpar Filtros
             </Button>
             <Text>Busque por preços</Text>
@@ -47,10 +71,25 @@ export default function LeftSearchParameters({onFilterChange}:LeftSearchParamete
                 <TextField.Root  size="3"  variant="classic" >
                     <TextField.Slot>
                     <TextField.Input
-                      value={minValueProduct}
+                      value={marca}
                       variant='classic'
-                      onChange={(x) => setMinValueProduct(Number(x.target.value))}
-                      placeholder='Endereço'
+                      onChange={(x) => setMarca(x.target.value)}
+                      placeholder='Marca'
+                       className='w-[270px]'
+                      size="3"
+              
+                    />
+                <IconCurrencyReal height="16" width="16" />
+                    </TextField.Slot>
+                </TextField.Root>
+                <Text align="center" className='w-full'> Preço Custo</Text>
+                <TextField.Root  size="3"  variant="classic" >
+                    <TextField.Slot>
+                    <TextField.Input
+                      value={precoCustoMinimo}
+                      variant='classic'
+                      onChange={(x) => setPrecoCustoMinimo(x.target.value)}
+                      placeholder=' Minimo'
                        className='w-[100px]'
                       size="3"
               
@@ -62,10 +101,10 @@ export default function LeftSearchParameters({onFilterChange}:LeftSearchParamete
                 <TextField.Root  size="3"  variant="classic" >
                     <TextField.Slot>
                     <TextField.Input
-                      value={minValueProduct}
+                      value={precoCustoMaximo}
                       variant='classic'
-                      onChange={(x) => setMinValueProduct(Number(x.target.value))}
-                      placeholder='Endereço'
+                      onChange={(x) => setPrecoCustoMaximo(x.target.value)}
+                      placeholder='Máximo'
                        className='w-[100px]'
                       size="3"
               
@@ -73,13 +112,13 @@ export default function LeftSearchParameters({onFilterChange}:LeftSearchParamete
                 <IconCurrencyReal height="16" width="16" />
                     </TextField.Slot>
                 </TextField.Root>
-
+                <Text align="center" className='w-full'>Preço Venda</Text>
                 <TextField.Root  size="3"  variant="classic" >
                 <TextField.Input
-                      value={maxValueProduct}
+                      value={precoVendaMinimo}
                       variant='classic'
-                      onChange={(x) => setMaxValueProduct(Number(x.target.value))}
-                      placeholder='Endereço'
+                      onChange={(x) => setPrecoVendaMinimo(x.target.value)}
+                      placeholder='Mínimo'
                       className='w-[100px]'
                       size="3"
                   
@@ -91,10 +130,10 @@ export default function LeftSearchParameters({onFilterChange}:LeftSearchParamete
 
                 <TextField.Root  size="3"  variant="classic" >
                 <TextField.Input
-                      value={marca}
+                      value={precoVendaMaximo}
                       variant='classic'
-                      onChange={(x) => setMarca(x.target.value)}
-                      placeholder='Marca'
+                      onChange={(x) => setPrecoVendaMaximo(x.target.value)}
+                      placeholder='Maxímo'
                       className='w-[100px]'
                       size="3"
                   
@@ -103,9 +142,11 @@ export default function LeftSearchParameters({onFilterChange}:LeftSearchParamete
                 <IconCurrencyReal height="16" width="16" />
                     </TextField.Slot>
                 </TextField.Root>
-                <Button  variant="soft" size="3">
-                    Buscar
-                </Button>
+             
+                    <Button onClick={handleFiltro} variant="soft" size="3" className='w-[100px]'>
+                        Buscar
+                    </Button>
+ 
             </Flex>
 
            

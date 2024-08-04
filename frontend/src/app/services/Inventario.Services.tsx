@@ -1,6 +1,7 @@
 import axios from "axios";
 import { url } from "../api/webApiUrl";
 import { authHeader } from "../_helpers/auth_headers";
+import { IInventario } from "../interfaces/IInventarios";
 
 export const createInventario = async (idMaterial: number) => {
   const inventario = {
@@ -17,6 +18,14 @@ export const createInventario = async (idMaterial: number) => {
     })
     .catch();
 };
+
+export const filterMateriais = async(filtro:any)=>{
+ return await axios
+  .post(`${url}/Inventarios/filter-material`,filtro)
+  .then((r) : IInventario []=> {
+    return r.data
+  })
+}
 
 //Busca o histórico de inventário pelo id do material
 export const searchByInternCode = async (id: number) => {

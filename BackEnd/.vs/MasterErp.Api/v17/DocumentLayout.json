@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|c:\\users\\gabri\\onedrive\\\u00E1rea de trabalho\\erpmastersuplymanager\\backend\\mastererp.api\\controllers\\inventarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|solutionrelative:mastererp.api\\controllers\\inventarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|c:\\users\\gabri\\onedrive\\\u00E1rea de trabalho\\erpmastersuplymanager\\backend\\mastererp.api\\controllers\\relatoriosdiarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|solutionrelative:mastererp.api\\controllers\\relatoriosdiarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -21,10 +25,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|c:\\users\\gabri\\onedrive\\\u00E1rea de trabalho\\erpmastersuplymanager\\backend\\mastererp.api\\controllers\\materiaiscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|solutionrelative:mastererp.api\\controllers\\materiaiscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|c:\\users\\gabri\\onedrive\\\u00E1rea de trabalho\\erpmastersuplymanager\\backend\\mastererp.api\\controllers\\inventarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|solutionrelative:mastererp.api\\controllers\\inventarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|c:\\users\\gabri\\onedrive\\\u00E1rea de trabalho\\erpmastersuplymanager\\backend\\mastererp.api\\controllers\\ordemservicoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -465,7 +465,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 75,
+          "SelectedChildIndex": 110,
           "Children": [
             {
               "$type": "Bookmark",
@@ -1108,7 +1108,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "RelatorioDiarioService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\RelatorioDiarioService.cs",
               "RelativeDocumentMoniker": "MasterErp.Services\\RelatorioDiarioService.cs",
@@ -1324,7 +1324,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "RelatoriosDiariosController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\RelatoriosDiariosController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\RelatoriosDiariosController.cs",
@@ -1332,8 +1332,7 @@
               "RelativeToolTip": "MasterErp.Api\\Controllers\\RelatoriosDiariosController.cs",
               "ViewState": "AQIAAAkAAAAAAAAAAAAqwBUAAAAEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:44:42.855Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:44:42.855Z"
             },
             {
               "$type": "Document",
@@ -1374,7 +1373,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "MateriaisController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\MateriaisController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\MateriaisController.cs",
@@ -1722,7 +1721,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "launchSettings.json",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "MasterErp.Api\\Properties\\launchSettings.json",
@@ -1746,15 +1745,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "InventariosController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\InventariosController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\InventariosController.cs",
               "ToolTip": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\InventariosController.cs",
               "RelativeToolTip": "MasterErp.Api\\Controllers\\InventariosController.cs",
-              "ViewState": "AQIAAHMAAAAAAAAAAAAiwIQAAAAjAAAA",
+              "ViewState": "AQIAAJYCAAAAAAAAAADwv6ACAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T22:57:37.762Z"
+              "WhenOpened": "2024-05-23T22:57:37.762Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -1830,7 +1830,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Program.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Program.cs",

@@ -87,12 +87,7 @@ export default function SideBarLFT(props : any) {
           <Sidebar.Item className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/generateMaterialQrcode" icon={HiQrcode}>
             Gerador De QrCode
           </Sidebar.Item>
-            {conditionsRoles && (
-
-          <Sidebar.Item className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/materials-relatory" icon={HiFilter}>
-           Filtragem de Materiais
-          </Sidebar.Item>
-            )}
+           
 
             {conditionsRoles && (
                 <>
