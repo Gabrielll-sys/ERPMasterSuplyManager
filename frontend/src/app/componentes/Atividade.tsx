@@ -45,7 +45,7 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
   const { data: imagesInAtividades, refetch: refetchImagensInAtividadeRd } = useQuery<IImagemAtividadeRd[]>(
   {
     queryKey:['imagesInAtividades', atividade.id],
-    enabled:relatorioDiario.id !=undefined,
+    enabled:relatorioDiario?.id !=undefined,
     staleTime:isFinished?(1*1000*60*60*24)*20:1*1000*60*60*8,
     cacheTime:isFinished?(1*1000*60*60*24)*20:1*1000*60*60*8,
     queryFn:() => getAllImagensInAtividade(atividade.id),
@@ -188,7 +188,7 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
           <div className="mb-4">
             <label className="block text-gray-700 mb-4">Status:</label>
             <div className="flex md:flex-row gap-4 max-sm:flex-col ">
-              {relatorioDiario.isFinished ?(
+              {relatorioDiario?.isFinished ?(
                 <Text className='bg-[#d4edda] text-[#155724] b-l-[#28a745] p-1'>Atividade {atividade.status}</Text>
               ):(
                 <>
@@ -223,7 +223,7 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
           </div>
           <div className="mb-4">
             <label className="block mb-5 text-gray-700">Observações Sobre a Atividade</label>
-            {!relatorioDiario.isFinished ? (
+            {!relatorioDiario?.isFinished ? (
 
 
             <Textarea
