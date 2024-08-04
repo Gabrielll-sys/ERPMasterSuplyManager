@@ -69,12 +69,10 @@ import { createInventario } from "./Inventario.Services";
 return await axios
   .post(`${url}/Materiais`, material,{headers:authHeader()})
   .then((r) => {
-   console.log(r)
-   if(r.status = 200){
-      
-      createInventario(r.data.id)
-      return r.status
-   }
+
+      const res = createInventario(r.data.id)
+      return res
+   
   })
   .catch((e) => {
     console.log(e.response.request.response)

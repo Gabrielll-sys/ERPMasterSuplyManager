@@ -16,6 +16,8 @@ import dayjs from "dayjs";
 import {today, getLocalTimeZone} from "@internationalized/date"
 import IconPlus from "../assets/icons/IconPlus";
 import { deleteImagemAtividadeRd } from "../services/ImagensAtividadeRd.Service";
+import { Flex, Text } from "@radix-ui/themes";
+import { useMutation, useQuery } from "react-query";
 
 
 export default function MyTasks(){
@@ -88,6 +90,9 @@ export default function MyTasks(){
     }
   }
 
+
+
+
     const getTasksByDate = async(data:any)=>{
 
        const listHighPriority : ITarefaUsuario [] = []
@@ -133,7 +138,6 @@ export default function MyTasks(){
 
      getTasksByDate(date.toDateString())
      setDiaSemana(semana[date.getDay()])
-     console.log(date.getDay())
         }, []);
 
     
@@ -200,19 +204,18 @@ export default function MyTasks(){
       }
     }
 
-
+const deletarTarefaMutation = useMutation({
+  mutationFn:(id:number)=>deleteTarefaUsuario(id),
+  onSuccess:()=>{
+    setOpenSnackBar(true);
+    setSeveridadeAlert("success");
+    setMessageAlert("Tarefa Atualizada");
+    getTasksByDate(date.toDateString())
+  }
+})
     const deleteTarefa = async(id:number) =>{
 
-      const res = await deleteTarefaUsuario(id)
-
-
-      if(res == 200)
-        {
-        setOpenSnackBar(true);
-        setSeveridadeAlert("success");
-        setMessageAlert("Tarefa Atualizada");
-        getTasksByDate(date.toDateString())
-      }
+     deletarTarefaMutation.mutate(id)
     }
 
 
@@ -225,21 +228,21 @@ return(
  </div>
             
 
-                  <div className="flex flex-row justify-center gap-6 ">
+                  <Flex direction="row" justify="center" gap="6" >
 
                   
-                    <div className="flex flex-col gap-3">
-                        <p className="bg-lime-400 p-[6px] font-bold rounded-md text-left shadow-sm shadow-black max-w-[160px]">Tarefas Concluídas </p>
+                    <Flex  direction="column" gap="3"  className="w-[300px]  ">
+                        <Text className="bg-[#ACF2CA] p-[6px] font-bold rounded-sm text-center shadow-sm shadow-black w-full">Tarefas Concluídas </Text>
                         {finishedsTask?.map((task)=>(
                         <TaskUser onDeleteTarefa={deleteTarefa} tarefa={task} key={task.id}  onUpdateTarefa={updateTarefa} />
                           ))}
                        
-                        </div>
+                        </Flex>
          
 
-                  <div className="flex flex-col gap-3">
+                  <Flex direction="column" gap="3">
 
-                    <p className="bg-red-300 p-[6px] font-bold rounded-md text-left shadow-sm shadow-black max-w-[160px]">Alta Prioridade </p>
+                    <Text  className="bg-[#F2C9E4] p-[6px] font-bold rounded-sm text-center shadow-sm shadow-black w-full">Alta Prioridade </Text>
 
                     {tasksHighPriority?.map((task)=>(
           
@@ -251,11 +254,11 @@ return(
                   <p> Adicionar Nova Tarefa</p>
                     </div>
                    
-                  </div>
+                  </Flex>
 
-                  <div className="flex flex-col gap-3">
+                  <Flex direction="column" gap="3">
 
-                  <p className="bg-orange-400 p-[6px] rounded-md font-bold text-left shadow-sm shadow-black max-w-[160px] ">Média Prioridade </p>
+                  <Text className=" p-[6px] rounded-sm font-bold text-center shadow-sm shadow-black w-full ">Média Prioridade </Text>
                   {tasksMidPriority?.map((task)=>(
           
                    <TaskUser tarefa={task} onDeleteTarefa={deleteTarefa} key={task.id}   onUpdateTarefa={updateTarefa} />
@@ -266,11 +269,11 @@ return(
                   <p > Adicionar Nova Tarefa</p>
                     </div>
 
-                  </div>
+                  </Flex>
 
-                  <div className="flex flex-col gap-3">
+                  <Flex direction="column" gap="3">
 
-                  <p className="bg-yellow-300 p-[6px] font-bold rounded-md text-left shadow-sm shadow-black max-w-[160px]">Baixa Prioridade</p>
+                  <Text className="bg-[#FDE68A] p-[6px] font-bold rounded-sm text-center shadow-sm shadow-black w-full">Baixa Prioridade</Text>
                   {tasksLowPriority?.map((task)=>(
                     
                     <TaskUser tarefa={task}  key={task.id} onDeleteTarefa={deleteTarefa}  onUpdateTarefa={updateTarefa} />
@@ -283,8 +286,8 @@ return(
                     
                     </div>
 
-                  </div>
-                  </div>
+                  </Flex>
+                  </Flex>
         
  
          

@@ -1,23 +1,23 @@
 "use client";
 
-import { Autocomplete, AutocompleteItem, Button } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-
 import { Snackbar } from '@mui/material';
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import {
-  Input,
-  Spinner
-} from '@nextui-org/react';
+import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
+import { HoverCard, Text, TextField } from "@radix-ui/themes";
 import "dayjs/locale/pt-br";
-import { useReactToPrint } from 'react-to-print';
-import { Table } from "flowbite-react";
-import { useSession } from "next-auth/react";
-import IconPencil from "../assets/icons/IconPencil";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+ 
+import { Box, Flex, Table } from "@radix-ui/themes";
+import { useMutation } from "react-query";
+import LeftSearchParameters from "../componentes/LeftSearchParameters";
+import { IInventario } from "../interfaces/IInventarios";
 import IMaterial from "../interfaces/IMaterial";
 import { createMaterial, searchByDescription, searchByFabricanteCode } from "../services/Material.Services";
-import TaskUser from "../componentes/TaskUser";
+import { Button } from '@radix-ui/themes';
+import Image from 'next/image';
+import { filterMateriais } from '../services/Inventario.Services';
+import IconCurrencyReal from '../assets/icons/IconCurrencyReal';
 
 
 
@@ -28,7 +28,7 @@ import TaskUser from "../componentes/TaskUser";
   const [loadingButton,setLoadingButton] = useState<boolean>(false)  
   const [loadingMateriais,setLoadingMateriais] = useState<boolean>(false)
 
-  const [descricao, setDescricao] = useState<string>("");
+  const [descricao, setDescricao] = useState<string | undefined>("");
   const [codigoInterno, setCodigoInterno] = useState<string>("");
   const [codigoFabricante, setCodigoFabricante] = useState<string>("");
   const [marca, setMarca] = useState<string>("");
@@ -43,25 +43,17 @@ import TaskUser from "../componentes/TaskUser";
   const[precoCusto,setPrecoCusto] = useState<string>()
   const[markup,setMarkup] = useState<string>("")
   const [precoVenda,setPrecoVenda] = useState< string>()
-  const [materiais, setMateriais] = useState<IMaterial[]>([]);
+  const [materiais, setMateriais] = useState<IInventario[]>([]);
 
   const unidadeMaterial : string[] = ["UN", "RL", "MT", "P"];
   const tensoes :string[]= ["","12V","24V","127V","220V","380V","440V","660V"]
-  const { data: session } = useSession();
   const [currentUser, setCurrentUser] = useState<any>(null);
   
-  const componentRef: any = useRef();
+
   const conditionsRoles = currentUser?.role == "Administrador" || currentUser?.role == "Diretor" || currentUser?.role == "SuporteTecnico"
 
-  const handlePrint = useReactToPrint({
-   content: () => componentRef.current,
-   documentTitle: 'Visitor Pass',
-   onAfterPrint: () => console.log('Printed PDF successfully!'),
-  });
-    
+   
  
-  
-  
   useEffect(()=>{
       //@ts-ignore
   const user = JSON.parse(localStorage.getItem("currentUser"));
@@ -89,9 +81,11 @@ if(description) setDescricao(description)
 },[])
 
 
-const buscarDescricao = async(descricao:string)=>
+const buscarDescricao = async(descricao:string | undefined)=>
 {
-  setDescricao(descricao)
+setDescricao(descricao)
+  if(descricao!= undefined){
+
     if(descricao.length>3)
     {
       try{
@@ -108,9 +102,18 @@ const buscarDescricao = async(descricao:string)=>
     }
     
     }
+  }
 
 
 }
+
+const handleFiltro = async (filtro:any)=>{
+
+  const materiaisFiltrados = await filterMateriais(filtro)
+   setMateriais(materiaisFiltrados)
+  
+}
+
 const buscaCodigoFabricante = async(codigo:string)=>
 {
   setCodigoFabricante(codigo)
@@ -129,29 +132,45 @@ const buscaCodigoFabricante = async(codigo:string)=>
 
 }
   
-  const handleChangeUpdatePage = async (id:number) => {
+  const handleChangeUpdatePage = async (id:string | number) => {
    
-    sessionStorage.setItem("description",descricao)
+   if(descricao !=undefined){
 
-    sessionStorage.setItem("materiais",JSON.stringify(materiais))
-
-    route.push(`update-material/${id}`)
+     sessionStorage.setItem("description",descricao)
+ 
+     sessionStorage.setItem("materiais",JSON.stringify(materiais))
+ 
+     route.push(`update-material/${id}`)
+   }
         
   };
 
   
-  const handleCreateMaterial = async () => {
-    
+  const mutationMaterial = useMutation({
+    mutationFn: createMaterial,
+    onSuccess: (res:IInventario) => {
+        setOpenSnackBar(true);
+        setSeveridadeAlert("success");
+        setMessageAlert("Material Criado com sucesso")
+        console.log(res)
       
-    if (!descricao || !unidade) {
-      setOpenSnackBar(true);
-      setSeveridadeAlert("warning");
-      setMessageAlert("Prencha todas as informações necessárias");
-    } else {
+        
+   
+    },
   
-      // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
+});
 
-      const material: IMaterial = {
+const handleCreateMaterial = () => {
+
+    if (!descricao || !unidade) {
+        setOpenSnackBar(true);
+        setSeveridadeAlert("warning");
+        setMessageAlert("Preencha todas as informações necessárias");
+        return; // Yearly return
+    }
+
+    // Prepare the material object, removing extra spaces
+    const material: IMaterial = {
         codigoFabricante: codigoFabricante.trim().replace(/\s\s+/g, " "),
         descricao: descricao.trim().replace(/\s\s+/g, " "),
         categoria: "",
@@ -161,236 +180,219 @@ const buscaCodigoFabricante = async(codigo:string)=>
         tensao: tensao.trim().replace(/\s\s+/g, " "),
         localizacao: localizacao.trim().replace(/\s\s+/g, " "),
         dataEntradaNF: dataentrada,
-        precoCusto:precoCusto,
-        markup:markup,
-        
-      };
+        precoCusto: precoCusto,
+        markup: markup,
+    };
 
-      const materialCriado = await createMaterial(material)
-       
-
-      console.log(materialCriado)
-       if(materialCriado == 200){
-         setOpenSnackBar(true);
-         setSeveridadeAlert("success");
-         setMessageAlert("Material Criado com sucesso");
-       }
-
-    }
-  };
+    // Call the mutation to create the material
+    mutationMaterial.mutate(material);
+};
 
   
     return(
        
-      <>
-      <div className="flex flex-col gap-3">
-        <div className=' w-full flex flex-row flex-wrap justify-center mt-6  gap-6 max-sm:gap-8 '>
-        
-          <Input
-          
-            value={codigoFabricante}
-            className=" rounded-md shadow-sm shadow-black   max-w-[180px]"
-            onValueChange={(e) => buscaCodigoFabricante(e)}
-            label="Cód Fabricante"
-        
-          />
-          <Input
-            value={descricao}
-            className=" rounded-md shadow-sm shadow-black  max-sm:w-[380px] md:w-[400px]"
-            onValueChange={(x)=>buscarDescricao(x)}
-            label="Descrição"
-            required
-          />
-          <Input
-            value={marca}
-            className=" rounded-md shadow-sm shadow-black   max-w-[180px]"
-            onValueChange={setMarca}
-            label="Marca"
-          />
-          <Input
-            value={localizacao}
-            className="  rounded-md shadow-sm shadow-black   w-[180px]"
-            onValueChange={setLocalizacao}
-            label="Localização"
-          />
-            </div>
-        <div className=' w-full flex flex-row flex-wrap justify-center gap-7 '>
-          <Input
-          type="number"
-          value={precoCusto}
-          className=" rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
-          onValueChange={setPrecoCusto}
-          label="Preço Custo"
-          startContent={
-            <span>R$</span>
-          }
-        
-        />
-        <Input
-            type="number"
-            value={markup}
-            className=" rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
-            onValueChange={setMarkup}
-            endContent={
-              <span>%</span>
-            }
-            label="Markup"
-        
-          />
-              <Input
-            value={corrente}
-            className=" rounded-md shadow-sm shadow-black mt-10  max-w-[180px]"
-            onValueChange={setCorrente}
-            label="Corrente"
-          />
-            <Autocomplete
-         label="Tensão"
-         placeholder="EX:127V"
-         className="max-w-[180px]  rounded-md shadow-sm mt-10 shadow-black  "
-       
-          
-             >
-             
-             {tensoes.map((item:any) => (
-        
-          <AutocompleteItem
-           key={item.id}
-           aria-label='teste'
-        
-            value={item}
-            >
-            {item}
-          </AutocompleteItem>
-        ))}
-        </Autocomplete>
-   
-             
-        
-          
-            <Autocomplete
-         label="Unidade "
-         placeholder="EX:MT"
-         className="max-w-[180px]  rounded-md shadow-sm shadow-black mt-10  "
-          value={unidade}
-          onValueChange={setUnidade}
-             >
-             
-             {unidadeMaterial.map((item:any) => (
-        
-          <AutocompleteItem
-           key={item.id}
-           aria-label='teste'
-            value={item}
-            >
-            {item}
-          </AutocompleteItem>
-        ))}
-        </Autocomplete>
-        </div>
-        
-      </div>
-
-
-<>
-    {conditionsRoles && (
-        <>
-      <div className='text-center mt-8 '>
-      <Button  onPress={handleCreateMaterial} 
-      color='primary' 
-      variant='ghost'
-      className='  p-4 rounded-lg font-bold text-2xl shadow-lg '>
-        <IconPencil/>
-          {loadingButton?<Spinner size="md" color="warning"/>:"Criar Material"}
-      </Button>
   
+    <Flex direction="row" justify="between" gap="5" className="mt-7" >
 
-      </div>
-        </>
-    )}
-      </>
+        <Box className="min-w-[400px] ml-6 " >
+          
+            <LeftSearchParameters onFilter={handleFiltro} />
+        </Box>
 
- 
+      <Flex  direction="column" wrap="wrap" gap="3" >
+        <Flex direction="row" wrap="wrap" gap="6" className="w-[1400px]" >
+        
+               <TextField.Root>
+                    <TextField.Input
+                      value={codigoFabricante}
+                      variant='classic'
+                      onChange={(x) => buscaCodigoFabricante(x.target.value)}
+                      placeholder='Código Fabricante'
+                       className='w-[600px]'
+                      size="3"
 
-   
-        <div className='mt-16 flex '  ref={componentRef}>
+                    />
+              </TextField.Root>
+
+              <TextField.Root>
+                    <TextField.Input
+                      value={descricao}
+                      variant='classic'
+                      onChange={(x) => buscarDescricao(x.target.value)}
+                      placeholder='Descrição'
+                       className='w-[600px]'
+                      size="3"
+
+                    />
+              </TextField.Root>
+
+              <TextField.Root>
+                    <TextField.Input
+                      value={marca}
+                      variant='classic'
+                      onChange={(x) => setMarca(x.target.value)}
+                      placeholder='Marca'
+                       className='w-[600px]'
+                      size="3"
+
+                    />
+              </TextField.Root>
+
+              <TextField.Root>
+                    <TextField.Input
+                      value={localizacao}
+                      variant='classic'
+                      onChange={(x) => setLocalizacao(x.target.value)}
+                      placeholder='Localização'
+                       className='w-[600px]'
+                      size="3"
+
+                    />
+              </TextField.Root>
+
+        
+              <TextField.Root>
+              
+                    <TextField.Input
+                      type="number"
+                      value={precoCusto}
+                      variant='classic'
+                      onChange={(x) => setPrecoCusto(x.target.value)}
+                      placeholder='Preço Custo'
+                      className='w-[600px] max-w-'
+                      size="3"
+
+                    />
+                     
+              </TextField.Root>
+
+            <TextField.Root>
+                    <TextField.Input
+                      value={markup}
+                      variant='classic'
+                      onChange={(x) => setMarkup(x.target.value)}
+                      placeholder='Markup'
+                       className='w-[600px]'
+                      size="3"
+
+                    />
+              </TextField.Root>
+
+                 <TextField.Root>
+                    <TextField.Input
+                      value={corrente}
+                      variant='classic'
+                      onChange={(x) => setCorrente(x.target.value)}
+                      placeholder='Marca'
+                       className='w-[600px]'
+                      size="3"
+
+                    />
+              </TextField.Root>
+                 <Autocomplete
+              label="Tensão"
+              placeholder="EX:127V"
+              className="max-w-[180px]  rounded-none "
+        
+        
+                  >
+        
+                  {tensoes.map((item:any) => (
+        
+               <AutocompleteItem
+                key={item.id}
+                aria-label='teste'
+        
+                 value={item}
+                 >
+                 {item}
+               </AutocompleteItem>
+             ))}
+             </Autocomplete>
+        
+        
+        
+                 <Autocomplete
+              label="Unidade "
+              placeholder="EX:MT"
+              className="max-w-[180px]  rounded-none  "
+               value={unidade}
+               onValueChange={setUnidade}
+                  >
+        
+                  {unidadeMaterial.map((item:any) => (
+        
+               <AutocompleteItem
+                key={item.id}
+                aria-label='teste'
+                 value={item}
+                 >
+                 {item}
+               </AutocompleteItem>
+             ))}
+             </Autocomplete>
+             <Button  onClick={handleCreateMaterial}
+         
+            variant='solid'
+            className='  p-2 rounded-md font-bold text-base my-3 '>
+             Criar Material
+         </Button>
+         {materiais.length>0 && (
+
+         <Text className='w-full' align="center">Resultados dessa Pesquisa : {materiais.length} Itens </Text>
+         )}
+        </Flex>
+            <Flex direction="column" justify="start" >
+          
+                         <Table.Root className=" overflow-hidden" variant="surface"  >
+               <Table.Header>
+                 <Table.Row  >
+                   <Table.ColumnHeaderCell align="center" pb="2" >Cód.Interno</Table.ColumnHeaderCell>
+                   <Table.ColumnHeaderCell align="center">Cod.Fabricante</Table.ColumnHeaderCell>
+                   <Table.ColumnHeaderCell align="center">Descrição</Table.ColumnHeaderCell>
+                   <Table.ColumnHeaderCell align="center">Marca</Table.ColumnHeaderCell>
+                   <Table.ColumnHeaderCell align="center">Tensão</Table.ColumnHeaderCell>
+                   <Table.ColumnHeaderCell align="center">Estoque</Table.ColumnHeaderCell>
+                   <Table.ColumnHeaderCell align="center">Localização</Table.ColumnHeaderCell>
+                   <Table.ColumnHeaderCell align="center">Preço Venda</Table.ColumnHeaderCell>
+                   <Table.ColumnHeaderCell align="center">Preço Total</Table.ColumnHeaderCell>
+                 </Table.Row>
+               </Table.Header>
+               <Table.Body>
+                 {materiais.map((inventario:IInventario)=>(
+                 <Table.Row key={inventario.material.id} className="hover:bg-master_yellow">
+                   <Table.Cell align="center" className="max-w-[80px] p-4" >{inventario.material.id}</Table.Cell>
+                   <Table.Cell align="center" className="max-w-[100px] p-4">{inventario.material.codigoFabricante}</Table.Cell>
+              
+ <Table.RowHeaderCell className="max-w-[400px] p-4" onClick={()=>{setDescricao(inventario?.material?.descricao),buscarDescricao(inventario?.material?.descricao)}} >{inventario.material.descricao}</Table.RowHeaderCell>
+                   
+                   
+                   <Table.Cell align="center">{inventario.material.marca}</Table.Cell>
+                   <Table.Cell align="center">{inventario.material.tensao}</Table.Cell>
+                   <Table.Cell align="center">{inventario.saldoFinal}</Table.Cell>
+                   <Table.Cell align="center" className="max-w-[100px] p-4">{inventario.material.localizacao}</Table.Cell>
+                   <Table.Cell align="center">R${inventario.material.precoVenda==null?"0,00":inventario.material.precoVenda.toFixed(2).toString().replace('.',",")}</Table.Cell>
+                   <Table.Cell align="center">R${inventario.material.precoVenda==null && inventario.saldoFinal==0?"0,00":(inventario.material.precoVenda * inventario.saldoFinal).toFixed(2).toString().replace('.',",")}</Table.Cell>
+                   <Table.Cell align="center"> 
+                    <Button
+                                        onClick={() => handleChangeUpdatePage(inventario?.material?.id)}
+                                        className="text-white text-sm rounded-md hover:underline w-[50px] "
+                
+                                    >
+                                        Editar
+                
+                                                            </Button>
+                                                            </Table.Cell>
+                 </Table.Row>
+                 ))}
+               </Table.Body>
+                       </Table.Root>
+            </Flex>
+        
+      </Flex>
+        
        
-
-
-          {materiais.length?
-          <>
-          <div className="overflow-x-auto self-center w-[100%] ">
-      <Table  hoverable striped className="w-[100%] ">
-        <Table.Head className="border-1 border-black">
-          <Table.HeadCell className="text-center border-1 border-black text-sm  " >Cod.Interno</Table.HeadCell>
-          <Table.HeadCell className="text-center border-1 border-black text-sm">Cod.Fabricante</Table.HeadCell>
-          <Table.HeadCell className="text-center text-sm">Descrição</Table.HeadCell>
-          <Table.HeadCell className="text-center border-1 border-black text-sm">Marca</Table.HeadCell>
-          <Table.HeadCell className="text-center border-1 border-black text-sm">Tensão</Table.HeadCell>
-          <Table.HeadCell className="text-center border-1 border-black text-sm">Estoque</Table.HeadCell>
-            {conditionsRoles && (
-                <>
-          <Table.HeadCell className="text-center border-1 border-black text-sm">Localização</Table.HeadCell>
-          <Table.HeadCell className="text-center border-1 border-black text-sm">Preço Custo</Table.HeadCell>
-          <Table.HeadCell className="text-center border-1 border-black text-sm ">Preço Venda</Table.HeadCell>
-          <Table.HeadCell className="text-center border-1 border-black text-sm">Preço Total</Table.HeadCell>
-                </>
-            )}
-          <Table.HeadCell className="text-center">
-            <span className="sr-only">Edit</span>
-          </Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y">
-          
-        { materiais !=null &&  materiais.length>=1 && materiais.map((row:any) => (
-          <Table.Row  key={row.material.id} className=" dark:border-gray-700 dark:bg-gray-800 hover:bg-yellow-200">
-          <Table.Cell className="  text-center font-medium text-gray-900 dark:text-white max-w-[120px]">
-          {row.material.id}
-          </Table.Cell>
-          <Table.Cell className="text-center  text-black ">{row.material.codigoFabricante}</Table.Cell>
-          <Table.Cell className="text-center text-black text-base hover:-translate-y-1 p-3" onClick={(x)=>setDescricao(row.material.descricao)}>{row.material.descricao}</Table.Cell>
-          <Table.Cell className="text-center text-black">{row.material.marca}</Table.Cell>
-          <Table.Cell className="text-center text-black">{row.material.tensao}</Table.Cell>
-          <Table.Cell className="text-center text-black hover:underline" onClick={()=>route.push(`/update-inventory/${row.material.id}`)}>{row.saldoFinal==null?"Não registrado":row.saldoFinal +" "+row.material.unidade}</Table.Cell>
-          <Table.Cell className="text-center text-black">{row.material.localizacao}</Table.Cell>
-              {conditionsRoles && (
-                  <>
-
-          <Table.Cell className="text-center text-black">{row.material.precoCusto==null?"Sem Registro":"R$ "+row.material.precoCusto.toFixed(2).toString().replace(".",",")}</Table.Cell>
-          <Table.Cell className="text-center text-black">{row.material.precoVenda==null?"Sem registro":"R$ "+row.material.precoVenda.toFixed(2).toString().replace(".",",")}</Table.Cell>
-          <Table.Cell className="text-center text-black">{row.material.precoVenda==null?"Sem registro":"R$ "+(row.material.precoCusto*row.saldoFinal).toFixed(2).toString().replace(".",",")}</Table.Cell>
-
-          <Table.Cell>
-            <a  onClick={(x) =>
-                      handleChangeUpdatePage(row.material.id)
-                    } className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
-              Editar
-            </a>
-          </Table.Cell>
-                  </>
-              )}
-        </Table.Row>
-
-
-              ))}
-          
-         
-         
-        </Table.Body>
-      </Table>
-    </div>
-   
-        </>
-          
-          
-          :  
-          loadingMateriais &&(
-
-            <div className="w-full flex flex-row justify-center mt-16">
-              <Spinner size="lg"/>
-            </div>
-          )
-          }
-           <Snackbar
+      <Snackbar
             open={openSnackBar}
             autoHideDuration={2000}
             anchorOrigin={{
@@ -407,9 +409,10 @@ const buscaCodigoFabricante = async(codigo:string)=>
                 {messageAlert}
             </MuiAlert>
         </Snackbar>
-        </div>
-        
-    </>
+  
+    </Flex>
+
+     
 
 
 
