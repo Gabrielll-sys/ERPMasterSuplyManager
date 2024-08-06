@@ -1,5 +1,5 @@
 "use client";
-import { Button, Text } from "@radix-ui/themes";
+import { AlertDialog, Button, Text } from "@radix-ui/themes";
 import "dayjs/locale/pt-br";
 import { Card } from 'flowbite-react';
 import { useRouter } from "next/navigation";
@@ -38,9 +38,33 @@ export default function Reports() {
             <Flex justify="center" className="  w-full ">
                 <Flex direction="row"  justify="between"  className="  w-[1400px] mt-10">
                     <Text className=' text-2xl ml-10 font-bold '>Relatórios Diários</Text>
-                    <Button onClick={()=>relatorioDiarioMutation.mutate()} className=' hover:bg-blue-500 text-base text-white font-bold px-4 py-5 rounded'>
+                    <AlertDialog.Root>
+                <AlertDialog.Trigger>
+                <Button  className=' bg-blue-500 text-[18px] text-white font-bold px-4 py-5 rounded'>
                         Criar novo relatório
                     </Button>
+                </AlertDialog.Trigger>
+                <AlertDialog.Content>
+                  <AlertDialog.Title>Criar Novo Relatório Diário</AlertDialog.Title>
+                  <AlertDialog.Description size="2">
+                    Tem certeza que deseja criar novo relatório diário?
+                  </AlertDialog.Description>
+
+                  <Flex gap="3" mt="4" justify="end">
+                    <AlertDialog.Cancel>
+                      <Button variant="soft" className="text-black">
+                        Cancelar
+                      </Button>
+                    </AlertDialog.Cancel>
+                    <AlertDialog.Action>
+                    <Button onClick={()=>relatorioDiarioMutation.mutate()} className=' bg-blue-500 text-[18px] text-white font-bold px-4 py-5 rounded'>
+                        Criar novo relatório
+                    </Button>
+                    </AlertDialog.Action>
+                  </Flex>
+                </AlertDialog.Content>
+              </AlertDialog.Root>
+                   
                 </Flex>
             </Flex>
 
