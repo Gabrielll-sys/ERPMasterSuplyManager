@@ -17,7 +17,7 @@ import { createMaterial, searchByDescription, searchByFabricanteCode } from "../
 import { Button } from '@radix-ui/themes';
 import Image from 'next/image';
 import { filterMateriais } from '../services/Inventario.Services';
-import IconCurrencyReal from '../assets/icons/IconCurrencyReal';
+
 
 
 
@@ -192,151 +192,136 @@ const handleCreateMaterial = () => {
     return(
        
   
-    <Flex direction="row" justify="between" gap="5" className="mt-7" >
+    <Flex direction="column"   gap="2" className="mt-7 w-full" >
 
-        <Box className="min-w-[400px] ml-6 " >
-          
-            <LeftSearchParameters onFilter={handleFiltro} />
-        </Box>
+    
 
-      <Flex  direction="column" wrap="wrap" gap="3" >
-        <Flex direction="row" wrap="wrap" gap="6" className="w-[1400px]" >
+      <Flex  direction="column"  wrap="wrap" gap="3"  >
+        <Flex direction="column" justify="center" wrap="wrap" gap="6"   >
         
-               <TextField.Root>
-                    <TextField.Input
-                      value={codigoFabricante}
-                      variant='classic'
-                      onChange={(x) => buscaCodigoFabricante(x.target.value)}
-                      placeholder='Código Fabricante'
-                       className='w-[600px]'
-                      size="3"
-
-                    />
-              </TextField.Root>
-
-              <TextField.Root>
-                    <TextField.Input
-                      value={descricao}
-                      variant='classic'
-                      onChange={(x) => buscarDescricao(x.target.value)}
-                      placeholder='Descrição'
-                       className='w-[600px]'
-                      size="3"
-
-                    />
-              </TextField.Root>
-
-              <TextField.Root>
-                    <TextField.Input
-                      value={marca}
-                      variant='classic'
-                      onChange={(x) => setMarca(x.target.value)}
-                      placeholder='Marca'
-                       className='w-[600px]'
-                      size="3"
-
-                    />
-              </TextField.Root>
-
-              <TextField.Root>
-                    <TextField.Input
-                      value={localizacao}
-                      variant='classic'
-                      onChange={(x) => setLocalizacao(x.target.value)}
-                      placeholder='Localização'
-                       className='w-[600px]'
-                      size="3"
-
-                    />
-              </TextField.Root>
-
-        
-              <TextField.Root>
-              
-                    <TextField.Input
-                      type="number"
-                      value={precoCusto}
-                      variant='classic'
-                      onChange={(x) => setPrecoCusto(x.target.value)}
-                      placeholder='Preço Custo'
-                      className='w-[600px] max-w-'
-                      size="3"
-
-                    />
-                     
-              </TextField.Root>
-
-            <TextField.Root>
-                    <TextField.Input
-                      value={markup}
-                      variant='classic'
-                      onChange={(x) => setMarkup(x.target.value)}
-                      placeholder='Markup'
-                       className='w-[600px]'
-                      size="3"
-
-                    />
-              </TextField.Root>
-
+               <Flex direction="row" gap="6" justify={"center"} >
                  <TextField.Root>
-                    <TextField.Input
-                      value={corrente}
-                      variant='classic'
-                      onChange={(x) => setCorrente(x.target.value)}
-                      placeholder='Marca'
-                       className='w-[600px]'
-                      size="3"
+                      <TextField.Input
+                        value={codigoFabricante}
+                        variant='classic'
+                        onChange={(x) => buscaCodigoFabricante(x.target.value)}
+                        placeholder='Código Fabricante'
+                         className='max-sm:w-[150px] min-md:w-[200px] '
+                        size="3"
+                      />
+                               </TextField.Root>
+                 
+                               <TextField.Root>
+                      <TextField.Input
+                        value={descricao}
+                        variant='classic'
+                        onChange={(x) => buscarDescricao(x.target.value)}
+                        placeholder='Descrição'
+                         className='w-[400px]'
+                        size="3"
+                      />
+                               </TextField.Root>
+                 
+                               <TextField.Root>
+                      <TextField.Input
+                        value={marca}
+                        variant='classic'
+                        onChange={(x) => setMarca(x.target.value)}
+                        placeholder='Marca'
+                         className='w-[200px] '
+                        size="3"
+                      />
+                               </TextField.Root>
+                 
+                               <TextField.Root>
+                      <TextField.Input
+                        value={localizacao}
+                        variant='classic'
+                        onChange={(x) => setLocalizacao(x.target.value)}
+                        placeholder='Localização'
+                         className='w-[200px]'
+                        size="3"
+                      />
+                               </TextField.Root>
+               </Flex>
 
-                    />
-              </TextField.Root>
-                 <Autocomplete
-              label="Tensão"
-              placeholder="EX:127V"
-              className="max-w-[180px]  rounded-none "
         
-        
-                  >
-        
-                  {tensoes.map((item:any) => (
-        
-               <AutocompleteItem
-                key={item.id}
-                aria-label='teste'
-        
-                 value={item}
-                 >
-                 {item}
-               </AutocompleteItem>
-             ))}
-             </Autocomplete>
-        
-        
-        
-                 <Autocomplete
-              label="Unidade "
-              placeholder="EX:MT"
-              className="max-w-[180px]  rounded-none  "
-               value={unidade}
-               onValueChange={setUnidade}
-                  >
-        
-                  {unidadeMaterial.map((item:any) => (
-        
-               <AutocompleteItem
-                key={item.id}
-                aria-label='teste'
-                 value={item}
-                 >
-                 {item}
-               </AutocompleteItem>
-             ))}
-             </Autocomplete>
-             <Button  onClick={handleCreateMaterial}
-         
-            variant='solid'
-            className='  p-2 rounded-md font-bold text-base my-3 '>
-             Criar Material
-         </Button>
+              <Flex direction="row" gap="6" justify="center" >
+                <TextField.Root>
+                
+                      <TextField.Input
+                        type="number"
+                        value={precoCusto}
+                        variant='classic'
+                        onChange={(x) => setPrecoCusto(x.target.value)}
+                        placeholder='Preço Custo  '
+                        className='w-[200px] '
+                        size="3"
+                      />
+                
+                </TextField.Root>
+                
+                            <TextField.Root>
+                      <TextField.Input
+                        value={markup}
+                        variant='classic'
+                        onChange={(x) => setMarkup(x.target.value)}
+                        placeholder='Markup'
+                         className='w-[200px]'
+                        size="3"
+                      />
+                </TextField.Root>
+                   <TextField.Root>
+                      <TextField.Input
+                        value={corrente}
+                        variant='classic'
+                        onChange={(x) => setCorrente(x.target.value)}
+                        placeholder='Corrente'
+                         className='w-[200px]'
+                        size="3"
+                      />
+                </TextField.Root>
+                   <Autocomplete
+                label="Tensão"
+                placeholder="EX:127V"
+                className="max-w-[180px]  rounded-none "
+                    >
+                    {tensoes.map((item:any) => (
+                 <AutocompleteItem
+                  key={item.id}
+                  aria-label='teste'
+                   value={item}
+                   >
+                   {item}
+                 </AutocompleteItem>
+                             ))}
+                             </Autocomplete>
+                   <Autocomplete
+                label="Unidade "
+                placeholder="EX:MT"
+                className="max-w-[180px]  rounded-none  "
+                 value={unidade}
+                 onValueChange={setUnidade}
+                    >
+                    {unidadeMaterial.map((item:any) => (
+                 <AutocompleteItem
+                  key={item.id}
+                  aria-label='teste'
+                   value={item}
+                   >
+                   {item}
+                 </AutocompleteItem>
+                             ))}
+                             </Autocomplete>
+              </Flex>
+             <Flex justify="center">
+               <Button  onClick={handleCreateMaterial}
+                        
+                           variant='solid'
+                           className='  p-2 rounded-md font-bold text-[18px] my-3 w-[150px] '>
+               Criar Material
+                        </Button>
+             </Flex>
          {materiais.length>0 && (
 
          <Text className='w-full' align="center">Resultados dessa Pesquisa : {materiais.length} Itens </Text>
@@ -344,10 +329,10 @@ const handleCreateMaterial = () => {
         </Flex>
             <Flex direction="column" justify="start" >
           
-                         <Table.Root className=" overflow-hidden" variant="surface"  >
+                         <Table.Root className="" variant="surface"  >
                <Table.Header>
                  <Table.Row  >
-                   <Table.ColumnHeaderCell align="center" pb="2" >Cód.Interno</Table.ColumnHeaderCell>
+                   <Table.ColumnHeaderCell align="center"  >Cód.Interno</Table.ColumnHeaderCell>
                    <Table.ColumnHeaderCell align="center">Cod.Fabricante</Table.ColumnHeaderCell>
                    <Table.ColumnHeaderCell align="center">Descrição</Table.ColumnHeaderCell>
                    <Table.ColumnHeaderCell align="center">Marca</Table.ColumnHeaderCell>
@@ -361,16 +346,16 @@ const handleCreateMaterial = () => {
                <Table.Body>
                  {materiais.map((inventario:IInventario)=>(
                  <Table.Row key={inventario.material.id} className="hover:bg-master_yellow">
-                   <Table.Cell align="center" className="max-w-[80px] p-4" >{inventario.material.id}</Table.Cell>
-                   <Table.Cell align="center" className="max-w-[100px] p-4">{inventario.material.codigoFabricante}</Table.Cell>
+                   <Table.Cell align="center" className="max-w-[80px] " >{inventario.material.id}</Table.Cell>
+                   <Table.Cell align="center" className="max-w-[100px] ">{inventario.material.codigoFabricante}</Table.Cell>
               
- <Table.RowHeaderCell className="max-w-[400px] p-4" onClick={()=>{setDescricao(inventario?.material?.descricao),buscarDescricao(inventario?.material?.descricao)}} >{inventario.material.descricao}</Table.RowHeaderCell>
+ <Table.RowHeaderCell className="max-w-[400px] " align="center" onClick={()=>{setDescricao(inventario?.material?.descricao),buscarDescricao(inventario?.material?.descricao)}} >{inventario.material.descricao}</Table.RowHeaderCell>
                    
                    
                    <Table.Cell align="center">{inventario.material.marca}</Table.Cell>
                    <Table.Cell align="center">{inventario.material.tensao}</Table.Cell>
                    <Table.Cell align="center">{inventario.saldoFinal}</Table.Cell>
-                   <Table.Cell align="center" className="max-w-[100px] p-4">{inventario.material.localizacao}</Table.Cell>
+                   <Table.Cell align="center" className="max-w-[100px] ">{inventario.material.localizacao}</Table.Cell>
                    <Table.Cell align="center">R${inventario.material.precoVenda==null?"0,00":inventario.material.precoVenda.toFixed(2).toString().replace('.',",")}</Table.Cell>
                    <Table.Cell align="center">R${inventario.material.precoVenda==null && inventario.saldoFinal==0?"0,00":(inventario.material.precoVenda * inventario.saldoFinal).toFixed(2).toString().replace('.',",")}</Table.Cell>
                    <Table.Cell align="center"> 
