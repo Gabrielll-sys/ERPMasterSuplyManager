@@ -465,7 +465,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 110,
+          "SelectedChildIndex": 108,
           "Children": [
             {
               "$type": "Bookmark",
@@ -478,14 +478,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{269a02dc-6af8-11d3-bdc4-00c04f688e50}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
               "$type": "Document",
@@ -1344,8 +1336,7 @@
               "RelativeToolTip": "MasterErp.Api\\Controllers\\OrdemServicosController.cs",
               "ViewState": "AQIAACQAAAAAAAAAAAAowAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:44:39.955Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:44:39.955Z"
             },
             {
               "$type": "Document",
@@ -1751,7 +1742,7 @@
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\InventariosController.cs",
               "ToolTip": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\InventariosController.cs",
               "RelativeToolTip": "MasterErp.Api\\Controllers\\InventariosController.cs",
-              "ViewState": "AQIAAJYCAAAAAAAAAADwv58CAAAyAAAA",
+              "ViewState": "AQIAAJYCAAAAAAAAAADwv6gCAABBAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-23T22:57:37.762Z",
               "EditorCaption": ""
@@ -1851,6 +1842,14 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
               "WhenOpened": "2024-05-22T19:50:38.183Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{269a02dc-6af8-11d3-bdc4-00c04f688e50}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             }
           ]
         }
