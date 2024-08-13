@@ -165,7 +165,7 @@
       ".monaco-list-row": "border-radius: 4px;",
       ".monaco-workbench .monaco-list:not(.element-focused):focus:before": "display: none;"
     },
-    "editor.scrollbar.vertical": "hidden",
+   
     "explorer.sortOrder": "foldersNestsFiles",
     "explorer.fileNesting.patterns": {
       "package.json": ".eslint*, prettier*, tsconfig*, vite*, pnpm-*, bun.lockb, nest*, package-lock*",

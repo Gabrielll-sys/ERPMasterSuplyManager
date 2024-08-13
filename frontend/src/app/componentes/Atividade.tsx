@@ -167,8 +167,8 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
     <>
       <div className="p-6">
         <h2 className="text-center max-md-text-2xl max-sm:text-[20px] font-bold mb-4 ">ATIVIDADE Nº {atividade.numeroAtividade}</h2>
-        <div className="border p-4 rounded-md shadow-sm flex flex-col gap-5">
-          <div className="mb-4">
+        <div className="border p-4 rounded-md shadow-sm flex flex-col gap-5  mx-auto">
+          <div className="mb-4 ">
             <Flex direction="column" gap={'3'}>
               <Text className=" text-gray-700 font-bold ">{atividade.descricao}</Text>
               {!isFinished && (
@@ -241,7 +241,7 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
           </div>
 
           {!isFinished && (
-            <div className="flex flex-row justify-center items-center mb-4 gap-5">
+            <div className="flex max-md:flex-row max-sm:flex-col justify-center items-center mb-4 gap-5">
                 <AlertDialog.Root>
                 <AlertDialog.Trigger>
                 <Button
@@ -337,6 +337,7 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
                     <Image
                       src={imageModal.urlImagem != undefined ? imageModal.urlImagem : ""}
                       alt="Imagem da Atividade"
+                    
                       width={widthImageModal}
                       height={heightImageModal}
                     />

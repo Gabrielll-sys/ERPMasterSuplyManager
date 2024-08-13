@@ -240,8 +240,8 @@ const updateAtividade  = (atividade: IAtividadeRd , status: string | undefined, 
 
         {/* <ProgressBar progress = {completePercentage}/> */}
 
-    <Flex direction="column" gap="4" className='flex flex-col gap-4 w-[600px]'>
-        <div className='flex flex-row gap-4 max-sm:flex-wrap max-sm:justify-center  w-[100%] '>
+    <Flex direction="column" gap="4" className='flex flex-col gap-4 max-sm:w-[280px] max-md:w-[600px]'>
+        <div className='flex max-md:flex-row max-sm:flex-col gap-4 max-sm:flex-wrap max-sm:justify-center  w-[100%] '>
            
         <TextField.Root >
                 <TextField.Input 
@@ -269,7 +269,7 @@ const updateAtividade  = (atividade: IAtividadeRd , status: string | undefined, 
             </TextField.Root>
             
         </div>
-        <div  className='flex flex-row max-sm:flex-wrap gap-4 max-sm:justify-center'>
+        <div  className='flex max-md:flex-row max-sm:flex-col gap-4 max-sm:flex-wrap max-sm:justify-center  w-[100%] '>
             
             <TextField.Root  >
                 <TextField.Input 
@@ -348,7 +348,7 @@ const updateAtividade  = (atividade: IAtividadeRd , status: string | undefined, 
                         color='crimson' 
                         variant='outline'
                         highContrast
-                        className={`w-[255px] p-3 my-auto max-sm:w-[40%] self-center`}
+                        className={`w-[255px] p-3 my-auto max-sm:w-[75%] self-center`}
                         >
                             <PDFDownloadLink document={<RelatorioDiarioPDF
                                 relatorioDiario = {relatorioDiario}
