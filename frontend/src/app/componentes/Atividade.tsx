@@ -317,7 +317,7 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
                   layout="responsive"
                   width={100}
                   height={100}
-                  loading='lazy'
+          
                   objectFit="cover"
                   className="cursor-pointer"
                 />
