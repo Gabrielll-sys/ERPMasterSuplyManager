@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { IRelatorioDiario } from '@/app/interfaces/IRelatorioDiario';
 import { createRelatorioDiario, getAllRelatoriosDiarios } from "@/app/services/RelatorioDiario.Services";
 import dayjs from 'dayjs';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Flex } from '@radix-ui/themes';
 
 export default function Reports() {
@@ -14,12 +14,15 @@ export default function Reports() {
     const route = useRouter();
     var semana = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
     var dataAtual = new Date();
+    const queryClient = useQueryClient();
 
+    const cachedData = queryClient.getQueryData(['relatorios']);
+    console.log("Dados em cache:", cachedData);
    
     //staleTime:Tempo que os dados são considerados frescos
     //cacheTime:Tempo que os dados ficam no cache,
     //Para ambos é 8 Horas
-    const {data:relatoriosDiarios,refetch:refetchRds,isSuccess}= useQuery({
+    const {data:relatoriosDiarios,refetch:refetchRds,isSuccess,isFetching}= useQuery({
         queryKey:['relatorios'],
         queryFn:getAllRelatoriosDiarios,
         staleTime:1*1000*60*60*8,
@@ -27,7 +30,10 @@ export default function Reports() {
 
     })
     
+if (isFetching){
 
+    console.log("isFetching")
+}
     const relatorioDiarioMutation = useMutation({
         mutationFn:createRelatorioDiario,
         onSuccess:refetchRds

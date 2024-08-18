@@ -42,7 +42,7 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [subindoImagem,setSubindoImagem] = useState(false)
   const queryClient = useQueryClient();
-  const { data: imagesInAtividades, refetch: refetchImagensInAtividadeRd } = useQuery<IImagemAtividadeRd[]>(
+  const { data: imagesInAtividades, refetch: refetchImagensInAtividadeRd,isFetching } = useQuery<IImagemAtividadeRd[]>(
   {
     queryKey:['imagesInAtividades', atividade.id],
     enabled:relatorioDiario?.id !=undefined,
@@ -60,7 +60,11 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
     
      }
   );
+  if(isFetching){
 
+    console.log("Esta buscando")
+  }
+  
   const deleteAtividadeMutation = useMutation(
     (id: number | undefined) => onDelete(id),
     {
@@ -302,6 +306,7 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
             {imagesInAtividades?.map((image) => (
               <div
                 key={image.id}
+                
                 className="relative flex justify-center items-center bg-gray-200 rounded-md shadow-md overflow-hidden"
                 style={{
                   width: '100%',
@@ -315,6 +320,7 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
                   src={image.urlImagem != undefined ? image.urlImagem : ""}
                   alt={image.descricao != undefined ? image.descricao : ""}
                   layout="responsive"
+                  loading='lazy'
                   width={100}
                   height={100}
                   objectFit="cover"
