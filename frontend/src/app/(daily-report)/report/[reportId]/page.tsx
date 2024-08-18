@@ -298,7 +298,7 @@ const updateAtividade  = (atividade: IAtividadeRd , status: string | undefined, 
         </div>
     </Flex>
 
-      {/* {relatorioDiario  && (
+      {relatorioDiario  && (
 
        <PDFViewer width="1500" height="600">
       <RelatorioDiarioPDF
@@ -306,7 +306,7 @@ const updateAtividade  = (atividade: IAtividadeRd , status: string | undefined, 
       relatorioDiario = {relatorioDiario}
       />
     </PDFViewer>
-      )} */}
+      )}
         <div className='flex flex-row justify-center'>
 
         { conditionsRoles && !relatorioDiario?.isFinished && (

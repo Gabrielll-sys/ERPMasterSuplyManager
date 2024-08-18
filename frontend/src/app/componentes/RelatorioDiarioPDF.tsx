@@ -132,9 +132,9 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
               <>
               { atividade.imagensAtividades!= undefined && atividade.imagensAtividades?.length>0 && (
 
-                <View key={atividade.id} style={{ width: "100%",  borderStyle: "solid", alignSelf: "center", }}  >
-                  <View wrap={false} style={styles.imageContainer}>
+                <View wrap={false} key={atividade.id} style={{ width: "100%",  borderStyle: "solid", alignSelf: "center",display:"flex",flexDirection:"column" }}  >
                     <Text style={styles.textTitleAtividade}>{atividade.numeroAtividade} - {atividade.descricao?.toUpperCase()} - {atividade.status}</Text>
+                  <View  style={styles.imageContainer}>
                     { atividade.imagensAtividades && atividade.imagensAtividades.map((imagem: IImagemAtividadeRd, imgIndex: number) => (
                       <>
 
