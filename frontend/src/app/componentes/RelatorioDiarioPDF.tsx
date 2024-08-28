@@ -110,11 +110,11 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
           </View>
           <View style={{ marginTop: 10, border: "solid", borderTop: "1px", width: "97%",alignSelf:"center" }}>
           </View>
-          <View style={{ width: "100%" }}>
+          <View  style={{ width: "100%" }}>
             {atividades.map((atividade: IAtividadeRd, index: number) => (
               <>
-                <View wrap={false} key={atividade.id} style={{ width: "100%", borderStyle: "solid", alignSelf: "center", }} >
-                  <Text style={styles.textTitleAtividade} break={(index + 1) % 4 === 0}>{atividade.numeroAtividade} - {atividade.descricao?.toUpperCase()} - {atividade.status}</Text>
+                <View wrap={false} key={atividade.id} style={{ width: "100%", borderStyle: "solid", alignSelf: "center",marginBottom:10 }} >
+                  <Text style={styles.textTitleAtividade} >{atividade.numeroAtividade} - {atividade.descricao?.toUpperCase()} - {atividade.status}</Text>
                     
                     <Text style={styles.text}>{atividade?.observacoes}</Text>
                   

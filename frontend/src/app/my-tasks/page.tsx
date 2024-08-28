@@ -299,7 +299,7 @@ const deletarTarefaMutation = useMutation({
   }
 })
     const deleteTarefa = async(id:number | undefined) =>{
-
+      //@ts-ignore
      deletarTarefaMutation.mutate(id)
     }
 
@@ -335,7 +335,7 @@ const deletarTarefaMutation = useMutation({
                     <Draggable key={task.id} draggableId={String(task.id)} index={index}>
                       {(provided) => (
                         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                          <TaskUser tarefa={task} onDeleteTarefa={deleteTarefa} onUpdateTarefa={updateTarefa} />
+                          <TaskUser reference={provided.innerRef} tarefa={task} onDeleteTarefa={deleteTarefa} onUpdateTarefa={updateTarefa} />
                         </div>
                       )}
                     </Draggable>
