@@ -339,6 +339,7 @@ const handleCreateMaterial = () => {
                    <Table.ColumnHeaderCell align="center">Tensão</Table.ColumnHeaderCell>
                    <Table.ColumnHeaderCell align="center">Estoque</Table.ColumnHeaderCell>
                    <Table.ColumnHeaderCell align="center">Localização</Table.ColumnHeaderCell>
+                   <Table.ColumnHeaderCell align="center">Preço Custo</Table.ColumnHeaderCell>
                    <Table.ColumnHeaderCell align="center">Preço Venda</Table.ColumnHeaderCell>
                    <Table.ColumnHeaderCell align="center">Preço Total</Table.ColumnHeaderCell>
                  </Table.Row>
@@ -356,6 +357,7 @@ const handleCreateMaterial = () => {
                    <Table.Cell align="center">{inventario.material.tensao}</Table.Cell>
                    <Table.Cell align="center">{inventario.saldoFinal}</Table.Cell>
                    <Table.Cell align="center" className="max-w-[100px] ">{inventario.material.localizacao}</Table.Cell>
+                  <Table.Cell align="center">R${inventario.material.precoCusto==null?"0,00":inventario.material.precoCusto.toFixed(2).toString().replace('.',",")}</Table.Cell>
                    <Table.Cell align="center">R${inventario.material.precoVenda==null?"0,00":inventario.material.precoVenda.toFixed(2).toString().replace('.',",")}</Table.Cell>
                    <Table.Cell align="center">R${inventario.material.precoVenda==null && inventario.saldoFinal==0?"0,00":(inventario.material.precoVenda * inventario.saldoFinal).toFixed(2).toString().replace('.',",")}</Table.Cell>
                    <Table.Cell align="center"> 
