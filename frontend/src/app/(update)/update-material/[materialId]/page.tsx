@@ -175,13 +175,13 @@ const handleImageUploadResponse = async (urlImagem: string) => {
 
   console.log(PRECO_VENDA.toFixed(4))
 
-  let markupCalculado = Number((Number(precoVenda?.toString().replace(`,`,`.`))/Number(precoCusto?.toString().replace(`,`,`.`))-1).toFixed(4))*100
+  let markupCalculado = ((PRECO_VENDA/ PRECO_CUSTO)*10)-1
 
-    const positiveNumber = Math.abs(markupCalculado)
+    console.log(markupCalculado)
 
-    console.log(positiveNumber)
 
-    setMarkup(positiveNumber.toFixed(2).toString().replace('.',','))
+
+    
     
   if(Number.isNaN(markupCalculado))
   {
@@ -191,7 +191,7 @@ const handleImageUploadResponse = async (urlImagem: string) => {
   }
   else{
 
-    setMarkup(markupCalculado.toFixed(2).toString().replace('.',','))
+    setMarkup((markupCalculado).toFixed(2).toString().replace('.',','))
   }
   return 
 
@@ -222,8 +222,8 @@ setUnidade(material.unidade)
 setCodigoFabricante(verifyNull(material.codigoFabricante))
 setCorrente(verifyNull(material.corrente))
 setMarca(verifyNull(material.marca))
- setDescricaoMaterial(material.descricao)
- setDescricao(material.descricao)
+setDescricaoMaterial(material.descricao)
+setDescricao(material.descricao)
 setOldCategory(verifyNull(material.categoria))
 setLocalizacao(verifyNull(material.localizacao))
 setPrecoCusto(verifyNull(material.precoCusto))
@@ -356,7 +356,7 @@ console.log(image)
                     <TextField.Input
                       value={markup}
                       variant='classic'
-                      onChange={(x) => setMarkup(x.target.value)}
+                      onChange={(x) => {setMarkup(x.target.value),calcularPrecoVenda()}}
                       placeholder='Markup'
                       size="3"
                     />
@@ -366,7 +366,7 @@ console.log(image)
                     <TextField.Input
                       value={precoVenda}
                       variant='classic'
-                      onChange={(x) => setPrecoVenda(x.target.value)}
+                      onChange={(x) => {setPrecoVenda(x.target.value),calcularMarkup()}}
                       placeholder='Preço de Venda'
                       size="3"
                     />
