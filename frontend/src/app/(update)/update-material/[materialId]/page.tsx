@@ -227,7 +227,7 @@ setMarca(verifyNull(material.marca))
 setOldCategory(verifyNull(material.categoria))
 setLocalizacao(verifyNull(material.localizacao))
 setPrecoCusto(verifyNull(material.precoCusto))
-setPrecoVenda(material.precoVenda == null?"0":material.precoVenda.toFixed(2))
+setPrecoVenda(verifyNull(material.precoVenda))
 setMarkup(verifyNull(material.markup))
 
 setTensao(material.tensao)
