@@ -9,11 +9,22 @@ import ArrowLeft from "@/app/assets/icons/ArrowLeft";
 import { getMaterialById,updateMaterial } from "@/app/services/Material.Services";
 import dayjs from "dayjs";
 import { IMotor } from "../interfaces/IMotor";
+import { Flex, Table } from "@radix-ui/themes";
 
 export default function CurrentMotorWeg({params}:any){
+  interface Inversor {
+    modelo: string;
+    tensao: string;
+    potenciaNominalMotorKW: number; // Potência Nominal do Motor
+    correnteNominalSaida: number; // Corrente Nominal de Saída
+    diametroCabosPotencia: number; // Corrente Nominal de Saída
+  }
+
 
   const [motor,setMotor] = useState<IMotor>()
   const [potencia,setPotencia] = useState<string>()
+  const[inversor,setInversor] = useState<string>()
+  const[contator,setContator] = useState<string>()
  
   const searchCorrenteMotor = (potencia:string)=>
   {
@@ -23,6 +34,14 @@ export default function CurrentMotorWeg({params}:any){
 
   }
 
+  const inversores: Inversor[] = [
+    { modelo: 'CFW500A01P6B2',tensao:"220V", potenciaNominalMotorKW: 0.18, correnteNominalSaida: 1.6,diametroCabosPotencia:1.5 },
+    { modelo: 'CFW500A02P6B2',tensao:"220V", potenciaNominalMotorKW: 0.37, correnteNominalSaida: 2.6,diametroCabosPotencia:1.5 },
+    { modelo: 'CFW500A04P3B2',tensao:"220V", potenciaNominalMotorKW: 0.75, correnteNominalSaida: 4.3,diametroCabosPotencia:1.5 },
+    { modelo: 'CFW500B07P3B2',tensao:"220V", potenciaNominalMotorKW: 1.5, correnteNominalSaida: 7.3,diametroCabosPotencia:1.5 },
+    { modelo: 'CFW500B10P0B2',tensao:"220V", potenciaNominalMotorKW: 2.2, correnteNominalSaida: 10.0,diametroCabosPotencia:2.5 },
+    // Adicione mais inversores conforme necessário
+  ];
 
 
   const motores: IMotor[] = [
@@ -75,7 +94,41 @@ export default function CurrentMotorWeg({params}:any){
         onValueChange={(x)=>searchCorrenteMotor(x)}
                                 />
  </div>
-      <div className=" flex flex-row  justify-center text-center items-center gap-6 mt-20">
+ <Flex direction="column" justify="start" >
+          
+          <Table.Root className="" variant="surface"  >
+<Table.Header>
+  <Table.Row  >
+    <Table.ColumnHeaderCell align="center"  >Potência Motor</Table.ColumnHeaderCell>
+    <Table.ColumnHeaderCell align="center">Inversor De Frequência</Table.ColumnHeaderCell>
+    <Table.ColumnHeaderCell align="center">Contator(PARTIDA DIRETA)</Table.ColumnHeaderCell>
+    <Table.ColumnHeaderCell align="center">Disjuntor(WEG)</Table.ColumnHeaderCell>
+   
+  </Table.Row>
+</Table.Header>
+
+<Table.Body>
+  
+  <Table.Row className="hover:bg-master_yellow">
+    <Table.Cell align="center" className="max-w-[80px] " >{}</Table.Cell>
+    <Table.Cell align="center" className="max-w-[100px] ">{}</Table.Cell>
+
+
+    
+    
+    <Table.Cell align="center">{}</Table.Cell>
+    <Table.Cell align="center">{}</Table.Cell>
+    <Table.Cell align="center">R${}</Table.Cell>
+
+     
+  </Table.Row>
+
+</Table.Body>
+        </Table.Root>
+</Flex>
+
+
+      {/* <div className=" flex flex-row  justify-center text-center items-center gap-6 mt-20">
         <div className="flex flex-col gap-5   justify-around self-center">
         <p className="font-bold text-2xl p-2 bg-blue-300 w-[180px]">Potência(CV)</p>
         <p className="font-bold text-2xl p-2 bg-blue-300 w-[180px]">(A) Em 220V</p>
@@ -88,7 +141,7 @@ export default function CurrentMotorWeg({params}:any){
         <p className="font-bold text-2xl p-2 bg-blue-100 w-[180px]">{motor?.correntes["380V"]} A</p>
         <p className="font-bold text-2xl p-2 bg-blue-100 w-[180px]">{motor?.correntes["440V"]} A</p>
         </div>
-      </div>
+      </div> */}
      
      
      </>
