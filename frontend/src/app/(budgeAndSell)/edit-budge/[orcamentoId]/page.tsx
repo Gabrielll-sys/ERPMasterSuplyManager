@@ -951,7 +951,7 @@ n            orcamento={orcamento}
                   Fechar
                 </Button>
 
-                {confirmAuthorizeMessage==="AUTORIZAR" && haveNoEstoque && (
+                {confirmAuthorizeMessage==="AUTORIZAR"  && (
                 <Button className='p-2' size="3" variant='solid' color='blue' onClick={handleUpdateOrcamentoToSell}>
                   Autorizar
                 </Button>
