@@ -637,7 +637,7 @@ return(
                       value={desconto}
                       variant='classic'
                       onChange={(x) => setDesconto(x.target.value)}
-                      placeholder='Endereço'
+                      placeholder='Desconto'
                        className='w-[350px]'
                       size="3"
                       onBlur={handleUpdateOrcamento}
