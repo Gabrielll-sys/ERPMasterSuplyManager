@@ -19,12 +19,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 string mySqlConnection = builder.Configuration.GetConnectionString("SqlConnectionString");
 
-builder.Services.AddDbContextPool<SqlContext>(options =>
-options.UseMySql(mySqlConnection, new MySqlServerVersion(new Version())
-));
-builder.Services.AddDbContextPool<SqlContext>(options =>
+builder.Services.AddDbContext<SqlContext>(options => options.UseSqlServer(mySqlConnection));
 
-options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection)));
+//builder.Services.AddDbContextPool<SqlContext>(options =>
+//options.UseMySql(mySqlConnection, new MySqlServerVersion(new Version())
+//));
+//builder.Services.AddDbContextPool<SqlContext>(options =>
+
+//options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection)));
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthorization(options =>
