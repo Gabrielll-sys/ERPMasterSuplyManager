@@ -47,7 +47,7 @@ namespace MasterErp.Infraestructure;
 
             try
             {
-                return await _context.Usuarios.AsNoTracking().FirstOrDefaultAsync(x=>x.Email==email);
+                return  await _context.Usuarios.AsNoTracking().FirstOrDefaultAsync(x=>x.Email==email);
 
 
 

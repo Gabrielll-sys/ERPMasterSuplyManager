@@ -2,6 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using MasterErp.Domain.Models;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MasterErp.Infraestructure;
 public class SqlContext : DbContext
 {
@@ -31,4 +32,22 @@ public class SqlContext : DbContext
     public DbSet<TarefaUsuario> TarefaUsuarios { get; set; }
 
 
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+        
+    base.OnModelCreating(modelBuilder);
+        //Linha necessária pois depois de ter migrado de mysql para sql datase,houve conversão do tipo booelan pra smallint
+    modelBuilder.Entity<Usuario>()
+        .Property(e => e.isActive)
+        .HasConversion(new BoolToZeroOneConverter<Int16>());
+
+        modelBuilder.Entity<RelatorioDiario>()
+        .Property(e => e.isFinished)
+        .HasConversion(new BoolToZeroOneConverter<Int16>());
+
+        modelBuilder.Entity<Orcamento>()
+        .Property(e => e.IsPayed)
+        .HasConversion(new BoolToZeroOneConverter<Int16>());
+
+    }
 }
