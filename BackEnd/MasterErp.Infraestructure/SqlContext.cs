@@ -48,6 +48,10 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
         modelBuilder.Entity<Orcamento>()
         .Property(e => e.IsPayed)
         .HasConversion(new BoolToZeroOneConverter<Int16>());
+        //converte do tipo string para o DateTime,pois após conversão do mysql para sqldatabase os tipos foram trocados
+        modelBuilder.Entity<ImagemAtividadeRd>()
+       .Property(e => e.DataAdicao)
+       .HasConversion<string>();
 
     }
 }
