@@ -219,14 +219,14 @@ namespace MasterErp.Api.Controllers;
                 return Unauthorized();
 
 
-        if (usuarioDb.isActive is false)
-        {
-            //Significa que o usuário esta autenticado mas não tem permissão para acessar o recurso
-            return Forbid();
-        }
+            if(usuarioDb.isActive is false)
+            {
+                //Significa que o usuário esta autenticado mas não tem permissão para acessar o recurso
+                return Forbid();
+            }
 
 
-        var jwt = GenerateJwtToken(usuarioDb);
+            var jwt = GenerateJwtToken(usuarioDb);
 
             return Ok(new { jwtToken = jwt,userName = usuarioDb.Nome,userId=usuarioDb.Id,role = usuarioDb.Cargo });
 

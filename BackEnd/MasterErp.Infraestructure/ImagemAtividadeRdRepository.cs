@@ -19,9 +19,6 @@ public class ImagemAtividadeRdRepository:IImagemAtividadeRdRepository
                 {
                     try
                     {
-
-
-                        var a = await _context.ImagensAtividadeRd.AsNoTracking().Include(x=>x.AtividadeRd).OrderBy(x=>x.Id).ToListAsync();
                         return await _context.ImagensAtividadeRd.AsNoTracking().Include(x=>x.AtividadeRd).OrderBy(x=>x.Id).ToListAsync();
         
                     }

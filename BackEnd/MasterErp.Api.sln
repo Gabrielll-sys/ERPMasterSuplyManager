@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterErp.Infraestructure",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterErp.Services", "MasterErp.Services\MasterErp.Services.csproj", "{1E76A0B2-A430-413A-9A35-919474E1CCA4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionApp2", "FunctionApp2\FunctionApp2.csproj", "{D19481D6-717D-4EB3-92D9-0667C6FB3A61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{1E76A0B2-A430-413A-9A35-919474E1CCA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E76A0B2-A430-413A-9A35-919474E1CCA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E76A0B2-A430-413A-9A35-919474E1CCA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D19481D6-717D-4EB3-92D9-0667C6FB3A61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D19481D6-717D-4EB3-92D9-0667C6FB3A61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D19481D6-717D-4EB3-92D9-0667C6FB3A61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D19481D6-717D-4EB3-92D9-0667C6FB3A61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

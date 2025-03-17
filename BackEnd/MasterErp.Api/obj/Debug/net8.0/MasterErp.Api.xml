@@ -382,6 +382,11 @@
             <param name="model">O objeto de ordem de serviço a ser atualizada</param>
             <returns></returns>
         </member>
+        <member name="T:MasterErp.Api.Controllers.PingsController">
+            <summary>
+            Controlador para gerencia unica e exclusivamente a rota de ping da aplicação,que é usada no azure function para evitar cold start da api
+             </summary>
+        </member>
         <member name="M:MasterErp.Api.Controllers.RelatoriosDiariosController.Post">
             <summary>
             Cria um relatório diário
