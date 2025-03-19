@@ -1,406 +1,519 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Snackbar } from '@mui/material';
-import MuiAlert, { AlertColor } from "@mui/material/Alert";
+import MuiAlert from "@mui/material/Alert";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
-import { HoverCard, Text, TextField } from "@radix-ui/themes";
-import "dayjs/locale/pt-br";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
- 
-import { Box, Flex, Table } from "@radix-ui/themes";
+import { Box, Flex, Table, Text, TextField, Card, Button } from "@radix-ui/themes";
 import { useMutation } from "react-query";
-import LeftSearchParameters from "../componentes/LeftSearchParameters";
-import { IInventario } from "../interfaces/IInventarios";
-import IMaterial from "../interfaces/IMaterial";
-import { createMaterial, searchByDescription, searchByFabricanteCode } from "../services/Material.Services";
-import { Button } from '@radix-ui/themes';
-import Image from 'next/image';
-import { filterMateriais } from '../services/Inventario.Services';
+import { filterMateriais, searchByDescription, searchByFabricanteCode, createMaterial } from "../services/Material.Services";
+import type { IInventario } from "../interfaces/IInventarios";
 
-
-
-
- function CreateMaterial(){
-  const route = useRouter()
-
-
-  const [loadingButton,setLoadingButton] = useState<boolean>(false)  
-  const [loadingMateriais,setLoadingMateriais] = useState<boolean>(false)
-
-  const [descricao, setDescricao] = useState<string | undefined>("");
-  const [codigoInterno, setCodigoInterno] = useState<string>("");
-  const [codigoFabricante, setCodigoFabricante] = useState<string>("");
-  const [marca, setMarca] = useState<string>("");
-  const [tensao, setTensao] = useState<string>("");
-  const [localizacao, setLocalizacao] = useState<string>("");
-  const [corrente, setCorrente] = useState<string>("");
-  const [unidade, setUnidade] = useState<string>("UN");
-  const [dataentrada, setDataentrada] = useState<any>(undefined);
+function BuscaMateriais() {
+  const [loadingMateriais, setLoadingMateriais] = useState(false);
+  const [descricao, setDescricao] = useState("");
+  const [codigoFabricante, setCodigoFabricante] = useState("");
+  const [marca, setMarca] = useState("");
+  const [tensao, setTensao] = useState("127V");
+  const [localizacao, setLocalizacao] = useState("");
+  const [corrente, setCorrente] = useState("");
+  const [unidade, setUnidade] = useState("UN");
+  const [precoCusto, setPrecoCusto] = useState("");
+  const [markup, setMarkup] = useState("");
   const [openSnackBar, setOpenSnackBar] = useState(false);
-  const [messageAlert, setMessageAlert] = useState<string>();
-  const [severidadeAlert, setSeveridadeAlert] = useState<AlertColor>();
-  const[precoCusto,setPrecoCusto] = useState<string>()
-  const[markup,setMarkup] = useState<string>("")
-  const [precoVenda,setPrecoVenda] = useState< string>()
-  const [materiais, setMateriais] = useState<IInventario[]>([]);
+  const [messageAlert, setMessageAlert] = useState("");
+  const [severidadeAlert, setSeveridadeAlert] = useState("info");
+  const [materiais, setMateriais] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
 
-  const unidadeMaterial : string[] = ["UN", "RL", "MT", "P"];
-  const tensoes :string[]= ["","12V","24V","127V","220V","380V","440V","660V"]
-  const [currentUser, setCurrentUser] = useState<any>(null);
-  
+  const unidadeMaterial = ["UN", "RL", "MT", "PC"];
+  const tensoes = ["", "12V", "24V", "127V", "220V", "380V", "440V", "660V"];
 
-  const conditionsRoles = currentUser?.role == "Administrador" || currentUser?.role == "Diretor" || currentUser?.role == "SuporteTecnico"
-
-   
- 
-  useEffect(()=>{
-      //@ts-ignore
-  const user = JSON.parse(localStorage.getItem("currentUser"));
-  if(user != null)
-  {
-      setCurrentUser(user)
-
-  }
-  },[])
-
-
-useEffect(()=>{
-
-const description = sessionStorage.getItem("description")
-//@ts-ignore
-const materiais  = JSON.parse(sessionStorage.getItem("materiais"))
-
-if(materiais!=null &&  materiais) setMateriais(materiais)
-
-
-if(description) setDescricao(description)
-
-
-
-},[])
-
-
-const buscarDescricao = async(descricao:string | undefined)=>
-{
-setDescricao(descricao)
-  if(descricao!= undefined){
-
-    if(descricao.length>3)
-    {
-      try{
-
-        setLoadingMateriais(true)
-        const res =  await searchByDescription(descricao)
-
-        setLoadingMateriais(false)
-        setMateriais(res)
-      }
-    catch(e)
-    {
-      console.log(e)
-    }
-    
-    }
-  }
-
-
-}
-
-const handleFiltro = async (filtro:any)=>{
-
-  const materiaisFiltrados = await filterMateriais(filtro)
-   setMateriais(materiaisFiltrados)
-  
-}
-
-const buscaCodigoFabricante = async(codigo:string)=>
-{
-  setCodigoFabricante(codigo)
-  if(codigoFabricante.length>3)
-    {
-      try{
-        const res =  await searchByFabricanteCode(codigoFabricante)
-        setMateriais(res)
-      }
-    catch(e)
-    {
-      console.log(e)
-    }
-    
-    }
-
-}
-  
-  const handleChangeUpdatePage = async (id:string | number) => {
-   
-   if(descricao !=undefined){
-
-     sessionStorage.setItem("description",descricao)
- 
-     sessionStorage.setItem("materiais",JSON.stringify(materiais))
- 
-     route.push(`update-material/${id}`)
-   }
-        
-  };
-
-  
-  const mutationMaterial = useMutation({
-    mutationFn: createMaterial,
-    onSuccess: (res:IInventario) => {
-        setOpenSnackBar(true);
-        setSeveridadeAlert("success");
-        setMessageAlert("Material Criado com sucesso")
-        console.log(res)
-      
-        
-   
-    },
-  
-});
-
-const handleCreateMaterial = () => {
-
-    if (!descricao || !unidade) {
-        setOpenSnackBar(true);
-        setSeveridadeAlert("warning");
-        setMessageAlert("Preencha todas as informações necessárias");
-        return; // Yearly return
-    }
-
-    // Prepare the material object, removing extra spaces
-    const material: IMaterial = {
-        codigoFabricante: codigoFabricante.trim().replace(/\s\s+/g, " "),
-        descricao: descricao.trim().replace(/\s\s+/g, " "),
-        categoria: "",
-        marca: marca.trim().replace(/\s\s+/g, " "),
-        corrente: corrente.trim().replace(/\s\s+/g, " "),
-        unidade: unidade.trim().replace(/\s\s+/g, " "),
-        tensao: tensao.trim().replace(/\s\s+/g, " "),
-        localizacao: localizacao.trim().replace(/\s\s+/g, " "),
-        dataEntradaNF: dataentrada,
-        precoCusto: precoCusto,
-        markup: markup,
+  // Verificar se está em dispositivo móvel
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
     };
 
-    // Call the mutation to create the material
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Carregar usuário atual do localStorage
+  useEffect(() => {
+    try {
+      const user = JSON.parse(localStorage.getItem("currentUser"));
+      if (user != null) {
+        setCurrentUser(user);
+      }
+    } catch (error) {
+      console.log("Usuário não logado");
+    }
+  }, []);
+
+  // Carregar dados da sessão
+  useEffect(() => {
+    const description = sessionStorage.getItem("description");
+    const materiaisStorage = JSON.parse(sessionStorage.getItem("materiais"));
+
+    if (materiaisStorage != null && materiaisStorage) setMateriais(materiaisStorage);
+    if (description) setDescricao(description);
+  }, []);
+
+  const buscarDescricao = async (value) => {
+    setDescricao(value);
+    if (value && value.length > 3) {
+      try {
+        setLoadingMateriais(true);
+        const res = await searchByDescription(value);
+        setLoadingMateriais(false);
+        setMateriais(res);
+      } catch (e) {
+        console.log(e);
+        setLoadingMateriais(false);
+      }
+    }
+  };
+
+  const buscaCodigoFabricante = async (codigo) => {
+    setCodigoFabricante(codigo);
+    if (codigo.length > 3) {
+      try {
+        const res = await searchByFabricanteCode(codigo);
+        setMateriais(res);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
+
+  const handleFilterSubmit = async (e) => {
+    e.preventDefault();
+    const filtro = {
+      descricao,
+      codigoFabricante,
+      marca,
+      tensao,
+      localizacao,
+      corrente,
+      unidade,
+      precoCusto,
+      markup
+    };
+
+    try {
+      setLoadingMateriais(true);
+      const materiaisFiltrados = await filterMateriais(filtro);
+      setMateriais(materiaisFiltrados);
+      setLoadingMateriais(false);
+    } catch (e) {
+      console.log(e);
+      setLoadingMateriais(false);
+    }
+  };
+
+  const mutationMaterial = useMutation({
+    mutationFn: createMaterial,
+    onSuccess: (res) => {
+      setOpenSnackBar(true);
+      setSeveridadeAlert("success");
+      setMessageAlert("Material Criado com sucesso");
+    },
+  });
+
+  const handleCreateMaterial = () => {
+    if (!descricao || !unidade) {
+      setOpenSnackBar(true);
+      setSeveridadeAlert("warning");
+      setMessageAlert("Preencha todas as informações necessárias");
+      return;
+    }
+
+    const material = {
+      codigoFabricante: codigoFabricante.trim().replace(/\s\s+/g, " "),
+      descricao: descricao.trim().replace(/\s\s+/g, " "),
+      categoria: "",
+      marca: marca.trim().replace(/\s\s+/g, " "),
+      corrente: corrente.trim().replace(/\s\s+/g, " "),
+      unidade: unidade.trim().replace(/\s\s+/g, " "),
+      tensao: tensao.trim().replace(/\s\s+/g, " "),
+      localizacao: localizacao.trim().replace(/\s\s+/g, " "),
+      precoCusto,
+      markup,
+    };
+
     mutationMaterial.mutate(material);
-};
+  };
 
-  
-    return(
-       
-  
-    <Flex direction="column"   gap="2" className="mt-7 w-full" >
+  const handleEditMaterial = (id) => {
+    if (descricao) {
+      sessionStorage.setItem("description", descricao);
+      sessionStorage.setItem("materiais", JSON.stringify(materiais));
+      window.location.href = `/update-material/${id}`;
+    }
+  };
 
-    
-
-      <Flex  direction="column"  wrap="wrap" gap="3"  >
-        <Flex direction="column" justify="center" wrap="wrap" gap="6"   >
-        
-               <Flex direction="row" gap="6" justify={"center"} >
-                 <TextField.Root>
-                      <TextField.Input
-                        value={codigoFabricante}
-                        variant='classic'
-                        onChange={(x) => buscaCodigoFabricante(x.target.value)}
-                        placeholder='Código Fabricante'
-                         className='max-sm:w-[150px] min-md:w-[200px] '
-                        size="3"
-                      />
-                               </TextField.Root>
-                 
-                               <TextField.Root>
-                      <TextField.Input
-                        value={descricao}
-                        variant='classic'
-                        onChange={(x) => buscarDescricao(x.target.value)}
-                        placeholder='Descrição'
-                         className='w-[400px]'
-                        size="3"
-                      />
-                               </TextField.Root>
-                 
-                               <TextField.Root>
-                      <TextField.Input
-                        value={marca}
-                        variant='classic'
-                        onChange={(x) => setMarca(x.target.value)}
-                        placeholder='Marca'
-                         className='w-[200px] '
-                        size="3"
-                      />
-                               </TextField.Root>
-                 
-                               <TextField.Root>
-                      <TextField.Input
-                        value={localizacao}
-                        variant='classic'
-                        onChange={(x) => setLocalizacao(x.target.value)}
-                        placeholder='Localização'
-                         className='w-[200px]'
-                        size="3"
-                      />
-                               </TextField.Root>
-               </Flex>
-
-        
-              <Flex direction="row" gap="6" justify="center" >
-                <TextField.Root>
-                
-                      <TextField.Input
-                        type="number"
-                        value={precoCusto}
-                        variant='classic'
-                        onChange={(x) => setPrecoCusto(x.target.value)}
-                        placeholder='Preço Custo  '
-                        className='w-[200px] '
-                        size="3"
-                      />
-                
-                </TextField.Root>
-                
-                            <TextField.Root>
-                      <TextField.Input
-                        value={markup}
-                        variant='classic'
-                        onChange={(x) => setMarkup(x.target.value)}
-                        placeholder='Markup'
-                         className='w-[200px]'
-                        size="3"
-                      />
-                </TextField.Root>
-                   <TextField.Root>
-                      <TextField.Input
-                        value={corrente}
-                        variant='classic'
-                        onChange={(x) => setCorrente(x.target.value)}
-                        placeholder='Corrente'
-                         className='w-[200px]'
-                        size="3"
-                      />
-                </TextField.Root>
-                   <Autocomplete
-                label="Tensão"
-                placeholder="EX:127V"
-                className="max-w-[180px]  rounded-none "
-                    >
-                    {tensoes.map((item:any) => (
-                 <AutocompleteItem
-                  key={item.id}
-                  aria-label='teste'
-                   value={item}
-                   >
-                   {item}
-                 </AutocompleteItem>
-                             ))}
-                             </Autocomplete>
-                   <Autocomplete
-                label="Unidade "
-                placeholder="EX:MT"
-                className="max-w-[180px]  rounded-none  "
-                 value={unidade}
-                 onValueChange={setUnidade}
-                    >
-                    {unidadeMaterial.map((item:any) => (
-                 <AutocompleteItem
-                  key={item.id}
-                  aria-label='teste'
-                   value={item}
-                   >
-                   {item}
-                 </AutocompleteItem>
-                             ))}
-                             </Autocomplete>
-              </Flex>
-             <Flex justify="center">
-               <Button  onClick={handleCreateMaterial}
-                        
-                           variant='solid'
-                           className='  p-2 rounded-md font-bold text-[18px] my-3 w-[150px] '>
-               Criar Material
-                        </Button>
-             </Flex>
-         {materiais.length>0 && (
-
-         <Text className='w-full' align="center">Resultados dessa Pesquisa : {materiais.length} Itens </Text>
-         )}
-        </Flex>
-            <Flex direction="column" justify="start" >
-          
-                         <Table.Root className="" variant="surface"  >
-               <Table.Header>
-                 <Table.Row  >
-                   <Table.ColumnHeaderCell align="center"  >Cód.Interno</Table.ColumnHeaderCell>
-                   <Table.ColumnHeaderCell align="center">Cod.Fabricante</Table.ColumnHeaderCell>
-                   <Table.ColumnHeaderCell align="center">Descrição</Table.ColumnHeaderCell>
-                   <Table.ColumnHeaderCell align="center">Marca</Table.ColumnHeaderCell>
-                   <Table.ColumnHeaderCell align="center">Tensão</Table.ColumnHeaderCell>
-                   <Table.ColumnHeaderCell align="center">Estoque</Table.ColumnHeaderCell>
-                   <Table.ColumnHeaderCell align="center">Localização</Table.ColumnHeaderCell>
-                   <Table.ColumnHeaderCell align="center">Preço Venda</Table.ColumnHeaderCell>
-                   <Table.ColumnHeaderCell align="center">Preço Total</Table.ColumnHeaderCell>
-                 </Table.Row>
-               </Table.Header>
-               <Table.Body>
-                 {materiais.map((inventario:IInventario)=>(
-                 <Table.Row key={inventario.material.id} className="hover:bg-master_yellow">
-                   <Table.Cell align="center" className="max-w-[80px] " >{inventario.material.id}</Table.Cell>
-                   <Table.Cell align="center" className="max-w-[100px] ">{inventario.material.codigoFabricante}</Table.Cell>
-              
- <Table.RowHeaderCell className="max-w-[400px] " align="center" onClick={()=>{setDescricao(inventario?.material?.descricao),buscarDescricao(inventario?.material?.descricao)}} >{inventario.material.descricao}</Table.RowHeaderCell>
-                   
-                   
-                   <Table.Cell align="center">{inventario.material.marca}</Table.Cell>
-                   <Table.Cell align="center">{inventario.material.tensao}</Table.Cell>
-                   <Table.Cell align="center">{inventario.saldoFinal}</Table.Cell>
-                   <Table.Cell align="center" className="max-w-[100px] ">{inventario.material.localizacao}</Table.Cell>
-                   <Table.Cell align="center">R${inventario.material.precoVenda==null?"0,00":inventario.material.precoVenda.toFixed(2).toString().replace('.',",")}</Table.Cell>
-                   <Table.Cell align="center">R${inventario.material.precoVenda==null && inventario.saldoFinal==0?"0,00":(inventario.material.precoVenda * inventario.saldoFinal).toFixed(2).toString().replace('.',",")}</Table.Cell>
-                   <Table.Cell align="center"> 
-                    <Button
-                                        onClick={() => handleChangeUpdatePage(inventario?.material?.id)}
-                                        className="text-white text-sm rounded-md hover:underline w-[50px] "
-                
-                                    >
-                                        Editar
-                
-                                                            </Button>
-                                                            </Table.Cell>
-                 </Table.Row>
-                 ))}
-               </Table.Body>
-                       </Table.Root>
-            </Flex>
-        
-      </Flex>
-        
-       
-      <Snackbar
-            open={openSnackBar}
-            autoHideDuration={2000}
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center'
-            }}
-            onClose={(e) => setOpenSnackBar(false)}
-        >
-            <MuiAlert
-                onClose={(e) => setOpenSnackBar(false)}
-                severity={severidadeAlert}
-                sx={{ width: "100%" }}
+  // Renderização para dispositivos móveis
+  if (isMobile) {
+    return (
+      <Flex direction="column" gap="2" className="mt-7 w-full p-4">
+        <Card>
+          <Flex direction="column" gap="3" p="4">
+            <Text size="5" weight="bold">Busca de Materiais</Text>
+            
+            <TextField.Root>
+              <TextField.Input
+                value={descricao}
+                variant="classic"
+                onChange={(x) => buscarDescricao(x.target.value)}
+                placeholder="Digite o nome do material (ex: min.dis.tri)"
+                className="w-full"
+                size="3"
+              />
+            </TextField.Root>
+            
+            <Text size="2" color="gray">
+              Dica: Use abreviações separadas por pontos (ex: "min.dis.tri" para "MINI DISJUNTOR TRIPOLAR")
+            </Text>
+            
+            <Button 
+              variant="solid" 
+              className="bg-blue-600 text-white"
+              onClick={handleFilterSubmit}
             >
-                {messageAlert}
-            </MuiAlert>
+              Buscar
+            </Button>
+          </Flex>
+        </Card>
+
+        {loadingMateriais && (
+          <Text className="w-full mt-4" align="center">
+            Carregando...
+          </Text>
+        )}
+
+        {materiais.length > 0 && !loadingMateriais && (
+          <Card className="mt-4">
+            <Flex direction="column" gap="3" p="4">
+              <Flex justify="between" align="center">
+                <Text size="5" weight="bold">Resultados da Busca</Text>
+                <Text size="2" color="gray">{materiais.length} itens encontrados</Text>
+              </Flex>
+              
+              <Table.Root variant="surface">
+                <Table.Header>
+                  <Table.Row>
+                    <Table.ColumnHeaderCell align="center">Descrição</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell align="center">Estoque</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell align="center">Local</Table.ColumnHeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {materiais.map((inventario: IInventario) => (
+                    <Table.Row key={inventario.material.id} className="hover:bg-gray-50">
+                      <Table.Cell align="center">{inventario.material.descricao}</Table.Cell>
+                      <Table.Cell align="center" className={inventario.saldoFinal > 10 ? "text-green-600 font-medium" : "text-red-600 font-medium"}>
+                        {inventario.saldoFinal}
+                      </Table.Cell>
+                      <Table.Cell align="center">
+                        <Box className="inline-block px-2 py-1 bg-gray-100 text-gray-700 rounded-md text-xs font-medium">
+                          {inventario.material.localizacao}
+                        </Box>
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table.Root>
+            </Flex>
+          </Card>
+        )}
+
+        <Snackbar
+          open={openSnackBar}
+          autoHideDuration={2000}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center'
+          }}
+          onClose={() => setOpenSnackBar(false)}
+        >
+          <MuiAlert
+            onClose={() => setOpenSnackBar(false)}
+            severity={severidadeAlert}
+            sx={{ width: "100%" }}
+          >
+            {messageAlert}
+          </MuiAlert>
         </Snackbar>
-  
+      </Flex>
+    );
+  }
+
+  // Renderização para desktop
+  return (
+    <Flex direction="column" gap="4" className="mt-7 w-full max-w-[1200px] mx-auto px-4">
+      <Card className="w-full">
+        <Flex direction="column" gap="4" p="4">
+          <Text size="5" weight="bold">Busca de Materiais</Text>
+          
+          <Flex direction="column">
+            <Flex direction="row" gap="4" wrap="wrap">
+              <Box className="w-full">
+                <Text size="2" weight="medium" mb="1">Descrição do Material</Text>
+                <TextField.Root>
+                  <TextField.Input
+                    value={descricao}
+                    variant="classic"
+                    onChange={(x) => buscarDescricao(x.target.value)}
+                    placeholder="Digite sua busca (ex: min.dis.tri)"
+                    className="w-full"
+                    size="3"
+                  />
+                </TextField.Root>
+                <Text size="1" color="gray" mt="1">
+                  Dica: Use abreviações separadas por pontos (ex: "min.dis.tri" para "MINI DISJUNTOR TRIPOLAR")
+                </Text>
+              </Box>
+            </Flex>
+            
+            <Flex direction="row" gap="4" wrap="wrap" mt="4">
+              <Box className="flex-1 min-w-[200px]">
+                <Text size="2" weight="medium" mb="1">Código Fabricante</Text>
+                <TextField.Root>
+                  <TextField.Input
+                    value={codigoFabricante}
+                    variant="classic"
+                    onChange={(x) => buscaCodigoFabricante(x.target.value)}
+                    placeholder="Código do fabricante"
+                    className="w-full"
+                    size="3"
+                  />
+                </TextField.Root>
+              </Box>
+              
+              <Box className="flex-1 min-w-[200px]">
+                <Text size="2" weight="medium" mb="1">Marca</Text>
+                <TextField.Root>
+                  <TextField.Input
+                    value={marca}
+                    variant="classic"
+                    onChange={(x) => setMarca(x.target.value)}
+                    placeholder="Nome da marca"
+                    className="w-full"
+                    size="3"
+                  />
+                </TextField.Root>
+              </Box>
+              
+              <Box className="flex-1 min-w-[200px]">
+                <Text size="2" weight="medium" mb="1">Localização</Text>
+                <TextField.Root>
+                  <TextField.Input
+                    value={localizacao}
+                    variant="classic"
+                    onChange={(x) => setLocalizacao(x.target.value)}
+                    placeholder="Setor/Prateleira"
+                    className="w-full"
+                    size="3"
+                  />
+                </TextField.Root>
+              </Box>
+            </Flex>
+            
+            <Flex direction="row" gap="4" wrap="wrap" mt="4">
+              <Box className="flex-1 min-w-[200px]">
+                <Text size="2" weight="medium" mb="1">Preço Custo</Text>
+                <TextField.Root>
+                  <TextField.Input
+                    type="number"
+                    value={precoCusto}
+                    variant="classic"
+                    onChange={(x) => setPrecoCusto(x.target.value)}
+                    placeholder="Valor R$"
+                    className="w-full"
+                    size="3"
+                  />
+                </TextField.Root>
+              </Box>
+              
+              <Box className="flex-1 min-w-[200px]">
+                <Text size="2" weight="medium" mb="1">Markup</Text>
+                <TextField.Root>
+                  <TextField.Input
+                    value={markup}
+                    variant="classic"
+                    onChange={(x) => setMarkup(x.target.value)}
+                    placeholder="%"
+                    className="w-full"
+                    size="3"
+                  />
+                </TextField.Root>
+              </Box>
+              
+              <Box className="flex-1 min-w-[200px]">
+                <Text size="2" weight="medium" mb="1">Corrente</Text>
+                <TextField.Root>
+                  <TextField.Input
+                    value={corrente}
+                    variant="classic"
+                    onChange={(x) => setCorrente(x.target.value)}
+                    placeholder="A"
+                    className="w-full"
+                    size="3"
+                  />
+                </TextField.Root>
+              </Box>
+            </Flex>
+            
+            <Flex direction="row" gap="4" wrap="wrap" mt="4">
+              <Box className="flex-1 min-w-[200px]">
+                <Text size="2" weight="medium" mb="1">Tensão</Text>
+                <Autocomplete
+                  placeholder="Selecione"
+                  defaultSelectedKey="127V"
+                  className="w-full"
+                  onSelectionChange={(value) => setTensao(value)}
+                >
+                  {tensoes.map((item) => (
+                    <AutocompleteItem key={item} value={item}>
+                      {item || "Selecione"}
+                    </AutocompleteItem>
+                  ))}
+                </Autocomplete>
+              </Box>
+              
+              <Box className="flex-1 min-w-[200px]">
+                <Text size="2" weight="medium" mb="1">Unidade</Text>
+                <Autocomplete
+                  placeholder="Selecione"
+                  defaultSelectedKey="UN"
+                  className="w-full"
+                  onSelectionChange={(value) => setUnidade(value)}
+                >
+                  {unidadeMaterial.map((item) => (
+                    <AutocompleteItem key={item} value={item}>
+                      {item}
+                    </AutocompleteItem>
+                  ))}
+                </Autocomplete>
+              </Box>
+              
+              <Box className="flex-1 min-w-[200px]">
+                {/* Espaço para manter o alinhamento */}
+              </Box>
+            </Flex>
+            
+            <Flex justify="between" mt="4">
+              <Button variant="solid" className="bg-blue-600 text-white" onClick={handleFilterSubmit}>
+                Buscar
+              </Button>
+              
+              {currentUser && (
+                <Button variant="solid" className="bg-green-600 text-white" onClick={handleCreateMaterial}>
+                  Criar Material
+                </Button>
+              )}
+            </Flex>
+          </Flex>
+        </Flex>
+      </Card>
+
+      {materiais.length > 0 && (
+        <Card className="w-full">
+          <Flex direction="column" gap="4" p="4">
+            <Flex justify="between" align="center">
+              <Text size="5" weight="bold">Resultados da Busca</Text>
+              <Text size="2" color="gray">{materiais.length} itens encontrados</Text>
+            </Flex>
+            
+            <Box className="overflow-x-auto">
+              <Table.Root variant="surface">
+                <Table.Header>
+                  <Table.Row>
+                    <Table.ColumnHeaderCell align="center">Cód. Interno</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell align="center">Cód. Fabricante</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell align="center">Descrição</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell align="center">Marca</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell align="center">Tensão</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell align="center">Estoque</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell align="center">Localização</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell align="center">Preço Custo</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell align="center">Preço Venda</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell align="center">Preço Total</Table.ColumnHeaderCell>
+                    {currentUser && <Table.ColumnHeaderCell align="center">Ações</Table.ColumnHeaderCell>}
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {materiais.map((inventario) => (
+                    <Table.Row key={inventario.material.id} className="hover:bg-gray-50">
+                      <Table.Cell align="center">{inventario.material.id}</Table.Cell>
+                      <Table.Cell align="center">{inventario.material.codigoFabricante}</Table.Cell>
+                      <Table.RowHeaderCell align="center" onClick={() => buscarDescricao(inventario.material.descricao)}>
+                        {inventario.material.descricao}
+                      </Table.RowHeaderCell>
+                      <Table.Cell align="center">{inventario.material.marca}</Table.Cell>
+                      <Table.Cell align="center">{inventario.material.tensao}</Table.Cell>
+                      <Table.Cell align="center" className={inventario.saldoFinal > 10 ? "text-green-600 font-medium" : "text-red-600 font-medium"}>
+                        {inventario.saldoFinal}
+                      </Table.Cell>
+                      <Table.Cell align="center">
+                        <Box className="inline-block px-2 py-1 bg-gray-100 text-gray-700 rounded-md text-xs font-medium">
+                          {inventario.material.localizacao}
+                        </Box>
+                      </Table.Cell>
+                      <Table.Cell align="center" className="font-medium">
+                        R${inventario.material.precoCusto?.toFixed(2).replace('.', ',') || "0,00"}
+                      </Table.Cell>
+                      <Table.Cell align="center" className="font-medium">
+                        R${inventario.material.precoVenda?.toFixed(2).replace('.', ',') || "0,00"}
+                      </Table.Cell>
+                      <Table.Cell align="center" className="font-medium">
+                        R${inventario.material.precoVenda && inventario.saldoFinal > 0
+                          ? (inventario.material.precoVenda * inventario.saldoFinal).toFixed(2).replace('.', ',')
+                          : "0,00"}
+                      </Table.Cell>
+                      {currentUser && (
+                        <Table.Cell align="center">
+                          <Button
+                            variant="soft"
+                            className="bg-blue-100 text-blue-700 hover:bg-blue-200"
+                            onClick={() => handleEditMaterial(inventario.material.id)}
+                          >
+                            Editar
+                          </Button>
+                        </Table.Cell>
+                      )}
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table.Root>
+            </Box>
+          </Flex>
+        </Card>
+      )}
+
+      <Snackbar
+        open={openSnackBar}
+        autoHideDuration={2000}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+        onClose={() => setOpenSnackBar(false)}
+      >
+        <MuiAlert
+          onClose={() => setOpenSnackBar(false)}
+          severity={severidadeAlert}
+          sx={{ width: "100%" }}
+        >
+          {messageAlert}
+        </MuiAlert>
+      </Snackbar>
     </Flex>
-
-     
-
-
-
-    )
+  );
 }
-export default CreateMaterial;
+
+export default BuscaMateriais;
