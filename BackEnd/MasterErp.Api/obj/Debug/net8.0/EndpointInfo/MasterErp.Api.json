@@ -1,9 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Master ERP API",
-    "description": "Service to get informations and manage the services of Master ERP",
-    "version": "v1.0"
+    "title": "MasterErp API",
+    "version": "v1"
   },
   "paths": {
     "/api/v1/AtividadesRd": {
@@ -47,7 +46,6 @@
         "tags": [
           "AtividadesRd"
         ],
-        "summary": "Cria um relatório diário",
         "requestBody": {
           "content": {
             "application/json": {
@@ -79,7 +77,6 @@
         "tags": [
           "AtividadesRd"
         ],
-        "summary": "Busca todas as atividades de um Rd",
         "parameters": [
           {
             "name": "id",
@@ -167,7 +164,6 @@
         "tags": [
           "AtividadesRd"
         ],
-        "summary": "Atualiza uma atividade",
         "parameters": [
           {
             "name": "id",
@@ -208,7 +204,6 @@
         "tags": [
           "AtividadesRd"
         ],
-        "summary": "Exclui uma Atividade",
         "parameters": [
           {
             "name": "id",
@@ -268,7 +263,6 @@
         "tags": [
           "Clientes"
         ],
-        "summary": "Cria um relatório diário",
         "requestBody": {
           "content": {
             "application/json": {
@@ -338,7 +332,6 @@
         "tags": [
           "Clientes"
         ],
-        "summary": "Atualiza uma atividade",
         "parameters": [
           {
             "name": "id",
@@ -379,7 +372,6 @@
         "tags": [
           "Clientes"
         ],
-        "summary": "Exclui uma Atividade",
         "parameters": [
           {
             "name": "id",
@@ -398,12 +390,787 @@
         }
       }
     },
+    "/api/filledforms/sync": {
+      "post": {
+        "tags": [
+          "FilledForms"
+        ],
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/FilledFormSyncDto"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/FilledFormSyncDto"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/FilledFormSyncDto"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchSyncResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchSyncResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchSyncResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/filledforms": {
+      "get": {
+        "tags": [
+          "FilledForms"
+        ],
+        "parameters": [
+          {
+            "name": "templateId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "filledByUserId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FilledFormInstanceListItemDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FilledFormInstanceListItemDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FilledFormInstanceListItemDto"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/filledforms/{instanceId}": {
+      "get": {
+        "tags": [
+          "FilledForms"
+        ],
+        "parameters": [
+          {
+            "name": "instanceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilledFormInstanceDetailDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilledFormInstanceDetailDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilledFormInstanceDetailDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/formtemplates": {
+      "get": {
+        "tags": [
+          "FormTemplates"
+        ],
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FormTemplateBasicDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FormTemplateBasicDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FormTemplateBasicDto"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "FormTemplates"
+        ],
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FormTemplateCreateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FormTemplateCreateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FormTemplateCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormTemplateDetailDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormTemplateDetailDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormTemplateDetailDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/formtemplates/{templateId}/version/{versionNumber}": {
+      "get": {
+        "tags": [
+          "FormTemplates"
+        ],
+        "parameters": [
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "versionNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormTemplateDetailDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormTemplateDetailDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormTemplateDetailDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/formtemplates/{templateId}": {
+      "put": {
+        "tags": [
+          "FormTemplates"
+        ],
+        "parameters": [
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FormTemplateUpdateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FormTemplateUpdateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FormTemplateUpdateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "FormTemplates"
+        ],
+        "parameters": [
+          {
+            "name": "templateId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/v1/ImagensAtividadesRd": {
       "get": {
         "tags": [
           "ImagensAtividadesRd"
         ],
-        "summary": "Busca todos os as Imagens de das atividades",
         "responses": {
           "200": {
             "description": "OK",
@@ -503,7 +1270,6 @@
         "tags": [
           "ImagensAtividadesRd"
         ],
-        "summary": "Criar novo Imagem de Um atividade de relatório diário",
         "requestBody": {
           "content": {
             "application/json": {
@@ -598,7 +1364,6 @@
         "tags": [
           "ImagensAtividadesRd"
         ],
-        "summary": "Busca todos os as Imagens de das atividades",
         "parameters": [
           {
             "name": "id",
@@ -711,12 +1476,10 @@
         "tags": [
           "ImagensAtividadesRd"
         ],
-        "summary": "Obtem material por id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id da imamgem de uma atividade",
             "required": true,
             "schema": {
               "type": "integer",
@@ -814,12 +1577,10 @@
         "tags": [
           "ImagensAtividadesRd"
         ],
-        "summary": "Atualizar o ImagemAtividadeRd pelo Id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "O Id do material a ser atualizado",
             "required": true,
             "schema": {
               "type": "integer",
@@ -828,7 +1589,6 @@
           }
         ],
         "requestBody": {
-          "description": "O objeto material a ser atualizado",
           "content": {
             "application/json": {
               "schema": {
@@ -849,7 +1609,7 @@
         },
         "responses": {
           "200": {
-            "description": "ImagemAtividadeRd encontrado"
+            "description": "OK"
           },
           "401": {
             "description": "Unauthorized",
@@ -872,7 +1632,7 @@
             }
           },
           "400": {
-            "description": "Id do material não é valido",
+            "description": "Bad Request",
             "content": {
               "text/plain": {
                 "schema": {
@@ -912,10 +1672,7 @@
             }
           },
           "500": {
-            "description": "Error no servidor"
-          },
-          "404": {
-            "description": "ImagemAtividadeRd não encontrado"
+            "description": "Internal Server Error"
           }
         }
       },
@@ -923,12 +1680,10 @@
         "tags": [
           "ImagensAtividadesRd"
         ],
-        "summary": "Deleta o material pelo id fornecido",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "O id do material a ser deletado",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1011,7 +1766,6 @@
         "tags": [
           "Inventarios"
         ],
-        "summary": "Busca todos os registros de inventários",
         "responses": {
           "200": {
             "description": "OK",
@@ -1111,7 +1865,6 @@
         "tags": [
           "Inventarios"
         ],
-        "summary": "Cria um novo registro de inventário de um determinado material",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1206,12 +1959,10 @@
         "tags": [
           "Inventarios"
         ],
-        "summary": "Busca uma registro de inventário pelo seu Id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "O id do inventário",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1309,12 +2060,10 @@
         "tags": [
           "Inventarios"
         ],
-        "summary": "Atualizar o Material pelo Id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "O Id do material a ser atualizado",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1323,7 +2072,6 @@
           }
         ],
         "requestBody": {
-          "description": "O objeto material a ser atualizado",
           "content": {
             "application/json": {
               "schema": {
@@ -1344,7 +2092,7 @@
         },
         "responses": {
           "200": {
-            "description": "Material encontrado"
+            "description": "OK"
           },
           "401": {
             "description": "Unauthorized",
@@ -1367,7 +2115,7 @@
             }
           },
           "400": {
-            "description": "Id do material não é valido",
+            "description": "Bad Request",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1407,10 +2155,7 @@
             }
           },
           "500": {
-            "description": "Error no servidor"
-          },
-          "404": {
-            "description": "Material não encontrado"
+            "description": "Internal Server Error"
           }
         }
       },
@@ -1418,12 +2163,10 @@
         "tags": [
           "Inventarios"
         ],
-        "summary": "Deleta o material pelo id fornecido",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "O id do material a ser deletado",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1506,12 +2249,10 @@
         "tags": [
           "Inventarios"
         ],
-        "summary": "Busca uma registro de inventário pelo seu Id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "O id do inventário",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1611,12 +2352,10 @@
         "tags": [
           "Inventarios"
         ],
-        "summary": "Busca um material com os registros do seu invetário junto",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id do material",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1716,7 +2455,6 @@
         "tags": [
           "Inventarios"
         ],
-        "summary": "Filtro de materiais",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1828,7 +2566,6 @@
         "tags": [
           "Inventarios"
         ],
-        "summary": "Busca materiais pelo código do fabricante",
         "parameters": [
           {
             "name": "codigo",
@@ -1930,7 +2667,6 @@
         "tags": [
           "Inventarios"
         ],
-        "summary": "Busca materiais descrição passada",
         "parameters": [
           {
             "name": "descricao",
@@ -2041,7 +2777,6 @@
         "tags": [
           "Inventarios"
         ],
-        "summary": "Remove uma quantidade provinda da page de encanear qrcode para material",
         "requestBody": {
           "content": {
             "application/json": {
@@ -2148,7 +2883,6 @@
         "tags": [
           "Itens"
         ],
-        "summary": "Pega todos os itens criados",
         "responses": {
           "200": {
             "description": "OK",
@@ -2187,12 +2921,10 @@
         "tags": [
           "Itens"
         ],
-        "summary": "Pega o item por id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id do item",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2290,12 +3022,10 @@
         "tags": [
           "Itens"
         ],
-        "summary": "Atualiza Item",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id do item a ser atualizado e seu objeto",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2412,12 +3142,10 @@
         "tags": [
           "Itens"
         ],
-        "summary": "Deleta item",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id do item a ser deletado",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2437,12 +3165,10 @@
         "tags": [
           "Itens"
         ],
-        "summary": "Pega todos os materiais e quantidade que estão presentes em uma ordem de serviço",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id da ordem de serviço",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2542,7 +3268,6 @@
         "tags": [
           "Itens"
         ],
-        "summary": "Cria novo item",
         "requestBody": {
           "content": {
             "application/json": {
@@ -2582,505 +3307,6 @@
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/v1/ItensNotasFiscais/{id}": {
-      "get": {
-        "tags": [
-          "ItensNotasFiscais"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ItemNotaFiscal"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ItemNotaFiscal"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ItemNotaFiscal"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "ItensNotasFiscais"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ItemNotaFiscal"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ItemNotaFiscal"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ItemNotaFiscal"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/v1/ItensNotasFiscais": {
-      "get": {
-        "tags": [
-          "ItensNotasFiscais"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemNotaFiscal"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemNotaFiscal"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemNotaFiscal"
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "ItensNotasFiscais"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ItemNotaFiscal"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ItemNotaFiscal"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ItemNotaFiscal"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ItemNotaFiscal"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ItemNotaFiscal"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ItemNotaFiscal"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "ItensNotasFiscais"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
           },
           "401": {
             "description": "Unauthorized",
@@ -3153,7 +3379,6 @@
         "tags": [
           "ItensOrcamento"
         ],
-        "summary": "Pega todos os itens criados",
         "responses": {
           "200": {
             "description": "OK",
@@ -3192,12 +3417,10 @@
         "tags": [
           "ItensOrcamento"
         ],
-        "summary": "Pega todos os itens criados",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3243,12 +3466,10 @@
         "tags": [
           "ItensOrcamento"
         ],
-        "summary": "Pega o item por id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id do item",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3346,12 +3567,10 @@
         "tags": [
           "ItensOrcamento"
         ],
-        "summary": "Atualiza Item",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id do item a ser atualizado e seu objeto",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3468,12 +3687,10 @@
         "tags": [
           "ItensOrcamento"
         ],
-        "summary": "Deleta item",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id do item a ser deletado",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3493,12 +3710,10 @@
         "tags": [
           "ItensOrcamento"
         ],
-        "summary": "Pega todos os materiais e quantidade que estão presentes em uma ordem de serviço",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id da ordem de serviço",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3598,7 +3813,6 @@
         "tags": [
           "ItensOrcamento"
         ],
-        "summary": "Cria novo item",
         "requestBody": {
           "content": {
             "application/json": {
@@ -3710,7 +3924,6 @@
         "tags": [
           "LogAcoesUsuario"
         ],
-        "summary": "Busca todos os Logs",
         "responses": {
           "200": {
             "description": "OK",
@@ -3812,7 +4025,6 @@
         "tags": [
           "LogAcoesUsuario"
         ],
-        "summary": "Busca todos os materiais",
         "parameters": [
           {
             "name": "date",
@@ -4023,9 +4235,7 @@
         "tags": [
           "Materiais"
         ],
-        "summary": "Criar novo material",
         "requestBody": {
-          "description": "",
           "content": {
             "application/json": {
               "schema": {
@@ -4133,12 +4343,10 @@
         "tags": [
           "Materiais"
         ],
-        "summary": "Obtem material por id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id do material para ser obtido",
             "required": true,
             "schema": {
               "type": "integer",
@@ -4236,12 +4444,10 @@
         "tags": [
           "Materiais"
         ],
-        "summary": "Atualizar o Material pelo Id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "O Id do material a ser atualizado",
             "required": true,
             "schema": {
               "type": "integer",
@@ -4250,7 +4456,6 @@
           }
         ],
         "requestBody": {
-          "description": "O objeto material a ser atualizado",
           "content": {
             "application/json": {
               "schema": {
@@ -4271,7 +4476,7 @@
         },
         "responses": {
           "200": {
-            "description": "Material encontrado"
+            "description": "OK"
           },
           "401": {
             "description": "Unauthorized",
@@ -4294,7 +4499,7 @@
             }
           },
           "400": {
-            "description": "Id do material não é valido",
+            "description": "Bad Request",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4334,10 +4539,7 @@
             }
           },
           "500": {
-            "description": "Error no servidor"
-          },
-          "404": {
-            "description": "Material não encontrado"
+            "description": "Internal Server Error"
           }
         }
       },
@@ -4345,12 +4547,10 @@
         "tags": [
           "Materiais"
         ],
-        "summary": "Deleta o material pelo id fornecido",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "O id do material a ser deletado",
             "required": true,
             "schema": {
               "type": "integer",
@@ -4433,12 +4633,10 @@
         "tags": [
           "Materiais"
         ],
-        "summary": "Obtem material com o ultimo registro de seu inventário",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id do material",
             "required": true,
             "schema": {
               "type": "integer",
@@ -4463,505 +4661,6 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Material"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/v1/NotasFiscais": {
-      "get": {
-        "tags": [
-          "NotasFiscais"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/NotaFiscal"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/NotaFiscal"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/NotaFiscal"
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "NotasFiscais"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NotaFiscal"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NotaFiscal"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/NotaFiscal"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/NotaFiscal"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NotaFiscal"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NotaFiscal"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "NotasFiscais"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NotaFiscal"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NotaFiscal"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/NotaFiscal"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "NotasFiscais"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/v1/NotasFiscais/{id}": {
-      "get": {
-        "tags": [
-          "NotasFiscais"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/NotaFiscal"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NotaFiscal"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NotaFiscal"
                 }
               }
             }
@@ -5349,7 +5048,6 @@
         "tags": [
           "OrdemServicos"
         ],
-        "summary": "Busca todos as ordem de serviços",
         "responses": {
           "200": {
             "description": "OK",
@@ -5449,9 +5147,7 @@
         "tags": [
           "OrdemServicos"
         ],
-        "summary": "Cria um ordem serviço",
         "requestBody": {
-          "description": "Um objeto que representa a ordem de serviço a ser criada",
           "content": {
             "application/json": {
               "schema": {
@@ -5562,12 +5258,10 @@
         "tags": [
           "OrdemServicos"
         ],
-        "summary": "Busca uma ordem de serviço pelo seu Id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "O id da ordem de serviço",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5665,12 +5359,10 @@
         "tags": [
           "OrdemServicos"
         ],
-        "summary": "Atualizar a ordem de serviço sem autoriza-la",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "O Id da ordem de serviço",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5679,7 +5371,6 @@
           }
         ],
         "requestBody": {
-          "description": "O objeto de ordem de serviço a ser atualizada",
           "content": {
             "application/json": {
               "schema": {
@@ -5790,12 +5481,10 @@
         "tags": [
           "OrdemServicos"
         ],
-        "summary": "Atualizar a ordem de serviço, á autorizando",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "O Id da ordem de serviço",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5804,7 +5493,6 @@
           }
         ],
         "requestBody": {
-          "description": "O objeto de ordem de serviço a ser atualizada e autorizada",
           "content": {
             "application/json": {
               "schema": {
@@ -6009,7 +5697,6 @@
         "tags": [
           "RelatoriosDiarios"
         ],
-        "summary": "Cria um relatório diário",
         "responses": {
           "200": {
             "description": "OK",
@@ -6077,7 +5764,6 @@
         "tags": [
           "RelatoriosDiarios"
         ],
-        "summary": "Atualiza um Relatório Diario",
         "parameters": [
           {
             "name": "id",
@@ -6158,7 +5844,6 @@
         "tags": [
           "RelatoriosDiarios"
         ],
-        "summary": "Fecha um Relatório Diário",
         "parameters": [
           {
             "name": "id",
@@ -6218,7 +5903,6 @@
         "tags": [
           "TarefasUsuarios"
         ],
-        "summary": "Cria um relatório diário",
         "requestBody": {
           "content": {
             "application/json": {
@@ -6305,7 +5989,6 @@
         "tags": [
           "TarefasUsuarios"
         ],
-        "summary": "Atualiza um Relatório Diario",
         "parameters": [
           {
             "name": "id",
@@ -6446,7 +6129,6 @@
         "tags": [
           "Usuarios"
         ],
-        "summary": "Atualiza um usuário",
         "parameters": [
           {
             "name": "id",
@@ -6489,7 +6171,6 @@
         "tags": [
           "Usuarios"
         ],
-        "summary": "Realiza a criação de usuário no Sistema",
         "requestBody": {
           "content": {
             "application/json": {
@@ -6521,7 +6202,6 @@
         "tags": [
           "Usuarios"
         ],
-        "summary": "Reseta senha do usuário",
         "parameters": [
           {
             "name": "id",
@@ -6545,7 +6225,6 @@
         "tags": [
           "Usuarios"
         ],
-        "summary": "Faz Com que o usuário se torne inativo,não podendo mais realizar login",
         "parameters": [
           {
             "name": "id",
@@ -6639,6 +6318,23 @@
         },
         "additionalProperties": false
       },
+      "BatchSyncResponseDto": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SyncResponseItemDto"
+            },
+            "nullable": true
+          },
+          "overallSuccess": {
+            "type": "boolean",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
       "Cliente": {
         "type": "object",
         "properties": {
@@ -6712,6 +6408,203 @@
         },
         "additionalProperties": false
       },
+      "FilledFormInstanceDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formTemplateId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "formTemplateName": {
+            "type": "string",
+            "nullable": true
+          },
+          "formTemplateVersion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "filledByUserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "filledByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/FilledFormStatus"
+          },
+          "deviceCreatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deviceSubmittedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "serverReceivedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "headerDataJson": {
+            "type": "string",
+            "nullable": true
+          },
+          "generalObservations": {
+            "type": "string",
+            "nullable": true
+          },
+          "signatureBase64": {
+            "type": "string",
+            "nullable": true
+          },
+          "syncErrorMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "responses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilledItemResponseSyncDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FilledFormInstanceListItemDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formTemplateName": {
+            "type": "string",
+            "nullable": true
+          },
+          "formTemplateVersion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "filledByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "deviceSubmittedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "serverReceivedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/FilledFormStatus"
+          },
+          "ordemServico": {
+            "type": "string",
+            "nullable": true
+          },
+          "equipamento": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FilledFormStatus": {
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "FilledFormSyncDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formTemplateId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "formTemplateVersion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
+            "$ref": "#/components/schemas/FilledFormStatus"
+          },
+          "deviceCreatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deviceSubmittedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "headerDataJson": {
+            "type": "string",
+            "nullable": true
+          },
+          "generalObservations": {
+            "type": "string",
+            "nullable": true
+          },
+          "signatureBase64": {
+            "type": "string",
+            "nullable": true
+          },
+          "responses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilledItemResponseSyncDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FilledItemResponseSyncDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formTemplateItemId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "responseValue": {
+            "type": "string",
+            "nullable": true
+          },
+          "observationText": {
+            "type": "string",
+            "nullable": true
+          },
+          "signatureValueBase64": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "FilterMaterial": {
         "type": "object",
         "properties": {
@@ -6741,6 +6634,282 @@
           "precoCustoMax": {
             "type": "number",
             "format": "float",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FormItemType": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "FormTemplateBasicDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FormTemplateCreateDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "headerFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FormTemplateItemCreateDto"
+            },
+            "nullable": true
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FormTemplateSectionCreateDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FormTemplateDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "headerFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FormTemplateItemDto"
+            },
+            "nullable": true
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FormTemplateSectionDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FormTemplateItemCreateDto": {
+        "required": [
+          "itemType",
+          "label"
+        ],
+        "type": "object",
+        "properties": {
+          "label": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string"
+          },
+          "itemType": {
+            "$ref": "#/components/schemas/FormItemType"
+          },
+          "order": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "isRequired": {
+            "type": "boolean"
+          },
+          "placeholder": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "optionsJson": {
+            "type": "string",
+            "nullable": true
+          },
+          "defaultValue": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FormTemplateItemDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "label": {
+            "type": "string",
+            "nullable": true
+          },
+          "itemType": {
+            "$ref": "#/components/schemas/FormItemType"
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isRequired": {
+            "type": "boolean"
+          },
+          "placeholder": {
+            "type": "string",
+            "nullable": true
+          },
+          "optionsJson": {
+            "type": "string",
+            "nullable": true
+          },
+          "defaultValue": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FormTemplateSectionCreateDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string"
+          },
+          "order": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FormTemplateItemCreateDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FormTemplateSectionDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FormTemplateItemDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FormTemplateUpdateDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "headerFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FormTemplateItemCreateDto"
+            },
+            "nullable": true
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FormTemplateSectionCreateDto"
+            },
             "nullable": true
           }
         },
@@ -6898,50 +7067,6 @@
             "type": "number",
             "format": "float",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ItemNotaFiscal": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "valorUnitario": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "aliquotaICMS": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "aliquotaIPI": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "quantidade": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "materialId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "material": {
-            "$ref": "#/components/schemas/Material"
-          },
-          "notaFiscalId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "notaFiscal": {
-            "$ref": "#/components/schemas/NotaFiscal"
           }
         },
         "additionalProperties": false
@@ -7130,44 +7255,6 @@
           "markup": {
             "type": "number",
             "format": "float",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "NotaFiscal": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "numeroNF": {
-            "type": "string",
-            "nullable": true
-          },
-          "frete": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "baseCalculoICMS": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "valorICMS": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "cfop": {
-            "type": "string",
-            "nullable": true
-          },
-          "dataEmissaoNF": {
-            "type": "string",
-            "format": "date-time",
             "nullable": true
           }
         },
@@ -7460,6 +7547,28 @@
         },
         "additionalProperties": false
       },
+      "SyncResponseItemDto": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "serverId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "TarefaUsuario": {
         "type": "object",
         "properties": {
@@ -7593,6 +7702,19 @@
         },
         "additionalProperties": false
       }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header usando o esquema Bearer. <br/>\r\n                      Entre com 'Bearer' [espaço] e então seu token no campo de texto abaixo. <br/>\r\n                      Exemplo: 'Bearer 12345abcdef'",
+        "name": "Authorization",
+        "in": "header"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

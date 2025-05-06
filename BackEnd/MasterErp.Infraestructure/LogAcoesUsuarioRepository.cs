@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MasterErp.Domain.Interfaces.Repository;
 using MasterErp.Domain.Models;
+using MasterErp.Infraestructure.Context;
 
 
 namespace MasterErp.Infraestructure;
@@ -9,7 +10,7 @@ public class LogAcoesUsuarioRepository: ILogAcoesUsuarioRepository
      private readonly SqlContext _context;
     
     
-            public LogAcoesUsuarioRepository(SqlContext context)
+            public LogAcoesUsuarioRepository(Context.SqlContext context)
             {
                 _context = context;
             }
