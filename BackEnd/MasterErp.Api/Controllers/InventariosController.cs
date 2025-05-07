@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using MasterErp.Domain.Interfaces.Services;
 using MasterErp.Domain.Models;
 using MasterErp.Domain.Validations.InventarioValidations;
-using MasterErp.Infraestructure;
+using MasterErp.Infraestructure.Context;
 namespace MasterErp.Api.Controllers;
 
 ///<summary>

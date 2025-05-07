@@ -1,0 +1,3 @@
+ dotnet ef database update --startup-project MasterErp.Api --project MasterErp.Infraestructure
+
+ dotnet ef migrations add NomeDaSuaMigration --startup-project MasterErp.Api --project MasterErp.Infraestructure

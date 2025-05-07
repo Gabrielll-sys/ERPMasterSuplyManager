@@ -50,6 +50,66 @@
             </summary>
             <param name="Id da atividadedaatividade"></param>
         </member>
+        <member name="M:MasterErp.Api.Controllers.Forms.FilledFormsController.SyncFilledForms(System.Collections.Generic.List{MasterErp.Services.DTOs.Forms.FilledFormSyncDto})">
+            <summary>
+            Recebe um lote de formulários preenchidos do dispositivo móvel para sincronização.
+            </summary>
+            <param name="formsToSync">Uma lista de DTOs representando os formulários preenchidos.</param>
+            <returns>Um resultado indicando o sucesso ou falha de cada item sincronizado.</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.Forms.FilledFormsController.GetFilledForms(System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.Int32,System.Int32)">
+            <summary>
+            Obtém uma lista de instâncias de formulários preenchidos.
+            </summary>
+            <remarks>
+            Adicionar parâmetros de query para paginação e filtro (ex: ?templateId=1&amp;status=SYNCED&amp;page=1&amp;pageSize=20).
+            </remarks>
+            <returns>Uma lista de instâncias de formulários preenchidos.</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.Forms.FilledFormsController.GetFilledFormDetail(System.Guid)">
+            <summary>
+            Obtém os detalhes de uma instância específica de formulário preenchido.
+            </summary>
+            <param name="instanceId">O ID (Guid) da instância do formulário preenchido.</param>
+            <returns>Os detalhes da instância do formulário ou NotFound.</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.Forms.FormTemplatesController.GetActiveTemplates">
+            <summary>
+            Obtém uma lista de todos os modelos de formulário ativos (versão mais recente de cada).
+            </summary>
+            <returns>Uma lista de modelos de formulário básicos.</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.Forms.FormTemplatesController.GetTemplateDetail(System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            Obtém os detalhes de uma versão específica de um modelo de formulário.
+            Se a versão não for especificada, obtém a mais recente.
+            </summary>
+            <param name="templateId">O ID do modelo de formulário.</param>
+            <param name="versionNumber">O número da versão do modelo (opcional).</param>
+            <returns>Os detalhes do modelo de formulário ou NotFound se não encontrado.</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.Forms.FormTemplatesController.CreateFormTemplate(FormTemplateCreateDto)">
+            <summary>
+            Cria um novo modelo de formulário. (Uso Administrativo)
+            </summary>
+            <param name="createDto">Os dados para criar o novo modelo de formulário.</param>
+            <returns>Os detalhes do modelo de formulário criado.</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.Forms.FormTemplatesController.UpdateFormTemplate(System.Int32,FormTemplateUpdateDto)">
+            <summary>
+            Atualiza um modelo de formulário existente. (Uso Administrativo)
+            </summary>
+            <param name="templateId">O ID do modelo de formulário a ser atualizado.</param>
+            <param name="updateDto">Os dados para atualizar o modelo de formulário.</param>
+            <returns>Nenhum conteúdo em caso de sucesso ou NotFound.</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.Forms.FormTemplatesController.DeleteFormTemplate(System.Int32)">
+            <summary>
+            Deleta (ou desativa) um modelo de formulário. (Uso Administrativo)
+            </summary>
+            <param name="templateId">O ID do modelo de formulário a ser deletado/desativado.</param>
+            <returns>Nenhum conteúdo em caso de sucesso ou NotFound.</returns>
+        </member>
         <member name="M:MasterErp.Api.Controllers.ImagensAtividadesRdController.GetAll">
             <summary>
             Busca todos os as Imagens de das atividades
@@ -223,11 +283,6 @@
             <param name="id">Id do item a ser deletado</param>
             <returns></returns>
         </member>
-        <member name="T:MasterErp.Api.Controllers.ItensNotasFiscaisController">
-            <summary>
-            Controlador para gerenciar os Itens da Nota Fiscal
-             </summary>
-        </member>
         <member name="M:MasterErp.Api.Controllers.ItensOrcamentoController.GetAll">
             <summary>
             Pega todos os itens criados
@@ -334,11 +389,6 @@
             </summary>
             <param name="id"> O id do material a ser deletado</param>
             <returns></returns>
-        </member>
-        <member name="T:MasterErp.Api.Controllers.NotasFiscaisController">
-            <summary>
-            Controlador para gerenciar as Notas Fiscais
-             </summary>
         </member>
         <member name="T:MasterErp.Api.Controllers.OrcamentosController">
             <summary>

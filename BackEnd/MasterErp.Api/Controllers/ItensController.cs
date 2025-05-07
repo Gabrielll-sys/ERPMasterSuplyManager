@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MasterErp.Domain.Models;
 using System.Diagnostics.Metrics;
 using System.Net;
-using MasterErp.Infraestructure;
+using MasterErp.Infraestructure.Context;
 
 namespace MasterErp.Api.Controllers;
 

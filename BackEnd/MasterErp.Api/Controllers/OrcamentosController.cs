@@ -4,7 +4,7 @@ using MySqlConnector;
 using MasterErp.Domain.Interfaces.Services;
 using MasterErp.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
-using MasterErp.Infraestructure;
+using MasterErp.Infraestructure.Context;
 
 namespace MasterErp.Api.Controllers;
     ///<summary>

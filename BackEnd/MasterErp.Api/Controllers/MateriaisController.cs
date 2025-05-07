@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MasterErp.Domain.Interfaces.Services;
 using MasterErp.Domain.Models;
-using MasterErp.Infraestructure;
+using MasterErp.Infraestructure.Context;
 using Microsoft.AspNetCore.Authorization;
 using static Microsoft.AspNetCore.Http.StatusCodes;
 
@@ -14,6 +14,7 @@ using MasterErp.Api.ViewModels;
 using MasterErp.Api.Extensions;
 using MasterErp.Domain.Validations.MateriaisValidations;
 using System.Net;
+using MasterErp.Infraestructure.Context;
 
 namespace MasterErp.Api.Controllers;
 

@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MasterErp.Infraestructure;
+using MasterErp.Infraestructure.Context;
 using MasterErp.Domain.Models;
 using System.Net;
+using MasterErp.Infraestructure.Context;
 
 namespace MasterErp.Api.Controllers;
 
