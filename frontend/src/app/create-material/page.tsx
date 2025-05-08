@@ -1,519 +1,424 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { Snackbar } from '@mui/material';
-import MuiAlert from "@mui/material/Alert";
-import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
-import { Box, Flex, Table, Text, TextField, Card, Button } from "@radix-ui/themes";
-import { useMutation } from "react-query";
-import { filterMateriais, searchByDescription, searchByFabricanteCode, createMaterial } from "../services/Material.Services";
-import type { IInventario } from "../interfaces/IInventarios";
+import MuiAlert, { AlertColor } from "@mui/material/Alert";
+import { Autocomplete, AutocompleteItem,  Spinner } from "@nextui-org/react";
+import { Box, Button, Card, Flex, Heading,Separator, Table, Text, TextField, Callout } from "@radix-ui/themes"; // Usando mais Radix UI
+import "dayjs/locale/pt-br";
+import { useRouter } from "next/navigation";
+import { useEffect, useState, useCallback } from "react";
 
-function BuscaMateriais() {
-  const [loadingMateriais, setLoadingMateriais] = useState(false);
-  const [descricao, setDescricao] = useState("");
-  const [codigoFabricante, setCodigoFabricante] = useState("");
-  const [marca, setMarca] = useState("");
-  const [tensao, setTensao] = useState("127V");
-  const [localizacao, setLocalizacao] = useState("");
-  const [corrente, setCorrente] = useState("");
-  const [unidade, setUnidade] = useState("UN");
-  const [precoCusto, setPrecoCusto] = useState("");
-  const [markup, setMarkup] = useState("");
-  const [openSnackBar, setOpenSnackBar] = useState(false);
-  const [messageAlert, setMessageAlert] = useState("");
-  const [severidadeAlert, setSeveridadeAlert] = useState("info");
-  const [materiais, setMateriais] = useState([]);
-  const [isMobile, setIsMobile] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"; // React Query
+import { IInventario } from "../interfaces/IInventarios";
+import IMaterial from "../interfaces/IMaterial";
+import { createMaterial, searchByDescription, searchByFabricanteCode } from "../services/Material.Services";
 
-  const unidadeMaterial = ["UN", "RL", "MT", "PC"];
-  const tensoes = ["", "12V", "24V", "127V", "220V", "380V", "440V", "660V"];
+// Ícones
+import { MagnifyingGlassIcon, PlusCircleIcon, PencilSquareIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
-  // Verificar se está em dispositivo móvel
+// Hook customizado simples para Debounce
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    // Limpa o timeout se o valor mudar antes do delay terminar
+    return () => {
+      clearTimeout(handler);
     };
+  }, [value, delay]);
 
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
+  return debouncedValue;
+}
 
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
-  // Carregar usuário atual do localStorage
+function CreateMaterialPage() {
+  const route = useRouter();
+  const queryClient = useQueryClient();
+
+  // --- Estados do Formulário e UI ---
+  const [formDescricao, setFormDescricao] = useState<string>("");
+  const [formCodigoFabricante, setFormCodigoFabricante] = useState<string>("");
+  const [formMarca, setFormMarca] = useState<string>("");
+  const [formTensao, setFormTensao] = useState<string>("");
+  const [formLocalizacao, setFormLocalizacao] = useState<string>("");
+  const [formCorrente, setFormCorrente] = useState<string>("");
+  const [formUnidade, setFormUnidade] = useState<string>("UN");
+  const [formPrecoCusto, setFormPrecoCusto] = useState<string>("");
+  const [formMarkup, setFormMarkup] = useState<string>("");
+
+  // Estados para os Inputs de Busca (para debounce)
+  const [inputDescricao, setInputDescricao] = useState<string>("");
+  const [inputCodigoFabricante, setInputCodigoFabricante] = useState<string>("");
+
+  // Estados Debounced para disparar as queries
+  const debouncedSearchTermDescricao = useDebounce(inputDescricao, 500); // 500ms debounce
+  const debouncedSearchTermCodigo = useDebounce(inputCodigoFabricante, 500); // 500ms debounce
+
+  // Snackbar
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity?: AlertColor }>({ open: false, message: "" });
+  const openSnackbar = (message: string, severity: AlertColor) => setSnackbar({ open: true, message, severity });
+
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const conditionsRoles = currentUser?.role === "Administrador" || currentUser?.role === "Diretor" || currentUser?.role === "SuporteTecnico";
+
   useEffect(() => {
-    try {
-      const user = JSON.parse(localStorage.getItem("currentUser"));
-      if (user != null) {
-        setCurrentUser(user);
-      }
-    } catch (error) {
-      console.log("Usuário não logado");
-    }
+    const user = JSON.parse(localStorage.getItem("currentUser") || "null");
+    if (user) setCurrentUser(user);
+
+    // Restaurar último termo de busca da descrição, se houver
+    const persistedSearchTerm = sessionStorage.getItem("materialSearchDescription");
+    if (persistedSearchTerm) setInputDescricao(persistedSearchTerm);
+
   }, []);
 
-  // Carregar dados da sessão
+  // Efeito para limpar sessionStorage se termos de busca forem limpos
   useEffect(() => {
-    const description = sessionStorage.getItem("description");
-    const materiaisStorage = JSON.parse(sessionStorage.getItem("materiais"));
+    if (debouncedSearchTermDescricao && debouncedSearchTermDescricao.length <= 3) {
+        sessionStorage.removeItem("materialSearchDescription");
+        sessionStorage.removeItem("lastSearchedMateriais"); // Limpa os resultados antigos
+        queryClient.setQueryData(['materiaisByTerm', debouncedSearchTermDescricao], []); // Limpa cache se termo inválido
+    } else if (debouncedSearchTermDescricao && debouncedSearchTermDescricao.length > 3) {
+        sessionStorage.setItem("materialSearchDescription", debouncedSearchTermDescricao);
+    }
+  }, [debouncedSearchTermDescricao, queryClient]);
 
-    if (materiaisStorage != null && materiaisStorage) setMateriais(materiaisStorage);
-    if (description) setDescricao(description);
-  }, []);
 
-  const buscarDescricao = async (value) => {
-    setDescricao(value);
-    if (value && value.length > 3) {
-      try {
-        setLoadingMateriais(true);
-        const res = await searchByDescription(value);
-        setLoadingMateriais(false);
-        setMateriais(res);
-      } catch (e) {
-        console.log(e);
-        setLoadingMateriais(false);
+  // --- React Query: ÚNICA Query para Busca (combina descrição e código) ---
+  // Usaremos a mesma chave de query e passaremos ambos os termos. A função de fetch decidirá qual busca fazer.
+  const searchTerm = debouncedSearchTermDescricao.length > 3 ? debouncedSearchTermDescricao : (debouncedSearchTermCodigo.length > 3 ? debouncedSearchTermCodigo : "");
+  const searchType = debouncedSearchTermDescricao.length > 3 ? 'descricao' : (debouncedSearchTermCodigo.length > 3 ? 'codigo' : 'none');
+
+  const { data: materiais = [], isLoading: isLoadingMateriais, isFetching: isFetchingMateriais, isPreviousData } = useQuery<IInventario[], Error>(
+    ['materiaisSearch', searchTerm, searchType], // A chave agora inclui o termo e o tipo
+    async () => {
+      if (searchType === 'descricao') {
+        return searchByDescription(searchTerm);
+      } else if (searchType === 'codigo') {
+        return searchByFabricanteCode(searchTerm);
+      } else {
+        return []; // Não busca se nenhum termo for válido
       }
-    }
-  };
-
-  const buscaCodigoFabricante = async (codigo) => {
-    setCodigoFabricante(codigo);
-    if (codigo.length > 3) {
-      try {
-        const res = await searchByFabricanteCode(codigo);
-        setMateriais(res);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  };
-
-  const handleFilterSubmit = async (e) => {
-    e.preventDefault();
-    const filtro = {
-      descricao,
-      codigoFabricante,
-      marca,
-      tensao,
-      localizacao,
-      corrente,
-      unidade,
-      precoCusto,
-      markup
-    };
-
-    try {
-      setLoadingMateriais(true);
-      const materiaisFiltrados = await filterMateriais(filtro);
-      setMateriais(materiaisFiltrados);
-      setLoadingMateriais(false);
-    } catch (e) {
-      console.log(e);
-      setLoadingMateriais(false);
-    }
-  };
-
-  const mutationMaterial = useMutation({
-    mutationFn: createMaterial,
-    onSuccess: (res) => {
-      setOpenSnackBar(true);
-      setSeveridadeAlert("success");
-      setMessageAlert("Material Criado com sucesso");
     },
+    {
+      enabled: searchType !== 'none', // Habilita a query apenas se um termo válido existir
+      staleTime: 1000 * 60 * 2, // Considera os dados "fresh" por 2 minutos - REDUZ HITS NA API
+      keepPreviousData: true, // Mantém dados antigos visíveis enquanto busca novos - MELHORA FLUIDEZ
+      initialData: () => { // Tenta carregar do sessionStorage como dado inicial
+        // Só carrega se o termo persistido for o mesmo que o atual
+        const storedTerm = sessionStorage.getItem("materialSearchDescription");
+        const storedMateriais = sessionStorage.getItem("lastSearchedMateriais");
+        if (storedTerm === debouncedSearchTermDescricao && storedMateriais) {
+           try { return JSON.parse(storedMateriais); } catch { return undefined; }
+        }
+        return undefined;
+      },
+      onSuccess: (data) => {
+        // Salva apenas se a busca for por descrição (ou ajuste a lógica se necessário)
+        if (searchType === 'descricao') {
+            sessionStorage.setItem("lastSearchedMateriais", JSON.stringify(data));
+        }
+      },
+       onError: (error) => {
+        openSnackbar(`Erro ao buscar materiais: ${error.message}`, "error");
+      }
+    }
+  );
+
+
+  // --- React Query: Mutação para Criar Material (sem alterações aqui) ---
+  const mutationCreateMaterial = useMutation<IInventario, Error, IMaterial>(createMaterial, {
+     onSuccess: (newMaterial) => {
+      openSnackbar("Material criado com sucesso!", "success");
+      setFormDescricao(""); setFormCodigoFabricante(""); setFormMarca("");
+      setFormTensao(""); setFormLocalizacao(""); setFormCorrente("");
+      setFormUnidade("UN"); setFormPrecoCusto(""); setFormMarkup("");
+      queryClient.invalidateQueries(['materiaisSearch']); // Invalida a busca geral
+      queryClient.invalidateQueries(['allInventario']);
+    },
+    onError: (error) => {
+      openSnackbar(`Erro ao criar material: ${error.message}`, "error");
+    }
   });
 
-  const handleCreateMaterial = () => {
-    if (!descricao || !unidade) {
-      setOpenSnackBar(true);
-      setSeveridadeAlert("warning");
-      setMessageAlert("Preencha todas as informações necessárias");
+ 
+  const handleCreateMaterialSubmit = () => {
+    if (!formDescricao.trim() || !formUnidade.trim()) {
+      openSnackbar("Descrição e Unidade são obrigatórios.", "warning");
       return;
     }
-
-    const material = {
-      codigoFabricante: codigoFabricante.trim().replace(/\s\s+/g, " "),
-      descricao: descricao.trim().replace(/\s\s+/g, " "),
+    const materialPayload: IMaterial = { /* ... seu payload ... */
+      codigoFabricante: formCodigoFabricante.trim().replace(/\s\s+/g, " "),
+      descricao: formDescricao.trim().replace(/\s\s+/g, " "),
       categoria: "",
-      marca: marca.trim().replace(/\s\s+/g, " "),
-      corrente: corrente.trim().replace(/\s\s+/g, " "),
-      unidade: unidade.trim().replace(/\s\s+/g, " "),
-      tensao: tensao.trim().replace(/\s\s+/g, " "),
-      localizacao: localizacao.trim().replace(/\s\s+/g, " "),
-      precoCusto,
-      markup,
+      marca: formMarca.trim().replace(/\s\s+/g, " "),
+      corrente: formCorrente.trim().replace(/\s\s+/g, " "),
+      unidade: formUnidade.trim().replace(/\s\s+/g, " "),
+      tensao: formTensao.trim().replace(/\s\s+/g, " "),
+      localizacao: formLocalizacao.trim().replace(/\s\s+/g, " "),
+      precoCusto: formPrecoCusto ? parseFloat(formPrecoCusto.replace(',', '.')) : 0,
+      markup: formMarkup,
     };
 
-    mutationMaterial.mutate(material);
+    console.log("Criando material com payload:", materialPayload); // Debugging
+    mutationCreateMaterial.mutate(materialPayload);
   };
 
-  const handleEditMaterial = (id) => {
-    if (descricao) {
-      sessionStorage.setItem("description", descricao);
-      sessionStorage.setItem("materiais", JSON.stringify(materiais));
-      window.location.href = `/update-material/${id}`;
+
+  // Navegação (sem alterações aqui)
+  const handleNavigateToUpdate = (materialId: string | number) => {
+    // Salva o termo de busca atual se for por descrição
+    if (searchType === 'descricao' && debouncedSearchTermDescricao) {
+      sessionStorage.setItem("materialSearchDescription", debouncedSearchTermDescricao);
     }
+    route.push(`update-material/${materialId}`);
   };
+  
+  // Constantes (sem alterações aqui)
+  const unidadeMaterial: string[] = ["UN", "RL", "MT", "P", "CX", "KIT"];
+  const tensoes: string[] = ["", "12V", "24V", "110V", "127V", "220V", "380V", "440V", "660V"];
 
-  // Renderização para dispositivos móveis
-  if (isMobile) {
-    return (
-      <Flex direction="column" gap="2" className="mt-7 w-full p-4">
-        <Card>
-          <Flex direction="column" gap="3" p="4">
-            <Text size="5" weight="bold">Busca de Materiais</Text>
-            
-            <TextField.Root>
-              <TextField.Input
-                value={descricao}
-                variant="classic"
-                onChange={(x) => buscarDescricao(x.target.value)}
-                placeholder="Digite o nome do material (ex: min.dis.tri)"
-                className="w-full"
-                size="3"
-              />
-            </TextField.Root>
-            
-            <Text size="2" color="gray">
-              Dica: Use abreviações separadas por pontos (ex: "min.dis.tri" para "MINI DISJUNTOR TRIPOLAR")
-            </Text>
-            
-            <Button 
-              variant="solid" 
-              className="bg-blue-600 text-white"
-              onClick={handleFilterSubmit}
-            >
-              Buscar
-            </Button>
-          </Flex>
-        </Card>
 
-        {loadingMateriais && (
-          <Text className="w-full mt-4" align="center">
-            Carregando...
-          </Text>
-        )}
-
-        {materiais.length > 0 && !loadingMateriais && (
-          <Card className="mt-4">
-            <Flex direction="column" gap="3" p="4">
-              <Flex justify="between" align="center">
-                <Text size="5" weight="bold">Resultados da Busca</Text>
-                <Text size="2" color="gray">{materiais.length} itens encontrados</Text>
-              </Flex>
-              
-              <Table.Root variant="surface">
-                <Table.Header>
-                  <Table.Row>
-                    <Table.ColumnHeaderCell align="center">Descrição</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell align="center">Estoque</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell align="center">Local</Table.ColumnHeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  {materiais.map((inventario: IInventario) => (
-                    <Table.Row key={inventario.material.id} className="hover:bg-gray-50">
-                      <Table.Cell align="center">{inventario.material.descricao}</Table.Cell>
-                      <Table.Cell align="center" className={inventario.saldoFinal > 10 ? "text-green-600 font-medium" : "text-red-600 font-medium"}>
-                        {inventario.saldoFinal}
-                      </Table.Cell>
-                      <Table.Cell align="center">
-                        <Box className="inline-block px-2 py-1 bg-gray-100 text-gray-700 rounded-md text-xs font-medium">
-                          {inventario.material.localizacao}
-                        </Box>
-                      </Table.Cell>
-                    </Table.Row>
-                  ))}
-                </Table.Body>
-              </Table.Root>
-            </Flex>
-          </Card>
-        )}
-
-        <Snackbar
-          open={openSnackBar}
-          autoHideDuration={2000}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center'
-          }}
-          onClose={() => setOpenSnackBar(false)}
-        >
-          <MuiAlert
-            onClose={() => setOpenSnackBar(false)}
-            severity={severidadeAlert}
-            sx={{ width: "100%" }}
-          >
-            {messageAlert}
-          </MuiAlert>
-        </Snackbar>
-      </Flex>
-    );
-  }
-
-  // Renderização para desktop
   return (
-    <Flex direction="column" gap="4" className="mt-7 w-full max-w-[1200px] mx-auto px-4">
-      <Card className="w-full">
-        <Flex direction="column" gap="4" p="4">
-          <Text size="5" weight="bold">Busca de Materiais</Text>
-          
-          <Flex direction="column">
-            <Flex direction="row" gap="4" wrap="wrap">
-              <Box className="w-full">
-                <Text size="2" weight="medium" mb="1">Descrição do Material</Text>
-                <TextField.Root>
-                  <TextField.Input
-                    value={descricao}
-                    variant="classic"
-                    onChange={(x) => buscarDescricao(x.target.value)}
-                    placeholder="Digite sua busca (ex: min.dis.tri)"
-                    className="w-full"
-                    size="3"
-                  />
-                </TextField.Root>
-                <Text size="1" color="gray" mt="1">
-                  Dica: Use abreviações separadas por pontos (ex: "min.dis.tri" para "MINI DISJUNTOR TRIPOLAR")
-                </Text>
-              </Box>
-            </Flex>
-            
-            <Flex direction="row" gap="4" wrap="wrap" mt="4">
-              <Box className="flex-1 min-w-[200px]">
-                <Text size="2" weight="medium" mb="1">Código Fabricante</Text>
-                <TextField.Root>
-                  <TextField.Input
-                    value={codigoFabricante}
-                    variant="classic"
-                    onChange={(x) => buscaCodigoFabricante(x.target.value)}
-                    placeholder="Código do fabricante"
-                    className="w-full"
-                    size="3"
-                  />
-                </TextField.Root>
-              </Box>
-              
-              <Box className="flex-1 min-w-[200px]">
-                <Text size="2" weight="medium" mb="1">Marca</Text>
-                <TextField.Root>
-                  <TextField.Input
-                    value={marca}
-                    variant="classic"
-                    onChange={(x) => setMarca(x.target.value)}
-                    placeholder="Nome da marca"
-                    className="w-full"
-                    size="3"
-                  />
-                </TextField.Root>
-              </Box>
-              
-              <Box className="flex-1 min-w-[200px]">
-                <Text size="2" weight="medium" mb="1">Localização</Text>
-                <TextField.Root>
-                  <TextField.Input
-                    value={localizacao}
-                    variant="classic"
-                    onChange={(x) => setLocalizacao(x.target.value)}
-                    placeholder="Setor/Prateleira"
-                    className="w-full"
-                    size="3"
-                  />
-                </TextField.Root>
-              </Box>
-            </Flex>
-            
-            <Flex direction="row" gap="4" wrap="wrap" mt="4">
-              <Box className="flex-1 min-w-[200px]">
-                <Text size="2" weight="medium" mb="1">Preço Custo</Text>
-                <TextField.Root>
-                  <TextField.Input
-                    type="number"
-                    value={precoCusto}
-                    variant="classic"
-                    onChange={(x) => setPrecoCusto(x.target.value)}
-                    placeholder="Valor R$"
-                    className="w-full"
-                    size="3"
-                  />
-                </TextField.Root>
-              </Box>
-              
-              <Box className="flex-1 min-w-[200px]">
-                <Text size="2" weight="medium" mb="1">Markup</Text>
-                <TextField.Root>
-                  <TextField.Input
-                    value={markup}
-                    variant="classic"
-                    onChange={(x) => setMarkup(x.target.value)}
-                    placeholder="%"
-                    className="w-full"
-                    size="3"
-                  />
-                </TextField.Root>
-              </Box>
-              
-              <Box className="flex-1 min-w-[200px]">
-                <Text size="2" weight="medium" mb="1">Corrente</Text>
-                <TextField.Root>
-                  <TextField.Input
-                    value={corrente}
-                    variant="classic"
-                    onChange={(x) => setCorrente(x.target.value)}
-                    placeholder="A"
-                    className="w-full"
-                    size="3"
-                  />
-                </TextField.Root>
-              </Box>
-            </Flex>
-            
-            <Flex direction="row" gap="4" wrap="wrap" mt="4">
-              <Box className="flex-1 min-w-[200px]">
-                <Text size="2" weight="medium" mb="1">Tensão</Text>
-                <Autocomplete
-                  placeholder="Selecione"
-                  defaultSelectedKey="127V"
-                  className="w-full"
-                  onSelectionChange={(value) => setTensao(value)}
-                >
-                  {tensoes.map((item) => (
-                    <AutocompleteItem key={item} value={item}>
-                      {item || "Selecione"}
-                    </AutocompleteItem>
-                  ))}
-                </Autocomplete>
-              </Box>
-              
-              <Box className="flex-1 min-w-[200px]">
-                <Text size="2" weight="medium" mb="1">Unidade</Text>
-                <Autocomplete
-                  placeholder="Selecione"
-                  defaultSelectedKey="UN"
-                  className="w-full"
-                  onSelectionChange={(value) => setUnidade(value)}
-                >
-                  {unidadeMaterial.map((item) => (
-                    <AutocompleteItem key={item} value={item}>
-                      {item}
-                    </AutocompleteItem>
-                  ))}
-                </Autocomplete>
-              </Box>
-              
-              <Box className="flex-1 min-w-[200px]">
-                {/* Espaço para manter o alinhamento */}
-              </Box>
-            </Flex>
-            
-            <Flex justify="between" mt="4">
-              <Button variant="solid" className="bg-blue-600 text-white" onClick={handleFilterSubmit}>
-                Buscar
-              </Button>
-              
-              {currentUser && (
-                <Button variant="solid" className="bg-green-600 text-white" onClick={handleCreateMaterial}>
-                  Criar Material
-                </Button>
-              )}
-            </Flex>
-          </Flex>
-        </Flex>
-      </Card>
+    <Flex direction="column" gap="5" className="mt-7 w-full container mx-auto px-4 md:px-6">
+      <Heading align="center" size="7" mb="4">Gerenciamento de Materiais</Heading>
 
-      {materiais.length > 0 && (
-        <Card className="w-full">
-          <Flex direction="column" gap="4" p="4">
-            <Flex justify="between" align="center">
-              <Text size="5" weight="bold">Resultados da Busca</Text>
-              <Text size="2" color="gray">{materiais.length} itens encontrados</Text>
-            </Flex>
-            
-            <Box className="overflow-x-auto">
-              <Table.Root variant="surface">
-                <Table.Header>
-                  <Table.Row>
-                    <Table.ColumnHeaderCell align="center">Cód. Interno</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell align="center">Cód. Fabricante</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell align="center">Descrição</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell align="center">Marca</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell align="center">Tensão</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell align="center">Estoque</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell align="center">Localização</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell align="center">Preço Custo</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell align="center">Preço Venda</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell align="center">Preço Total</Table.ColumnHeaderCell>
-                    {currentUser && <Table.ColumnHeaderCell align="center">Ações</Table.ColumnHeaderCell>}
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  {materiais.map((inventario) => (
-                    <Table.Row key={inventario.material.id} className="hover:bg-gray-50">
-                      <Table.Cell align="center">{inventario.material.id}</Table.Cell>
-                      <Table.Cell align="center">{inventario.material.codigoFabricante}</Table.Cell>
-                      <Table.RowHeaderCell align="center" onClick={() => buscarDescricao(inventario.material.descricao)}>
-                        {inventario.material.descricao}
-                      </Table.RowHeaderCell>
-                      <Table.Cell align="center">{inventario.material.marca}</Table.Cell>
-                      <Table.Cell align="center">{inventario.material.tensao}</Table.Cell>
-                      <Table.Cell align="center" className={inventario.saldoFinal > 10 ? "text-green-600 font-medium" : "text-red-600 font-medium"}>
-                        {inventario.saldoFinal}
-                      </Table.Cell>
-                      <Table.Cell align="center">
-                        <Box className="inline-block px-2 py-1 bg-gray-100 text-gray-700 rounded-md text-xs font-medium">
-                          {inventario.material.localizacao}
-                        </Box>
-                      </Table.Cell>
-                      <Table.Cell align="center" className="font-medium">
-                        R${inventario.material.precoCusto?.toFixed(2).replace('.', ',') || "0,00"}
-                      </Table.Cell>
-                      <Table.Cell align="center" className="font-medium">
-                        R${inventario.material.precoVenda?.toFixed(2).replace('.', ',') || "0,00"}
-                      </Table.Cell>
-                      <Table.Cell align="center" className="font-medium">
-                        R${inventario.material.precoVenda && inventario.saldoFinal > 0
-                          ? (inventario.material.precoVenda * inventario.saldoFinal).toFixed(2).replace('.', ',')
-                          : "0,00"}
-                      </Table.Cell>
-                      {currentUser && (
-                        <Table.Cell align="center">
-                          <Button
-                            variant="soft"
-                            className="bg-blue-100 text-blue-700 hover:bg-blue-200"
-                            onClick={() => handleEditMaterial(inventario.material.id)}
-                          >
-                            Editar
-                          </Button>
-                        </Table.Cell>
-                      )}
-                    </Table.Row>
-                  ))}
-                </Table.Body>
-              </Table.Root>
+      {/* Seção de Criação de Material (Interface igual, lógica de submit usa mutation) */}
+       {conditionsRoles && (
+        <Card variant="surface" mb="6">
+          {/* ... (Conteúdo do formulário de criação igual ao anterior) ... */}
+             <Box>
+                <Heading size="5" className="flex items-center">
+                <PlusCircleIcon className="h-6 w-6 mr-2 text-accent-9" /> Criar Novo Material
+                </Heading>
             </Box>
-          </Flex>
+            <Box p="4">
+                <Flex direction="column" gap="4">
+                {/* Linha 1: Cód Fab, Descrição */}
+                <Flex direction={{ initial: 'column', sm: 'row' }} gap="4">
+                    <TextField.Root className="flex-1">
+                    <TextField.Slot><MagnifyingGlassIcon height="16" width="16" /></TextField.Slot>
+                    <TextField.Input
+                        value={formCodigoFabricante} variant='surface'
+                        onChange={(e) => setFormCodigoFabricante(e.target.value)}
+                        placeholder='Código Fabricante' size="3"
+                    />
+                    </TextField.Root>
+                    <TextField.Root className="flex-1 sm:flex-[2]">
+                    <TextField.Input
+                        value={formDescricao} variant='surface'
+                        onChange={(e) => setFormDescricao(e.target.value)}
+                        placeholder='Descrição do Material*' size="3" required
+                    />
+                    </TextField.Root>
+                </Flex>
+                {/* Linha 2: Marca, Localização */}
+                <Flex direction={{ initial: 'column', sm: 'row' }} gap="4">
+                    <TextField.Root className="flex-1">
+                    <TextField.Input
+                        value={formMarca} variant='surface'
+                        onChange={(e) => setFormMarca(e.target.value)}
+                        placeholder='Marca' size="3"
+                    />
+                    </TextField.Root>
+                    <TextField.Root className="flex-1">
+                    <TextField.Input
+                        value={formLocalizacao} variant='surface'
+                        onChange={(e) => setFormLocalizacao(e.target.value)}
+                        placeholder='Localização (Ex: A1-B2)' size="3"
+                    />
+                    </TextField.Root>
+                </Flex>
+                {/* Linha 3: Preços, Corrente, Tensão, Unidade */}
+                <Flex direction={{ initial: 'column', sm: 'row' }} gap="4" align="end">
+                    <TextField.Root className="flex-1">
+                    <TextField.Input
+                        value={formPrecoCusto} variant='surface'
+                        onChange={(e) => setFormPrecoCusto(e.target.value)}
+                        placeholder='Preço Custo (Ex: 10,50)' type="text"
+                        inputMode="decimal" size="3"
+                    />
+                    </TextField.Root>
+                    <TextField.Root className="flex-1">
+                    <TextField.Input
+                        value={formMarkup} variant='surface'
+                        onChange={(e) => setFormMarkup(e.target.value)}
+                        placeholder='Markup % (Ex: 25)' type="text"
+                        inputMode="decimal" size="3"
+                    />
+                    </TextField.Root>
+                    <TextField.Root className="flex-1">
+                    <TextField.Input
+                        value={formCorrente} variant='surface'
+                        onChange={(e) => setFormCorrente(e.target.value)}
+                        placeholder='Corrente (Ex: 10A)' size="3"
+                    />
+                    </TextField.Root>
+                    <Box className="flex-1 min-w-[180px]">
+                    <Autocomplete label="Tensão" placeholder="EX: 127V" variant="bordered"
+                        defaultItems={tensoes.map(t => ({ id: t, name: t }))}
+                        selectedKey={formTensao}
+                        onSelectionChange={(key) => setFormTensao(key as string)}
+                        size="lg" className="radix-equivalent-size-3"
+                        listboxProps={{ itemClasses: { base: "text-sm" } }}
+                    >
+                        {(item) => <AutocompleteItem key={item.id}>{item.name}</AutocompleteItem>}
+                    </Autocomplete>
+                    </Box>
+                    <Box className="flex-1 min-w-[180px]">
+                    <Autocomplete label="Unidade*" placeholder="EX: UN" variant="bordered"
+                        defaultItems={unidadeMaterial.map(u => ({ id: u, name: u }))}
+                        selectedKey={formUnidade}
+                        onSelectionChange={(key) => setFormUnidade(key as string)}
+                        isRequired size="lg" className="radix-equivalent-size-3"
+                        listboxProps={{ itemClasses: { base: "text-sm" } }}
+                    >
+                        {(item) => <AutocompleteItem key={item.id}>{item.name}</AutocompleteItem>}
+                    </Autocomplete>
+                    </Box>
+                </Flex>
+                {/* Botão Criar */}
+                <Flex justify="end" mt="3">
+                    <Button size="3" variant='solid' color="green"
+                    onClick={handleCreateMaterialSubmit}
+                    disabled={mutationCreateMaterial.isLoading}
+                    >
+                    {mutationCreateMaterial.isLoading && <Spinner size="lg" />}
+                    <PlusCircleIcon className="h-5 w-5 mr-1" />
+                    Criar Material
+                    </Button>
+                </Flex>
+                </Flex>
+            </Box>
         </Card>
       )}
 
+
+      <Separator my="5" size="4" />
+
+      {/* Seção de Busca e Lista de Materiais */}
+      <Card variant="surface">
+         <Box><Heading size="5">Buscar Materiais Existentes</Heading></Box>
+         <Box p="4">
+            <Flex direction={{ initial: 'column', sm: 'row' }} gap="4" mb="4">
+                <TextField.Root className="flex-1">
+                 <TextField.Slot><MagnifyingGlassIcon height="16" width="16" /></TextField.Slot>
+                    <TextField.Input
+                    value={inputDescricao} // Controlado pelo input state
+                    variant='surface'
+                    onChange={(e) => setInputDescricao(e.target.value)} // Atualiza o input state
+                    placeholder='Buscar por Descrição (mín. 4 caracteres)'
+                    size="3"
+                    />
+                </TextField.Root>
+                <TextField.Root className="flex-1">
+                 <TextField.Slot><MagnifyingGlassIcon height="16" width="16" /></TextField.Slot>
+                    <TextField.Input
+                    value={inputCodigoFabricante} // Controlado pelo input state
+                    variant='surface'
+                    onChange={(e) => setInputCodigoFabricante(e.target.value)} // Atualiza o input state
+                    placeholder='Buscar por Código do Fabricante (mín. 4 caracteres)'
+                    size="3"
+                    />
+                </TextField.Root>
+            </Flex>
+
+             {/* Feedback de Carregamento */}
+             {/* Usamos isFetching em vez de isLoading para mostrar loading mesmo com keepPreviousData */}
+            {isFetchingMateriais && <Flex justify="center" my="4"><Spinner size="lg" /></Flex>}
+
+            {/* Mensagem de Nenhum Resultado */}
+            {!isFetchingMateriais && materiais.length === 0 && searchType !== 'none' && (
+                <Callout.Root color="amber" my="4" data-fade-in>
+                    <Callout.Icon><ExclamationTriangleIcon className="h-5 w-5"/></Callout.Icon>
+                    <Callout.Text>Nenhum material encontrado.</Callout.Text>
+                </Callout.Root>
+            )}
+
+            {/* Tabela de Resultados - Animação Suave */}
+            {/* Usamos uma div com controle de opacidade e altura máxima para transição */}
+            <div
+               className={`transition-all duration-500 ease-in-out overflow-hidden ${
+                 (materiais && materiais.length > 0 && !isFetchingMateriais) || (isPreviousData && materiais && materiais.length > 0) ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
+               }`}
+               style={{ willChange: 'max-height, opacity' }} // Hint para performance da animação
+            >
+                {materiais && materiais.length > 0 && (
+                <>
+                    <Text size="2" color="gray" mb="2" className="block">
+                        Resultados: {materiais.length} Itens {isPreviousData ? '(mantendo anteriores...)' : ''}
+                    </Text>
+                    <Box className="border rounded-lg overflow-hidden"> {/* Adiciona borda e esconde overflow */}
+                     <Box style={{ maxHeight: '600px', overflowY: 'auto' }}> {/* Scroll interno */}
+                            <Table.Root variant="surface" size="2">
+                                <Table.Header>
+                                <Table.Row>
+                                    <Table.ColumnHeaderCell>ID</Table.ColumnHeaderCell>
+                                    <Table.ColumnHeaderCell>Cód. Fab.</Table.ColumnHeaderCell>
+                                    <Table.ColumnHeaderCell style={{minWidth: '250px'}}>Descrição</Table.ColumnHeaderCell>
+                                    <Table.ColumnHeaderCell>Marca</Table.ColumnHeaderCell>
+                                    <Table.ColumnHeaderCell>Estoque</Table.ColumnHeaderCell>
+                                    <Table.ColumnHeaderCell>Localização</Table.ColumnHeaderCell>
+                                    <Table.ColumnHeaderCell>Pr. Custo</Table.ColumnHeaderCell>
+                                    <Table.ColumnHeaderCell>Pr. Venda</Table.ColumnHeaderCell>
+                                    <Table.ColumnHeaderCell>Ações</Table.ColumnHeaderCell>
+                                </Table.Row>
+                                </Table.Header>
+                                <Table.Body>
+                                {materiais.map((inv) => (
+                                    <Table.Row  key={inv.material.id} className="hover:bg-accent-2">
+                                        <Table.Cell>{inv.material.id}</Table.Cell>
+                                        <Table.Cell>{inv.material.codigoFabricante}</Table.Cell>
+                                        <Table.RowHeaderCell
+                                            className="cursor-pointer hover:underline"
+                                            onClick={() => setInputDescricao(inv.material.descricao || '')} // Atualiza input para nova busca
+                                            title="Clique para pesquisar por esta descrição"
+                                        >
+                                            {inv.material.descricao}
+                                        </Table.RowHeaderCell>
+                                        <Table.Cell>{inv.material.marca}</Table.Cell>
+                                        <Table.Cell>{inv.saldoFinal ?? 'N/D'} {inv.material.unidade}</Table.Cell>
+                                        <Table.Cell>{inv.material.localizacao}</Table.Cell>
+                                        <Table.Cell>R$ {inv.material.precoCusto?.toFixed(2).replace('.', ',') || '0,00'}</Table.Cell>
+                                        <Table.Cell>R$ {inv.material.precoVenda?.toFixed(2).replace('.', ',') || '0,00'}</Table.Cell>
+                                        <Table.Cell>
+                                            <Button size="1" variant="soft" onClick={() => handleNavigateToUpdate(inv.material.id)} disabled={!conditionsRoles}>
+                                                <PencilSquareIcon className="h-4 w-4 mr-1" /> Editar
+                                            </Button>
+                                        </Table.Cell>
+                                    </Table.Row>
+                                ))}
+                                </Table.Body>
+                            </Table.Root>
+                        </Box>
+                    </Box>
+                </>
+                )}
+            </div>
+         </Box>
+      </Card>
+
+
+      {/* Snackbar (sem alterações) */}
       <Snackbar
-        open={openSnackBar}
-        autoHideDuration={2000}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center'
-        }}
-        onClose={() => setOpenSnackBar(false)}
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
         <MuiAlert
-          onClose={() => setOpenSnackBar(false)}
-          severity={severidadeAlert}
-          sx={{ width: "100%" }}
+          elevation={6} variant="filled"
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          severity={snackbar.severity} sx={{ width: "100%" }}
         >
-          {messageAlert}
+          {snackbar.message}
         </MuiAlert>
       </Snackbar>
     </Flex>
   );
 }
 
-export default BuscaMateriais;
+export default CreateMaterialPage;

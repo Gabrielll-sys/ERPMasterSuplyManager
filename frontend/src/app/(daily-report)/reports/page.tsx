@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { IRelatorioDiario } from '@/app/interfaces/IRelatorioDiario';
 import { createRelatorioDiario, getAllRelatoriosDiarios } from "@/app/services/RelatorioDiario.Services";
 import dayjs from 'dayjs';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Flex } from '@radix-ui/themes';
 
 export default function Reports() {

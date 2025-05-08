@@ -9,7 +9,7 @@ import { Theme } from '@radix-ui/themes';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Script from "next/script";
-import NavBar from './componentes/NavBar';
+import NavBar from './componentes/ModernNavBar';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] })
