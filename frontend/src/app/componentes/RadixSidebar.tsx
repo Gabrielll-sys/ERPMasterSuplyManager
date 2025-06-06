@@ -194,7 +194,7 @@ const RadixSidebar: React.FC<RadixSidebarProps> = ({ show, setShowSideBar }) => 
                                  </CollapseItem>
 
                                  <MenuItem href="/managing-os" icon={ContainerIcon}>
-                                     Gestão de OS
+                                    Ordem De Separação
                                  </MenuItem>
                              </>
                          )}

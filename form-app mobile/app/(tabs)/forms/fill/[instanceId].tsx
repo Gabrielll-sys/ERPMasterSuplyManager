@@ -354,7 +354,7 @@ export default function FillFormScreen() {
           />
           <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
             <SectionCard title="Cabeçalho">
-              {formTemplate.headerFields.map((item: any) => {
+              {formTemplate?.headerFields?.map((item: any) => {
                  // Renderiza campos do cabeçalho (sem lógica isDisabled aqui)
                  const headerKey = item.label.toLowerCase().replace(/[^a-z0-9_]/g, '_');
                  const handleHeaderItemChange = (itemId: number, field: keyof Omit<IFilledItemResponse, 'id' | 'filledFormInstanceId' | 'formTemplateItemId'>, value: string | null) => {
