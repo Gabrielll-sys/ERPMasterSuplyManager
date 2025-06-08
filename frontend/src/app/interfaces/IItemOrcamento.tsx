@@ -9,5 +9,6 @@ import { IOrcamento } from "./IOrcamento";
     materialId: number;
     material?: IMaterial; 
     orcamentoId: number;
-    orcamento?: IOrcamento; 
+    orcamento?: IOrcamento;
+    precoVenda?: number;
   }

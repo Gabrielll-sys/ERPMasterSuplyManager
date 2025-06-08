@@ -152,6 +152,7 @@ export function MaterialsSection({ orcamentoId, isPaid, materiais }: MaterialsSe
           isPaid={isPaid}
           onEdit={openEditDialog}
           onDelete={handleDeleteItem}
+          orcamentoId={orcamentoId} // Passamos o orcamentoId para a tabela
         />
       </Flex>
 

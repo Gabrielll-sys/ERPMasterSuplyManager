@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "46Ph6XsNVk0=",
+  "dgSpecHash": "dT5nqR5Nl0c=",
   "success": true,
-  "projectFilePath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\BackEnd\\MasterErp.Infraestructure\\MasterErp.Infraestructure.csproj",
+  "projectFilePath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\MasterErp.Infraestructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gabri\\.nuget\\packages\\fluentvalidation\\11.9.1\\fluentvalidation.11.9.1.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

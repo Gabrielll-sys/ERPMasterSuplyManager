@@ -117,8 +117,7 @@ namespace MasterErp.Services
                 var user = await _usuarioRepository.GetByIdAsync(model.Id) ?? throw new KeyNotFoundException();
                 
                 user.Senha = BCrypt.Net.BCrypt.HashPassword(model.Senha);
-                user.Email = model.Email;
-                user.Nome = model.Nome;
+              
                 
                 await _usuarioRepository.UpdateAsync(user);
 

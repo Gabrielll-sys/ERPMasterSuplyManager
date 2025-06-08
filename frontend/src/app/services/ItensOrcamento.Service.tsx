@@ -68,14 +68,15 @@ export const createItemOrcamento = (payload: CreateItemPayload) => {
  * @returns Uma promessa com a resposta do Axios.
  */
 export const updateItemOrcamento = ({ item, novaQuantidade }: UpdateItemPayload) => {
-  // Remonta o objeto do item com a nova quantidade, como o back-end provavelmente espera.
+  console.log(item)
+
   // Esta foi a correção principal para o erro 400.
   const payloadParaApi = {
     id: item.id,
     materialId: item.materialId,
     orcamentoId: item.orcamentoId,
     quantidadeMaterial: novaQuantidade,
-    precoItemOrcamento: item.precoItemOrcamento || item.material?.precoVenda,
+    precoItemOrcamento: !(typeof(item.precoVenda) === 'undefined') && item.precoVenda > 0 ? item.precoVenda : item.material?.precoVenda,
     material: {},
     orcamento: {},
   };
