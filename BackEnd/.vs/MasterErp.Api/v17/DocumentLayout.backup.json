@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{483C1AE4-B1B6-47C4-B66A-74C2F87ED930}|MasterErp.Domain\\MasterErp.Domain.csproj|c:\\users\\gabri\\onedrive\\\u00E1rea de trabalho\\erpmastersuplymanager\\backend\\mastererp.domain\\models\\itemorcamento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{483C1AE4-B1B6-47C4-B66A-74C2F87ED930}|MasterErp.Domain\\MasterErp.Domain.csproj|solutionrelative:mastererp.domain\\models\\itemorcamento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|c:\\users\\gabri\\onedrive\\\u00E1rea de trabalho\\erpmastersuplymanager\\backend\\mastererp.api\\controllers\\itensorcamentocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|solutionrelative:mastererp.api\\controllers\\itensorcamentocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1E76A0B2-A430-413A-9A35-919474E1CCA4}|MasterErp.Services\\MasterErp.Services.csproj|c:\\users\\gabri\\onedrive\\\u00E1rea de trabalho\\erpmastersuplymanager\\backend\\mastererp.services\\usuarioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1E76A0B2-A430-413A-9A35-919474E1CCA4}|MasterErp.Services\\MasterErp.Services.csproj|solutionrelative:mastererp.services\\usuarioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -401,10 +409,6 @@
       "RelativeMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|solutionrelative:mastererp.api\\extensions\\responseextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|c:\\users\\gabri\\onedrive\\\u00E1rea de trabalho\\erpmastersuplymanager\\backend\\mastererp.api\\controllers\\itensorcamentocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|solutionrelative:mastererp.api\\controllers\\itensorcamentocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|c:\\users\\gabri\\onedrive\\\u00E1rea de trabalho\\erpmastersuplymanager\\backend\\mastererp.api\\controllers\\itenscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|solutionrelative:mastererp.api\\controllers\\itenscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -515,7 +519,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 76,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -530,8 +534,29 @@
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{269a02dc-6af8-11d3-bdc4-00c04f688e50}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 0,
+              "Title": "ItemOrcamento.cs",
+              "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\ItemOrcamento.cs",
+              "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\ItemOrcamento.cs",
+              "ToolTip": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\ItemOrcamento.cs",
+              "RelativeToolTip": "MasterErp.Domain\\Models\\ItemOrcamento.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-08T18:21:43.863Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "FilledFormsController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\FilledFormsController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\FilledFormsController.cs",
@@ -543,7 +568,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "FormTemplatesController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\FormTemplatesController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\FormTemplatesController.cs",
@@ -555,7 +580,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "FormTemplate.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\Forms\\FormTemplate.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\Forms\\FormTemplate.cs",
@@ -567,7 +592,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "comandos.txt",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\comandos.txt",
               "RelativeDocumentMoniker": "comandos.txt",
@@ -579,7 +604,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "20250506225308_NomeDaSuaMigration.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20250506225308_NomeDaSuaMigration.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20250506225308_NomeDaSuaMigration.cs",
@@ -591,7 +616,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "DesignTimeDbContextFactory.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\DesignTimeDbContextFactory.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\DesignTimeDbContextFactory.cs",
@@ -603,7 +628,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 24,
               "Title": "PingsController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\PingsController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\PingsController.cs",
@@ -615,7 +640,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 28,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\HomeController.cs",
@@ -627,7 +652,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 117,
+              "DocumentIndex": 118,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\FunctionApp2\\Program.cs",
               "RelativeDocumentMoniker": "FunctionApp2\\Program.cs",
@@ -638,7 +663,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 126,
+              "DocumentIndex": 127,
               "Title": "local.settings.json",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\FunctionApp2\\local.settings.json",
               "RelativeDocumentMoniker": "FunctionApp2\\local.settings.json",
@@ -650,7 +675,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 29,
               "Title": "FunctionApp1.csproj",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\MasterErp\\BackEnd\\FunctionApp1\\FunctionApp1.csproj",
               "RelativeDocumentMoniker": "..\\..\\MasterErp\\BackEnd\\FunctionApp1\\FunctionApp1.csproj",
@@ -662,7 +687,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 115,
+              "DocumentIndex": 116,
               "Title": "local.settings.json",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\FunctionApp1\\local.settings.json",
               "RelativeDocumentMoniker": "FunctionApp1\\local.settings.json",
@@ -674,7 +699,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 116,
+              "DocumentIndex": 117,
               "Title": "Function1.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\MasterErp\\BackEnd\\FunctionApp1\\Function1.cs",
               "RelativeDocumentMoniker": "..\\..\\MasterErp\\BackEnd\\FunctionApp1\\Function1.cs",
@@ -686,7 +711,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 33,
               "Title": "IRelatorioDiarioService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Interfaces\\Services\\IRelatorioDiarioService.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Interfaces\\Services\\IRelatorioDiarioService.cs",
@@ -698,7 +723,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 41,
               "Title": "20240702001610_v10.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240702001610_v10.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240702001610_v10.cs",
@@ -709,7 +734,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 42,
               "Title": "20240702001449_v9.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240702001449_v9.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240702001449_v9.cs",
@@ -721,7 +746,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 43,
               "Title": "20240702001427_v9.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240702001427_v9.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240702001427_v9.cs",
@@ -732,7 +757,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 44,
               "Title": "20240702001238_v9.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240702001238_v9.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240702001238_v9.cs",
@@ -743,7 +768,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 45,
               "Title": "20240702001142_v9.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240702001142_v9.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240702001142_v9.cs",
@@ -754,7 +779,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 46,
               "Title": "20240702000953_v9.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240702000953_v9.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240702000953_v9.cs",
@@ -765,7 +790,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 47,
               "Title": "20240702000853_v9.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240702000853_v9.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240702000853_v9.cs",
@@ -776,7 +801,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 48,
               "Title": "20240702000808_v9.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240702000808_v9.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240702000808_v9.cs",
@@ -787,7 +812,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 114,
+              "DocumentIndex": 115,
               "Title": "20240702000618_v8.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240702000618_v8.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240702000618_v8.cs",
@@ -799,7 +824,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 49,
               "Title": "SqlContextModelSnapshot.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\SqlContextModelSnapshot.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\SqlContextModelSnapshot.cs",
@@ -811,7 +836,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 50,
               "Title": "20240702000248_v8.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240702000248_v8.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240702000248_v8.cs",
@@ -822,7 +847,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 52,
               "Title": "20240702000001_v8.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240702000001_v8.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240702000001_v8.cs",
@@ -833,7 +858,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 53,
               "Title": "20240701235735_v8.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240701235735_v8.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240701235735_v8.cs",
@@ -844,7 +869,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 54,
               "Title": "20240701235631_v8.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240701235631_v8.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240701235631_v8.cs",
@@ -855,7 +880,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 38,
               "Title": "MaterialService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\MaterialService.cs",
               "RelativeDocumentMoniker": "MasterErp.Services\\MaterialService.cs",
@@ -867,7 +892,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 51,
               "Title": "20240628004021_v7.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240628004021_v7.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240628004021_v7.cs",
@@ -879,7 +904,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 59,
+              "DocumentIndex": 61,
               "Title": "20240626004556_v6.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240626004556_v6.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240626004556_v6.cs",
@@ -891,7 +916,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "MaterialDto.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\MaterialDto.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\MaterialDto.cs",
@@ -903,7 +928,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 61,
+              "DocumentIndex": 63,
               "Title": "OrdemServico.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\OrdemServico.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\OrdemServico.cs",
@@ -915,7 +940,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 62,
+              "DocumentIndex": 64,
               "Title": "Orcamento.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\Orcamento.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\Orcamento.cs",
@@ -927,7 +952,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 67,
+              "DocumentIndex": 69,
               "Title": "MasterErp.Api",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\MasterErp.Api.csproj",
               "RelativeDocumentMoniker": "MasterErp.Api\\MasterErp.Api.csproj",
@@ -938,7 +963,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 68,
+              "DocumentIndex": 70,
               "Title": "MasterErp.Tests.AssemblyInfo.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\MasterErp\\BackEnd\\MasterErp.Tests\\obj\\Debug\\net8.0\\MasterErp.Tests.AssemblyInfo.cs",
               "RelativeDocumentMoniker": "..\\..\\MasterErp\\BackEnd\\MasterErp.Tests\\obj\\Debug\\net8.0\\MasterErp.Tests.AssemblyInfo.cs",
@@ -949,7 +974,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 69,
+              "DocumentIndex": 71,
               "Title": "MasterErp.Services",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\MasterErp.Services.csproj",
               "RelativeDocumentMoniker": "MasterErp.Services\\MasterErp.Services.csproj",
@@ -960,7 +985,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 113,
+              "DocumentIndex": 114,
               "Title": "20240613180555_v5.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240613180555_v5.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240613180555_v5.cs",
@@ -972,7 +997,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 63,
+              "DocumentIndex": 65,
               "Title": "OrdemServicoDto.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\OrdemServicoDto.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\OrdemServicoDto.cs",
@@ -984,7 +1009,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 76,
+              "DocumentIndex": 78,
               "Title": "Usuario.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\Usuario.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\Usuario.cs",
@@ -996,7 +1021,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 77,
+              "DocumentIndex": 79,
               "Title": "Fornecedor.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\Fornecedor.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\Fornecedor.cs",
@@ -1008,7 +1033,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 112,
+              "DocumentIndex": 113,
               "Title": "20240601213729_v4.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240601213729_v4.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240601213729_v4.cs",
@@ -1020,7 +1045,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 110,
+              "DocumentIndex": 111,
               "Title": "20240531012937_v3.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240531012937_v3.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240531012937_v3.cs",
@@ -1032,7 +1057,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 111,
+              "DocumentIndex": 112,
               "Title": "20240531012015_v2.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240531012015_v2.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240531012015_v2.cs",
@@ -1044,7 +1069,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 57,
+              "DocumentIndex": 59,
               "Title": "ImagemAtividadeRd.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\ImagemAtividadeRd.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\ImagemAtividadeRd.cs",
@@ -1056,7 +1081,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 85,
+              "DocumentIndex": 87,
               "Title": "MasterErp.Domain.csproj",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\MasterErp.Domain.csproj",
               "RelativeDocumentMoniker": "MasterErp.Domain\\MasterErp.Domain.csproj",
@@ -1068,7 +1093,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 86,
+              "DocumentIndex": 88,
               "Title": "IUsuarioService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Interfaces\\Services\\IUsuarioService.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Interfaces\\Services\\IUsuarioService.cs",
@@ -1080,7 +1105,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "20240529011614_v1.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240529011614_v1.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240529011614_v1.cs",
@@ -1092,7 +1117,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 87,
+              "DocumentIndex": 89,
               "Title": "20240529011357_v2.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240529011357_v2.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240529011357_v2.cs",
@@ -1103,7 +1128,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 88,
+              "DocumentIndex": 90,
               "Title": "20240529011312_v2.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240529011312_v2.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240529011312_v2.cs",
@@ -1114,7 +1139,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 89,
+              "DocumentIndex": 91,
               "Title": "20240529011057_v2.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20240529011057_v2.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20240529011057_v2.cs",
@@ -1125,7 +1150,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 90,
+              "DocumentIndex": 92,
               "Title": "MasterErp.Infraestructure.csproj",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\MasterErp.Infraestructure.csproj",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\MasterErp.Infraestructure.csproj",
@@ -1137,7 +1162,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 26,
               "Title": "TarefasUsuarioController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\TarefasUsuarioController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\TarefasUsuarioController.cs",
@@ -1149,7 +1174,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 71,
+              "DocumentIndex": 73,
               "Title": "TarefaUsuarioService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\TarefaUsuarioService.cs",
               "RelativeDocumentMoniker": "MasterErp.Services\\TarefaUsuarioService.cs",
@@ -1161,7 +1186,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 91,
+              "DocumentIndex": 93,
               "Title": "OrcamentoService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\OrcamentoService.cs",
               "RelativeDocumentMoniker": "MasterErp.Services\\OrcamentoService.cs",
@@ -1173,7 +1198,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 80,
+              "DocumentIndex": 82,
               "Title": "ITarefaUsuarioService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Interfaces\\Services\\ITarefaUsuarioService.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Interfaces\\Services\\ITarefaUsuarioService.cs",
@@ -1185,7 +1210,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 118,
+              "DocumentIndex": 119,
               "Title": "ItemNotaFiscal.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\ItemNotaFiscal.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\ItemNotaFiscal.cs",
@@ -1196,7 +1221,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 78,
+              "DocumentIndex": 80,
               "Title": "TarefaUsuarioRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\TarefaUsuarioRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\TarefaUsuarioRepository.cs",
@@ -1208,7 +1233,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 92,
+              "DocumentIndex": 94,
               "Title": "ITarefaUsuarioRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Interfaces\\Repository\\ITarefaUsuarioRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Interfaces\\Repository\\ITarefaUsuarioRepository.cs",
@@ -1220,7 +1245,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 93,
+              "DocumentIndex": 95,
               "Title": "IUsuarioRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Interfaces\\Repository\\IUsuarioRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Interfaces\\Repository\\IUsuarioRepository.cs",
@@ -1232,7 +1257,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 82,
+              "DocumentIndex": 84,
               "Title": "Inventario.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\Inventario.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\Inventario.cs",
@@ -1244,7 +1269,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 36,
               "Title": "Material.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\Material.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\Material.cs",
@@ -1256,7 +1281,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 55,
               "Title": "TarefaUsuario.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\TarefaUsuario.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\TarefaUsuario.cs",
@@ -1268,7 +1293,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 35,
               "Title": "Cliente.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\Cliente.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\Cliente.cs",
@@ -1280,7 +1305,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 64,
+              "DocumentIndex": 66,
               "Title": "MaterialIdValidator.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Validations\\MateriaisValidations\\MaterialIdValidator.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Validations\\MateriaisValidations\\MaterialIdValidator.cs",
@@ -1292,7 +1317,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 31,
               "Title": "RelatorioDiarioService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\RelatorioDiarioService.cs",
               "RelativeDocumentMoniker": "MasterErp.Services\\RelatorioDiarioService.cs",
@@ -1304,7 +1329,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 119,
+              "DocumentIndex": 120,
               "Title": "NotaFiscalService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\NotaFiscalService.cs",
               "RelativeDocumentMoniker": "MasterErp.Services\\NotaFiscalService.cs",
@@ -1315,7 +1340,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "LogAcoesUsuariosService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\LogAcoesUsuariosService.cs",
               "RelativeDocumentMoniker": "MasterErp.Services\\LogAcoesUsuariosService.cs",
@@ -1327,7 +1352,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "ItemService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\ItemService.cs",
               "RelativeDocumentMoniker": "MasterErp.Services\\ItemService.cs",
@@ -1339,7 +1364,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 120,
+              "DocumentIndex": 121,
               "Title": "ItemNotaFiscalService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\ItemNotaFiscalService.cs",
               "RelativeDocumentMoniker": "MasterErp.Services\\ItemNotaFiscalService.cs",
@@ -1350,7 +1375,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 95,
+              "DocumentIndex": 97,
               "Title": "InventarioService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\InventarioService.cs",
               "RelativeDocumentMoniker": "MasterErp.Services\\InventarioService.cs",
@@ -1362,7 +1387,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 96,
+              "DocumentIndex": 98,
               "Title": "ClienteService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\ClienteService.cs",
               "RelativeDocumentMoniker": "MasterErp.Services\\ClienteService.cs",
@@ -1374,7 +1399,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 84,
+              "DocumentIndex": 86,
               "Title": "OrdemServicoService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\OrdemServicoService.cs",
               "RelativeDocumentMoniker": "MasterErp.Services\\OrdemServicoService.cs",
@@ -1386,7 +1411,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "UsuarioService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\UsuarioService.cs",
               "RelativeDocumentMoniker": "MasterErp.Services\\UsuarioService.cs",
@@ -1399,7 +1424,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 39,
               "Title": "ImagemAtividadeRdService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\ImagemAtividadeRdService.cs",
               "RelativeDocumentMoniker": "MasterErp.Services\\ImagemAtividadeRdService.cs",
@@ -1411,7 +1436,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 70,
+              "DocumentIndex": 72,
               "Title": "MasterErp.Services.csproj",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\MasterErp.Services.csproj",
               "RelativeDocumentMoniker": "MasterErp.Services\\MasterErp.Services.csproj",
@@ -1423,7 +1448,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 32,
               "Title": "AtividadeRdService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\AtividadeRdService.cs",
               "RelativeDocumentMoniker": "MasterErp.Services\\AtividadeRdService.cs",
@@ -1435,7 +1460,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 72,
+              "DocumentIndex": 74,
               "Title": "IImagemAtividadeRdService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Interfaces\\Services\\IImagemAtividadeRdService.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Interfaces\\Services\\IImagemAtividadeRdService.cs",
@@ -1447,7 +1472,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 97,
+              "DocumentIndex": 99,
               "Title": "IClienteService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Interfaces\\Services\\IClienteService.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Interfaces\\Services\\IClienteService.cs",
@@ -1459,7 +1484,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 56,
+              "DocumentIndex": 58,
               "Title": "IAtividadeRdService.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Interfaces\\Services\\IAtividadeRdService.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Interfaces\\Services\\IAtividadeRdService.cs",
@@ -1471,7 +1496,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 54,
+              "DocumentIndex": 56,
               "Title": "UserRequest.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\UserRequest.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\UserRequest.cs",
@@ -1483,7 +1508,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 99,
+              "DocumentIndex": 101,
               "Title": "ResponseExtension.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Extensions\\ResponseExtension.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Extensions\\ResponseExtension.cs",
@@ -1495,7 +1520,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 65,
+              "DocumentIndex": 67,
               "Title": "DateExtensions.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Extensions\\DateExtensions.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Extensions\\DateExtensions.cs",
@@ -1507,7 +1532,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 30,
               "Title": "RelatoriosDiariosController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\RelatoriosDiariosController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\RelatoriosDiariosController.cs",
@@ -1519,7 +1544,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "OrdemServicosController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\OrdemServicosController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\OrdemServicosController.cs",
@@ -1531,7 +1556,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 40,
               "Title": "OrcamentosController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\OrcamentosController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\OrcamentosController.cs",
@@ -1543,7 +1568,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 121,
+              "DocumentIndex": 122,
               "Title": "NotasFiscaisController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\NotasFiscaisController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\NotasFiscaisController.cs",
@@ -1554,7 +1579,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "MateriaisController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\MateriaisController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\MateriaisController.cs",
@@ -1566,7 +1591,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 81,
+              "DocumentIndex": 83,
               "Title": "LogAcoesUsuarioController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\LogAcoesUsuarioController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\LogAcoesUsuarioController.cs",
@@ -1578,7 +1603,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 122,
+              "DocumentIndex": 123,
               "Title": "ItensNotasFiscaisController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\ItensNotasFiscaisController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\ItensNotasFiscaisController.cs",
@@ -1589,7 +1614,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 101,
+              "DocumentIndex": 102,
               "Title": "ItensController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\ItensController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\ItensController.cs",
@@ -1601,7 +1626,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 34,
               "Title": "RelatorioDiario.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\RelatorioDiario.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\RelatorioDiario.cs",
@@ -1613,7 +1638,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 75,
+              "DocumentIndex": 77,
               "Title": "LogAcoesUsuario.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\LogAcoesUsuario.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\LogAcoesUsuario.cs",
@@ -1625,7 +1650,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 103,
+              "DocumentIndex": 104,
               "Title": "Item.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\Item.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\Item.cs",
@@ -1637,7 +1662,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 55,
+              "DocumentIndex": 57,
               "Title": "RelatorioDiarioRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\RelatorioDiarioRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\RelatorioDiarioRepository.cs",
@@ -1649,7 +1674,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 104,
+              "DocumentIndex": 105,
               "Title": "OrdemServicoRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\OrdemServicoRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\OrdemServicoRepository.cs",
@@ -1661,7 +1686,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 123,
+              "DocumentIndex": 124,
               "Title": "NotaFiscal.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\NotaFiscal.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\NotaFiscal.cs",
@@ -1672,7 +1697,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "OrcamentoRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\OrcamentoRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\OrcamentoRepository.cs",
@@ -1684,7 +1709,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 124,
+              "DocumentIndex": 125,
               "Title": "NotaFiscalRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\NotaFiscalRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\NotaFiscalRepository.cs",
@@ -1695,7 +1720,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 79,
+              "DocumentIndex": 81,
               "Title": "MaterialRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\MaterialRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\MaterialRepository.cs",
@@ -1707,7 +1732,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 83,
+              "DocumentIndex": 85,
               "Title": "LogAcoesUsuarioRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\LogAcoesUsuarioRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\LogAcoesUsuarioRepository.cs",
@@ -1719,7 +1744,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 105,
+              "DocumentIndex": 106,
               "Title": "ItemRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\ItemRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\ItemRepository.cs",
@@ -1731,7 +1756,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 125,
+              "DocumentIndex": 126,
               "Title": "ItemNotaFiscalRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\ItemNotaFiscalRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\ItemNotaFiscalRepository.cs",
@@ -1742,7 +1767,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 106,
+              "DocumentIndex": 107,
               "Title": "InventarioRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\InventarioRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\InventarioRepository.cs",
@@ -1754,7 +1779,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 94,
+              "DocumentIndex": 96,
               "Title": "AuthenticateDto.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\AuthenticateDto.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\AuthenticateDto.cs",
@@ -1766,7 +1791,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 73,
+              "DocumentIndex": 75,
               "Title": "ClienteRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\ClienteRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\ClienteRepository.cs",
@@ -1778,7 +1803,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 102,
+              "DocumentIndex": 103,
               "Title": "IImagemAtividadeRdRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Interfaces\\Repository\\IImagemAtividadeRdRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Interfaces\\Repository\\IImagemAtividadeRdRepository.cs",
@@ -1790,7 +1815,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 107,
+              "DocumentIndex": 108,
               "Title": "UsuarioPostValidator.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Validations\\UsuariosValidations\\UsuarioPostValidator.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Validations\\UsuariosValidations\\UsuarioPostValidator.cs",
@@ -1802,7 +1827,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 108,
+              "DocumentIndex": 109,
               "Title": "UsuarioIdValidator.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Validations\\UsuariosValidations\\UsuarioIdValidator.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Validations\\UsuariosValidations\\UsuarioIdValidator.cs",
@@ -1814,7 +1839,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 109,
+              "DocumentIndex": 110,
               "Title": "MaterialPostValidator.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Validations\\MateriaisValidations\\MaterialPostValidator.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Validations\\MateriaisValidations\\MaterialPostValidator.cs",
@@ -1826,7 +1851,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 25,
               "Title": "AtividadesRdController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\AtividadesRdController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\AtividadesRdController.cs",
@@ -1838,7 +1863,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 37,
               "Title": "AtividadeRd.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Models\\AtividadeRd.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\AtividadeRd.cs",
@@ -1850,7 +1875,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "UsuarioRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\UsuarioRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\UsuarioRepository.cs",
@@ -1862,19 +1887,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 100,
+              "DocumentIndex": 1,
               "Title": "ItensOrcamentoController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\ItensOrcamentoController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\ItensOrcamentoController.cs",
               "ToolTip": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\ItensOrcamentoController.cs",
               "RelativeToolTip": "MasterErp.Api\\Controllers\\ItensOrcamentoController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAL0AAAAAAAAAAAAmwNQAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:15:10.784Z"
+              "WhenOpened": "2024-05-23T23:15:10.784Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "UsuariosController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\UsuariosController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\UsuariosController.cs",
@@ -1886,7 +1912,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\appsettings.json",
               "RelativeDocumentMoniker": "MasterErp.Api\\appsettings.json",
@@ -1898,7 +1924,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "launchSettings.json",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "MasterErp.Api\\Properties\\launchSettings.json",
@@ -1910,7 +1936,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "SqlContext.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\SqlContext.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\SqlContext.cs",
@@ -1922,7 +1948,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "InventariosController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\InventariosController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\InventariosController.cs",
@@ -1934,7 +1960,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 58,
+              "DocumentIndex": 60,
               "Title": "ImagensAtividadesRdController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\ImagensAtividadesRdController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\ImagensAtividadesRdController.cs",
@@ -1946,7 +1972,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 27,
               "Title": "ClientesController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Controllers\\ClientesController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\ClientesController.cs",
@@ -1958,7 +1984,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 74,
+              "DocumentIndex": 76,
               "Title": "AtividadeRdRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\AtividadeRdRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\AtividadeRdRepository.cs",
@@ -1970,7 +1996,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 98,
+              "DocumentIndex": 100,
               "Title": "IAtividadeRdRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\Interfaces\\Repository\\IAtividadeRdRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Interfaces\\Repository\\IAtividadeRdRepository.cs",
@@ -1982,7 +2008,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 22,
               "Title": "ImagemAtividadeRdRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\ImagemAtividadeRdRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\ImagemAtividadeRdRepository.cs",
@@ -1994,7 +2020,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 66,
+              "DocumentIndex": 68,
               "Title": "MasterErp.Api.csproj",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\MasterErp.Api.csproj",
               "RelativeDocumentMoniker": "MasterErp.Api\\MasterErp.Api.csproj",
@@ -2006,7 +2032,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\Program.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Program.cs",
@@ -2018,7 +2044,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 60,
+              "DocumentIndex": 62,
               "Title": "MasterErp.Api.http",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\MasterErp.Api.http",
               "RelativeDocumentMoniker": "MasterErp.Api\\MasterErp.Api.http",
@@ -2027,14 +2053,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
               "WhenOpened": "2024-05-22T19:50:38.183Z"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{269a02dc-6af8-11d3-bdc4-00c04f688e50}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             }
           ]
         }
