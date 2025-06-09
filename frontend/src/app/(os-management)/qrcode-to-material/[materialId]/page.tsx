@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { Text } from "@radix-ui/themes";
 import { authHeader } from "@/app/_helpers/auth_headers";
 import { IInventario } from "@/app/interfaces/IInventarios";
-import { IOrderServico } from "@/app/interfaces/IOrderServico";
+import { IOrderServico } from "@/app/interfaces/IOrdemServico";
 import { TextField } from "@radix-ui/themes";
 import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";

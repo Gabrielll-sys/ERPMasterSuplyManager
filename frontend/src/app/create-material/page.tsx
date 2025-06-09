@@ -153,14 +153,16 @@ function CreateMaterialPage() {
     const searchTerm = debouncedSearchTermDescricao.length > 3 ? debouncedSearchTermDescricao : (debouncedSearchTermCodigo.length > 3 ? debouncedSearchTermCodigo : "");
     const searchType = debouncedSearchTermDescricao.length > 3 ? 'descricao' : (debouncedSearchTermCodigo.length > 3 ? 'codigo' : 'none');
 
-    const { data: materiais = [], isLoading: isLoadingMateriais, isFetching: isFetchingMateriais, isPreviousData } = useQuery({
+    const { data: materiais = [], isLoading: isLoadingMateriais, isFetching: isFetchingMateriais, isPreviousData } = useQuery<IInventario[], Error, IInventario[]>({
         queryKey: ['materiaisSearch', searchTerm, searchType],
         queryFn: async () => {
-            if (searchType === 'none') return [];
+            if (searchType === 'none') return [] as IInventario[];
             if (searchType === 'descricao') {
-                return searchByDescription(searchTerm);
+                const result = await searchByDescription(searchTerm);
+                return result as IInventario[];
             }
-            return searchByFabricanteCode(searchTerm);
+            const result = await searchByFabricanteCode(searchTerm);
+            return result as IInventario[];
         },
         enabled: searchType !== 'none',
         staleTime: 1000 * 60 * 2,
@@ -714,32 +716,32 @@ function CreateMaterialPage() {
                                                 </Table.Header>
                                                 <Table.Body>
                                                     <AnimatePresence>
-                                                        {materiais.map((material, index) => (
+                                                        {(materiais as IInventario[]).map((item:IInventario, index) => (
                                                             <MotionTableRow
-                                                                key={material.id}
+                                                                key={item.id}
                                                                 variants={tableRowVariants}
                                                                 initial="initial"
                                                                 animate="animate"
                                                                 exit="exit"
                                                                 transition={{ delay: index * 0.05 }}
                                                                 className={`border-b border-slate-100 hover:bg-gradient-to-r hover:from-blue-50/50 hover:to-indigo-50/50 transition-all duration-300 cursor-pointer`}
-                                                                onMouseEnter={() => setHoveredRow(material.id?.toString() || null)}
+                                                                onMouseEnter={() => setHoveredRow(item.id?.toString() || null)}
                                                                 onMouseLeave={() => setHoveredRow(null)}
                                                             >
                                                                 <Table.Cell className="p-4">
-                                                                    <Badge color="gray" variant="soft" className="font-mono text-xs">{material.codigoFabricante || 'N/A'}</Badge>
+                                                                    <Badge color="gray" variant="soft" className="font-mono text-xs">{item.material.codigoFabricante || 'N/A'}</Badge>
                                                                 </Table.Cell>
                                                                 <Table.Cell className="p-4 max-w-xs truncate">
-                                                                    <Text className="font-medium text-slate-800 truncate">{material.descricao}</Text>
-                                                                    <Text className="text-xs text-slate-500 mt-1 block">{material.unidade}</Text>
+                                                                    <Text className="font-medium text-slate-800 truncate">{item.material.descricao}</Text>
+                                                                    <Text className="text-xs text-slate-500 mt-1 block">{item.material.unidade}</Text>
                                                                 </Table.Cell>
                                                                 <Table.Cell className="p-4">
-                                                                    {material.marca ? <Badge color="blue" variant="soft">{material.marca}</Badge> : <Text className="text-slate-400 text-sm">N/A</Text>}
+                                                                    {item.material.marca ? <Badge color="blue" variant="soft">{item.material.marca}</Badge> : <Text className="text-slate-400 text-sm">N/A</Text>}
                                                                 </Table.Cell>
                                                                 <Table.Cell className="p-4">
                                                                     <Flex align="center" gap="2">
-                                                                        <Badge color={getStockBadgeColor(material.estoque || 0)} variant="solid" className="px-3 py-1 font-bold">{material.estoque || 0}</Badge>
-                                                                        {(material.estoque || 0) <= 5 && (
+                                                                        <Badge color={getStockBadgeColor(item.estoque || 0)} variant="solid" className="px-3 py-1 font-bold">{item.estoque || 0}</Badge>
+                                                                        {(item.estoque || 0) <= 5 && (
                                                                             <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 1, repeat: Infinity }}>
                                                                                 <AlertTriangle className="w-4 h-4 text-amber-500" />
                                                                             </motion.div>
@@ -747,14 +749,14 @@ function CreateMaterialPage() {
                                                                     </Flex>
                                                                 </Table.Cell>
                                                                 <Table.Cell className="p-4">
-                                                                    {material.localizacao ? <Text className="text-sm font-medium text-slate-700">{material.localizacao}</Text> : <Text className="text-slate-400 text-sm">N/A</Text>}
+                                                                    {item.material.localizacao ? <Text className="text-sm font-medium text-slate-700">{item.material.localizacao}</Text> : <Text className="text-slate-400 text-sm">N/A</Text>}
                                                                 </Table.Cell>
                                                                 <Table.Cell className="p-4">
-                                                                    {material.precoCusto ? <Text className="text-sm font-bold text-green-700">R$ {material.precoCusto.toFixed(2).replace('.', ',')}</Text> : <Text className="text-slate-400 text-sm">N/A</Text>}
+                                                                    {item.material.precoCusto ? <Text className="text-sm font-bold text-green-700">R$ {item.material.precoCusto.toFixed(2).replace('.', ',')}</Text> : <Text className="text-slate-400 text-sm">N/A</Text>}
                                                                 </Table.Cell>
                                                                 {conditionsRoles && (
                                                                     <Table.Cell className="p-4">
-                                                                        <Button size="2" variant="soft" color="blue" onClick={() => handleNavigateToUpdate(material.id)}>
+                                                                        <Button size="2" variant="soft" color="blue" onClick={() => handleNavigateToUpdate(item.id)}>
                                                                             <Edit3 className="w-4 h-4 mr-1" />
                                                                             Editar
                                                                         </Button>

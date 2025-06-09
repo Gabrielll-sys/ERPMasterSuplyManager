@@ -49,10 +49,9 @@ export default function ManageBudgesPage() { // Renomeado para clareza
     isFetching,
     isError,
     error,
-  } = useQuery<IOrcamento[], Error>( // Especifica que o tipo de dado é IOrcamento[]
-    // Chave da query dinâmica baseada nos filtros debounced
-    ['orcamentos', { cliente: debouncedCliente, numero: debouncedNumeroOrcamento }],
-    async () => {
+  } = useQuery<IOrcamento[], Error>({
+    queryKey: ['orcamentos', { cliente: debouncedCliente, numero: debouncedNumeroOrcamento }],
+    queryFn: async () => {
       if (debouncedNumeroOrcamento && debouncedNumeroOrcamento.length > 0) {
         const id = parseInt(debouncedNumeroOrcamento);
         if (!isNaN(id)) {
@@ -66,13 +65,11 @@ export default function ManageBudgesPage() { // Renomeado para clareza
       // }
       return getAllOrcamentos(); // Busca todos se nenhum filtro específico
     },
-    {
-      keepPreviousData: true, // Mantém dados anteriores visíveis enquanto carrega novos
-      staleTime: 1000 * 60 * 1, // 1 minuto de staleTime
-      // onSuccess: (data) => console.log("Orcamentos carregados:", data),
-      // onError: (err) => console.error("Erro ao buscar orçamentos:", err),
-    }
-  );
+    keepPreviousData: true, // Mantém dados anteriores visíveis enquanto carrega novos
+    staleTime: 1000 * 60 * 1, // 1 minuto de staleTime
+    // onSuccess: (data) => console.log("Orcamentos carregados:", data),
+    // onError: (err) => console.error("Erro ao buscar orçamentos:", err),
+  });
 
   // Os dados da query já são um array, não precisa de estados separados `orcamento` e `orcamentos`
   const orcamentosExibidos: IOrcamento[] = orcamentosData || [];
