@@ -346,49 +346,50 @@
         </member>
         <member name="T:MasterErp.Api.Controllers.MateriaisController">
             <summary>
-            Controlador para gerenciar os Materias
-             </summary>
+            Controlador para gerenciar os Materiais
+            </summary>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.MateriaisController.GetAll">
+            <summary>
+            Busca todos os materiais
+            </summary>
+            <returns>Lista de todos os materiais</returns>
         </member>
         <member name="M:MasterErp.Api.Controllers.MateriaisController.GetMaterial(System.Int32)">
             <summary>
-            Obtem material por id
+            Obtém material por ID
             </summary>
-            <param name="id">Id do material para ser obtido</param>
-            <returns>Materiais encontrado</returns>
+            <param name="id">ID do material para ser obtido</param>
+            <returns>Material encontrado</returns>
         </member>
-        <member name="M:MasterErp.Api.Controllers.MateriaisController.GetMaterialwithInvetory(System.Int32)">
+        <member name="M:MasterErp.Api.Controllers.MateriaisController.GetMaterialWithInventory(System.Int32)">
             <summary>
-            Obtem material com o ultimo registro de seu inventário
+            Obtém material com o último registro de seu inventário
             </summary>
-            <param name="id">Id do material</param>
+            <param name="id">ID do material</param>
             <returns>Material e inventário encontrado</returns>
         </member>
         <member name="M:MasterErp.Api.Controllers.MateriaisController.CreateMaterial(MasterErp.Domain.Models.MaterialDto)">
             <summary>
             Criar novo material
             </summary>
-            <param name="dto"></param>
-            <param name="id">Objeto material para ser criado</param>
-            <returns>Materiais criado</returns>
+            <param name="dto">Objeto material para ser criado</param>
+            <returns>Material criado</returns>
         </member>
         <member name="M:MasterErp.Api.Controllers.MateriaisController.PutMaterial(System.Int32,MasterErp.Domain.Models.Material)">
             <summary>
-            Atualizar o Material pelo Id
+            Atualizar o Material pelo ID
             </summary>
-            <param name="id">O Id do material a ser atualizado</param>
-            <param name="model">O objeto material a ser atualizado </param>
-            <response code="200">Material encontrado</response>
-            <response code="400">Id do material não é valido</response>
-            <response code="404">Material não encontrado</response>
-            <response code="500">Error no servidor</response>
+            <param name="id">O ID do material a ser atualizado</param>
+            <param name="model">O objeto material a ser atualizado</param>
             <returns>O material atualizado</returns>
         </member>
         <member name="M:MasterErp.Api.Controllers.MateriaisController.Delete(System.Int32)">
             <summary>
-            Deleta o material pelo id fornecido
+            Deleta o material pelo ID fornecido
             </summary>
-            <param name="id"> O id do material a ser deletado</param>
-            <returns></returns>
+            <param name="id">O ID do material a ser deletado</param>
+            <returns>Resultado da operação</returns>
         </member>
         <member name="T:MasterErp.Api.Controllers.OrcamentosController">
             <summary>

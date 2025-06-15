@@ -153,7 +153,7 @@ function CreateMaterialPage() {
     const searchTerm = debouncedSearchTermDescricao.length > 3 ? debouncedSearchTermDescricao : (debouncedSearchTermCodigo.length > 3 ? debouncedSearchTermCodigo : "");
     const searchType = debouncedSearchTermDescricao.length > 3 ? 'descricao' : (debouncedSearchTermCodigo.length > 3 ? 'codigo' : 'none');
 
-    const { data: materiais = [], isLoading: isLoadingMateriais, isFetching: isFetchingMateriais, isPreviousData } = useQuery<IInventario[], Error, IInventario[]>({
+    const { data: materiais = [], isLoading: isLoadingMateriais, isFetching: isFetchingMateriais } = useQuery<IInventario[], Error, IInventario[]>({
         queryKey: ['materiaisSearch', searchTerm, searchType],
         queryFn: async () => {
             if (searchType === 'none') return [] as IInventario[];
@@ -166,7 +166,7 @@ function CreateMaterialPage() {
         },
         enabled: searchType !== 'none',
         staleTime: 1000 * 60 * 2,
-        keepPreviousData: true,
+
     });
     
     // --- CORREÇÃO: Sintaxe do useMutation ajustada para TanStack Query v5 ---
@@ -686,16 +686,7 @@ function CreateMaterialPage() {
                                                 </Flex>
                                             </Flex>
                                             
-                                            {isPreviousData && (
-                                                <Callout.Root color="amber" className="mt-3">
-                                                    <Callout.Icon>
-                                                        <AlertTriangle className="w-4 h-4" />
-                                                    </Callout.Icon>
-                                                    <Callout.Text>
-                                                        Mostrando resultados anteriores enquanto busca...
-                                                    </Callout.Text>
-                                                </Callout.Root>
-                                            )}
+                                         
                                         </motion.div>
 
                                         <motion.div
@@ -756,7 +747,7 @@ function CreateMaterialPage() {
                                                                 </Table.Cell>
                                                                 {conditionsRoles && (
                                                                     <Table.Cell className="p-4">
-                                                                        <Button size="2" variant="soft" color="blue" onClick={() => handleNavigateToUpdate(item.id)}>
+                                                                        <Button size="2" variant="soft" color="blue" onClick={() => handleNavigateToUpdate(item.material.id)}>
                                                                             <Edit3 className="w-4 h-4 mr-1" />
                                                                             Editar
                                                                         </Button>

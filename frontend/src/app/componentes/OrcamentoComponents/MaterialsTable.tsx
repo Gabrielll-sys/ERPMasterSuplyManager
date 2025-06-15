@@ -120,15 +120,16 @@ export function MaterialsTable({
       `R$ ${Number(item?.material?.precoVenda).toFixed(2).replace('.', ',')}`;
   }, []);
 
-  const calculateSubtotal = useCallback((item: IItemOrcamento): number => {
+  const calculateSubtotal = useCallback((item: IItemOrcamento): number | undefined => {
    
     if ( item.material?.precoVenda != undefined && item.precoItemOrcamento!=undefined){
 
       const price = item.material?.precoVenda ? item.material?.precoVenda : item.precoItemOrcamento;
       const quantity = item.quantidadeMaterial || 0;
-      console.log(Number(price) * quantity)
-      return Number(price) * quantity;
+      let subtotal = Number(price) * quantity;
+      return Number(subtotal.toFixed(2));
     }
+    return undefined;
   }, []);
 
   // Memoiza os totais para evitar recálculos desnecessários
@@ -158,7 +159,7 @@ export function MaterialsTable({
         </Table.Header>
         
         <Table.Body>
-          {materiais.map((item:IItemOrcamento) => (
+          { materiais != undefined && materiais.map((item:IItemOrcamento) => (
             <Table.Row key={item.id}>
               {/* Coluna do Material */}
               <Table.Cell>
@@ -192,7 +193,7 @@ export function MaterialsTable({
                       variant="ghost"
                       color="green"
                       onClick={() => handleSavePrice(item.id)}
-                      disabled={updatePriceMutation.isLoading}
+                      disabled={updatePriceMutation.isPending}
                       title="Salvar preço"
                       aria-label="Salvar preço"
                     >
@@ -203,7 +204,7 @@ export function MaterialsTable({
                       variant="ghost"
                       color="red"
                       onClick={handleCancelEditPrice}
-                      disabled={updatePriceMutation.isLoading}
+                      disabled={updatePriceMutation.isPending}
                       title="Cancelar edição"
                       aria-label="Cancelar edição"
                     >
@@ -246,7 +247,7 @@ export function MaterialsTable({
               {/* Coluna do Subtotal */}
               <Table.Cell>
                 <Text weight="medium" color="blue">
-                 R${calculateSubtotal(item)}
+                 R${String(calculateSubtotal(item)).replace(".", ",")}
                 </Text>
               </Table.Cell>
 

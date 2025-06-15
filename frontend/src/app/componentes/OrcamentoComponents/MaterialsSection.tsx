@@ -48,7 +48,7 @@ export function MaterialsSection({ orcamentoId, isPaid, materiais }: MaterialsSe
   // Funções de callback para as mutações
   const onMutationSuccess = (message: string) => {
     toast.success(message);
-    queryClient.invalidateQueries(['materiaisOrcamento', orcamentoId]);
+    queryClient.invalidateQueries({ queryKey: ['materiaisOrcamento', orcamentoId] });
     setIsDialogOpen(false);
   };
 

@@ -2291,6 +2291,22 @@
           }
         }
       },
+      "Serilog/4.3.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/Serilog.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Serilog.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "build/Serilog.targets": {}
+        }
+      },
       "Swashbuckle.AspNetCore/6.6.2": {
         "type": "package",
         "dependencies": {
@@ -7075,6 +7091,32 @@
         "pomelo.entityframeworkcore.mysql.nuspec"
       ]
     },
+    "Serilog/4.3.0": {
+      "sha512": "+cDryFR0GRhsGOnZSKwaDzRRl4MupvJ42FhCE4zhQRVanX0Jpg6WuCBk59OVhVDPmab1bB+nRykAnykYELA9qQ==",
+      "type": "package",
+      "path": "serilog/4.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "build/Serilog.targets",
+        "icon.png",
+        "lib/net462/Serilog.dll",
+        "lib/net462/Serilog.xml",
+        "lib/net471/Serilog.dll",
+        "lib/net471/Serilog.xml",
+        "lib/net6.0/Serilog.dll",
+        "lib/net6.0/Serilog.xml",
+        "lib/net8.0/Serilog.dll",
+        "lib/net8.0/Serilog.xml",
+        "lib/net9.0/Serilog.dll",
+        "lib/net9.0/Serilog.xml",
+        "lib/netstandard2.0/Serilog.dll",
+        "lib/netstandard2.0/Serilog.xml",
+        "serilog.4.3.0.nupkg.sha512",
+        "serilog.nuspec"
+      ]
+    },
     "Swashbuckle.AspNetCore/6.6.2": {
       "sha512": "+NB4UYVYN6AhDSjW0IJAd1AGD8V33gemFNLPaxKTtPkHB+HaKAKf9MGAEUPivEWvqeQfcKIw8lJaHq6LHljRuw==",
       "type": "package",
@@ -8084,6 +8126,7 @@
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 8.0.2",
       "MySqlConnector >= 2.3.7",
       "Pomelo.EntityFrameworkCore.MySql >= 8.0.2",
+      "Serilog >= 4.3.0",
       "Swashbuckle.AspNetCore >= 6.6.2",
       "System.IdentityModel.Tokens.Jwt >= 7.5.2"
     ]
@@ -8095,11 +8138,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\BackEnd\\MasterErp.Api\\MasterErp.Api.csproj",
+      "projectUniqueName": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\MasterErp.Api.csproj",
       "projectName": "MasterErp.Api",
-      "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\BackEnd\\MasterErp.Api\\MasterErp.Api.csproj",
+      "projectPath": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\MasterErp.Api.csproj",
       "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\BackEnd\\MasterErp.Api\\obj\\",
+      "outputPath": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -8120,14 +8163,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\BackEnd\\MasterErp.Domain\\MasterErp.Domain.csproj": {
-              "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\BackEnd\\MasterErp.Domain\\MasterErp.Domain.csproj"
+            "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\MasterErp.Domain.csproj": {
+              "projectPath": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\MasterErp.Domain.csproj"
             },
-            "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\BackEnd\\MasterErp.Infraestructure\\MasterErp.Infraestructure.csproj": {
-              "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\BackEnd\\MasterErp.Infraestructure\\MasterErp.Infraestructure.csproj"
+            "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\MasterErp.Infraestructure.csproj": {
+              "projectPath": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\MasterErp.Infraestructure.csproj"
             },
-            "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\BackEnd\\MasterErp.Services\\MasterErp.Services.csproj": {
-              "projectPath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\MasterErp\\BackEnd\\MasterErp.Services\\MasterErp.Services.csproj"
+            "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\MasterErp.Services.csproj": {
+              "projectPath": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\MasterErp.Services.csproj"
             }
           }
         }
@@ -8199,6 +8242,10 @@
           "Pomelo.EntityFrameworkCore.MySql": {
             "target": "Package",
             "version": "[8.0.2, )"
+          },
+          "Serilog": {
+            "target": "Package",
+            "version": "[4.3.0, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",

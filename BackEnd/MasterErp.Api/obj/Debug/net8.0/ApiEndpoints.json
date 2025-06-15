@@ -2354,22 +2354,13 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "MasterErp.Domain.Models.MaterialDto",
+        "Type": "MasterErp.Domain.Models.Material",
         "MediaTypes": [
           "text/plain",
           "application/json",
           "text/json"
         ],
-        "StatusCode": 200
-      },
-      {
-        "Type": "MasterErp.Domain.Models.MaterialDto",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 401
+        "StatusCode": 201
       },
       {
         "Type": "MasterErp.Api.ViewModels.ValidationErrorResponse",
@@ -2379,6 +2370,15 @@
           "text/json"
         ],
         "StatusCode": 400
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 401
       },
       {
         "Type": "MasterErp.Api.ViewModels.ErrorResponse",
@@ -2422,7 +2422,7 @@
           "application/json",
           "text/json"
         ],
-        "StatusCode": 401
+        "StatusCode": 404
       },
       {
         "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
@@ -2432,15 +2432,6 @@
           "text/json"
         ],
         "StatusCode": 400
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 403
       },
       {
         "Type": "System.Void",
@@ -2470,18 +2461,13 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "Type": "MasterErp.Domain.Models.Material",
         "MediaTypes": [
           "text/plain",
           "application/json",
           "text/json"
         ],
-        "StatusCode": 401
+        "StatusCode": 200
       },
       {
         "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
@@ -2499,7 +2485,16 @@
           "application/json",
           "text/json"
         ],
-        "StatusCode": 403
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 401
       },
       {
         "Type": "System.Void",
@@ -2526,16 +2521,7 @@
       {
         "Type": "System.Void",
         "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 401
+        "StatusCode": 204
       },
       {
         "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
@@ -2553,7 +2539,16 @@
           "application/json",
           "text/json"
         ],
-        "StatusCode": 403
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 401
       },
       {
         "Type": "System.Void",
@@ -2564,8 +2559,8 @@
   },
   {
     "ContainingType": "MasterErp.Api.Controllers.MateriaisController",
-    "Method": "GetMaterialwithInvetory",
-    "RelativePath": "api/v1/Materiais/getMaterialWithInvetory/{id}",
+    "Method": "GetMaterialWithInventory",
+    "RelativePath": "api/v1/Materiais/getMaterialWithInventory/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -2578,7 +2573,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "MasterErp.Domain.Models.Material",
+        "Type": "MasterErp.Domain.Models.Inventario",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -2593,7 +2588,7 @@
           "application/json",
           "text/json"
         ],
-        "StatusCode": 401
+        "StatusCode": 404
       },
       {
         "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
@@ -2603,15 +2598,6 @@
           "text/json"
         ],
         "StatusCode": 400
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 403
       },
       {
         "Type": "System.Void",

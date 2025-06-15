@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MasterErp.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d0bc9a97c80158ce45f025e98ff67fd02efe1bb7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d83120269b3a156b065d680fbf653046c693eea3")]
 [assembly: System.Reflection.AssemblyProductAttribute("MasterErp.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MasterErp.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
