@@ -3,13 +3,13 @@
 import axios from "axios";
 import { url } from "../api/webApiUrl";
 import { authHeader } from "../_helpers/auth_headers";
-import { IOrderServico } from "../interfaces/IOrdemServico";
+import { IOrdemServico } from "../interfaces/IOrdemServico";
 import { IItem } from "../interfaces/IItem";
 
 // --- Tipos de Payload para clareza e segurança ---
 
 type UpdateOsDetailsPayload = Pick<
-  IOrderServico, 
+  IOrdemServico, 
   'numeroOs' | 'descricao' | 'responsaveisExecucao' | 'observacoes'
 >;
 
@@ -19,12 +19,18 @@ type AuthorizeOsPayload = {
   precoCustoTotalOs: string;
 };
 
+// 🎓 CONCEITO: Tipagem Explícita para Payloads.
+// 📝 MUDANÇA: Adicionamos os campos opcionais para criar um item não cadastrado.
+// 🤔 PORQUÊ: Garante que estamos enviando os dados corretos para a API e nos dá
+//    segurança de tipo e autocompletar no nosso componente.
 type CreateItemOsPayload = {
   ordemServicoId: number;
-  materialId: number;
+  materialId?: number | null; // Agora é opcional
+  descricaoNaoCadastrado?: string | null; // Novo campo opcional
   quantidade: number;
   responsavelAdicao: string;
 };
+
 
 // --- Funções de Serviço para Ordem de Serviço (OS) ---
 
@@ -33,7 +39,7 @@ type CreateItemOsPayload = {
  * @param osId - O ID da Ordem de Serviço.
  * @returns Uma promessa que resolve para o objeto da OS.
  */
-export const getOsById = async (osId: number): Promise<IOrderServico> => {
+export const getOsById = async (osId: number): Promise<IOrdemServico> => {
   const { data } = await axios.get(`${url}/OrdemServicos/${osId}`, { headers: authHeader() });
   return data;
 };
@@ -44,7 +50,7 @@ export const getOsById = async (osId: number): Promise<IOrderServico> => {
  * @param payload - Os dados a serem atualizados (numeroOs, descricao, etc.).
  * @returns Uma promessa que resolve para a OS atualizada.
  */
-export const updateOsDetails = async (osId: number, payload: UpdateOsDetailsPayload): Promise<IOrderServico> => {
+export const updateOsDetails = async (osId: number, payload: UpdateOsDetailsPayload): Promise<IOrdemServico> => {
   const { data } = await axios.put(`${url}/OrdemServicos/${osId}`, payload, { headers: authHeader() });
   return data;
 };
@@ -55,7 +61,7 @@ export const updateOsDetails = async (osId: number, payload: UpdateOsDetailsPayl
  * @param payload - Os dados da autorização.
  * @returns Uma promessa que resolve para a OS autorizada.
  */
-export const authorizeOs = async (osId: number, payload: AuthorizeOsPayload): Promise<IOrderServico> => {
+export const authorizeOs = async (osId: number, payload: AuthorizeOsPayload): Promise<IOrdemServico> => {
   const { data } = await axios.put(`${url}/OrdemServicos/updateAuthorize/${osId}`, payload, { headers: authHeader() });
   return data;
 };
@@ -78,11 +84,12 @@ export const getMateriaisOs = async (osId: number): Promise<IItem[]> => {
  * @returns Uma promessa que resolve para o item criado.
  */
 export const createItemOs = async (payload: CreateItemOsPayload): Promise<IItem> => {
-  // O payload da API espera objetos vazios para as entidades relacionadas
+  // 🎓 LÓGICA DE API: O payload é enviado diretamente. O backend decide como tratar.
   const apiPayload = { ...payload, material: null, ordemServico: null };
   const { data } = await axios.post(`${url}/Itens/CreateItem`, apiPayload, { headers: authHeader() });
   return data;
 };
+
 
 /**
  * Atualiza um item existente em uma OS (normalmente a quantidade).

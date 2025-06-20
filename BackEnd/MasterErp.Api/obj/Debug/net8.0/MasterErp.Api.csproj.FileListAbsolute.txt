@@ -833,3 +833,4 @@ C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\MasterErp.Api.genruntimeconfig.cache
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\ref\MasterErp.Api.dll
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net8.0\Serilog.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\Serilog.dll
