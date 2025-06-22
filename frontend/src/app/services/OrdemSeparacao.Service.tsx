@@ -3,18 +3,18 @@
 import axios from "axios";
 import { url } from "../api/webApiUrl";
 import { authHeader } from "../_helpers/auth_headers";
-import { IOrdemServico } from "../interfaces/IOrdemServico";
+import { IOrdemSeparacao } from "../interfaces/IOrdemSeparacao";
 import { IItem } from "../interfaces/IItem";
 
 // --- Tipos de Payload para clareza e segurança ---
 
 type UpdateOsDetailsPayload = Pick<
-  IOrdemServico, 
-  'numeroOs' | 'descricao' | 'responsaveisExecucao' | 'observacoes'
+  IOrdemSeparacao, 
+   'descricao' | 'responsavel' | 'observacoes'
 >;
 
 type AuthorizeOsPayload = {
-  responsavelAutorizacao: string;
+  responsavel: string;
   precoVendaTotalOs: string;
   precoCustoTotalOs: string;
 };
@@ -24,7 +24,7 @@ type AuthorizeOsPayload = {
 // 🤔 PORQUÊ: Garante que estamos enviando os dados corretos para a API e nos dá
 //    segurança de tipo e autocompletar no nosso componente.
 type CreateItemOsPayload = {
-  ordemServicoId: number;
+  ordemSeparacaoId: number;
   materialId?: number | null; // Agora é opcional
   descricaoNaoCadastrado?: string | null; // Novo campo opcional
   quantidade: number;
@@ -39,8 +39,8 @@ type CreateItemOsPayload = {
  * @param osId - O ID da Ordem de Serviço.
  * @returns Uma promessa que resolve para o objeto da OS.
  */
-export const getOsById = async (osId: number): Promise<IOrdemServico> => {
-  const { data } = await axios.get(`${url}/OrdemServicos/${osId}`, { headers: authHeader() });
+export const getOsById = async (osId: number): Promise<IOrdemSeparacao> => {
+  const { data } = await axios.get(`${url}/OrdemSeparacoes/${osId}`, { headers: authHeader() });
   return data;
 };
 
@@ -50,8 +50,8 @@ export const getOsById = async (osId: number): Promise<IOrdemServico> => {
  * @param payload - Os dados a serem atualizados (numeroOs, descricao, etc.).
  * @returns Uma promessa que resolve para a OS atualizada.
  */
-export const updateOsDetails = async (osId: number, payload: UpdateOsDetailsPayload): Promise<IOrdemServico> => {
-  const { data } = await axios.put(`${url}/OrdemServicos/${osId}`, payload, { headers: authHeader() });
+export const updateOsDetails = async (osId: number, payload: UpdateOsDetailsPayload): Promise<IOrdemSeparacao> => {
+  const { data } = await axios.put(`${url}/OrdemSeparacoes/${osId}`, payload, { headers: authHeader() });
   return data;
 };
 
@@ -61,8 +61,8 @@ export const updateOsDetails = async (osId: number, payload: UpdateOsDetailsPayl
  * @param payload - Os dados da autorização.
  * @returns Uma promessa que resolve para a OS autorizada.
  */
-export const authorizeOs = async (osId: number, payload: AuthorizeOsPayload): Promise<IOrdemServico> => {
-  const { data } = await axios.put(`${url}/OrdemServicos/updateAuthorize/${osId}`, payload, { headers: authHeader() });
+export const authorizeOs = async (osId: number, payload: AuthorizeOsPayload): Promise<IOrdemSeparacao> => {
+  const { data } = await axios.put(`${url}/OrdemSeparacoes/updateAuthorize/${osId}`, payload, { headers: authHeader() });
   return data;
 };
 
@@ -85,7 +85,7 @@ export const getMateriaisOs = async (osId: number): Promise<IItem[]> => {
  */
 export const createItemOs = async (payload: CreateItemOsPayload): Promise<IItem> => {
   // 🎓 LÓGICA DE API: O payload é enviado diretamente. O backend decide como tratar.
-  const apiPayload = { ...payload, material: null, ordemServico: null };
+  const apiPayload = { ...payload, material: null, ordemSeparacao: null };
   const { data } = await axios.post(`${url}/Itens/CreateItem`, apiPayload, { headers: authHeader() });
   return data;
 };
@@ -103,7 +103,7 @@ export const updateItemOs = async (payload: { itemId: number; quantidade: number
     id: payload.itemId,
     quantidade: payload.quantidade,
     materialId: payload.materialId, // Assumindo que você tem acesso a esses dados no componente
-    ordemServicoId: payload.ordemServicoId,
+    ordemSeparacaoId: payload.ordemSeparacaoId,
     responsavelMudanca: payload.responsavelMudanca,
     // Preencha outros campos necessários pela sua API
   };

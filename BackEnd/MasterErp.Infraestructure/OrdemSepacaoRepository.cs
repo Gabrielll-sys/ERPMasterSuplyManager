@@ -6,23 +6,23 @@ using MasterErp.Infraestructure.Context;
 
 namespace MasterErp.Infraestructure;
 
-    public class OrdemServicoRepository: IOrdemServicoRepository
+    public class OrdemSeparacaoRepository: IOrdemSeparacaoRepository
 
     {
 
         private readonly SqlContext _context;
 
 
-        public OrdemServicoRepository(SqlContext context)
+        public OrdemSeparacaoRepository(SqlContext context)
         {
             _context = context;
         }
 
-        public async Task<List<OrdemServico>> GetAllAsync()
+        public async Task<List<OrdemSeparacao>> GetAllAsync()
         {
             try
             {
-                return await _context.OrdemServicos.ToListAsync();
+                return await _context.OrdemSeparacoes.ToListAsync();
 
             }
             catch (Exception)
@@ -31,12 +31,12 @@ namespace MasterErp.Infraestructure;
             }
         }
 
-        public async Task<OrdemServico> GetByIdAsync(int? id)
+        public async Task<OrdemSeparacao> GetByIdAsync(int? id)
         {
 
             try
             {
-                return await _context.OrdemServicos.FindAsync(id);
+                return await _context.OrdemSeparacoes.FindAsync(id);
 
 
             }
@@ -45,12 +45,12 @@ namespace MasterErp.Infraestructure;
                 throw;
             }
         }
-        public async Task<OrdemServico> CreateAsync(OrdemServico model)
+        public async Task<OrdemSeparacao> CreateAsync(OrdemSeparacao model)
         {
 
             try
             {
-                await _context.OrdemServicos.AddAsync(model);
+                await _context.OrdemSeparacoes.AddAsync(model);
 
                 await _context.SaveChangesAsync();
 
@@ -65,14 +65,14 @@ namespace MasterErp.Infraestructure;
             }
 
         }
-        public async Task UpdateAsync(OrdemServico model)
+        public async Task UpdateAsync(OrdemSeparacao model)
         {
             try
             {
 
-                _ = await _context.OrdemServicos.FindAsync(model.Id) ?? throw new KeyNotFoundException();
+                _ = await _context.OrdemSeparacoes.FindAsync(model.Id) ?? throw new KeyNotFoundException();
 
-                _context.OrdemServicos.Update(model);
+                _context.OrdemSeparacoes.Update(model);
 
                 await _context.SaveChangesAsync();
 
@@ -90,7 +90,7 @@ namespace MasterErp.Infraestructure;
             try
             {
 
-                var ordemServico = await _context.OrdemServicos.FindAsync(id) ?? throw new KeyNotFoundException();
+                var ordemServico = await _context.OrdemSeparacoes.FindAsync(id) ?? throw new KeyNotFoundException();
 
                 _context.Remove(ordemServico);
 

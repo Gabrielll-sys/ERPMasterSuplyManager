@@ -166,14 +166,14 @@ namespace MasterErp.Services.Services.Forms
             var pagedQuery = query.Skip((page - 1) * pageSize).Take(pageSize);
 
             // Projeção para o DTO. O mapeamento de HeaderDataJson para campos específicos
-            // como OrdemServico e Equipamento precisa ser feito no Profile do AutoMapper
+            // como OrdemSeparacao e Equipamento precisa ser feito no Profile do AutoMapper
             // ou manualmente aqui se for complexo.
             // Por simplicidade, vamos assumir que o AutoMapper pode ser configurado para isso.
             // Se não, você faria algo como:
             // var results = await pagedQuery.ToListAsync();
             // return results.Select(fi => {
             //     var dto = _mapper.Map<FilledFormInstanceListItemDto>(fi);
-            //     // Lógica para extrair de fi.HeaderDataJson para dto.OrdemServico, etc.
+            //     // Lógica para extrair de fi.HeaderDataJson para dto.OrdemSeparacao, etc.
             //     return dto;
             // });
 

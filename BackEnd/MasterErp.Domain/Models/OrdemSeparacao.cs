@@ -8,7 +8,7 @@ using MasterErp.Domain.Interfaces.Services;
 
 namespace MasterErp.Domain.Models;
 
-    public class OrdemServico 
+    public class OrdemSeparacao 
     {
         [Key]
         public int Id { get; set; }
@@ -17,10 +17,8 @@ namespace MasterErp.Domain.Models;
         //Campo para definir quando a OS for autorizada e para posteriomente impedir quaisquer modificações
         public bool IsAuthorized { get; set; }
 
-        public string? ResponsavelAbertura { get; set; }
-        //Funcionário que executou o serviço/OS
-        public string? ResponsaveisExecucao { get; set; }
-        public string? ResponsavelAutorizacao { get; set; }
+        public string? Responsavel { get; set; }
+
 
         public string? Observacoes { get; set; }
         public DateTime? DataAutorizacao { get; set; }
@@ -28,9 +26,6 @@ namespace MasterErp.Domain.Models;
         public DateTime? DataAbertura { get; set; }
 
         public DateTime? DataFechamento { get; set; }
-
-        //Caso seja OS da brastorno,ira exigirr que o usuário que está criando digite o numero,caso seja master elétrica,irá pegar pelo id da ordem de serviço criada
-        public string? NumeroOs { get; set; }
 
 
         public decimal? PrecoVendaTotalOs{ get; set; }
@@ -49,10 +44,9 @@ namespace MasterErp.Domain.Models;
                NumeroOs = numeroOs;
            }
    */
-        public void AutorizarOs(string responsavelAutorizacao)
+        public void AutorizarOs()
         {
           
-                ResponsavelAutorizacao = responsavelAutorizacao;
                 IsAuthorized = true;
                 DataAutorizacao = DateTime.UtcNow.AddHours(-3);
 

@@ -554,6 +554,7 @@ C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Api\obj\De
 C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Api\obj\Debug\net8.0\MasterErp.Api.genruntimeconfig.cache
 C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Api\obj\Debug\net8.0\ref\MasterErp.Api.dll
 C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\Serilog.dll
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net8.0\appsettings.json
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net8.0\MasterErp.Api.staticwebassets.endpoints.json
@@ -637,6 +638,7 @@ C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net8.0\NuGet.Protocol.dll
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net8.0\NuGet.Versioning.dll
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net8.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net8.0\Serilog.dll
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -832,5 +834,3 @@ C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\MasterErp.Api.pdb
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\MasterErp.Api.genruntimeconfig.cache
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\ref\MasterErp.Api.dll
-C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net8.0\Serilog.dll
-C:\Users\gabri\OneDrive\Área de Trabalho\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\Serilog.dll

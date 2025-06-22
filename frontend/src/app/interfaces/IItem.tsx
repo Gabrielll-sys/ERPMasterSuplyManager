@@ -3,8 +3,10 @@ export interface IItem {
     id:number,
     quantidade:number,
     responsavelAdicao:string,
+    materialId:number,
     responsavelMudanca:string,
     dataAdicaoItem:any,
+    descricaoNaoCadastrado:string,  
     material:{
         id:number,
         categoria: string

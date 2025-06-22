@@ -10,12 +10,12 @@ namespace MasterErp.Api.Controllers;
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class OrdemServicosController:ControllerBase
+    public class OrdemSeparacaoController:ControllerBase
     {
 
         private readonly SqlContext _context;
 
-        public OrdemServicosController(SqlContext context)
+        public OrdemSeparacaoController(SqlContext context)
         {
 
             _context = context;
@@ -32,10 +32,10 @@ namespace MasterErp.Api.Controllers;
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-        public async Task<List<OrdemServico>> GetAll()
+        public async Task<List<OrdemSeparacao>> GetAll()
         {
     
-            return await _context.OrdemServicos.AsNoTracking().ToListAsync();
+            return await _context.OrdemSeparacoes.AsNoTracking().ToListAsync();
         }
 
 
@@ -52,11 +52,11 @@ namespace MasterErp.Api.Controllers;
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
 
-        public async Task<ActionResult<OrdemServico>> Get(int id)
+        public async Task<ActionResult<OrdemSeparacao>> Get(int id)
         {
 
 
-            var a = await _context.OrdemServicos.FirstOrDefaultAsync(x => x.Id == id);
+            var a = await _context.OrdemSeparacoes.FirstOrDefaultAsync(x => x.Id == id);
 
 
             return Ok(a);
@@ -75,43 +75,29 @@ namespace MasterErp.Api.Controllers;
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<ActionResult<OrdemServico>> Create(OrdemServicoDto model)
+        public async Task<ActionResult<OrdemSeparacao>> Create(OrdemSeparacaoDto model)
         {
             try
             {
 
-                OrdemServico o1 = new OrdemServico
+                OrdemSeparacao o1 = new OrdemSeparacao
                 {
                     Descricao = model.Descricao.ToUpper(),
-                    ResponsavelAbertura = model.ResponsavelAbertura,
-                    ResponsaveisExecucao = model.ResponsavelExecucao,
+                    Responsavel = model.Responsavel,
                     IsAuthorized = false,
                     DataAbertura = DateTime.UtcNow.AddHours(-3),
-                    NumeroOs = model.NumeroOs,
+                  
                     Observacoes = model.Observacoes,
                 };
 
-                List<OrdemServico> a = await _context.OrdemServicos.ToListAsync();
+                List<OrdemSeparacao> a = await _context.OrdemSeparacoes.ToListAsync();
 
-                var findNumeroOs = a.FirstOrDefault(x => x.NumeroOs == model.NumeroOs);
+            
 
-               /* if (findNumeroOs != null) 
-                {
-                return Ok(new { message = "Já existe OS com este número" });
+          
 
-                }*/
-                //Caso não tenha sido informado o numero da os,quer dizer que se trata de uma os da master ao inves da brastorno
-                if (String.IsNullOrEmpty(o1.NumeroOs))
-                {
-                    var s = a.FirstOrDefault(o1 => o1.NumeroOs == model.NumeroOs);
-                    o1.NumeroOs = (a.Count+1).ToString();
-      
-                }
-
-                o1.Descricao = "OS-"+o1.NumeroOs+"-"+o1.Descricao;
-
-                await _context.OrdemServicos.AddAsync(o1);
-              
+                await _context.OrdemSeparacoes.AddAsync(o1);
+             
                 await _context.SaveChangesAsync();
        
 
@@ -148,7 +134,7 @@ namespace MasterErp.Api.Controllers;
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-        public async Task<ActionResult> UpdateAuthorize([FromRoute] int id, [FromBody] OrdemServico model)
+        public async Task<ActionResult> UpdateAuthorize([FromRoute] int id, [FromBody] OrdemSeparacao model)
         {
 
             if (model.Id != id) return BadRequest();
@@ -161,26 +147,26 @@ namespace MasterErp.Api.Controllers;
 
                 var inventarios = await _context.Inventarios.ToListAsync();
 
-                var ordemServico = await _context.OrdemServicos.FirstOrDefaultAsync(x => x.Id == id);
+                var OrdemSeparacao = await _context.OrdemSeparacoes.FirstOrDefaultAsync(x => x.Id == id);
 
                 {
-                    ordemServico.ResponsavelAutorizacao = model.ResponsavelAutorizacao.ToUpper();
-                    ordemServico.PrecoCustoTotalOs = model.PrecoCustoTotalOs;
-                    ordemServico.PrecoVendaTotalOs = model.PrecoVendaTotalOs;
-                    ordemServico.DataFechamento = DateTime.UtcNow.AddYears(-3);
+                   
+                    OrdemSeparacao.PrecoCustoTotalOs = model.PrecoCustoTotalOs;
+                    OrdemSeparacao.PrecoVendaTotalOs = model.PrecoVendaTotalOs;
+                    OrdemSeparacao.DataFechamento = DateTime.UtcNow.AddYears(-3);
 
                 }
 
 
 
 
-                ordemServico.AutorizarOs(model.ResponsavelAutorizacao);
+                OrdemSeparacao.AutorizarOs();
 
 
                 foreach (var item in itens)
                 {
                     //Quando o item tiver o id da ordem de serviço a ser autorizada 
-                    if(item.OrdemServicoId == id)
+                    if(item.OrdemSeparacaoId == id)
                     {
                         //Busca o material presente no item para pegar a unidade 
                         var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == item.MaterialId);
@@ -192,7 +178,7 @@ namespace MasterErp.Api.Controllers;
                         //Instacia um novo inventário para criar um novo inventário com a atualização de quantidade utilizada na os e o motivo,a descricação da os
                         Inventario i1 = new Inventario
                          (
-                        ordemServico.Descricao,
+                        OrdemSeparacao.Descricao,
                            inventario[inventario.Count-1].SaldoFinal,
                          inventario[inventario.Count - 1].Movimentacao,
                          inventario[inventario.Count - 1].SaldoFinal,
@@ -201,9 +187,9 @@ namespace MasterErp.Api.Controllers;
                     );
                         //Formatara a string que aparece como a razao da movimentacão do inventário,caso OS seja da master elétrica,utilizará o próprio id
                         // D os como identificador pois no caso da master toda OS e sequencial,caso seja da brastorno será o numero deles ja vindo deles
-                        string descricaoOsFormated =   $" {item.Quantidade} {material.Unidade} {(item.Quantidade > 1 ? "utilizadas" : "utilizada")} na {ordemServico.Descricao}" ;
+                        string descricaoOsFormated =   $" {item.Quantidade} {material.Unidade} {(item.Quantidade > 1 ? "utilizadas" : "utilizada")} na {OrdemSeparacao.Descricao}" ;
 
-                        i1.MovimentacaoOrdemServico(item.Quantidade, descricaoOsFormated);
+                        i1.MovimentacaoOrdemSeparacao(item.Quantidade, descricaoOsFormated);
 
                         await _context.Inventarios.AddAsync(i1);
                     }
@@ -211,7 +197,7 @@ namespace MasterErp.Api.Controllers;
                 }
 
 
-                _context.OrdemServicos.Update(ordemServico);
+                _context.OrdemSeparacoes.Update(OrdemSeparacao);
                 await _context.SaveChangesAsync();
                 return Ok();
 
@@ -246,22 +232,21 @@ namespace MasterErp.Api.Controllers;
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-        public async Task<ActionResult<OrdemServico>> Update([FromRoute] int id, [FromBody] OrdemServico model)
+        public async Task<ActionResult<OrdemSeparacao>> Update([FromRoute] int id, [FromBody] OrdemSeparacao model)
         {
 
             if (model.Id != id) return BadRequest();
 
-            var a = await _context.OrdemServicos.FirstOrDefaultAsync(x => x.Id == id);
+            var a = await _context.OrdemSeparacoes.FirstOrDefaultAsync(x => x.Id == id);
             {
                 a.Descricao = model.Descricao.ToUpper();
-                a.NumeroOs = model.NumeroOs;
-                a.ResponsaveisExecucao = model.ResponsaveisExecucao;
+  
                 a.Observacoes = model.Observacoes;
 
             }
-            a.Descricao = "OS-" + model.NumeroOs + "-" + model.Descricao;
+            a.Descricao = "OS-" + id + "-" + model.Descricao;
 
-            _context.OrdemServicos.Update(a);
+            _context.OrdemSeparacoes.Update(a);
             await _context.SaveChangesAsync();
 
             return Ok();

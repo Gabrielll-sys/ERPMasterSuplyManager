@@ -201,7 +201,7 @@ namespace MasterErp.Api.Controllers;
                     );
                     
 
-                        i1.MovimentacaoOrdemServico((float)item.QuantidadeMaterial, $"Utilizado Orcamento Nº {orcamento.Id} De {orcamento.NomeCliente} ");
+                        i1.MovimentacaoOrdemSeparacao((float)item.QuantidadeMaterial, $"Utilizado Orcamento Nº {orcamento.Id} De {orcamento.NomeCliente} ");
 
                         await _context.Inventarios.AddAsync(i1);
                     }

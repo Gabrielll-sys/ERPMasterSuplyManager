@@ -1,18 +1,14 @@
 ﻿
 namespace MasterErp.Domain.Models;
 
-    public class OrdemServicoDto
+    public class OrdemSeparacaoDto
     {
 
         public string? Descricao { get; set; }
         //Campo para definir quando a OS for autorizada e para posteriomente impedir quaisquer modificações
         public bool IsAuthorized { get; set; }
 
-        public string? ResponsavelAbertura { get; set; }
-        //Funcionário que executou o serviço/OS
-        public string? ResponsavelExecucao { get; set; }
-        public string? ResponsavelAutorizacao { get; set; }
-
+        public string? Responsavel { get; set; }
         public string? Observacoes { get; set; }
         public DateTime? DataAutorizacao { get; set; }
 
@@ -20,8 +16,7 @@ namespace MasterErp.Domain.Models;
 
         public DateTime? DataFechamento { get; set; }
 
-        public string? NumeroOs { get; set; }
-
+  
 
         public decimal PrecoTotalEquipamentosOs { get; set; }
 

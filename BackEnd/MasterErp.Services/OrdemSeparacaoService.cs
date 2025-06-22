@@ -5,38 +5,38 @@ using MasterErp.Domain.Models;
 using Microsoft.AspNetCore.Http;
 namespace MasterErp.Services
 {
-    public class OrdemServicoService: IOrdemServicoService
+    public class OrdemSeparacaoService: IOrdemSeparacaoService
     {
-        private readonly IOrdemServicoRepository _ordemServicoRepository;
+        private readonly IOrdemSeparacaoRepository _ordemSeparacaoRepository;
 
         private readonly ILogAcoesUsuarioService _logAcoesUsuarioService;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public OrdemServicoService(IOrdemServicoRepository ordemServicoRepository,ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
+        public OrdemSeparacaoService(IOrdemSeparacaoRepository ordemSeparacaoRepository,ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
         {
-            _ordemServicoRepository = ordemServicoRepository;
+            _ordemSeparacaoRepository = ordemSeparacaoRepository;
 
             _logAcoesUsuarioService = logAcoesUsuarioService;
 
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<List<OrdemServico>> GetAllAsync()
+        public async Task<List<OrdemSeparacao>> GetAllAsync()
         {
             try
             {
-                return await _ordemServicoRepository.GetAllAsync();
+                return await _ordemSeparacaoRepository.GetAllAsync();
             }
             catch
             {
                 throw;
             }
         }
-        public async Task<OrdemServico> GetByIdAsync(int? id)
+        public async Task<OrdemSeparacao> GetByIdAsync(int? id)
         {
             try
             {
-                return await _ordemServicoRepository.GetByIdAsync(id);
+                return await _ordemSeparacaoRepository.GetByIdAsync(id);
             }
             catch
             {
@@ -47,28 +47,28 @@ namespace MasterErp.Services
        
 
         
-        public async Task<OrdemServico> CreateAsync(OrdemServico model)
+        public async Task<OrdemSeparacao> CreateAsync(OrdemSeparacao model)
         {
             try
             {
-                var all = await _ordemServicoRepository.GetAllAsync();
+                var all = await _ordemSeparacaoRepository.GetAllAsync();
 
 
-                var ordemServico = await _ordemServicoRepository.CreateAsync(model);
+                var ordemSeparacao = await _ordemSeparacaoRepository.CreateAsync(model);
 
                 
                 var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
                 
-                LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Criação de OS Nº{ordemServico.Id} do {ordemServico.Descricao}",
+                LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Criação de OS Nº{ordemSeparacao.Id} do {ordemSeparacao.Descricao}",
                     responsavel: userName);
                 
                 await _logAcoesUsuarioService.CreateAsync(log);
                 
                 var lastItem = all.TakeLast(1).ToList();
 
-                ordemServico.Id = lastItem[0].Id + 1;
+                ordemSeparacao.Id = lastItem[0].Id + 1;
 
-                return ordemServico;
+                return ordemSeparacao;
 
             }
 
@@ -78,13 +78,13 @@ namespace MasterErp.Services
             }
         }
 
-        public async Task<OrdemServico> UpdateAsync(OrdemServico model)
+        public async Task<OrdemSeparacao> UpdateAsync(OrdemSeparacao model)
         {
             try
             {
-                var material = await _ordemServicoRepository.GetByIdAsync(model.Id) ?? throw new KeyNotFoundException();
+                var material = await _ordemSeparacaoRepository.GetByIdAsync(model.Id) ?? throw new KeyNotFoundException();
 
-                await _ordemServicoRepository.UpdateAsync(material);
+                await _ordemSeparacaoRepository.UpdateAsync(material);
 
                 return material;
 
@@ -99,7 +99,7 @@ namespace MasterErp.Services
             try
             {
 
-                await _ordemServicoRepository.DeleteAsync(id);
+                await _ordemSeparacaoRepository.DeleteAsync(id);
             }
             catch
             {

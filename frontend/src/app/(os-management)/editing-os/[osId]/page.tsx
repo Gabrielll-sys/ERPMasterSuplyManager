@@ -27,9 +27,9 @@ import {
 // --- Services, Hooks & Interfaces ---
 import { 
   getOsById, updateOsDetails, getMateriaisOs, createItemOs, deleteItemOs 
-} from '@/app/services/OrdemServico.Service';
+} from '@/app/services/OrdemSeparacao.Service';
 import { searchByDescription } from '@/app/services/Material.Services';
-import { IOrdemServico } from '@/app/interfaces/IOrdemServico';
+import { IOrdemSeparacao } from '@/app/interfaces/IOrdemSeparacao';
 import { IItem } from '@/app/interfaces/IItem';
 import { IInventario } from '@/app/interfaces/IInventarios';
 import { useAuth } from '@/contexts/AuthContext';
@@ -73,9 +73,9 @@ export default function EditingOsPage({ params }: { params: { osId: string } }) 
   });
 
   // --- TanStack Queries ---
-  const { data: os, isLoading: isLoadingOs, isError: isOsError } = useQuery<IOrdemServico, Error>({
+  const { data: os, isLoading: isLoadingOs, isError: isOsError } = useQuery<IOrdemSeparacao, Error>({
     queryKey: ['osDetails', osId],
-    queryFn: () => getOsById(osId),
+    queryFn: () => getOsById(osId) as Promise<IOrdemSeparacao>,
     enabled: !!osId,
     onSuccess: (data) => {
       reset({
@@ -151,7 +151,7 @@ export default function EditingOsPage({ params }: { params: { osId: string } }) 
       createItemMutation.mutate({
         materialId,
         quantidade: Number(quantidade),
-        ordemServicoId: osId,
+        ordemSeparacaoId: osId,
         responsavelAdicao: authUser?.userName || "Sistema"
       });
     }
@@ -165,7 +165,7 @@ export default function EditingOsPage({ params }: { params: { osId: string } }) 
     createItemMutation.mutate({
       descricaoNaoCadastrado: newItemDesc.trim(),
       quantidade: Number(newItemQty),
-      ordemServicoId: osId,
+      ordemSeparacaoId: osId,
       responsavelAdicao: authUser?.userName || "Sistema"
     });
   };
@@ -174,13 +174,13 @@ export default function EditingOsPage({ params }: { params: { osId: string } }) 
     const registeredItemsText = registeredItems.map(item => `- ${item.quantidade} ${item.material.unidade || 'UN'} de ${item.material.descricao}`).join('\n');
     const nonRegisteredItemsText = nonRegisteredItems.map(item => `- ${item.quantidade} UN de ${item.descricaoNaoCadastrado}`).join('\n');
     
-    let message = `*Lista de Materiais para OS: ${os?.numeroOs}*\n\n`;
+    let message = `*Lista de Materiais para OS: ${(os as IOrdemSeparacao)?.id}*\n\n`;
     if (registeredItemsText) message += "*Itens Cadastrados:*\n" + registeredItemsText + '\n\n';
     if (nonRegisteredItemsText) message += "*Itens Não Cadastrados:*\n" + nonRegisteredItemsText;
     
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
-  }, [registeredItems, nonRegisteredItems, os?.numeroOs]);
+  }, [registeredItems, nonRegisteredItems, os]);
 
   // --- Render Logic ---
   if (isLoadingOs) return <Flex justify="center" align="center" className="h-screen"><Spinner label="Carregando..." size="lg" /></Flex>;
@@ -194,9 +194,9 @@ export default function EditingOsPage({ params }: { params: { osId: string } }) 
         <Flex align="center" justify="between" mb="6">
           <Button variant="soft" onClick={() => router.back()}><ArrowLeft className="w-4 h-4 mr-2" /> Voltar</Button>
           <Flex direction="column" align="center" gap="1">
-            <Heading size={{initial: "6", md: "8"}} className="text-gray-800">Ordem de Serviço</Heading>
-            <Chip color={os?.isAuthorized ? "success" : "warning"} variant="flat" startContent={os?.isAuthorized ? <Lock className="w-4 h-4"/> : <Edit3 className="w-4 h-4"/>}>
-              Nº {os?.numeroOs} - {os?.isAuthorized ? 'Finalizada' : 'Em Edição'}
+            <Heading size={{initial: "6", md: "8"}} className="text-gray-800">Ordem de Separação Nº {(os as IOrdemSeparacao).id} </Heading>
+            <Chip color={(os as IOrdemSeparacao)?.isAuthorized ? "success" : "warning"} variant="flat" startContent={(os as IOrdemSeparacao)?.isAuthorized ? <Lock className="w-4 h-4"/> : <Edit3 className="w-4 h-4"/>}>
+              Nº {(os as IOrdemSeparacao)?.id} - {(os as IOrdemSeparacao)?.isAuthorized ? 'Finalizada' : 'Em Edição'}
             </Chip>
           </Flex>
           <Box className="w-24" />
@@ -207,8 +207,8 @@ export default function EditingOsPage({ params }: { params: { osId: string } }) 
             <Card>
               <form onSubmit={handleSubmit(onFormSubmit)}>
                 <Flex direction="column" gap="5" p="4">
-                  <Heading size="5">Detalhes da OS</Heading>
-                  <Controller name="numeroOs" control={control} render={({ field }) => <TextField.Root><TextField.Slot><Text size="2" color="gray">Nº OS</Text></TextField.Slot><TextField.Input {...field} size="3" placeholder="Ex: OS2024-001" disabled={updateDetailsMutation.isPending} /></TextField.Root>} />
+                  <Heading size="5">Detalhes da Ordem De Separação</Heading>
+                
                   <Controller name="descricao" control={control} render={({ field }) => <TextArea {...field} size="3" placeholder="Descrição detalhada do serviço..." disabled={updateDetailsMutation.isPending} />} />
                   <Controller name="responsaveisExecucao" control={control} render={({ field }) => <TextField.Root><TextField.Slot><User className="w-4 h-4 text-gray-500" /></TextField.Slot><TextField.Input {...field} size="3" placeholder="Nomes dos responsáveis" disabled={updateDetailsMutation.isPending} /></TextField.Root>} />
                   <Controller name="observacoes" control={control} render={({ field }) => <TextArea {...field} size="2" placeholder="Observações adicionais..." disabled={updateDetailsMutation.isPending} />} />
@@ -222,22 +222,22 @@ export default function EditingOsPage({ params }: { params: { osId: string } }) 
             <Card>
               <Flex direction="column" p="4" gap="4">
                 <Heading size="5">Materiais Cadastrados</Heading>
-                {!os?.isAuthorized && <Autocomplete label="Adicionar Material" placeholder="Busque por descrição..." startContent={<Search size={18} />} onInputChange={setSearchTerm} items={searchResults} size="lg">
-                    {(item) => (<AutocompleteItem key={item.material.id} onPress={() => handleAddMaterial(item.material.id)}><Flex justify="between"><Text>{item.material.descricao}</Text><Chip size="sm" color="secondary" variant="flat">Estoque: {item.saldoFinal || 0}</Chip></Flex></AutocompleteItem>)}
+                {!(os as IOrdemSeparacao)?.isAuthorized && <Autocomplete label="Adicionar Material" placeholder="Busque por descrição..." startContent={<Search size={18} />} onInputChange={setSearchTerm} items={searchResults} size="lg">
+                    {(item) => (<AutocompleteItem key={item.material.id} onPress={() => handleAddMaterial(Number(item.material.id))}><Flex justify="between"><Text>{item.material.descricao}</Text><Chip size="sm" color="secondary" variant="flat">Estoque: {item.saldoFinal || 0}</Chip></Flex></AutocompleteItem>)}
                 </Autocomplete>}
                 <Separator size="4" my="2" />
                 {isLoadingMateriais ? <Spinner /> : registeredItems.length > 0 ? (
                   <Table.Root variant="surface">
                     <Table.Header><Table.Row><Table.ColumnHeaderCell>Descrição</Table.ColumnHeaderCell><Table.ColumnHeaderCell align="center">Qtd</Table.ColumnHeaderCell><Table.ColumnHeaderCell /></Table.Row></Table.Header>
                     <Table.Body>
-                      {registeredItems.map((item) => <Table.Row key={item.id}><Table.Cell>{item.material.descricao}</Table.Cell><Table.Cell align="center"><Text weight="bold">{item.quantidade} {item.material.unidade}</Text></Table.Cell><Table.Cell>{!os?.isAuthorized && <Tooltip content="Remover"><IconButton size="1" color="red" variant="ghost" onClick={() => deleteItemMutation.mutate(item.id)}><Trash2 className="w-4 h-4" /></IconButton></Tooltip>}</Table.Cell></Table.Row>)}
+                      {registeredItems.map((item) => <Table.Row key={item.id}><Table.Cell>{item.material.descricao}</Table.Cell><Table.Cell align="center"><Text weight="bold">{item.quantidade} {item.material.unidade}</Text></Table.Cell><Table.Cell>{!(os as IOrdemSeparacao)?.isAuthorized && <Tooltip content="Remover"><IconButton size="1" color="red" variant="ghost" onClick={() => deleteItemMutation.mutate(item.id)}><Trash2 className="w-4 h-4" /></IconButton></Tooltip>}</Table.Cell></Table.Row>)}
                     </Table.Body>
                   </Table.Root>
                 ) : <Flex direction="column" align="center" gap="2" p="6" className="border-2 border-dashed rounded-lg"><Package className="w-10 h-10 text-gray-300" /><Text color="gray">Nenhum material cadastrado.</Text></Flex>}
               </Flex>
             </Card>
             
-            {!os?.isAuthorized && <Card>
+            {!(os as IOrdemSeparacao)?.isAuthorized && <Card>
               <Flex direction="column" p="4" gap="4">
                   <Heading size="5">Itens Não Cadastrados</Heading>
                   <Flex direction={{ initial: 'column', sm: 'row' }} gap="3" align="end">

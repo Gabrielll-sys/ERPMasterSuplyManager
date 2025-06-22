@@ -396,28 +396,28 @@
             Controlador para gerenciar Orçamentos
              </summary>
         </member>
-        <member name="M:MasterErp.Api.Controllers.OrdemServicosController.GetAll">
+        <member name="M:MasterErp.Api.Controllers.OrdemSeparacaoController.GetAll">
             <summary>
             Busca todos as ordem de serviços
             </summary>
             <param name="id"></param>
             <returns>Todos as ordem de serviços </returns>
         </member>
-        <member name="M:MasterErp.Api.Controllers.OrdemServicosController.Get(System.Int32)">
+        <member name="M:MasterErp.Api.Controllers.OrdemSeparacaoController.Get(System.Int32)">
             <summary>
             Busca uma ordem de serviço pelo seu Id
             </summary>
             <param name="id">O id da ordem de serviço</param>
             <returns>Ordem de serviço encontrada</returns>
         </member>
-        <member name="M:MasterErp.Api.Controllers.OrdemServicosController.Create(MasterErp.Domain.Models.OrdemServicoDto)">
+        <member name="M:MasterErp.Api.Controllers.OrdemSeparacaoController.Create(MasterErp.Domain.Models.OrdemSeparacaoDto)">
             <summary>
             Cria um ordem serviço
             </summary>
             <param name="model">Um objeto que representa a ordem de serviço a ser criada</param>
             <returns>A ordem de serviço criada</returns>
         </member>
-        <member name="M:MasterErp.Api.Controllers.OrdemServicosController.UpdateAuthorize(System.Int32,MasterErp.Domain.Models.OrdemServico)">
+        <member name="M:MasterErp.Api.Controllers.OrdemSeparacaoController.UpdateAuthorize(System.Int32,MasterErp.Domain.Models.OrdemSeparacao)">
             <summary>
             Atualizar a ordem de serviço, á autorizando
             </summary>
@@ -425,18 +425,13 @@
             <param name="model">O objeto de ordem de serviço a ser atualizada e autorizada </param>
             <returns></returns>
         </member>
-        <member name="M:MasterErp.Api.Controllers.OrdemServicosController.Update(System.Int32,MasterErp.Domain.Models.OrdemServico)">
+        <member name="M:MasterErp.Api.Controllers.OrdemSeparacaoController.Update(System.Int32,MasterErp.Domain.Models.OrdemSeparacao)">
             <summary>
             Atualizar a ordem de serviço sem autoriza-la
             </summary>
             <param name="id">O Id da ordem de serviço</param>
             <param name="model">O objeto de ordem de serviço a ser atualizada</param>
             <returns></returns>
-        </member>
-        <member name="T:MasterErp.Api.Controllers.PingsController">
-            <summary>
-            Controlador para gerencia unica e exclusivamente a rota de ping da aplicação,que é usada no azure function para evitar cold start da api
-             </summary>
         </member>
         <member name="M:MasterErp.Api.Controllers.RelatoriosDiariosController.Post">
             <summary>

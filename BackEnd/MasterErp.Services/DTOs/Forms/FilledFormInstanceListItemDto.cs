@@ -18,8 +18,8 @@ namespace MasterErp.Services.DTOs.Forms
 
         // Informações do cabeçalho que são relevantes para a listagem (exemplo)
         // Você precisará decidir quais campos do HeaderDataJson são importantes aqui.
-        // Exemplo: Se o cabeçalho sempre tem "OrdemServico" e "Equipamento"
-        public string? OrdemServico { get; set; }
+        // Exemplo: Se o cabeçalho sempre tem "OrdemSeparacao" e "Equipamento"
+        public string? OrdemSeparacao { get; set; }
         public string? Equipamento { get; set; }
     }
 }

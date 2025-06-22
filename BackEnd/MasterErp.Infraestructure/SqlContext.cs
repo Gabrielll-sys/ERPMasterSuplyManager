@@ -18,7 +18,7 @@ namespace MasterErp.Infraestructure.Context
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Orcamento> Orcamentos { get; set; }
         public DbSet<ItemOrcamento> ItensOrcamento { get; set; }
-        public DbSet<OrdemServico> OrdemServicos { get; set; }
+        public DbSet<OrdemSeparacao> OrdemSeparacoes { get; set; }
         public DbSet<AtividadeRd> AtividadesRd { get; set; } // Já existente
         public DbSet<RelatorioDiario> RelatorioDiarios { get; set; } // Já existente
 

@@ -233,8 +233,7 @@ export default function CreateMaterialPage() {
                                 <Table.Cell className="hidden lg:table-cell">{item.material.marca || 'N/A'}</Table.Cell>
                                 <Table.Cell><Badge size="2" color={getStockBadgeColor(item.estoque || 0)}>{item.estoque || 0}</Badge></Table.Cell>
                                 <Table.Cell className="hidden sm:table-cell">
-                                    {/* 🎓 DERIVED STATE: Não armazenamos o preço de venda, calculamos quando necessário.
-                                        Isso evita a duplicação de dados e garante que ele esteja sempre atualizado. */}
+                                    
                                     {item.material.precoCusto ? (
                                         <Text weight="bold" color="green">R$ {item.material.precoCusto.toFixed(2).replace('.', ',')}</Text>
                                     ) : (<Text color='gray'>N/A</Text>)}

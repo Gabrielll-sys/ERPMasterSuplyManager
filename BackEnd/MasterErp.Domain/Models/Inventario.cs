@@ -75,7 +75,7 @@ namespace MasterErp.Domain.Models
 
         }
 
-        public void MovimentacaoOrdemServico(float? quantidade,string razao) 
+        public void MovimentacaoOrdemSeparacao(float? quantidade,string razao) 
         
         {
             Razao = razao;

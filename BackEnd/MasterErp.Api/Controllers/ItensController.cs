@@ -76,22 +76,22 @@ namespace MasterErp.Api.Controllers;
             List<Item> itensWithMaterial = new List<Item>();
 
             var materias = _context.Materiais;
-            var os = _context.OrdemServicos;
+            var os = _context.OrdemSeparacoes;
             var itens =  await _context.Itens.ToListAsync();
 
 
             foreach (var item in itens)
             {
-                if (item.OrdemServicoId == id)
+                if (item.OrdemSeparacaoId == id)
                 {
 
                     var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == item.MaterialId);
 
-                    var ordemServico = await _context.OrdemServicos.FirstOrDefaultAsync(x => x.Id == item.OrdemServicoId);
+                    var OrdemSeparacao = await _context.OrdemSeparacoes.FirstOrDefaultAsync(x => x.Id == item.OrdemSeparacaoId);
 
                     item.Material = material;
 
-                    item.OrdemServico = ordemServico;
+                    item.OrdemSeparacao = OrdemSeparacao;
 
 
                     itensWithMaterial.Add(item);
@@ -127,11 +127,11 @@ namespace MasterErp.Api.Controllers;
         {
             try
             {
-                Item item = new Item(model.MaterialId, model.OrdemServicoId,model.Quantidade,model.ResponsavelAdicao);
+                Item item = new Item(model.MaterialId, model.OrdemSeparacaoId,model.Quantidade,model.Responsavel,model.DescricaoNaoCadastrado);
                  
                 var material = await _context.Materiais.FirstOrDefaultAsync(x=>x.Id==model.MaterialId);
 
-                var ordemServico = await _context.OrdemServicos.FirstOrDefaultAsync(x=>x.Id == model.OrdemServicoId);
+                var OrdemSeparacao = await _context.OrdemSeparacoes.FirstOrDefaultAsync(x=>x.Id == model.OrdemSeparacaoId);
 
             
                 await _context.Itens.AddAsync(item);
@@ -179,7 +179,7 @@ namespace MasterErp.Api.Controllers;
             var item = await _context.Itens.FirstOrDefaultAsync(x => x.Id == id);
 
             item.Quantidade = model.Quantidade;
-            item.ResponsavelMudanca=model.ResponsavelMudanca;
+            item.Responsavel=model.Responsavel;
             _context.Itens.Update(item);
             await _context.SaveChangesAsync();
 

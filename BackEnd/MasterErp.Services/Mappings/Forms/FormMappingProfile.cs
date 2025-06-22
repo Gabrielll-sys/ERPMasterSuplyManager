@@ -97,7 +97,7 @@ namespace MasterErp.Services.Mappings.Forms
             CreateMap<FilledFormInstance, FilledFormInstanceListItemDto>()
                 .ForMember(dest => dest.FormTemplateName, opt => opt.MapFrom(src => src.FormTemplate != null ? src.FormTemplate.Name : "N/A"))
                 .ForMember(dest => dest.FilledByUserName, opt => opt.MapFrom(src => src.FilledByUser != null ? src.FilledByUser.Nome : "N/A")) // Assumindo que Usuario tem a propriedade Nome
-                .ForMember(dest => dest.OrdemServico, opt => opt.MapFrom(src => GetJsonValue(src.HeaderDataJson, "ordem_servico"))) // Chave deve ser consistente
+                .ForMember(dest => dest.OrdemSeparacao, opt => opt.MapFrom(src => GetJsonValue(src.HeaderDataJson, "ordem_Separacao"))) // Chave deve ser consistente
                 .ForMember(dest => dest.Equipamento, opt => opt.MapFrom(src => GetJsonValue(src.HeaderDataJson, "equipamento")));  // Chave deve ser consistente
 
             // Entidade Instância de Formulário -> DTO Detalhes da Instância de Formulário

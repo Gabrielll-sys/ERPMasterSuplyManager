@@ -2789,16 +2789,16 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MasterErp.Api.Controllers.OrdemServicosController",
+    "ContainingType": "MasterErp.Api.Controllers.OrdemSeparacaoController",
     "Method": "GetAll",
-    "RelativePath": "api/v1/OrdemServicos",
+    "RelativePath": "api/v1/OrdemSeparacao",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[MasterErp.Domain.Models.OrdemServico, MasterErp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[MasterErp.Domain.Models.OrdemSeparacao, MasterErp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -2841,22 +2841,22 @@
     ]
   },
   {
-    "ContainingType": "MasterErp.Api.Controllers.OrdemServicosController",
+    "ContainingType": "MasterErp.Api.Controllers.OrdemSeparacaoController",
     "Method": "Create",
-    "RelativePath": "api/v1/OrdemServicos",
+    "RelativePath": "api/v1/OrdemSeparacao",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "model",
-        "Type": "MasterErp.Domain.Models.OrdemServicoDto",
+        "Type": "MasterErp.Domain.Models.OrdemSeparacaoDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "MasterErp.Domain.Models.OrdemServico",
+        "Type": "MasterErp.Domain.Models.OrdemSeparacao",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -2899,9 +2899,9 @@
     ]
   },
   {
-    "ContainingType": "MasterErp.Api.Controllers.OrdemServicosController",
+    "ContainingType": "MasterErp.Api.Controllers.OrdemSeparacaoController",
     "Method": "Get",
-    "RelativePath": "api/v1/OrdemServicos/{id}",
+    "RelativePath": "api/v1/OrdemSeparacao/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -2914,7 +2914,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "MasterErp.Domain.Models.OrdemServico",
+        "Type": "MasterErp.Domain.Models.OrdemSeparacao",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -2957,9 +2957,9 @@
     ]
   },
   {
-    "ContainingType": "MasterErp.Api.Controllers.OrdemServicosController",
+    "ContainingType": "MasterErp.Api.Controllers.OrdemSeparacaoController",
     "Method": "Update",
-    "RelativePath": "api/v1/OrdemServicos/{id}",
+    "RelativePath": "api/v1/OrdemSeparacao/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -2971,13 +2971,13 @@
       },
       {
         "Name": "model",
-        "Type": "MasterErp.Domain.Models.OrdemServico",
+        "Type": "MasterErp.Domain.Models.OrdemSeparacao",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "MasterErp.Domain.Models.OrdemServico",
+        "Type": "MasterErp.Domain.Models.OrdemSeparacao",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -3020,9 +3020,9 @@
     ]
   },
   {
-    "ContainingType": "MasterErp.Api.Controllers.OrdemServicosController",
+    "ContainingType": "MasterErp.Api.Controllers.OrdemSeparacaoController",
     "Method": "UpdateAuthorize",
-    "RelativePath": "api/v1/OrdemServicos/updateAuhorize/{id}",
+    "RelativePath": "api/v1/OrdemSeparacao/updateAuhorize/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -3034,58 +3034,10 @@
       },
       {
         "Name": "model",
-        "Type": "MasterErp.Domain.Models.OrdemServico",
+        "Type": "MasterErp.Domain.Models.OrdemSeparacao",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 401
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 403
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 500
-      }
-    ]
-  },
-  {
-    "ContainingType": "MasterErp.Api.Controllers.PingsController",
-    "Method": "Get",
-    "RelativePath": "api/v1/Pings/Ping",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
     "ReturnTypes": [
       {
         "Type": "System.Void",

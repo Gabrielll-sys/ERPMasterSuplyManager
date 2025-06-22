@@ -110,11 +110,11 @@ namespace MasterErp.Api.Controllers;
 
                     var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == item.MaterialId);
 
-                    var ordemServico = await _context.Orcamentos.FirstOrDefaultAsync(x => x.Id == item.OrcamentoId);
+                    var OrdemSeparacao = await _context.Orcamentos.FirstOrDefaultAsync(x => x.Id == item.OrcamentoId);
 
                     item.Material = material;
 
-                    item.Orcamento = ordemServico;
+                    item.Orcamento = OrdemSeparacao;
 
 
                     itensWithMaterial.Add(item);

@@ -4958,10 +4958,10 @@
         }
       }
     },
-    "/api/v1/OrdemServicos": {
+    "/api/v1/OrdemSeparacao": {
       "get": {
         "tags": [
-          "OrdemServicos"
+          "OrdemSeparacao"
         ],
         "responses": {
           "200": {
@@ -4971,7 +4971,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/OrdemServico"
+                    "$ref": "#/components/schemas/OrdemSeparacao"
                   }
                 }
               },
@@ -4979,7 +4979,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/OrdemServico"
+                    "$ref": "#/components/schemas/OrdemSeparacao"
                   }
                 }
               },
@@ -4987,7 +4987,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/OrdemServico"
+                    "$ref": "#/components/schemas/OrdemSeparacao"
                   }
                 }
               }
@@ -5060,23 +5060,23 @@
       },
       "post": {
         "tags": [
-          "OrdemServicos"
+          "OrdemSeparacao"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/OrdemServicoDto"
+                "$ref": "#/components/schemas/OrdemSeparacaoDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/OrdemServicoDto"
+                "$ref": "#/components/schemas/OrdemSeparacaoDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/OrdemServicoDto"
+                "$ref": "#/components/schemas/OrdemSeparacaoDto"
               }
             }
           }
@@ -5087,17 +5087,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrdemServico"
+                  "$ref": "#/components/schemas/OrdemSeparacao"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrdemServico"
+                  "$ref": "#/components/schemas/OrdemSeparacao"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrdemServico"
+                  "$ref": "#/components/schemas/OrdemSeparacao"
                 }
               }
             }
@@ -5168,10 +5168,10 @@
         }
       }
     },
-    "/api/v1/OrdemServicos/{id}": {
+    "/api/v1/OrdemSeparacao/{id}": {
       "get": {
         "tags": [
-          "OrdemServicos"
+          "OrdemSeparacao"
         ],
         "parameters": [
           {
@@ -5190,17 +5190,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrdemServico"
+                  "$ref": "#/components/schemas/OrdemSeparacao"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrdemServico"
+                  "$ref": "#/components/schemas/OrdemSeparacao"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrdemServico"
+                  "$ref": "#/components/schemas/OrdemSeparacao"
                 }
               }
             }
@@ -5272,7 +5272,7 @@
       },
       "put": {
         "tags": [
-          "OrdemServicos"
+          "OrdemSeparacao"
         ],
         "parameters": [
           {
@@ -5289,17 +5289,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/OrdemServico"
+                "$ref": "#/components/schemas/OrdemSeparacao"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/OrdemServico"
+                "$ref": "#/components/schemas/OrdemSeparacao"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/OrdemServico"
+                "$ref": "#/components/schemas/OrdemSeparacao"
               }
             }
           }
@@ -5310,17 +5310,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrdemServico"
+                  "$ref": "#/components/schemas/OrdemSeparacao"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrdemServico"
+                  "$ref": "#/components/schemas/OrdemSeparacao"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrdemServico"
+                  "$ref": "#/components/schemas/OrdemSeparacao"
                 }
               }
             }
@@ -5391,10 +5391,10 @@
         }
       }
     },
-    "/api/v1/OrdemServicos/updateAuhorize/{id}": {
+    "/api/v1/OrdemSeparacao/updateAuhorize/{id}": {
       "put": {
         "tags": [
-          "OrdemServicos"
+          "OrdemSeparacao"
         ],
         "parameters": [
           {
@@ -5411,96 +5411,21 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/OrdemServico"
+                "$ref": "#/components/schemas/OrdemSeparacao"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/OrdemServico"
+                "$ref": "#/components/schemas/OrdemSeparacao"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/OrdemServico"
+                "$ref": "#/components/schemas/OrdemSeparacao"
               }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/v1/Pings/Ping": {
-      "get": {
-        "tags": [
-          "Pings"
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -6424,7 +6349,7 @@
           "status": {
             "$ref": "#/components/schemas/FilledFormStatus"
           },
-          "ordemServico": {
+          "ordemSeparacao": {
             "type": "string",
             "nullable": true
           },
@@ -6914,23 +6839,24 @@
           },
           "materialId": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "material": {
             "$ref": "#/components/schemas/Material"
           },
-          "ordemServicoId": {
+          "ordemSeparacaoId": {
             "type": "integer",
             "format": "int32"
           },
-          "ordemServico": {
-            "$ref": "#/components/schemas/OrdemServico"
+          "ordemSeparacao": {
+            "$ref": "#/components/schemas/OrdemSeparacao"
           },
-          "responsavelAdicao": {
+          "descricaoNaoCadastrado": {
             "type": "string",
             "nullable": true
           },
-          "responsavelMudanca": {
+          "responsavel": {
             "type": "string",
             "nullable": true
           },
@@ -6956,25 +6882,20 @@
         "properties": {
           "materialId": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
-          "material": {
-            "$ref": "#/components/schemas/Material"
-          },
-          "ordemServicoId": {
+          "ordemSeparacaoId": {
             "type": "integer",
             "format": "int32"
           },
-          "ordemServico": {
-            "$ref": "#/components/schemas/OrdemServico"
-          },
-          "responsavelAdicao": {
+          "descricaoNaoCadastrado": {
             "type": "string",
             "nullable": true
           },
-          "dataAdicaoItem": {
+          "responsavel": {
             "type": "string",
-            "format": "date-time"
+            "nullable": true
           },
           "quantidade": {
             "type": "number",
@@ -7261,7 +7182,7 @@
         },
         "additionalProperties": false
       },
-      "OrdemServico": {
+      "OrdemSeparacao": {
         "type": "object",
         "properties": {
           "id": {
@@ -7275,15 +7196,7 @@
           "isAuthorized": {
             "type": "boolean"
           },
-          "responsavelAbertura": {
-            "type": "string",
-            "nullable": true
-          },
-          "responsaveisExecucao": {
-            "type": "string",
-            "nullable": true
-          },
-          "responsavelAutorizacao": {
+          "responsavel": {
             "type": "string",
             "nullable": true
           },
@@ -7304,10 +7217,6 @@
           "dataFechamento": {
             "type": "string",
             "format": "date-time",
-            "nullable": true
-          },
-          "numeroOs": {
-            "type": "string",
             "nullable": true
           },
           "precoVendaTotalOs": {
@@ -7323,7 +7232,7 @@
         },
         "additionalProperties": false
       },
-      "OrdemServicoDto": {
+      "OrdemSeparacaoDto": {
         "type": "object",
         "properties": {
           "descricao": {
@@ -7333,15 +7242,7 @@
           "isAuthorized": {
             "type": "boolean"
           },
-          "responsavelAbertura": {
-            "type": "string",
-            "nullable": true
-          },
-          "responsavelExecucao": {
-            "type": "string",
-            "nullable": true
-          },
-          "responsavelAutorizacao": {
+          "responsavel": {
             "type": "string",
             "nullable": true
           },
@@ -7362,10 +7263,6 @@
           "dataFechamento": {
             "type": "string",
             "format": "date-time",
-            "nullable": true
-          },
-          "numeroOs": {
-            "type": "string",
             "nullable": true
           },
           "precoTotalEquipamentosOs": {

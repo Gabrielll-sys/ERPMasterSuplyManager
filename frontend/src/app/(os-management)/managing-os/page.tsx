@@ -42,7 +42,7 @@ import {
   PencilIcon
 } from "@heroicons/react/24/outline";
 
-import { IOrdemServico } from "@/app/interfaces/IOrdemServico"; // Mantenha seu caminho correto
+import { IOrdemServico } from "@/app/interfaces/IOrdemSeparacao"; // Mantenha seu caminho correto
 
 // (Mantenha seu tipo Os, se necessário, ou use IOrderServico diretamente)
 type Os = IOrdemServico & {

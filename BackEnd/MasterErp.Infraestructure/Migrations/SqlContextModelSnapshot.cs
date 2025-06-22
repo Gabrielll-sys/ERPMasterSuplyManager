@@ -361,27 +361,27 @@ namespace MasterErp.Infraestructure.Migrations
                     b.Property<DateTime?>("DataAlteracaoItem")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("MaterialId")
+                    b.Property<string>("DescricaoNaoCadastrado")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("MaterialId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrdemServicoId")
+                    b.Property<int>("OrdemSeparacaoId")
                         .HasColumnType("int");
 
                     b.Property<float?>("Quantidade")
                         .HasColumnType("float");
 
-                    b.Property<string>("ResponsavelAdicao")
+                    b.Property<string>("Responsavel")
                         .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ResponsavelMudanca")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
                     b.HasIndex("MaterialId");
 
-                    b.HasIndex("OrdemServicoId");
+                    b.HasIndex("OrdemSeparacaoId");
 
                     b.ToTable("Itens");
                 });
@@ -562,7 +562,7 @@ namespace MasterErp.Infraestructure.Migrations
                     b.ToTable("Orcamentos");
                 });
 
-            modelBuilder.Entity("MasterErp.Domain.Models.OrdemServico", b =>
+            modelBuilder.Entity("MasterErp.Domain.Models.OrdemSeparacao", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -585,9 +585,6 @@ namespace MasterErp.Infraestructure.Migrations
                     b.Property<bool>("IsAuthorized")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("NumeroOs")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Observacoes")
                         .HasColumnType("longtext");
 
@@ -597,18 +594,12 @@ namespace MasterErp.Infraestructure.Migrations
                     b.Property<decimal?>("PrecoVendaTotalOs")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<string>("ResponsaveisExecucao")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ResponsavelAbertura")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ResponsavelAutorizacao")
+                    b.Property<string>("Responsavel")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrdemServicos");
+                    b.ToTable("OrdemSeparacoes");
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.RelatorioDiario", b =>
@@ -836,19 +827,17 @@ namespace MasterErp.Infraestructure.Migrations
                 {
                     b.HasOne("MasterErp.Domain.Models.Material", "Material")
                         .WithMany()
-                        .HasForeignKey("MaterialId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MaterialId");
 
-                    b.HasOne("MasterErp.Domain.Models.OrdemServico", "OrdemServico")
+                    b.HasOne("MasterErp.Domain.Models.OrdemSeparacao", "OrdemSeparacao")
                         .WithMany()
-                        .HasForeignKey("OrdemServicoId")
+                        .HasForeignKey("OrdemSeparacaoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Material");
 
-                    b.Navigation("OrdemServico");
+                    b.Navigation("OrdemSeparacao");
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.ItemOrcamento", b =>
