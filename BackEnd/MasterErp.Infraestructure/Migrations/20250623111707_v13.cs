@@ -12,8 +12,21 @@ namespace MasterErp.Infraestructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-       
+            migrationBuilder.DropForeignKey(
+                name: "FK_Itens_OrdemServicos_OrdemServicoId",
+                table: "Itens");
 
+            migrationBuilder.DropTable(
+                name: "OrdemServicos");
+
+            migrationBuilder.DropColumn(
+                name: "ResponsavelMudanca",
+                table: "Itens");
+
+            migrationBuilder.RenameColumn(
+                name: "ResponsavelAdicao",
+                table: "Itens",
+                newName: "Responsavel");
 
             migrationBuilder.RenameColumn(
                 name: "OrdemServicoId",

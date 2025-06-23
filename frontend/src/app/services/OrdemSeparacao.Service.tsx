@@ -40,7 +40,7 @@ type CreateItemOsPayload = {
  * @returns Uma promessa que resolve para o objeto da OS.
  */
 export const getOsById = async (osId: number): Promise<IOrdemSeparacao> => {
-  const { data } = await axios.get(`${url}/OrdemSeparacoes/${osId}`, { headers: authHeader() });
+  const { data } = await axios.get(`${url}/OrdemSeparacao/${osId}`, { headers: authHeader() });
   return data;
 };
 
@@ -51,7 +51,7 @@ export const getOsById = async (osId: number): Promise<IOrdemSeparacao> => {
  * @returns Uma promessa que resolve para a OS atualizada.
  */
 export const updateOsDetails = async (osId: number, payload: UpdateOsDetailsPayload): Promise<IOrdemSeparacao> => {
-  const { data } = await axios.put(`${url}/OrdemSeparacoes/${osId}`, payload, { headers: authHeader() });
+  const { data } = await axios.put(`${url}/OrdemSeparacao/${osId}`, payload, { headers: authHeader() });
   return data;
 };
 
@@ -62,7 +62,7 @@ export const updateOsDetails = async (osId: number, payload: UpdateOsDetailsPayl
  * @returns Uma promessa que resolve para a OS autorizada.
  */
 export const authorizeOs = async (osId: number, payload: AuthorizeOsPayload): Promise<IOrdemSeparacao> => {
-  const { data } = await axios.put(`${url}/OrdemSeparacoes/updateAuthorize/${osId}`, payload, { headers: authHeader() });
+  const { data } = await axios.put(`${url}/OrdemSeparacao/updateAuthorize/${osId}`, payload, { headers: authHeader() });
   return data;
 };
 

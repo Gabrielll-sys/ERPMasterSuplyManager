@@ -129,6 +129,7 @@ export default function IncludingMaterialOs({params}:any){
       ordemServicoId:params.osId,
       ordemServico:{},
       quantidade:quantidadeMaterial,
+      responsavelAdicao:JSON.parse(localStorage.getItem("currentUser") || "null")
 
     }
 

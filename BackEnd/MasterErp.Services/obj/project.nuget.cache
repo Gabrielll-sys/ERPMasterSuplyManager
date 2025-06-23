@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TZAvfGUHrF0=",
+  "dgSpecHash": "45YLTHT4Kpo=",
   "success": true,
-  "projectFilePath": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\MasterErp.Services.csproj",
+  "projectFilePath": "C:\\Users\\gabri\\Desktop\\MasterErp\\BackEnd\\MasterErp.Services\\MasterErp.Services.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gabri\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",

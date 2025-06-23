@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MasterErp.Infraestructure.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20250622191305_v13")]
+    [Migration("20250623111707_v13")]
     partial class v13
     {
         /// <inheritdoc />

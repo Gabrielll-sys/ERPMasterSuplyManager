@@ -73,19 +73,21 @@ export default function EditingOsPage({ params }: { params: { osId: string } }) 
   });
 
   // --- TanStack Queries ---
-  const { data: os, isLoading: isLoadingOs, isError: isOsError } = useQuery<IOrdemSeparacao, Error>({
+  const { data: os, isLoading: isLoadingOs, isError: isOsError, } = useQuery<IOrdemSeparacao, Error>({
     queryKey: ['osDetails', osId],
     queryFn: () => getOsById(osId) as Promise<IOrdemSeparacao>,
     enabled: !!osId,
-    onSuccess: (data) => {
-      reset({
-        numeroOs: data.numeroOs || '',
-        descricao: data.descricao || '',
-        responsaveisExecucao: data.responsaveisExecucao || '',
-        observacoes: data.observacoes || '',
-      });
-    },
+    // onSuccess: (data) => {
+    //   reset({
+    //     numeroOs: data.numeroOs || '',
+    //     descricao: data.descricao || '',
+    //     responsaveisExecucao: data.responsaveisExecucao || '',
+    //     observacoes: data.observacoes || '',
+    //   });
+    // },
   });
+
+
 
   const { data: materiaisOs = [], isLoading: isLoadingMateriais } = useQuery<IItem[], Error>({
     queryKey: ['materiaisOs', osId],

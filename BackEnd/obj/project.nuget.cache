@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "o3t4zq+ih+o=",
+  "dgSpecHash": "eSR5R6M5bqE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\ERPMasterSuplyManager\\BackEnd\\BackEnd.csproj",
+  "projectFilePath": "C:\\Users\\gabri\\Desktop\\MasterErp\\BackEnd\\BackEnd.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gabri\\.nuget\\packages\\coverlet.collector\\6.0.0\\coverlet.collector.6.0.0.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.codecoverage\\17.8.0\\microsoft.codecoverage.17.8.0.nupkg.sha512",

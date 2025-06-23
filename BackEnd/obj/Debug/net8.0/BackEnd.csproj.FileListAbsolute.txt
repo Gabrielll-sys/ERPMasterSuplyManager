@@ -4,3 +4,9 @@ C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\BackEnd\obj\Debu
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\BackEnd\obj\Debug\net8.0\BackEnd.AssemblyInfo.cs
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\BackEnd\obj\Debug\net8.0\BackEnd.csproj.CoreCompileInputs.cache
 C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\BackEnd\obj\Debug\net8.0\BackEnd.sourcelink.json
+C:\Users\gabri\Desktop\MasterErp\BackEnd\obj\Debug\net8.0\BackEnd.csproj.AssemblyReference.cache
+C:\Users\gabri\Desktop\MasterErp\BackEnd\obj\Debug\net8.0\BackEnd.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gabri\Desktop\MasterErp\BackEnd\obj\Debug\net8.0\BackEnd.AssemblyInfoInputs.cache
+C:\Users\gabri\Desktop\MasterErp\BackEnd\obj\Debug\net8.0\BackEnd.AssemblyInfo.cs
+C:\Users\gabri\Desktop\MasterErp\BackEnd\obj\Debug\net8.0\BackEnd.csproj.CoreCompileInputs.cache
+C:\Users\gabri\Desktop\MasterErp\BackEnd\obj\Debug\net8.0\BackEnd.sourcelink.json
