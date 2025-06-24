@@ -1870,7 +1870,10 @@
           "FluentValidation": "11.9.1"
         },
         "runtime": {
-          "MasterErp.Domain.dll": {}
+          "MasterErp.Domain.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "MasterErp.Infraestructure/1.0.0": {
@@ -1880,7 +1883,10 @@
           "Pomelo.EntityFrameworkCore.MySql": "8.0.2"
         },
         "runtime": {
-          "MasterErp.Infraestructure.dll": {}
+          "MasterErp.Infraestructure.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "MasterErp.Services/1.0.0": {
@@ -1890,7 +1896,10 @@
           "Microsoft.AspNetCore.Http.Abstractions": "2.2.0"
         },
         "runtime": {
-          "MasterErp.Services.dll": {}
+          "MasterErp.Services.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-using System.Security.Claims;
-using System.Text;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
+
 using MasterErp.Domain.Interfaces.Services;
 using MasterErp.Domain.Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 namespace MasterErp.Api.Controllers;
 
 
@@ -14,7 +15,7 @@ namespace MasterErp.Api.Controllers;
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    [Authorize]
+    //[Authorize]
 
     public class UsuariosController : ControllerBase
     {
@@ -33,7 +34,9 @@ namespace MasterErp.Api.Controllers;
         {
             try
             {
-       
+
+            var a = await _usuarioService.GetByIdAsync(id);
+            
                 return Ok( await _usuarioService.GetByIdAsync(id));
             }
 

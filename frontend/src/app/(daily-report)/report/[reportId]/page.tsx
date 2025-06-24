@@ -302,6 +302,7 @@ const updateAtividade  = (atividade: IAtividadeRd , status: string | undefined, 
 
        <PDFViewer width="1500" height="600">
       <RelatorioDiarioPDF
+      atividadesRd={atividadesInRd}
       relatorioDiario = {relatorioDiario}
       />
     </PDFViewer>
@@ -343,7 +344,7 @@ const updateAtividade  = (atividade: IAtividadeRd , status: string | undefined, 
                     </>
                 )}
 
-                {relatorioDiario && atividadesInRd && (
+                {relatorioDiario && atividadesInRd &&  (
                     <Button
                         color='crimson' 
                         variant='outline'
@@ -446,7 +447,6 @@ const updateAtividade  = (atividade: IAtividadeRd , status: string | undefined, 
 
 
 }
-
 
 
 

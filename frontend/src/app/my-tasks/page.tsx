@@ -9,7 +9,7 @@ import "dayjs/locale/pt-br";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "@nextui-org/shared-icons";
 import {Calendar, DateValue} from "@nextui-org/calendar";
 import TaskUser from "../componentes/TaskUser";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, Droppable,Draggable, type DropResult } from "react-beautiful-dnd";
 import { ITarefaUsuario } from "../interfaces/ITarefaUsuario";
 import { createTarefaUsuario, deleteTarefaUsuario, getUserTasksByDate, updateTarefaUsuario } from "../services/TarefasUsuarios.Services";
 import dayjs from "dayjs";
@@ -17,7 +17,7 @@ import {today, getLocalTimeZone} from "@internationalized/date"
 import IconPlus from "../assets/icons/IconPlus";
 import { deleteImagemAtividadeRd } from "../services/ImagensAtividadeRd.Service";
 import { Flex, Text } from "@radix-ui/themes";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 
 export default function MyTasks(){
@@ -146,7 +146,92 @@ export default function MyTasks(){
     setDiaSemana(semana[value.toDate(getLocalTimeZone()).getDay()])
 
         }
-
+        const onDragEnd = (result: DropResult) => {
+          const { destination, source, draggableId } = result;
+        
+          if (!destination) return;
+        
+          if (destination.droppableId === source.droppableId && destination.index === source.index) return;
+        
+          let sourceList: ITarefaUsuario[] = [];
+          let destinationList: any[] = [];
+        
+          switch (source.droppableId) {
+            case "alta":
+              sourceList = [...tasksHighPriority];
+              break;
+            case "media":
+              sourceList = [...tasksMidPriority];
+              break;
+            case "baixa":
+              sourceList = [...tasksLowPriority];
+              break;
+            case "concluidas":
+              sourceList = [...finishedsTask];
+              break;
+          }
+        
+          switch (destination.droppableId) {
+            case "alta":
+              destinationList = [...tasksHighPriority];
+              break;
+            case "media":
+              destinationList = [...tasksMidPriority];
+              break;
+            case "baixa":
+              destinationList = [...tasksLowPriority];
+              break;
+            case "concluidas":
+              destinationList = [...finishedsTask];
+              break;
+          }
+        
+          const [movedTask] = sourceList.splice(source.index, 1);
+          destinationList.splice(destination.index, 0, movedTask);
+        
+          if (source.droppableId !== destination.droppableId) {
+            movedTask.prioridade =
+              destination.droppableId === "alta"
+                ? "Alta"
+                : destination.droppableId === "media"
+                ? "Média"
+                : destination.droppableId === "baixa"
+                ? "Baixa"
+                : movedTask.prioridade;
+          }
+        
+          switch (source.droppableId) {
+            case "alta":
+              setTaskHighPriority([...sourceList]);
+              break;
+            case "media":
+              setTaskMidPriority([...sourceList]);
+              break;
+            case "baixa":
+              setTaskLowPriority([...sourceList]);
+              break;
+            case "concluidas":
+              setFinishedsTask([...sourceList]);
+              break;
+          }
+        
+          switch (destination.droppableId) {
+            case "alta":
+              setTaskHighPriority([...destinationList]);
+              break;
+            case "media":
+              setTaskMidPriority([...destinationList]);
+              break;
+            case "baixa":
+              setTaskLowPriority([...destinationList]);
+              break;
+            case "concluidas":
+              setFinishedsTask([...destinationList]);
+              break;
+          }
+        
+          updateTarefa(movedTask);
+        };
     const updateTarefa = async(model:ITarefaUsuario)=>{
 
       console.log(finishedsTask.includes(model))
@@ -213,115 +298,147 @@ const deletarTarefaMutation = useMutation({
     getTasksByDate(date.toDateString())
   }
 })
-    const deleteTarefa = async(id:number) =>{
-
+    const deleteTarefa = async(id:number | undefined) =>{
+      //@ts-ignore
      deletarTarefaMutation.mutate(id)
     }
 
 
-return(
-    <>
- <div className=" flex flex-row  w-[60%] justify-between">
-   <Calendar aria-label="Date (Uncontrolled)" className="mb-4" onChange={(e) =>{getTasksByDate(e.toString()),setDateTask(e),handleDate(e) } } autoFocus />
-   
-   <h1 className="text-2xl mt-20 h-4 mx-auto">Minhas Tarefas de {diaSemana} - {dayjs(dateTasks).format("DD/MM/YYYY").toString()}</h1>
- </div>
-            
-
-                  <Flex direction="row" justify="center" gap="6" >
-
-                  
-                    <Flex  direction="column" gap="3"  className="w-[300px]  ">
-                        <Text className="bg-[#ACF2CA] p-[6px] font-bold rounded-sm text-center shadow-sm shadow-black w-full">Tarefas Concluídas </Text>
-                        {finishedsTask?.map((task)=>(
-                        <TaskUser onDeleteTarefa={deleteTarefa} tarefa={task} key={task.id}  onUpdateTarefa={updateTarefa} />
-                          ))}
-                       
-                        </Flex>
-         
-
-                  <Flex direction="column" gap="3">
-
-                    <Text  className="bg-[#F2C9E4] p-[6px] font-bold rounded-sm text-center shadow-sm shadow-black w-full">Alta Prioridade </Text>
-
-                    {tasksHighPriority?.map((task)=>(
-          
-                     <TaskUser onDeleteTarefa={deleteTarefa} tarefa={task} key={task.id}  onUpdateTarefa={updateTarefa} />
-          
-                       ))}
-                   <div className="flex flex-row items-center gap-2">
-                    <IconPlus onClick={createHighPriorityTask} height={"1.7em"} width={"1.7em"} color="grey"/> 
-                  <p> Adicionar Nova Tarefa</p>
-                    </div>
-                   
-                  </Flex>
-
-                  <Flex direction="column" gap="3">
-
-                  <Text className=" p-[6px] rounded-sm font-bold text-center shadow-sm shadow-black w-full ">Média Prioridade </Text>
-                  {tasksMidPriority?.map((task)=>(
-          
-                   <TaskUser tarefa={task} onDeleteTarefa={deleteTarefa} key={task.id}   onUpdateTarefa={updateTarefa} />
-
-                   ))}
-                   <div className="flex flex-row items-center gap-2">
-                    <IconPlus  onClick={createMidPriorityTask} height={"1.7em"} width={"1.7em"} color="grey"/> 
-                  <p > Adicionar Nova Tarefa</p>
-                    </div>
-
-                  </Flex>
-
-                  <Flex direction="column" gap="3">
-
-                  <Text className="bg-[#FDE68A] p-[6px] font-bold rounded-sm text-center shadow-sm shadow-black w-full">Baixa Prioridade</Text>
-                  {tasksLowPriority?.map((task)=>(
-                    
-                    <TaskUser tarefa={task}  key={task.id} onDeleteTarefa={deleteTarefa}  onUpdateTarefa={updateTarefa} />
-
-                    ))}
-                    <div className="flex flex-row gap-2">
-                    <IconPlus onClick={createLowPriorityTask} height={"1.7em"} width={"1.7em"} color="grey" /> 
-                  
-                    <p> Adicionar Nova Tarefa</p>
-                    
-                    </div>
-
-                  </Flex>
-                  </Flex>
-        
- 
-         
-
-
-      
-
-   
-
-
-   
-   
-<Snackbar
-            open={openSnackBar}
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center'
-              }}
-            autoHideDuration={2000}
+    return (
+      <>
+        <div className="flex flex-row w-[60%] justify-between">
+          <Calendar
+            aria-label="Date (Uncontrolled)"
+            className="mb-4"
+            onChange={(e) => {
+              getTasksByDate(e.toString());
+              setDateTask(e);
+              handleDate(e);
+            }}
+            autoFocus
+          />
+          <h1 className="text-2xl mt-20 h-4 mx-auto">
+            Minhas Tarefas de {diaSemana} - {dayjs(dateTasks).format("DD/MM/YYYY").toString()}
+          </h1>
+        </div>
+    
+        <Flex direction="row" justify="center" gap="6">
+          <DragDropContext onDragEnd={onDragEnd}>
+    
+            <Droppable droppableId="concluidas">
+              {(provided) => (
+                <Flex direction="column" gap="3" className="w-[300px]" {...provided.droppableProps} ref={provided.innerRef}>
+                  <Text className="bg-[#ACF2CA] p-[6px] font-bold rounded-sm text-center shadow-sm shadow-black w-full">
+                    Tarefas Concluídas
+                  </Text>
+                  {finishedsTask?.map((task, index) => (
+                    <Draggable key={task.id} draggableId={String(task.id)} index={index}>
+                      {(provided) => (
+                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                          <TaskUser reference={provided.innerRef} tarefa={task} onDeleteTarefa={deleteTarefa} onUpdateTarefa={updateTarefa} />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </Flex>
+              )}
+            </Droppable>
+{/*     
+            <Droppable droppableId="alta">
+              {(provided) => (
+                <Flex direction="column" gap="3">
+                  <Text className="bg-[#F2C9E4] p-[6px] font-bold rounded-sm text-center shadow-sm shadow-black w-full">
+                    Alta Prioridade
+                  </Text>
+                  {tasksHighPriority?.map((task, index) => (
+                    <Draggable key={task.id} draggableId={String(task.id)} index={index}>
+                      {(provided) => (
+                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                          <TaskUser tarefa={task} onDeleteTarefa={deleteTarefa} onUpdateTarefa={updateTarefa} />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                  <div className="flex flex-row items-center gap-2">
+                    <IconPlus onClick={createHighPriorityTask} height={"1.7em"} width={"1.7em"} color="grey" />
+                    <p>Adicionar Nova Tarefa</p>
+                  </div>
+                </Flex>
+              )}
+            </Droppable>
+    
+            <Droppable droppableId="media">
+              {(provided) => (
+                <Flex direction="column" gap="3">
+                  <Text className="p-[6px] rounded-sm font-bold text-center shadow-sm shadow-black w-full">
+                    Média Prioridade
+                  </Text>
+                  {tasksMidPriority?.map((task, index) => (
+                    <Draggable key={task.id} draggableId={String(task.id)} index={index}>
+                      {(provided) => (
+                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                          <TaskUser tarefa={task} onDeleteTarefa={deleteTarefa} onUpdateTarefa={updateTarefa} />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                  <div className="flex flex-row items-center gap-2">
+                    <IconPlus onClick={createMidPriorityTask} height={"1.7em"} width={"1.7em"} color="grey" />
+                    <p>Adicionar Nova Tarefa</p>
+                  </div>
+                </Flex>
+              )}
+            </Droppable>
+    
+            <Droppable droppableId="baixa">
+              {(provided) => (
+                <Flex direction="column" gap="3">
+                  <Text className="bg-[#FDE68A] p-[6px] font-bold rounded-sm text-center shadow-sm shadow-black w-full">
+                    Baixa Prioridade
+                  </Text>
+                  {tasksLowPriority?.map((task, index) => (
+                    <Draggable key={task.id} draggableId={String(task.id)} index={index}>
+                      {(provided) => (
+                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                          <TaskUser tarefa={task} onDeleteTarefa={deleteTarefa} onUpdateTarefa={updateTarefa} />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                  <div className="flex flex-row items-center gap-2">
+                    <IconPlus onClick={createLowPriorityTask} height={"1.7em"} width={"1.7em"} color="grey" />
+                    <p>Adicionar Nova Tarefa</p>
+                  </div>
+                </Flex>
+              )}
+            </Droppable> */}
+    
+          </DragDropContext>
+        </Flex>
+    
+        <Snackbar
+          open={openSnackBar}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center'
+          }}
+          autoHideDuration={2000}
+          onClose={(e) => setOpenSnackBar(false)}
+        >
+          <MuiAlert
             onClose={(e) => setOpenSnackBar(false)}
+            severity={severidadeAlert}
+            sx={{ width: "100%" }}
           >
-            <MuiAlert
-              onClose={(e) => setOpenSnackBar(false)}
-              severity={severidadeAlert}
-              sx={{ width: "100%" }}
-            >
-              {messageAlert}
-            </MuiAlert>
-          </Snackbar>
-
-
-     </>
-)
-
+            {messageAlert}
+          </MuiAlert>
+        </Snackbar>
+      </>
+    );
 
 
 }

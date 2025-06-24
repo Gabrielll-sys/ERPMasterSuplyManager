@@ -1,0 +1,6 @@
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\BackEnd\FunctionApp2\obj\Debug\net9.0\FunctionApp2.csproj.AssemblyReference.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\BackEnd\FunctionApp2\obj\Debug\net9.0\FunctionApp2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\BackEnd\FunctionApp2\obj\Debug\net9.0\FunctionApp2.AssemblyInfoInputs.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\BackEnd\FunctionApp2\obj\Debug\net9.0\FunctionApp2.AssemblyInfo.cs
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\BackEnd\FunctionApp2\obj\Debug\net9.0\FunctionApp2.csproj.CoreCompileInputs.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\ERPMasterSuplyManager\BackEnd\FunctionApp2\obj\Debug\net9.0\FunctionApp2.sourcelink.json

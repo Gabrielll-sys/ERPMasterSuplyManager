@@ -4,7 +4,7 @@ using MySqlConnector;
 using MasterErp.Domain.Interfaces.Services;
 using MasterErp.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
-using MasterErp.Infraestructure;
+using MasterErp.Infraestructure.Context;
 
 namespace MasterErp.Api.Controllers;
     ///<summary>
@@ -201,7 +201,7 @@ namespace MasterErp.Api.Controllers;
                     );
                     
 
-                        i1.MovimentacaoOrdemServico((float)item.QuantidadeMaterial, $"Utilizado Orcamento Nº {orcamento.Id} De {orcamento.NomeCliente} ");
+                        i1.MovimentacaoOrdemSeparacao((float)item.QuantidadeMaterial, $"Utilizado Orcamento Nº {orcamento.Id} De {orcamento.NomeCliente} ");
 
                         await _context.Inventarios.AddAsync(i1);
                     }

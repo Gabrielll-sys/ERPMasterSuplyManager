@@ -52,6 +52,15 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
 
     setAtividades(atividades)
   }
+  const toUpperFirstLetter = (obs:string | undefined)=> {
+    if( obs !=undefined){
+      const firstLetter =  obs == undefined?"":obs?.trim()[0].toUpperCase()
+      return firstLetter + obs.substring(1,obs.length-1)
+    }
+      
+
+  }
+
 
   useEffect(() => {
     const buffer = "/src/app/assets/logo preta.jpg";
@@ -61,7 +70,7 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
 
   return (
     <Document key={key}>
-      <Page size="A4" style={styles.body} wrap>
+      <Page size="A4" style={styles.body} >
 
           <View style={{ display: "flex", width: "100%", flexDirection: "row", justifyContent: "space-between"}}>
             <Image style={{ width: "150px", height: "60px", marginLeft: 10, marginTop: 20 }} src={logoBase64} />
@@ -99,20 +108,40 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
             )}
            
           </View>
-          <View style={{ marginTop: 10, border: "solid", borderTop: "1px", width: "100%" }}>
+          <View style={{ marginTop: 10, border: "solid", borderTop: "1px", width: "97%",alignSelf:"center" }}>
           </View>
-          <View style={{ width: "100%" }}>
+          <View  style={{ width: "100%" }}>
             {atividades.map((atividade: IAtividadeRd, index: number) => (
               <>
-                <View key={atividade.id} style={{ width: "100%", borderStyle: "solid", alignSelf: "center", }} >
-                  <Text style={styles.textTitleAtividade} break={(index + 1) % 4 === 0}>{atividade.numeroAtividade} - {atividade.descricao} - {atividade.status}</Text>
-                  <View style={styles.imageContainer}>
+                <View wrap={false} key={atividade.id} style={{ width: "100%", borderStyle: "solid", alignSelf: "center",marginBottom:10 }} >
+                  <Text style={styles.textTitleAtividade} >{atividade.numeroAtividade} - {atividade.descricao?.toUpperCase()} - {atividade.status}</Text>
+                    
+                    <Text style={styles.text}>{atividade?.observacoes}</Text>
+                  
+                </View>
+      
+                <View style={{ marginTop: 10, border: "solid", borderTop: "2px", width: "97%",alignSelf:"center" }}>
+                </View>
+              
+              </>
+            ))}
+          </View>
+      
+          
+            {   atividades.map((atividade: IAtividadeRd, index: number) => (
+              <>
+              { atividade.imagensAtividades!= undefined && atividade.imagensAtividades?.length>0 && (
+
+                <View wrap={false} key={atividade.id} style={{ width: "100%",  borderStyle: "solid", alignSelf: "center",display:"flex",flexDirection:"column" }}  >
+                    <Text style={styles.textTitleAtividade}>{atividade.numeroAtividade} - {atividade.descricao?.toUpperCase()} - {atividade.status}</Text>
+                  <View  style={styles.imageContainer}>
                     { atividade.imagensAtividades && atividade.imagensAtividades.map((imagem: IImagemAtividadeRd, imgIndex: number) => (
                       <>
 
                    
                         <Image
                           key={imagem.id}
+                          
                           style={[
                             styles.image,
                            atividade.imagensAtividades!=undefined &&  atividade.imagensAtividades.length % 2 !== 0 && imgIndex === atividade.imagensAtividades.length - 1
@@ -121,21 +150,19 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
                           ]}
                           src={imagem.urlImagem}
                         />
-                        {/* <Text style={{fontWeight: "bold", fontSize: 10,textAlign:"center"}}>{dayjs(imagem.dataAdicao).format("DD/MM/YYYY [as] HH:mm:ss").toString()}</Text> */}
-           
-                  \
+                     
                     </>
                     ))}
                   </View>
-                  <Text style={styles.text}>{atividade.observacoes}</Text>
+                
                 </View>
-                <View style={{ marginTop: 10, border: "solid", borderTop: "2px", width: "100%" }}>
-                </View>
+              )}
+             
               
               </>
             ))}
-          </View>
-      
+       
+
           <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (
             `${pageNumber} / ${totalPages}`
           )} fixed />
@@ -146,16 +173,18 @@ const RelatorioDiarioPDF: React.FC<RelatorioDiarioPDFProps> = ({ relatorioDiario
 
 const styles = StyleSheet.create({
   body: {
-    paddingTop: 2,
+    paddingTop: 6,
     paddingBottom: 65,
     paddingHorizontal: 25,
 
   },
   text: {
     margin: 12,
-    fontSize: 14,
+    fontSize: 12,
     textAlign: 'justify',
-    fontFamily: 'Times-Roman'
+    lineHeight:1.5,
+    fontStyle:'italic',
+    
   },
   textTitleAtividade: {
     margin: 12,
@@ -173,9 +202,9 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "48%",
-    height: 260,
+    height: 290,
     marginBottom: 10,
-    borderRadius:"6px"
+    borderRadius:"3px"
 
   },
   centeredImage: {

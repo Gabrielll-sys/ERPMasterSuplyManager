@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, type Ref } from "react";
 
 import { Autocomplete, AutocompleteItem, Checkbox, Input, Slider } from "@nextui-org/react";
 import IconPen from "../assets/icons/IconPen";
@@ -8,12 +8,20 @@ import IconBagX from "../assets/icons/IconBagX";
 import IconBxTrashAlt from "../assets/icons/IconBxTrashAlt";
 import { Flex, Text } from "@radix-ui/themes";
 
-// @ts-ignore
-export default function TaskUser({tarefa,onUpdateTarefa,onDeleteTarefa}) {
+type TaskUserProps = {
+  reference: Ref<HTMLDivElement> | undefined,
+  tarefa:ITarefaUsuario,
+  onUpdateTarefa:(task:ITarefaUsuario)=>void,
+  onDeleteTarefa:(id:number | undefined)=>Promise<void>,
+}
+
+
+
+export default function TaskUser({tarefa,onUpdateTarefa,onDeleteTarefa,reference}:TaskUserProps) {
   
   const corPrioridade = tarefa.prioridade == "Altissima"?"text-red-900":"text-red-800"
   const prioridades = ["Baixa","Média","Alta","Altissíma"]
-  const [nomeTarefa, setNomeTarefa] = useState<string>(tarefa.nomeTarefa);
+  const [nomeTarefa, setNomeTarefa] = useState<string | undefined>(tarefa.nomeTarefa);
   const [prioridadeTarefa,setPrioridadeTarefa] = useState<any>(tarefa.prioridade)
   const [isEditing,setIsEditing] = useState<boolean>(false);
 
@@ -78,7 +86,7 @@ export default function TaskUser({tarefa,onUpdateTarefa,onDeleteTarefa}) {
     <>
 
 
-    <Flex className=" flex flex-row items-center justify-between gap-6 text-center w-[40%]">
+    <Flex className=" flex flex-row items-center justify-between gap-6 text-center w-[40%]" ref={reference}>
       
 
     <Flex direction="row" justify="start" gap = "3" className=" border-1 rounded-sm border-gray-400 p-2  shadow-sm shadow-black ">

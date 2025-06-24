@@ -1,119 +1,228 @@
-"use client"
-import { url } from "../api/webApiUrl";
-import { DatePicker } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+"use client";
+
+import { useState, useEffect, useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { motion, AnimatePresence } from 'framer-motion';
+import dayjs from 'dayjs';
 import "dayjs/locale/pt-br";
-import { useEffect, useState } from "react";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import axios, { AxiosResponse } from "axios";
-import dayjs from "dayjs";
-import { Table } from "flowbite-react";
-import { authHeader } from "../_helpers/auth_headers";
+import { z } from 'zod';
 
-export default function LogRegister(){
+// UI e Ícones
+import { 
+    Box, 
+    Card, 
+    Flex, 
+    Heading, 
+    Text, 
+    Table, 
+    TextField, 
+    Button,
+    Callout,
+    IconButton
+} from '@radix-ui/themes';
+import {DatePicker} from "@heroui/date-picker";
+import { parseDate } from "@internationalized/date";
+import { 
+  Search, 
+  ListOrdered, 
+  X, 
+  FileWarning, 
+  Loader2,
+  CalendarDays,
+  User,
+  ServerCrash
+} from 'lucide-react';
 
+// Serviços e Hooks
+import { url } from "../api/webApiUrl";
+import { authHeader } from '../_helpers/auth_headers';
+import axios from "axios";
 
-    const date = new Date();
-  const [logs,setLogs] = useState<any>([])
-  const [dateLog,setDateLog] = useState<any>()
-    type LogAcoesUsuario = {
+// Configura o locale do dayjs
+dayjs.locale('pt-br');
 
-      id:number,
-        acao:string,
-      dataAcao:Date,
-      responsavel:string
-    }
- 
- 
- useEffect(()=>{
-        
-
- getLogByDate(date.toISOString())
-getLogs()
-     
-
- },[])
-
-
-
-
-  
- const getLogs = async ()=>{
-     console.log(authHeader())
-
-     await axios.get(`${url}/LogAcoesUsuario`).then((r:AxiosResponse)=>{
-        setLogs(r.data)
-     }).catch(e=>console.log(e))
- 
- }
- 
-const getLogByDate = async(data:any)=>{
-    return await axios
-            .get(`${url}/LogAcoesUsuario/buscaLogsByDate?date=${data}`,{headers:authHeader()})
-            .then( (r)=> {
-                console.log(r.data)
-                setLogs(r.data)
-
-            })
-
+// --- TIPOS E SCHEMAS ---
+interface ILogAcao {
+  id: number;
+  acao: string;
+  dataAcao: string;
+  responsavel: string;
 }
- 
- 
-   return (
 
+const filterSchema = z.object({
+  searchTerm: z.string().optional(),
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
+});
 
-             <div className='flex flex-col  mx-auto mt-16 gap-3'>
-                 <LocalizationProvider
-                     dateAdapter={AdapterDayjs}
-                     adapterLocale="pt-br"
-                 >
-                     <DatePicker
-                         label="Dia de Registro de Ações"
-                         className="shadow-lg w-[250px] self-center "
-                         value={dateLog}
-                         onChange={(e) => getLogByDate(e)}
-                         slotProps={{ textField: { variant: 'filled' }}}
-                     />
-                 </LocalizationProvider>
-                 <div className="overflow-x-auto self-center w-[90%] mt-5 ">
-                     <Table  hoverable striped className="w-[100%] self-center ">
-                         <Table.Head className="mx-auto">
-                             <Table.HeadCell className="text-center border-1 border-black text-sm min-w-[290px] " >Ação</Table.HeadCell>
-                             <Table.HeadCell className="text-center border-1 border-black text-sm min-w-[290px]">Data De Ação</Table.HeadCell>
-                             <Table.HeadCell className="text-center border-1 border-black text-sm min-w-[290px]">Responsável</Table.HeadCell>
+type FilterState = z.infer<typeof filterSchema>;
 
-                         </Table.Head>
+// --- HOOK DE DEBOUNCE ---
+function useDebounce<T>(value: T, delay: number): T {
+    const [debouncedValue, setDebouncedValue] = useState<T>(value);
+    useEffect(() => {
+        const handler = setTimeout(() => setDebouncedValue(value), delay);
+        return () => clearTimeout(handler);
+    }, [value, delay]);
+    return debouncedValue;
+}
 
-                         <Table.Body className="divide-y">
+// --- FUNÇÃO DE FETCH ---
+const fetchLogs = async (filters: FilterState): Promise<ILogAcao[]> => {
+    const params = new URLSearchParams();
+    if (filters.searchTerm) params.append('searchTerm', filters.searchTerm);
+    if (filters.startDate) params.append('startDate', filters.startDate);
+    if (filters.endDate) params.append('endDate', filters.endDate);
 
-                             {  logs != undefined && logs.length>=1 && logs.map((row:LogAcoesUsuario) => (
-                                 <Table.Row  key={row.id} className=" dark:border-gray-700 dark:bg-gray-800 ">
+    const { data } = await axios.get(`${url}/LogAcoesUsuario/filter`, {
+        headers: authHeader(),
+        params
+    });
+    return data;
+};
 
-                                     <Table.Cell className="text-center text-black text-[18px] " >{row.acao}</Table.Cell>
+// --- COMPONENTE PRINCIPAL ---
+export default function LogRegisterPage() {
+    // --- ESTADOS E HOOKS ---
+    const [filters, setFilters] = useState<FilterState>({});
+    const debouncedSearchTerm = useDebounce(filters.searchTerm, 500);
 
+    const queryFilters = useMemo(() => ({
+        ...filters,
+        searchTerm: debouncedSearchTerm,
+    }), [filters, debouncedSearchTerm]);
 
-                                     <Table.Cell className="text-center text-black text-[18px] " >{dayjs(row.dataAcao).format("DD/MM/YYYY [as] HH:mm:ss")}</Table.Cell>
+    const { data: logs = [] as ILogAcao[], isLoading, isError, isFetching } = useQuery<ILogAcao[], Error>({
+        queryKey: ['logs', queryFilters],
+        queryFn: () => fetchLogs(queryFilters),
+        staleTime: 5 * 60 * 1000, // 5 minutos
+    });
 
+    const handleFilterChange = (field: keyof FilterState, value: string | null) => {
+        setFilters(prev => ({ ...prev, [field]: value || undefined }));
+    };
+    
+    const clearFilters = () => {
+        setFilters({});
+    };
 
-                                     <Table.Cell className="text-center text-black text-[18px]"  >{row.responsavel} </Table.Cell>
+    // --- RENDERIZAÇÃO ---
+    return (
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="p-4 md:p-8 min-h-screen bg-slate-50"
+        >
+            <Box className="max-w-7xl mx-auto">
+                {/* Cabeçalho */}
+                <Flex direction="column" gap="2" align="center" mb="8">
+                    <div className="p-3 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl shadow-lg">
+                        <ListOrdered className="w-8 h-8 text-white" />
+                    </div>
+                    <Heading size="8" className="text-gray-800">Registro de Ações</Heading>
+                    <Text color="gray" size="4">Explore o histórico de atividades do sistema.</Text>
+                </Flex>
 
-                                     <Table.Cell>
+                {/* Controles de Filtro */}
+                <Card className="mb-8 shadow-sm">
+                    <Flex direction={{ initial: 'column', md: 'row' }} gap="4" align="end">
+                        <Box className="flex-grow">
+                            <Text as="label" size="2" weight="medium" mb="1" className="block">Buscar Ação ou Responsável</Text>
+                            <TextField.Root size="3">
+                                <TextField.Slot><Search className="w-4 h-4 text-gray-500" /></TextField.Slot>
+                                <TextField.Input
+                                    placeholder="Ex: 'Material criado' ou 'nome.sobrenome'"
+                                    value={filters.searchTerm || ""}
+                                    onChange={(e) => handleFilterChange('searchTerm', e.target.value)}
+                                />
+                            </TextField.Root>
+                        </Box>
 
-                                     </Table.Cell>
-                                 </Table.Row>
+                        <Box>
+                            <Text as="label" size="2" weight="medium" mb="1" className="block">Data de Início</Text>
+                            <DatePicker
+                                aria-label="Data de início"
+                                value={filters.startDate ? parseDate(filters.startDate) : null}
+                                onChange={(date:any) => handleFilterChange('startDate', date ? date.toString() : null)}
+                            />
+                        </Box>
 
+                        <Box>
+                            <Text as="label" size="2" weight="medium" mb="1" className="block">Data de Fim</Text>
+                            <DatePicker
+                                aria-label="Data de fim"
+                                value={filters.endDate ? parseDate(filters.endDate) : null}
+                                onChange={(date:any) => handleFilterChange('endDate', date ? date.toString() : null)}
+                            />
+                        </Box>
+                        
+                        <Button variant="soft" color="gray" size="3" onClick={clearFilters} disabled={isFetching}>
+                            <X className="w-4 h-4 mr-1" />
+                            Limpar Filtros
+                        </Button>
+                    </Flex>
+                </Card>
 
-                             ))}
-
-
-                         </Table.Body>
-                     </Table>
-                 </div>
-
-             </div>
-
-
-
-     
-     
-   )}
+                {/* Tabela de Resultados */}
+                <Card className="shadow-lg">
+                    <AnimatePresence mode="wait">
+                        {isLoading ? (
+                            <motion.div key="loading" className="p-8 text-center">
+                                <Flex align="center" justify="center" gap="3">
+                                    <Loader2 className="w-6 h-6 animate-spin text-indigo-500" />
+                                    <Text size="4" color="gray">Carregando registros...</Text>
+                                </Flex>
+                            </motion.div>
+                        ) : isError ? (
+                            <motion.div key="error" initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}} className="p-8">
+                                <Callout.Root color="red" size="2">
+                                    <Callout.Icon><ServerCrash /></Callout.Icon>
+                                    <Callout.Text>
+                                        Falha ao buscar os registros. Por favor, verifique sua conexão e tente novamente.
+                                    </Callout.Text>
+                                </Callout.Root>
+                            </motion.div>
+                        ) : logs.length === 0 ? (
+                            <motion.div key="empty" initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}} className="p-12 text-center">
+                                <FileWarning className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                                <Heading size="5" className="text-gray-700">Nenhum Registro Encontrado</Heading>
+                                <Text color="gray" mt="2">Tente ajustar os filtros ou limpe-os para ver todos os registros.</Text>
+                            </motion.div>
+                        ) : (
+                            <motion.div key="table" initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
+                                <Table.Root variant="surface">
+                                    <Table.Header>
+                                        <Table.Row>
+                                            <Table.ColumnHeaderCell>Ação</Table.ColumnHeaderCell>
+                                            <Table.ColumnHeaderCell>Responsável</Table.ColumnHeaderCell>
+                                            <Table.ColumnHeaderCell>Data e Hora</Table.ColumnHeaderCell>
+                                        </Table.Row>
+                                    </Table.Header>
+                                    <Table.Body>
+                                        {logs.map(log => (
+                                            <Table.Row key={log.id}>
+                                                <Table.Cell><Text>{log.acao}</Text></Table.Cell>
+                                                <Table.Cell>
+                                                    <Flex align="center" gap="2">
+                                                        <User className="w-4 h-4 text-gray-500" />
+                                                        <Text>{log.responsavel}</Text>
+                                                    </Flex>
+                                                </Table.Cell>
+                                                <Table.Cell>
+                                                    <Flex align="center" gap="2">
+                                                        <CalendarDays className="w-4 h-4 text-gray-500" />
+                                                        <Text>{dayjs(log.dataAcao).format('DD/MM/YYYY [às] HH:mm:ss')}</Text>
+                                                    </Flex>
+                                                </Table.Cell>
+                                            </Table.Row>
+                                        ))}
+                                    </Table.Body>
+                                </Table.Root>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </Card>
+            </Box>
+        </motion.div>
+    );
+}

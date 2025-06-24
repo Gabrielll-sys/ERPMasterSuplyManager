@@ -3,7 +3,9 @@
 import { NextUIProvider } from "@nextui-org/react"
 import { SessionProvider } from "next-auth/react"
 import { useState } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import { AuthProvider } from "./AuthContext";
 
 export default function Providers({children}:{children:React.ReactNode}){
     const [client] = useState(new QueryClient());
@@ -11,11 +13,12 @@ export default function Providers({children}:{children:React.ReactNode}){
     return(
         <QueryClientProvider client={client}>
         <SessionProvider>
-            <NextUIProvider>
-                {children}
-            </NextUIProvider>
+            <AuthProvider>
+                <NextUIProvider>
+                    {children}
+                </NextUIProvider>
+            </AuthProvider>
         </SessionProvider>
     </QueryClientProvider>
-
     )
 }

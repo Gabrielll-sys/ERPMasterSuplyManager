@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using MasterErp.Infraestructure;
+using MasterErp.Infraestructure.Context;
 using MasterErp.Domain.Interfaces.Repository;
 using MasterErp.Domain.Models;
 namespace MasterErp.Infraestructure;

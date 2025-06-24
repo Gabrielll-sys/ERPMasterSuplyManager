@@ -1,44 +1,51 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// 🎓 ARQUITETURA EXPLICADA:
+// Alteramos o modelo Item para suportar uma relação opcional com Material.
+// Isso nos permite usar a mesma tabela para itens cadastrados e não cadastrados.
+
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MasterErp.Domain.Models
 {
-    //Classe que pega a referência entre material e OS,aonde uma OS pode ter um ou vários materiáis e 1 material pode pertencer a 1 ou várias OS
     public class Item
     {
-       
+
         [Key]
         public int Id { get; set; }
 
-        public int MaterialId { get; set; }
+
+        //    - Se MaterialId tiver um valor, é um item cadastrado.
+        //    - Se MaterialId for NULL, é um item não cadastrado.
+        public int? MaterialId { get; set; } // ANTES: int MaterialId
+
         [ForeignKey("MaterialId")]
-       public  Material? Material { get; set; }
+        public Material? Material { get; set; }
 
+        public int OrdemSeparacaoId { get; set; }
 
-       public int OrdemServicoId { get; set; }
+        [ForeignKey("OrdemSeparacaoId")]
+        public OrdemSeparacao? OrdemSeparacao { get; set; }
 
-        [ForeignKey("OrdemServicoId")]
+        public string? DescricaoNaoCadastrado { get; set; } // NOVO CAMPO
 
-        public OrdemServico? OrdemServico { get; set; }
-        //Responsável pela criação do item,no caso ficara fácil rastrear quem adicionou o material na ordem de serviço
-        public string ResponsavelAdicao { get; set; }
-        public string? ResponsavelMudanca { get; set; }
+        public string Responsavel { get; set; }
 
         public DateTime DataAdicaoItem { get; set; }
         public DateTime? DataAlteracaoItem { get; set; }
         public float? Quantidade { get; set; }
 
-       public Item(int materialId,int ordemServicoId,float? quantidade,string responsavelAdicao)
+        // O construtor permanece o mesmo, pois a lógica de criação será no serviço/controller
+        public Item(int? materialId, int ordemSeparacaoId, float? quantidade, string responsavel, string? descricaoNaoCadastrado)
         {
             MaterialId = materialId;
-            OrdemServicoId = ordemServicoId;
+            OrdemSeparacaoId = ordemSeparacaoId;
             Quantidade = quantidade;
-            ResponsavelAdicao = responsavelAdicao;
+            Responsavel = responsavel;
             DataAdicaoItem = DateTime.UtcNow.AddHours(-3);
             DataAlteracaoItem = null;
-
+            DescricaoNaoCadastrado = descricaoNaoCadastrado;
         }
 
-
+     
     }
 }

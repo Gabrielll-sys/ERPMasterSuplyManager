@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "N784i4VabVcbLg1JL8mswmsjAA8V1nF6MIgHsVj7ewQ=",
+  "Hash": "Pb0kDgbGgmblmZ8kpF7ifFmlYMAQgzuGMyD6TLYy+E8=",
   "Source": "MasterErp.Api",
   "BasePath": "_content/MasterErp.Api",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }

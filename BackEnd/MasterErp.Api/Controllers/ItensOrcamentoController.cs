@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MasterErp.Infraestructure;
+using MasterErp.Infraestructure.Context;
 using MasterErp.Domain.Models;
 using System.Net;
+using MasterErp.Infraestructure.Context;
 
 namespace MasterErp.Api.Controllers;
 
@@ -109,11 +110,11 @@ namespace MasterErp.Api.Controllers;
 
                     var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == item.MaterialId);
 
-                    var ordemServico = await _context.Orcamentos.FirstOrDefaultAsync(x => x.Id == item.OrcamentoId);
+                    var OrdemSeparacao = await _context.Orcamentos.FirstOrDefaultAsync(x => x.Id == item.OrcamentoId);
 
                     item.Material = material;
 
-                    item.Orcamento = ordemServico;
+                    item.Orcamento = OrdemSeparacao;
 
 
                     itensWithMaterial.Add(item);

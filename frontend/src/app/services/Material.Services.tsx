@@ -60,12 +60,12 @@ import { createInventario } from "./Inventario.Services";
   unidade: model.unidade.trim().replace(/\s\s+/g, " "),
   tensao: model.tensao.trim().replace(/\s\s+/g, " "),
   localizacao: model.localizacao.trim().replace(/\s\s+/g, " "),
-  dataEntradaNF: model.dataEntradaNF,
+  dataEntradaNF: null,
   precoCusto:model.precoCusto,
   markup:model.markup == ""?null:model.markup,
   
 };
-       
+console.log(authHeader())
 return await axios
   .post(`${url}/Materiais`, material,{headers:authHeader()})
   .then((r) => {

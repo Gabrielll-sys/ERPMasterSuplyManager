@@ -1,546 +1,306 @@
-"use client"
-import ArrowLeft from "@/app/assets/icons/ArrowLeft";
-import { getMaterialById, updateMaterial } from "@/app/services/Material.Services";
-import { Snackbar } from '@mui/material';
-import MuiAlert, { AlertColor } from "@mui/material/Alert";
-import { Autocomplete, AutocompleteItem, Link, useDisclosure } from "@nextui-org/react";
-import Image from "next/image";
-import IconArrowDownCircle from "@/app/assets/icons/IconArrowDownCircleFill";
-import IconCamera from "@/app/assets/icons/IconCamera";
-import { IImage } from "@/app/interfaces/IImage";
-import { deleteImageFromAzure, getImageDimensions, uploadImageToAzure } from "@/app/services/Images.Services";
-import { Modal, ModalBody, ModalContent, ModalFooter } from '@nextui-org/react';
-import { Flex, TextField } from "@radix-ui/themes";
-import imageCompression from "browser-image-compression";
-import "dayjs/locale/pt-br";
+
+"use client";
+
+import { useEffect, useState, useCallback, FormEvent, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { Button } from "@radix-ui/themes";
-export default function UpdateMaterial({params}:any){
-  const route = useRouter()
+import Link from "next/link";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast, Toaster } from "sonner";
 
-  const [widthImageModal, setWidthImageModal] = useState<number>(0);
-  const [heightImageModal, setHeightImageModal] = useState<number>(0);
-  const [descricao,setDescricao] = useState<string>("")
-  const [codigoInterno,setCodigoInterno] = useState<string>("")
-  const [codigoFabricante,setCodigoFabricante] = useState<string>("")
-  const [marca,setMarca] = useState<string>("")
-  const [ tensao,setTensao] = useState<any>("")
-  const [corrente,setCorrente] = useState<string>("")
-  const [localizacao,setLocalizacao] = useState<string>("")
-  const [ unidade,setUnidade] = useState<any>("")
+import { 
+  Flex, 
+  Button, 
+  Text, 
+  Box, 
+  Card, 
+  Heading, 
+  Separator, 
+  TextField,
+  Grid,
+  Select // Importamos o componente Select
+} from "@radix-ui/themes";
+import { ArrowLeftIcon } from '@radix-ui/react-icons';
+import { Spinner } from "@nextui-org/react";
 
-  const [openSnackBar,setOpenSnackBar]= useState(false)
-  const [ messageAlert,setMessageAlert] = useState<string>();
-  const [ severidadeAlert,setSeveridadeAlert] = useState<AlertColor>()
+import { getMaterialById, updateMaterial } from "@/app/services/Material.Services";
+import IMaterial from "@/app/interfaces/IMaterial";
 
-  const[oldCategory,setOldCategory]= useState<string>("")
-  const { isOpen, onOpen, onOpenChange,onClose } = useDisclosure();
+interface MaterialFormData {
+  descricao: string;
+  codigoFabricante: string;
+  marca: string;
+  tensao: string;
+  corrente: string;
+  localizacao: string;
+  unidade: string;
+  precoCusto: string;
+  precoVenda: string;
+  markup: string;
+}
 
-  const[precoCusto,setPrecoCusto] = useState<string >()
-  const[precoVenda,setPrecoVenda] = useState<string>()
-  const[markup,setMarkup] = useState< string>()
-  const[imagem,setImagem] = useState<IImage>()
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  
-  const [unidadeMaterial,setUnidadeMaterial] = useState<any>(["UN","RL","PC","MT","P"])
-  const tensoes : string[] = ["12V","24V","127V","220V","380V","440V","660V"]
-  const [descricaoMaterial,setDescricaoMaterial] = useState<string>()
-  const [imageModal, setImageModal] = useState<IImage>();
- 
-  const[blockButton,setBlockButton] = useState<boolean>(false)
- 
- useEffect(()=>{
- 
-    getMaterial(params.materialId).then().catch()
-    
+interface SelectOption {
+  value: string;
+  label: string;
+}
 
- },[])
- const handleImageModal = async (urlImagem: string | undefined) => {
-  const res: any = await getImageDimensions(urlImagem);
-  setWidthImageModal(res.width);
-  setHeightImageModal(res.height);
-  setImageModal(res);
-};
+interface UpdateMaterialPageProps {
+  params: { materialId: string };
+}
 
-const handleDeleteImagemMaterial = async () => {
+export default function UpdateMaterialPage({ params }: UpdateMaterialPageProps) {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const materialId = parseInt(params.materialId);
 
-  setBlockButton(true)
-  await deleteImageFromAzure(imageModal?.urlImagem,"materiais-images");
-
-  const material = {
-    id:params.materialId,
-    codigoInterno:"",
-    codigoFabricante:codigoFabricante.trim().replace(/\s\s+/g, ' '),
-    categoria: oldCategory.trim().replace(/\s\s+/g, " "),
-    descricao:descricao.trim().replace(/\s\s+/g, ' '),
-    marca:marca.trim().replace(/\s\s+/g, ' '),
-    corrente:corrente.trim().replace(/\s\s+/g, ' '),
-    unidade:unidade,
-    tensao:tensao,
-    localizacao:localizacao.trim().replace(/\s\s+/g, ' '),
-    precoCusto:Number(precoCusto)==0?0:Number(precoCusto?.toString().replace(',','.')),
-    precoVenda:Number(precoVenda)==0?0:Number(precoVenda?.toString().replace(',','.')),
-    markup:Number(markup)==0?null:Number(markup?.toString().replace(',','.')),
-    urlImage:null
-    }
-
-   
-  await updateMaterial(material)
-
-  setTimeout(()=>{
-    setBlockButton(false)
-  },2000)
-  setImagem(undefined)
- await getMaterial(params.materialId).then().catch()
-
-};
-
- const readImageFromFile = (file: File): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      resolve(reader.result as string);
-    };
-    reader.onerror = (error) => {
-      reject(error);
-    };
-    reader.readAsDataURL(file);
+  const [formData, setFormData] = useState<MaterialFormData>({
+    descricao: "", codigoFabricante: "", marca: "", tensao: "",
+    corrente: "", localizacao: "", unidade: "", precoCusto: '',
+    precoVenda: '', markup: '',
   });
-};
 
-const convertToPng = async (file: File): Promise<File> => {
-  const options = {
-    maxSizeMb: 3,
-    maxWidthOrHeight: 2000,
-    fileType: 'image/png',
-  };
-  return await imageCompression(file, options);
-};
+  const [errors, setErrors] = useState<Partial<Record<keyof MaterialFormData, string>>>({});
 
-const handleImageChange = async (event: any) => {
-  const selectedImage: File = event.target.files[0];
+  const unidadeOptions: SelectOption[] = [
+    { value: "UN", label: "UN - Unidade" },
+    { value: "RL", label: "RL - Rolo" },
+    { value: "PC", label: "PC - Peça" },
+    { value: "MT", label: "MT - Metro" },
+    { value: "P", label: "P - Pacote" },
+    { value: "CX", label: "CX - Caixa" },
+    { value: "KIT", label: "KIT - Kit" }
+  ];
 
-  if (selectedImage !== undefined) {
-    let imageFile = selectedImage;
+  const { data: material, isLoading, error: queryError } = useQuery({
+    queryKey: ['material', materialId],
+    queryFn: () => getMaterialById(materialId),
+    enabled: !!materialId,
+  });
 
-    if (selectedImage.type === 'image/jpeg') {
-      imageFile = await convertToPng(selectedImage);
-    }
-  
-    const imageBase64 = await readImageFromFile(imageFile);
-    const urlImagem = await uploadImageToAzure(imageBase64, imageFile.name,"materiais-images");
-    await handleImageUploadResponse(urlImagem);
-  }
-};
+  const updateMaterialMutation = useMutation({
+    mutationFn: updateMaterial,
+    onSuccess: () => {
+      toast.success("Material atualizado com sucesso!");
+      queryClient.invalidateQueries({ queryKey: ['material', materialId] });
+      queryClient.invalidateQueries({ queryKey: ['materiais'] });
+    },
+    onError: (err: any) => toast.error(`Erro ao atualizar: ${err.message || 'Tente novamente.'}`),
+  });
 
-const handleImageUploadResponse = async (urlImagem: string) => {
-
-  const material = {
-    id:params.materialId,
-    codigoInterno:"",
-    codigoFabricante:codigoFabricante.trim().replace(/\s\s+/g, ' '),
-    categoria: oldCategory.trim().replace(/\s\s+/g, " "),
-    descricao:descricao.trim().replace(/\s\s+/g, ' '),
-    marca:marca.trim().replace(/\s\s+/g, ' '),
-    corrente:corrente.trim().replace(/\s\s+/g, ' '),
-    unidade:unidade,
-    tensao:tensao,
-    localizacao:localizacao.trim().replace(/\s\s+/g, ' '),
-    precoCusto:Number(precoCusto)==0?0:Number(precoCusto?.toString().replace(',','.')),
-    precoVenda:Number(precoVenda)==0?0:Number(precoVenda?.toString().replace(',','.')),
-    markup:Number(markup)==0?null:Number(markup?.toString().replace(',','.')),
-    urlImage:urlImagem,
-    }
-
-
-  const res=  await updateMaterial(material)
-
-
-  if (res === 200) {
-    setOpenSnackBar(true);
-    setSeveridadeAlert('success');
-    setMessageAlert('Imagem Adicionada ao Material');
-    getMaterial(params.materialId)
-  }
-};
-
- //Função para calcular o markup ja trocando as virgulas por pontos,pois a variável é string,para permitir usar , ao invés de .
- const  calcularMarkup= ()=>
- {
-  
-  const PRECO_CUSTO = Number(precoCusto)
-
-  const PRECO_VENDA = Number(precoVenda)
-
-  console.log(PRECO_VENDA.toFixed(4))
-
-  let markupCalculado = Number((Number(precoVenda?.toString().replace(`,`,`.`))/Number(precoCusto?.toString().replace(`,`,`.`))-1).toFixed(4))*100
-
-    const positiveNumber = Math.abs(markupCalculado)
-
-    console.log(positiveNumber)
-
-    setMarkup(positiveNumber.toFixed(2).toString().replace('.',','))
-    
-  if(Number.isNaN(markupCalculado))
-  {
- 
-   setMarkup("")
-
-  }
-  else{
-
-    setMarkup(markupCalculado.toFixed(2).toString().replace('.',','))
-  }
-  return 
-
- }
- const  calcularPrecoVenda= ()=>
- {
-
-  let percentage = (Number(markup)/10)+1
-  const a =  Number((Number(precoCusto?.toString().replace(`,`,`.`))*Number(percentage?.toString().replace(`,`,`.`))-1)+1).toFixed(2).toString()
-  setPrecoVenda(a)
-  console.log(a)
-
- }
- //esta função serve para verificar se o item é nulo,aonde quando importamos os dados do excel os dados vem como nulo
- //e para realizar a  edição aqui
- const verifyNull = (item:any)=>{
- 
-   return item==null?"":item
- 
- }
-
-  const getMaterial = async(id:number)=>{
-   const material = await getMaterialById(id)
-
-
-setCodigoInterno(material.id)
-setUnidade(material.unidade)
-setCodigoFabricante(verifyNull(material.codigoFabricante))
-setCorrente(verifyNull(material.corrente))
-setMarca(verifyNull(material.marca))
- setDescricaoMaterial(material.descricao)
- setDescricao(material.descricao)
-setOldCategory(verifyNull(material.categoria))
-setLocalizacao(verifyNull(material.localizacao))
-setPrecoCusto(verifyNull(material.precoCusto))
-setPrecoVenda(material.precoVenda == null?"0":material.precoVenda.toFixed(2))
-setMarkup(verifyNull(material.markup))
-
-setTensao(material.tensao)
-
-const image  = await getImageDimensions(material.urlImage);
-console.log(image)
-  setImagem(image)
-
-  }
- 
- 
- const handleUpdateMaterial=  async (id:number)=>{
- 
- if(precoCusto == "" && markup==""){
-
-   setPrecoCusto("0")
-   setMarkup("0")
- }
-   // o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
- const material = {
-     id:id,
-     codigoInterno:"",
-     codigoFabricante:codigoFabricante.trim().replace(/\s\s+/g, ' '),
-     categoria: oldCategory.trim().replace(/\s\s+/g, " "),
-     descricao:descricao.trim().replace(/\s\s+/g, ' '),
-     marca:marca.trim().replace(/\s\s+/g, ' '),
-     corrente:corrente.trim().replace(/\s\s+/g, ' '),
-     unidade:unidade,
-     tensao:tensao,
-     localizacao:localizacao.trim().replace(/\s\s+/g, ' '),
-     precoCusto:Number(precoCusto)==0?0:Number(precoCusto?.toString().replace(',','.')),
-     precoVenda:Number(precoVenda)==0?0:Number(precoVenda?.toString().replace(',','.')),
-     markup:Number(markup)==0?null:Number(markup?.toString().replace(',','.')),
-     }
-
-     
-   const materialAtualizado =  await updateMaterial(material)
-   
-     
-   if (materialAtualizado){
-       setOpenSnackBar(true)
-       setSeveridadeAlert("success")
-       setMessageAlert("Material Atualizado com sucesso")
-       //Contará um tempo depois que atualizar o material e voltara para a tela de materias
-      setTimeout(()=>{
-        route.back()
-      },1200)
-   }
-   
-   
- 
- }
- 
-
- 
- 
-   return (
-     <>
- 
-
- 
-     <Link
-        size="sm"
-        as="button"
-        className="p-3 mt-4 text-base tracking-wide text-dark hover:text-success border border-transparent hover:border-success transition-all duration-200"
-        onClick={() => route.push("/create-material")}
-      >
-        <ArrowLeft /> Retornar
-      </Link>
-     <h1  className='text-center font-bold text-2xl mt-10'>Editando {descricaoMaterial}  (Codigo Interno: {codigoInterno}) </h1>
-   
-     <Flex direction="column" gap="6">
-       <Flex direction="row" justify="center"  gap="6" height="7" className=' mt-10' >
-        <TextField.Root>
-                    <TextField.Input
-                      value={codigoFabricante}
-                      variant='classic'
-                      onChange={(x) => setCodigoFabricante(x.target.value)}
-                      placeholder='Código Fabricante'
-                      size="3"
-                    />
-                  </TextField.Root>
-          <TextField.Root>
-                    <TextField.Input
-                      value={descricao}
-                      variant='classic'
-                      onChange={(x) => setDescricao(x.target.value)}
-                      placeholder='Descricao'
-                      className="w-[400px]"
-                      size="3"
-                    />
-                  </TextField.Root>
-           <TextField.Root>
-                    <TextField.Input
-                      value={marca}
-                      variant='classic'
-                      onChange={(x) => setMarca(x.target.value)}
-                      placeholder='Marca'
-                      size="3"
-                    />
-                  </TextField.Root>
-            <TextField.Root>
-                    <TextField.Input
-                      value={localizacao}
-                      variant='classic'
-                      onChange={(x) => setLocalizacao(x.target.value)}
-                      placeholder='Localização'
-                      size="3"
-                    />
-                  </TextField.Root>
-          
-       
-           </Flex>
-
-        <Flex direction="row" justify="center"  gap="6" height="7" >
-        <TextField.Root>
-                    <TextField.Input
-                      value={precoCusto}
-                      variant='classic'
-                      onChange={(x) => setPrecoCusto(x.target.value)}
-                      placeholder='Preço De Custo'
-                      size="3"
-                    />
-                  </TextField.Root>
-            <TextField.Root>
-                    <TextField.Input
-                      value={markup}
-                      variant='classic'
-                      onChange={(x) => setMarkup(x.target.value)}
-                      placeholder='Markup'
-                      size="3"
-                    />
-              </TextField.Root>
-       
-              <TextField.Root>
-                    <TextField.Input
-                      value={precoVenda}
-                      variant='classic'
-                      onChange={(x) => setPrecoVenda(x.target.value)}
-                      placeholder='Preço de Venda'
-                      size="3"
-                    />
-              </TextField.Root>
-
-              <TextField.Root>
-                    <TextField.Input
-                      value={corrente}
-                      variant='classic'
-                      onChange={(x) => setCorrente(x.target.value)}
-                      placeholder='Corrente'
-                      size="3"
-                    />
-              </TextField.Root>
-           {tensao && (
-              <Autocomplete
-              label="Tensão "
-              className="max-w-[180px] "
-              allowsCustomValue
-              value={tensao}
-              onSelectionChange={setTensao}
-              defaultSelectedKey={tensao}
-              >
-              {tensoes.map((item:any) => (
-                <AutocompleteItem
-                key={item}
-                aria-label=''
-                  value={tensao}
-                  >
-                  {item}
-                </AutocompleteItem>
-              ))}
-              </Autocomplete>
-           )}
-          
-        {unidade && (
-       
-        <Autocomplete
-         label="Unidade "
-         placeholder="EX:MT"
-         className="max-w-[180px]  "
-          value={unidadeMaterial}
-          onSelectionChange={setUnidade}
-          allowsCustomValue
-          defaultSelectedKey={unidade==""?"":unidade}
-       >
-       
-       {unidadeMaterial.map((item:any) => (
-       
-          <AutocompleteItem
-           key={item}
-           aria-label='teste'
-       
-            value={unidade}
-            >
-            {item}
-          </AutocompleteItem>
-        ))}
-        </Autocomplete>
-        )}
-       
-       
-       </Flex>
-     </Flex>
-
-     <div className=' w-[100%] text-center mt-12 flex flex-col gap-4 items-center'>
-     <Button  onClick={x=>handleUpdateMaterial(params.materialId)} 
-      size="4"
-      variant='outline' className=' p-6 rounded-lg font-bold cursor-pointer   '>
-       Atualizar Material
-      </Button>
-      <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleImageChange}
-              className="hidden"
-            />
-            <button
-              className="bg-master_yellow text-black py-2 px-4 rounded-md items-center gap-2 hover:bg-white hover:border-1 hover:border-black flex flex-row"
-              onClick={() => fileInputRef.current?.click()}
-            >
-              Subir Imagem
-              <IconCamera height="1.4em" width="1.4em" />
-            </button>
-            {imagem && (
-              <>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-[100%]">
-    {/* Empty div to fill the first column and create the centering effect */}
-    <div className="hidden md:block"></div>
-    
-    <div
-        className="relative flex justify-center items-center bg-gray-200 rounded-lg shadow-md overflow-hidden"
-        style={{
-            width: '100%',
-            height: 350,
-        }}
-        onClick={() => {
-            onOpenChange(), handleImageModal(imagem?.urlImagem)
-        }}
-    >
-        <Image
-            src={imagem.urlImagem != undefined ? imagem.urlImagem : ""}
-            alt={`Imagem ${descricao} `}
-            layout="fill"
-            objectFit="cover"
-            className="cursor-pointer"
-        />
-    </div>
-    
-    {/* Empty div to fill the third column */}
-    <div className="hidden md:block"></div>
-</div>
-              
-              
-              
-              </>
-            )}
-      </div>
-      <Modal isOpen={isOpen } backdrop="blur" size='xl' onOpenChange={onOpenChange} >
-          <ModalContent>
-          {(onClose) => (
-                 <>
-            <ModalBody className="flex flex-col items-center justify-center relative">
-              {imageModal ? (
-                <Image
-                  src={imageModal.urlImagem != undefined ?imageModal.urlImagem:""}
-                  alt="Imagem da Atividade"
-                  width={imageModal.width}
-                  height={heightImageModal}
-                />
-              ) : (
-                <p>Carregando...</p>
-              )}
-              <a
-                               href={imageModal?.urlImagem}
-                               download={descricao}
-                                className="absolute top-2 left-2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"
-                                     >
+  useEffect(() => {
+    if (material) {
+      const formatPrice = (price: number | null | undefined) => 
+        price != null ? price.toString().replace('.', ',') : '';
       
-                                     <IconArrowDownCircle height={"1.4em"} width={"1.4em"}  />
-                             </a>
-             
-            </ModalBody>
-            <ModalFooter className="flex flex-row justify-between">
-           
-              
-              <Button color="crimson" size='3' variant="solid" className='p-2 cursor-pointer ' onClick={handleDeleteImagemMaterial}>
-                                Deletar Imagem
-                            </Button>
-              <Button color="blue" variant="outline" className='p-2 cursor-pointer ' onClick={()=>{onClose(),setImageModal(undefined)}}>
-                             Fechar
-                         </Button>
-            </ModalFooter>
-                 </>
-                             )}
-          </ModalContent>
-        </Modal>
+      setFormData({
+        descricao: material.descricao || "",
+        codigoFabricante: material.codigoFabricante || "",
+        marca: material.marca || "",
+        tensao: material.tensao || "",
+        corrente: material.corrente || "",
+        localizacao: material.localizacao || "",
+        unidade: material.unidade || "",
+        precoCusto: formatPrice(material.precoCusto),
+        precoVenda: formatPrice(material.precoVenda),
+        markup: formatPrice(material.markup),
+      });
+    }
+  }, [material]);
 
-     <Snackbar open={openSnackBar} autoHideDuration={3000} onClose={e=>setOpenSnackBar(false)}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'center'
-      }}
-     >
-             <MuiAlert onClose={e=>setOpenSnackBar(false)} severity={severidadeAlert} sx={{ width: '100%' }}>
-              {messageAlert}
-            </MuiAlert>
-            </Snackbar>
-   
- 
-     
-     </>
-     
-     
-   );
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (errors[name as keyof MaterialFormData]) {
+      setErrors(prev => ({ ...prev, [name]: undefined }));
+    }
+  };
+
+  const handleSelectChange = (value: string, name: keyof MaterialFormData) => {
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: undefined }));
+    }
+  };
+
+  const handlePriceCalculation = useCallback((source: 'venda' | 'markup') => {
+    const custoStr = formData.precoCusto.replace(',', '.');
+    const vendaStr = formData.precoVenda.replace(',', '.');
+    const markupStr = formData.markup.replace(',', '.');
+    const custo = parseFloat(custoStr);
+    if (isNaN(custo) || custo <= 0) return;
+
+    if (source === 'venda') {
+      const venda = parseFloat(vendaStr);
+      if (!isNaN(venda)) {
+        const newMarkup = ((venda / custo) - 1) * 100;
+        setFormData(prev => ({ ...prev, markup: newMarkup.toFixed(2).replace('.', ',') }));
+      }
+    } else if (source === 'markup') {
+      const markupPercent = parseFloat(markupStr);
+      if (!isNaN(markupPercent)) {
+        const newPrecoVenda = custo * (1 + markupPercent / 100);
+        setFormData(prev => ({ ...prev, precoVenda: newPrecoVenda.toFixed(2).replace('.', ',') }));
+      }
+    }
+  }, [formData.precoCusto, formData.precoVenda, formData.markup]);
+
+  const validate = (): boolean => {
+    const newErrors: Partial<Record<keyof MaterialFormData, string>> = {};
+    if (!formData.descricao.trim()) newErrors.descricao = 'Descrição é obrigatória.';
+    if (!formData.unidade.trim()) newErrors.unidade = 'Unidade é obrigatória.';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (!validate()) {
+      toast.error("Por favor, corrija os erros no formulário.");
+      return;
+    }
+
+    const parseOptionalNumber = (value?: string) => {
+      if (!value || value.trim() === '') return undefined;
+      const number = parseFloat(value.replace(',', '.'));
+      return isNaN(number) ? undefined : number;
+    };
+
+    const payload: Partial<IMaterial> = {
+      id: materialId,
+      ...formData,
+      precoCusto: parseOptionalNumber(formData.precoCusto),
+      precoVenda: parseOptionalNumber(formData.precoVenda),
+      markup: parseOptionalNumber(formData.markup),
+    };
+
+    updateMaterialMutation.mutate(payload as IMaterial);
+  };
+
+  if (isLoading) return <Flex justify="center" align="center" className="min-h-screen"><Spinner label="Carregando material..." size="lg" /></Flex>;
+  if (queryError) return <Box className="p-6 text-center"><Text color="red">Erro ao carregar o material. Tente novamente.</Text></Box>;
+
+  return (
+    <Box className="container mx-auto p-4 md:p-6 max-w-4xl">
+      <Toaster richColors position="top-right" />
+      
+      <Flex align="center" justify="between" mb="6">
+        <Button variant="soft" asChild>
+          <Link href="/create-material">
+            <ArrowLeftIcon height="16" width="16" />
+            Voltar para a Lista
+          </Link>
+        </Button>
+      </Flex>
+
+      <Heading align="center" size="7" mb="2">Editar Material</Heading>
+      <Text align="center" color="gray" size="3" mb="6">{material?.descricao} (ID: {materialId})</Text>
+
+      <Card variant="surface" size="4">
+        <form onSubmit={handleSubmit}>
+          <Grid columns={{ initial: '1', sm: '2' }} gap="4">
+            
+            <Box className="sm:col-span-2">
+              <Flex direction="column" gap="1">
+                <Text as="label" htmlFor="descricao" weight="bold">Descrição <span className="text-red-500">*</span></Text>
+                <TextField.Root size="3" color={errors.descricao ? 'red' : undefined}>
+                  <TextField.Input id="descricao" name="descricao" value={formData.descricao} onChange={handleChange} placeholder="Ex: Disjuntor Monopolar 20A" disabled={updateMaterialMutation.isPending} />
+                </TextField.Root>
+                {errors.descricao && <Text size="1" color="red">{errors.descricao}</Text>}
+              </Flex>
+            </Box>
+
+            <Flex direction="column" gap="1">
+              <Text as="label" htmlFor="codigoFabricante" weight="bold">Código do Fabricante</Text>
+              <TextField.Root size="3">
+                <TextField.Input id="codigoFabricante" name="codigoFabricante" value={formData.codigoFabricante} onChange={handleChange} placeholder="Ex: 5SX2120-7" disabled={updateMaterialMutation.isPending} />
+              </TextField.Root>
+            </Flex>
+            <Flex direction="column" gap="1">
+              <Text as="label" htmlFor="marca" weight="bold">Marca</Text>
+              <TextField.Root size="3">
+                <TextField.Input id="marca" name="marca" value={formData.marca} onChange={handleChange} placeholder="Ex: Siemens" disabled={updateMaterialMutation.isPending} />
+              </TextField.Root>
+            </Flex>
+
+            <Flex direction="column" gap="1">
+              <Text as="label" htmlFor="localizacao" weight="bold">Localização</Text>
+              <TextField.Root size="3">
+                <TextField.Input id="localizacao" name="localizacao" value={formData.localizacao} onChange={handleChange} placeholder="Prateleira A-01" disabled={updateMaterialMutation.isPending} />
+              </TextField.Root>
+            </Flex>
+            <Flex direction="column" gap="1">
+              <Text as="label" htmlFor="unidade" weight="bold">Unidade <span className="text-red-500">*</span></Text>
+              {formData.unidade && (
+
+             <Select.Root 
+                key={`unidade-${material?.id || 'new'}`}
+                name="unidade" 
+                value={formData.unidade} 
+                onValueChange={(value) => handleSelectChange(value, 'unidade')} 
+                size="3" 
+                disabled={updateMaterialMutation.isPending}
+              >
+                <Select.Trigger placeholder="Selecione uma unidade..." />
+                <Select.Content position="popper">
+                  {unidadeOptions.map(option => (
+                    <Select.Item key={option.value} value={option.value}>
+                      {option.label}
+                    </Select.Item>
+                  ))}
+                </Select.Content>
+            </Select.Root>
+              )}
+
+              {errors.unidade && <Text size="1" color="red">{errors.unidade}</Text>}
+            </Flex>
+
+            <Flex direction="column" gap="1">
+              <Text as="label" htmlFor="tensao" weight="bold">Tensão</Text>
+              <TextField.Root size="3">
+                <TextField.Input id="tensao" name="tensao" value={formData.tensao} onChange={handleChange} placeholder="Ex: 220V" disabled={updateMaterialMutation.isPending} />
+              </TextField.Root>
+            </Flex>
+            <Flex direction="column" gap="1">
+              <Text as="label" htmlFor="corrente" weight="bold">Corrente</Text>
+              <TextField.Root size="3">
+                <TextField.Input id="corrente" name="corrente" value={formData.corrente} onChange={handleChange} placeholder="Ex: 20A" disabled={updateMaterialMutation.isPending} />
+              </TextField.Root>
+            </Flex>
+
+            <Box className="sm:col-span-2"><Separator size="4" my="3" /></Box>
+            
+            <Flex direction="column" gap="1">
+              <Text as="label" htmlFor="precoCusto" weight="bold">Preço de Custo (R$)</Text>
+              <TextField.Root size="3">
+                <TextField.Input id="precoCusto" name="precoCusto" value={formData.precoCusto} onChange={handleChange} placeholder="0,00" disabled={updateMaterialMutation.isPending} />
+              </TextField.Root>
+            </Flex>
+            <Flex direction="column" gap="1">
+              <Text as="label" htmlFor="markup" weight="bold">Markup (%)</Text>
+              <TextField.Root size="3">
+                <TextField.Input id="markup" name="markup" value={formData.markup} onChange={handleChange} onBlur={() => handlePriceCalculation('markup')} placeholder="0,00" disabled={updateMaterialMutation.isPending} />
+              </TextField.Root>
+            </Flex>
+            <Flex direction="column" gap="1" className="sm:col-span-2">
+              <Text as="label" htmlFor="precoVenda" weight="bold">Preço de Venda (R$)</Text>
+              <TextField.Root size="3">
+                <TextField.Input id="precoVenda" name="precoVenda" value={formData.precoVenda} onChange={handleChange} onBlur={() => handlePriceCalculation('venda')} placeholder="0,00" disabled={updateMaterialMutation.isPending} />
+              </TextField.Root>
+            </Flex>
+
+          </Grid>
+          
+          <Separator size="4" my="5" />
+          
+          <Flex justify="end" gap="3">
+            <Button type="button" variant="soft" color="gray" onClick={() => router.back()} disabled={updateMaterialMutation.isPending}>
+              Cancelar
+            </Button>
+            <Button type="submit" color="sky" disabled={updateMaterialMutation.isPending}>
+              {updateMaterialMutation.isPending ? <Spinner size="sm" color="default" /> : 'Salvar Alterações'}
+            </Button>
+          </Flex>
+        </form>
+      </Card>
+    </Box>
+  );
 }

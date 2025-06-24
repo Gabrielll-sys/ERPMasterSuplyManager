@@ -50,6 +50,66 @@
             </summary>
             <param name="Id da atividadedaatividade"></param>
         </member>
+        <member name="M:MasterErp.Api.Controllers.Forms.FilledFormsController.SyncFilledForms(System.Collections.Generic.List{MasterErp.Services.DTOs.Forms.FilledFormSyncDto})">
+            <summary>
+            Recebe um lote de formulários preenchidos do dispositivo móvel para sincronização.
+            </summary>
+            <param name="formsToSync">Uma lista de DTOs representando os formulários preenchidos.</param>
+            <returns>Um resultado indicando o sucesso ou falha de cada item sincronizado.</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.Forms.FilledFormsController.GetFilledForms(System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.Int32,System.Int32)">
+            <summary>
+            Obtém uma lista de instâncias de formulários preenchidos.
+            </summary>
+            <remarks>
+            Adicionar parâmetros de query para paginação e filtro (ex: ?templateId=1&amp;status=SYNCED&amp;page=1&amp;pageSize=20).
+            </remarks>
+            <returns>Uma lista de instâncias de formulários preenchidos.</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.Forms.FilledFormsController.GetFilledFormDetail(System.Guid)">
+            <summary>
+            Obtém os detalhes de uma instância específica de formulário preenchido.
+            </summary>
+            <param name="instanceId">O ID (Guid) da instância do formulário preenchido.</param>
+            <returns>Os detalhes da instância do formulário ou NotFound.</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.Forms.FormTemplatesController.GetActiveTemplates">
+            <summary>
+            Obtém uma lista de todos os modelos de formulário ativos (versão mais recente de cada).
+            </summary>
+            <returns>Uma lista de modelos de formulário básicos.</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.Forms.FormTemplatesController.GetTemplateDetail(System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            Obtém os detalhes de uma versão específica de um modelo de formulário.
+            Se a versão não for especificada, obtém a mais recente.
+            </summary>
+            <param name="templateId">O ID do modelo de formulário.</param>
+            <param name="versionNumber">O número da versão do modelo (opcional).</param>
+            <returns>Os detalhes do modelo de formulário ou NotFound se não encontrado.</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.Forms.FormTemplatesController.CreateFormTemplate(FormTemplateCreateDto)">
+            <summary>
+            Cria um novo modelo de formulário. (Uso Administrativo)
+            </summary>
+            <param name="createDto">Os dados para criar o novo modelo de formulário.</param>
+            <returns>Os detalhes do modelo de formulário criado.</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.Forms.FormTemplatesController.UpdateFormTemplate(System.Int32,FormTemplateUpdateDto)">
+            <summary>
+            Atualiza um modelo de formulário existente. (Uso Administrativo)
+            </summary>
+            <param name="templateId">O ID do modelo de formulário a ser atualizado.</param>
+            <param name="updateDto">Os dados para atualizar o modelo de formulário.</param>
+            <returns>Nenhum conteúdo em caso de sucesso ou NotFound.</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.Forms.FormTemplatesController.DeleteFormTemplate(System.Int32)">
+            <summary>
+            Deleta (ou desativa) um modelo de formulário. (Uso Administrativo)
+            </summary>
+            <param name="templateId">O ID do modelo de formulário a ser deletado/desativado.</param>
+            <returns>Nenhum conteúdo em caso de sucesso ou NotFound.</returns>
+        </member>
         <member name="M:MasterErp.Api.Controllers.ImagensAtividadesRdController.GetAll">
             <summary>
             Busca todos os as Imagens de das atividades
@@ -223,11 +283,6 @@
             <param name="id">Id do item a ser deletado</param>
             <returns></returns>
         </member>
-        <member name="T:MasterErp.Api.Controllers.ItensNotasFiscaisController">
-            <summary>
-            Controlador para gerenciar os Itens da Nota Fiscal
-             </summary>
-        </member>
         <member name="M:MasterErp.Api.Controllers.ItensOrcamentoController.GetAll">
             <summary>
             Pega todos os itens criados
@@ -291,82 +346,78 @@
         </member>
         <member name="T:MasterErp.Api.Controllers.MateriaisController">
             <summary>
-            Controlador para gerenciar os Materias
-             </summary>
+            Controlador para gerenciar os Materiais
+            </summary>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.MateriaisController.GetAll">
+            <summary>
+            Busca todos os materiais
+            </summary>
+            <returns>Lista de todos os materiais</returns>
         </member>
         <member name="M:MasterErp.Api.Controllers.MateriaisController.GetMaterial(System.Int32)">
             <summary>
-            Obtem material por id
+            Obtém material por ID
             </summary>
-            <param name="id">Id do material para ser obtido</param>
-            <returns>Materiais encontrado</returns>
+            <param name="id">ID do material para ser obtido</param>
+            <returns>Material encontrado</returns>
         </member>
-        <member name="M:MasterErp.Api.Controllers.MateriaisController.GetMaterialwithInvetory(System.Int32)">
+        <member name="M:MasterErp.Api.Controllers.MateriaisController.GetMaterialWithInventory(System.Int32)">
             <summary>
-            Obtem material com o ultimo registro de seu inventário
+            Obtém material com o último registro de seu inventário
             </summary>
-            <param name="id">Id do material</param>
+            <param name="id">ID do material</param>
             <returns>Material e inventário encontrado</returns>
         </member>
         <member name="M:MasterErp.Api.Controllers.MateriaisController.CreateMaterial(MasterErp.Domain.Models.MaterialDto)">
             <summary>
             Criar novo material
             </summary>
-            <param name="dto"></param>
-            <param name="id">Objeto material para ser criado</param>
-            <returns>Materiais criado</returns>
+            <param name="dto">Objeto material para ser criado</param>
+            <returns>Material criado</returns>
         </member>
         <member name="M:MasterErp.Api.Controllers.MateriaisController.PutMaterial(System.Int32,MasterErp.Domain.Models.Material)">
             <summary>
-            Atualizar o Material pelo Id
+            Atualizar o Material pelo ID
             </summary>
-            <param name="id">O Id do material a ser atualizado</param>
-            <param name="model">O objeto material a ser atualizado </param>
-            <response code="200">Material encontrado</response>
-            <response code="400">Id do material não é valido</response>
-            <response code="404">Material não encontrado</response>
-            <response code="500">Error no servidor</response>
+            <param name="id">O ID do material a ser atualizado</param>
+            <param name="model">O objeto material a ser atualizado</param>
             <returns>O material atualizado</returns>
         </member>
         <member name="M:MasterErp.Api.Controllers.MateriaisController.Delete(System.Int32)">
             <summary>
-            Deleta o material pelo id fornecido
+            Deleta o material pelo ID fornecido
             </summary>
-            <param name="id"> O id do material a ser deletado</param>
-            <returns></returns>
-        </member>
-        <member name="T:MasterErp.Api.Controllers.NotasFiscaisController">
-            <summary>
-            Controlador para gerenciar as Notas Fiscais
-             </summary>
+            <param name="id">O ID do material a ser deletado</param>
+            <returns>Resultado da operação</returns>
         </member>
         <member name="T:MasterErp.Api.Controllers.OrcamentosController">
             <summary>
             Controlador para gerenciar Orçamentos
              </summary>
         </member>
-        <member name="M:MasterErp.Api.Controllers.OrdemServicosController.GetAll">
+        <member name="M:MasterErp.Api.Controllers.OrdemSeparacaoController.GetAll">
             <summary>
             Busca todos as ordem de serviços
             </summary>
             <param name="id"></param>
             <returns>Todos as ordem de serviços </returns>
         </member>
-        <member name="M:MasterErp.Api.Controllers.OrdemServicosController.Get(System.Int32)">
+        <member name="M:MasterErp.Api.Controllers.OrdemSeparacaoController.Get(System.Int32)">
             <summary>
             Busca uma ordem de serviço pelo seu Id
             </summary>
             <param name="id">O id da ordem de serviço</param>
             <returns>Ordem de serviço encontrada</returns>
         </member>
-        <member name="M:MasterErp.Api.Controllers.OrdemServicosController.Create(MasterErp.Domain.Models.OrdemServicoDto)">
+        <member name="M:MasterErp.Api.Controllers.OrdemSeparacaoController.Create(MasterErp.Domain.Models.OrdemSeparacaoDto)">
             <summary>
             Cria um ordem serviço
             </summary>
             <param name="model">Um objeto que representa a ordem de serviço a ser criada</param>
             <returns>A ordem de serviço criada</returns>
         </member>
-        <member name="M:MasterErp.Api.Controllers.OrdemServicosController.UpdateAuthorize(System.Int32,MasterErp.Domain.Models.OrdemServico)">
+        <member name="M:MasterErp.Api.Controllers.OrdemSeparacaoController.UpdateAuthorize(System.Int32,MasterErp.Domain.Models.OrdemSeparacao)">
             <summary>
             Atualizar a ordem de serviço, á autorizando
             </summary>
@@ -374,7 +425,7 @@
             <param name="model">O objeto de ordem de serviço a ser atualizada e autorizada </param>
             <returns></returns>
         </member>
-        <member name="M:MasterErp.Api.Controllers.OrdemServicosController.Update(System.Int32,MasterErp.Domain.Models.OrdemServico)">
+        <member name="M:MasterErp.Api.Controllers.OrdemSeparacaoController.Update(System.Int32,MasterErp.Domain.Models.OrdemSeparacao)">
             <summary>
             Atualizar a ordem de serviço sem autoriza-la
             </summary>

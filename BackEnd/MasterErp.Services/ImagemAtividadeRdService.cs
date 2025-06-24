@@ -16,9 +16,9 @@ public class ImagemAtividadeRdService:IImagemAtividadeRdService
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         
-        public ImagemAtividadeRdService(IImagemAtividadeRdRepository imagemServicoRepository, IAtividadeRdRepository atividadeRdRepository, ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
+        public ImagemAtividadeRdService(IImagemAtividadeRdRepository imagemSeparacaoRepository, IAtividadeRdRepository atividadeRdRepository, ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
         {
-            _imagemAtividadeRdRepository = imagemServicoRepository;
+            _imagemAtividadeRdRepository = imagemSeparacaoRepository;
 
             _atividadeRdRepository = atividadeRdRepository;
 

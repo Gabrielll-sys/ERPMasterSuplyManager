@@ -75,21 +75,21 @@ public class OrcamentoService : IOrcamentoService
 
                 var lastItem = all.FirstOrDefault();
 
-                var ordemServico = await _orcamentoRepository.CreateAsync(model);
+                var ordemSeparacao = await _orcamentoRepository.CreateAsync(model);
 
                 
                 var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
                 
-                LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Criação do Orcamento Nº{lastItem.Id + 1} de {ordemServico.NomeCliente}",
+                LogAcoesUsuario log = new LogAcoesUsuario(acao: $"Criação do Orcamento Nº{lastItem.Id + 1} de {ordemSeparacao.NomeCliente}",
                     responsavel: userName);
                 
                 await _logAcoesUsuarioService.CreateAsync(log);
                 
                
 
-                ordemServico.Id = lastItem.Id + 1;
+                ordemSeparacao.Id = lastItem.Id + 1;
 
-                return ordemServico;
+                return ordemSeparacao;
 
             }
 

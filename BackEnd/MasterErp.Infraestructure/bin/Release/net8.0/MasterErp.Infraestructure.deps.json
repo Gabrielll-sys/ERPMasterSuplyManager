@@ -568,7 +568,10 @@
           "FluentValidation": "11.9.1"
         },
         "runtime": {
-          "MasterErp.Domain.dll": {}
+          "MasterErp.Domain.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
