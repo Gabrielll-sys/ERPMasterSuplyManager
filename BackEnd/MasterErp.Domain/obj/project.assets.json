@@ -56,11 +56,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\gabri\\Desktop\\MasterErp\\BackEnd\\MasterErp.Domain\\MasterErp.Domain.csproj",
+      "projectUniqueName": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\MasterErp.Domain.csproj",
       "projectName": "MasterErp.Domain",
-      "projectPath": "C:\\Users\\gabri\\Desktop\\MasterErp\\BackEnd\\MasterErp.Domain\\MasterErp.Domain.csproj",
+      "projectPath": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\MasterErp.Domain.csproj",
       "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\gabri\\Desktop\\MasterErp\\BackEnd\\MasterErp.Domain\\obj\\",
+      "outputPath": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

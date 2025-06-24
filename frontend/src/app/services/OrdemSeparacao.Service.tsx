@@ -28,7 +28,7 @@ type CreateItemOsPayload = {
   materialId?: number | null; // Agora é opcional
   descricaoNaoCadastrado?: string | null; // Novo campo opcional
   quantidade: number;
-  responsavelAdicao: string;
+  responsavel: string;
 };
 
 

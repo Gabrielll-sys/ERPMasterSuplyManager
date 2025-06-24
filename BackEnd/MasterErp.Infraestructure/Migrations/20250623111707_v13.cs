@@ -63,13 +63,6 @@ namespace MasterErp.Infraestructure.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Itens_OrdemSeparacoes_OrdemSeparacaoId",
-                table: "Itens",
-                column: "OrdemSeparacaoId",
-                principalTable: "OrdemSeparacoes",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />

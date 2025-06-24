@@ -121,12 +121,13 @@ export function MaterialsTable({
   }, []);
 
   const calculateSubtotal = useCallback((item: IItemOrcamento): number | undefined => {
-   
-    if ( item.material?.precoVenda != undefined && item.precoItemOrcamento!=undefined){
+   console.log(item.material?.precoVenda, item.precoItemOrcamento, item.quantidadeMaterial)
+    if ( item.material?.precoVenda != undefined || item.precoItemOrcamento!=undefined){
 
       const price = item.material?.precoVenda ? item.material?.precoVenda : item.precoItemOrcamento;
       const quantity = item.quantidadeMaterial || 0;
       let subtotal = Number(price) * quantity;
+      console.log(subtotal)
       return Number(subtotal.toFixed(2));
     }
     return undefined;

@@ -60,8 +60,9 @@ const ModernNavBar = () => {
                            {/* ... Dropdown do usuário igual ao anterior ... */}
                             <DropdownTrigger>
                                 <Avatar
-                                    isBordered as="button" className="transition-transform"
-                                    color="secondary" size="sm"
+                                    isBordered as="button" className="transition-transform text-xl hover:scale-105 "
+                                    color="secondary" size="md"
+
                                     src={user.avatarUrl || ""}
                                     name={user.userName?.charAt(0).toUpperCase() || 'U'}
                                 />

@@ -148,18 +148,20 @@ export default function EditingOsPage({ params }: { params: { osId: string } }) 
   const onFormSubmit = (data: OsDetailsFormData) => updateDetailsMutation.mutate(data);
   
   const handleAddMaterial = (materialId: number) => {
+    console.log(authUser.userName);
     const quantidade = prompt("Qual a quantidade a ser adicionada?", "1");
     if (quantidade && !isNaN(Number(quantidade)) && Number(quantidade) > 0) {
       createItemMutation.mutate({
         materialId,
         quantidade: Number(quantidade),
         ordemSeparacaoId: osId,
-        responsavelAdicao: authUser?.userName || "Sistema"
+        responsavel: authUser?.userName || "Sistema"
       });
     }
   };
 
   const handleAddNonRegisteredItem = () => {
+    console.log(authUser.userName);
     if (!newItemDesc.trim() || !newItemQty || newItemQty <= 0) {
       toast.warning("Preencha a descrição e a quantidade.");
       return;
@@ -168,7 +170,7 @@ export default function EditingOsPage({ params }: { params: { osId: string } }) 
       descricaoNaoCadastrado: newItemDesc.trim(),
       quantidade: Number(newItemQty),
       ordemSeparacaoId: osId,
-      responsavelAdicao: authUser?.userName || "Sistema"
+      responsavel: authUser?.userName 
     });
   };
 
@@ -241,7 +243,7 @@ export default function EditingOsPage({ params }: { params: { osId: string } }) 
             
             {!(os as IOrdemSeparacao)?.isAuthorized && <Card>
               <Flex direction="column" p="4" gap="4">
-                  <Heading size="5">Itens Não Cadastrados</Heading>
+                  <Heading size="5">Materiais Não Cadastrados</Heading>
                   <Flex direction={{ initial: 'column', sm: 'row' }} gap="3" align="end">
                       <TextField.Root className="flex-grow"><TextField.Slot><MessageSquarePlus className="text-slate-400" /></TextField.Slot><TextField.Input placeholder="Descrição do novo item" value={newItemDesc} onChange={(e) => setNewItemDesc(e.target.value)} /></TextField.Root>
                       <TextField.Root className="w-full sm:w-24"><TextField.Input type="number" placeholder="Qtd." value={newItemQty} onChange={(e) => setNewItemQty(Number(e.target.value))} min="1" /></TextField.Root>

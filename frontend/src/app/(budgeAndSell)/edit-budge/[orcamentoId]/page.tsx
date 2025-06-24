@@ -111,7 +111,7 @@ export default function ManageBudgetPage({ params }: { params: { orcamentoId: st
   
   // CORRIGIDO: Função que efetivamente salva as alterações do formulário
   const handleUpdateBudget = () => {
-    if (!orcamento || updateBudgetMutation.isLoading) return;
+    if (!orcamento || updateBudgetMutation.isPending) return;
 
     // Combina os dados originais do orçamento com as alterações do formulário
     const payload = {
