@@ -9,7 +9,8 @@ import "dayjs/locale/pt-br";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "@nextui-org/shared-icons";
 import {Calendar, DateValue} from "@nextui-org/calendar";
 import TaskUser from "../componentes/TaskUser";
-import { DragDropContext, Droppable,Draggable, type DropResult } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import type { DropResult } from "react-beautiful-dnd";
 import { ITarefaUsuario } from "../interfaces/ITarefaUsuario";
 import { createTarefaUsuario, deleteTarefaUsuario, getUserTasksByDate, updateTarefaUsuario } from "../services/TarefasUsuarios.Services";
 import dayjs from "dayjs";
@@ -307,23 +308,15 @@ const deletarTarefaMutation = useMutation({
     return (
       <>
         <div className="flex flex-row w-[60%] justify-between">
-          <Calendar
-            aria-label="Date (Uncontrolled)"
-            className="mb-4"
-            onChange={(e) => {
-              getTasksByDate(e.toString());
-              setDateTask(e);
-              handleDate(e);
-            }}
-            autoFocus
-          />
+         
           <h1 className="text-2xl mt-20 h-4 mx-auto">
             Minhas Tarefas de {diaSemana} - {dayjs(dateTasks).format("DD/MM/YYYY").toString()}
           </h1>
         </div>
     
         <Flex direction="row" justify="center" gap="6">
-          <DragDropContext onDragEnd={onDragEnd}>
+          
+          {/* <DragDropContext onDragEnd={onDragEnd}>
     
             <Droppable droppableId="concluidas">
               {(provided) => (
@@ -343,7 +336,7 @@ const deletarTarefaMutation = useMutation({
                   {provided.placeholder}
                 </Flex>
               )}
-            </Droppable>
+            </Droppable> */}
 {/*     
             <Droppable droppableId="alta">
               {(provided) => (
@@ -417,26 +410,10 @@ const deletarTarefaMutation = useMutation({
               )}
             </Droppable> */}
     
-          </DragDropContext>
+        
         </Flex>
     
-        <Snackbar
-          open={openSnackBar}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center'
-          }}
-          autoHideDuration={2000}
-          onClose={(e) => setOpenSnackBar(false)}
-        >
-          <MuiAlert
-            onClose={(e) => setOpenSnackBar(false)}
-            severity={severidadeAlert}
-            sx={{ width: "100%" }}
-          >
-            {messageAlert}
-          </MuiAlert>
-        </Snackbar>
+    
       </>
     );
 

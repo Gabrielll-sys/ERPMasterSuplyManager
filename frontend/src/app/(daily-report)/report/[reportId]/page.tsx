@@ -35,12 +35,11 @@ import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import { ProgressBar } from '@/app/componentes/ProgressBar';
 import { Flex, TextField } from '@radix-ui/themes';
 import { Button } from '@radix-ui/themes';
-import { useMutation, useQuery } from 'react-query';
-
-
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export default function Report({params}:any){
     const route = useRouter()
+    const queryClient = useQueryClient();
     const[confirmAuthorizeMessage,setconfirmAuthorizeMessage]= useState<string>()
     var dataAtual = new Date();
     const [currentUser, setCurrentUser] = useState<any>(null);
@@ -77,157 +76,156 @@ export default function Report({params}:any){
 
 
     const {data:relatorioDiario,refetch:refetchRelatorioDiario} = useQuery({
-    queryKey:["relatorio-diario",params.reportId],
-    queryFn:()=>getRelatorioDiarioById(params.reportId),
-    staleTime:72000000,
-    cacheTime:72000000,
-    onSuccess:(res)=>{
-        setEmpresa (res.empresa)
-        setContato(res.contato)
-        setTelefone(res.telefone)
-        setEndereco(res.endereco)
-        setCnpj(res.cnpj)
+        queryKey:["relatorio-diario",params.reportId],
+        queryFn:()=>getRelatorioDiarioById(params.reportId),
+        staleTime:72000000,
+        gcTime:72000000,
+    })
+
+    useEffect(() => {
+        if (relatorioDiario) {
+            setEmpresa(relatorioDiario.empresa)
+            setContato(relatorioDiario.contato)
+            setTelefone(relatorioDiario.telefone)
+            setEndereco(relatorioDiario.endereco)
+            setCnpj(relatorioDiario.cnpj)
+        }
+    }, [relatorioDiario]);
+
+    const {data:atividades,refetch:refetchAtividades} =useQuery<IAtividadeRd[]>({
+        queryKey:["atividades",`atividades-rd-${params.reportId}`],
+        queryFn:()=>getAllAtivdadesInRd(params.reportId),
+        staleTime:1000*60*60,
+        gcTime:1000*60*60
+
+    })
+
+
+    const handleKeyDown =async (event: React.KeyboardEvent<HTMLInputElement>) => {
+       
+        if (event.key === "Enter") {
+
+          await handleUpdateRelatorioDiario()
+
+        }
+      };
+      const getInformacoesEmpresaRd = async(empresa:string)=>{
+
+        if(empresa.length){
+
+            const res = await getEmpresaRelatorioDiario(empresa)
+            setCnpj(res.cnpj)
+            setContato(res.contato)
+            setEndereco(res.endereco)
+            setTelefone(res.telefone)
+            handleUpdateRelatorioDiario()
+        }
     }
-})
 
-const {data:atividades,refetch:refetchAtividades} =useQuery<IAtividadeRd[]>({
-    queryKey:["atividades",`atividades-rd-${params.reportId}`],
-    queryFn:()=>getAllAtivdadesInRd(params.reportId),
-    staleTime:1000*60*60,
-    cacheTime:1000*60*60
+    const createAtividadeMutation = useMutation({
+        mutationFn: createAtividadeRd,
+        onMutate: () => setDelayNovaAtividade(true),
+        onSuccess: (res) => {
+            if (res) {
+                setOpenSnackBar(true);
+                setSeveridadeAlert("success");
+                setMessageAlert("Atividade Adicionada Ao Relatório");
+                refetchAtividades()
+                setDescricaoAtividade("")
+            }
+            setTimeout(() => {
+                setDelayNovaAtividade(false)
+            }, 1200)
+        }
+    });
 
-})
-
-
-const handleKeyDown =async (event: React.KeyboardEvent<HTMLInputElement>) => {
-   
-    if (event.key === "Enter") {
-
-      await handleUpdateRelatorioDiario()
-
-    }
-  };
-  const getInformacoesEmpresaRd = async(empresa:string)=>{
-
-    if(empresa.length){
-
-        const res = await getEmpresaRelatorioDiario(empresa)
-        setCnpj(res.cnpj)
-        setContato(res.contato)
-        setEndereco(res.endereco)
-        setTelefone(res.telefone)
-        handleUpdateRelatorioDiario()
-    }
-}
-const handleCreateaAtividade = async ()=>{
-
-    setDelayNovaAtividade(true)
+    const handleCreateaAtividade = async ()=>{
         const atividadeRd:IAtividadeRd = {
             descricao:descricaoAtividade,
             relatorioRdId: relatorioDiario.id,
             relatorioDiario : {}
         }
-        const res : any = await createAtividadeRd(atividadeRd)
-        if (res){
-            setOpenSnackBar(true);
-            setSeveridadeAlert("success");
-            setMessageAlert("Atividade Adicionada Ao Relatório");
-            refetchAtividades()
-            setDescricaoAtividade("")
-        }
-        setTimeout(()=>{
-        setDelayNovaAtividade(false)
-        },1200)
-}
-
-
-const handleDeleteAtividade = async(id:number)=>{
-
-    const imagens :IImagemAtividadeRd []= await getAllImagensInAtividade(id)
-    
-    //Caso o usuário deleta a atividade Direto ,sem deletar as imagens,ira iterar sobre todas as imagens daquela atiivdade antes de deletá-la e apagar as imagens do azure
-
-    if(imagens.length > 1 )
-    {
-   
-        await deleteAllImagesFromAtividadeFromAzure(imagens)
-         await deleteAtividadeRd(id)
-
-    }
-    else{
-        
-        if(imagens.length) await deleteImagemAtividadeRd(imagens[0].id) 
-        const res = await deleteAtividadeRd(id)
-
-        if(res)
-        {
-            setOpenSnackBar(true);
-            setSeveridadeAlert("success");
-            setMessageAlert("Atividade Removida ");
-        }
+        createAtividadeMutation.mutate(atividadeRd);
     }
 
-
-    refetchAtividades()
-
-}
-const handleUpdateRelatorioDiario = async()=>{
-
-    const rd: IRelatorioDiario = {
-        id:relatorioDiario.id,
-        empresa:empresa.toUpperCase(),
-        contato:contato.toUpperCase(),
-        cnpj:cnpj,
-        telefone:telefone,
-        endereco:endereco,
-        responsavelAbertura:relatorioDiario.responsavelAbertura
-    }
-
-    const res = await updateRelatorioDiario(rd)
-
-    if (res == 200){
-        setOpenSnackBar(true);
-        setSeveridadeAlert("success");
-        setMessageAlert("Relatório Diário Atualizada");
-    }
-
-}
-const finalizarRelatorioDiario = useMutation({
-    mutationKey:[`finalizar-rd`,`finish-relatorio-diario-${params.reportId}`],
-    mutationFn:()=>updateFinishRelatorioDiario(params.reportId),
-    onSuccess:()=>refetchRelatorioDiario()
-})
-
-
-const atualizarTarefaMutation = useMutation({
-    mutationFn:(task:IAtividadeRd)=>updateAtividadeRd(task),
-    onSuccess:()=>{
-
-                setOpenSnackBar(true);
-                setSeveridadeAlert("success");
-                setMessageAlert("Atividade Atualizada");
-                refetchAtividades()
+    const deleteAtividadeMutation = useMutation({
+        mutationFn: async (id: number) => {
+            const imagens: IImagemAtividadeRd[] = await getAllImagensInAtividade(id)
             
+            if(imagens.length > 1) {
+                await deleteAllImagesFromAtividadeFromAzure(imagens)
+                await deleteAtividadeRd(id)
+            } else {
+                if(imagens.length) await deleteImagemAtividadeRd(imagens[0].id) 
+                const res = await deleteAtividadeRd(id)
+                
+                if(res) {
+                    setOpenSnackBar(true);
+                    setSeveridadeAlert("success");
+                    setMessageAlert("Atividade Removida ");
+                }
+            }
+        },
+        onSuccess: () => {
+            refetchAtividades()
+        }
+    });
+
+    const handleDeleteAtividade = async(id:number)=>{
+        deleteAtividadeMutation.mutate(id);
     }
 
-})
+    const handleUpdateRelatorioDiario = async()=>{
 
-const updateAtividade  = (atividade: IAtividadeRd , status: string | undefined, observacoes: string | undefined ,descricao: string | undefined)=>{
+        const rd: IRelatorioDiario = {
+            id:relatorioDiario.id,
+            empresa:empresa.toUpperCase(),
+            contato:contato.toUpperCase(),
+            cnpj:cnpj,
+            telefone:telefone,
+            endereco:endereco,
+            responsavelAbertura:relatorioDiario.responsavelAbertura
+        }
 
-    if(atividades!= undefined){
+        const res = await updateRelatorioDiario(rd)
 
-        const novaAtividade: IAtividadeRd[] = [...atividades]
-        const index = atividades.findIndex(x=>x.id==atividade.id)
-        novaAtividade[index].status =status ;
-        novaAtividade[index].observacoes = observacoes;
-        novaAtividade[index].descricao = descricao;
-    
-        atualizarTarefaMutation.mutate(novaAtividade[index])
+        if (res == 200){
+            setOpenSnackBar(true);
+            setSeveridadeAlert("success");
+            setMessageAlert("Relatório Diário Atualizada");
+        }
+
     }
 
+    const finalizarRelatorioDiario = useMutation({
+        mutationFn:()=>updateFinishRelatorioDiario(params.reportId),
+        onSuccess:()=>refetchRelatorioDiario()
+    })
 
-}
-  
+
+    const atualizarTarefaMutation = useMutation({
+        mutationFn:(task:IAtividadeRd)=>updateAtividadeRd(task),
+        onSuccess:()=>{
+            setOpenSnackBar(true);
+            setSeveridadeAlert("success");
+            setMessageAlert("Atividade Atualizada");
+            refetchAtividades()
+        }
+    })
+
+    const updateAtividade  = (atividade: IAtividadeRd , status: string | undefined, observacoes: string | undefined ,descricao: string | undefined)=>{
+
+        if(atividades!= undefined){
+
+            const novaAtividade: IAtividadeRd[] = [...atividades]
+            const index = atividades.findIndex(x=>x.id==atividade.id)
+            novaAtividade[index].status =status ;
+            novaAtividade[index].observacoes = observacoes;
+            novaAtividade[index].descricao = descricao;
+        
+            atualizarTarefaMutation.mutate(novaAtividade[index])
+        }
+    }
 
    
     return(
@@ -382,9 +380,7 @@ const updateAtividade  = (atividade: IAtividadeRd , status: string | undefined, 
                         )
                         }
 
-
-
-            </div>
+        </div>
 
         </div>
         <Modal isOpen={isOpen} backdrop="blur" size='xl' onOpenChange={onOpenChange}>
@@ -444,9 +440,4 @@ const updateAtividade  = (atividade: IAtividadeRd , status: string | undefined, 
      </>
 )
 
-
-
 }
-
-
-

@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import IconArrowDownCircle from '../assets/icons/IconArrowDownCircleFill';
 import IconCamera from '../assets/icons/IconCamera';
 import { IImagemAtividadeRd } from '../interfaces/IImagemAtividadeRd';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { addImagemAtividadeRd, deleteImagemAtividadeRd, getAllImagensInAtividade } from '../services/ImagensAtividadeRd.Service';
 import { deleteImageFromAzure, getImageDimensions, uploadImageToAzure } from '../services/Images.Services';
 import {  AlertDialog, Button, Flex, Text, TextField } from '@radix-ui/themes';
@@ -24,7 +24,6 @@ type AtividadeProps =  {
   onDelete:any,
   isFinished:boolean,
 }
-
 
 const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished }:AtividadeProps) => {
   const [imageModal, setImageModal] = useState<IImagemAtividadeRd>();
@@ -42,39 +41,39 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [subindoImagem,setSubindoImagem] = useState(false)
   const queryClient = useQueryClient();
-  const { data: imagesInAtividades, refetch: refetchImagensInAtividadeRd,isFetching } = useQuery<IImagemAtividadeRd[]>(
-  {
-    queryKey:['imagesInAtividades', atividade.id],
-    enabled:relatorioDiario?.id !=undefined,
-    staleTime:isFinished?(1*1000*60*60*24)*20:1*1000*60*60*8,
-    cacheTime:isFinished?(1*1000*60*60*24)*20:1*1000*60*60*8,
-    queryFn:() => getAllImagensInAtividade(atividade.id),
-      onSuccess: (data) => {
-        data.forEach(async (image) => {
-          const dimensions = await getImageDimensions(image.urlImagem);
-          image.height = dimensions.height;
-          image.width = dimensions.width;
-          
-        });
-      },
-    
-     }
-  );
-  if(isFetching){
+  
+  const { data: imagesInAtividades, refetch: refetchImagensInAtividadeRd, isFetching } = useQuery({
+    queryKey: ['imagesInAtividades', atividade.id],
+    queryFn: () => getAllImagensInAtividade(atividade.id),
+    enabled: relatorioDiario?.id != undefined,
+    staleTime: isFinished ? (1 * 1000 * 60 * 60 * 24) * 20 : 1 * 1000 * 60 * 60 * 8,
+    gcTime: isFinished ? (1 * 1000 * 60 * 60 * 24) * 20 : 1 * 1000 * 60 * 60 * 8,
+  });
 
+  useEffect(() => {
+    if (imagesInAtividades) {
+      imagesInAtividades.forEach(async (image:any) => {
+        const dimensions = await getImageDimensions(image.urlImagem);
+        image.height = dimensions.height;
+        image.width = dimensions.width;
+      });
+    }
+  }, [imagesInAtividades]);
+
+  if(isFetching){
     console.log("Esta buscando")
   }
   
-  const deleteAtividadeMutation = useMutation(
-    (id: number | undefined) => onDelete(id),
-    {
-      onMutate: () => setBlockButton(true),
-      onSuccess: () => setBlockButton(false),
-    }
-  );
-  const addImagemAtividadeMutation = useMutation(addImagemAtividadeRd, {
+  const deleteAtividadeMutation = useMutation({
+    mutationFn: (id: number | undefined) => onDelete(id),
+    onMutate: () => setBlockButton(true),
+    onSuccess: () => setBlockButton(false),
+  });
+
+  const addImagemAtividadeMutation = useMutation({
+    mutationFn: addImagemAtividadeRd,
     onSuccess: () => {
-      queryClient.invalidateQueries(['imagens', atividade.id]);
+      queryClient.invalidateQueries({ queryKey: ['imagesInAtividades', atividade.id] });
       setOpenSnackBar(true);
       setSeveridadeAlert('success');
       setMessageAlert('Imagem adicionada à atividade');
@@ -85,52 +84,46 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
       setMessageAlert('Erro ao adicionar imagem');
     }
   });
-  const deleteImagemAtividadeMutation = useMutation(
-    async () => {
+
+  const deleteImagemAtividadeMutation = useMutation({
+    mutationFn: async () => {
       if (imageModal) {
         await deleteImageFromAzure(imageModal.urlImagem, "images");
         await deleteImagemAtividadeRd(imageModal.id);
       }
     },
-    {
-      onMutate: () => setBlockButton(true),
-      onSuccess: () => {
-        setBlockButton(false);
-        refetchImagensInAtividadeRd();
-      },
-    }
-  );
-
-
-
+    onMutate: () => setBlockButton(true),
+    onSuccess: () => {
+      setBlockButton(false);
+      refetchImagensInAtividadeRd();
+    },
+  });
 
   const handleImageChange = async (event: any) => {
-  const selectedImage: File = event.target.files[0];
+    const selectedImage: File = event.target.files[0];
 
-  if (selectedImage !== undefined) {
-    let imageFile = selectedImage;
+    if (selectedImage !== undefined) {
+      let imageFile = selectedImage;
 
-    if (selectedImage.type === 'image/jpeg') {
-      imageFile = await convertToPng(selectedImage);
+      if (selectedImage.type === 'image/jpeg') {
+        imageFile = await convertToPng(selectedImage);
+      }
+
+      const imageBase64 = await readImageFromFile(imageFile);
+
+      setSubindoImagem(true)
+      const urlImagem = await uploadImageToAzure(imageBase64, imageFile.name, "images");
+
+      //@ts-ignore
+      addImagemAtividadeMutation.mutate({
+        atividadeRdId: atividade.id,
+        descricao: atividade.descricao,
+        urlImagem: urlImagem,
+        imageName: imageFile.name // Passando o nome da imagem diretamente
+      });
     }
-
-
-    const imageBase64 = await readImageFromFile(imageFile);
-
-    setSubindoImagem(true)
-    const urlImagem = await uploadImageToAzure(imageBase64, imageFile.name, "images");
-
-   //@ts-ignore
-    addImagemAtividadeMutation.mutate({
-      atividadeRdId: atividade.id,
-      descricao: atividade.descricao,
-      urlImagem: urlImagem,
-      imageName: imageFile.name // Passando o nome da imagem diretamente
-    });
-  }
-  setSubindoImagem(false)
-
-};
+    setSubindoImagem(false)
+  };
 
   const handleImageModal = async (imageModal: IImagemAtividadeRd) => {
     const res: any = await getImageDimensions(imageModal.urlImagem);
@@ -228,10 +221,7 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
           <div className="mb-4">
             <label className="block mb-5 text-gray-700">Observações Sobre a Atividade</label>
             {!relatorioDiario?.isFinished ? (
-
-
             <Textarea
-              
               placeholder="Observações Sobre a Atividade"
               className="w-full mt-2 p-3 rounded-sm bg-transparent shadow-sm"
               rows={5}
@@ -303,7 +293,7 @@ const Atividade = ({ relatorioDiario, atividade, onUpdate, onDelete, isFinished 
             </div>
           )}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {imagesInAtividades?.map((image) => (
+            {imagesInAtividades?.map((image:any) => (
               <div
                 key={image.id}
                 
