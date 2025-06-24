@@ -72,9 +72,9 @@ const ModernNavBar = () => {
                                     <p className="font-semibold">Logado como</p>
                                     <p className="font-semibold">{user.userName}</p>
                                 </DropdownItem>
-                                <DropdownItem key="tasks" startContent={<TaskIcon className={iconClasses} />} onClick={() => route.push('/my-tasks')} textValue="Minhas Tarefas">
+                                {/* <DropdownItem key="tasks" startContent={<TaskIcon className={iconClasses} />} onClick={() => route.push('/my-tasks')} textValue="Minhas Tarefas">
                                     Minhas Tarefas
-                                </DropdownItem>
+                                </DropdownItem> */}
                                 <DropdownItem key="settings" startContent={<IconPersonFill className={iconClasses} />} onClick={() => route.push('/my-account')} textValue="Minha Conta">
                                     Minha Conta
                                 </DropdownItem>

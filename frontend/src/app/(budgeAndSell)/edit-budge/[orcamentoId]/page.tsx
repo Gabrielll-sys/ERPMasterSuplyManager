@@ -78,7 +78,7 @@ export default function ManageBudgetPage({ params }: { params: { orcamentoId: st
     mutationFn: updateOrcamento,
     onSuccess: () => {
       toast.success("Orçamento atualizado!");
-      queryClient.invalidateQueries(['orcamento', orcamentoId]);
+      queryClient.invalidateQueries({ queryKey: ['orcamento', orcamentoId] });
     },
     onError: (error: any) => {
       toast.error(`Falha ao atualizar orçamento: ${error.message}`);

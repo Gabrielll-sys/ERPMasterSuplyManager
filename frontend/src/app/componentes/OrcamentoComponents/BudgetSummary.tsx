@@ -1,11 +1,12 @@
-// app/budgets/[orcamentoId]/_components/BudgetSummary.tsx
+
 "use client";
 
 import { useMemo } from 'react';
 import { Card, Flex, Text, Separator } from '@radix-ui/themes';
+import { IItemOrcamento } from '@/app/interfaces/IItemOrcamento'; // Importando a interface para tipagem
 
 type BudgetSummaryProps = {
-  materiais: any[];
+  materiais: IItemOrcamento[]; // Usando a interface para melhor tipagem
   desconto: string;
 };
 
@@ -18,7 +19,11 @@ export function BudgetSummary({ materiais, desconto }: BudgetSummaryProps) {
   
   const { precoVendaTotal, precoComDesconto } = useMemo(() => {
     const total = materiais.reduce((acc, item) => {
-      const itemTotal = (item.material.precoVenda || 0) * item.quantidadeMaterial;
+      
+      // 1. Prioriza o preço personalizado salvo no item do orçamento (`precoItemOrcamento`).
+      // 2. Se não houver preço personalizado, usa o preço padrão do cadastro do material (`material.precoVenda`).
+      const precoUnitario = item.precoItemOrcamento ?? item.material?.precoVenda ?? 0;
+      const itemTotal = Number(precoUnitario) * item.quantidadeMaterial;
       return acc + itemTotal;
     }, 0);
 

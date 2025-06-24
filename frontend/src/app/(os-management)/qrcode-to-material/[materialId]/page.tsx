@@ -12,17 +12,17 @@ import { useEffect, useState } from "react";
 import { Text } from "@radix-ui/themes";
 import { authHeader } from "@/app/_helpers/auth_headers";
 import { IInventario } from "@/app/interfaces/IInventarios";
-import { IOrderServico } from "@/app/interfaces/IOrdemSeparacao";
+import { IOrdemSeparacao } from "@/app/interfaces/IOrdemSeparacao";
 import { TextField } from "@radix-ui/themes";
 import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
 
 export default function UpdateMaterial({params}:any){
  
-  const[ordemServicos,setOrdemServicos] = useState<IOrderServico[]>([])
+  const[ordemServicos,setOrdemServicos] = useState<IOrdemSeparacao[]>([])
   const [codigoInterno,setCodigoInterno] = useState<string>("")
   const [material,setMaterial] = useState<IInventario>()
-  const [ordemServicoEscolhida,setOrdemServicoEscolhida] = useState<IOrderServico>()
+  const [ordemServicoEscolhida,setOrdemServicoEscolhida] = useState<IOrdemSeparacao>()
   const [currentUser, setCurrentUser] = useState<any>(null);
   const[quantidade,setQuantidade] = useState<string>("1")
   const [openSnackBar,setOpenSnackBar]= useState(false)
@@ -58,7 +58,7 @@ const getAllOs = async()=>{
   return r.data
   })
 
-  const filteredOs = res.filter((x:IOrderServico)=>!x.isAuthorized)
+  const filteredOs = res.filter((x:IOrdemSeparacao)=>!x.isAuthorized)
     //Ira setar no autocomplete somente as Ordem de serviços que ainda não foram autorizadas
   setOrdemServicos(filteredOs)
   }

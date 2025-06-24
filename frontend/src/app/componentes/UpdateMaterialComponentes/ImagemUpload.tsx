@@ -6,9 +6,8 @@ import { useRef } from "react";
 import { Button } from "@radix-ui/themes";
 import { CameraIcon } from '@radix-ui/react-icons';
 import { Spinner } from "@nextui-org/react";
-import { ImageUploadProps } from "./types";
 
-const ImageUpload: React.FC<ImageUploadProps> = ({
+const ImageUpload: React.FC<any> = ({
   onImageSelect,
   isProcessing,
   hasImage,
@@ -30,7 +29,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     }
 
     // Validação de formato
-    const allowedTypes = acceptedFormats.split(', ').map(type => type.trim());
+    const allowedTypes = acceptedFormats.split(', ').map((type:any) => type.trim());
     if (!allowedTypes.includes(selectedFile.type)) {
       alert(`Formato não suportado. Formatos aceitos: ${acceptedFormats}`);
       return;

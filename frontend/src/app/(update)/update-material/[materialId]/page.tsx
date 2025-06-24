@@ -1,4 +1,3 @@
-// src/app/(update)/update-material/[materialId]/page.tsx
 
 "use client";
 
@@ -61,8 +60,6 @@ export default function UpdateMaterialPage({ params }: UpdateMaterialPageProps) 
 
   const [errors, setErrors] = useState<Partial<Record<keyof MaterialFormData, string>>>({});
 
-  // 🎓 CONCEITO: Dados Estáticos para Componentes
-  // Definir as opções do Select como uma constante facilita a manutenção e leitura do código.
   const unidadeOptions: SelectOption[] = [
     { value: "UN", label: "UN - Unidade" },
     { value: "RL", label: "RL - Rolo" },
@@ -109,7 +106,6 @@ export default function UpdateMaterialPage({ params }: UpdateMaterialPageProps) 
     }
   }, [material]);
 
-  // Handler para inputs de texto (inalterado)
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -118,8 +114,6 @@ export default function UpdateMaterialPage({ params }: UpdateMaterialPageProps) 
     }
   };
 
-  // 🎓 MUDANÇA: Handler específico para o Select.
-  // Necessário porque a API do Select (onValueChange) é diferente da API de um input (onChange).
   const handleSelectChange = (value: string, name: keyof MaterialFormData) => {
     setFormData(prev => ({ ...prev, [name]: value }));
     if (errors[name]) {
@@ -190,7 +184,7 @@ export default function UpdateMaterialPage({ params }: UpdateMaterialPageProps) 
       
       <Flex align="center" justify="between" mb="6">
         <Button variant="soft" asChild>
-          <Link href="/materials">
+          <Link href="/create-material">
             <ArrowLeftIcon height="16" width="16" />
             Voltar para a Lista
           </Link>
@@ -204,7 +198,6 @@ export default function UpdateMaterialPage({ params }: UpdateMaterialPageProps) 
         <form onSubmit={handleSubmit}>
           <Grid columns={{ initial: '1', sm: '2' }} gap="4">
             
-            {/* Linha 1: Descrição (ocupa 2 colunas) - Estrutura Original Restaurada */}
             <Box className="sm:col-span-2">
               <Flex direction="column" gap="1">
                 <Text as="label" htmlFor="descricao" weight="bold">Descrição <span className="text-red-500">*</span></Text>
@@ -215,7 +208,6 @@ export default function UpdateMaterialPage({ params }: UpdateMaterialPageProps) 
               </Flex>
             </Box>
 
-            {/* Linha 2: Código do Fabricante e Marca - Estrutura Original Restaurada */}
             <Flex direction="column" gap="1">
               <Text as="label" htmlFor="codigoFabricante" weight="bold">Código do Fabricante</Text>
               <TextField.Root size="3">
@@ -229,28 +221,38 @@ export default function UpdateMaterialPage({ params }: UpdateMaterialPageProps) 
               </TextField.Root>
             </Flex>
 
-            {/* Linha 3: Localização e Unidade */}
             <Flex direction="column" gap="1">
               <Text as="label" htmlFor="localizacao" weight="bold">Localização</Text>
               <TextField.Root size="3">
                 <TextField.Input id="localizacao" name="localizacao" value={formData.localizacao} onChange={handleChange} placeholder="Prateleira A-01" disabled={updateMaterialMutation.isPending} />
               </TextField.Root>
             </Flex>
-            {/* 🎓 MUDANÇA APLICADA: Campo Unidade como Select */}
             <Flex direction="column" gap="1">
               <Text as="label" htmlFor="unidade" weight="bold">Unidade <span className="text-red-500">*</span></Text>
-              <Select.Root name="unidade" value={formData.unidade} onValueChange={(value) => handleSelectChange(value, 'unidade')} size="3" disabled={updateMaterialMutation.isPending}>
+              {formData.unidade && (
+
+             <Select.Root 
+                key={`unidade-${material?.id || 'new'}`}
+                name="unidade" 
+                value={formData.unidade} 
+                onValueChange={(value) => handleSelectChange(value, 'unidade')} 
+                size="3" 
+                disabled={updateMaterialMutation.isPending}
+              >
                 <Select.Trigger placeholder="Selecione uma unidade..." />
                 <Select.Content position="popper">
                   {unidadeOptions.map(option => (
-                    <Select.Item key={option.value} value={option.value}>{option.label}</Select.Item>
+                    <Select.Item key={option.value} value={option.value}>
+                      {option.label}
+                    </Select.Item>
                   ))}
                 </Select.Content>
-              </Select.Root>
+            </Select.Root>
+              )}
+
               {errors.unidade && <Text size="1" color="red">{errors.unidade}</Text>}
             </Flex>
 
-            {/* Linha 4: Tensão e Corrente - Estrutura Original Restaurada */}
             <Flex direction="column" gap="1">
               <Text as="label" htmlFor="tensao" weight="bold">Tensão</Text>
               <TextField.Root size="3">
@@ -264,7 +266,6 @@ export default function UpdateMaterialPage({ params }: UpdateMaterialPageProps) 
               </TextField.Root>
             </Flex>
 
-            {/* Seção de Preços - Estrutura Original Restaurada */}
             <Box className="sm:col-span-2"><Separator size="4" my="3" /></Box>
             
             <Flex direction="column" gap="1">

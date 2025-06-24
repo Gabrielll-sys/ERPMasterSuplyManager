@@ -34,7 +34,9 @@ namespace MasterErp.Api.Controllers;
         {
             try
             {
-       
+
+            var a = await _usuarioService.GetByIdAsync(id);
+            
                 return Ok( await _usuarioService.GetByIdAsync(id));
             }
 

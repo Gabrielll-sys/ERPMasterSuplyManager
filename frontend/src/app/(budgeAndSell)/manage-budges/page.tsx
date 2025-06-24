@@ -65,7 +65,7 @@ export default function ManageBudgesPage() { // Renomeado para clareza
       // }
       return getAllOrcamentos(); // Busca todos se nenhum filtro específico
     },
-    keepPreviousData: true, // Mantém dados anteriores visíveis enquanto carrega novos
+
     staleTime: 1000 * 60 * 1, // 1 minuto de staleTime
     // onSuccess: (data) => console.log("Orcamentos carregados:", data),
     // onError: (err) => console.error("Erro ao buscar orçamentos:", err),

@@ -1,17 +1,14 @@
 "use client";
 import { useState, useEffect } from 'react';
-import { useOsManagement } from '@/app/hooks/useOsManagement';
+import { useOsList } from '@/app/hooks/useOsList';
 import { OsCreationForm } from '@/app/componentes/OsCreationForm';
 import { OsList } from '@/app/componentes/OsList';
 import { OsDetailsModal } from '@/app/componentes/OsDetailsModel';
 import { IOrdemSeparacao } from '@/app/interfaces/IOrdemSeparacao';
 
 export default function OsManagementPage() {
-  const { ordens, isLoading, isError, error, createOs, isCreating } = useOsManagement();
+  const { ordens, isLoading, isError, error, createOs, isCreating } = useOsList();
   
-  // 🎓 ESTADO DO CLIENTE: Controla qual OS está selecionada para o modal.
-  // 🤔 PORQUÊ: Este estado pertence à página, pois é ela que orquestra a abertura
-  // do modal. Quando `selectedOs` tem um objeto, o modal abre. Quando é `null`, ele fecha.
   const [selectedOs, setSelectedOs] = useState<IOrdemSeparacao | null>(null);
   const [currentUser, setCurrentUser] = useState<{ userName: string } | null>(null);
 

@@ -100,6 +100,7 @@ export function useTaskManager() {
       prioridade,
       nomeTarefa: "Nova Tarefa",
       usuario: {},
+      //@ts-ignore
       data: selectedDate.toDate(getLocalTimeZone()).toISOString(),
     });
   };

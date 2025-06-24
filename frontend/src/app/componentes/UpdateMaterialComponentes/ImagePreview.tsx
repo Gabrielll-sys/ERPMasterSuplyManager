@@ -5,9 +5,8 @@
 import Image from "next/image";
 import { Box } from "@radix-ui/themes";
 import { Spinner } from "@nextui-org/react";
-import { ImagePreviewProps } from "./types";
 
-const ImagePreview: React.FC<ImagePreviewProps> = ({
+const ImagePreview: React.FC<any> = ({
   imageUrl,
   alt,
   onClick,

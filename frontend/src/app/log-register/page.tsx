@@ -95,7 +95,6 @@ export default function LogRegisterPage() {
     const { data: logs = [] as ILogAcao[], isLoading, isError, isFetching } = useQuery<ILogAcao[], Error>({
         queryKey: ['logs', queryFilters],
         queryFn: () => fetchLogs(queryFilters),
-        keepPreviousData: true,
         staleTime: 5 * 60 * 1000, // 5 minutos
     });
 

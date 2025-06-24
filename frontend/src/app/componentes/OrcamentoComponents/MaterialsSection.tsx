@@ -182,9 +182,9 @@ export function MaterialsSection({ orcamentoId, isPaid, materiais }: MaterialsSe
             </Dialog.Close>
             <Button 
                 onClick={handleConfirmAction} 
-                disabled={addItemMutation.isLoading || updateItemMutation.isLoading}
+                disabled={addItemMutation.isPending || updateItemMutation.isPending}
             >
-                {(addItemMutation.isLoading || updateItemMutation.isLoading) ? 'Salvando...' : (currentItem?.isEditing ? 'Atualizar' : 'Adicionar')}
+                {(addItemMutation.isPending || updateItemMutation.isPending) ? 'Salvando...' : (currentItem?.isEditing ? 'Atualizar' : 'Adicionar')}
             </Button>
           </Flex>
         </Dialog.Content>

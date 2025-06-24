@@ -125,13 +125,10 @@ export default function CreateMaterialPage() {
           <Heading size="8" className="font-bold text-slate-800">
             Gerenciamento de Materiais
           </Heading>
-          <Text className="text-slate-600 mt-2 text-lg">
-            Crie, busque e gerencie materiais de forma inteligente.
-          </Text>
+      
         </motion.header>
 
-        {/* 🎓 UI/UX: PROGRESSIVE DISCLOSURE - O padrão de acordeão esconde a complexidade
-            até que o usuário precise dela, mantendo a interface limpa. */}
+        
         <motion.div variants={fadeInUp}>
             <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
             <button type="button" className="w-full text-left p-5" onClick={() => setIsFormExpanded(!isFormExpanded)} aria-expanded={isFormExpanded}>
@@ -223,7 +220,7 @@ export default function CreateMaterialPage() {
                     <motion.div key="results" variants={staggerContainer} initial="initial" animate="animate">
                     <Table.Root variant="surface" className="w-full">
                         <Table.Header className="bg-slate-100">
-                        <Table.Row><Table.ColumnHeaderCell>Id</Table.ColumnHeaderCell><Table.ColumnHeaderCell>Descrição</Table.ColumnHeaderCell><Table.ColumnHeaderCell className="hidden lg:table-cell">Marca</Table.ColumnHeaderCell><Table.ColumnHeaderCell>Estoque</Table.ColumnHeaderCell><Table.ColumnHeaderCell className="hidden sm:table-cell">Preço Custo</Table.ColumnHeaderCell><Table.ColumnHeaderCell>Ações</Table.ColumnHeaderCell></Table.Row>
+                        <Table.Row><Table.ColumnHeaderCell>Id</Table.ColumnHeaderCell><Table.ColumnHeaderCell>Descrição</Table.ColumnHeaderCell><Table.ColumnHeaderCell className="hidden lg:table-cell">Marca</Table.ColumnHeaderCell><Table.ColumnHeaderCell className=' hidden lg:table-cell'>Localização</Table.ColumnHeaderCell><Table.ColumnHeaderCell>Estoque</Table.ColumnHeaderCell><Table.ColumnHeaderCell className="hidden sm:table-cell">Preço Venda</Table.ColumnHeaderCell><Table.ColumnHeaderCell>Ações</Table.ColumnHeaderCell></Table.Row>
                         </Table.Header>
                         <Table.Body>
                         {materials.map((item:IInventario) => (
@@ -231,11 +228,12 @@ export default function CreateMaterialPage() {
                                 <Table.Cell><Text weight="bold" className="text-slate-800">{item.material.id}</Text><Text size="1" className="block text-slate-500">{item.material.codigoFabricante || 'Sem código'}</Text></Table.Cell>
                                 <Table.Cell><Text weight="bold" className="text-slate-800">{item.material.descricao}</Text><Text size="1" className="block text-slate-500">{item.material.codigoFabricante || 'Sem código'}</Text></Table.Cell>
                                 <Table.Cell className="hidden lg:table-cell">{item.material.marca || 'N/A'}</Table.Cell>
+                                <Table.Cell className="hidden lg:table-cell">{item.material.localizacao || 'N/A'}</Table.Cell>
                                 <Table.Cell><Badge size="2" color={getStockBadgeColor(item.estoque || 0)}>{item.estoque || 0}</Badge></Table.Cell>
                                 <Table.Cell className="hidden sm:table-cell">
                                     
                                     {item.material.precoCusto ? (
-                                        <Text weight="bold" color="green">R$ {item.material.precoCusto.toFixed(2).replace('.', ',')}</Text>
+                                        <Text weight="bold" color="green">R$ {item.material.precoVenda?.toFixed(2).replace('.', ',')}</Text>
                                     ) : (<Text color='gray'>N/A</Text>)}
                                 </Table.Cell>
                                 <Table.Cell>

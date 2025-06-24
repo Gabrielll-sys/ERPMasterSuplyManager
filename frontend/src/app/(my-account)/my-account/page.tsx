@@ -49,7 +49,7 @@ export default function MyAccountPage() {
   const [formState, dispatch] = useReducer(formReducer, initialState);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  // --- Lógica de Dados com TanStack Query ---
+  
 
   // Query para buscar os dados do usuário
   const { data: userData, isLoading: isLoadingUser, isError } = useQuery({
@@ -57,8 +57,9 @@ export default function MyAccountPage() {
     queryFn: () => getUserById(authUser?.userId),
     enabled: !!authUser?.userId, // A query só roda se houver um ID de usuário
     staleTime: 1000 * 60 * 15, // Dados ficam "frescos" por 15 minutos
-  });
 
+
+  });
   // Efeito para carregar os dados no formulário uma vez que a query os traga
   useEffect(() => {
     if (userData) {
@@ -80,7 +81,7 @@ export default function MyAccountPage() {
     onSuccess: () => {
       toast.success("Informações atualizadas com sucesso!");
       // Invalida a query para que na próxima vez que a página for acessada, os dados sejam buscados novamente
-      queryClient.invalidateQueries(['userDetails', authUser?.userId]);
+      queryClient.invalidateQueries({ queryKey: ['userDetails', authUser?.userId] });
     },
     onError: (error: any) => {
       toast.error(`Falha ao atualizar: ${error.message}`);
@@ -133,7 +134,6 @@ export default function MyAccountPage() {
       </Flex>
     );
   }
-
   return (
     <>
       <Toaster richColors position="top-right" />
@@ -189,8 +189,8 @@ export default function MyAccountPage() {
               </TextField.Root>
 
               <Flex justify="end" mt="4">
-                <Button size="3" type="submit" disabled={updateUserMutation.isLoading}>
-                  {updateUserMutation.isLoading ? <Spinner size="sm" /> : <CheckCircle size={18} />}
+                <Button size="3" type="submit" disabled={updateUserMutation.isPending}>
+                  {updateUserMutation.isPending ? <Spinner size="sm" /> : <CheckCircle size={18} />}
                   <Text ml="2">Salvar Alterações</Text>
                 </Button>
               </Flex>

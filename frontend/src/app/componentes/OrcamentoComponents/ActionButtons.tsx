@@ -44,7 +44,7 @@ export function ActionButtons({ isPaid, orcamento, materiais, onAuthorize }: Act
 
                 <Flex direction="column" gap="3">
                     <Text as="label" size="2" weight="bold" htmlFor="confirm-input">
-                        Para confirmar, digite "AUTORIZAR" abaixo:
+                        Para confirmar, digite AUTORIZAR abaixo:
                     </Text>
                     <TextField.Input 
                         id="confirm-input"

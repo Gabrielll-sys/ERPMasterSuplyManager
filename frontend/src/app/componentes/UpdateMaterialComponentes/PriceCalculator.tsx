@@ -4,9 +4,7 @@
 
 import { Flex } from "@radix-ui/themes";
 import FormInput from "./FormInput";
-import { PriceCalculatorProps } from "./types";
-
-const PriceCalculator: React.FC<PriceCalculatorProps> = ({
+const PriceCalculator: React.FC<any> = ({
   precoCusto,
   precoVenda,
   markup,

@@ -6,9 +6,8 @@ import Image from "next/image";
 import { Dialog, Flex, Button, IconButton } from "@radix-ui/themes";
 import { Cross2Icon, DownloadIcon, TrashIcon } from '@radix-ui/react-icons';
 import { Spinner } from "@nextui-org/react";
-import { ImageModalProps } from "./types";
 
-const ImageModal: React.FC<ImageModalProps> = ({
+const ImageModal: React.FC<any> = ({
   isOpen,
   onClose,
   imageData,

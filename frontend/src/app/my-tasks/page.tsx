@@ -17,7 +17,7 @@ import {today, getLocalTimeZone} from "@internationalized/date"
 import IconPlus from "../assets/icons/IconPlus";
 import { deleteImagemAtividadeRd } from "../services/ImagensAtividadeRd.Service";
 import { Flex, Text } from "@radix-ui/themes";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 
 export default function MyTasks(){
