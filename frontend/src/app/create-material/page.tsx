@@ -220,7 +220,7 @@ export default function CreateMaterialPage() {
                     <motion.div key="results" variants={staggerContainer} initial="initial" animate="animate">
                     <Table.Root variant="surface" className="w-full">
                         <Table.Header className="bg-slate-100">
-                        <Table.Row><Table.ColumnHeaderCell>Id</Table.ColumnHeaderCell><Table.ColumnHeaderCell>Descrição</Table.ColumnHeaderCell><Table.ColumnHeaderCell className="hidden lg:table-cell">Marca</Table.ColumnHeaderCell><Table.ColumnHeaderCell className=' hidden lg:table-cell'>Localização</Table.ColumnHeaderCell><Table.ColumnHeaderCell>Estoque</Table.ColumnHeaderCell><Table.ColumnHeaderCell className="hidden sm:table-cell">Preço Venda</Table.ColumnHeaderCell><Table.ColumnHeaderCell>Ações</Table.ColumnHeaderCell></Table.Row>
+                        <Table.Row><Table.ColumnHeaderCell>Id</Table.ColumnHeaderCell><Table.ColumnHeaderCell>Descrição</Table.ColumnHeaderCell><Table.ColumnHeaderCell className="hidden lg:table-cell">Marca</Table.ColumnHeaderCell><Table.ColumnHeaderCell>Localização</Table.ColumnHeaderCell><Table.ColumnHeaderCell>Estoque</Table.ColumnHeaderCell><Table.ColumnHeaderCell className="hidden sm:table-cell">Preço Venda</Table.ColumnHeaderCell><Table.ColumnHeaderCell>Ações</Table.ColumnHeaderCell></Table.Row>
                         </Table.Header>
                         <Table.Body>
                         {materials.map((item:IInventario) => (

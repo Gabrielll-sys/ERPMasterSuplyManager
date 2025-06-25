@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\gabri\\Desktop\\MasterErp\\BackEnd\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|c:\\users\\gabri\\desktop\\mastererp\\backend\\mastererp.api\\controllers\\ordemseparacaocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|solutionrelative:mastererp.api\\controllers\\ordemseparacaocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|c:\\users\\gabri\\desktop\\mastererp\\backend\\mastererp.api\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|solutionrelative:mastererp.api\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -28,10 +32,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{483C1AE4-B1B6-47C4-B66A-74C2F87ED930}|MasterErp.Domain\\MasterErp.Domain.csproj|c:\\users\\gabri\\desktop\\mastererp\\backend\\mastererp.domain\\interfaces\\repository\\iordemseparacaorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{483C1AE4-B1B6-47C4-B66A-74C2F87ED930}|MasterErp.Domain\\MasterErp.Domain.csproj|solutionrelative:mastererp.domain\\interfaces\\repository\\iordemseparacaorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|c:\\users\\gabri\\desktop\\mastererp\\backend\\mastererp.api\\controllers\\ordemseparacaocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|solutionrelative:mastererp.api\\controllers\\ordemseparacaocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4B01DE4F-5470-473D-A69C-0C2AA8C76F9C}|MasterErp.Api\\MasterErp.Api.csproj|c:\\users\\gabri\\desktop\\mastererp\\backend\\mastererp.api\\controllers\\relatoriosdiarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -526,7 +526,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 127,
+          "SelectedChildIndex": 97,
           "Children": [
             {
               "$type": "Bookmark",
@@ -546,7 +546,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "20250624004538_v14.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20250624004538_v14.cs",
               "RelativeDocumentMoniker": "..\\..\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20250624004538_v14.cs",
@@ -558,7 +558,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "20250623111707_v13.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\Desktop\\MasterErp\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20250623111707_v13.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20250623111707_v13.cs",
@@ -582,7 +582,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "IOrdemSeparacaoRepository.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\Desktop\\MasterErp\\BackEnd\\MasterErp.Domain\\Interfaces\\Repository\\IOrdemSeparacaoRepository.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Interfaces\\Repository\\IOrdemSeparacaoRepository.cs",
@@ -630,7 +630,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "20250622175741_v12.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\Desktop\\MasterErp\\BackEnd\\MasterErp.Infraestructure\\Migrations\\20250622175741_v12.cs",
               "RelativeDocumentMoniker": "MasterErp.Infraestructure\\Migrations\\20250622175741_v12.cs",
@@ -1639,15 +1639,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
               "Title": "OrdemSeparacaoController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\Desktop\\MasterErp\\BackEnd\\MasterErp.Api\\Controllers\\OrdemSeparacaoController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\OrdemSeparacaoController.cs",
               "ToolTip": "C:\\Users\\gabri\\Desktop\\MasterErp\\BackEnd\\MasterErp.Api\\Controllers\\OrdemSeparacaoController.cs",
               "RelativeToolTip": "MasterErp.Api\\Controllers\\OrdemSeparacaoController.cs",
-              "ViewState": "AgIAAOgAAAAAAAAAAAAowCUAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAANwAAAAAAAAAAAAowPAAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:44:39.955Z"
+              "WhenOpened": "2024-05-23T23:44:39.955Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -1709,7 +1710,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "ItensController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\Desktop\\MasterErp\\BackEnd\\MasterErp.Api\\Controllers\\ItensController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\ItensController.cs",
@@ -1745,7 +1746,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Item.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\Desktop\\MasterErp\\BackEnd\\MasterErp.Domain\\Models\\Item.cs",
               "RelativeDocumentMoniker": "MasterErp.Domain\\Models\\Item.cs",
@@ -1994,7 +1995,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "UsuariosController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\Desktop\\MasterErp\\BackEnd\\MasterErp.Api\\Controllers\\UsuariosController.cs",
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\UsuariosController.cs",
@@ -2002,8 +2003,7 @@
               "RelativeToolTip": "MasterErp.Api\\Controllers\\UsuariosController.cs",
               "ViewState": "AgIAABYAAAAAAAAAAAAYwCcAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:13:22.701Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:13:22.701Z"
             },
             {
               "$type": "Document",

@@ -51,6 +51,8 @@ export const getOsById = async (osId: number): Promise<IOrdemSeparacao> => {
  * @returns Uma promessa que resolve para a OS atualizada.
  */
 export const updateOsDetails = async (osId: number, payload: UpdateOsDetailsPayload): Promise<IOrdemSeparacao> => {
+
+  console.log("Atualizando OS com payload:", payload);
   const { data } = await axios.put(`${url}/OrdemSeparacao/${osId}`, payload, { headers: authHeader() });
   return data;
 };

@@ -9,7 +9,9 @@ import { User, Save } from 'lucide-react';
 import { IOrdemSeparacao } from '@/app/interfaces/IOrdemSeparacao'; // Importando a interface da OS
 import { useEffect } from "react";
 
+
 const osDetailsSchema = z.object({
+  id:z.number().optional(), // ID é opcional, pois pode ser usado para edição
   descricao: z.string().min(3, "Descrição precisa de ao menos 3 caracteres"),
   responsavel: z.string().optional(),
   observacoes: z.string().optional(),
@@ -31,6 +33,7 @@ export function OsDetailsForm({ os, onSave, isSaving, disabled }: OsDetailsFormP
 
     resolver: zodResolver(osDetailsSchema),
     defaultValues: {
+      id: os.id ,
       descricao: os.descricao || '',
       responsavel: os.responsavel || '',
       observacoes: os.observacoes || '',
@@ -40,6 +43,7 @@ export function OsDetailsForm({ os, onSave, isSaving, disabled }: OsDetailsFormP
 
   useEffect(() => {
     reset({
+      id: os.id ,
       descricao: os.descricao || '',
       responsavel: os.responsavel || '',
       observacoes: os.observacoes || '',

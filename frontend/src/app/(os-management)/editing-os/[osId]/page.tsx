@@ -44,12 +44,13 @@ export default function EditingOsPage({ params }: { params: { osId: string } }) 
   // quando passada como prop para componentes filhos, especialmente os que usam React.memo.
   const handleGenerateWhatsAppMessage = useCallback(() => {
     if (!os) return;
-    const registeredItemsText = registeredItems.map(item => `- ${item.quantidade} ${item.material.unidade || 'UN'} de ${item.material.descricao}`).join('\n');
+    const registeredItemsText = registeredItems.map(item => `- ${item.quantidade} ${item.material.unidade || 'UN'} de ${item.material.descricao} na ${item.material.localizacao}`).join('\n');
     const nonRegisteredItemsText = nonRegisteredItems.map(item => `- ${item.quantidade} UN de ${item.descricaoNaoCadastrado}`).join('\n');
     
-    let message = `*Lista de Materiais para OS: ${os.id} da ${os.descricao}*\n\n`;
-    if (registeredItemsText) message += "*Itens Materiais Cadastrados:*\n" + registeredItemsText + '\n\n';
+    let message = `*Lista de Materiais para Ordem De Separação: ${os.id} da ${os.descricao}*\n\n`;
+    if (registeredItemsText) message += "*Materiais Cadastrados:*\n" + registeredItemsText + '\n\n';
     if (nonRegisteredItemsText) message += "*Materiais Não Cadastrados:*\n" + nonRegisteredItemsText;
+
     
     window.open(`https://api.whatsapp.com/send?phone=553195077302&text=${encodeURIComponent(message)}`, '_blank');
   }, [registeredItems, nonRegisteredItems, os]);
