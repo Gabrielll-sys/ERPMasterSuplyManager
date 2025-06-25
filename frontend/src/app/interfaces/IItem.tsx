@@ -1,29 +1,12 @@
+import { IMaterial } from "@/app/interfaces";
+
 export interface IItem {
-
-    id:number,
-    quantidade:number,
-    responsavelAdicao:string,
-    materialId:number,
-    responsavelMudanca:string,
-    dataAdicaoItem:any,
-    descricaoNaoCadastrado:string,  
-    material:{
-        id:number,
-        categoria: string
-        codigoFabricante: string
-        codigoInterno:number
-        corrente:string,
-        dataEntradaNF : any,
-        descricao: string,
-        localizacao: string,
-        marca: number,
-        markup: number ,
-        precoCusto: number,
-        precoVenda: number,
-        tensao: string,
-        unidade: string
-    }
-
-
-
+  id: number;
+  quantidade: number;
+  responsavelAdicao: string;
+  materialId: number;
+  responsavelMudanca: string;
+  dataAdicaoItem: string;
+  descricaoNaoCadastrado: string;
+  material: IMaterial;
 }

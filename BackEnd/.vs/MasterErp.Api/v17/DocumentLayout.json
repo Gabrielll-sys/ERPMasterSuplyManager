@@ -526,7 +526,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 96,
+          "SelectedChildIndex": 97,
           "Children": [
             {
               "$type": "Bookmark",
@@ -539,6 +539,10 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
               "$type": "Document",
@@ -1641,7 +1645,7 @@
               "RelativeDocumentMoniker": "MasterErp.Api\\Controllers\\OrdemSeparacaoController.cs",
               "ToolTip": "C:\\Users\\gabri\\Desktop\\MasterErp\\BackEnd\\MasterErp.Api\\Controllers\\OrdemSeparacaoController.cs",
               "RelativeToolTip": "MasterErp.Api\\Controllers\\OrdemSeparacaoController.cs",
-              "ViewState": "AgIAANwAAAAAAAAAAAAowPAAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAANwAAAAAAAAAAAAowO0AAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-23T23:44:39.955Z",
               "EditorCaption": ""
@@ -2144,10 +2148,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
               "WhenOpened": "2024-05-22T19:50:38.183Z"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             }
           ]
         }

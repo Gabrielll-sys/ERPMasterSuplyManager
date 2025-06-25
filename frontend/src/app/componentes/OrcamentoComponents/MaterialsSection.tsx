@@ -14,7 +14,7 @@ import { Search } from 'lucide-react';
 import { MaterialsTable } from './MaterialsTable';
 import { searchByDescription } from '@/app/services/Material.Services';
 import { createItemOrcamento, updateItemOrcamento, deleteItemOrcamento } from '@/app/services/ItensOrcamento.Service';
-import { IInventario } from '@/app/interfaces/IInventarios';
+import { IInventario } from '@/app/interfaces';
 
 // Props do componente
 type MaterialsSectionProps = {

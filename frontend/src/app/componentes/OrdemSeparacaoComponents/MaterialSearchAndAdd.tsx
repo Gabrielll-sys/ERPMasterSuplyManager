@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Flex, TextField, Button, Box, Text, Card, ScrollArea } from '@radix-ui/themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Plus, PackagePlus } from 'lucide-react';
-import { IInventario } from '@/app/interfaces/IInventarios';
+import { IInventario } from '@/app/interfaces';
 import { Spinner } from '@nextui-org/react';
 
 // 🎓 CONCEITO: Componente Controlado vs. Não Controlado.

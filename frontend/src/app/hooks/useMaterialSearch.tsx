@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { searchByDescription, searchByFabricanteCode } from "../services/Material.Services";
-import type { IInventario } from "../interfaces/IInventarios";
+import { IInventario } from "../interfaces";
 import { useState } from "react";
 import { useDebounce } from "./useDebounce";
 

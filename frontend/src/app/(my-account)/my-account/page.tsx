@@ -7,7 +7,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 // Serviços e Interfaces
 import { getUserById, updateInfosUser } from "@/app/services/User.Services";
-import { IUsuario } from "@/app/interfaces/IUsuario";
+import { IUsuario } from "@/app/interfaces";
 
 // Componentes Radix UI e Ícones
 import { Box, Button, Card, Flex, Heading, Text, TextField } from "@radix-ui/themes";

@@ -1,4 +1,4 @@
-import {IAtividadeRd} from "@/app/interfaces/IAtividadeRd";
+import { IAtividadeRd } from "@/app/interfaces";
 
 export interface IImagemAtividadeRd {
     id?: number;

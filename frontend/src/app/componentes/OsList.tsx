@@ -4,7 +4,7 @@
 // e torna este componente reutilizável, se necessário. Ele não sabe de onde vêm os dados,
 // apenas como exibi-los.
 
-import { IOrdemSeparacao } from "@/app/interfaces/IOrdemSeparacao";
+import { IOrdemSeparacao } from "@/app/interfaces";
 import { DocumentTextIcon } from "@heroicons/react/24/outline";
 import { OsCard } from "./OsCard"; // Nosso próximo componente
 

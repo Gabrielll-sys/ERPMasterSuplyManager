@@ -1,7 +1,7 @@
 import axios from "axios";
 import { url } from "../api/webApiUrl";
 import { authHeader } from "../_helpers/auth_headers";
-import IMaterial from "../interfaces/IMaterial";
+import { IMaterial } from "../interfaces";
 import { createInventario } from "./Inventario.Services";
 
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { url } from "../api/webApiUrl";
 import { authHeader } from "../_helpers/auth_headers";
-import { IInventario } from "../interfaces/IInventarios";
+import { IInventario } from "../interfaces";
 
 export const createInventario = async (idMaterial: number) => {
   const inventario = {

@@ -11,7 +11,7 @@ import { useRef, useState } from "react";
 
 
 import ArrowLeft from '@/app/assets/icons/ArrowLeft';
-import { IInventario } from '@/app/interfaces/IInventarios';
+import { IInventario } from '@/app/interfaces';
 import { Table } from 'flowbite-react';
 import { useReactToPrint } from 'react-to-print';
 

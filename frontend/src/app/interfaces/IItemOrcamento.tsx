@@ -1,5 +1,4 @@
-import IMaterial from "./IMaterial";
-import { IOrcamento } from "./IOrcamento";
+import { IMaterial, IOrcamento } from "@/app/interfaces";
 
  export interface IItemOrcamento {
     id: number;

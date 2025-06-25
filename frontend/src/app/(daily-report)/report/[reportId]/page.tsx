@@ -12,10 +12,7 @@ import IconFileEarmarkPdf from '@/app/assets/icons/IconFileEarmarkPdf';
 import IconPlusSquare from '@/app/assets/icons/IconPlus';
 import Atividade from '@/app/componentes/Atividade';
 import RelatorioDiarioPDF from '@/app/componentes/RelatorioDiarioPDF';
-import { IAtividadeRd } from "@/app/interfaces/IAtividadeRd";
-import { IImagemAtividadeRd } from '@/app/interfaces/IImagemAtividadeRd';
-
-import { IRelatorioDiario } from "@/app/interfaces/IRelatorioDiario";
+import { IAtividadeRd, IRelatorioDiario,IImagemAtividadeRd } from "@/app/interfaces";
 import {
     createAtividadeRd,
     deleteAtividadeRd,

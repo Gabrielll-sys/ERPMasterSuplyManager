@@ -23,7 +23,7 @@ import { ArrowLeftIcon } from '@radix-ui/react-icons';
 import { Spinner } from "@nextui-org/react";
 
 import { getMaterialById, updateMaterial } from "@/app/services/Material.Services";
-import IMaterial from "@/app/interfaces/IMaterial";
+import { IMaterial } from "@/app/interfaces";
 
 interface MaterialFormData {
   descricao: string;

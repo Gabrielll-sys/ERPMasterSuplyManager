@@ -1,6 +1,6 @@
 
 
-import { IOrdemSeparacao } from "@/app/interfaces/IOrdemSeparacao";
+import { IOrdemSeparacao } from "@/app/interfaces";
 import * as Dialog from '@radix-ui/react-dialog';
 import { XMarkIcon, PencilIcon } from '@heroicons/react/24/outline';
 import dayjs from 'dayjs';

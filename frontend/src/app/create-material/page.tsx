@@ -10,10 +10,11 @@ import {
     Search, Plus, Edit3, Eye, ChevronDown, Hash, Package, Building2, MapPin, DollarSign, TrendingUp, Archive 
 } from 'lucide-react';
 
-import { IInventario } from '../interfaces/IInventarios';
+import { IInventario } from '../interfaces/IInventario';
 import { createMaterial } from "../services/Material.Services";
 import { useMaterialSearch } from '../hooks/useMaterialSearch';
-import type IMaterial from '../interfaces/IMaterial';
+import type { IMaterial } from '../interfaces';
+
 
 // 🎓 ANIMAÇÕES REFINADAS: Adicionamos um container para animações escalonadas.
 // 🤔 PORQUÊ: O `staggerChildren` cria um efeito elegante onde os itens de uma lista ou formulário
@@ -228,11 +229,11 @@ export default function CreateMaterialPage() {
                                 <Table.Cell><Text weight="bold" className="text-slate-800">{item.material.id}</Text><Text size="1" className="block text-slate-500">{item.material.codigoFabricante || 'Sem código'}</Text></Table.Cell>
                                 <Table.Cell><Text weight="bold" className="text-slate-800">{item.material.descricao}</Text><Text size="1" className="block text-slate-500">{item.material.codigoFabricante || 'Sem código'}</Text></Table.Cell>
                                 <Table.Cell className="hidden lg:table-cell">{item.material.marca || 'N/A'}</Table.Cell>
-                                <Table.Cell className="hidden lg:table-cell">{item.material.localizacao || 'N/A'}</Table.Cell>
+                                <Table.Cell>{item.material.localizacao || 'N/A'}</Table.Cell>
                                 <Table.Cell><Badge size="2" color={getStockBadgeColor(item.estoque || 0)}>{item.estoque || 0}</Badge></Table.Cell>
                                 <Table.Cell className="hidden sm:table-cell">
                                     
-                                    {item.material.precoCusto ? (
+                                    {item.material.precoVenda ? (
                                         <Text weight="bold" color="green">R$ {item.material.precoVenda?.toFixed(2).replace('.', ',')}</Text>
                                     ) : (<Text color='gray'>N/A</Text>)}
                                 </Table.Cell>

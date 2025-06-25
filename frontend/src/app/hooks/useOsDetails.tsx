@@ -15,7 +15,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useDebounce } from '@/app/hooks/useDebounce';
 import type { IOrdemSeparacao } from '@/app/interfaces/IOrdemSeparacao';
 import type { IItem } from '@/app/interfaces/IItem';
-import type { IInventario } from '@/app/interfaces/IInventarios';
+import type { IInventario } from '@/app/interfaces';
 
 // --- O Hook Principal ---
 // 📝 MUDANÇA: Renomeado de `useOsManagement` para `useOsDetails` para maior clareza.

@@ -3,7 +3,7 @@
 // 🤔 PORQUÊ: Componentizar o card permite estilizá-lo e gerenciá-lo de forma isolada.
 // Qualquer mudança no design do card afeta apenas este arquivo.
 
-import { IOrdemSeparacao } from "@/app/interfaces/IOrdemSeparacao";
+import { IOrdemSeparacao } from "@/app/interfaces";
 import { useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';

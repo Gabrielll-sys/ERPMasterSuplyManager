@@ -1,5 +1,4 @@
-import {IRelatorioDiario} from "@/app/interfaces/IRelatorioDiario";
-import { IImagemAtividadeRd } from "./IImagemAtividadeRd";
+import { IRelatorioDiario, IImagemAtividadeRd } from "@/app/interfaces";
 
 export interface IAtividadeRd {
     id?: number;
