@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\MasterErp.Api.props" />
+</Project>

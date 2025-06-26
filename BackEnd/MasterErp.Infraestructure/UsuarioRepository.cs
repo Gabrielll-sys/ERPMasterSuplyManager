@@ -2,11 +2,12 @@
 using MasterErp.Domain.Interfaces.Repository;
 using MasterErp.Domain.Models;
 using MasterErp.Infraestructure.Context;
+using MasterErp.Domain.Interfaces.Services;
 
 
 namespace MasterErp.Infraestructure;
 
-    public class UsuarioRepository: IUsuarioRepository
+    public class UsuarioRepository: IUsuarioRepository, IScopedService
     {
 
         private readonly SqlContext _context;

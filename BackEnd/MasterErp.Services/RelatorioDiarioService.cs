@@ -6,7 +6,7 @@ using MasterErp.Domain.Models;
 using Microsoft.AspNetCore.Http;
 namespace MasterErp.Services
 {
-    public class RelatorioDiarioService : IRelatorioDiarioService
+    public class RelatorioDiarioService : IRelatorioDiarioService, IScopedService
     {
         private readonly IRelatorioDiarioRepository _relatorioDiarioRepository;
         

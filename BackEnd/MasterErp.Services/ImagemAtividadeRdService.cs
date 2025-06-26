@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace MasterErp.Services;
 
-public class ImagemAtividadeRdService:IImagemAtividadeRdService
+public class ImagemAtividadeRdService: IImagemAtividadeRdService, IScopedService
 {
       private readonly IImagemAtividadeRdRepository _imagemAtividadeRdRepository;
 

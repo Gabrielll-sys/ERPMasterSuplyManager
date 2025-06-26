@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace MasterErp.Services;
 
-public class AtividadeRdService : IAtividadeRdService
+public class AtividadeRdService : IAtividadeRdService, IScopedService
 {
     private readonly IAtividadeRdRepository _atividadeRdRepository;
 

@@ -2,7 +2,7 @@
 using MasterErp.Domain.Interfaces.Services;
 namespace MasterErp.Services
 {
-    public class ItemService:IItemService
+    public class ItemService: IItemService, IScopedService
     {
         private readonly IItemRepository _itemRepository;
 

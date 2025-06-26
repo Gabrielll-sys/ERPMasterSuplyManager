@@ -5,7 +5,7 @@ using MasterErp.Domain.Models;
 using Microsoft.AspNetCore.Http;
 namespace MasterErp.Services
 {
-    public class MaterialService:IMaterialService
+    public class MaterialService: IMaterialService, IScopedService
     {
         private readonly IMaterialRepository _materialRepository;
 

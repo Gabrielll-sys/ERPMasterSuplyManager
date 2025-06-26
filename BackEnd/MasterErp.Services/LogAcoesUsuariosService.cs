@@ -5,7 +5,7 @@ using MasterErp.Domain.Models;
 
 namespace MasterErp.Services;
 
-public class LogAcoesUsuarioService:ILogAcoesUsuarioService
+public class LogAcoesUsuarioService: ILogAcoesUsuarioService, IScopedService
 {
         private readonly ILogAcoesUsuarioRepository _logAcoesUsuarioRepository;
 

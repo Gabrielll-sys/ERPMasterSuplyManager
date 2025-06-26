@@ -13,10 +13,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json; // Para desserializar HeaderDataJson
 using System.Threading.Tasks;
+using MasterErp.Domain.Interfaces.Services;
 
 namespace MasterErp.Services.Services.Forms
 {
-    public class FilledFormService : IFilledFormService
+    public class FilledFormService : IFilledFormService, IScopedService
     {
         private readonly SqlContext _context;
         private readonly IMapper _mapper;

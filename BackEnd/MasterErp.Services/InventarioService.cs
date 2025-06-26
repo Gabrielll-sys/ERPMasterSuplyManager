@@ -5,7 +5,7 @@ using MasterErp.Domain.Models;
 
 namespace MasterErp.Services
 {
-    public class InventarioService : IInventarioService
+    public class InventarioService : IInventarioService, IScopedService
     {
         private readonly IInventarioRepository _inventarioRepository;
 

@@ -5,7 +5,7 @@ using MasterErp.Domain.Models;
 using Microsoft.AspNetCore.Http;
 namespace MasterErp.Services;
 
-public class OrcamentoService : IOrcamentoService
+public class OrcamentoService : IOrcamentoService, IScopedService
 {
         private readonly IOrcamentoRepository _orcamentoRepository;
 

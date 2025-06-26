@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace MasterErp.Services
 {
-    public class ClienteService:IClienteService
+    public class ClienteService: IClienteService, IScopedService
     {
         private readonly IClienteRepository _clienteRepository;
 

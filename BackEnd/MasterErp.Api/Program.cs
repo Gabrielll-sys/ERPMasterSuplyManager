@@ -3,27 +3,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MasterErp.Infraestructure.Context;
-using MasterErp.Domain.Interfaces.Repository;
-
-using MasterErp.Services.Interfaces;       // Interfaces de Serviço
-using MasterErp.Services.Services;         // Implementações de Serviço
 using System.Text;
-using System.Text.Json.Serialization;      // Para ignorar ciclos em JSON e para JsonStringEnumConverter
-using FluentValidation;                    // Para FluentValidation
-using FluentValidation.AspNetCore;         // Para integração ASP.NET Core do FluentValidation (AddFluentValidationAutoValidation)
-using MasterErp.Services.Validators.Forms; // Namespace dos seus novos validadores de formulário
-using MasterErp.Services.Validators;       // Namespace de validadores existentes (ex: UsuarioPostValidator)
-using MasterErp.Services.Interfaces.Forms; // Interfaces dos novos serviços de formulário
-using MasterErp.Services.Services.Forms;   // Implementações dos novos serviços de formulário
-// Se você criou repositórios específicos para formulários, adicione os usings:
-// using MasterErp.Domain.Interfaces.Repository.Forms;
-// using MasterErp.Infraestructure.Repository.Forms;
-using System.Security.Claims;              // Para ClaimTypes
-using Microsoft.AspNetCore.Http;           // Para IHttpContextAccessor
+using System.Text.Json.Serialization;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using MasterErp.Services.Validators.Forms;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using MasterErp.Domain.Interfaces.Services;
 using MasterErp.Services;
-using MasterErp.Infraestructure; // Para ApiVersion
+using MasterErp.Infraestructure;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,52 +61,49 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Configuração do CORS
+// Configuração do CORS segura para produção
+const string corsPolicyName = "AllowSpecificOrigins";
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllOrigins", // Nome da política
+    options.AddPolicy(name: corsPolicyName,
         policy =>
         {
-            policy.AllowAnyOrigin() // Permite qualquer origem (cuidado em produção)
-                  .AllowAnyMethod()
-                  .AllowAnyHeader();
+            if (builder.Environment.IsDevelopment())
+            {
+                policy.AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader();
+            }
+            else
+            {
+                var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
+                if (allowedOrigins != null && allowedOrigins.Length > 0)
+                {
+                    policy.WithOrigins(allowedOrigins)
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                }
+            }
         });
 });
 
 
-// 2. Registro dos Seus Serviços de Negócio (Existentes e Novos)
-// ==============================================================
-
-// Seus serviços existentes
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-builder.Services.AddScoped<IUsuarioService, UsuarioService>();
-builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
-builder.Services.AddScoped<IMaterialService, MaterialService>();
-builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
-builder.Services.AddScoped<IClienteService, ClienteService>();
-builder.Services.AddScoped<IOrcamentoRepository, OrcamentoRepository>();
-builder.Services.AddScoped<IOrcamentoService, OrcamentoService>();
-builder.Services.AddScoped<IOrdemSeparacaoRepository, OrdemSeparacaoRepository>();
-builder.Services.AddScoped<IOrdemSeparacaoService, OrdemSeparacaoService>();
-builder.Services.AddScoped<IInventarioRepository, InventarioRepository>();
-builder.Services.AddScoped<IInventarioService, InventarioService>();
-builder.Services.AddScoped<ILogAcoesUsuarioRepository, LogAcoesUsuarioRepository>();
-builder.Services.AddScoped<ILogAcoesUsuarioService, LogAcoesUsuarioService>();
-builder.Services.AddScoped<IAtividadeRdRepository, AtividadeRdRepository>();
-builder.Services.AddScoped<IAtividadeRdService, AtividadeRdService>();
-builder.Services.AddScoped<IRelatorioDiarioRepository, RelatorioDiarioRepository>();
-builder.Services.AddScoped<IRelatorioDiarioService, RelatorioDiarioService>();
-
-builder.Services.AddScoped<IImagemAtividadeRdRepository, ImagemAtividadeRdRepository>(); // Adicionado se não estiver
-builder.Services.AddScoped<IImagemAtividadeRdService, ImagemAtividadeRdService>();   // Adicionado se não estiver
-builder.Services.AddScoped<ITarefaUsuarioRepository, TarefaUsuarioRepository>();     // Adicionado se não estiver
-builder.Services.AddScoped<ITarefaUsuarioService, TarefaUsuarioService>();       // Adicionado se não estiver
-
-
-// NOVOS SERVIÇOS PARA FORMULÁRIOS
-builder.Services.AddScoped<IFormTemplateService, FormTemplateService>();
-builder.Services.AddScoped<IFilledFormService, FilledFormService>();
-
+// 2. Registro Automático de Serviços de Negócio com Scrutor
+// =========================================================
+builder.Services.Scan(scan => scan
+  .FromAssemblies(
+        typeof(MasterErp.Services.UsuarioService).Assembly,
+        typeof(MasterErp.Infraestructure.UsuarioRepository).Assembly
+    )
+    .AddClasses(classes => classes.AssignableTo<IScopedService>())
+        .AsImplementedInterfaces()
+        .WithScopedLifetime()
+    .AddClasses(classes => classes.AssignableTo<ITransientService>())
+        .AsImplementedInterfaces()
+        .WithTransientLifetime()
+    .AddClasses(classes => classes.AssignableTo<ISingletonService>())
+        .AsImplementedInterfaces()
+        .WithSingletonLifetime());
 
 // 3. Configuração do AutoMapper
 // ==============================
@@ -130,13 +117,10 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-        // ADICIONADO: Configura a desserialização de Enums como strings
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
 builder.Services.AddValidatorsFromAssemblyContaining<FilledFormSyncDtoValidator>(ServiceLifetime.Scoped);
-// Se UsuarioPostValidator estiver em um assembly diferente, adicione outra linha para ele:
-// builder.Services.AddValidatorsFromAssemblyContaining<UsuarioPostValidator>(ServiceLifetime.Scoped);
 
 builder.Services.AddFluentValidationAutoValidation(config =>
 {
@@ -215,9 +199,10 @@ else
 
 app.UseHttpsRedirection();
 app.UseRouting();
-app.UseCors("AllowAllOrigins"); // Aplica a política de CORS definida acima
-app.UseAuthentication(); // Habilita a autenticação (DEVE VIR ANTES DO UseAuthorization)
-app.UseAuthorization();  // Habilita a autorização
-app.MapControllers(); // Mapeia os atributos de rota nos seus controllers
+app.UseCors(corsPolicyName); // Aplica a nova política de CORS
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
 
 app.Run();
+

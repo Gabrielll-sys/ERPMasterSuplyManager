@@ -5,7 +5,7 @@ using MasterErp.Domain.Models;
 using Microsoft.AspNetCore.Http;
 namespace MasterErp.Services
 {
-    public class OrdemSeparacaoService: IOrdemSeparacaoService
+    public class OrdemSeparacaoService: IOrdemSeparacaoService, IScopedService
     {
         private readonly IOrdemSeparacaoRepository _ordemSeparacaoRepository;
 

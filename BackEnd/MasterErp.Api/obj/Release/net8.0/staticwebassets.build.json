@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "Pb0kDgbGgmblmZ8kpF7ifFmlYMAQgzuGMyD6TLYy+E8=",
+  "Source": "MasterErp.Api",
+  "BasePath": "_content/MasterErp.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

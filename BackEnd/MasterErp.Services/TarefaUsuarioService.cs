@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace MasterErp.Services
 {
-    public class TarefaUsuarioService : ITarefaUsuarioService
+    public class TarefaUsuarioService : ITarefaUsuarioService, IScopedService
     {
         private readonly ITarefaUsuarioRepository _tarefaUsuarioRepository;
         

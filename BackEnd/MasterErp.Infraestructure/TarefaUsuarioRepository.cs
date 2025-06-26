@@ -2,11 +2,12 @@ using Microsoft.EntityFrameworkCore;
 using MasterErp.Domain.Interfaces.Repository;
 using MasterErp.Domain.Models;
 using MasterErp.Infraestructure.Context;
+using MasterErp.Domain.Interfaces.Services;
 namespace MasterErp.Infraestructure
 {
     
-public class TarefaUsuarioRepository : ITarefaUsuarioRepository
-{
+public class TarefaUsuarioRepository : ITarefaUsuarioRepository, IScopedService
+    {
             private readonly SqlContext _context;
     
     

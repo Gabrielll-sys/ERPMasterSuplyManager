@@ -9,7 +9,7 @@ using BCrypt.Net;
 
 namespace MasterErp.Services
 {
-    public class UsuarioService : IUsuarioService
+    public class UsuarioService : IUsuarioService, IScopedService
     {
         private readonly IUsuarioRepository _usuarioRepository;
         public UsuarioService(IUsuarioRepository usuarioRepository)

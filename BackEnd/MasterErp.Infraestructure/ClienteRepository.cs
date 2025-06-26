@@ -2,9 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using MasterErp.Infraestructure.Context;
 using MasterErp.Domain.Interfaces.Repository;
 using MasterErp.Domain.Models;
+using MasterErp.Domain.Interfaces.Services;
 namespace MasterErp.Infraestructure;
 
-public class ClienteRepository : IClienteRepository
+public class ClienteRepository : IClienteRepository, IScopedService
 {
     private readonly SqlContext _context;
     
