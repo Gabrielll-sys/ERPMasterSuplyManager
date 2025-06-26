@@ -133,7 +133,8 @@ export default function UpdateInventory({ params }: UpdateInventoryProps) {
       });
       
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ['inventory'] });
+      queryClient.invalidateQueries({ queryKey: ['inventory', params.inventoryId] });
+      queryClient.invalidateQueries({ queryKey: ['materiaisSearch'] });
       
       // Redirect after 2 seconds
       setTimeout(() => {
