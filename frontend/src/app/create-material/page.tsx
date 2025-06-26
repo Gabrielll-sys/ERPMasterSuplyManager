@@ -230,7 +230,7 @@ export default function CreateMaterialPage() {
                                 <Table.Cell><Text weight="bold" className="text-slate-800">{item.material.descricao}</Text><Text size="1" className="block text-slate-500">{item.material.codigoFabricante || 'Sem código'}</Text></Table.Cell>
                                 <Table.Cell className="hidden lg:table-cell">{item.material.marca || 'N/A'}</Table.Cell>
                                 <Table.Cell>{item.material.localizacao || 'N/A'}</Table.Cell>
-                                <Table.Cell><Badge size="2" color={getStockBadgeColor(item.estoque || 0)}>{item.estoque || 0}</Badge></Table.Cell>
+                                <Table.Cell><Badge size="2" color={getStockBadgeColor(item.saldoFinal || 0)}>{item.saldoFinal || 0}</Badge></Table.Cell>
                                 <Table.Cell className="hidden sm:table-cell">
                                     
                                     {item.material.precoVenda ? (
