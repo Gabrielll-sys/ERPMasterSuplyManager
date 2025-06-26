@@ -121,3 +121,7 @@ export const updateItemOs = async (payload: { itemId: number; quantidade: number
 export const deleteItemOs = async (itemId: number): Promise<void> => {
   await axios.delete(`${url}/Itens/${itemId}`, { headers: authHeader() });
 };
+export const solicitarBaixaOs = async (osId: number) => {
+  const response = await axios.patch(`${url}/OrdemSeparacao/${osId}/solicitar-baixa`);
+  return response.data;
+};

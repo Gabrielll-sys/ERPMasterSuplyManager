@@ -19,6 +19,10 @@ namespace MasterErp.Domain.Models;
 
         public string? Responsavel { get; set; }
 
+        public bool? BaixaSolicitada { get; set; } = false;
+
+        public List<Material> Materiais { get; set; }
+
 
         public string? Observacoes { get; set; }
         public DateTime? DataAutorizacao { get; set; }

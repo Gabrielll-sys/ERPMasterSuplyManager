@@ -880,6 +880,7 @@ C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\Microsof
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\Microsoft.Extensions.Configuration.FileExtensions.dll
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\Microsoft.Extensions.FileProviders.Abstractions.dll
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\Microsoft.Extensions.FileProviders.Physical.dll
@@ -917,6 +918,7 @@ C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\NuGet.Pr
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\NuGet.Protocol.dll
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\NuGet.Versioning.dll
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\Scrutor.dll
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\Serilog.dll
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
@@ -1105,6 +1107,7 @@ C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwe
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.MasterErp.Api.props
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.MasterErp.Api.props
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\obj\Debug\net8.0\MasterEr.1C0A25F6.Up2Date
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\obj\Debug\net8.0\MasterErp.Api.dll
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\obj\Debug\net8.0\refint\MasterErp.Api.dll
@@ -1112,6 +1115,3 @@ C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\obj\Debug\net8.0\MasterEr
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\obj\Debug\net8.0\MasterErp.Api.pdb
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\obj\Debug\net8.0\MasterErp.Api.genruntimeconfig.cache
 C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\obj\Debug\net8.0\ref\MasterErp.Api.dll
-C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\bin\Debug\net8.0\Scrutor.dll
-C:\Users\gabri\Desktop\MasterErp\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

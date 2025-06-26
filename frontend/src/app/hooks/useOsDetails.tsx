@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 import { useState, useMemo } from 'react';
 
 // --- Serviços e Interfaces ---
-import { getOsById, updateOsDetails, getMateriaisOs, createItemOs, deleteItemOs } from '@/app/services/OrdemSeparacao.Service';
+import { getOsById, updateOsDetails, getMateriaisOs, createItemOs, deleteItemOs, solicitarBaixaOs } from '@/app/services/OrdemSeparacao.Service';
 import { searchByDescription } from '@/app/services/Material.Services';
 import { useAuth } from '@/contexts/AuthContext';
 import { useDebounce } from '@/app/hooks/useDebounce';
@@ -32,7 +32,7 @@ export function useOsDetails(osId: number) {
     // 🤔 PORQUÊ: Ações nesta página podem afetar tanto os detalhes da OS quanto a lista de itens.
     // Invalidar ambas as queries garante que a UI esteja sempre 100% sincronizada.
     queryClient.invalidateQueries({ queryKey: [queryKeyToInvalidate, osId] });
-  };
+  }; 
 
   const handleMutationError = (error: any, action: string) => {
     toast.error(`Falha ao ${action}`, {
@@ -78,6 +78,12 @@ export function useOsDetails(osId: number) {
     onError: (error) => handleMutationError(error, "remover item"),
   });
 
+  const solicitarBaixaMutation = useMutation({
+    mutationFn: () => solicitarBaixaOs(osId),
+    onSuccess: () => handleMutationSuccess("Baixa da OS solicitada com sucesso!", 'osDetails'),
+    onError: (error) => handleMutationError(error, "solicitar baixa"),
+  });
+
   // --- Funções de Ação ---
   const addItemToOs = (itemData: { materialId?: number; descricaoNaoCadastrado?: string; quantidade: number }) => {
     if (!authUser?.userName) {
@@ -120,5 +126,7 @@ export function useOsDetails(osId: number) {
     isAddingItem: createItemMutation.isPending,
     deleteItemFromOs,
     isDeletingItem: deleteItemMutation.isPending,
+    solicitarBaixa: solicitarBaixaMutation.mutate,
+    isSolicitingBaixa: solicitarBaixaMutation.isPending,
   };
 }

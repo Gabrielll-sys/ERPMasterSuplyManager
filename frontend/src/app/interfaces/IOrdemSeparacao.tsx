@@ -9,4 +9,5 @@ export interface IOrdemSeparacao {
   dataFechamento?: string;
   precoVendaTotalOs?: number;
   precoCustoTotalOs?: number;
+  baixaSolicitada?: boolean;
 }

@@ -417,6 +417,13 @@
             <param name="model">Um objeto que representa a ordem de serviço a ser criada</param>
             <returns>A ordem de serviço criada</returns>
         </member>
+        <member name="M:MasterErp.Api.Controllers.OrdemSeparacaoController.SolicitarBaixa(System.Int32)">
+            <summary>
+            Solicita a baixa de uma ordem de serviço
+            </summary>
+            <param name="id">O id da ordem de serviço</param>
+            <returns></returns>
+        </member>
         <member name="M:MasterErp.Api.Controllers.OrdemSeparacaoController.UpdateAuthorize(System.Int32,MasterErp.Domain.Models.OrdemSeparacao)">
             <summary>
             Atualizar a ordem de serviço, á autorizando

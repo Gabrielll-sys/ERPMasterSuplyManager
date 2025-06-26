@@ -5391,6 +5391,52 @@
         }
       }
     },
+    "/api/v1/OrdemSeparacao/{id}/solicitar-baixa": {
+      "patch": {
+        "tags": [
+          "OrdemSeparacao"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/v1/OrdemSeparacao/updateAuhorize/{id}": {
       "put": {
         "tags": [
@@ -7200,6 +7246,17 @@
             "type": "string",
             "nullable": true
           },
+          "baixaSolicitada": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "materiais": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Material"
+            },
+            "nullable": true
+          },
           "observacoes": {
             "type": "string",
             "nullable": true
@@ -7516,7 +7573,7 @@
     "securitySchemes": {
       "Bearer": {
         "type": "apiKey",
-        "description": "JWT Authorization header usando o esquema Bearer. <br/>\n                      Entre com 'Bearer' [espaço] e então seu token no campo de texto abaixo. <br/>\n                      Exemplo: 'Bearer 12345abcdef'",
+        "description": "JWT Authorization header usando o esquema Bearer. <br/>\r\n                      Entre com 'Bearer' [espaço] e então seu token no campo de texto abaixo. <br/>\r\n                      Exemplo: 'Bearer 12345abcdef'",
         "name": "Authorization",
         "in": "header"
       }

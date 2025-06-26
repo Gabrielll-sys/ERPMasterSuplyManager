@@ -79,6 +79,12 @@ namespace MasterErp.Api.Controllers;
         {
             try
             {
+                var osPendente = await _context.OrdemSeparacoes.FirstOrDefaultAsync(o => o.Responsavel == model.Responsavel && o.BaixaSolicitada == false);
+
+                if (osPendente != null)
+                {
+                    return Conflict(new { message = $"Você possui uma Ordem de Separação (ID: {osPendente.Id}) pendente de baixa. Por favor, solicite a baixa antes de criar uma nova.", pendingOsId = osPendente.Id });
+                }
 
                 OrdemSeparacao o1 = new OrdemSeparacao
                 {
@@ -86,37 +92,50 @@ namespace MasterErp.Api.Controllers;
                     Responsavel = model.Responsavel,
                     IsAuthorized = false,
                     DataAbertura = DateTime.UtcNow.AddHours(-3),
-                  
                     Observacoes = model.Observacoes,
+                    BaixaSolicitada = false // Valor padrão explícito
                 };
 
-                List<OrdemSeparacao> a = await _context.OrdemSeparacoes.ToListAsync();
-
-            
-
-          
-
                 await _context.OrdemSeparacoes.AddAsync(o1);
-             
                 await _context.SaveChangesAsync();
-       
 
                 return Ok(o1);
-
-
-
             }
-
-
             catch (Exception exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
             }
+        }
 
+        /// <summary>
+        /// Solicita a baixa de uma ordem de serviço
+        /// </summary>
+        /// <param name="id">O id da ordem de serviço</param>
+        /// <returns></returns>
+        [HttpPatch("{id}/solicitar-baixa")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult> SolicitarBaixa(int id)
+        {
+            try
+            {
+                var ordemSeparacao = await _context.OrdemSeparacoes.FindAsync(id);
 
+                if (ordemSeparacao == null)
+                {
+                    return NotFound();
+                }
 
+                ordemSeparacao.BaixaSolicitada = true;
+                await _context.SaveChangesAsync();
 
-
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
         }
 
         /// <summary>

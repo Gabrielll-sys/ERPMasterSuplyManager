@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Toaster } from 'sonner';
 import { Flex,  Callout, Box, Button } from '@radix-ui/themes';
-import { ServerCrash, Send } from 'lucide-react';
+import { ServerCrash, Send, CheckCircle2 } from 'lucide-react';
 import { useCallback } from 'react';
 
 // --- Nossos novos hooks e componentes ---
@@ -36,7 +36,9 @@ export default function EditingOsPage({ params }: { params: { osId: string } }) 
     isAddingItem,
     deleteItemFromOs,
     updateDetails,
-    isUpdatingDetails
+ isUpdatingDetails,
+ solicitarBaixa,
+ isSolicitingBaixa,
   } = useOsDetails(osId);
 
   // 🎓 CONCEITO: useCallback para memorizar funções.
@@ -106,16 +108,29 @@ export default function EditingOsPage({ params }: { params: { osId: string } }) 
           </motion.div>
         </div>
         
-        <AnimatePresence>
-          {(registeredItems.length > 0 || nonRegisteredItems.length > 0) && (
-            <motion.div initial={{ scale: 0.8, y: 50, opacity: 0 }} animate={{ scale: 1, y: 0, opacity: 1 }} exit={{ scale: 0.8, y: 50, opacity: 0 }} className="fixed bottom-8 right-8 z-20">
-              <Button size="3" color="green" radius="full" className="shadow-lg" onClick={handleGenerateWhatsAppMessage}>
-                <Send className="w-5 h-5 mr-2" />
-                Enviar Lista via WhatsApp
-              </Button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <div className="flex flex-col md:flex-row md:justify-center md:mx-auto justify-end gap-4 mt-8">
+          <AnimatePresence>
+            {os &&   (registeredItems.length > 0 || nonRegisteredItems.length > 0)  && (
+              <motion.div initial={{ scale: 0.8, y: 50, opacity: 0 }} animate={{ scale: 1, y: 0, opacity: 1 }} exit={{ scale: 0.8, y: 50, opacity: 0 }}>
+                <Button size="3" color="violet" radius="full" className="shadow-lg" onClick={() => solicitarBaixa()} disabled={isSolicitingBaixa}>
+                  {isSolicitingBaixa ? <Spinner size="sm" /> : <CheckCircle2 className="w-5 h-5 mr-2" />}
+                  {isSolicitingBaixa ? "Solicitando Baixa..." : "Solicitar Baixa da OS"}
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <AnimatePresence>
+            {(registeredItems.length > 0 || nonRegisteredItems.length > 0) && (
+              <motion.div initial={{ scale: 0.8, y: 50, opacity: 0 }} animate={{ scale: 1, y: 0, opacity: 1 }} exit={{ scale: 0.8, y: 50, opacity: 0 }}>
+                <Button size="3" color="green" radius="full" className="shadow-lg" onClick={handleGenerateWhatsAppMessage}>
+                  <Send className="w-5 h-5 mr-2" />
+                  Enviar Lista via WhatsApp
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </Box>
     </motion.div>
   );
