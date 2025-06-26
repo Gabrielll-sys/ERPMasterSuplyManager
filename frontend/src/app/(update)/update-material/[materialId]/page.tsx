@@ -81,7 +81,7 @@ export default function UpdateMaterialPage({ params }: UpdateMaterialPageProps) 
     onSuccess: () => {
       toast.success("Material atualizado com sucesso!");
       queryClient.invalidateQueries({ queryKey: ['material', materialId] });
-      queryClient.invalidateQueries({ queryKey: ['materiais'] });
+      queryClient.invalidateQueries({ queryKey: ['materiaisSearch'] });
     },
     onError: (err: any) => toast.error(`Erro ao atualizar: ${err.message || 'Tente novamente.'}`),
   });
