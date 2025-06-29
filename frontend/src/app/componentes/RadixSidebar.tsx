@@ -170,47 +170,50 @@ const RadixSidebar: React.FC<RadixSidebarProps> = ({ show, setShowSideBar }) => 
 
                          <Separator my="2" size="4" />
 
-                         {/* Itens de Menu */}
-                         <MenuItem href="/create-material" icon={Pencil1Icon}>
+                          {conditionsRoles && (
+                          <MenuItem href="/criar-material" icon={Pencil1Icon}>
                            Criar Material
                          </MenuItem>
-                         <MenuItem href="/reports" icon={ReaderIcon}>
+                         )}
+             
+                
+                         <MenuItem href="/relatorios" icon={ReaderIcon}>
                            Relatórios
                          </MenuItem>
 
                          {conditionsRoles && (
                              <>
-                                 <MenuItem href="/search-inventory" icon={ArchiveIcon}>
+                                 <MenuItem href="/busca-inventario" icon={ArchiveIcon}>
                                      Gestão de Inventário
                                  </MenuItem>
 
                                  <CollapseItem label="Orçamentos/Vendas" icon={PieChartIcon} collapseKey="orcamentos">
-                                     <MenuItem href="/create-budge" icon={PlusCircleIcon}> {/* Reutilizando ícone */}
+                                     <MenuItem href="/orcamento-e-venda/criar-orcamento" icon={PlusCircleIcon}> {/* Reutilizando ícone */}
                                          Criar Orçamento
                                      </MenuItem>
-                                     <MenuItem href="/manage-budges" icon={ListBulletIcon}> {/* Reutilizando ícone */}
+                                     <MenuItem href="/orcamento-e-venda/gerenciar-orcamentos" icon={ListBulletIcon}> {/* Reutilizando ícone */}
                                          Orçamentos
                                      </MenuItem>
                                  </CollapseItem>
 
-                                 <MenuItem href="/managing-os" icon={ContainerIcon}>
+                                 <MenuItem href="/gerenciamento-ordem-separacao" icon={ContainerIcon}>
                                     Ordem De Separação
                                  </MenuItem>
                              </>
                          )}
 
-                         <MenuItem href="/generateMaterialQrcode" icon={CodeIcon}>
+                         <MenuItem href="/gerar-qrcode-material" icon={CodeIcon}>
                            Gerador De QrCode
                          </MenuItem>
 
                          {conditionsRoles && (
                              <>
-                                 <MenuItem href="/log-register" icon={ListBulletIcon}>
+                                 <MenuItem href="/registro-log" icon={ListBulletIcon}>
                                      Registro de Ações
                                  </MenuItem>
 
                                  <CollapseItem label="Utilitários" icon={MixerHorizontalIcon} collapseKey="utilitarios">
-                                      <MenuItem href="/current-motor-weg" icon={LightningBoltIcon}>
+                                      <MenuItem href="/corrente-motor-weg" icon={LightningBoltIcon}>
                                           Corrente Motor WEG
                                       </MenuItem>
                                       {/* Adicione outros utilitários aqui */}

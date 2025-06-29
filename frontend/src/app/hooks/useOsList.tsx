@@ -1,4 +1,4 @@
-// src/app/(os-management)/hooks/useOsList.ts
+// src/app/(gereciamento-os)/hooks/useOsList.ts
 
 // 🎓 ARQUITETURA EXPLICADA: Este hook gerencia a coleção de Ordens de Serviço.
 // Sua responsabilidade é buscar a lista completa e permitir a criação de novas OSs.
@@ -83,7 +83,7 @@ export function useOsList() {
             <>
               {message}
               {pendingOsId && (
-                <a href={`/os-management/editing-os/${pendingOsId}`} className="text-blue-400 underline ml-1">
+                <a href={`/gerenciamento-ordem-separacao/editando-ordem-separacao/${pendingOsId}`} className="text-blue-400 underline ml-1">
                   Ir para OS {pendingOsId}
                 </a>
               )}

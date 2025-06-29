@@ -1,4 +1,4 @@
-// src/app/(os-management)/editing-os/[osId]/hooks/useOsDetails.ts
+// src/app/(gereciamento-os)/editing-os/[osId]/hooks/useOsDetails.ts
 
 // 🎓 ARQUITETURA EXPLICADA: Este hook gerencia UMA ÚNICA Ordem de Serviço.
 // Suas responsabilidades são: buscar os detalhes da OS, buscar seus itens,

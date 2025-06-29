@@ -1,4 +1,4 @@
-// src/app/(os-management)/editing-os/[osId]/components/MaterialSearchAndAdd.tsx
+// src/app/(gereciamento-os)/editing-os/[osId]/components/MaterialSearchAndAdd.tsx
 "use client";
 
 import { useState } from 'react';

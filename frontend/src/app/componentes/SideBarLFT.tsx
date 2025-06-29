@@ -33,7 +33,7 @@ export default function SideBarLFT(props : any) {
   const handleCreateRelatorio = async()=>{
     const res = await createRelatorioDiario()
 
-     route.push(`report/${res.id}`)
+     route.push(`relatorios/${res.id}`)
 
   }
 
@@ -55,24 +55,24 @@ export default function SideBarLFT(props : any) {
 
       <Sidebar.Items >
         <Sidebar.ItemGroup >
-          <Sidebar.Item  href="/create-material" className="text-black hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" icon={HiPencil}>
+          L58: <Sidebar.Item  href="/criar-material" className="text-black hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" icon={HiPencil}>
             Criar Material
           </Sidebar.Item>
-            <Sidebar.Item className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/reports" icon = {IconReport} >
+            <Sidebar.Item className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/relatorios" icon = {IconReport} >
               Relatórios
             </Sidebar.Item>
 
           { conditionsRoles &&(
               <>
-          <Sidebar.Item className="text-black mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/search-inventory" icon={HiInbox}>
+          L67: <Sidebar.Item className="text-black mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/busca-inventario" icon={HiInbox}>
             Gestão de Inventário
           </Sidebar.Item>
           <Sidebar.Collapse className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out"label=" Orçamentos/Vendas" icon={HiPencilAlt}>
 
-          <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/create-budge" >
+          <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/criar-orcamento" >
               Criar Orçamento
           </Sidebar.Item>
-          <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/manage-budges" >
+          <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/gerenciar-orcamentos" >
               Orçamentos
           </Sidebar.Item>
           </Sidebar.Collapse>
@@ -80,11 +80,11 @@ export default function SideBarLFT(props : any) {
           )}
             {conditionsRoles && (
 
-          <Sidebar.Item className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/managing-os" icon={HiShoppingBag}>
+          <Sidebar.Item className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/gerenciamento-ordem-servico" icon={HiShoppingBag}>
             Gestão de OS
           </Sidebar.Item>
             )}
-          <Sidebar.Item className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/generateMaterialQrcode" icon={HiQrcode}>
+          L87: <Sidebar.Item className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75 ease-in-out" href="/gerar-qrcode-material" icon={HiQrcode}>
             Gerador De QrCode
           </Sidebar.Item>
            
@@ -98,15 +98,15 @@ export default function SideBarLFT(props : any) {
               Criar Usuário
           </Sidebar.Item>
 
-          <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/manage-budges" >
+          <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/gerenciar-orcamentos" >
               Gerenciar Usuários
           </Sidebar.Item>
           </Sidebar.Collapse> */}
-          <Sidebar.Item className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/log-register" icon={HiPencil}>
+          L105: <Sidebar.Item className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/registro-de-logs" icon={HiPencil}>
             Registro de Ações
           </Sidebar.Item>
           <Sidebar.Collapse className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out"label=" Utilitários" icon={HiPencilAlt}>
-            <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/current-motor-weg" >
+            L109: <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/motor-weg-atual" >
                 Corrente Motor WEG
             </Sidebar.Item>
             </Sidebar.Collapse>

@@ -1,4 +1,4 @@
-// src/app/(os-management)/editing-os/[osId]/components/MaterialList.tsx
+// src/app/(gereciamento-os)/editing-os/[osId]/components/MaterialList.tsx
 "use client";
 
 import { Card, Flex, Heading, Table, Text, IconButton, Tooltip, Box } from '@radix-ui/themes';

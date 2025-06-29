@@ -1,4 +1,4 @@
-// src/app/(os-management)/editing-os/[osId]/components/OsHeader.tsx
+// src/app/(gereciamento-os)/editing-os/[osId]/components/OsHeader.tsx
 "use client";
 
 import { Flex, Heading, Button, Box } from '@radix-ui/themes';

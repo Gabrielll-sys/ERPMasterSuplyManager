@@ -96,7 +96,7 @@ export default function LoginPage() {
   // Redireciona se já estiver autenticado
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/reports");
+      router.push("/gerenciamento-ordem-separacao");
     }
   }, [isAuthenticated, router]);
 

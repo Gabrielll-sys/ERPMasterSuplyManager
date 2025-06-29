@@ -1,4 +1,4 @@
-// src/app/(os-management)/editing-os/[osId]/components/OsDetailsForm.tsx
+// src/app/(gereciamento-os)/editing-os/[osId]/components/OsDetailsForm.tsx
 "use client";
 
 import { useForm, Controller } from "react-hook-form";
