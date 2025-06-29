@@ -8,5 +8,6 @@ export interface IItem {
   responsavelMudanca: string;
   dataAdicaoItem: string;
   descricaoNaoCadastrado: string;
+  unidade?:string;
   material: IMaterial;
 }

@@ -91,199 +91,6 @@ namespace MasterErp.Infraestructure.Migrations
                     b.ToTable("Clientes");
                 });
 
-            modelBuilder.Entity("MasterErp.Domain.Models.Forms.FilledFormInstance", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("DeviceCreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime?>("DeviceSubmittedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("FilledByUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FormTemplateId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FormTemplateVersion")
-                        .HasColumnType("int");
-
-                    b.Property<string>("GeneralObservations")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("HeaderDataJson")
-                        .IsRequired()
-                        .HasColumnType("json");
-
-                    b.Property<DateTime?>("ServerReceivedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("SignatureBase64")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("SyncErrorMessage")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FormTemplateId");
-
-                    b.HasIndex("FilledByUserId", "Status");
-
-                    b.ToTable("FilledFormInstances");
-                });
-
-            modelBuilder.Entity("MasterErp.Domain.Models.Forms.FilledItemResponse", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("FilledFormInstanceId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<int>("FormTemplateItemId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ObservationText")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ResponseValue")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("SignatureValueBase64")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FilledFormInstanceId");
-
-                    b.HasIndex("FormTemplateItemId");
-
-                    b.ToTable("FilledItemResponses");
-                });
-
-            modelBuilder.Entity("MasterErp.Domain.Models.Forms.FormTemplate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("CreatedByUserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("Version")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedByUserId");
-
-                    b.ToTable("FormTemplates");
-                });
-
-            modelBuilder.Entity("MasterErp.Domain.Models.Forms.FormTemplateItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DefaultValue")
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("FormTemplateIdAsHeader")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("FormTemplateSectionId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsRequired")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("ItemType")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<string>("OptionsJson")
-                        .HasColumnType("json");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Placeholder")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FormTemplateIdAsHeader");
-
-                    b.HasIndex("FormTemplateSectionId");
-
-                    b.ToTable("FormTemplateItems");
-                });
-
-            modelBuilder.Entity("MasterErp.Domain.Models.Forms.FormTemplateSection", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("FormTemplateId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FormTemplateId");
-
-                    b.ToTable("FormTemplateSections");
-                });
-
             modelBuilder.Entity("MasterErp.Domain.Models.ImagemAtividadeRd", b =>
                 {
                     b.Property<int?>("Id")
@@ -375,6 +182,9 @@ namespace MasterErp.Infraestructure.Migrations
 
                     b.Property<string>("Responsavel")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Unidade")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -475,9 +285,6 @@ namespace MasterErp.Infraestructure.Migrations
                     b.Property<float?>("Markup")
                         .HasColumnType("float");
 
-                    b.Property<int?>("OrdemSeparacaoId")
-                        .HasColumnType("int");
-
                     b.Property<float?>("PrecoCusto")
                         .HasColumnType("float");
 
@@ -494,8 +301,6 @@ namespace MasterErp.Infraestructure.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrdemSeparacaoId");
 
                     b.ToTable("Materiais");
                 });
@@ -737,82 +542,6 @@ namespace MasterErp.Infraestructure.Migrations
                     b.Navigation("Orcamento");
                 });
 
-            modelBuilder.Entity("MasterErp.Domain.Models.Forms.FilledFormInstance", b =>
-                {
-                    b.HasOne("MasterErp.Domain.Models.Usuario", "FilledByUser")
-                        .WithMany()
-                        .HasForeignKey("FilledByUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("MasterErp.Domain.Models.Forms.FormTemplate", "FormTemplate")
-                        .WithMany()
-                        .HasForeignKey("FormTemplateId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("FilledByUser");
-
-                    b.Navigation("FormTemplate");
-                });
-
-            modelBuilder.Entity("MasterErp.Domain.Models.Forms.FilledItemResponse", b =>
-                {
-                    b.HasOne("MasterErp.Domain.Models.Forms.FilledFormInstance", "FilledFormInstance")
-                        .WithMany("Responses")
-                        .HasForeignKey("FilledFormInstanceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MasterErp.Domain.Models.Forms.FormTemplateItem", "FormTemplateItem")
-                        .WithMany()
-                        .HasForeignKey("FormTemplateItemId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("FilledFormInstance");
-
-                    b.Navigation("FormTemplateItem");
-                });
-
-            modelBuilder.Entity("MasterErp.Domain.Models.Forms.FormTemplate", b =>
-                {
-                    b.HasOne("MasterErp.Domain.Models.Usuario", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedByUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("CreatedByUser");
-                });
-
-            modelBuilder.Entity("MasterErp.Domain.Models.Forms.FormTemplateItem", b =>
-                {
-                    b.HasOne("MasterErp.Domain.Models.Forms.FormTemplate", "FormTemplateAsHeader")
-                        .WithMany("HeaderFields")
-                        .HasForeignKey("FormTemplateIdAsHeader")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("MasterErp.Domain.Models.Forms.FormTemplateSection", "FormTemplateSection")
-                        .WithMany("Items")
-                        .HasForeignKey("FormTemplateSectionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("FormTemplateAsHeader");
-
-                    b.Navigation("FormTemplateSection");
-                });
-
-            modelBuilder.Entity("MasterErp.Domain.Models.Forms.FormTemplateSection", b =>
-                {
-                    b.HasOne("MasterErp.Domain.Models.Forms.FormTemplate", "FormTemplate")
-                        .WithMany("Sections")
-                        .HasForeignKey("FormTemplateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FormTemplate");
-                });
-
             modelBuilder.Entity("MasterErp.Domain.Models.ImagemAtividadeRd", b =>
                 {
                     b.HasOne("MasterErp.Domain.Models.AtividadeRd", "AtividadeRd")
@@ -838,7 +567,7 @@ namespace MasterErp.Infraestructure.Migrations
                         .HasForeignKey("MaterialId");
 
                     b.HasOne("MasterErp.Domain.Models.OrdemSeparacao", "OrdemSeparacao")
-                        .WithMany()
+                        .WithMany("Itens")
                         .HasForeignKey("OrdemSeparacaoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -867,13 +596,6 @@ namespace MasterErp.Infraestructure.Migrations
                     b.Navigation("Orcamento");
                 });
 
-            modelBuilder.Entity("MasterErp.Domain.Models.Material", b =>
-                {
-                    b.HasOne("MasterErp.Domain.Models.OrdemSeparacao", null)
-                        .WithMany("Materiais")
-                        .HasForeignKey("OrdemSeparacaoId");
-                });
-
             modelBuilder.Entity("MasterErp.Domain.Models.TarefaUsuario", b =>
                 {
                     b.HasOne("MasterErp.Domain.Models.Usuario", "Usuario")
@@ -883,26 +605,9 @@ namespace MasterErp.Infraestructure.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("MasterErp.Domain.Models.Forms.FilledFormInstance", b =>
-                {
-                    b.Navigation("Responses");
-                });
-
-            modelBuilder.Entity("MasterErp.Domain.Models.Forms.FormTemplate", b =>
-                {
-                    b.Navigation("HeaderFields");
-
-                    b.Navigation("Sections");
-                });
-
-            modelBuilder.Entity("MasterErp.Domain.Models.Forms.FormTemplateSection", b =>
-                {
-                    b.Navigation("Items");
-                });
-
             modelBuilder.Entity("MasterErp.Domain.Models.OrdemSeparacao", b =>
                 {
-                    b.Navigation("Materiais");
+                    b.Navigation("Itens");
                 });
 #pragma warning restore 612, 618
         }

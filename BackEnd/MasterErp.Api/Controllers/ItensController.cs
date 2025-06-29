@@ -70,47 +70,15 @@ namespace MasterErp.Api.Controllers;
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-        public async Task<ActionResult<Item>> GetAllMateriasOs(int id)
+        public async Task<ActionResult<List<Item>>> GetAllMateriasOs(int id)
         {
- 
-            List<Item> itensWithMaterial = new List<Item>();
-
-            var materias = _context.Materiais;
-            var os = _context.OrdemSeparacoes;
-            var itens =  await _context.Itens.ToListAsync();
-
-
-            foreach (var item in itens)
-            {
-                if (item.OrdemSeparacaoId == id)
-                {
-
-                    var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == item.MaterialId);
-
-                    var OrdemSeparacao = await _context.OrdemSeparacoes.FirstOrDefaultAsync(x => x.Id == item.OrdemSeparacaoId);
-
-                    item.Material = material;
-
-                    item.OrdemSeparacao = OrdemSeparacao;
-
-
-                    itensWithMaterial.Add(item);
-
-                }
-                
-
-
-
-
-
-
-            }
-           
+            var itensWithMaterial = await _context.Itens
+                .Include(item => item.Material)
+                .Include(item => item.OrdemSeparacao)
+                .Where(item => item.OrdemSeparacaoId == id)
+                .ToListAsync();
 
             return Ok(itensWithMaterial);
-
-
-
         }
         /// <summary>
         /// Cria novo item
@@ -127,7 +95,7 @@ namespace MasterErp.Api.Controllers;
         {
             try
             {
-                Item item = new Item(model.MaterialId, model.OrdemSeparacaoId,model.Quantidade,model.Responsavel,model.DescricaoNaoCadastrado);
+                Item item = new Item(model.MaterialId, model.OrdemSeparacaoId,model.Quantidade,model.Responsavel,model.DescricaoNaoCadastrado,model.Unidade);
                  
                 var material = await _context.Materiais.FirstOrDefaultAsync(x=>x.Id==model.MaterialId);
 

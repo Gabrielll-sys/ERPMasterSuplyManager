@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Flex, TextField, Button, Box, Text, Card, ScrollArea } from '@radix-ui/themes';
+import { Flex, TextField, Button, Box, Text, Card, ScrollArea, Select } from '@radix-ui/themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Plus, PackagePlus } from 'lucide-react';
 import { IInventario } from '@/app/interfaces';
@@ -17,7 +17,7 @@ interface MaterialSearchAndAddProps {
   searchResults: IInventario[];
   isSearching: boolean;
   onAddMaterial: (data: { materialId: number; quantidade: number }) => void;
-  onAddNonRegistered: (data: { descricaoNaoCadastrado: string; quantidade: number }) => void;
+  onAddNonRegistered: (data: { descricaoNaoCadastrado: string; quantidade: number; unidade: string }) => void;
   isAdding: boolean;
 }
 
@@ -34,6 +34,7 @@ export function MaterialSearchAndAdd({
   const [selectedMaterial, setSelectedMaterial] = useState<IInventario | null>(null);
   const [quantity, setQuantity] = useState<number | "">(1);
   const [nonRegisteredDesc, setNonRegisteredDesc] = useState('');
+  const [unidade, setUnidade] = useState("UN");
 
   // 🎓 CONCEITO: Fluxo de UX Não-Bloqueante.
   // 🤔 PORQUÊ: Em vez de um `prompt()`, integramos o formulário de quantidade na UI.
@@ -53,7 +54,7 @@ export function MaterialSearchAndAdd({
   
   const handleAddNonRegisteredClick = () => {
     if (nonRegisteredDesc.trim() && Number(quantity) > 0) {
-        onAddNonRegistered({ descricaoNaoCadastrado: nonRegisteredDesc.trim(), quantidade: Number(quantity) });
+        onAddNonRegistered({ descricaoNaoCadastrado: nonRegisteredDesc.trim(), quantidade: Number(quantity), unidade: unidade });
         setNonRegisteredDesc('');
         setQuantity(1);
     }
@@ -134,6 +135,16 @@ export function MaterialSearchAndAdd({
             <TextField.Root className="w-full sm:w-24">
                 <TextField.Input type="number" placeholder="Qtd." value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} min="1" />
             </TextField.Root>
+            <Select.Root value={unidade} onValueChange={setUnidade}>
+              <Select.Trigger placeholder="Unidade" />
+              <Select.Content>
+                <Select.Item value="UN">UN</Select.Item>
+                <Select.Item value="M">M</Select.Item>
+                <Select.Item value="RL">RL</Select.Item>
+                <Select.Item value="PC">PC</Select.Item>
+                <Select.Item value="MT">MT</Select.Item>
+              </Select.Content>
+            </Select.Root>
             <Button onClick={handleAddNonRegisteredClick} disabled={!nonRegisteredDesc.trim() || isAdding}>
                 <Plus className="w-4 h-4 mr-1" /> {isAdding ? 'Adicionando...' : 'Adicionar'}
             </Button>

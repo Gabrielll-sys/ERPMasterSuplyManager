@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { Theme, Box, Text } from "@radix-ui/themes";
 import { Toaster, toast } from 'sonner';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -16,6 +16,7 @@ import { CustomerForm } from "@/app/componentes/OrcamentoComponents/CustomForm";
 import { MaterialsSection } from '@/app/componentes/OrcamentoComponents/MaterialsSection';
 import { BudgetSummary } from '@/app/componentes/OrcamentoComponents/BudgetSummary';
 import { ActionButtons } from '@/app/componentes/OrcamentoComponents/ActionButtons';
+import { IItemOrcamento } from "@/app/interfaces";
 
 // --- Interfaces e Reducer para o estado do formulário ---
 interface BudgetState {
@@ -56,6 +57,8 @@ export default function ManageBudgetPage({ params }: { params: { orcamentoId: st
   const router = useRouter();
   const queryClient = useQueryClient();
   const [formState, dispatch] = useReducer(budgetReducer, initialState);
+  const [materiais, setMateriais] = useState<IItemOrcamento[]>([]);
+
   
   const orcamentoId = Number(params.orcamentoId);
 
@@ -66,12 +69,19 @@ export default function ManageBudgetPage({ params }: { params: { orcamentoId: st
     enabled: !!orcamentoId,
   });
 
-  const { data: materiais, isLoading: isLoadingMateriais, isError: isErrorMateriais } = useQuery({
+  const { data: initialMateriais, isLoading: isLoadingMateriais, isError: isErrorMateriais } = useQuery({
     queryKey: ['materiaisOrcamento', orcamentoId],
     queryFn: () => getMateriaisByOrcamentoId(orcamentoId),
     enabled: !!orcamentoId,
     initialData: [], // Inicia com um array vazio para evitar 'undefined'
   });
+
+  useEffect(() => {
+    if (initialMateriais) {
+      setMateriais(initialMateriais);
+    }
+  }, [initialMateriais]);
+
 
   // --- MUTAÇÃO PARA ATUALIZAR ORÇAMENTO ---
   const updateBudgetMutation = useMutation({
@@ -164,6 +174,7 @@ export default function ManageBudgetPage({ params }: { params: { orcamentoId: st
               orcamentoId={orcamentoId}
               isPaid={orcamento?.isPayed}
               materiais={materiais}
+              setMateriais={setMateriais}
             />
           </div>
 

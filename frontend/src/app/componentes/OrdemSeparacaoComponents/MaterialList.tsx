@@ -47,7 +47,7 @@ export function MaterialList({ title, items, canDelete, onDeleteItem }: Material
               <Table.Row key={item.id}>
                 <Table.Cell>{item.material?.descricao || item.descricaoNaoCadastrado}</Table.Cell>
                 <Table.Cell align="center">
-                  <Text weight="bold">{item.quantidade} {item.material?.unidade || 'UN'}</Text>
+                  <Text weight="bold">{item.quantidade} {item.material?.unidade || item.unidade || 'UN'}</Text>
                 </Table.Cell>
                 {canDelete && (
                   <Table.Cell>

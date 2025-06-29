@@ -18,5 +18,7 @@ namespace MasterErp.Domain.Models
         public string Responsavel { get; set; }
 
         public float? Quantidade { get; set; }
+        
+        public string? Unidade { get; set; }
     }
 }

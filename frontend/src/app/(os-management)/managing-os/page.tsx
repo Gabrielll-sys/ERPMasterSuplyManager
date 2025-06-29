@@ -18,7 +18,7 @@ export default function OsManagementPage() {
   }, []);
 
   return (
-    // 🎓 FRAGMENT: Usamos `<>` para evitar adicionar um `div` desnecessário ao DOM.
+    //
     <>
       <div className="container mx-auto p-4 md:p-8">
         <header className="mb-8 text-center">

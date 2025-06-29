@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using MasterErp.Services.Validators.Forms;
+
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using MasterErp.Domain.Interfaces.Services;
@@ -120,7 +120,6 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
-builder.Services.AddValidatorsFromAssemblyContaining<FilledFormSyncDtoValidator>(ServiceLifetime.Scoped);
 
 builder.Services.AddFluentValidationAutoValidation(config =>
 {

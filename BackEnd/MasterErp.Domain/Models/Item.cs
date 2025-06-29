@@ -33,9 +33,12 @@ namespace MasterErp.Domain.Models
         public DateTime DataAdicaoItem { get; set; }
         public DateTime? DataAlteracaoItem { get; set; }
         public float? Quantidade { get; set; }
+        
+        public string? Unidade { get; set; }
+
 
         // O construtor permanece o mesmo, pois a lógica de criação será no serviço/controller
-        public Item(int? materialId, int ordemSeparacaoId, float? quantidade, string responsavel, string? descricaoNaoCadastrado)
+        public Item(int? materialId, int ordemSeparacaoId, float? quantidade, string responsavel, string? descricaoNaoCadastrado,string? unidade)
         {
             MaterialId = materialId;
             OrdemSeparacaoId = ordemSeparacaoId;
@@ -44,6 +47,7 @@ namespace MasterErp.Domain.Models
             DataAdicaoItem = DateTime.UtcNow.AddHours(-3);
             DataAlteracaoItem = null;
             DescricaoNaoCadastrado = descricaoNaoCadastrado;
+            Unidade = unidade;
         }
 
      

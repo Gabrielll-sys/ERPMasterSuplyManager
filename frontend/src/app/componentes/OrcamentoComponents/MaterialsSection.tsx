@@ -14,16 +14,17 @@ import { Search } from 'lucide-react';
 import { MaterialsTable } from './MaterialsTable';
 import { searchByDescription } from '@/app/services/Material.Services';
 import { createItemOrcamento, updateItemOrcamento, deleteItemOrcamento } from '@/app/services/ItensOrcamento.Service';
-import { IInventario } from '@/app/interfaces';
+import { IInventario, IItemOrcamento } from '@/app/interfaces';
 
 // Props do componente
 type MaterialsSectionProps = {
   orcamentoId: number;
   isPaid?: boolean;
   materiais: any[];
+  setMateriais: (materiais: any[]) => void;
 };
 
-export function MaterialsSection({ orcamentoId, isPaid, materiais }: MaterialsSectionProps) {
+export function MaterialsSection({ orcamentoId, isPaid, materiais, setMateriais }: MaterialsSectionProps) {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
 
@@ -153,6 +154,7 @@ export function MaterialsSection({ orcamentoId, isPaid, materiais }: MaterialsSe
           onEdit={openEditDialog}
           onDelete={handleDeleteItem}
           orcamentoId={orcamentoId} // Passamos o orcamentoId para a tabela
+          setMateriais={setMateriais}
         />
       </Flex>
 

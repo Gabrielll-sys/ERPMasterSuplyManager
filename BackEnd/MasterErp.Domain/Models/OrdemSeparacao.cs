@@ -21,7 +21,7 @@ namespace MasterErp.Domain.Models;
 
         public bool? BaixaSolicitada { get; set; } = false;
 
-        public List<Material> Materiais { get; set; }
+        public List<Item> Itens { get; set; }
 
 
         public string? Observacoes { get; set; }

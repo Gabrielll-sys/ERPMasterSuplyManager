@@ -85,7 +85,7 @@ export function useOsDetails(osId: number) {
   });
 
   // --- Funções de Ação ---
-  const addItemToOs = (itemData: { materialId?: number; descricaoNaoCadastrado?: string; quantidade: number }) => {
+  const addItemToOs = (itemData: { materialId?: number; descricaoNaoCadastrado?: string; quantidade: number,unidade?:string }) => {
     if (!authUser?.userName) {
         toast.error("Usuário não autenticado.");
         return;
