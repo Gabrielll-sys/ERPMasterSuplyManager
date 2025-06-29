@@ -38,16 +38,19 @@ export function MaterialList({ title, items, canDelete, onDeleteItem }: Material
           <Table.Header>
             <Table.Row>
               <Table.ColumnHeaderCell>Descrição</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell align="center">Qtd</Table.ColumnHeaderCell>
               {canDelete && <Table.ColumnHeaderCell />}
             </Table.Row>
           </Table.Header>
           <Table.Body>
             {items.map((item) => (
               <Table.Row key={item.id}>
-                <Table.Cell>{item.material?.descricao || item.descricaoNaoCadastrado}</Table.Cell>
-                <Table.Cell align="center">
-                  <Text weight="bold">{item.quantidade} {item.material?.unidade || item.unidade || 'UN'}</Text>
+                <Table.Cell>
+                  <Flex direction={{ initial: 'column', sm: 'row' }} justify="between" align={{ initial: 'start', sm: 'center' }}>
+                    <Text>{item.material?.descricao || item.descricaoNaoCadastrado}</Text>
+                    <Box className="mt-2 sm:mt-0 sm:ml-4">
+                      <Text weight="bold">{item.quantidade} {item.material?.unidade || item.unidade || 'UN'}</Text>
+                    </Box>
+                  </Flex>
                 </Table.Cell>
                 {canDelete && (
                   <Table.Cell>

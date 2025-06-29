@@ -102,7 +102,7 @@ export function MaterialSearchAndAdd({
         <AnimatePresence>
           {selectedMaterial && (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}>
-              <Flex gap="3" align="end" mt="3">
+              <Flex direction={{ initial: 'column', sm: 'row' }} gap="3" align={{ initial: 'stretch', sm: 'end' }} mt="3">
                 <Box className="flex-grow">
                   <Text size="2" color="gray">Item Selecionado</Text>
                   <Text as="p" weight="bold">{selectedMaterial.material.descricao}</Text>
