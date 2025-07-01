@@ -12,6 +12,7 @@ import { useEffect } from "react";
 
 const osDetailsSchema = z.object({
   id:z.number().optional(), // ID é opcional, pois pode ser usado para edição
+  descricao: z.string().min(3, "Descrição precisa de ao menos 3 caracteres"),
   responsavel: z.string().optional(),
   observacoes: z.string().optional(),
 });
@@ -33,6 +34,7 @@ export function OsDetailsForm({ os, onSave, isSaving, disabled }: OsDetailsFormP
     resolver: zodResolver(osDetailsSchema),
     defaultValues: {
       id: os.id ,
+      descricao: os.descricao || '',
       responsavel: os.responsavel || '',
       observacoes: os.observacoes || '',
     }
@@ -42,6 +44,7 @@ export function OsDetailsForm({ os, onSave, isSaving, disabled }: OsDetailsFormP
   useEffect(() => {
     reset({
       id: os.id ,
+      descricao: os.descricao || '',
       responsavel: os.responsavel || '',
       observacoes: os.observacoes || '',
     });
@@ -55,6 +58,16 @@ export function OsDetailsForm({ os, onSave, isSaving, disabled }: OsDetailsFormP
           <Heading size="5">Detalhes da Ordem de Separação</Heading>
         
       
+          <Controller
+            name="descricao"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Flex direction="column" gap="1">
+                <TextArea {...field} size="3" placeholder="Descrição detalhada do serviço..." disabled={disabled || isSaving} />
+                {fieldState.error && <RadixText size="1" color="red">{fieldState.error.message}</RadixText>}
+              </Flex>
+            )}
+          />
           <Controller
             name="responsavel"
             control={control}
