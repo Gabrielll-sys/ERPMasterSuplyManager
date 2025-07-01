@@ -46,7 +46,7 @@ export function MaterialList({ title, items, canDelete, onDeleteItem }: Material
               <Table.Row key={item.id}>
                 <Table.Cell>
                   <Flex direction={{ initial: 'column', sm: 'row' }} justify="between" align={{ initial: 'start', sm: 'center' }}>
-                    <Text>{item.material?.descricao || item.descricaoNaoCadastrado}</Text>
+                    <Text> ID:{item.material.id} - {item.material?.descricao || item.descricaoNaoCadastrado}</Text>
                     <Box className="mt-2 sm:mt-0 sm:ml-4">
                       <Text weight="bold">{item.quantidade} {item.material?.unidade || item.unidade || 'UN'}</Text>
                     </Box>
