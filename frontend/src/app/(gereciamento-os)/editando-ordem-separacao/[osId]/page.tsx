@@ -47,7 +47,7 @@ export default function EditingOsPage({ params }: { params: { osId: string } }) 
   // quando passada como prop para componentes filhos, especialmente os que usam React.memo.
   const handleGenerateWhatsAppMessage = useCallback(() => {
     if (!os) return;
-    const registeredItemsText = registeredItems.map(item => ` ID: ${item.material.id}- ${item.quantidade} ${item.material.unidade || 'UN'} de ${item.material.descricao.slice(0,20)} Localização: ${item.material.localizacao}`).join('\n');
+    const registeredItemsText = registeredItems.map(item => ` ID.${item.material.id} --- ${item.material.descricao.slice(0,20)} --- ${item.quantidade} ${item.material.unidade || 'UN'} --- Local:${item.material.localizacao}`).join('\n');
     const nonRegisteredItemsText = nonRegisteredItems.map(item => `- ${item.quantidade} UN de ${item.descricaoNaoCadastrado}`).join('\n');
     
     let message = `*Lista de Materiais para Ordem De Separação: ${os.id} da ${os.descricao}*\n\n`;
