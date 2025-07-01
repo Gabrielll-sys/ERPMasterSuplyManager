@@ -170,11 +170,11 @@ const RadixSidebar: React.FC<RadixSidebarProps> = ({ show, setShowSideBar }) => 
 
                          <Separator my="2" size="4" />
 
-                          {conditionsRoles && (
+      
                           <MenuItem href="/criar-material" icon={Pencil1Icon}>
                            Criar Material
                          </MenuItem>
-                         )}
+                    
              
                 
                          <MenuItem href="/relatorios" icon={ReaderIcon}>
@@ -196,11 +196,11 @@ const RadixSidebar: React.FC<RadixSidebarProps> = ({ show, setShowSideBar }) => 
                                      </MenuItem>
                                  </CollapseItem>
 
+                             </>
+                         )}
                                  <MenuItem href="/gerenciamento-ordem-separacao" icon={ContainerIcon}>
                                     Ordem De Separação
                                  </MenuItem>
-                             </>
-                         )}
 
                          <MenuItem href="/gerar-qrcode-material" icon={CodeIcon}>
                            Gerador De QrCode
