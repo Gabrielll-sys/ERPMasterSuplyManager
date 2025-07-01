@@ -48,7 +48,7 @@ export default function EditingOsPage({ params }: { params: { osId: string } }) 
   const handleGenerateWhatsAppMessage = useCallback(() => {
     if (!os) return;
     const registeredItemsText = registeredItems.map(item => ` ID.${item.material.id} --- ${item.material.descricao.slice(0,20)} --- ${item.quantidade} ${item.material.unidade || 'UN'} --- Local:${item.material.localizacao}`).join('\n');
-    const nonRegisteredItemsText = nonRegisteredItems.map(item => `- ${item.quantidade} UN de ${item.descricaoNaoCadastrado}`).join('\n');
+    const nonRegisteredItemsText = nonRegisteredItems.map(item => `${item.descricaoNaoCadastrado}`).join('\n') --- ${item.quantidade}${item.unidade} ;
     
     let message = `*Lista de Materiais para Ordem De Separação: ${os.id} da ${os.descricao}*\n\n`;
     if (registeredItemsText) message += "*Materiais Cadastrados:*\n" + registeredItemsText + '\n\n';
