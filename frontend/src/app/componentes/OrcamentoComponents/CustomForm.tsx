@@ -81,7 +81,7 @@ export function CustomerForm({ formState, onFormChange, onBlur }: CustomerFormPr
                     />
                 </TextField.Root>
                <TextField.Root size="3">
-                    <TextField.Slot><Phone size={18} /></TextField.Slot>
+                    <TextField.Slot>%</TextField.Slot>
                     <TextField.Input 
                         placeholder="Telefone"
                         value={formState.desconto}
