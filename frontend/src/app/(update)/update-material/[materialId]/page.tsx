@@ -88,9 +88,12 @@ export default function UpdateMaterialPage({ params }: UpdateMaterialPageProps) 
 
   useEffect(() => {
     if (material) {
-      const formatPrice = (price: number | null | undefined) => 
-        price != null ? price.toString().replace('.', ',') : '';
-      
+      const formatPrice = (price: number | string | null | undefined) => {
+        if (price == null) return '';
+        if (typeof price === 'string') return price.replace('.', ',');
+        return price.toString().replace('.', ',');
+      };
+
       setFormData({
         descricao: material.descricao || "",
         codigoFabricante: material.codigoFabricante || "",

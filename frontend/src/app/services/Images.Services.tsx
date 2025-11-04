@@ -28,11 +28,10 @@ export const uploadImageToAzure = async (
     const binaryImage = toArrayBuffer(image);
     await blockBlobClient.upload(binaryImage, binaryImage.byteLength);
 
-    console.log("Imagem adicionada com sucesso!");
     const urlImagem = `https://${accountName}.blob.core.windows.net/${containerName}/${blockBlobClient.name}`;
     return urlImagem;
   } catch (err) {
-    console.error("Erro ao adicionar a imagem:", err);
+    // Error será tratado pelo componente que chamou
     throw err;
   }
 };
@@ -49,9 +48,8 @@ export const deleteImageFromAzure = async (
     const blockBlobClient = await containerClient.getBlockBlobClient(blobName);
 
     await blockBlobClient.delete();
-    console.log("Imagem deletada com sucesso!");
   } catch (err) {
-    console.error("Erro ao deletar a imagem:", err);
+    // Error será tratado pelo componente que chamou
     throw err;
   }
 };
@@ -64,7 +62,7 @@ export const deleteAllImagesFromAtividadeFromAzure = async (
       await deleteImageFromAzure(imagem.urlImagem, "images");
     }
   } catch (err) {
-    console.error("Erro ao deletar imagens da atividade:", err);
+    // Error será tratado pelo componente que chamou
     throw err;
   }
 };

@@ -1,30 +1,23 @@
 "use client"
-import { Button, Input,  Accordion} from '@nextui-org/react';
-
+import { Button, Input } from '@nextui-org/react';
 import { useRouter } from "next/navigation";
-
-import { useEffect, useRef, useState } from "react";
-
+import { useEffect, useState } from "react";
 import "dayjs/locale/pt-br";
 import { url } from '@/app/api/webApiUrl';
-import axios, { AxiosResponse } from "axios";
-import imagem from '/src/app/assets/logo.png'
-;
+import { fetcher, poster } from '@/app/lib/api';
 import { useSession } from 'next-auth/react';
-
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
-
 import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
-import { authHeader } from '@/app/_helpers/auth_headers';
+import { toast } from 'sonner';
 
 
 
 export default function CreateBudge({params}:any){
     const route = useRouter()
     const { data: session } = useSession();
-  
+
     const[nomeCliente,setNomeCliente] = useState<string>()
     const[emailCliente,setEmailCliente] = useState<string>()
     const[telefone,setTelefone] = useState<string>()
@@ -33,22 +26,22 @@ export default function CreateBudge({params}:any){
     const [metodoPagamento,setMetodoPagamento] = useState<any>("")
     const [desconto,setDesconto] = useState<string>("")
     const [endereco,setEndereco] = useState<string>("")
+    const [isCreating, setIsCreating] = useState(false);
 
     const [currentUser, setCurrentUser] = useState<any>(null);
     const[nomeOrçamento,setNomeOrçamento] = useState<string>("")
-    
+
     const formasPagamento : string[] = ["Boleto", "PIX", "Cartão De Crédito", "Cartão De Débito"];
     const doc = new jsPDF()
     let date = dayjs()
-    
-useEffect(()=>{
-  //@ts-ignore
-  const user = JSON.parse(localStorage.getItem("currentUser"));
-  console.log(user)
-  if(user != null)
-  {
-      setCurrentUser(user)
 
+useEffect(()=>{
+  const userStr = localStorage.getItem("currentUser");
+  if (userStr) {
+    const user = JSON.parse(userStr);
+    if (user != null) {
+      setCurrentUser(user)
+    }
   }
 },[])
 
@@ -61,40 +54,49 @@ useEffect(()=>{
       setTelefone("")
       setEndereco("")
       setEmailCliente("")
+      return;
    }
 
-    await axios.get(`${url}/Orcamentos/buscaCliente?cliente=${value?.trim()}`,{headers:authHeader()}).then((r:AxiosResponse)=>{
-      console.log(r.data)
-     
-       setCpfOrCnpj(r.data.cpfOrCnpj)
-       setTelefone(r.data.telefone)
-       setEndereco(r.data.endereco)
-       setEmailCliente(r.data.emailCliente)
+    try {
+      const data = await fetcher<{
+        cpfOrCnpj: string;
+        telefone: string;
+        endereco: string;
+        emailCliente: string;
+      }>(`${url}/Orcamentos/buscaCliente?cliente=${value?.trim()}`);
 
-    
-      
-    }).catch(e=>console.log(e))
+      setCpfOrCnpj(data.cpfOrCnpj)
+      setTelefone(data.telefone)
+      setEndereco(data.endereco)
+      setEmailCliente(data.emailCliente)
+    } catch (error) {
+      // Error já é tratado pelo interceptor
+    }
   }
 
 const handleCreateBudge = async ()=>{
+  setIsCreating(true);
 
-const orcamento : IOrcamento = {
-  nomeCliente:nomeCliente?.trim().replace(/\s\s+/g, " "),
-  emailCliente:emailCliente?.trim().replace(/\s\s+/g, " "),
-  telefone:telefone,
-  endereco:endereco.trim().replace(/\s\s+/g, " "),
-  desconto:0,
-  tipoPagamento:metodoPagamento==""?"PIX":metodoPagamento,
-  responsavelOrcamento:currentUser.userName
+  try {
+    const orcamento : IOrcamento = {
+      nomeCliente:nomeCliente?.trim().replace(/\s\s+/g, " "),
+      emailCliente:emailCliente?.trim().replace(/\s\s+/g, " "),
+      telefone:telefone,
+      endereco:endereco.trim().replace(/\s\s+/g, " "),
+      desconto:0,
+      tipoPagamento:metodoPagamento==""?"PIX":metodoPagamento,
+      responsavelOrcamento:currentUser.userName
+    }
 
-}
+    const data = await poster<{ id: number }>(`${url}/Orcamentos`, orcamento);
 
-const res = await axios.post(`${url}/Orcamentos`, orcamento,{headers:authHeader()}).then(r=>{
-  
-  route.push(`/edit-budge/${r.data.id}`)
-
-}).catch(e=>console.log(e))
-
+    toast.success("Orçamento criado com sucesso!");
+    route.push(`/edit-budge/${data.id}`);
+  } catch (error) {
+    // Error já é tratado pelo interceptor
+  } finally {
+    setIsCreating(false);
+  }
 }
   
 
@@ -153,8 +155,13 @@ return(
 
 
       <div className='flex flex-row justify-center mt-16'>
-        <Button  isDisabled={!nomeCliente} onPress={handleCreateBudge} className='bg-master_black text-white p-7 rounded-md font-bold text-2xl shadow-lg  '>
-           Criar Orçamento
+        <Button
+          isDisabled={!nomeCliente || isCreating}
+          isLoading={isCreating}
+          onPress={handleCreateBudge}
+          className='bg-master_black text-white p-7 rounded-md font-bold text-2xl shadow-lg  '
+        >
+           {isCreating ? 'Criando...' : 'Criar Orçamento'}
         </Button>
       </div>
 

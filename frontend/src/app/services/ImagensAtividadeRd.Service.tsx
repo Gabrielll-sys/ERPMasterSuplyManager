@@ -1,64 +1,36 @@
-import axios from "axios";
-
+import { fetcher, poster, putter, deleter } from "../lib/api";
 import { url } from "../api/webApiUrl";
-
-import { authHeader } from "../_helpers/auth_headers";
-
 import { IImagemAtividadeRd } from "../interfaces/IImagemAtividadeRd";
 import { deleteAllImagesFromAtividadeFromAzure } from "./Images.Services";
 
-
-
-export const getAllImagensInAtividade = async(id:number | undefined) =>{
-
-   return await axios.get(`${url}/ImagensAtividadesRd/getImagesInAtividade/${id}`)
-            .then((r)=>{
-            return r.data
-
-            })
-            .catch();
+export const getAllImagensInAtividade = async (id: number | undefined) => {
+  return fetcher<IImagemAtividadeRd[]>(`${url}/ImagensAtividadesRd/getImagesInAtividade/${id}`);
 }
 
-export const addImagemAtividadeRd = async (model:IImagemAtividadeRd)=>{
+export const addImagemAtividadeRd = async (model: IImagemAtividadeRd) => {
+  const imagemAtividade: IImagemAtividadeRd = {
+    urlImagem: model.urlImagem,
+    descricao: model.descricao,
+    atividadeRdId: model.atividadeRdId,
+    atividadeRd: {
+      relatorioDiario: {}
+    },
+  };
 
-    const imagemAtividade: IImagemAtividadeRd = {
-        urlImagem: model.urlImagem,
-        descricao: model.descricao,
-        
-        atividadeRdId: model.atividadeRdId,
-        atividadeRd:{
-            relatorioDiario:{}
-        },
-    };
-
-    console.log(imagemAtividade)
-   return  await axios
-        .post(`${url}/ImagensAtividadesRd`, imagemAtividade,{headers:authHeader()})
-        .then((r) => {
-            return r.status
-        })
-        .catch();
+  await poster(`${url}/ImagensAtividadesRd`, imagemAtividade);
+  return 200; // Sucesso
 }
 
-export const updateImagemAtividadeRd = async (model:IImagemAtividadeRd)=>{
-    const imagemAtividade: IImagemAtividadeRd  = {
-        id: model.id,
-        descricao: model.descricao,
-        atividadeRdId: model.atividadeRdId
-    };
-    await axios
-        .put(`${url}/ImagensAtividadesRd/${model.id}`,imagemAtividade, {headers:authHeader()})
-        .then((r) => {
-            return r.data
-        })
-        .catch();
+export const updateImagemAtividadeRd = async (model: IImagemAtividadeRd) => {
+  const imagemAtividade: IImagemAtividadeRd = {
+    id: model.id,
+    descricao: model.descricao,
+    atividadeRdId: model.atividadeRdId
+  };
+
+  await putter(`${url}/ImagensAtividadesRd/${model.id}`, imagemAtividade);
 }
-export const deleteImagemAtividadeRd = async (id:number| undefined)=>{
-    console.log(id)
-    await axios
-        .delete(`${url}/ImagensAtividadesRd/${id}`, {headers:authHeader()})
-        .then((r) => {
-            return r.data
-        })
-        .catch();
+
+export const deleteImagemAtividadeRd = async (id: number | undefined) => {
+  await deleter(`${url}/ImagensAtividadesRd/${id}`);
 }

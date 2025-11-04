@@ -1,23 +1,14 @@
 "use client"
-import axios from 'axios';
+import { poster } from '../lib/api';
 import { url } from '../api/webApiUrl';
-import { authHeader } from '../_helpers/auth_headers';
 import {jwtDecode} from "jwt-decode";
 
 
-export const register = async (param:any) => {
-  try{
-    return await axios.post(`${url}/Usuarios`, param,
-    {headers:authHeader()})
-    .then( 
-      response => {
-        return response;
-      },
-      error =>{
-        return  null;
-      }
-    );
-  }catch(error){
+export const register = async (param: any) => {
+  try {
+    const response = await poster(`${url}/Usuarios`, param);
+    return response;
+  } catch (error) {
     return null;
   }
 }
@@ -54,23 +45,24 @@ export const removeUserLocalStorage = async () => {
 
 
 
-export const authenticate = async (param:any) => {   
+export const authenticate = async (param: any) => {
+  try {
+    const data = await poster<{
+      jwtToken: string;
+      userId: number;
+      userName: string;
+      role: string;
+    }>(`${url}/Usuarios/authenticate`, param);
 
-    return await axios.post(`${url}/Usuarios/authenticate`, param)
-  .then(response => {
-    console.log(response)
-    if (response.status == 200 && response.data) {
-
-      gravaUserLogadoLocalStorage(response.data.jwtToken, response.data.userId,response.data.userName,response.data.role);
-
+    if (data) {
+      gravaUserLogadoLocalStorage(data.jwtToken, data.userId, data.userName, data.role);
+      return 200;
     }
-    
-    return response.status
-  })
-  .catch(error => {        
-    return null;
-  });
 
+    return null;
+  } catch (error) {
+    return null;
+  }
 }
 export const isTokenValid = (token:any) =>{
     if(token){

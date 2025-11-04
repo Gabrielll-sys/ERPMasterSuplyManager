@@ -1,48 +1,30 @@
-import axios from "axios";
-import { authHeader } from "../_helpers/auth_headers";
+import { fetcher, poster, putter } from "../lib/api";
 import { IUsuario } from "../interfaces/IUsuario";
 import { url } from "../api/webApiUrl";
 
-export const createUser = async (idMaterial:number) => {
+/**
+ * NOTA: Esta função cria um inventário, não um usuário.
+ * Parece ser um erro de nomenclatura, mas mantida para compatibilidade.
+ */
+export const createUser = async (idMaterial: number) => {
+  const inventario = {
+    materialId: idMaterial,
+    estoque: 0,
+    material: {},
+  };
 
-
-    const inventario = {
-        materialId: idMaterial,
-        estoque:0,
-        material: {},
-    };
-
-    await axios
-        .post(`${url}/Inventarios`, inventario,{headers:authHeader()})
-        .then((r) => {
-            return r.data
-        })
-        .catch();
-
+  return poster(`${url}/Inventarios`, inventario);
 }
-export const getUserById = async (id:any) => {
 
-
-    return await axios.get(`${url}/Usuarios/${id}`,{headers:authHeader()}).then(r=>{
-        return r.data
-    })
+export const getUserById = async (id: number) => {
+  return fetcher<IUsuario>(`${url}/Usuarios/${id}`);
 }
-export const updateInfosUser = async (model:IUsuario) => {
-    try{
 
-        return await axios.put(`${url}/Usuarios/${model.id}`,model,
-            {
-                headers: authHeader()
-            }).then(
-            response => {
-                return response.status;
-            },
-            error =>{
-                return  null;
-            }
-        );
-    }
-    catch(error){
-        return null;
-    }
+export const updateInfosUser = async (model: IUsuario) => {
+  try {
+    await putter(`${url}/Usuarios/${model.id}`, model);
+    return 200; // Sucesso
+  } catch (error) {
+    return null;
+  }
 }

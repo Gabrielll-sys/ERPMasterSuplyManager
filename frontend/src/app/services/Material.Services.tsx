@@ -1,95 +1,54 @@
-import axios from "axios";
+import { fetcher, poster, putter } from "../lib/api";
 import { url } from "../api/webApiUrl";
-import { authHeader } from "../_helpers/auth_headers";
 import IMaterial from "../interfaces/IMaterial";
 import { createInventario } from "./Inventario.Services";
 
 
 
-   export const getMaterialById = async(id:number)=>{
+export const getMaterialById = async (id: number) => {
+  return fetcher<IMaterial>(`${url}/Materiais/${id}`);
+}
 
-      return await axios.get(`${url}/Materiais/${id}`,{headers:authHeader()}).then(r=>{
-
-         return r.data
- 
-  })
-   }
-
-   export const searchByDescription = async (descricao:string) => {
-
-     if(descricao.length){
-
-        return await axios
-       .get(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao.split("#").join(".")}`,{headers:authHeader()})
-       .then( (r)=> {
-   
-        return r.data
-        
-       })
-
-    }
-
-   }
+export const searchByDescription = async (descricao: string) => {
+  if (descricao.length) {
+    return fetcher<any[]>(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao.split("#").join(".")}`);
+  }
+}
  
     
-    export const searchByFabricanteCode = async (codigo:string) => {
-
- 
-       return await axios
-        .get(`${url}/Inventarios/buscaCodigoFabricante?codigo=${codigo}`,{headers:authHeader()})
-        .then( (r)=> {
-         return r.data
-       
-      })
-
-     
-
-   }
+export const searchByFabricanteCode = async (codigo: string) => {
+  return fetcher<any[]>(`${url}/Inventarios/buscaCodigoFabricante?codigo=${codigo}`);
+}
    
-   export const createMaterial = async(model:IMaterial)=>
-   {
-// o regex esta para remover os espaços extras entre palavras,deixando somente um espaço entre palavras
- 
-   const material = {
-   codigoInterno :"",
-  codigoFabricante: model.codigoFabricante.trim().replace(/\s\s+/g, " "),
-  descricao: model.descricao.trim().replace(/\s\s+/g, " "),
-  categoria: "",
-  marca: model.marca.trim().replace(/\s\s+/g, " "),
-  corrente: model.corrente.trim().replace(/\s\s+/g, " "),
-  unidade: model.unidade.trim().replace(/\s\s+/g, " "),
-  tensao: model.tensao.trim().replace(/\s\s+/g, " "),
-  localizacao: model.localizacao.trim().replace(/\s\s+/g, " "),
-  dataEntradaNF: null,
-  precoCusto:model.precoCusto,
-  markup:model.markup == ""?null:model.markup,
-  
-};
-console.log(authHeader())
-return await axios
-  .post(`${url}/Materiais`, material,{headers:authHeader()})
-  .then((r) => {
+export const createMaterial = async (model: IMaterial) => {
+  // O regex está para remover os espaços extras entre palavras, deixando somente um espaço entre palavras
+  const material = {
+    codigoInterno: "",
+    codigoFabricante: model.codigoFabricante.trim().replace(/\s\s+/g, " "),
+    descricao: model.descricao.trim().replace(/\s\s+/g, " "),
+    categoria: "",
+    marca: model.marca.trim().replace(/\s\s+/g, " "),
+    corrente: model.corrente.trim().replace(/\s\s+/g, " "),
+    unidade: model.unidade.trim().replace(/\s\s+/g, " "),
+    tensao: model.tensao.trim().replace(/\s\s+/g, " "),
+    localizacao: model.localizacao.trim().replace(/\s\s+/g, " "),
+    dataEntradaNF: null,
+    precoCusto: model.precoCusto,
+    markup: model.markup == "" ? null : model.markup,
+  };
 
-      const res = createInventario(r.data.id)
-      return res
-   
-  })
-  .catch((e) => {
-    console.log(e.response.request.response)
-    
-  });
-
-   }
+  try {
+    const data = await poster<{ id: number }>(`${url}/Materiais`, material);
+    const res = await createInventario(data.id);
+    return res;
+  } catch (error) {
+    // Error já é tratado pelo interceptor do API helper
+    throw error;
+  }
+}
 
 
-   export const updateMaterial = async(material:IMaterial)=>
-   {
-
-      return  await axios.put(`${url}/Materiais/${material.id}`,material,{headers:authHeader()})
-      .then(r=>{
-         return r.status
-      })
-
-
-
-   }
+export const updateMaterial = async (material: IMaterial) => {
+  await putter(`${url}/Materiais/${material.id}`, material);
+  return 200; // Se chegou aqui, foi sucesso
+}

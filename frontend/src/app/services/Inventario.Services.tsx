@@ -1,6 +1,5 @@
-import axios from "axios";
+import { fetcher, poster } from "../lib/api";
 import { url } from "../api/webApiUrl";
-import { authHeader } from "../_helpers/auth_headers";
 import { IInventario } from "../interfaces/IInventarios";
 
 export const createInventario = async (idMaterial: number) => {
@@ -10,49 +9,30 @@ export const createInventario = async (idMaterial: number) => {
     material: {},
   };
 
-  return await axios
-    .post(`${url}/Inventarios`, inventario, { headers: authHeader() })
-    .then((r) => {
-      
-      return r.data;
-    })
-    .catch();
+  return poster(`${url}/Inventarios`, inventario);
 };
 
-export const filterMateriais = async(filtro:any)=>{
- return await axios
-  .post(`${url}/Inventarios/filter-material`,filtro)
-  .then((r) : IInventario []=> {
-    return r.data
-  })
+export const filterMateriais = async (filtro: any) => {
+  return poster<IInventario[]>(`${url}/Inventarios/filter-material`, filtro);
 }
 
-//Busca o histórico de inventário pelo id do material
+/**
+ * Busca o histórico de inventário pelo id do material
+ */
 export const searchByInternCode = async (id: number) => {
   try {
-    return await axios
-      .get(`${url}/Inventarios/buscaCodigoInventario/${id}`, {
-        headers: authHeader(),
-      })
-      .then((r) => {
-        return r.data;
-      })
-      .catch();
+    return fetcher<IInventario[]>(`${url}/Inventarios/buscaCodigoInventario/${id}`);
   } catch (e) {
-    console.log(e);
+    // Error já é tratado pelo interceptor
+    throw e;
   }
 };
+
 export const getLastRegisterInventario = async (id: number) => {
   try {
-    return await axios
-      .get(`${url}/Inventarios/getLastRegister/${id}`, {
-        headers: authHeader(),
-      })
-      .then((r) => {
-        return r.data;
-      })
-      .catch();
+    return fetcher(`${url}/Inventarios/getLastRegister/${id}`);
   } catch (e) {
-    console.log(e);
+    // Error já é tratado pelo interceptor
+    throw e;
   }
 };

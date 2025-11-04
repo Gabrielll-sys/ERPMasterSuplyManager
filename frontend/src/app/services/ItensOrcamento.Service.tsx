@@ -1,6 +1,5 @@
-import axios from "axios";
+import { fetcher, poster, putter, deleter } from "../lib/api";
 import { url } from "../api/webApiUrl";
-import { authHeader } from "../_helpers/auth_headers";
 import { IItemOrcamento } from "../interfaces/IItemOrcamento";
 
 // --- PAYLOAD TYPES ---
@@ -32,10 +31,7 @@ type DeleteItemPayload = number;
  * @returns Uma promessa que resolve para um array de IItemOrcamento.
  */
 export const getMateriaisByOrcamentoId = async (orcamentoId: number): Promise<IItemOrcamento[]> => {
-  const { data } = await axios.get(`${url}/ItensOrcamento/GetAllMateriaisOrcamento/${orcamentoId}`, { 
-    headers: authHeader() 
-  });
-  return data;
+  return fetcher<IItemOrcamento[]>(`${url}/ItensOrcamento/GetAllMateriaisOrcamento/${orcamentoId}`);
 };
 
 /**
@@ -55,11 +51,7 @@ export const createItemOrcamento = (payload: CreateItemPayload) => {
     precoItemOrcamento: null,
   };
 
-  console.log("Enviando para API [CreateItem]:", itemParaApi); // Log para depuração
-
-  return axios.post(`${url}/ItensOrcamento/CreateItemOrcamento`, itemParaApi, { 
-    headers: authHeader() 
-  });
+  return poster(`${url}/ItensOrcamento/CreateItemOrcamento`, itemParaApi);
 };
 
 /**
@@ -68,8 +60,6 @@ export const createItemOrcamento = (payload: CreateItemPayload) => {
  * @returns Uma promessa com a resposta do Axios.
  */
 export const updateItemOrcamento = ({ item, novaQuantidade }: UpdateItemPayload) => {
-  console.log(item)
-
   // Esta foi a correção principal para o erro 400.
   const payloadParaApi = {
     id: item.id,
@@ -81,11 +71,7 @@ export const updateItemOrcamento = ({ item, novaQuantidade }: UpdateItemPayload)
     orcamento: {},
   };
 
-  console.log(`Enviando para API [UpdateItem] (ID: ${item.id}):`, payloadParaApi); // Log para depuração
-  
-  return axios.put(`${url}/ItensOrcamento/${item.id}`, payloadParaApi, { 
-    headers: authHeader() 
-  });
+  return putter(`${url}/ItensOrcamento/${item.id}`, payloadParaApi);
 };
 
 /**
@@ -94,9 +80,5 @@ export const updateItemOrcamento = ({ item, novaQuantidade }: UpdateItemPayload)
  * @returns Uma promessa com a resposta do Axios.
  */
 export const deleteItemOrcamento = (itemId: DeleteItemPayload) => {
-  console.log(`Enviando para API [DeleteItem]: ID ${itemId}`); // Log para depuração
-
-  return axios.delete(`${url}/ItensOrcamento/${itemId}`, { 
-    headers: authHeader() 
-  });
+  return deleter(`${url}/ItensOrcamento/${itemId}`);
 };

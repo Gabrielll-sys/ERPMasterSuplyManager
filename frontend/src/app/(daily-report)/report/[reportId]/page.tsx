@@ -35,7 +35,7 @@ import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import { ProgressBar } from '@/app/componentes/ProgressBar';
 import { Flex, TextField } from '@radix-ui/themes';
 import { Button } from '@radix-ui/themes';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 
 
@@ -80,21 +80,24 @@ export default function Report({params}:any){
     queryKey:["relatorio-diario",params.reportId],
     queryFn:()=>getRelatorioDiarioById(params.reportId),
     staleTime:72000000,
-    cacheTime:72000000,
-    onSuccess:(res)=>{
-        setEmpresa (res.empresa)
-        setContato(res.contato)
-        setTelefone(res.telefone)
-        setEndereco(res.endereco)
-        setCnpj(res.cnpj)
-    }
+    gcTime:72000000,
 })
+
+useEffect(() => {
+    if (relatorioDiario) {
+        setEmpresa(relatorioDiario.empresa ?? "")
+        setContato(relatorioDiario.contato ?? "")
+        setTelefone(relatorioDiario.telefone ?? "")
+        setEndereco(relatorioDiario.endereco ?? "")
+        setCnpj(relatorioDiario.cnpj ?? "")
+    }
+}, [relatorioDiario])
 
 const {data:atividades,refetch:refetchAtividades} =useQuery<IAtividadeRd[]>({
     queryKey:["atividades",`atividades-rd-${params.reportId}`],
     queryFn:()=>getAllAtivdadesInRd(params.reportId),
     staleTime:1000*60*60,
-    cacheTime:1000*60*60
+    gcTime:1000*60*60
 
 })
 
@@ -112,14 +115,15 @@ const handleKeyDown =async (event: React.KeyboardEvent<HTMLInputElement>) => {
     if(empresa.length){
 
         const res = await getEmpresaRelatorioDiario(empresa)
-        setCnpj(res.cnpj)
-        setContato(res.contato)
-        setEndereco(res.endereco)
-        setTelefone(res.telefone)
+        setCnpj(res.cnpj ?? "")
+        setContato(res.contato ?? "")
+        setEndereco(res.endereco ?? "")
+        setTelefone(res.telefone ?? "")
         handleUpdateRelatorioDiario()
     }
 }
 const handleCreateaAtividade = async ()=>{
+    if (!relatorioDiario) return;
 
     setDelayNovaAtividade(true)
         const atividadeRd:IAtividadeRd = {
@@ -172,6 +176,7 @@ const handleDeleteAtividade = async(id:number)=>{
 
 }
 const handleUpdateRelatorioDiario = async()=>{
+    if (!relatorioDiario) return;
 
     const rd: IRelatorioDiario = {
         id:relatorioDiario.id,
@@ -364,14 +369,14 @@ const updateAtividade  = (atividade: IAtividadeRd , status: string | undefined, 
                             </Button>
                 )}
         
-                        {atividades?.length ?
+                        {atividades?.length && relatorioDiario ?
                             (
                             <>
                                 {  atividades?.map((atividade:IAtividadeRd)=>(
 
-                                    <Atividade  key={atividade.id} relatorioDiario = {relatorioDiario} atividade={atividade} onUpdate={updateAtividade} onDelete={handleDeleteAtividade} isFinished={relatorioDiario?.isFinished} />
-                                    
-                                ))} 
+                                    <Atividade  key={atividade.id} relatorioDiario = {relatorioDiario} atividade={atividade} onUpdate={updateAtividade} onDelete={handleDeleteAtividade} isFinished={relatorioDiario?.isFinished ?? false} />
+
+                                ))}
 
                             </>
                         ):(
