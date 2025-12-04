@@ -91,7 +91,7 @@ const orcamento : IOrcamento = {
 
 const res = await axios.post(`${url}/Orcamentos`, orcamento,{headers:authHeader()}).then(r=>{
   
-  L94: route.push(`/editar-orcamento/${r.data.id}`)
+  L94: route.push(`orcamento-e-venda/editar-orcamento/${r.data.id}`)
 
 }).catch(e=>console.log(e))
 
