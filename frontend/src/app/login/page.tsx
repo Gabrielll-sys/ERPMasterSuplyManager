@@ -143,7 +143,7 @@ export default function LoginPage() {
 
           {/* Footer */}
           <div className="text-gray-600 text-sm">
-            © 2024 Master Elétrica
+            © 2026 Master Elétrica
           </div>
         </div>
       </motion.div>

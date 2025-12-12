@@ -35,7 +35,7 @@
     "dotenv": "^16.3.1",
     "exceljs": "^4.4.0",
     "flowbite-react": "^0.7.2",
-    "framer-motion": "^10.18.0",
+    "framer-motion": "^11.15.0",
     "image-size": "^1.1.1",
     "jspdf-autotable": "^5.0.2",
     "jwt-decode": "^4.0.0",
