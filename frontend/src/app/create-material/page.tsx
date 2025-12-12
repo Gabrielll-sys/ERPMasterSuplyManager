@@ -216,7 +216,7 @@ export default function CreateMaterialPage() {
                     <Search className="w-12 h-12 mx-auto text-slate-400 mb-4" /><Heading size="4" className="text-slate-600">Nenhum resultado encontrado</Heading><Text size="2" className="text-slate-500">Tente um termo de busca diferente.</Text>
                     </motion.div>
                 )}
-                {materials.length > 0 && !isLoading && (
+                {materials?.length > 0 && !isLoading && (
                     <motion.div key="results" variants={staggerContainer} initial="initial" animate="animate">
                     <Table.Root variant="surface" className="w-full">
                         <Table.Header className="bg-slate-100">

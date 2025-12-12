@@ -39,29 +39,11 @@ import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import useSWR from "swr";
 import { searchByInternCode } from "../services/Inventario.Services";
-
-// Types
-interface Material {
-  id: number;
-  codigoFabricante: number;
-  descricao: string;
-  unidade: string;
-}
-
-interface Inventario {
-  id: number;
-  movimentacao: number | null;
-  estoque: number;
-  saldoFinal: number | null;
-  razao: string;
-  dataAlteracao: string;
-  material: Material;
-  responsavel?: string;
-}
+import { IInventario } from "../interfaces/IInventarios";
 
 // Custom hook para busca com debounce
 const useInventorySearch = (codigoInterno: string) => {
-  const { data, error, isLoading } = useSWR(
+  const { data, error, isLoading } = useSWR<IInventario[]>(
     codigoInterno.length >= 1 ? `inventory-${codigoInterno}` : null,
     () => searchByInternCode(Number(codigoInterno)),
     {
@@ -86,7 +68,7 @@ export default function SearchInventory() {
   // Estados
   const [codigoInterno, setCodigoInterno] = useState("");
   const [showAll, setShowAll] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<Inventario | null>(null);
+  const [selectedItem, setSelectedItem] = useState<IInventario | null>(null);
 
   // Hook customizado para busca
   const { inventarios, loading, error } = useInventorySearch(codigoInterno);
@@ -105,7 +87,7 @@ export default function SearchInventory() {
     router.push(`/update-inventory/${materialId}`);
   }, [router]);
 
-  const handleShowDetails = useCallback((item: Inventario) => {
+  const handleShowDetails = useCallback((item: IInventario) => {
     setSelectedItem(item);
     onOpen();
   }, [onOpen]);
@@ -115,7 +97,7 @@ export default function SearchInventory() {
   }, []);
 
   // Função para formatar status
-  const getStatusChip = (item: Inventario) => {
+  const getStatusChip = (item: IInventario) => {
     if (item.movimentacao === null && item.estoque === 0) {
       return <Chip color="warning" variant="flat" size="sm">Material Criado</Chip>;
     }
@@ -123,7 +105,7 @@ export default function SearchInventory() {
   };
 
   // Função para formatar data
-  const formatDate = (date: string, item: Inventario) => {
+  const formatDate = (date: string, item: IInventario) => {
     const isCreated = item.movimentacao === null && item.estoque === 0;
     const prefix = isCreated ? "Material Criado em" : "Última atualização";
     return `${prefix} ${dayjs(date).format("DD/MM/YYYY [às] HH:mm")}`;

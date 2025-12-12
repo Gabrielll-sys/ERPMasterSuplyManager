@@ -3,6 +3,7 @@ import { url } from "../api/webApiUrl";
 import { IRelatorioDiario } from "../interfaces/IRelatorioDiario";
 
 export const getAllRelatoriosDiarios = async () => {
+  console.log(url);
   return fetcher<IRelatorioDiario[]>(`${url}/RelatoriosDiarios`);
 }
 

@@ -310,7 +310,7 @@ const deletarTarefaMutation = useMutation({
           <Calendar
             aria-label="Date (Uncontrolled)"
             className="mb-4"
-            onChange={(e) => {
+            onChange={(e: any) => {
               getTasksByDate(e.toString());
               setDateTask(e);
               handleDate(e);
@@ -324,16 +324,15 @@ const deletarTarefaMutation = useMutation({
     
         <Flex direction="row" justify="center" gap="6">
           <DragDropContext onDragEnd={onDragEnd}>
-    
             <Droppable droppableId="concluidas">
-              {(provided) => (
+              {(provided: any) => (
                 <Flex direction="column" gap="3" className="w-[300px]" {...provided.droppableProps} ref={provided.innerRef}>
                   <Text className="bg-[#ACF2CA] p-[6px] font-bold rounded-sm text-center shadow-sm shadow-black w-full">
                     Tarefas Concluídas
                   </Text>
                   {finishedsTask?.map((task, index) => (
                     <Draggable key={task.id} draggableId={String(task.id)} index={index}>
-                      {(provided) => (
+                      {(provided: any) => (
                         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                           <TaskUser reference={provided.innerRef} tarefa={task} onDeleteTarefa={deleteTarefa} onUpdateTarefa={updateTarefa} />
                         </div>
@@ -346,14 +345,14 @@ const deletarTarefaMutation = useMutation({
             </Droppable>
 {/*     
             <Droppable droppableId="alta">
-              {(provided) => (
+              {(provided: any) => (
                 <Flex direction="column" gap="3">
                   <Text className="bg-[#F2C9E4] p-[6px] font-bold rounded-sm text-center shadow-sm shadow-black w-full">
                     Alta Prioridade
                   </Text>
                   {tasksHighPriority?.map((task, index) => (
                     <Draggable key={task.id} draggableId={String(task.id)} index={index}>
-                      {(provided) => (
+                      {(provided: any) => (
                         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                           <TaskUser tarefa={task} onDeleteTarefa={deleteTarefa} onUpdateTarefa={updateTarefa} />
                         </div>
@@ -370,14 +369,14 @@ const deletarTarefaMutation = useMutation({
             </Droppable>
     
             <Droppable droppableId="media">
-              {(provided) => (
+              {(provided: any) => (
                 <Flex direction="column" gap="3">
                   <Text className="p-[6px] rounded-sm font-bold text-center shadow-sm shadow-black w-full">
                     Média Prioridade
                   </Text>
                   {tasksMidPriority?.map((task, index) => (
                     <Draggable key={task.id} draggableId={String(task.id)} index={index}>
-                      {(provided) => (
+                      {(provided: any) => (
                         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                           <TaskUser tarefa={task} onDeleteTarefa={deleteTarefa} onUpdateTarefa={updateTarefa} />
                         </div>
@@ -394,14 +393,14 @@ const deletarTarefaMutation = useMutation({
             </Droppable>
     
             <Droppable droppableId="baixa">
-              {(provided) => (
+              {(provided: any) => (
                 <Flex direction="column" gap="3">
                   <Text className="bg-[#FDE68A] p-[6px] font-bold rounded-sm text-center shadow-sm shadow-black w-full">
                     Baixa Prioridade
                   </Text>
                   {tasksLowPriority?.map((task, index) => (
                     <Draggable key={task.id} draggableId={String(task.id)} index={index}>
-                      {(provided) => (
+                      {(provided: any) => (
                         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                           <TaskUser tarefa={task} onDeleteTarefa={deleteTarefa} onUpdateTarefa={updateTarefa} />
                         </div>

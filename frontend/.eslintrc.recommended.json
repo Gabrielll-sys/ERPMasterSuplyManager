@@ -1,0 +1,58 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "react-hooks"
+  ],
+  "rules": {
+    // Proibir console.log em produção
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+
+    // TypeScript strict
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ],
+    "@typescript-eslint/ban-ts-comment": [
+      "error",
+      {
+        "ts-ignore": "allow-with-description",
+        "minimumDescriptionLength": 10
+      }
+    ],
+
+    // React best practices
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/jsx-no-target-blank": "error",
+    "react/no-unescaped-entities": "off",
+
+    // Código limpo
+    "prefer-const": "error",
+    "no-var": "error",
+    "no-debugger": "error",
+
+    // Performance
+    "react/jsx-no-bind": ["warn", {
+      "allowArrowFunctions": true,
+      "allowBind": false,
+      "ignoreRefs": true
+    }]
+  },
+  "overrides": [
+    {
+      // Permitir console em arquivos de configuração
+      "files": ["*.config.js", "*.config.ts"],
+      "rules": {
+        "no-console": "off"
+      }
+    }
+  ]
+}

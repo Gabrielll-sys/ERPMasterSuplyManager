@@ -55,8 +55,9 @@ export function useOsDetails(osId: number) {
 
   const { data: searchResults = [], isLoading: isSearching } = useQuery<IInventario[], Error>({
     queryKey: ['materialSearch', debouncedSearchTerm],
-    queryFn: () => searchByDescription(debouncedSearchTerm),
+    queryFn: async () => (await searchByDescription(debouncedSearchTerm)) ?? [],
     enabled: debouncedSearchTerm.length > 2,
+    initialData: [],
   });
   
   // --- MUTATIONS ---
@@ -111,7 +112,7 @@ export function useOsDetails(osId: number) {
     nonRegisteredItems,
     isLoadingMateriais,
     searchTerm,
-    searchResults,
+    searchResults: searchResults as IInventario[],
     isSearching,
     setSearchTerm,
     updateDetails: updateDetailsMutation.mutate,
