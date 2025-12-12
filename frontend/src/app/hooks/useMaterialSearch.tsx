@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { searchByDescription, searchByFabricanteCode } from "../services/Material.Services";
-import { IInventario } from "../interfaces";
+import type { IInventario } from "../interfaces/IInventarios";
 import { useState } from "react";
 import { useDebounce } from "./useDebounce";
 
@@ -26,14 +26,15 @@ export function useMaterialSearch() {
     queryFn: async () => {
       // 🎓 Early return: Código mais limpo, evita aninhamento.
       if (searchType === 'none') return [];
-      if (searchType === 'descricao') return searchByDescription(searchTerm);
-      return searchByFabricanteCode(searchTerm);
+      if (searchType === 'descricao') return (await searchByDescription(searchTerm)) ?? [];
+      return (await searchByFabricanteCode(searchTerm)) ?? [];
     },
     // 🎓 enabled: A query só será executada se houver um termo de busca válido.
     // 🤔 PORQUÊ: Evita chamadas de API desnecessárias na montagem inicial do componente.
     enabled: searchType !== 'none',
     // 🎓 staleTime: Os dados são considerados "frescos" por 5 minutos, evitando refetches desnecessários.
-    staleTime: 1000 * 60 * 5, 
+    staleTime: 1000 * 60 * 5,
+    initialData: [],
   });
 
   // 🎓 RETORNO DO HOOK: Expõe uma API clara para o componente consumidor.
@@ -43,7 +44,7 @@ export function useMaterialSearch() {
     setSearchDescription: setDescription,
     searchCode: code,
     setSearchCode: setCode,
-    materials,
+    materials: materials as IInventario[],
     isLoading: isLoading || isFetching, // Combina os dois estados para um spinner mais consistente.
     hasNoResults: materials.length === 0 && searchType !== 'none' && !(isLoading || isFetching),
     isInitialState: searchType === 'none'

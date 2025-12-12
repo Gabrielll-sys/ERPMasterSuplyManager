@@ -1,4 +1,4 @@
-import { IUsuario } from "@/app/interfaces";
+import { IUsuario } from "./IUsuario";
 
 export interface ITarefaUsuario {
     id?: number;

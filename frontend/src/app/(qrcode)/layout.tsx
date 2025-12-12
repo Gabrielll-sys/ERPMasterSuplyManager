@@ -2,7 +2,7 @@ import React from "react";
 import Footer from "../componentes/Footer";
 
 
-export default function GerarQrCodeMaterialLayout({
+export default function GenerateMaterialQRCodeLayout({
   children,
 }: {
   children: React.ReactNode;

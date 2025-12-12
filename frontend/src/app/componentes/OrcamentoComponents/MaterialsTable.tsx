@@ -14,7 +14,6 @@ interface MaterialsTableProps {
   onEdit: (item: any) => void;
   onDelete: (itemId: number) => void;
   orcamentoId: number;
-  setMateriais: (materiais: any[]) => void;
 }
 
 export function MaterialsTable({ 
@@ -22,8 +21,7 @@ export function MaterialsTable({
   isPaid, 
   onEdit, 
   onDelete,
-  orcamentoId, 
-  setMateriais
+  orcamentoId 
 }: MaterialsTableProps) {
   const queryClient = useQueryClient();
   
@@ -42,13 +40,11 @@ export function MaterialsTable({
         novaQuantidade: item.quantidadeMaterial
       });
     },
-    onSuccess: (data, variables) => {
+    onSuccess: () => {
       toast.success("Preço atualizado com sucesso!");
       queryClient.invalidateQueries({ queryKey: ['materiaisOrcamento', orcamentoId] });
       setEditingPriceId(null);
       setTempPrice('');
-      const newMateriais = materiais.map(m => m.id === variables.itemId ? { ...m, precoItemOrcamento: variables.novoPreco } : m);
-      setMateriais(newMateriais);
     },
     onError: (error: any) => {
       toast.error(`Erro ao atualizar preço: ${error.message}`);
@@ -76,7 +72,7 @@ export function MaterialsTable({
     if (isPaid) return;
     
     setEditingPriceId(item.id);
-    const currentPrice = item.precoItemOrcamento ?? item.material?.precoVenda ?? 0;
+    const currentPrice = item.precoVenda || 0;
     setTempPrice(currentPrice.toFixed(2).replace('.', ','));
   }, [isPaid]);
 
@@ -118,15 +114,23 @@ export function MaterialsTable({
 
   // Funções de formatação memoizadas
   const formatPrice = useCallback((item: IItemOrcamento | null | undefined): string => {
-    const price = item?.precoItemOrcamento ?? item?.material?.precoVenda ?? 0;
-    return `R$ ${Number(price).toFixed(2).replace('.', ',')}`;
+    if ((item?.precoItemOrcamento == 0 || item?.precoItemOrcamento === 0) && (item?.precoVenda == 0 || item?.precoVenda === 0)) return 'R$ 0,00';
+    else return item?.precoItemOrcamento ? 
+      `R$ ${Number(item.precoItemOrcamento).toFixed(2).replace('.', ',')}` : 
+      `R$ ${Number(item?.material?.precoVenda).toFixed(2).replace('.', ',')}`;
   }, []);
 
-  const calculateSubtotal = useCallback((item: IItemOrcamento): number => {
-    const price = item?.precoItemOrcamento ?? item?.material?.precoVenda ?? 0;
-    const quantity = item.quantidadeMaterial || 0;
-    const subtotal = Number(price) * quantity;
-    return Number(subtotal.toFixed(2));
+  const calculateSubtotal = useCallback((item: IItemOrcamento): number | undefined => {
+   console.log(item.material?.precoVenda, item.precoItemOrcamento, item.quantidadeMaterial)
+    if ( item.material?.precoVenda != undefined || item.precoItemOrcamento!=undefined){
+
+      const price = item.material?.precoVenda ? item.material?.precoVenda : item.precoItemOrcamento;
+      const quantity = item.quantidadeMaterial || 0;
+      let subtotal = Number(price) * quantity;
+      console.log(subtotal)
+      return Number(subtotal.toFixed(2));
+    }
+    return undefined;
   }, []);
 
   // Memoiza os totais para evitar recálculos desnecessários

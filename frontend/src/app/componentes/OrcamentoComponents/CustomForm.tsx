@@ -11,7 +11,6 @@ type BudgetState = {
   cpfOrCnpj: string;
   telefone: string;
   observacoes: string;
-  desconto:string;
 };
 
 type CustomerFormProps = {
@@ -77,15 +76,6 @@ export function CustomerForm({ formState, onFormChange, onBlur }: CustomerFormPr
                         placeholder="Telefone"
                         value={formState.telefone}
                         onChange={(e) => onFormChange('telefone', e.target.value)}
-                        onBlur={onBlur}
-                    />
-                </TextField.Root>
-               <TextField.Root size="3">
-                    <TextField.Slot>%</TextField.Slot>
-                    <TextField.Input 
-                        placeholder="Telefone"
-                        value={formState.desconto}
-                        onChange={(e) => onFormChange('desconto', e.target.value)}
                         onBlur={onBlur}
                     />
                 </TextField.Root>

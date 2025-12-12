@@ -1,8 +1,7 @@
 // app/services/OrdemServico.Services.tsx
 
-import axios from "axios";
+import { fetcher, poster, putter, deleter } from "../lib/api";
 import { url } from "../api/webApiUrl";
-import { authHeader } from "../_helpers/auth_headers";
 import { IOrdemSeparacao } from "../interfaces/IOrdemSeparacao";
 import { IItem } from "../interfaces/IItem";
 
@@ -40,8 +39,7 @@ type CreateItemOsPayload = {
  * @returns Uma promessa que resolve para o objeto da OS.
  */
 export const getOsById = async (osId: number): Promise<IOrdemSeparacao> => {
-  const { data } = await axios.get(`${url}/OrdemSeparacao/${osId}`, { headers: authHeader() });
-  return data;
+  return fetcher<IOrdemSeparacao>(`${url}/OrdemSeparacao/${osId}`);
 };
 
 /**
@@ -51,10 +49,7 @@ export const getOsById = async (osId: number): Promise<IOrdemSeparacao> => {
  * @returns Uma promessa que resolve para a OS atualizada.
  */
 export const updateOsDetails = async (osId: number, payload: UpdateOsDetailsPayload): Promise<IOrdemSeparacao> => {
-
-  console.log("Atualizando OS com payload:", payload);
-  const { data } = await axios.put(`${url}/OrdemSeparacao/${osId}`, payload, { headers: authHeader() });
-  return data;
+  return putter<IOrdemSeparacao>(`${url}/OrdemSeparacao/${osId}`, payload);
 };
 
 /**
@@ -64,8 +59,7 @@ export const updateOsDetails = async (osId: number, payload: UpdateOsDetailsPayl
  * @returns Uma promessa que resolve para a OS autorizada.
  */
 export const authorizeOs = async (osId: number, payload: AuthorizeOsPayload): Promise<IOrdemSeparacao> => {
-  const { data } = await axios.put(`${url}/OrdemSeparacao/updateAuthorize/${osId}`, payload, { headers: authHeader() });
-  return data;
+  return putter<IOrdemSeparacao>(`${url}/OrdemSeparacao/updateAuthorize/${osId}`, payload);
 };
 
 // --- Funções de Serviço para Itens da Ordem de Serviço ---
@@ -76,8 +70,7 @@ export const authorizeOs = async (osId: number, payload: AuthorizeOsPayload): Pr
  * @returns Uma promessa que resolve para um array de Itens da OS.
  */
 export const getMateriaisOs = async (osId: number): Promise<IItem[]> => {
-  const { data } = await axios.get(`${url}/Itens/GetAllMateriaisOs/${osId}`, { headers: authHeader() });
-  return data;
+  return fetcher<IItem[]>(`${url}/Itens/GetAllMateriaisOs/${osId}`);
 };
 
 /**
@@ -88,8 +81,7 @@ export const getMateriaisOs = async (osId: number): Promise<IItem[]> => {
 export const createItemOs = async (payload: CreateItemOsPayload): Promise<IItem> => {
   // 🎓 LÓGICA DE API: O payload é enviado diretamente. O backend decide como tratar.
   const apiPayload = { ...payload, material: null, ordemSeparacao: null };
-  const { data } = await axios.post(`${url}/Itens/CreateItem`, apiPayload, { headers: authHeader() });
-  return data;
+  return poster<IItem>(`${url}/Itens/CreateItem`, apiPayload);
 };
 
 
@@ -109,8 +101,7 @@ export const updateItemOs = async (payload: { itemId: number; quantidade: number
     responsavelMudanca: payload.responsavelMudanca,
     // Preencha outros campos necessários pela sua API
   };
-  const { data } = await axios.put(`${url}/Itens/${payload.itemId}`, itemPayload, { headers: authHeader() });
-  return data;
+  return putter<IItem>(`${url}/Itens/${payload.itemId}`, itemPayload);
 };
 
 /**
@@ -119,9 +110,5 @@ export const updateItemOs = async (payload: { itemId: number; quantidade: number
  * @returns Uma promessa que resolve quando a operação é concluída.
  */
 export const deleteItemOs = async (itemId: number): Promise<void> => {
-  await axios.delete(`${url}/Itens/${itemId}`, { headers: authHeader() });
-};
-export const solicitarBaixaOs = async (osId: number) => {
-  const response = await axios.patch(`${url}/OrdemSeparacao/${osId}/solicitar-baixa`);
-  return response.data;
+  await deleter(`${url}/Itens/${itemId}`);
 };

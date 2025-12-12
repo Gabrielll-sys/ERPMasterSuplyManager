@@ -1,69 +1,37 @@
-import { authHeader } from "../_helpers/auth_headers";
-
+import { fetcher, poster, putter, deleter } from "../lib/api";
 import { url } from "../api/webApiUrl";
-
-
-import axios from "axios";
 import { ITarefaUsuario } from "../interfaces/ITarefaUsuario";
 
 export const getAllAtivdadesInRd = async (): Promise<ITarefaUsuario[]> => {
-
-    return await  axios.get(`${url}/TarefasUsuarios`,{headers:authHeader()})
-        .then((r) => {
-            return r.data
-        })
-        .catch();
+  return fetcher<ITarefaUsuario[]>(`${url}/TarefasUsuarios`);
 }
 
-export const getUserTasksByDate = async (date:string): Promise<ITarefaUsuario[]> => {
-
-    return await  axios.get(`${url}/TarefasUsuarios/tasks-user-by-date?date=${date}`,{headers:authHeader()})
-        .then((r) => {
-            return r.data
-        })
-        .catch();
+export const getUserTasksByDate = async (date: string): Promise<ITarefaUsuario[]> => {
+  return fetcher<ITarefaUsuario[]>(`${url}/TarefasUsuarios/tasks-user-by-date?date=${date}`);
 }
 
-
-export const createTarefaUsuario = async (model:ITarefaUsuario)=>{
-
-    return await axios
-        .post(`${url}/TarefasUsuarios`, model,{headers:authHeader()})
-        .then((r) => {
-            return r.status
-        })
-        .catch();
+export const createTarefaUsuario = async (model: ITarefaUsuario) => {
+  await poster(`${url}/TarefasUsuarios`, model);
+  return 200; // Sucesso
 }
 
-export const updateTarefaUsuario = async (model:ITarefaUsuario)=>{
+export const updateTarefaUsuario = async (model: ITarefaUsuario) => {
+  const TarefaUsuario: ITarefaUsuario = {
+    id: model.id,
+    nomeTarefa: model.nomeTarefa,
+    prioridade: model.prioridade,
+    usuarioId: model.usuarioId,
+    isFinished: model.isFinished,
+    usuario: {}
+  };
 
-    const TarefaUsuario : ITarefaUsuario = {
-        id:model.id,
-        nomeTarefa:model.nomeTarefa,
-         prioridade:model.prioridade,
-        usuarioId:model.usuarioId,
-        isFinished:model.isFinished,
-        usuario:{}
-    };
-console.log(TarefaUsuario)
-   return await axios
-        .put(`${url}/TarefasUsuarios/${model.id}`, TarefaUsuario,{headers:authHeader()})
-        .then((r) => {
-            return r.status
-
-        })
-        .catch();
+  await putter(`${url}/TarefasUsuarios/${model.id}`, TarefaUsuario);
+  return 200; // Sucesso
 }
 
-export const deleteTarefaUsuario = async (id:number)=>{
-
-    return await axios
-        .delete(`${url}/TarefasUsuarios/${id}`,{headers:authHeader()})
-        .then((r) => {
-            return r.status
-
-        })
-        .catch();
+export const deleteTarefaUsuario = async (id: number) => {
+  await deleter(`${url}/TarefasUsuarios/${id}`);
+  return 200; // Sucesso
 }
 
 

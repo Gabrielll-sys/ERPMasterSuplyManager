@@ -14,19 +14,20 @@ import { Search } from 'lucide-react';
 import { MaterialsTable } from './MaterialsTable';
 import { searchByDescription } from '@/app/services/Material.Services';
 import { createItemOrcamento, updateItemOrcamento, deleteItemOrcamento } from '@/app/services/ItensOrcamento.Service';
-import { IInventario, IItemOrcamento } from '@/app/interfaces';
+import { IInventario } from '@/app/interfaces/IInventarios';
+import { useConfirmDialog } from '@/app/hooks/useConfirmDialog';
 
 // Props do componente
 type MaterialsSectionProps = {
   orcamentoId: number;
   isPaid?: boolean;
   materiais: any[];
-  setMateriais: (materiais: any[]) => void;
 };
 
-export function MaterialsSection({ orcamentoId, isPaid, materiais, setMateriais }: MaterialsSectionProps) {
+export function MaterialsSection({ orcamentoId, isPaid, materiais }: MaterialsSectionProps) {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
+  const { confirm, ConfirmDialog } = useConfirmDialog();
 
   // Estados locais da UI
   const [searchTerm, setSearchTerm] = useState("");
@@ -40,7 +41,7 @@ export function MaterialsSection({ orcamentoId, isPaid, materiais, setMateriais 
     setSearchTerm(query);
     if (query.length > 2) {
       const results = await searchByDescription(query);
-      setSearchResults(results);
+      setSearchResults(results ?? []);
     } else {
       setSearchResults([]);
     }
@@ -98,8 +99,16 @@ export function MaterialsSection({ orcamentoId, isPaid, materiais, setMateriais 
     }
   };
 
-  const handleDeleteItem = (itemId: number) => {
-    if (window.confirm("Tem certeza que deseja remover este item do orçamento?")) {
+  const handleDeleteItem = async (itemId: number) => {
+    const confirmed = await confirm({
+      title: 'Remover material?',
+      description: 'Tem certeza que deseja remover este item do orçamento? Esta ação não pode ser desfeita.',
+      confirmText: 'Remover',
+      cancelText: 'Cancelar',
+      variant: 'danger'
+    });
+
+    if (confirmed) {
       deleteItemMutation.mutate(itemId);
     }
   };
@@ -123,11 +132,12 @@ export function MaterialsSection({ orcamentoId, isPaid, materiais, setMateriais 
   };
 
   return (
-    <Card size="4">
-      <Flex direction="column" gap="4">
-        <Text as="div" size="6" weight="bold">Materiais do Orçamento</Text>
-        
-        {!isPaid && (
+    <>
+      <Card size="4">
+        <Flex direction="column" gap="4">
+          <Text as="div" size="6" weight="bold">Materiais do Orçamento</Text>
+
+          {!isPaid && (
           <Autocomplete
             label="Buscar material"
             placeholder="Digite para pesquisar..."
@@ -154,7 +164,6 @@ export function MaterialsSection({ orcamentoId, isPaid, materiais, setMateriais 
           onEdit={openEditDialog}
           onDelete={handleDeleteItem}
           orcamentoId={orcamentoId} // Passamos o orcamentoId para a tabela
-          setMateriais={setMateriais}
         />
       </Flex>
 
@@ -191,6 +200,8 @@ export function MaterialsSection({ orcamentoId, isPaid, materiais, setMateriais 
           </Flex>
         </Dialog.Content>
       </Dialog.Root>
+      <ConfirmDialog />
     </Card>
+    </>
   );
 }

@@ -5,7 +5,6 @@
     "javascript.suggest.autoImports": true,
     "javascript.updateImportsOnFileMove.enabled": "always",
     "extensions.ignoreRecommendations": true,
-    "geminicodeassist.updateChannel": "Insiders",
     "typescript.tsserver.log": "off",
     "editor.stickyScroll.enabled": false,
     "workbench.tree.enableStickyScroll": false,

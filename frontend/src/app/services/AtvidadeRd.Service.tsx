@@ -1,29 +1,15 @@
-import { authHeader } from "../_helpers/auth_headers";
-
+import { fetcher, poster, putter, deleter } from "../lib/api";
 import { url } from "../api/webApiUrl";
-
 import { IAtividadeRd } from "../interfaces/IAtividadeRd";
-
-import axios from "axios";
 
 export const getAllAtivdadesInRd = async (
   id: number | undefined
 ): Promise<IAtividadeRd[]> => {
-  return await axios
-    .get(`${url}/AtividadesRd/AtividadesInRd/${id}`, { headers: authHeader() })
-    .then((r) => {
-      return r.data;
-    })
-    .catch();
+  return fetcher<IAtividadeRd[]>(`${url}/AtividadesRd/AtividadesInRd/${id}`);
 };
 
 export const createAtividadeRd = async (model: IAtividadeRd) => {
-  return await axios
-    .post(`${url}/AtividadesRd`, model, { headers: authHeader() })
-    .then((r) => {
-      return r.data;
-    })
-    .catch();
+  return poster<IAtividadeRd>(`${url}/AtividadesRd`, model);
 };
 
 export const updateAtividadeRd = async (model: IAtividadeRd) => {
@@ -36,23 +22,12 @@ export const updateAtividadeRd = async (model: IAtividadeRd) => {
     observacoes: model.observacoes,
     relatorioDiario: {},
   };
-  
-  return await axios
-    .put(`${url}/AtividadesRd/${model.id}`, AtividadeRd, {
-      headers: authHeader(),
-    })
-    .then((r) => {
-      return r.status;
-    })
-    .catch();
+
+  await putter(`${url}/AtividadesRd/${model.id}`, AtividadeRd);
+  return 200; // Sucesso
 };
 
 export const deleteAtividadeRd = async (id: number) => {
-  console.log(id);
-  return await axios
-    .delete(`${url}/AtividadesRd/${id}`, { headers: authHeader() })
-    .then((r) => {
-      return r.status;
-    })
-    .catch();
+  await deleter(`${url}/AtividadesRd/${id}`);
+  return 200; // Sucesso
 };

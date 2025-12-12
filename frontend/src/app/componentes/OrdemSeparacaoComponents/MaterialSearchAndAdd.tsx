@@ -1,11 +1,11 @@
-// src/app/(gereciamento-os)/editing-os/[osId]/components/MaterialSearchAndAdd.tsx
+// src/app/(os-management)/editing-os/[osId]/components/MaterialSearchAndAdd.tsx
 "use client";
 
 import { useState } from 'react';
-import { Flex, TextField, Button, Box, Text, Card, ScrollArea, Select } from '@radix-ui/themes';
+import { Flex, TextField, Button, Box, Text, Card, ScrollArea } from '@radix-ui/themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Plus, PackagePlus } from 'lucide-react';
-import { IInventario } from '@/app/interfaces';
+import { IInventario } from '@/app/interfaces/IInventarios';
 import { Spinner } from '@nextui-org/react';
 
 // 🎓 CONCEITO: Componente Controlado vs. Não Controlado.
@@ -17,7 +17,7 @@ interface MaterialSearchAndAddProps {
   searchResults: IInventario[];
   isSearching: boolean;
   onAddMaterial: (data: { materialId: number; quantidade: number }) => void;
-  onAddNonRegistered: (data: { descricaoNaoCadastrado: string; quantidade: number; unidade: string }) => void;
+  onAddNonRegistered: (data: { descricaoNaoCadastrado: string; quantidade: number }) => void;
   isAdding: boolean;
 }
 
@@ -34,7 +34,6 @@ export function MaterialSearchAndAdd({
   const [selectedMaterial, setSelectedMaterial] = useState<IInventario | null>(null);
   const [quantity, setQuantity] = useState<number | "">(1);
   const [nonRegisteredDesc, setNonRegisteredDesc] = useState('');
-  const [unidade, setUnidade] = useState("UN");
 
   // 🎓 CONCEITO: Fluxo de UX Não-Bloqueante.
   // 🤔 PORQUÊ: Em vez de um `prompt()`, integramos o formulário de quantidade na UI.
@@ -54,7 +53,7 @@ export function MaterialSearchAndAdd({
   
   const handleAddNonRegisteredClick = () => {
     if (nonRegisteredDesc.trim() && Number(quantity) > 0) {
-        onAddNonRegistered({ descricaoNaoCadastrado: nonRegisteredDesc.trim(), quantidade: Number(quantity), unidade: unidade });
+        onAddNonRegistered({ descricaoNaoCadastrado: nonRegisteredDesc.trim(), quantidade: Number(quantity) });
         setNonRegisteredDesc('');
         setQuantity(1);
     }
@@ -102,7 +101,7 @@ export function MaterialSearchAndAdd({
         <AnimatePresence>
           {selectedMaterial && (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}>
-              <Flex direction={{ initial: 'column', sm: 'row' }} gap="3" align={{ initial: 'stretch', sm: 'end' }} mt="3">
+              <Flex gap="3" align="end" mt="3">
                 <Box className="flex-grow">
                   <Text size="2" color="gray">Item Selecionado</Text>
                   <Text as="p" weight="bold">{selectedMaterial.material.descricao}</Text>
@@ -135,16 +134,6 @@ export function MaterialSearchAndAdd({
             <TextField.Root className="w-full sm:w-24">
                 <TextField.Input type="number" placeholder="Qtd." value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} min="1" />
             </TextField.Root>
-            <Select.Root value={unidade} onValueChange={setUnidade}>
-              <Select.Trigger placeholder="Unidade" />
-              <Select.Content>
-                <Select.Item value="UN">UN</Select.Item>
-                <Select.Item value="M">M</Select.Item>
-                <Select.Item value="RL">RL</Select.Item>
-                <Select.Item value="PC">PC</Select.Item>
-                <Select.Item value="MT">MT</Select.Item>
-              </Select.Content>
-            </Select.Root>
             <Button onClick={handleAddNonRegisteredClick} disabled={!nonRegisteredDesc.trim() || isAdding}>
                 <Plus className="w-4 h-4 mr-1" /> {isAdding ? 'Adicionando...' : 'Adicionar'}
             </Button>

@@ -1,4 +1,4 @@
-// src/app/(gereciamento-os)/editing-os/[osId]/hooks/useOsDetails.ts
+// src/app/(os-management)/editing-os/[osId]/hooks/useOsDetails.ts
 
 // 🎓 ARQUITETURA EXPLICADA: Este hook gerencia UMA ÚNICA Ordem de Serviço.
 // Suas responsabilidades são: buscar os detalhes da OS, buscar seus itens,
@@ -9,13 +9,13 @@ import { toast } from 'sonner';
 import { useState, useMemo } from 'react';
 
 // --- Serviços e Interfaces ---
-import { getOsById, updateOsDetails, getMateriaisOs, createItemOs, deleteItemOs, solicitarBaixaOs } from '@/app/services/OrdemSeparacao.Service';
+import { getOsById, updateOsDetails, getMateriaisOs, createItemOs, deleteItemOs } from '@/app/services/OrdemSeparacao.Service';
 import { searchByDescription } from '@/app/services/Material.Services';
 import { useAuth } from '@/contexts/AuthContext';
 import { useDebounce } from '@/app/hooks/useDebounce';
 import type { IOrdemSeparacao } from '@/app/interfaces/IOrdemSeparacao';
 import type { IItem } from '@/app/interfaces/IItem';
-import type { IInventario } from '@/app/interfaces';
+import type { IInventario } from '@/app/interfaces/IInventarios';
 
 // --- O Hook Principal ---
 // 📝 MUDANÇA: Renomeado de `useOsManagement` para `useOsDetails` para maior clareza.
@@ -32,7 +32,7 @@ export function useOsDetails(osId: number) {
     // 🤔 PORQUÊ: Ações nesta página podem afetar tanto os detalhes da OS quanto a lista de itens.
     // Invalidar ambas as queries garante que a UI esteja sempre 100% sincronizada.
     queryClient.invalidateQueries({ queryKey: [queryKeyToInvalidate, osId] });
-  }; 
+  };
 
   const handleMutationError = (error: any, action: string) => {
     toast.error(`Falha ao ${action}`, {
@@ -55,8 +55,9 @@ export function useOsDetails(osId: number) {
 
   const { data: searchResults = [], isLoading: isSearching } = useQuery<IInventario[], Error>({
     queryKey: ['materialSearch', debouncedSearchTerm],
-    queryFn: () => searchByDescription(debouncedSearchTerm),
+    queryFn: async () => (await searchByDescription(debouncedSearchTerm)) ?? [],
     enabled: debouncedSearchTerm.length > 2,
+    initialData: [],
   });
   
   // --- MUTATIONS ---
@@ -78,14 +79,8 @@ export function useOsDetails(osId: number) {
     onError: (error) => handleMutationError(error, "remover item"),
   });
 
-  const solicitarBaixaMutation = useMutation({
-    mutationFn: () => solicitarBaixaOs(osId),
-    onSuccess: () => handleMutationSuccess("Baixa da OS solicitada com sucesso!", 'osDetails'),
-    onError: (error) => handleMutationError(error, "solicitar baixa"),
-  });
-
   // --- Funções de Ação ---
-  const addItemToOs = (itemData: { materialId?: number; descricaoNaoCadastrado?: string; quantidade: number,unidade?:string }) => {
+  const addItemToOs = (itemData: { materialId?: number; descricaoNaoCadastrado?: string; quantidade: number }) => {
     if (!authUser?.userName) {
         toast.error("Usuário não autenticado.");
         return;
@@ -117,7 +112,7 @@ export function useOsDetails(osId: number) {
     nonRegisteredItems,
     isLoadingMateriais,
     searchTerm,
-    searchResults,
+    searchResults: searchResults as IInventario[],
     isSearching,
     setSearchTerm,
     updateDetails: updateDetailsMutation.mutate,
@@ -126,7 +121,5 @@ export function useOsDetails(osId: number) {
     isAddingItem: createItemMutation.isPending,
     deleteItemFromOs,
     isDeletingItem: deleteItemMutation.isPending,
-    solicitarBaixa: solicitarBaixaMutation.mutate,
-    isSolicitingBaixa: solicitarBaixaMutation.isPending,
   };
 }

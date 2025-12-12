@@ -29,7 +29,7 @@ const OrcamentoPDF = ({ orcamento, materiaisOrcamento, nomeUsuario }: OrcamentoP
   // --- CÁLCULOS CORRIGIDOS ---
   // Calcula o valor bruto total dos itens.
   const subtotal = materiaisOrcamento.reduce((acc, item) => {
-    const itemTotal = (item.precoItemOrcamento ?? item.material?.precoVenda ?? 0) * item.quantidadeMaterial;
+    const itemTotal = Number((item.material?.precoVenda || 0)) * item.quantidadeMaterial;
     return acc + itemTotal;
   }, 0);
 
@@ -83,8 +83,8 @@ const OrcamentoPDF = ({ orcamento, materiaisOrcamento, nomeUsuario }: OrcamentoP
               <View key={item.id} style={styles.tableRow} wrap={false}>
                 <Text style={[styles.tableCell, { width: '45%', textAlign: 'left' }]}>{item.material?.descricao}</Text>
                 <Text style={[styles.tableCell, { width: '15%', textAlign: 'center' }]}>{`${item.quantidadeMaterial} ${item.material?.unidade}`}</Text>
-                <Text style={[styles.tableCell, { width: '20%', textAlign: 'right' }]}>{formatCurrency(Number(item.precoItemOrcamento || item.material?.precoVenda))}</Text>
-                <Text style={[styles.tableCell, { width: '20%', textAlign: 'right' }]}>{formatCurrency(Number((item.precoItemOrcamento || item.material?.precoVenda || 0)) * item.quantidadeMaterial)}</Text>
+                <Text style={[styles.tableCell, { width: '20%', textAlign: 'right' }]}>{formatCurrency(Number(item.material?.precoVenda))}</Text>
+                <Text style={[styles.tableCell, { width: '20%', textAlign: 'right' }]}>{formatCurrency(Number((item.material?.precoVenda || 0)) * item.quantidadeMaterial)}</Text>
               </View>
             ))}
           </View>

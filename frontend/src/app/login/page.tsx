@@ -11,31 +11,21 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
 import { authenticate } from "@/app/services/Auth.services";
 
-// Radix UI Components
-import { 
-  Button, 
-  TextField, 
-  Card, 
-  Flex, 
-  Box, 
-  Heading, 
-  Text, 
-  IconButton,
-  Separator 
-} from "@radix-ui/themes";
-
 // Icons
 import { 
-  EnvelopeClosedIcon, 
-  LockClosedIcon, 
-  EyeOpenIcon, 
-  EyeClosedIcon,
-  ExclamationTriangleIcon
-} from '@radix-ui/react-icons';
+  Mail, 
+  Lock, 
+  Eye, 
+  EyeOff, 
+  AlertCircle,
+  ArrowRight,
+  FileText,
+  User
+} from 'lucide-react';
 
 // Next UI
 import { Spinner } from "@nextui-org/react";
-import { toast } from "sonner"; // ou use Next UI toast se disponível
+import { toast } from "sonner";
 
 // Schema de validação
 const loginSchema = z.object({
@@ -46,33 +36,10 @@ const loginSchema = z.object({
   senha: z
     .string()
     .min(1, "Senha é obrigatória")
-    .min(3, "Senha deve ter pelo menos 3 caracteres")
+    .min(6, "Senha deve ter pelo menos 6 caracteres")
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
-
-// Variantes de animação
-const containerVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" }
-  }
-};
-
-const fieldVariants = {
-  hidden: { opacity: 0, x: -20 },
-  visible: (index: number) => ({
-    opacity: 1,
-    x: 0,
-    transition: { 
-      delay: index * 0.1, 
-      duration: 0.3,
-      ease: "easeOut"
-    }
-  })
-};
 
 export default function LoginPage() {
   const router = useRouter();
@@ -85,7 +52,6 @@ export default function LoginPage() {
     register,
     handleSubmit,
     formState: { errors, isValid, isDirty },
-    watch
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     mode: "onChange"
@@ -96,7 +62,7 @@ export default function LoginPage() {
   // Redireciona se já estiver autenticado
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/gerenciamento-ordem-separacao");
+      router.push("/reports");
     }
   }, [isAuthenticated, router]);
 
@@ -124,7 +90,7 @@ export default function LoginPage() {
           default: "Erro desconhecido ao tentar fazer login"
         };
         
-        const message = errorMessages[responseStatus as keyof typeof errorMessages] || errorMessages.default;
+        const message = errorMessages[responseStatus as unknown as keyof typeof errorMessages] || errorMessages.default;
         toast.error("Erro no login", { description: message });
       }
     } catch (error) {
@@ -138,222 +104,224 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 flex items-center justify-center p-4">
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="w-full max-w-md"
+    <div className="min-h-screen flex">
+      {/* Left Side - Branding (Desktop Only) */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-gray-900 via-slate-900 to-gray-950 relative overflow-hidden"
       >
-        <Card size="4" className="backdrop-blur-sm bg-white/80 border-0 shadow-2xl shadow-black/5">
-          {/* Header */}
-          <Box className="text-center pb-8">
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.4 }}
-            >
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl mx-auto mb-6 flex items-center justify-center">
-                <LockClosedIcon className="w-8 h-8 text-white" />
-              </div>
-              <Heading size="8" className="bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-                Bem-vindo
-              </Heading>
-              <Text size="3" color="gray" className="mt-2">
-                Faça login para acessar sua conta
-              </Text>
-            </motion.div>
-          </Box>
+        {/* Subtle Background Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:40px_40px]" />
+        
+        {/* Subtle Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-3xl" />
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* Email Field */}
-            <motion.div
-              custom={0}
-              variants={fieldVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              <Box>
-                <Text as="label" size="2" className="block font-medium mb-2 text-gray-700">
+        {/* Content */}
+        <div className="relative z-10 flex flex-col justify-between p-12 w-full">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+              <FileText className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <span className="text-xl font-bold text-white">Master ERP</span>
+              <p className="text-xs text-gray-500">Sistema de Gestão</p>
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div>
+            <h1 className="text-3xl font-semibold text-white leading-tight mb-4">
+              Sistema de Relatórios
+            </h1>
+            <p className="text-base text-gray-400 max-w-sm">
+              Acesse o sistema para gerenciar relatórios diários, atividades e documentação de projetos.
+            </p>
+          </div>
+
+          {/* Footer */}
+          <div className="text-gray-600 text-sm">
+            © 2024 Master Elétrica
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Right Side - Login Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 bg-gray-50">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="w-full max-w-md"
+        >
+          {/* Mobile Logo */}
+          <div className="lg:hidden text-center mb-8">
+            <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
+              <FileText className="w-7 h-7 text-white" />
+            </div>
+            <h2 className="text-xl font-bold text-gray-900">Master ERP</h2>
+            <p className="text-sm text-gray-500">Sistema de Gestão</p>
+          </div>
+
+          {/* Form Card */}
+          <div className="bg-white rounded-2xl shadow-xl shadow-gray-200/50 p-8 sm:p-10">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="w-14 h-14 bg-gray-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <User className="w-7 h-7 text-gray-600" />
+              </div>
+              <h1 className="text-2xl font-bold text-gray-900 mb-1">
+                Acesse sua conta
+              </h1>
+              <p className="text-gray-500 text-sm">
+                Digite suas credenciais para continuar
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+              {/* Email Field */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Email
-                </Text>
-                <TextField.Root 
-                  size="3"
-                  className={`transition-all duration-200 ${
-                    errors.email ? 'ring-2 ring-red-200' : 'focus-within:ring-2 focus-within:ring-blue-200'
-                  }`}
-                >
-                  <TextField.Slot>
-                    <EnvelopeClosedIcon 
-                      height="16" 
-                      width="16" 
-                      className={errors.email ? 'text-red-400' : 'text-gray-400'}
-                    />
-                  </TextField.Slot>
-                  <TextField.Input
+                </label>
+                <div className="relative">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                    <Mail className={`w-5 h-5 ${errors.email ? 'text-red-400' : 'text-gray-400'}`} />
+                  </div>
+                  <input
                     {...register("email")}
-                    placeholder="seuemail@exemplo.com"
                     type="email"
+                    placeholder="seuemail@empresa.com"
                     autoComplete="email"
-                    className="text-gray-900"
+                    className={`
+                      w-full pl-12 pr-4 py-3.5 rounded-xl border-2 
+                      bg-gray-50 text-gray-900 placeholder-gray-400
+                      transition-all duration-200 outline-none
+                      ${errors.email 
+                        ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
+                        : 'border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100'
+                      }
+                    `}
                   />
-                </TextField.Root>
+                </div>
                 <AnimatePresence mode="wait">
                   {errors.email && (
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.2 }}
+                      className="flex items-center gap-2 mt-2 text-red-500"
                     >
-                      <Flex align="center" gap="1" className="mt-2">
-                        <ExclamationTriangleIcon className="w-4 h-4 text-red-500" />
-                        <Text size="1" color="red">
-                          {errors.email.message}
-                        </Text>
-                      </Flex>
+                      <AlertCircle className="w-4 h-4" />
+                      <span className="text-sm">{errors.email.message}</span>
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </Box>
-            </motion.div>
+              </div>
 
-            {/* Password Field */}
-            <motion.div
-              custom={1}
-              variants={fieldVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              <Box>
-                <Text as="label" size="2" className="block font-medium mb-2 text-gray-700">
+              {/* Password Field */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Senha
-                </Text>
-                <TextField.Root 
-                  size="3"
-                  className={`transition-all duration-200 ${
-                    errors.senha ? 'ring-2 ring-red-200' : 'focus-within:ring-2 focus-within:ring-blue-200'
-                  }`}
-                >
-                  <TextField.Slot>
-                    <LockClosedIcon 
-                      height="16" 
-                      width="16"
-                      className={errors.senha ? 'text-red-400' : 'text-gray-400'}
-                    />
-                  </TextField.Slot>
-                  <TextField.Input
+                </label>
+                <div className="relative">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                    <Lock className={`w-5 h-5 ${errors.senha ? 'text-red-400' : 'text-gray-400'}`} />
+                  </div>
+                  <input
                     {...register("senha")}
-                    placeholder="Digite sua senha"
                     type={isVisible ? "text" : "password"}
+                    placeholder="Digite sua senha"
                     autoComplete="current-password"
-                    className="text-gray-900"
-                  />
-                  <TextField.Slot>
-                    <IconButton 
-                      size="1" 
-                      variant="ghost" 
-                      type="button" 
-                      onClick={toggleVisibility}
-                      className="hover:bg-gray-100 transition-colors"
-                      aria-label={isVisible ? "Esconder senha" : "Mostrar senha"}
-                    >
-                      {isVisible ? 
-                        <EyeClosedIcon height="16" width="16" className="text-gray-500" /> : 
-                        <EyeOpenIcon height="16" width="16" className="text-gray-500" />
+                    className={`
+                      w-full pl-12 pr-12 py-3.5 rounded-xl border-2 
+                      bg-gray-50 text-gray-900 placeholder-gray-400
+                      transition-all duration-200 outline-none
+                      ${errors.senha 
+                        ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
+                        : 'border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100'
                       }
-                    </IconButton>
-                  </TextField.Slot>
-                </TextField.Root>
+                    `}
+                  />
+                  <button
+                    type="button"
+                    onClick={toggleVisibility}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                    aria-label={isVisible ? "Esconder senha" : "Mostrar senha"}
+                  >
+                    {isVisible ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
+                </div>
                 <AnimatePresence mode="wait">
                   {errors.senha && (
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.2 }}
+                      className="flex items-center gap-2 mt-2 text-red-500"
                     >
-                      <Flex align="center" gap="1" className="mt-2">
-                        <ExclamationTriangleIcon className="w-4 h-4 text-red-500" />
-                        <Text size="1" color="red">
-                          {errors.senha.message}
-                        </Text>
-                      </Flex>
+                      <AlertCircle className="w-4 h-4" />
+                      <span className="text-sm">{errors.senha.message}</span>
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </Box>
-            </motion.div>
+              </div>
 
-            {/* Submit Button */}
-            <motion.div
-              custom={2}
-              variants={fieldVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              <Button
-                size="3"
-                type="submit"
-                disabled={isLoading || !isValid || !isDirty}
-                className={`
-                  w-full font-semibold transition-all duration-300 
-                  ${isLoading || !isValid || !isDirty 
-                    ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
-                    : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transform hover:scale-[1.02] active:scale-[0.98]'
-                  }
-                `}
-                variant="solid"
-              >
-                <AnimatePresence mode="wait">
-                  {isLoading ? (
-                    <motion.div
-                      key="loading"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="flex items-center gap-2"
-                    >
-                      <Spinner size="sm" color="white" />
-                      <span>Entrando...</span>
-                    </motion.div>
-                  ) : (
-                    <motion.span
-                      key="login"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                    >
-                      Entrar
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </Button>
-            </motion.div>
-
-            {/* Forgot Password Link
-            <motion.div
-              custom={3}
-              variants={fieldVariants}
-              initial="hidden"
-              animate="visible"
-              className="text-center"
-            >
-              <Separator size="4" className="my-6" />
-              <Text size="2" className="text-gray-600">
-                Esqueceu sua senha?{" "}
-                <button
-                  type="button"
-                  className="text-blue-600 hover:text-blue-700 font-medium hover:underline transition-colors"
-                  onClick={() => toast.info("Funcionalidade em breve!")}
+              {/* Submit Button */}
+              <div className="pt-2">
+                <motion.button
+                  type="submit"
+                  disabled={isLoading || !isValid || !isDirty}
+                  whileHover={isValid && isDirty ? { scale: 1.01 } : {}}
+                  whileTap={isValid && isDirty ? { scale: 0.99 } : {}}
+                  className={`
+                    w-full py-3.5 px-6 rounded-xl font-semibold text-base
+                    flex items-center justify-center gap-2
+                    transition-all duration-200
+                    ${isLoading || !isValid || !isDirty
+                      ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                      : 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-500/25'
+                    }
+                  `}
                 >
-                  Recuperar senha
-                </button>
-              </Text>
-            </motion.div> */}
-          </form>
-        </Card>
-      </motion.div>
+                  <AnimatePresence mode="wait">
+                    {isLoading ? (
+                      <motion.div
+                        key="loading"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="flex items-center gap-2"
+                      >
+                        <Spinner size="sm" color="white" />
+                        <span>Entrando...</span>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="login"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="flex items-center gap-2"
+                      >
+                        <span>Entrar</span>
+                        <ArrowRight className="w-5 h-5" />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.button>
+              </div>
+            </form>
+
+            {/* Footer */}
+            <p className="text-center text-xs text-gray-400 mt-6">
+              Acesso restrito a colaboradores autorizados
+            </p>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 }
