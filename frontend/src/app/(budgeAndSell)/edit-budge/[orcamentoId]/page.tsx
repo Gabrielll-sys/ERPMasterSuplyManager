@@ -2,10 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useReducer } from "react";
-import { Theme, Box, Text } from "@radix-ui/themes";
 import { Toaster, toast } from 'sonner';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Spinner } from "@nextui-org/react";
+import { motion } from "framer-motion";
+import { Loader2, AlertCircle } from 'lucide-react';
+
 // Serviços da API
 import { getMateriaisByOrcamentoId } from "@/app/services/ItensOrcamento.Service";
 import { getOrcamentoById, updateOrcamento } from "@/app/services/Orcamentos.Service"; 
@@ -70,7 +71,7 @@ export default function ManageBudgetPage({ params }: { params: { orcamentoId: st
     queryKey: ['materiaisOrcamento', orcamentoId],
     queryFn: () => getMateriaisByOrcamentoId(orcamentoId),
     enabled: !!orcamentoId,
-    initialData: [], // Inicia com um array vazio para evitar 'undefined'
+    initialData: [],
   });
 
   // --- MUTAÇÃO PARA ATUALIZAR ORÇAMENTO ---
@@ -109,15 +110,12 @@ export default function ManageBudgetPage({ params }: { params: { orcamentoId: st
     dispatch({ type: 'SET_FIELD', field, value });
   };
   
-  // CORRIGIDO: Função que efetivamente salva as alterações do formulário
   const handleUpdateBudget = () => {
     if (!orcamento || updateBudgetMutation.isPending) return;
 
-    // Combina os dados originais do orçamento com as alterações do formulário
     const payload = {
       ...orcamento,
       ...formState,
-      // Garante que o desconto seja enviado como número
       desconto: parseFloat(formState.desconto.replace(',', '.')) || 0,
     };
     
@@ -127,34 +125,59 @@ export default function ManageBudgetPage({ params }: { params: { orcamentoId: st
   // --- RENDERIZAÇÃO DE ESTADO DE CARREGAMENTO / ERRO ---
   if (isLoadingOrcamento || isLoadingMateriais) {
     return (
-      <Box className="flex items-center justify-center h-screen">
-        <Spinner size="lg" />
-        <Text ml="2">Carregando dados do orçamento...</Text>
-      </Box>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center"
+        >
+          <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+          </div>
+          <p className="text-gray-600 font-medium">Carregando orçamento...</p>
+        </motion.div>
+      </div>
     );
   }
 
   if (isErrorOrcamento || isErrorMateriais) {
     return (
-      <Box className="flex items-center justify-center h-screen">
-        <Text color="red">Erro ao carregar o orçamento ou seus materiais.</Text>
-      </Box>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center p-8 bg-white rounded-2xl shadow-xl max-w-md"
+        >
+          <div className="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <AlertCircle className="w-8 h-8 text-red-600" />
+          </div>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">Erro ao carregar</h2>
+          <p className="text-gray-500 mb-6">Não foi possível carregar o orçamento ou seus materiais.</p>
+          <button
+            onClick={() => router.back()}
+            className="px-6 py-3 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition-colors"
+          >
+            Voltar
+          </button>
+        </motion.div>
+      </div>
     );
   }
 
   return (
-    <Theme>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100">
       <Toaster richColors position="top-right" />
       
-      <Box className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
         <BudgetHeader 
           budgetId={orcamento?.id} 
-          onBack={() => router.back()} 
+          onBack={() => router.back()}
+          isPaid={orcamento?.isPayed}
         />
 
-        <main className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Coluna Principal */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-6">
             <CustomerForm 
               formState={formState} 
               onFormChange={handleFormChange}
@@ -168,7 +191,7 @@ export default function ManageBudgetPage({ params }: { params: { orcamentoId: st
           </div>
 
           {/* Coluna Lateral */}
-          <aside className="lg:col-span-1 space-y-6">
+          <div className="space-y-6">
             <BudgetSummary 
               materiais={materiais}
               desconto={formState.desconto}
@@ -179,9 +202,9 @@ export default function ManageBudgetPage({ params }: { params: { orcamentoId: st
               materiais={materiais}
               onAuthorize={() => { /* Implementar lógica de autorização aqui */ }}
             />
-          </aside>
-        </main>
-      </Box>
-    </Theme>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

@@ -70,7 +70,7 @@
 
 .client-info-card:hover {
   border-color: #FCDD74;
-  box-shadow: 0 4px 12px rgba(252, 221, 116, 0.15);
+  box-shadow: 0 40px 12px rgba(252, 221, 116, 0.15);
 }
 
 .client-info-label {

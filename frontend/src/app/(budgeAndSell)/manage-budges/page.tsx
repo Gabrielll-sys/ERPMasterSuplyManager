@@ -1,26 +1,39 @@
 "use client";
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
 import dayjs from 'dayjs';
 import "dayjs/locale/pt-br";
+import { motion, AnimatePresence } from 'framer-motion';
 
-// Radix UI Themes e Icons
-import { Flex, Box, Heading, Text, TextField, Card, Button, Grid, Callout, Separator } from "@radix-ui/themes";
-import { MagnifyingGlassIcon, ExclamationTriangleIcon, Pencil1Icon } from '@radix-ui/react-icons';
+// Icons
+import { 
+  Search, 
+  Plus, 
+  FileText, 
+  Calendar, 
+  User, 
+  CheckCircle2, 
+  Clock, 
+  TrendingUp,
+  DollarSign,
+  ArrowRight,
+  Filter,
+  Loader2,
+  AlertCircle
+} from 'lucide-react';
 
 // React Query
-import { useQuery, useQueryClient } from '@tanstack/react-query'; // Import do TanStack
+import { useQuery } from '@tanstack/react-query';
 
 // Serviços e Interfaces
-import { IOrcamento } from '@/app/interfaces/IOrcamento'; // Ajuste o caminho
-import { getAllOrcamentos,  getOrcamentoById } from '@/app/services/Orcamentos.Service'; // Ajuste o caminho
-import { Spinner } from '@nextui-org/react';
+import { IOrcamento } from '@/app/interfaces/IOrcamento';
+import { getAllOrcamentos, getOrcamentoById } from '@/app/services/Orcamentos.Service';
 
 dayjs.locale("pt-br");
 
-// Hook customizado simples para Debounce
+// Hook de Debounce
 function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
   useEffect(() => {
@@ -30,19 +43,34 @@ function useDebounce<T>(value: T, delay: number): T {
   return debouncedValue;
 }
 
-export default function ManageBudgesPage() { // Renomeado para clareza
-  const route = useRouter();
-  const queryClient = useQueryClient(); // Para possíveis invalidações futuras
+// Variantes de animação
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 }
+  }
+};
 
-  // Estados para os inputs de filtro
+const cardVariants = {
+  hidden: { opacity: 0, y: 20, scale: 0.95 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }
+  }
+};
+
+export default function ManageBudgesPage() {
+  const router = useRouter();
+
   const [inputNumeroOrcamento, setInputNumeroOrcamento] = useState<string>("");
   const [inputCliente, setInputCliente] = useState<string>("");
 
-  // Valores debounced para usar nas queries
   const debouncedNumeroOrcamento = useDebounce(inputNumeroOrcamento, 500);
   const debouncedCliente = useDebounce(inputCliente, 500);
 
-  // --- React Query ---
   const {
     data: orcamentosData,
     isLoading,
@@ -56,124 +84,330 @@ export default function ManageBudgesPage() { // Renomeado para clareza
         const id = parseInt(debouncedNumeroOrcamento);
         if (!isNaN(id)) {
           const orc = await getOrcamentoById(id);
-          return orc ? [orc] : []; // Retorna array para consistência
+          return orc ? [orc] : [];
         }
-        return []; // Retorna vazio se número não for válido
+        return [];
       }
-      // if (debouncedCliente && debouncedCliente.length > 0) {
-      //   return getOrcamentosByClient(debouncedCliente);
-      // }
-      return getAllOrcamentos(); // Busca todos se nenhum filtro específico
+      return getAllOrcamentos();
     },
-
-    staleTime: 1000 * 60 * 1, // 1 minuto de staleTime
-    // onSuccess: (data) => console.log("Orcamentos carregados:", data),
-    // onError: (err) => console.error("Erro ao buscar orçamentos:", err),
+    staleTime: 1000 * 60 * 1,
   });
 
-  // Os dados da query já são um array, não precisa de estados separados `orcamento` e `orcamentos`
-  const orcamentosExibidos: IOrcamento[] = orcamentosData || [];
+  const orcamentosExibidos: IOrcamento[] = useMemo(() => {
+    let data = orcamentosData || [];
+    if (debouncedCliente) {
+      data = data.filter(orc => 
+        orc.nomeCliente?.toLowerCase().includes(debouncedCliente.toLowerCase())
+      );
+    }
+    return data.sort((a, b) => (b.id || 0) - (a.id || 0));
+  }, [orcamentosData, debouncedCliente]);
+
+  // Estatísticas
+  const stats = useMemo(() => {
+    const total = orcamentosExibidos.length;
+    const abertos = orcamentosExibidos.filter(o => !o.isPayed).length;
+    const concluidos = orcamentosExibidos.filter(o => o.isPayed).length;
+    const valorTotal = orcamentosExibidos.reduce((acc, o) => 
+      acc + (o.precoVendaComDesconto || o.precoVendaTotal || 0), 0
+    );
+    return { total, abertos, concluidos, valorTotal };
+  }, [orcamentosExibidos]);
+
+  const formatCurrency = (value: number) => {
+    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  };
 
   return (
-    <>
-      <Flex direction="column" gap="6" className="container mx-auto px-4 md:px-6 py-8">
-        <Heading align="center" size={{initial: "6", md: "8"}} mb="4">Gerenciamento de Orçamentos</Heading>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-gray-900 via-slate-900 to-gray-900 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+          >
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                  <FileText className="w-5 h-5" />
+                </div>
+                <span className="text-blue-400 font-medium text-sm">Gestão Comercial</span>
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-bold">Orçamentos</h1>
+              <p className="text-gray-400 text-sm mt-1">Gerencie todos os orçamentos</p>
+            </div>
+            
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Link 
+                href="/create-budge"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/25 transition-all"
+              >
+                <Plus className="w-5 h-5" />
+                Novo Orçamento
+              </Link>
+            </motion.div>
+          </motion.div>
 
-        {/* Seção de Filtros */}
-        <Card variant="surface" size="3"> {/* Usando Card Radix para agrupar filtros */}
-          <Flex direction={{ initial: 'column', sm: 'row' }} gap="4" align={{initial: "stretch", sm: "end"}}>
-            <Box className="flex-1 min-w-[150px]">
-              <Text as="label" size="2" mb="1" className="block font-medium">Número do Orçamento</Text>
-              <TextField.Root>
-                <TextField.Slot>
-                  <MagnifyingGlassIcon height="16" width="16" />
-                </TextField.Slot>
-                <TextField.Input
-                  size="3"
+          {/* Stat Cards */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-6"
+          >
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                  <FileText className="w-5 h-5 text-blue-400" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">{stats.total}</p>
+                  <p className="text-xs text-gray-400">Total</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-amber-500/20 rounded-lg flex items-center justify-center">
+                  <Clock className="w-5 h-5 text-amber-400" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">{stats.abertos}</p>
+                  <p className="text-xs text-gray-400">Em Aberto</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">{stats.concluidos}</p>
+                  <p className="text-xs text-gray-400">Concluídos</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                  <TrendingUp className="w-5 h-5 text-purple-400" />
+                </div>
+                <div>
+                  <p className="text-lg sm:text-xl font-bold truncate">{formatCurrency(stats.valorTotal)}</p>
+                  <p className="text-xs text-gray-400">Valor Total</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Filtros */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-white rounded-2xl shadow-lg shadow-gray-200/50 p-4 sm:p-6 mb-6"
+        >
+          <div className="flex items-center gap-2 mb-4">
+            <Filter className="w-5 h-5 text-gray-400" />
+            <span className="font-semibold text-gray-700">Filtros</span>
+            {isFetching && <Loader2 className="w-4 h-4 text-blue-500 animate-spin ml-2" />}
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Número do Orçamento
+              </label>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                  <Search className="w-5 h-5 text-gray-400" />
+                </div>
+                <input
+                  type="number"
                   value={inputNumeroOrcamento}
-                  type='number'
                   onChange={(e) => setInputNumeroOrcamento(e.target.value)}
-                  placeholder='Digite o número...'
+                  placeholder="Ex: 1234"
+                  className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 bg-gray-50 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all outline-none"
                 />
-              </TextField.Root>
-            </Box>
-            <Box className="flex-1 min-w-[200px]">
-              <Text as="label" size="2" mb="1" className="block font-medium">Nome do Cliente</Text>
-              <TextField.Root>
-                <TextField.Slot>
-                  <MagnifyingGlassIcon height="16" width="16" />
-                </TextField.Slot>
-                <TextField.Input
-                  size="3"
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Nome do Cliente
+              </label>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                  <User className="w-5 h-5 text-gray-400" />
+                </div>
+                <input
+                  type="text"
                   value={inputCliente}
                   onChange={(e) => setInputCliente(e.target.value)}
-                  placeholder='Digite o nome do cliente...'
+                  placeholder="Buscar por cliente..."
+                  className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 bg-gray-50 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all outline-none"
                 />
-              </TextField.Root>
-            </Box>
-            {/* Você pode adicionar um botão "Limpar Filtros" aqui se desejar */}
-          </Flex>
-        </Card>
+              </div>
+            </div>
+          </div>
+        </motion.div>
 
-        {/* Seção de Resultados */}
-        {isFetching && ( // Mostra spinner se estiver buscando, mesmo com keepPreviousData
-          <Flex justify="center" my="6">
-            <Spinner size="lg" /> <Text ml="2">Buscando orçamentos...</Text>
-          </Flex>
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex flex-col items-center justify-center py-16">
+            <Loader2 className="w-10 h-10 text-blue-500 animate-spin mb-4" />
+            <p className="text-gray-500">Carregando orçamentos...</p>
+          </div>
         )}
 
-        {!isFetching && isError && (
-          <Callout.Root color="red" role="alert" my="6">
-            <Callout.Icon><ExclamationTriangleIcon /></Callout.Icon>
-            <Callout.Text>
-              Erro ao carregar orçamentos: {error instanceof Error ? error.message : "Erro desconhecido"}
-            </Callout.Text>
-          </Callout.Root>
+        {/* Error State */}
+        {!isLoading && isError && (
+          <div className="bg-red-50 border border-red-200 rounded-2xl p-6 text-center">
+            <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-red-800 mb-2">Erro ao carregar</h3>
+            <p className="text-red-600">{error?.message || "Erro desconhecido"}</p>
+          </div>
         )}
 
-        {!isFetching && !isError && orcamentosExibidos.length === 0 && (
-          (debouncedCliente || debouncedNumeroOrcamento) ? ( // Se filtros aplicados mas sem resultado
-             <Callout.Root color="amber" my="6">
-                <Callout.Icon><ExclamationTriangleIcon /></Callout.Icon>
-                <Callout.Text>Nenhum orçamento encontrado para os filtros aplicados.</Callout.Text>
-            </Callout.Root>
-          ) : ( // Sem filtros e sem orçamentos
-            <Text align="center" color="gray" my="6">Nenhum orçamento cadastrado ainda.</Text>
-          )
+        {/* Empty State */}
+        {!isLoading && !isError && orcamentosExibidos.length === 0 && (
+          <div className="bg-white rounded-2xl shadow-sm p-12 text-center">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <FileText className="w-8 h-8 text-gray-300" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              {debouncedCliente || debouncedNumeroOrcamento 
+                ? "Nenhum orçamento encontrado" 
+                : "Nenhum orçamento cadastrado"
+              }
+            </h3>
+            <p className="text-gray-500 mb-6">
+              {debouncedCliente || debouncedNumeroOrcamento 
+                ? "Tente ajustar os filtros de busca"
+                : "Comece criando o primeiro orçamento"
+              }
+            </p>
+            {!debouncedCliente && !debouncedNumeroOrcamento && (
+              <Link 
+                href="/create-budge"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors"
+              >
+                <Plus className="w-5 h-5" />
+                Criar Orçamento
+              </Link>
+            )}
+          </div>
         )}
 
-        {!isError && orcamentosExibidos.length > 0 && (
-          <Grid columns={{ initial: '1', sm: '2', md: '3' }} gap="5" mt="6">
+        {/* Grid de Orçamentos */}
+        {!isLoading && !isError && orcamentosExibidos.length > 0 && (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"
+          >
             {orcamentosExibidos.map((orc) => (
-              <Card key={orc.id} variant="ghost" size="2" className="hover:shadow-lg transition-shadow duration-200">
-                <Flex direction="column" gap="2" p="1"> {/* Adicionado padding interno */}
-                  <Heading size="4" as="h3" trim="start">Orçamento Nº {orc.id}</Heading>
-                  <Text size="2" color="gray">{orc.nomeCliente || "Cliente não informado"}</Text>
-                  <Separator my="1" size="4" />
-                  <Text size="2">
-                    Data: {dayjs(orc.dataOrcamento).format("DD/MM/YYYY HH:mm")}
-                  </Text>
-                  <Text size="2" weight={orc.isPayed ? "regular" : "medium"} color={orc.isPayed ? "green" : "orange"}>
-                    Status: {orc.isPayed ? "Concluído/Vendido" : "Em Aberto"}
-                  </Text>
-                   {orc.isPayed && orc.dataVenda && (
-                        <Text size="1" color="gray">
-                            Venda: {dayjs(orc.dataVenda).format("DD/MM/YYYY HH:mm")}
-                        </Text>
-                    )}
-                  <Flex justify="end" mt="3">
-                    <Button size="2" variant="soft" color="blue" asChild>
-                      <Link href={`/edit-budge/${orc.id}`}>
-                        <Pencil1Icon height="14" width="14" /> Editar
-                      </Link>
-                    </Button>
-                  </Flex>
-                </Flex>
-              </Card>
+              <motion.div
+                key={orc.id}
+                variants={cardVariants}
+                whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                className="group"
+              >
+                <div className={`
+                  relative bg-white rounded-2xl shadow-sm border overflow-hidden
+                  hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300
+                  ${orc.isPayed ? 'border-emerald-100' : 'border-amber-100'}
+                `}>
+                  {/* Status Bar */}
+                  <div className={`
+                    h-1 w-full
+                    ${orc.isPayed 
+                      ? 'bg-gradient-to-r from-emerald-400 to-green-500' 
+                      : 'bg-gradient-to-r from-amber-400 to-orange-500'
+                    }
+                  `} />
+
+                  <div className="p-5">
+                    {/* Header */}
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className={`
+                          w-11 h-11 rounded-xl flex items-center justify-center
+                          ${orc.isPayed 
+                            ? 'bg-gradient-to-br from-emerald-50 to-green-100' 
+                            : 'bg-gradient-to-br from-amber-50 to-orange-100'
+                          }
+                        `}>
+                          <FileText className={`w-5 h-5 ${orc.isPayed ? 'text-emerald-600' : 'text-amber-600'}`} />
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">Orçamento</p>
+                          <h3 className="text-xl font-bold text-gray-900">#{orc.id}</h3>
+                        </div>
+                      </div>
+                      <span className={`
+                        inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold
+                        ${orc.isPayed 
+                          ? 'bg-emerald-100 text-emerald-700' 
+                          : 'bg-amber-100 text-amber-700'
+                        }
+                      `}>
+                        {orc.isPayed ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Clock className="w-3.5 h-3.5" />}
+                        {orc.isPayed ? 'Concluído' : 'Em Aberto'}
+                      </span>
+                    </div>
+
+                    {/* Client */}
+                    <div className="flex items-center gap-2 mb-3 p-2.5 bg-gray-50 rounded-xl">
+                      <User className="w-4 h-4 text-gray-400" />
+                      <span className="text-sm font-medium text-gray-700 truncate">
+                        {orc.nomeCliente || "Cliente não informado"}
+                      </span>
+                    </div>
+
+                    {/* Info Grid */}
+                    <div className="grid grid-cols-2 gap-2 mb-4">
+                      <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
+                        <Calendar className="w-4 h-4 text-gray-400" />
+                        <div>
+                          <p className="text-[10px] text-gray-400 uppercase">Data</p>
+                          <p className="text-xs font-semibold text-gray-700">
+                            {dayjs(orc.dataOrcamento).format("DD/MM/YY")}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
+                        <DollarSign className="w-4 h-4 text-gray-400" />
+                        <div>
+                          <p className="text-[10px] text-gray-400 uppercase">Valor</p>
+                          <p className="text-xs font-semibold text-gray-700">
+                            {formatCurrency(orc.precoVendaComDesconto || orc.precoVendaTotal || 0)}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Action Button */}
+                    <Link 
+                      href={`/edit-budge/${orc.id}`}
+                      className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-gray-100 hover:bg-blue-500 text-gray-600 hover:text-white font-medium transition-all group-hover:bg-blue-500 group-hover:text-white"
+                    >
+                      <span>Ver Detalhes</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
             ))}
-          </Grid>
+          </motion.div>
         )}
-      </Flex>
-    </>
+      </div>
+    </div>
   );
 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "EokVqjIv/Ao=",
+  "dgSpecHash": "8DTFyrpV0U0=",
   "success": true,
   "projectFilePath": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\MasterErp.Api.csproj",
   "expectedPackageFiles": [
@@ -180,8 +180,10 @@
     {
       "code": "NU1603",
       "level": "Warning",
+      "message": "MasterErp.Api depende de Microsoft.Extensions.Caching.Memory (>= 8.0.6), mas Microsoft.Extensions.Caching.Memory 8.0.6 não foi encontrado. Microsoft.Extensions.Caching.Memory 9.0.0 foi resolvido em vez disso.",
+      "projectPath": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\MasterErp.Api.csproj",
       "warningLevel": 1,
-      "message": "MasterErp.Api depende de Microsoft.Extensions.Caching.Memory (>= 8.0.6) mas Microsoft.Extensions.Caching.Memory 8.0.6 não foi encontrado. Microsoft.Extensions.Caching.Memory 9.0.0 foi resolvido.",
+      "filePath": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\MasterErp.Api.csproj",
       "libraryId": "Microsoft.Extensions.Caching.Memory",
       "targetGraphs": [
         "net8.0"
@@ -190,8 +192,10 @@
     {
       "code": "NU1903",
       "level": "Warning",
-      "warningLevel": 1,
       "message": "O pacote 'System.Formats.Asn1' 8.0.0 tem uma alta vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-447r-wph3-92pm",
+      "projectPath": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\MasterErp.Api.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\MasterErp.Api.csproj",
       "libraryId": "System.Formats.Asn1",
       "targetGraphs": [
         "net8.0"

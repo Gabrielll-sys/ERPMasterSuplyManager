@@ -1108,12 +1108,6 @@ C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwebassets\msbuild.MasterErp.Api.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwebassets\msbuild.MasterErp.Api.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwebassets\msbuild.build.MasterErp.Api.props
-C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.MasterErp.Api.props
-C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.MasterErp.Api.props
-C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwebassets.pack.json
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\MasterEr.1C0A25F6.Up2Date
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\MasterErp.Api.dll
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\refint\MasterErp.Api.dll
@@ -1121,4 +1115,9 @@ C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\MasterErp.Api.pdb
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\MasterErp.Api.genruntimeconfig.cache
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\ref\MasterErp.Api.dll
-C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\rjimswa.dswa.cache.json
+C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwebassets.build.json.cache
+C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\swae.build.ex.cache

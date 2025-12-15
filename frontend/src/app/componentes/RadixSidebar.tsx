@@ -2,31 +2,29 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Radix UI Themes e Icons
-import { Box, Flex, Text, Heading, Button, Separator, ScrollArea, IconButton } from '@radix-ui/themes';
+// Lucide Icons
 import {
-  CaretDownIcon,
-  CaretRightIcon,
-  Pencil1Icon,       // Exemplo para Criar Material
-  ReaderIcon,        // Exemplo para Relatórios
-  ArchiveIcon,       // Exemplo para Inventário
-  PieChartIcon,      // Exemplo para Orçamentos/Vendas
-  ContainerIcon,     // Exemplo para Gestão OS
-  CodeIcon,        // Exemplo para Gerador QR
-  ListBulletIcon,    // Exemplo para Registro de Ações
-  MixerHorizontalIcon, // Exemplo para Utilitários
-  LightningBoltIcon, // Exemplo para Corrente Motor
-  Cross1Icon         // Para fechar
-} from '@radix-ui/react-icons';
-import { PlusCircleIcon } from '@heroicons/react/24/outline';
-
-// Serviços (se necessário para alguma lógica dinâmica)
-// import { createRelatorioDiario } from "../services/RelatorioDiario.Services";
+  X,
+  ChevronDown,
+  ChevronRight,
+  PackagePlus,
+  FileText,
+  Boxes,
+  Calculator,
+  PlusCircle,
+  List,
+  ClipboardList,
+  QrCode,
+  ScrollText,
+  Settings,
+  Zap,
+  Home,
+  LogOut
+} from 'lucide-react';
 
 interface RadixSidebarProps {
   show: boolean;
@@ -34,12 +32,21 @@ interface RadixSidebarProps {
 }
 
 interface UserInfo {
-    role?: string;
-    // outras propriedades do usuário
+  role?: string;
+  nome?: string;
+}
+
+interface MenuItemType {
+  label: string;
+  href?: string;
+  icon: React.ElementType;
+  children?: MenuItemType[];
+  adminOnly?: boolean;
 }
 
 const RadixSidebar: React.FC<RadixSidebarProps> = ({ show, setShowSideBar }) => {
-  const route = useRouter();
+  const router = useRouter();
+  const pathname = usePathname();
   const [currentUser, setCurrentUser] = useState<UserInfo | null>(null);
   const [openCollapse, setOpenCollapse] = useState<{ [key: string]: boolean }>({});
 
@@ -54,175 +61,231 @@ const RadixSidebar: React.FC<RadixSidebarProps> = ({ show, setShowSideBar }) => 
     }
   }, []);
 
-  const conditionsRoles = currentUser?.role === "Administrador" || currentUser?.role === "Diretor" || currentUser?.role === "SuporteTecnico";
+  const isAdmin = currentUser?.role === "Administrador" || currentUser?.role === "Diretor" || currentUser?.role === "SuporteTecnico";
 
   const handleNavigation = (path: string) => {
-    route.push(path);
-    setShowSideBar(false); // Fecha a sidebar ao navegar
+    router.push(path);
+    setShowSideBar(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("token");
+    router.push("/login");
+    setShowSideBar(false);
   };
 
   const toggleCollapse = (key: string) => {
     setOpenCollapse(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  // Variantes para animação do Framer Motion
+  // Menu items configuration
+  const menuItems: MenuItemType[] = [
+    { label: 'Início', href: '/', icon: Home },
+    { label: 'Criar Material', href: '/create-material', icon: PackagePlus },
+    { label: 'Relatórios', href: '/reports', icon: FileText },
+    { label: 'Gestão de Inventário', href: '/search-inventory', icon: Boxes, adminOnly: true },
+    {
+      label: 'Orçamentos',
+      icon: Calculator,
+      adminOnly: true,
+      children: [
+        { label: 'Novo Orçamento', href: '/create-budge', icon: PlusCircle },
+        { label: 'Gerenciar', href: '/manage-budges', icon: List },
+      ]
+    },
+    { label: 'Ordem de Separação', href: '/managing-os', icon: ClipboardList, adminOnly: true },
+    { label: 'Gerador QR Code', href: '/generateMaterialQrcode', icon: QrCode },
+    { label: 'Registro de Ações', href: '/log-register', icon: ScrollText, adminOnly: true },
+    {
+      label: 'Utilitários',
+      icon: Settings,
+      adminOnly: true,
+      children: [
+        { label: 'Corrente Motor WEG', href: '/current-motor-weg', icon: Zap },
+      ]
+    },
+  ];
+
   const sidebarVariants = {
     open: { x: 0 },
     closed: { x: "-100%" },
   };
 
   const overlayVariants = {
-      open: { opacity: 1, pointerEvents: "auto" as const },
-      closed: { opacity: 0, pointerEvents: "none" as const },
+    open: { opacity: 1, pointerEvents: "auto" as const },
+    closed: { opacity: 0, pointerEvents: "none" as const },
   };
 
+  const MenuItem = ({ item, depth = 0 }: { item: MenuItemType; depth?: number }) => {
+    const Icon = item.icon;
+    const hasChildren = item.children && item.children.length > 0;
+    const isOpen = openCollapse[item.label];
+    const isActive = item.href && pathname === item.href;
 
-  // Função para criar item de menu
-  const MenuItem = ({ href, icon: Icon, children }: { href: string; icon: React.ElementType; children: React.ReactNode }) => (
-      <Button
-        variant="ghost" // Ou 'soft'
-        color="gray"
-        highContrast
-        onClick={() => handleNavigation(href)}
-        className="w-full justify-start text-left px-3 py-5 text-base hover:bg-accent-3" // Aumentei o padding e tamanho texto
-        size="3"
-       >
-        <Icon className="mr-3 h-5 w-5" /> {children}
-      </Button>
-  );
+    if (item.adminOnly && !isAdmin) return null;
 
-  // Função para criar item de menu colapsável
-   const CollapseItem = ({ label, icon: Icon, children, collapseKey }: { label: string; icon: React.ElementType; children: React.ReactNode; collapseKey: string }) => (
-    <>
-        <Button
-           variant="ghost"
-           color="gray"
-           highContrast
-           onClick={() => toggleCollapse(collapseKey)}
-           className="w-full justify-between text-left px-3 py-5 text-base hover:bg-accent-3"
-           size="3"
-        >
-           <Flex align="center" gap="3">
-             <Icon className="h-5 w-5" /> {label}
-           </Flex>
-           {openCollapse[collapseKey] ? <CaretDownIcon /> : <CaretRightIcon />}
-        </Button>
-        <AnimatePresence>
-         {openCollapse[collapseKey] && (
+    if (hasChildren) {
+      return (
+        <div>
+          <button
+            onClick={() => toggleCollapse(item.label)}
+            className={`
+              w-full flex items-center justify-between px-4 py-3 rounded-xl
+              text-gray-700 hover:bg-gray-100 transition-all duration-200
+              ${depth > 0 ? 'pl-10' : ''}
+            `}
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center">
+                <Icon className="w-5 h-5 text-gray-600" />
+              </div>
+              <span className="font-medium text-sm">{item.label}</span>
+            </div>
             <motion.div
+              animate={{ rotate: isOpen ? 180 : 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <ChevronDown className="w-4 h-4 text-gray-400" />
+            </motion.div>
+          </button>
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="pl-6 flex flex-col gap-1 overflow-hidden" // Adicionado overflow-hidden
-             >
-                {children}
-            </motion.div>
-         )}
-        </AnimatePresence>
-    </>
-);
+                className="overflow-hidden ml-4 mt-1 space-y-1 border-l-2 border-gray-100 pl-2"
+              >
+                {item.children!.map((child) => (
+                  <MenuItem key={child.label} item={child} depth={depth + 1} />
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      );
+    }
+
+    return (
+      <button
+        onClick={() => item.href && handleNavigation(item.href)}
+        className={`
+          w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200
+          ${isActive 
+            ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/25' 
+            : 'text-gray-700 hover:bg-gray-100'
+          }
+          ${depth > 0 ? 'pl-6' : ''}
+        `}
+      >
+        <div className={`
+          w-9 h-9 rounded-lg flex items-center justify-center
+          ${isActive ? 'bg-white/20' : 'bg-gray-100'}
+        `}>
+          <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-gray-600'}`} />
+        </div>
+        <span className="font-medium text-sm">{item.label}</span>
+        {isActive && (
+          <div className="ml-auto w-2 h-2 rounded-full bg-white" />
+        )}
+      </button>
+    );
+  };
 
   return (
-      <AnimatePresence>
-         {show && (
-            <>
-             {/* Overlay */}
-             <motion.div
-                 key="overlay"
-                 variants={overlayVariants}
-                 initial="closed"
-                 animate="open"
-                 exit="closed"
-                 transition={{ duration: 1 }}
-                 onClick={() => setShowSideBar(false)}
-                 className="fixed inset-0 bg-black/50 z-40" // z-index menor que a sidebar
-             />
+    <AnimatePresence>
+      {show && (
+        <>
+          {/* Overlay */}
+          <motion.div
+            key="overlay"
+            variants={overlayVariants}
+            initial="closed"
+            animate="open"
+            exit="closed"
+            transition={{ duration: 0.3 }}
+            onClick={() => setShowSideBar(false)}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+          />
 
-             {/* Sidebar */}
-             <motion.div
-                 key="sidebar"
-                 variants={sidebarVariants}
-                 initial="closed"
-                 animate="open"
-                 exit="closed"
-                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                 className="fixed top-0 left-0 h-full w-72 bg-gray-100 dark:bg-gray-900 shadow-lg z-50 border-r border-gray-200 dark:border-gray-700" // z-index maior
-             >
-                 <ScrollArea type="auto" scrollbars="vertical" style={{ height: '100%' }}>
-                     <Flex direction="column" gap="2" p="4">
-                         {/* Cabeçalho com Logo e Botão Fechar */}
-                         <Flex justify="between" align="center" mb="4">
-                           <Box onClick={() => handleNavigation('/')} className="cursor-pointer">
-                             <Image
-                                 className="hover:opacity-80"
-                                 src={require('../assets/logo preta.jpg')} // Use seu logo
-                                 alt="Logo Master"
-                                 width={130}
-                                 height={50} // Ajuste altura
-                                 style={{ height: 'auto' }} // Mantem proporção
-                             />
-                           </Box>
-                             <IconButton variant="ghost" color="gray" onClick={() => setShowSideBar(false)} aria-label="Fechar Sidebar">
-                                 <Cross1Icon height="20" width="20" />
-                             </IconButton>
-                         </Flex>
+          {/* Sidebar */}
+          <motion.div
+            key="sidebar"
+            variants={sidebarVariants}
+            initial="closed"
+            animate="open"
+            exit="closed"
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            className="fixed top-0 left-0 h-full w-80 bg-white shadow-2xl z-50 flex flex-col"
+          >
+            {/* Header */}
+            <div className="p-5 bg-gradient-to-r from-gray-900 via-slate-900 to-gray-900">
+              <div className="flex items-center justify-between">
+                <div 
+                  onClick={() => handleNavigation('/')} 
+                  className="cursor-pointer flex items-center gap-3"
+                >
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                    <Boxes className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-white font-bold text-lg">Master ERP</h2>
+                    <p className="text-gray-400 text-xs">Sistema de Gestão</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowSideBar(false)}
+                  className="w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                >
+                  <X className="w-5 h-5 text-white" />
+                </button>
+              </div>
 
-                         <Separator my="2" size="4" />
+              {/* User Info */}
+              {currentUser && (
+                <div className="mt-4 p-3 bg-white/10 rounded-xl">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">
+                        {currentUser.nome?.charAt(0)?.toUpperCase() || 'U'}
+                      </span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-white font-medium text-sm truncate">
+                        {currentUser.nome || 'Usuário'}
+                      </p>
+                      <p className="text-gray-400 text-xs">{currentUser.role || 'Colaborador'}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
 
-                         {/* Itens de Menu */}
-                         <MenuItem href="/create-material" icon={Pencil1Icon}>
-                           Criar Material
-                         </MenuItem>
-                         <MenuItem href="/reports" icon={ReaderIcon}>
-                           Relatórios
-                         </MenuItem>
+            {/* Menu Items */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-1">
+              {menuItems.map((item) => (
+                <MenuItem key={item.label} item={item} />
+              ))}
+            </div>
 
-                         {conditionsRoles && (
-                             <>
-                                 <MenuItem href="/search-inventory" icon={ArchiveIcon}>
-                                     Gestão de Inventário
-                                 </MenuItem>
-
-                                 <CollapseItem label="Orçamentos/Vendas" icon={PieChartIcon} collapseKey="orcamentos">
-                                     <MenuItem href="/create-budge" icon={PlusCircleIcon}> {/* Reutilizando ícone */}
-                                         Criar Orçamento
-                                     </MenuItem>
-                                     <MenuItem href="/manage-budges" icon={ListBulletIcon}> {/* Reutilizando ícone */}
-                                         Orçamentos
-                                     </MenuItem>
-                                 </CollapseItem>
-
-                                 <MenuItem href="/managing-os" icon={ContainerIcon}>
-                                    Ordem De Separação
-                                 </MenuItem>
-                             </>
-                         )}
-
-                         <MenuItem href="/generateMaterialQrcode" icon={CodeIcon}>
-                           Gerador De QrCode
-                         </MenuItem>
-
-                         {conditionsRoles && (
-                             <>
-                                 <MenuItem href="/log-register" icon={ListBulletIcon}>
-                                     Registro de Ações
-                                 </MenuItem>
-
-                                 <CollapseItem label="Utilitários" icon={MixerHorizontalIcon} collapseKey="utilitarios">
-                                      <MenuItem href="/current-motor-weg" icon={LightningBoltIcon}>
-                                          Corrente Motor WEG
-                                      </MenuItem>
-                                      {/* Adicione outros utilitários aqui */}
-                                 </CollapseItem>
-                             </>
-                         )}
-                     </Flex>
-                 </ScrollArea>
-             </motion.div>
-            </>
-         )}
-      </AnimatePresence>
+            {/* Footer */}
+            <div className="p-4 border-t border-gray-100">
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-colors"
+              >
+                <div className="w-9 h-9 rounded-lg bg-red-50 flex items-center justify-center">
+                  <LogOut className="w-5 h-5 text-red-500" />
+                </div>
+                <span className="font-medium text-sm">Sair</span>
+              </button>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   );
 };
 
