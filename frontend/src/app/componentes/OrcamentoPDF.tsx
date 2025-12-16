@@ -240,7 +240,7 @@ const OrcamentoPDF = ({ orcamento, materiaisOrcamento, nomeUsuario }: OrcamentoP
           <View style={styles.footerContent}>
             <View style={styles.footerLeft}>
               <Text style={styles.footerText}>Master Elétrica Comércio e Serviço LTDA</Text>
-              <Text style={styles.footerSubtext}>(31) 3333-3333 | contato@mastereletrica.com.br</Text>
+              <Text style={styles.footerSubtext}>(31) 98664-3242</Text>
             </View>
             <View style={styles.footerCenter}>
               <Text style={styles.slogan}>Gerando melhorias, desenvolvendo soluções!</Text>
@@ -605,21 +605,22 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   footerText: {
-    fontSize: 8,
+    fontSize: 10,
     fontFamily: 'Helvetica-Bold',
     color: colors.gray[600],
   },
   footerSubtext: {
-    fontSize: 7,
+    fontSize: 10,
+    marginTop: 5,
     color: colors.gray[500],
   },
   slogan: { 
     fontStyle: 'italic', 
-    fontSize: 8, 
+    fontSize: 12, 
     color: colors.gray[500],
   },
   responsibleText: {
-    fontSize: 8,
+    fontSize: 12,
     color: colors.gray[600],
   },
   pageNumber: {
