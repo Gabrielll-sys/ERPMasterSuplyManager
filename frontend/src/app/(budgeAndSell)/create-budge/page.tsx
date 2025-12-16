@@ -1,12 +1,10 @@
 "use client"
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState, useRef, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import "dayjs/locale/pt-br";
 import { url } from '@/app/api/webApiUrl';
-import { fetcher, poster } from '@/app/lib/api';
-import jsPDF from 'jspdf'
-import autoTable from 'jspdf-autotable'
+import { poster } from '@/app/lib/api';
 import dayjs from 'dayjs';
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
 import { toast } from 'sonner';
@@ -20,14 +18,36 @@ import {
   FileText, 
   ArrowLeft,
   Plus,
-  Building2,
   CreditCard,
   Loader2,
-  Search
+  Search,
+  Check,
+  X
 } from 'lucide-react';
+
+// Interface para cliente encontrado
+interface ClienteEncontrado {
+  nomeCliente: string;
+  cpfOrCnpj: string;
+  telefone: string;
+  endereco: string;
+  emailCliente: string;
+}
+
+// Hook de debounce
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+  return debouncedValue;
+}
 
 export default function CreateBudge() {
   const route = useRouter()
+  const inputRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const [nomeCliente, setNomeCliente] = useState<string>("")
   const [emailCliente, setEmailCliente] = useState<string>("")
@@ -37,6 +57,13 @@ export default function CreateBudge() {
   const [isCreating, setIsCreating] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
+  
+  // Autocomplete states
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [clientes, setClientes] = useState<ClienteEncontrado[]>([]);
+  const [selectedCliente, setSelectedCliente] = useState<ClienteEncontrado | null>(null);
+  
+  const debouncedNome = useDebounce(nomeCliente, 400);
 
   useEffect(() => {
     const userStr = localStorage.getItem("currentUser");
@@ -48,42 +75,138 @@ export default function CreateBudge() {
     }
   }, [])
 
-  const handleNomeCliente = async (value: string) => {
-    setNomeCliente(value)
-    if (!value.length) {
-      setCpfOrCnpj("")
-      setTelefone("")
-      setEndereco("")
-      setEmailCliente("")
-      return;
-    }
-  }
-
-  const searchCliente = async () => {
-    if (!nomeCliente.trim()) return;
-    
-    setIsSearching(true);
-    try {
-      const data = await fetcher<{
-        cpfOrCnpj: string;
-        telefone: string;
-        endereco: string;
-        emailCliente: string;
-      }>(`${url}/Orcamentos/buscaCliente?cliente=${nomeCliente?.trim()}`);
-
-      if (data) {
-        setCpfOrCnpj(data.cpfOrCnpj || "")
-        setTelefone(data.telefone || "")
-        setEndereco(data.endereco || "")
-        setEmailCliente(data.emailCliente || "")
-        toast.success("Cliente encontrado!", { description: "Dados preenchidos automaticamente" });
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current && 
+        !dropdownRef.current.contains(event.target as Node) &&
+        inputRef.current &&
+        !inputRef.current.contains(event.target as Node)
+      ) {
+        setShowDropdown(false);
       }
-    } catch (error) {
-      // Cliente não encontrado - não é erro
-    } finally {
-      setIsSearching(false);
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Função para consolidar clientes duplicados, priorizando registros com mais informações
+  const consolidateClientes = (clientesList: ClienteEncontrado[]): ClienteEncontrado[] => {
+    const clienteMap = new Map<string, ClienteEncontrado>();
+    
+    clientesList.forEach(cliente => {
+      const nomeNormalizado = (cliente.nomeCliente || '').toLowerCase().trim();
+      if (!nomeNormalizado) return;
+      
+      const existente = clienteMap.get(nomeNormalizado);
+      
+      if (!existente) {
+        clienteMap.set(nomeNormalizado, { ...cliente });
+      } else {
+        // Mescla as informações, priorizando campos preenchidos
+        clienteMap.set(nomeNormalizado, {
+          nomeCliente: existente.nomeCliente || cliente.nomeCliente,
+          cpfOrCnpj: existente.cpfOrCnpj || cliente.cpfOrCnpj,
+          telefone: existente.telefone || cliente.telefone,
+          endereco: existente.endereco || cliente.endereco,
+          emailCliente: existente.emailCliente || cliente.emailCliente,
+        });
+      }
+    });
+    
+    return Array.from(clienteMap.values());
+  };
+
+  // Search clients when typing
+  useEffect(() => {
+    const searchClientes = async () => {
+      if (!debouncedNome.trim() || debouncedNome.length < 2 || selectedCliente) {
+        setClientes([]);
+        setShowDropdown(false);
+        return;
+      }
+
+      setIsSearching(true);
+      try {
+        const response = await fetch(
+          `${url}/Orcamentos/buscaNomeCliente?cliente=${encodeURIComponent(debouncedNome.trim())}`, 
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${currentUser?.token || ''}`
+            }
+          }
+        );
+        
+        if (response.ok) {
+          const data = await response.json();
+          let clientesList: ClienteEncontrado[] = [];
+          
+          if (Array.isArray(data) && data.length > 0) {
+            clientesList = data;
+          } else if (data && !Array.isArray(data)) {
+            clientesList = [data];
+          }
+          
+          // Consolida clientes duplicados, priorizando registros com mais informações
+          const consolidados = consolidateClientes(clientesList);
+          
+          if (consolidados.length > 0) {
+            setClientes(consolidados);
+            setShowDropdown(true);
+          } else {
+            setClientes([]);
+            setShowDropdown(false);
+          }
+        } else {
+          setClientes([]);
+          setShowDropdown(false);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar clientes:", error);
+        setClientes([]);
+      } finally {
+        setIsSearching(false);
+      }
+    };
+
+    searchClientes();
+  }, [debouncedNome, currentUser?.token, selectedCliente]);
+
+  const handleNomeChange = (value: string) => {
+    setNomeCliente(value);
+    setSelectedCliente(null);
+    if (!value.trim()) {
+      clearForm();
     }
-  }
+  };
+
+  const clearForm = () => {
+    setCpfOrCnpj("");
+    setTelefone("");
+    setEndereco("");
+    setEmailCliente("");
+    setSelectedCliente(null);
+  };
+
+  const handleSelectCliente = (cliente: ClienteEncontrado) => {
+    setNomeCliente(cliente.nomeCliente || "");
+    setCpfOrCnpj(cliente.cpfOrCnpj || "");
+    setTelefone(cliente.telefone || "");
+    setEndereco(cliente.endereco || "");
+    setEmailCliente(cliente.emailCliente || "");
+    setSelectedCliente(cliente);
+    setShowDropdown(false);
+    toast.success("Cliente selecionado!", { description: "Dados preenchidos automaticamente" });
+  };
+
+  const handleClearSelection = () => {
+    setNomeCliente("");
+    clearForm();
+    inputRef.current?.focus();
+  };
 
   const handleCreateBudge = async () => {
     setIsCreating(true);
@@ -94,6 +217,7 @@ export default function CreateBudge() {
         emailCliente: emailCliente?.trim().replace(/\s\s+/g, " "),
         telefone: telefone,
         endereco: endereco.trim().replace(/\s\s+/g, " "),
+        cpfOrCnpj: cpfOrCnpj,
         desconto: 0,
         tipoPagamento: "PIX",
         responsavelOrcamento: currentUser?.userName
@@ -158,7 +282,7 @@ export default function CreateBudge() {
               </div>
               <div>
                 <h2 className="text-lg font-semibold text-gray-900">Dados do Cliente</h2>
-                <p className="text-sm text-gray-500">Preencha as informações para criar um novo orçamento</p>
+                <p className="text-sm text-gray-500">Digite o nome para buscar ou preencha manualmente</p>
               </div>
             </div>
           </div>
@@ -166,42 +290,98 @@ export default function CreateBudge() {
           {/* Form */}
           <div className="p-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Nome do Cliente + Busca */}
+              {/* Nome do Cliente + Autocomplete */}
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Nome do Cliente *
                 </label>
-                <div className="flex gap-3">
-                  <div className="relative flex-1">
-                    <div className="absolute left-4 top-1/2 -translate-y-1/2">
-                      <User className="w-5 h-5 text-gray-400" />
-                    </div>
-                    <input
-                      type="text"
-                      value={nomeCliente}
-                      onChange={(e) => handleNomeCliente(e.target.value)}
-                      placeholder="Digite o nome do cliente"
-                      className="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-gray-200 bg-gray-50 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all outline-none"
-                    />
-                  </div>
-                  <motion.button
-                    type="button"
-                    onClick={searchCliente}
-                    disabled={!nomeCliente.trim() || isSearching}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-5 py-3.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
+                <div className="relative">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
                     {isSearching ? (
-                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <Loader2 className="w-5 h-5 text-blue-500 animate-spin" />
                     ) : (
-                      <Search className="w-5 h-5" />
+                      <Search className="w-5 h-5 text-gray-400" />
                     )}
-                    Buscar
-                  </motion.button>
+                  </div>
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    value={nomeCliente}
+                    onChange={(e) => handleNomeChange(e.target.value)}
+                    onFocus={() => clientes.length > 0 && setShowDropdown(true)}
+                    placeholder="Digite para buscar cliente..."
+                    className={`
+                      w-full pl-12 pr-12 py-3.5 rounded-xl border-2 bg-gray-50 text-gray-900 
+                      placeholder-gray-400 focus:ring-4 transition-all outline-none
+                      ${selectedCliente 
+                        ? 'border-emerald-400 focus:border-emerald-500 focus:ring-emerald-100' 
+                        : 'border-gray-200 focus:border-blue-500 focus:ring-blue-100'
+                      }
+                    `}
+                  />
+                  {selectedCliente && (
+                    <button
+                      onClick={handleClearSelection}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition-colors"
+                    >
+                      <X className="w-3.5 h-3.5 text-gray-600" />
+                    </button>
+                  )}
+                  
+                  {/* Selected indicator */}
+                  {selectedCliente && (
+                    <div className="absolute right-12 top-1/2 -translate-y-1/2">
+                      <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center">
+                        <Check className="w-4 h-4 text-emerald-600" />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Dropdown */}
+                  <AnimatePresence>
+                    {showDropdown && clientes.length > 0 && (
+                      <motion.div
+                        ref={dropdownRef}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 max-h-64 overflow-y-auto"
+                      >
+                        <div className="p-2">
+                          <p className="px-3 py-2 text-xs font-medium text-gray-400 uppercase tracking-wide">
+                            Clientes encontrados
+                          </p>
+                          {clientes.map((cliente, index) => (
+                            <button
+                              key={`${cliente.nomeCliente}-${index}`}
+                              onClick={() => handleSelectCliente(cliente)}
+                              className="w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 transition-colors group"
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-lg bg-gray-100 group-hover:bg-blue-100 flex items-center justify-center transition-colors">
+                                  <User className="w-5 h-5 text-gray-500 group-hover:text-blue-600" />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="font-medium text-gray-900 truncate">
+                                    {cliente.nomeCliente}
+                                  </p>
+                                  <p className="text-sm text-gray-500 truncate">
+                                    {cliente.cpfOrCnpj || cliente.emailCliente || 'Sem informações adicionais'}
+                                  </p>
+                                </div>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
                 <p className="text-xs text-gray-400 mt-2">
-                  Digite o nome e clique em buscar para preencher automaticamente
+                  {selectedCliente 
+                    ? "✓ Cliente selecionado - dados preenchidos automaticamente"
+                    : "Digite pelo menos 2 caracteres para buscar clientes cadastrados"
+                  }
                 </p>
               </div>
 
@@ -339,7 +519,7 @@ export default function CreateBudge() {
             <div>
               <h3 className="font-medium text-blue-900 mb-1">Próximos passos</h3>
               <p className="text-sm text-blue-700">
-                Após criar o orçamento, você será redirecionado para adicionar materiais e serviços. 
+                Após criar o orçamento, você será redirecionado para adicionar materiais. 
                 O orçamento poderá ser editado e finalizado a qualquer momento.
               </p>
             </div>
