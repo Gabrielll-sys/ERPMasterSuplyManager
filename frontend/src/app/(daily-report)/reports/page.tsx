@@ -301,12 +301,16 @@ export default function Reports() {
   // Mutation para criar novo relatório
   const relatorioDiarioMutation = useMutation({
     mutationFn: createRelatorioDiario,
-    onSuccess: () => {
-      refetchRds();
+    onSuccess: (data) => {
       setIsDialogOpen(false);
+      // Redireciona imediatamente para o relatório criado
+      if (data?.id) {
+        router.push(`/report/${data.id}`);
+      }
     },
     onError: (error) => {
       console.error("Erro ao criar relatório:", error);
+      setIsDialogOpen(false);
     }
   });
 
@@ -424,27 +428,25 @@ export default function Reports() {
                       </Button>
                     </AlertDialog.Cancel>
                     
-                    <AlertDialog.Action>
-                      <motion.button 
-                        onClick={handleCreateReport}
-                        disabled={relatorioDiarioMutation.isPending}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-semibold disabled:opacity-50"
-                      >
-                        {relatorioDiarioMutation.isPending ? (
-                          <>
-                            <Loader2 className="w-4 h-4 animate-spin" />
-                            Criando...
-                          </>
-                        ) : (
-                          <>
-                            <Plus className="w-4 h-4" />
-                            Criar Relatório
-                          </>
-                        )}
-                      </motion.button>
-                    </AlertDialog.Action>
+                    <motion.button 
+                      onClick={handleCreateReport}
+                      disabled={relatorioDiarioMutation.isPending}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-semibold disabled:opacity-50"
+                    >
+                      {relatorioDiarioMutation.isPending ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Criando...
+                        </>
+                      ) : (
+                        <>
+                          <Plus className="w-4 h-4" />
+                          Criar Relatório
+                        </>
+                      )}
+                    </motion.button>
                   </Flex>
                 </AlertDialog.Content>
               </AlertDialog.Root>

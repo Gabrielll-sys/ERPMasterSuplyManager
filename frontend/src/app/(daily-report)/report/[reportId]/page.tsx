@@ -127,7 +127,33 @@ export default function Report({params}: any) {
         ? atividades.every(a => a.status && a.status !== 'Não Iniciada') && atividades.length > 0
         : false;
 
-    const canGeneratePdf = isReportComplete && imagesLoadedForPdf && !isPdfLoading;
+    // Verifica se informações do cliente estão sincronizadas
+    // Se a API tem dados do cliente, verifica se estão carregados no estado local
+    const hasClientInfoInApi = (relatorioDiario?.empresa ?? '').trim().length > 0;
+    const isClientInfoSynced = !hasClientInfoInApi || empresa?.trim().length > 0;
+
+    // Conta o total de fotos em todas as atividades
+    const totalPhotosInReport = atividadesWithImages.reduce((total, atividade) => 
+        total + (atividade.imagensAtividades?.length || 0), 0
+    );
+
+    // Se há fotos, exige que estejam carregadas. Se não há fotos, permite gerar PDF
+    const areImagesReady = totalPhotosInReport === 0 || imagesLoadedForPdf;
+
+    // PDF só disponível quando tudo estiver completo
+    const canGeneratePdf = isReportComplete && 
+        !isPdfLoading && 
+        isClientInfoSynced &&
+        areImagesReady;
+
+    // Mensagem do tooltip baseada no que está faltando
+    const getPdfTooltipMessage = () => {
+        if (hasClientInfoInApi && !isClientInfoSynced) return "Aguarde o carregamento das informações do cliente...";
+        if (!isReportComplete) return "Complete todas as atividades para gerar o PDF";
+        if (isPdfLoading) return "Carregando imagens...";
+        if (totalPhotosInReport > 0 && !imagesLoadedForPdf) return "Aguarde o carregamento das fotos...";
+        return "Clique para baixar o PDF";
+    };
 
     const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
@@ -394,13 +420,7 @@ export default function Report({params}: any) {
                             <div className="flex flex-col sm:flex-row items-center gap-4">
                                 {relatorioDiario && atividades && atividades.length > 0 && (
                                     <Tooltip
-                                        content={
-                                            !isReportComplete 
-                                                ? "Complete todas as atividades para gerar o PDF"
-                                                : isPdfLoading
-                                                    ? "Carregando imagens..."
-                                                    : "Clique para baixar o PDF"
-                                        }
+                                        content={getPdfTooltipMessage()}
                                         placement="bottom"
                                     >
                                         <div>
@@ -435,11 +455,22 @@ export default function Report({params}: any) {
                                     </Tooltip>
                                 )}
                                 
-                                {!isReportComplete && atividades && atividades.length > 0 && (
-                                    <p className="text-sm text-gray-500 flex items-center gap-1">
-                                        <AlertCircle className="w-4 h-4" />
-                                        Finalize todas as atividades
-                                    </p>
+                                {/* Mensagens de requisitos faltantes */}
+                                {atividades && atividades.length > 0 && !canGeneratePdf && !isPdfLoading && (
+                                    <div className="flex flex-col gap-1">
+                                        {hasClientInfoInApi && !isClientInfoSynced && (
+                                            <p className="text-sm text-amber-600 flex items-center gap-1">
+                                                <AlertCircle className="w-4 h-4" />
+                                                Aguarde o carregamento das informações...
+                                            </p>
+                                        )}
+                                        {!isReportComplete && (
+                                            <p className="text-sm text-gray-500 flex items-center gap-1">
+                                                <AlertCircle className="w-4 h-4" />
+                                                Finalize todas as atividades
+                                            </p>
+                                        )}
+                                    </div>
                                 )}
                             </div>
 
