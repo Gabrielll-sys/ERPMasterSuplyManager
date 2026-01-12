@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MasterErp.Services")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+df778b4b1982d4be7404c293c81905832ae3ea2c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+44efb0704a295e183d2a3a66ac9a549cdb024dd4")]
 [assembly: System.Reflection.AssemblyProductAttribute("MasterErp.Services")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MasterErp.Services")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
