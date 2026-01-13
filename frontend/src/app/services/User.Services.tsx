@@ -28,3 +28,11 @@ export const updateInfosUser = async (model: IUsuario) => {
     return null;
   }
 }
+
+export const getAllUsers = async (): Promise<IUsuario[]> => {
+  return fetcher<IUsuario[]>(`${url}/Usuarios`);
+}
+
+export const resetUserPassword = async (id: number): Promise<void> => {
+  await putter(`${url}/Usuarios/reset-password/${id}`, {});
+}

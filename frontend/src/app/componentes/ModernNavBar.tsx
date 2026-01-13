@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react"; // useEffect não é mais necessário aqui para user
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -17,9 +17,13 @@ import IconPersonFill from "../assets/icons/IconPersonFill";
 import IconExit from "../assets/icons/IconExit";
 import IconSideBar from "../assets/icons/IconSideBar";
 import TaskIcon from "../assets/icons/TaskIcon"; // Certifique-se que este ícone existe
+import IconUsers from "../assets/icons/IconUsers";
 
 // Importa o NOVO Sidebar
 import RadixSidebar from "./RadixSidebar"; // Ajuste o caminho se necessário
+
+// Roles permitidas para gerenciar usuários
+const ADMIN_ROLES = ["Administrador", "Diretor", "SuporteTecnico"];
 
 const ModernNavBar = () => {
     const { user, logout, isAuthenticated } = useAuth();
@@ -31,6 +35,11 @@ const ModernNavBar = () => {
     const handleLogout = () => {
         logout();
     };
+
+    // Verifica se o usuário pode gerenciar outros usuários
+    const canManageUsers = useMemo(() => {
+        return user && ADMIN_ROLES.includes(user.role);
+    }, [user]);
 
     return (
         <>
@@ -67,14 +76,16 @@ const ModernNavBar = () => {
                                     name={user.userName?.charAt(0).toUpperCase() || 'U'}
                                 />
                             </DropdownTrigger>
-                             <DropdownMenu aria-label="Profile Actions" variant="flat">
+                            <DropdownMenu aria-label="Profile Actions" variant="flat">
                                 <DropdownItem key="profile" className="h-14 gap-2" textValue={`Signed in as ${user.userName}`}>
                                     <p className="font-semibold">Logado como</p>
                                     <p className="font-semibold">{user.userName}</p>
                                 </DropdownItem>
-                                {/* <DropdownItem key="tasks" startContent={<TaskIcon className={iconClasses} />} onClick={() => route.push('/my-tasks')} textValue="Minhas Tarefas">
-                                    Minhas Tarefas
-                                </DropdownItem> */}
+                                {canManageUsers ? (
+                                    <DropdownItem key="admin-users" startContent={<IconUsers className={iconClasses} />} onClick={() => route.push('/admin-users')} textValue="Gerenciar Usuários">
+                                        Gerenciar Usuários
+                                    </DropdownItem>
+                                ) : null}
                                 <DropdownItem key="settings" startContent={<IconPersonFill className={iconClasses} />} onClick={() => route.push('/my-account')} textValue="Minha Conta">
                                     Minha Conta
                                 </DropdownItem>
@@ -100,3 +111,4 @@ const ModernNavBar = () => {
 };
 
 export default ModernNavBar;
+

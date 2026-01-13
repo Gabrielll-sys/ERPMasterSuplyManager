@@ -29,6 +29,25 @@ namespace MasterErp.Api.Controllers;
             _usuarioService = usuarioService;
         }
     
+        /// <summary>
+        /// Lista todos os usuários do sistema
+        /// </summary>
+        /// <returns>Lista de usuários</returns>
+        [HttpGet]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+        public async Task<ActionResult<List<Usuario>>> GetAll()
+        {
+            try
+            {
+                var users = await _usuarioService.GetAllAsync();
+                return Ok(users);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Usuario>> Get(int id)
         {
