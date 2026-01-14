@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import "dayjs/locale/pt-br";
 
 // TanStack Query
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // Radix UI Components
 import { 
@@ -279,6 +279,7 @@ const StatCard = ({
 
 export default function Reports() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -303,6 +304,8 @@ export default function Reports() {
     mutationFn: createRelatorioDiario,
     onSuccess: (data) => {
       setIsDialogOpen(false);
+      // Invalida o cache para que a lista seja atualizada quando voltar
+      queryClient.invalidateQueries({ queryKey: ['relatorios'] });
       // Redireciona imediatamente para o relatório criado
       if (data?.id) {
         router.push(`/report/${data.id}`);

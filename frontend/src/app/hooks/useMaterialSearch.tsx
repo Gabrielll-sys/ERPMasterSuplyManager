@@ -34,7 +34,8 @@ export function useMaterialSearch() {
     enabled: searchType !== 'none',
     // 🎓 staleTime: Os dados são considerados "frescos" por 5 minutos, evitando refetches desnecessários.
     staleTime: 1000 * 60 * 5,
-    initialData: [],
+    // 🎓 placeholderData: Dados iniciais enquanto a query carrega, não afeta o cache.
+    placeholderData: [],
   });
 
   // 🎓 RETORNO DO HOOK: Expõe uma API clara para o componente consumidor.

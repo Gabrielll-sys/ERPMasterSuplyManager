@@ -1,23 +1,22 @@
 import { fetcher, poster, putter } from "../lib/api";
-import { url } from "../api/webApiUrl";
 import IMaterial from "../interfaces/IMaterial";
 import { createInventario } from "./Inventario.Services";
 
 
 
 export const getMaterialById = async (id: number) => {
-  return fetcher<IMaterial>(`${url}/Materiais/${id}`);
+  return fetcher<IMaterial>(`/Materiais/${id}`);
 }
 
 export const searchByDescription = async (descricao: string) => {
   if (descricao.length) {
-    return fetcher<any[]>(`${url}/Inventarios/buscaDescricaoInventario?descricao=${descricao.split("#").join(".")}`);
+    return fetcher<any[]>(`/Inventarios/buscaDescricaoInventario?descricao=${descricao.split("#").join(".")}`);
   }
 }
  
     
 export const searchByFabricanteCode = async (codigo: string) => {
-  return fetcher<any[]>(`${url}/Inventarios/buscaCodigoFabricante?codigo=${codigo}`);
+  return fetcher<any[]>(`/Inventarios/buscaCodigoFabricante?codigo=${codigo}`);
 }
    
 export const createMaterial = async (model: IMaterial) => {
@@ -38,7 +37,7 @@ export const createMaterial = async (model: IMaterial) => {
   };
 
   try {
-    const data = await poster<{ id: number }>(`${url}/Materiais`, material);
+    const data = await poster<{ id: number }>(`/Materiais`, material);
     const res = await createInventario(data.id);
     return res;
   } catch (error) {
@@ -49,6 +48,6 @@ export const createMaterial = async (model: IMaterial) => {
 
 
 export const updateMaterial = async (material: IMaterial) => {
-  await putter(`${url}/Materiais/${material.id}`, material);
+  await putter(`/Materiais/${material.id}`, material);
   return 200; // Se chegou aqui, foi sucesso
 }
