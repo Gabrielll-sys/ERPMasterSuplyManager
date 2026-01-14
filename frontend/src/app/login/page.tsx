@@ -75,10 +75,16 @@ export default function LoginPage() {
         const userData = JSON.parse(localStorage.getItem('currentUser') || '{}');
         
         if (userData.token) {
+          // Atualiza o estado do contexto de autenticação
           login(userData.token, userData.userId, userData.userName, userData.role);
+          
           toast.success("Login realizado com sucesso!", {
             description: `Bem-vindo, ${userData.userName}!`
           });
+          
+          // Redireciona para a página de relatórios após atualizar o estado
+          // Isso garante que a navbar atualize corretamente
+          router.push("/reports");
         } else {
           throw new Error("Dados do usuário não encontrados após autenticação.");
         }

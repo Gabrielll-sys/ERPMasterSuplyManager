@@ -183,12 +183,42 @@ namespace MasterErp.Api.Controllers;
         /// </summary>
         /// <param name="Id"></param>
         [HttpPut("turn-inactive/{id}")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
         public async Task<ActionResult> TurnInactive(int id)
         {
 
         try
         {
             await _usuarioService.TurnUserInactive(id);
+
+            return Ok();
+
+        }
+
+        catch (KeyNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+
+            }
+        }
+
+        /// <summary>
+        /// Faz Com que o usuário se torne ativo novamente, podendo realizar login
+        /// </summary>
+        /// <param name="Id"></param>
+        [HttpPut("turn-active/{id}")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+        public async Task<ActionResult> TurnActive(int id)
+        {
+
+        try
+        {
+            await _usuarioService.TurnUserActive(id);
 
             return Ok();
 

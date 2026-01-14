@@ -446,6 +446,12 @@
             </summary>
             <param name="Id"></param>
         </member>
+        <member name="M:MasterErp.Api.Controllers.UsuariosController.TurnActive(System.Int32)">
+            <summary>
+            Faz Com que o usuário se torne ativo novamente, podendo realizar login
+            </summary>
+            <param name="Id"></param>
+        </member>
         <member name="T:MasterErp.Api.Extensions.ResponseExtension">
             <summary>
             Extensions to handle with the responses

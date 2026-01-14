@@ -12,15 +12,17 @@ import {
 } from "@nextui-org/react";
 import Image from "next/image";
 
-// Ícones
+// Lucide Icons (mais modernos e profissionais)
+import { Menu, User, LogOut, Users, Settings } from 'lucide-react';
+
+// Ícones personalizados (mantidos para compatibilidade)
 import IconPersonFill from "../assets/icons/IconPersonFill";
 import IconExit from "../assets/icons/IconExit";
-import IconSideBar from "../assets/icons/IconSideBar";
-import TaskIcon from "../assets/icons/TaskIcon"; // Certifique-se que este ícone existe
+import TaskIcon from "../assets/icons/TaskIcon";
 import IconUsers from "../assets/icons/IconUsers";
 
 // Importa o NOVO Sidebar
-import RadixSidebar from "./RadixSidebar"; // Ajuste o caminho se necessário
+import RadixSidebar from "./RadixSidebar";
 
 // Roles permitidas para gerenciar usuários
 const ADMIN_ROLES = ["Administrador", "Diretor", "SuporteTecnico"];
@@ -53,11 +55,11 @@ const ModernNavBar = () => {
                         <Button
                             isIconOnly
                             variant="light"
-                            className="text-white hover:bg-white/10"
-                            onPress={() => setShowSideBar(true)} // Define como true para mostrar
-                            aria-label="Toggle Sidebar"
+                            className="text-white hover:bg-white/10 transition-colors"
+                            onPress={() => setShowSideBar(true)}
+                            aria-label="Abrir Menu"
                         >
-                            <IconSideBar height="1.5em" width="1.5em" />
+                            <Menu className="w-6 h-6" strokeWidth={2} />
                         </Button>
                     </NavbarItem>
                  

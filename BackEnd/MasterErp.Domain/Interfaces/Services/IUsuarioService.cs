@@ -17,6 +17,7 @@ namespace MasterErp.Domain.Interfaces.Services;
 
         Task<Usuario> ExistsAsync(string email);
         Task TurnUserInactive(int id);
+        Task TurnUserActive(int id);
 
         Task ResetUserPassword(int id);
 

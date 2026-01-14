@@ -87,6 +87,23 @@ namespace MasterErp.Services
                 throw;
             }
         }
+
+        public async Task TurnUserActive(int id)
+        {
+            try
+            {
+                var user = await _usuarioRepository.GetByIdAsync(id);
+
+                user.isActive = true;
+
+                await _usuarioRepository.UpdateAsync(user);
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<Usuario> CreateAsync(Usuario model)
         {
             try

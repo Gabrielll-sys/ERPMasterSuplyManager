@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
-import { getAllUsers, resetUserPassword } from "../services/User.Services";
+import { getAllUsers, resetUserPassword, turnUserInactive, turnUserActive } from "../services/User.Services";
 import { IUsuario } from "../interfaces/IUsuario";
 import { toast } from "sonner";
 
@@ -40,6 +40,7 @@ export default function AdminUsersPage() {
     const [loading, setLoading] = useState(true);
     const [selectedUser, setSelectedUser] = useState<IUsuario | null>(null);
     const [resetting, setResetting] = useState(false);
+    const [deactivating, setDeactivating] = useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     // Verifica autorização
@@ -87,6 +88,42 @@ export default function AdminUsersPage() {
             toast.error("Erro ao resetar senha");
         } finally {
             setResetting(false);
+            setSelectedUser(null);
+        }
+    };
+
+    const confirmDeactivate = async () => {
+        if (!selectedUser?.id) return;
+
+        try {
+            setDeactivating(true);
+            await turnUserInactive(selectedUser.id);
+            toast.success(`Usuário ${selectedUser.nome} foi desativado com sucesso!`);
+            onClose();
+            // Recarrega a lista para atualizar o status
+            await loadUsers();
+        } catch (error) {
+            toast.error("Erro ao desativar usuário");
+        } finally {
+            setDeactivating(false);
+            setSelectedUser(null);
+        }
+    };
+
+    const confirmActivate = async () => {
+        if (!selectedUser?.id) return;
+
+        try {
+            setDeactivating(true); // Reutilizando o estado
+            await turnUserActive(selectedUser.id);
+            toast.success(`Usuário ${selectedUser.nome} foi reativado com sucesso!`);
+            onClose();
+            // Recarrega a lista para atualizar o status
+            await loadUsers();
+        } catch (error) {
+            toast.error("Erro ao reativar usuário");
+        } finally {
+            setDeactivating(false);
             setSelectedUser(null);
         }
     };
@@ -185,35 +222,81 @@ export default function AdminUsersPage() {
             </Card>
 
             {/* Modal de confirmação */}
-            <Modal isOpen={isOpen} onClose={onClose} backdrop="blur">
+            <Modal isOpen={isOpen} onClose={onClose} backdrop="blur" size="lg">
                 <ModalContent>
                     <ModalHeader className="flex flex-col gap-1">
-                        Confirmar Reset de Senha
+                        Gerenciar Usuário: {selectedUser?.nome}
                     </ModalHeader>
                     <ModalBody>
-                        <p>
-                            Você tem certeza que deseja resetar a senha do usuário{" "}
-                            <strong>{selectedUser?.nome}</strong>?
-                        </p>
-                        <p className="text-small text-gray-500">
-                            A senha será redefinida para o padrão: <code>1234</code>
-                        </p>
+                        {/* Seção de Reset de Senha */}
+                        <div className="p-4 bg-warning-50 rounded-lg border border-warning-200">
+                            <h4 className="font-semibold text-warning-700 mb-2">
+                                🔑 Resetar Senha
+                            </h4>
+                            <p className="text-small text-gray-600 mb-3">
+                                A senha do usuário será redefinida para o padrão: <code className="bg-gray-200 px-1 rounded">1234</code>
+                            </p>
+                            <Button
+                                color="warning"
+                                onPress={confirmReset}
+                                isLoading={resetting}
+                                isDisabled={deactivating}
+                                size="sm"
+                            >
+                                Resetar Senha
+                            </Button>
+                        </div>
+
+                        {/* Seção de Desativação - só mostra se o usuário estiver ativo */}
+                        {selectedUser?.isActive && (
+                            <div className="p-4 bg-danger-50 rounded-lg border border-danger-200 mt-4">
+                                <h4 className="font-semibold text-danger-700 mb-2">
+                                    🚫 Desativar Usuário
+                                </h4>
+                                <p className="text-small text-gray-600 mb-3">
+                                    Ao desativar, o usuário <strong>não poderá mais fazer login</strong> no sistema.
+                                    Esta ação pode ser revertida posteriormente.
+                                </p>
+                                <Button
+                                    color="danger"
+                                    onPress={confirmDeactivate}
+                                    isLoading={deactivating}
+                                    isDisabled={resetting}
+                                    size="sm"
+                                >
+                                    Desativar Usuário
+                                </Button>
+                            </div>
+                        )}
+
+                        {!selectedUser?.isActive && (
+                            <div className="p-4 bg-success-50 rounded-lg border border-success-200 mt-4">
+                                <h4 className="font-semibold text-success-700 mb-2">
+                                    ✅ Reativar Usuário
+                                </h4>
+                                <p className="text-small text-gray-600 mb-3">
+                                    Este usuário está <strong>inativo</strong>. Ao reativar, ele poderá fazer login novamente no sistema.
+                                </p>
+                                <Button
+                                    color="success"
+                                    onPress={confirmActivate}
+                                    isLoading={deactivating}
+                                    isDisabled={resetting}
+                                    size="sm"
+                                >
+                                    Reativar Usuário
+                                </Button>
+                            </div>
+                        )}
                     </ModalBody>
                     <ModalFooter>
                         <Button
                             color="default"
                             variant="light"
                             onPress={onClose}
-                            isDisabled={resetting}
+                            isDisabled={resetting || deactivating}
                         >
-                            Cancelar
-                        </Button>
-                        <Button
-                            color="warning"
-                            onPress={confirmReset}
-                            isLoading={resetting}
-                        >
-                            Confirmar Reset
+                            Fechar
                         </Button>
                     </ModalFooter>
                 </ModalContent>

@@ -414,6 +414,12 @@
             </summary>
             <param name="Relatorio DiárioDiário"></param>
         </member>
+        <member name="M:MasterErp.Api.Controllers.UsuariosController.GetAll">
+            <summary>
+            Lista todos os usuários do sistema
+            </summary>
+            <returns>Lista de usuários</returns>
+        </member>
         <member name="M:MasterErp.Api.Controllers.UsuariosController.Post(MasterErp.Domain.Models.UsuarioDto)">
             <summary>
             Realiza a criação de usuário no Sistema
@@ -437,6 +443,12 @@
         <member name="M:MasterErp.Api.Controllers.UsuariosController.TurnInactive(System.Int32)">
             <summary>
             Faz Com que o usuário se torne inativo,não podendo mais realizar login
+            </summary>
+            <param name="Id"></param>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.UsuariosController.TurnActive(System.Int32)">
+            <summary>
+            Faz Com que o usuário se torne ativo novamente, podendo realizar login
             </summary>
             <param name="Id"></param>
         </member>
