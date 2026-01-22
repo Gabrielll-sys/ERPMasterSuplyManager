@@ -461,6 +461,43 @@ namespace MasterErp.Infraestructure.Migrations
                     b.ToTable("RelatorioDiarios");
                 });
 
+            modelBuilder.Entity("MasterErp.Domain.Models.SolicitacaoServico", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("DataAceite")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("DataConclusao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataSolicitacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Descricao")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("NomeCliente")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsuarioAceite")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UsuariosConclusao")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SolicitacoesServico");
+                });
+
             modelBuilder.Entity("MasterErp.Domain.Models.TarefaUsuario", b =>
                 {
                     b.Property<int?>("Id")

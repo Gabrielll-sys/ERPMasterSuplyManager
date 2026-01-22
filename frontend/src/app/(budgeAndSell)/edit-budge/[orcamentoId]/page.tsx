@@ -115,7 +115,13 @@ export default function ManageBudgetPage({ params }: { params: { orcamentoId: st
 
     const payload = {
       ...orcamento,
-      ...formState,
+      nomeCliente: formState.nomeCliente,
+      endereco: formState.endereco,
+      emailCliente: formState.emailCliente,
+      cpfOrCnpj: formState.cpfOrCnpj,
+      telefone: formState.telefone,
+      observacoes: formState.observacoes,
+      tipoPagamento: formState.metodoPagamento,  // Mapear para tipoPagamento
       desconto: parseFloat(formState.desconto.replace(',', '.')) || 0,
     };
     

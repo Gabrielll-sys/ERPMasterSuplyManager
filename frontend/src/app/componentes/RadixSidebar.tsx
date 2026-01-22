@@ -18,6 +18,7 @@ import {
   PlusCircle,
   List,
   ClipboardList,
+  ClipboardCheck,
   QrCode,
   ScrollText,
   Settings,
@@ -95,6 +96,7 @@ const RadixSidebar: React.FC<RadixSidebarProps> = ({ show, setShowSideBar }) => 
       ]
     },
     { label: 'Ordem de Separação', href: '/managing-os', icon: ClipboardList, adminOnly: true },
+    { label: 'Solicitação de Serviço', href: '/managing-requests', icon: ClipboardCheck },
     { label: 'Gerador QR Code', href: '/generateMaterialQrcode', icon: QrCode },
     { label: 'Registro de Ações', href: '/log-register', icon: ScrollText, adminOnly: true },
     {
