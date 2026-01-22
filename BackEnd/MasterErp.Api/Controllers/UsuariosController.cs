@@ -10,8 +10,6 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 namespace MasterErp.Api.Controllers;
 
-
-
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -179,6 +177,50 @@ namespace MasterErp.Api.Controllers;
         }
 
         /// <summary>
+        /// Permite que o usuário autenticado troque sua própria senha
+        /// </summary>
+        /// <param name="model">Senha atual e nova senha</param>
+        [HttpPut("change-password")]
+        [Authorize]
+        public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordRequest model)
+        {
+            try
+            {
+                // Pega o ID do usuário autenticado do token JWT
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim))
+                    return Unauthorized();
+
+                var userId = int.Parse(userIdClaim);
+                var usuario = await _usuarioService.GetByIdAsync(userId);
+
+                if (usuario == null)
+                    return NotFound("Usuário não encontrado");
+
+                // Verifica se a senha atual está correta
+                if (!BCrypt.Net.BCrypt.Verify(model.SenhaAtual, usuario.Senha))
+                    return BadRequest(new { message = "Senha atual incorreta" });
+
+                // Valida nova senha
+                if (string.IsNullOrWhiteSpace(model.NovaSenha) || model.NovaSenha.Length < 4)
+                    return BadRequest(new { message = "A nova senha deve ter no mínimo 4 caracteres" });
+
+                if (model.SenhaAtual == model.NovaSenha)
+                    return BadRequest(new { message = "A nova senha deve ser diferente da senha atual" });
+
+                // Atualiza a senha
+                usuario.Senha = BCrypt.Net.BCrypt.HashPassword(model.NovaSenha);
+                await _usuarioService.UpdateAsync(usuario);
+
+                return Ok(new { message = "Senha alterada com sucesso" });
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+        }
+
+        /// <summary>
         /// Faz Com que o usuário se torne inativo,não podendo mais realizar login
         /// </summary>
         /// <param name="Id"></param>
@@ -287,3 +329,9 @@ namespace MasterErp.Api.Controllers;
       
     }
 
+// Modelo para request de troca de senha
+public class ChangePasswordRequest
+{
+    public string SenhaAtual { get; set; } = string.Empty;
+    public string NovaSenha { get; set; } = string.Empty;
+}

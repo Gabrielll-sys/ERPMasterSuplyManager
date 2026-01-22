@@ -17,6 +17,12 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configurar Kestrel para escutar em todas as interfaces (necessário para Expo Go)
+// builder.WebHost.ConfigureKestrel(options =>
+// {
+//     options.ListenAnyIP(5285); // Escuta em 0.0.0.0:5285
+// });
+
 // 1. Configuração de Serviços Essenciais (DbContext, Autenticação, etc.)
 // =======================================================================
 

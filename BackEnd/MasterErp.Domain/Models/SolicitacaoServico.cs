@@ -48,6 +48,11 @@ public class SolicitacaoServico
     public string? UsuariosConclusao { get; set; }
 
     /// <summary>
+    /// Usuários designados para realizar o serviço (escolhidos na criação)
+    /// </summary>
+    public string? UsuariosDesignados { get; set; }
+
+    /// <summary>
     /// Status da solicitação: 0 = Pendente, 1 = Aceita, 2 = Concluída
     /// </summary>
     public int Status { get; set; } = 0;
