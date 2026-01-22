@@ -49,7 +49,7 @@ const initialState: BudgetState = {
   cpfOrCnpj: '',
   telefone: '',
   observacoes: '',
-  metodoPagamento: 'PIX',
+  metodoPagamento: 'Cartão de Crédito',
   desconto: '0',
 };
 

@@ -218,7 +218,7 @@ export default function SolicitacaoServicoPage() {
             {/* Resumo de resultados */}
             {searchTerm && (
               <p className="text-sm text-gray-500 mb-4">
-                {filteredSolicitacoes.length} resultado(s) para "{searchTerm}"
+                {filteredSolicitacoes.length} resultado(s) para: {searchTerm}
               </p>
             )}
             

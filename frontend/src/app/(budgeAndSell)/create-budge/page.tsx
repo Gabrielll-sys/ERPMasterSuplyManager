@@ -219,7 +219,7 @@ export default function CreateBudge() {
         endereco: endereco.trim().replace(/\s\s+/g, " "),
         cpfOrCnpj: cpfOrCnpj,
         desconto: 0,
-        tipoPagamento: "PIX",
+        tipoPagamento: "Cartão de Crédito",
         responsavelOrcamento: currentUser?.userName
       }
 
