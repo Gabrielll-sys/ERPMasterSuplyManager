@@ -50,7 +50,9 @@ export const solicitacaoService = {
      * Atualiza uma solicitação
      */
     update: async (id: number, data: Partial<ISolicitacaoServico>): Promise<ISolicitacaoServico> => {
-        const response = await api.put<ISolicitacaoServico>(`/SolicitacaoServico/${id}`, data);
+        // Backend exige o ID também no corpo
+        const payload = { ...data, id };
+        const response = await api.put<ISolicitacaoServico>(`/SolicitacaoServico/${id}`, payload);
         return response.data;
     },
 

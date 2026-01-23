@@ -95,6 +95,7 @@ export default function SolicitacoesScreen() {
       {/* Lista de Solicitações */}
       <FlatList
         data={filteredSolicitacoes}
+        
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <SolicitacaoCard

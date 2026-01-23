@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Alert } from 'react-native';
-import { Text, Button, ActivityIndicator, Divider, useTheme, Portal, Dialog, Checkbox } from 'react-native-paper';
+import { Text, Button, ActivityIndicator, Divider, useTheme, Portal, Dialog, Checkbox, TextInput, Snackbar } from 'react-native-paper';
 import { useLocalSearchParams, router } from 'expo-router';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -16,11 +16,25 @@ export default function SolicitacaoDetalhesScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { user } = useAuth();
   const { data: solicitacao, isLoading } = useSolicitacao(Number(id));
-  const { aceitarSolicitacao, concluirSolicitacao, deleteSolicitacao } = useSolicitacoes();
+  const { aceitarSolicitacao, concluirSolicitacao, updateSolicitacao, deleteSolicitacao } = useSolicitacoes();
   
   const [isActionLoading, setIsActionLoading] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showConcluirModal, setShowConcluirModal] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editNomeCliente, setEditNomeCliente] = useState('');
+  const [editDescricao, setEditDescricao] = useState('');
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarIsError, setSnackbarIsError] = useState(false);
+
+  // Inicializa os campos de edição quando a solicitação é carregada
+  useEffect(() => {
+    if (solicitacao) {
+      setEditNomeCliente(solicitacao.nomeCliente || '');
+      setEditDescricao(solicitacao.descricao || '');
+    }
+  }, [solicitacao]);
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return '-';
@@ -29,6 +43,12 @@ export default function SolicitacaoDetalhesScreen() {
     } catch {
       return '-';
     }
+  };
+
+  const showSnackbar = (message: string, isError = false) => {
+    setSnackbarMessage(message);
+    setSnackbarIsError(isError);
+    setSnackbarVisible(true);
   };
 
   const handleAceitar = async () => {
@@ -45,10 +65,10 @@ export default function SolicitacaoDetalhesScreen() {
             setIsActionLoading(true);
             try {
               await aceitarSolicitacao(solicitacao.id);
-              Alert.alert('Sucesso', 'Solicitação aceita!');
+              showSnackbar('Solicitação aceita!');
               router.back();
             } catch (error) {
-              Alert.alert('Erro', 'Não foi possível aceitar a solicitação');
+              showSnackbar('Não foi possível aceitar a solicitação', true);
             } finally {
               setIsActionLoading(false);
             }
@@ -66,10 +86,10 @@ export default function SolicitacaoDetalhesScreen() {
     
     try {
       await deleteSolicitacao(solicitacao.id);
-      Alert.alert('Sucesso', 'Solicitação excluída!');
+      showSnackbar('Solicitação excluída!');
       router.back();
     } catch (error) {
-      Alert.alert('Erro', 'Não foi possível excluir a solicitação');
+      showSnackbar('Não foi possível excluir a solicitação', true);
     } finally {
       setIsActionLoading(false);
     }
@@ -83,10 +103,32 @@ export default function SolicitacaoDetalhesScreen() {
     
     try {
       await concluirSolicitacao({ id: solicitacao.id, payload: { usuarios } });
-      Alert.alert('Sucesso', 'Solicitação concluída!');
+      showSnackbar('Solicitação concluída!');
       router.back();
     } catch (error) {
-      Alert.alert('Erro', 'Não foi possível concluir a solicitação');
+      showSnackbar('Não foi possível concluir a solicitação', true);
+    } finally {
+      setIsActionLoading(false);
+    }
+  };
+
+  const handleSaveEdit = async () => {
+    if (!solicitacao) return;
+    if (!editNomeCliente.trim() || !editDescricao.trim()) {
+      showSnackbar('Nome do cliente e descrição são obrigatórios.', true);
+      return;
+    }
+
+    setIsActionLoading(true);
+    try {
+      await updateSolicitacao(solicitacao.id, {
+        nomeCliente: editNomeCliente.trim(),
+        descricao: editDescricao.trim(),
+      });
+      showSnackbar('Solicitação atualizada!');
+      setIsEditing(false);
+    } catch (error) {
+      showSnackbar('Não foi possível atualizar a solicitação', true);
     } finally {
       setIsActionLoading(false);
     }
@@ -119,9 +161,19 @@ export default function SolicitacaoDetalhesScreen() {
           <Text variant="labelLarge" style={styles.label}>
             Cliente
           </Text>
-          <Text variant="titleLarge" style={styles.clientName}>
-            {solicitacao.nomeCliente}
-          </Text>
+          {/* Modo de edição do cliente */}
+          {isEditing ? (
+            <TextInput
+              mode="outlined"
+              value={editNomeCliente}
+              onChangeText={setEditNomeCliente}
+              placeholder="Nome do cliente"
+            />
+          ) : (
+            <Text variant="titleLarge" style={styles.clientName}>
+              {solicitacao.nomeCliente}
+            </Text>
+          )}
         </View>
 
         <Divider />
@@ -131,9 +183,21 @@ export default function SolicitacaoDetalhesScreen() {
           <Text variant="labelLarge" style={styles.label}>
             Descrição do Serviço
           </Text>
-          <Text variant="bodyLarge" style={styles.description}>
-            {solicitacao.descricao}
-          </Text>
+          {/* Modo de edição da descrição */}
+          {isEditing ? (
+            <TextInput
+              mode="outlined"
+              value={editDescricao}
+              onChangeText={setEditDescricao}
+              placeholder="Descrição do serviço"
+              multiline
+              numberOfLines={4}
+            />
+          ) : (
+            <Text variant="bodyLarge" style={styles.description}>
+              {solicitacao.descricao}
+            </Text>
+          )}
         </View>
 
         <Divider />
@@ -212,6 +276,41 @@ export default function SolicitacaoDetalhesScreen() {
 
         {/* Ações */}
         <View style={styles.actionsContainer}>
+          {canEdit && (
+            <>
+              {!isEditing ? (
+                <Button
+                  mode="outlined"
+                  onPress={() => setIsEditing(true)}
+                  disabled={isActionLoading}
+                  style={styles.actionButton}
+                >
+                  Editar
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    mode="outlined"
+                    onPress={() => setIsEditing(false)}
+                    disabled={isActionLoading}
+                    style={styles.actionButton}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    mode="contained"
+                    onPress={handleSaveEdit}
+                    loading={isActionLoading}
+                    disabled={isActionLoading}
+                    style={styles.actionButton}
+                  >
+                    Salvar
+                  </Button>
+                </>
+              )}
+            </>
+          )}
+
           {solicitacao.status === StatusSolicitacao.Pendente && (
             <Button
               mode="contained"
@@ -273,6 +372,16 @@ export default function SolicitacaoDetalhesScreen() {
           </Dialog.Actions>
         </Dialog>
       </Portal>
+
+      {/* Snackbar para feedback de ações */}
+      <Snackbar
+        visible={snackbarVisible}
+        onDismiss={() => setSnackbarVisible(false)}
+        duration={3000}
+        style={snackbarIsError ? styles.snackbarError : undefined}
+      >
+        {snackbarMessage}
+      </Snackbar>
     </ScrollView>
   );
 }
@@ -356,5 +465,8 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     borderRadius: 8,
+  },
+  snackbarError: {
+    backgroundColor: '#B00020',
   },
 });

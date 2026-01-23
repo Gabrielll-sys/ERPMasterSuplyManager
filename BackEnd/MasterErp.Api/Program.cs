@@ -14,8 +14,17 @@ using MasterErp.Domain.Interfaces.Services;
 using MasterErp.Services;
 using MasterErp.Infraestructure;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.Extensions.Hosting;
 
-var builder = WebApplication.CreateBuilder(args);
+var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
+    ?? Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
+    ?? Environments.Development;
+
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    EnvironmentName = environmentName
+});
 
 // Configurar Kestrel para escutar em todas as interfaces (necessário para Expo Go)
 // builder.WebHost.ConfigureKestrel(options =>
@@ -202,7 +211,10 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 app.UseRouting();
 app.UseCors(corsPolicyName); // Aplica a nova política de CORS
 app.UseAuthentication();

@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FileDown, ShieldCheck, X, AlertTriangle, Loader2 } from 'lucide-react';
-import { PDFDownloadLink } from '@react-pdf/renderer';
-import OrcamentoPDF from '@/app/componentes/OrcamentoPDF';
+import api from '@/app/lib/api';
 
 type ActionButtonsProps = {
   isPaid?: boolean;
@@ -17,6 +16,7 @@ export function ActionButtons({ isPaid, orcamento, materiais, onAuthorize }: Act
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [confirmText, setConfirmText] = useState("");
   const [isAuthorizing, setIsAuthorizing] = useState(false);
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
 
   const canAuthorize = confirmText === "AUTORIZAR";
 
@@ -26,6 +26,27 @@ export function ActionButtons({ isPaid, orcamento, materiais, onAuthorize }: Act
     setIsConfirmOpen(false);
     setConfirmText("");
     setIsAuthorizing(false);
+  };
+
+  const handleDownloadPdf = async () => {
+    if (!orcamento?.id) return;
+    try {
+      setIsDownloadingPdf(true);
+      const response = await api.get(`/Orcamentos/${orcamento.id}/pdf`, {
+        responseType: 'blob',
+      });
+
+      const blobUrl = window.URL.createObjectURL(response.data);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = `Orcamento_${orcamento.id}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(blobUrl);
+    } finally {
+      setIsDownloadingPdf(false);
+    }
   };
 
   return (
@@ -65,19 +86,29 @@ export function ActionButtons({ isPaid, orcamento, materiais, onAuthorize }: Act
         )}
 
         {/* PDF Download Button */}
-        <PDFDownloadLink
-          document={
-            <OrcamentoPDF
-              materiaisOrcamento={materiais}
-              orcamento={orcamento}
-            />
-          }
-          fileName={`Orcamento_${orcamento?.id}.pdf`}
-          className="w-full py-3.5 px-4 rounded-xl font-semibold flex items-center justify-center gap-2 border-2 border-gray-200 text-gray-700 hover:bg-gray-50 transition-all"
+        <motion.button
+          onClick={handleDownloadPdf}
+          disabled={isDownloadingPdf}
+          whileHover={!isDownloadingPdf ? { scale: 1.02 } : {}}
+          whileTap={!isDownloadingPdf ? { scale: 0.98 } : {}}
+          className={`w-full py-3.5 px-4 rounded-xl font-semibold flex items-center justify-center gap-2 border-2 transition-all ${
+            isDownloadingPdf
+              ? 'border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed'
+              : 'border-gray-200 text-gray-700 hover:bg-gray-50'
+          }`}
         >
-          <FileDown className="w-5 h-5" />
-          Gerar PDF
-        </PDFDownloadLink>
+          {isDownloadingPdf ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin" />
+              Gerando PDF...
+            </>
+          ) : (
+            <>
+              <FileDown className="w-5 h-5" />
+              Gerar PDF
+            </>
+          )}
+        </motion.button>
       </div>
 
       {/* Confirmation Modal */}

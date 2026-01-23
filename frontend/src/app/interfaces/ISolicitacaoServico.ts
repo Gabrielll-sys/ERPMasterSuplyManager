@@ -9,6 +9,7 @@ export interface ISolicitacaoServico {
     dataAceite?: string;
     dataConclusao?: string;
     usuariosConclusao?: string; // JSON string que será parseado
+    usuariosDesignados?: string; // Usuários designados na criação (string com nomes)
     status: number; // 0 = Pendente, 1 = Aceita, 2 = Concluída
 }
 
@@ -48,7 +49,7 @@ export const getStatusColor = (status: number): string => {
 };
 
 // Tipo para criação de nova solicitação
-export type CreateSolicitacaoPayload = Pick<ISolicitacaoServico, 'descricao' | 'nomeCliente'>;
+export type CreateSolicitacaoPayload = Pick<ISolicitacaoServico, 'descricao' | 'nomeCliente' | 'usuariosDesignados'>;
 
 // Tipo para conclusão de solicitação
 export interface ConcluirSolicitacaoPayload {

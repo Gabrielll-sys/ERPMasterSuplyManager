@@ -35,6 +35,22 @@ export default function RootLayout() {
               title: 'Nova Solicitação' 
             }} 
           />
+          <Stack.Screen
+            name="orcamento/nova"
+            options={{
+              presentation: 'modal',
+              headerShown: true,
+              title: 'Novo Orçamento',
+            }}
+          />
+          <Stack.Screen
+            name="orcamento/[id]"
+            options={{
+              presentation: 'modal',
+              headerShown: true,
+              title: 'Detalhes do Orçamento',
+            }}
+          />
         </Stack>
       </PaperProvider>
     </QueryClientProvider>

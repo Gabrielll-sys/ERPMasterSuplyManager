@@ -108,6 +108,15 @@ export const SolicitacaoServicoDetailsModal = ({
     }
   }, [solicitacao?.usuariosConclusao]);
 
+  // Parse dos usuários designados (string separada por vírgula)
+  const usuariosDesignados = useMemo(() => {
+    if (!solicitacao?.usuariosDesignados) return [];
+    return solicitacao.usuariosDesignados
+      .split(",")
+      .map((usuario) => usuario.trim())
+      .filter(Boolean);
+  }, [solicitacao?.usuariosDesignados]);
+
   const handleAceitar = async () => {
     if (!solicitacao || !onAceitar) return;
     setIsActionLoading(true);
@@ -190,19 +199,58 @@ export const SolicitacaoServicoDetailsModal = ({
               <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
                 Cliente
               </label>
-              <p className="text-lg font-semibold text-gray-800 dark:text-white">
-                {solicitacao.nomeCliente}
-              </p>
+              {/* Modo de edição do cliente */}
+              {isEditing ? (
+                <Input
+                  value={editNomeCliente}
+                  onValueChange={setEditNomeCliente}
+                  variant="bordered"
+                  placeholder="Nome do cliente"
+                  isRequired
+                />
+              ) : (
+                <p className="text-lg font-semibold text-gray-800 dark:text-white">
+                  {solicitacao.nomeCliente}
+                </p>
+              )}
             </div>
             
             <div>
               <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
                 Descrição do Serviço
               </label>
-              <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
-                {solicitacao.descricao}
-              </p>
+              {/* Modo de edição da descrição */}
+              {isEditing ? (
+                <Textarea
+                  value={editDescricao}
+                  onValueChange={setEditDescricao}
+                  variant="bordered"
+                  minRows={3}
+                  placeholder="Descrição do serviço"
+                  isRequired
+                />
+              ) : (
+                <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+                  {solicitacao.descricao}
+                </p>
+              )}
             </div>
+
+            {usuariosDesignados.length > 0 && (
+              <div>
+                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  Usuários Designados
+                </label>
+                <div className="mt-2 flex flex-wrap gap-1">
+                  {usuariosDesignados.map((user: string, idx: number) => (
+                    <Chip key={idx} size="sm" variant="flat" color="primary">
+                      <Users size={12} className="mr-1" />
+                      {user}
+                    </Chip>
+                  ))}
+                </div>
+              </div>
+            )}
             
             <Divider />
             
@@ -339,6 +387,40 @@ export const SolicitacaoServicoDetailsModal = ({
             <Button variant="light" onClick={onClose}>
               Fechar
             </Button>
+
+          {/* Ações de edição (somente perfis autorizados) */}
+          {canEdit && onUpdate && (
+            <>
+              {!isEditing ? (
+                <Button
+                  variant="bordered"
+                  onPress={() => setIsEditing(true)}
+                  startContent={<Edit2 size={16} />}
+                >
+                  Editar
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    variant="flat"
+                    onPress={() => setIsEditing(false)}
+                    startContent={<X size={16} />}
+                    isDisabled={isActionLoading}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    color="primary"
+                    onPress={handleSaveEdit}
+                    isLoading={isActionLoading}
+                    startContent={<Save size={16} />}
+                  >
+                    Salvar
+                  </Button>
+                </>
+              )}
+            </>
+          )}
           
           {/* Ação: Aceitar (status = Pendente) */}
           {solicitacao.status === StatusSolicitacao.Pendente && onAceitar && (

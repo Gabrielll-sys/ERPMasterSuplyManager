@@ -29,6 +29,14 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="orcamentos"
+        options={{
+          title: 'Orçamentos',
+          tabBarLabel: 'Orçamentos',
+          tabBarIcon: ({ color }) => <IconButton icon="file-document" iconColor={color} size={20} />,
+        }}
+      />
+      <Tabs.Screen
         name="perfil"
         options={{
           title: 'Perfil',

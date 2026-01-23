@@ -5,6 +5,7 @@ using MasterErp.Domain.Interfaces.Services;
 using MasterErp.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using MasterErp.Infraestructure.Context;
+using System.Security.Claims;
 
 namespace MasterErp.Api.Controllers;
     ///<summary>
@@ -13,18 +14,20 @@ namespace MasterErp.Api.Controllers;
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    [Authorize]
+    //[Authorize]
     public class OrcamentosController: ControllerBase
     {
         public readonly SqlContext _context;
 
         private readonly IOrcamentoService _orcamentoService;
+        private readonly IOrcamentoPdfService _orcamentoPdfService;
 
-        public OrcamentosController(SqlContext context, IOrcamentoService orcamentoService )
+        public OrcamentosController(SqlContext context, IOrcamentoService orcamentoService, IOrcamentoPdfService orcamentoPdfService)
         {
 
             _context = context;
             _orcamentoService = orcamentoService;
+            _orcamentoPdfService = orcamentoPdfService;
         }
 
 
@@ -85,6 +88,33 @@ namespace MasterErp.Api.Controllers;
             catch (KeyNotFoundException)
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+        }
+
+        [HttpGet("{id}/pdf")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+        public async Task<IActionResult> GetPdf(int id)
+        {
+            try
+            {
+                var orcamento = await _context.Orcamentos.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+                if (orcamento == null) return NotFound();
+
+                var itens = await _context.ItensOrcamento
+                    .AsNoTracking()
+                    .Include(x => x.Material)
+                    .Where(x => x.OrcamentoId == id)
+                    .OrderBy(x => x.Material != null ? x.Material.Descricao : string.Empty)
+                    .ToListAsync();
+
+                var nomeUsuario = User?.Identity?.Name ?? User?.FindFirstValue(ClaimTypes.Name);
+                var pdfBytes = await _orcamentoPdfService.GenerateAsync(orcamento, itens, nomeUsuario);
+
+                return File(pdfBytes, "application/pdf", $"orcamento-{id}.pdf");
             }
             catch (Exception exception)
             {

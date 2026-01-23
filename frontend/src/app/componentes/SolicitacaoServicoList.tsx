@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardBody, Chip, Button, Tooltip, Skeleton } from "@nextui-org/react";
-import { Eye, Clock, User, CheckCircle, PlayCircle, Trash2 } from "lucide-react";
+import { Eye, Clock, User, Users, CheckCircle, PlayCircle, Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ISolicitacaoServico, 
@@ -127,6 +127,14 @@ export const SolicitacaoServicoList = ({
                     <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
                       {solicitacao.descricao}
                     </p>
+
+                    {/* Exibe responsáveis designados na criação */}
+                    {solicitacao.usuariosDesignados && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                        <Users size={12} />
+                        Responsáveis: {solicitacao.usuariosDesignados}
+                      </p>
+                    )}
                     
                     <div className="flex flex-wrap gap-4 text-xs text-gray-500 dark:text-gray-400 pt-1">
                       <span className="flex items-center gap-1">

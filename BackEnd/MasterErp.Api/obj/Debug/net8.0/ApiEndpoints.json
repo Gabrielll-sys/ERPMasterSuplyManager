@@ -2308,6 +2308,22 @@
   },
   {
     "ContainingType": "MasterErp.Api.Controllers.OrcamentosController",
+    "Method": "GetPdf",
+    "RelativePath": "api/v1/Orcamentos/{id}/pdf",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.OrcamentosController",
     "Method": "GetClient",
     "RelativePath": "api/v1/Orcamentos/buscaCliente",
     "HttpMethod": "GET",
@@ -2835,6 +2851,122 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MasterErp.Api.Controllers.SolicitacaoServicoController",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/SolicitacaoServico",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.SolicitacaoServicoController",
+    "Method": "Create",
+    "RelativePath": "api/v1/SolicitacaoServico",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "MasterErp.Domain.Models.SolicitacaoServico",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.SolicitacaoServicoController",
+    "Method": "GetById",
+    "RelativePath": "api/v1/SolicitacaoServico/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.SolicitacaoServicoController",
+    "Method": "Update",
+    "RelativePath": "api/v1/SolicitacaoServico/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "model",
+        "Type": "MasterErp.Domain.Models.SolicitacaoServico",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.SolicitacaoServicoController",
+    "Method": "Delete",
+    "RelativePath": "api/v1/SolicitacaoServico/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.SolicitacaoServicoController",
+    "Method": "Aceitar",
+    "RelativePath": "api/v1/SolicitacaoServico/aceitar/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.SolicitacaoServicoController",
+    "Method": "Concluir",
+    "RelativePath": "api/v1/SolicitacaoServico/concluir/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "payload",
+        "Type": "MasterErp.Api.Controllers.ConcluirSolicitacaoPayload",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MasterErp.Api.Controllers.TarefasUsuariosController",
     "Method": "GetAll",
     "RelativePath": "api/v1/TarefasUsuarios",
@@ -2971,6 +3103,26 @@
   },
   {
     "ContainingType": "MasterErp.Api.Controllers.UsuariosController",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/Usuarios",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[MasterErp.Domain.Models.Usuario, MasterErp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.UsuariosController",
     "Method": "Post",
     "RelativePath": "api/v1/Usuarios",
     "HttpMethod": "POST",
@@ -3050,8 +3202,40 @@
   },
   {
     "ContainingType": "MasterErp.Api.Controllers.UsuariosController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/v1/Usuarios/change-password",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "MasterErp.Api.Controllers.ChangePasswordRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.UsuariosController",
     "Method": "ResetUserPassword",
     "RelativePath": "api/v1/Usuarios/reset-password/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.UsuariosController",
+    "Method": "TurnActive",
+    "RelativePath": "api/v1/Usuarios/turn-active/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,

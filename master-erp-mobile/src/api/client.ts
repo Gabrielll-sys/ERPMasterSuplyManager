@@ -7,7 +7,7 @@ import * as SecureStore from 'expo-secure-store';
 // Emulador iOS: Use localhost:5285
 // Para encontrar seu IP: ipconfig (Windows) ou ifconfig (Mac/Linux)
 
-const API_BASE_URL = 'http://192.168.100.241:5285/api/v1'; // IP da máquina detectado
+const API_BASE_URL = 'http://192.168.2.120:5285/api/v1'; // IP da máquina detectado
 
 const api = axios.create({
     baseURL: API_BASE_URL,

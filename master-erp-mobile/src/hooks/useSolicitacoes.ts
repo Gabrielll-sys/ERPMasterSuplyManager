@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { solicitacaoService } from '../api/solicitacao.service';
-import { CreateSolicitacaoPayload, ConcluirSolicitacaoPayload } from '../types';
+import { CreateSolicitacaoPayload, ConcluirSolicitacaoPayload, ISolicitacaoServico } from '../types';
 
 /**
  * Hook customizado para gerenciar solicitações de serviço com React Query
@@ -50,7 +50,9 @@ export function useSolicitacoes() {
 
     // Mutation para atualizar solicitação
     const updateMutation = useMutation({
-        mutationFn: ({ id, data }: { id: number; data: any }) => solicitacaoService.update(id, data),
+        // Atualiza apenas campos parciais da solicitação
+        mutationFn: ({ id, data }: { id: number; data: Partial<ISolicitacaoServico> }) =>
+            solicitacaoService.update(id, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['solicitacoes'] });
             queryClient.invalidateQueries({ queryKey: ['solicitacao'] });
@@ -73,7 +75,10 @@ export function useSolicitacoes() {
         createSolicitacao: createMutation.mutateAsync,
         aceitarSolicitacao: aceitarMutation.mutateAsync,
         concluirSolicitacao: concluirMutation.mutateAsync,
-        updateSolicitacao: updateMutation.mutateAsync,
+        // Envolve a mutation para aceitar (id, data) como parâmetros
+        // Wrapper para manter assinatura (id, data) no app
+        updateSolicitacao: (id: number, data: Partial<ISolicitacaoServico>) =>
+            updateMutation.mutateAsync({ id, data }),
         deleteSolicitacao: deleteMutation.mutateAsync,
         isCreating: createMutation.isPending,
         isActing: aceitarMutation.isPending || concluirMutation.isPending || updateMutation.isPending,

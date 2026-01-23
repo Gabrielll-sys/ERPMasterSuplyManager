@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { Card, CardBody, Input, Button, Textarea } from "@nextui-org/react";
+import { useEffect, useState } from "react";
+import { Card, CardBody, Input, Button, Textarea, CheckboxGroup, Checkbox, Spinner } from "@nextui-org/react";
 import { Plus, Send } from "lucide-react";
 import { CreateSolicitacaoPayload } from "../interfaces/ISolicitacaoServico";
+import { getAllUsers } from "../services/User.Services";
+import { IUsuario } from "../interfaces/IUsuario";
 
 interface SolicitacaoServicoFormProps {
   onSubmit: (payload: CreateSolicitacaoPayload) => Promise<void>;
@@ -20,17 +22,44 @@ export const SolicitacaoServicoForm = ({
   const [descricao, setDescricao] = useState("");
   const [nomeCliente, setNomeCliente] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
+  const [usuarios, setUsuarios] = useState<IUsuario[]>([]);
+  const [selectedUsuarios, setSelectedUsuarios] = useState<string[]>([]);
+  const [isLoadingUsuarios, setIsLoadingUsuarios] = useState(false);
+
+  useEffect(() => {
+    const loadUsuarios = async () => {
+      setIsLoadingUsuarios(true);
+      try {
+        const users = await getAllUsers();
+        // Carrega apenas usuários ativos para seleção
+        setUsuarios(users.filter((u) => u.isActive));
+      } catch (error) {
+        console.error("Erro ao carregar usuários:", error);
+      } finally {
+        setIsLoadingUsuarios(false);
+      }
+    };
+
+    if (isExpanded) {
+      loadUsuarios();
+    }
+  }, [isExpanded]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!descricao.trim() || !nomeCliente.trim()) return;
 
-    await onSubmit({ descricao, nomeCliente });
+    const usuariosDesignados =
+      selectedUsuarios.length > 0 ? selectedUsuarios.join(", ") : undefined;
+
+    // Inclui usuários designados no payload quando selecionados
+    await onSubmit({ descricao, nomeCliente, usuariosDesignados });
     
     // Limpar formulário após sucesso
     setDescricao("");
     setNomeCliente("");
+    setSelectedUsuarios([]);
     setIsExpanded(false);
   };
 
@@ -78,6 +107,35 @@ export const SolicitacaoServicoForm = ({
               }}
             />
             
+            <div className="space-y-2">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                Usuários responsáveis (opcional)
+              </span>
+              {isLoadingUsuarios ? (
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <Spinner size="sm" />
+                  Carregando usuários...
+                </div>
+              ) : (
+                <CheckboxGroup
+                  value={selectedUsuarios}
+                  onValueChange={setSelectedUsuarios}
+                  className="gap-2"
+                >
+                  {usuarios.map((usuario) => (
+                    <Checkbox key={usuario.id} value={usuario.nome || ""}>
+                      {usuario.nome}
+                      {usuario.cargo && (
+                        <span className="text-xs text-gray-400 ml-2">
+                          ({usuario.cargo})
+                        </span>
+                      )}
+                    </Checkbox>
+                  ))}
+                </CheckboxGroup>
+              )}
+            </div>
+
             <div className="flex gap-2 justify-end">
               <Button
                 variant="light"
@@ -85,6 +143,7 @@ export const SolicitacaoServicoForm = ({
                   setIsExpanded(false);
                   setDescricao("");
                   setNomeCliente("");
+                  setSelectedUsuarios([]);
                 }}
                 isDisabled={isLoading}
               >

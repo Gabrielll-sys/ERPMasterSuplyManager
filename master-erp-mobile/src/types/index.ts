@@ -33,10 +33,75 @@ export interface LoginCredentials {
 export interface CreateSolicitacaoPayload {
     nomeCliente: string;
     descricao: string;
+    usuariosDesignados?: string;
 }
 
 export interface ConcluirSolicitacaoPayload {
     usuarios: string[];
+}
+
+// Tipos para Orçamentos
+export interface IOrcamento {
+    id?: number;
+    responsavelOrcamento?: string | null;
+    nomeCliente?: string;
+    empresa?: string;
+    emailCliente?: string;
+    responsavelVenda?: string;
+    dataOrcamento?: string | Date;
+    nomeOrcamento?: string;
+    observacoes?: string;
+    desconto?: number;
+    acrescimo?: number;
+    precoVendaTotal?: number;
+    precoVendaComDesconto?: number;
+    dataVenda?: string | Date;
+    isPayed?: boolean;
+    telefone?: string;
+    endereco?: string;
+    cpfOrCnpj?: string;
+    tipoPagamento?: string;
+}
+
+export interface IMaterial {
+    id?: number;
+    categoria: string;
+    codigoFabricante: string;
+    corrente: string;
+    dataEntradaNF?: string | Date;
+    descricao: string;
+    localizacao: string;
+    marca: string;
+    markup?: string | number | null;
+    precoCusto?: number | string;
+    precoVenda?: number | string;
+    tensao: string;
+    unidade: string;
+    urlImage?: string | null;
+}
+
+export interface IInventario {
+    id: number;
+    dataAlteracao?: string | Date;
+    materialId?: number;
+    material?: IMaterial;
+    razao?: string | null;
+    estoque?: number | null;
+    movimentacao?: number | null;
+    saldoFinal?: number | null;
+    responsavel?: string | null;
+}
+
+export interface IItemOrcamento {
+    id: number;
+    quantidadeMaterial: number;
+    dataAdicaoItem?: string | Date;
+    precoItemOrcamento?: number;
+    materialId: number;
+    material?: IMaterial;
+    orcamentoId: number;
+    orcamento?: IOrcamento;
+    precoVenda?: number;
 }
 
 export const getStatusLabel = (status: number): string => {

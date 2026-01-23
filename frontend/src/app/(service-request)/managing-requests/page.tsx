@@ -7,7 +7,7 @@ import { Search, Clock, CheckCircle, PlayCircle, RefreshCw } from "lucide-react"
 import SolicitacaoServicoForm from "@/app/componentes/SolicitacaoServicoForm";
 import SolicitacaoServicoList from "@/app/componentes/SolicitacaoServicoList";
 import SolicitacaoServicoDetailsModal from "@/app/componentes/SolicitacaoServicoDetailsModal";
-import { ISolicitacaoServico, StatusSolicitacao } from "@/app/interfaces/ISolicitacaoServico";
+import { ISolicitacaoServico, StatusSolicitacao, CreateSolicitacaoPayload } from "@/app/interfaces/ISolicitacaoServico";
 import { useSolicitacaoServico } from "@/app/hooks/useSolicitacaoServico";
 
 export default function SolicitacaoServicoPage() {
@@ -22,6 +22,7 @@ export default function SolicitacaoServicoPage() {
     aceitarSolicitacao,
     concluirSolicitacao,
     deleteSolicitacao,
+    updateSolicitacao,
     isCreating,
     isActing,
   } = useSolicitacaoServico();
@@ -67,7 +68,7 @@ export default function SolicitacaoServicoPage() {
   }), [solicitacoes]);
 
   // Handler para criar
-  const handleCreate = async (payload: { descricao: string; nomeCliente: string }) => {
+  const handleCreate = async (payload: CreateSolicitacaoPayload) => {
     createSolicitacao(payload);
   };
 
@@ -84,6 +85,11 @@ export default function SolicitacaoServicoPage() {
   // Handler para deletar
   const handleDelete = async (id: number) => {
     deleteSolicitacao(id);
+  };
+
+  // Handler para editar nome do cliente e descrição
+  const handleUpdate = async (id: number, nomeCliente: string, descricao: string) => {
+    updateSolicitacao(id, { nomeCliente, descricao });
   };
 
   return (
@@ -241,6 +247,7 @@ export default function SolicitacaoServicoPage() {
         onAceitar={handleAceitar}
         onConcluir={handleConcluir}
         onDelete={handleDelete}
+        onUpdate={handleUpdate}
         currentUserName={user?.userName}
         userRole={user?.role}
       />

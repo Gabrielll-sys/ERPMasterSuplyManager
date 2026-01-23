@@ -3,6 +3,7 @@ import { View, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 're
 import { TextInput, Button, Text, Surface, useTheme, HelperText, Chip } from 'react-native-paper';
 import { router } from 'expo-router';
 import { useSolicitacoes } from '../../src/hooks/useSolicitacoes';
+import { CreateSolicitacaoPayload } from '../../src/types';
 import { UserSelectModal } from '../../src/components/UserSelectModal';
 
 export default function NovaSolicitacaoScreen() {
@@ -24,12 +25,12 @@ export default function NovaSolicitacaoScreen() {
     }
 
     try {
-      const payload: any = {
+      const payload: CreateSolicitacaoPayload = {
         nomeCliente: nomeCliente.trim(),
         descricao: descricao.trim(),
       };
       
-      // Se houver usuários selecionados, adiciona ao payload
+      // Inclui usuários designados quando selecionados
       if (usuariosResponsaveis.length > 0) {
         payload.usuariosDesignados = usuariosResponsaveis.join(', ');
       }

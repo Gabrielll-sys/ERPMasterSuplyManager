@@ -10,7 +10,8 @@ import {
   createSolicitacao,
   aceitarSolicitacao,
   concluirSolicitacao,
-  deleteSolicitacao
+  deleteSolicitacao,
+  updateSolicitacao
 } from '@/app/services/SolicitacaoServico.Service';
 import { 
   ISolicitacaoServico, 
@@ -167,6 +168,26 @@ export function useSolicitacaoServico() {
   });
 
   // ============================================
+  // ✏️ MUTATION: Atualizar solicitação
+  // ============================================
+  const updateMutation = useMutation({
+    mutationFn: ({ id, data }: { id: number; data: Partial<ISolicitacaoServico> }) =>
+      updateSolicitacao(id, data),
+    onSuccess: (updatedSolicitacao) => {
+      toast.success("Solicitação atualizada!");
+      // Atualiza o cache com os dados retornados
+      queryClient.setQueryData<ISolicitacaoServico[]>(QUERY_KEY, (old) =>
+        old?.map(s => s.id === updatedSolicitacao.id ? updatedSolicitacao : s)
+      );
+    },
+    onError: (error: Error) => {
+      toast.error("Erro ao atualizar solicitação", {
+        description: error.message
+      });
+    }
+  });
+
+  // ============================================
   // 📤 RETORNO DO HOOK
   // ============================================
   return {
@@ -183,12 +204,16 @@ export function useSolicitacaoServico() {
     concluirSolicitacao: (id: number, usuarios: string[]) => 
       concluirMutation.mutate({ id, usuarios }),
     deleteSolicitacao: deleteMutation.mutate,
+    // Atualiza cliente/descrição e outros campos permitidos
+    updateSolicitacao: (id: number, data: Partial<ISolicitacaoServico>) =>
+      updateMutation.mutate({ id, data }),
     
     // Estados de loading das mutations
     isCreating: createMutation.isPending,
     isAceiting: aceitarMutation.isPending,
     isConcluding: concluirMutation.isPending,
     isDeleting: deleteMutation.isPending,
-    isActing: aceitarMutation.isPending || concluirMutation.isPending,
+    isUpdating: updateMutation.isPending,
+    isActing: aceitarMutation.isPending || concluirMutation.isPending || updateMutation.isPending,
   };
 }

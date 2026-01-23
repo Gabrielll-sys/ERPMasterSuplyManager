@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { router } from 'expo-router';
 import { authService } from '../api/auth.service';
 import { AuthUser, LoginCredentials } from '../types';
 
@@ -46,6 +47,8 @@ export function useAuth() {
             await authService.logout();
             setUser(null);
             setIsAuthenticated(false);
+            // Redireciona para a tela de login após sair
+            router.replace('/(auth)/login');
         } catch (error) {
             console.error('Erro no logout:', error);
             throw error;

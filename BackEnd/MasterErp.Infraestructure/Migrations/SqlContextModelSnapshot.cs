@@ -493,6 +493,9 @@ namespace MasterErp.Infraestructure.Migrations
                     b.Property<string>("UsuariosConclusao")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("UsuariosDesignados")
+                        .HasColumnType("longtext");
+
                     b.HasKey("Id");
 
                     b.ToTable("SolicitacoesServico");
