@@ -29,7 +29,8 @@ namespace MasterErp.Infraestructure.Context
 
        public DbSet<LogAcoesUsuario> LogAcoesUsuarios { get; set; } 
 
-       public DbSet<SolicitacaoServico> SolicitacoesServico { get; set; } 
+        public DbSet<SolicitacaoServico> SolicitacoesServico { get; set; } 
+        public DbSet<Apr> Aprs { get; set; }
         public SqlContext(DbContextOptions<SqlContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

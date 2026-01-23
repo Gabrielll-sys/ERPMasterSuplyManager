@@ -400,6 +400,61 @@
             </summary>
             <param name="Id"></param>
         </member>
+        <member name="M:MasterErp.Api.Controllers.SolicitacaoServicoController.GetAll">
+            <summary>
+            Busca todas as solicitações de serviço
+            </summary>
+            <returns>Lista de solicitações</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.SolicitacaoServicoController.GetById(System.Int32)">
+            <summary>
+            Busca uma solicitação de serviço pelo ID
+            </summary>
+            <param name="id">ID da solicitação</param>
+            <returns>Solicitação encontrada</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.SolicitacaoServicoController.Create(MasterErp.Domain.Models.SolicitacaoServico)">
+            <summary>
+            Cria uma nova solicitação de serviço
+            </summary>
+            <param name="model">Dados da solicitação</param>
+            <returns>Solicitação criada</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.SolicitacaoServicoController.Update(System.Int32,MasterErp.Domain.Models.SolicitacaoServico)">
+            <summary>
+            Atualiza uma solicitação de serviço
+            </summary>
+            <param name="id">ID da solicitação</param>
+            <param name="model">Dados atualizados</param>
+            <returns>Solicitação atualizada</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.SolicitacaoServicoController.Aceitar(System.Int32)">
+            <summary>
+            Aceita uma solicitação de serviço (registra o usuário logado)
+            </summary>
+            <param name="id">ID da solicitação</param>
+            <returns>Solicitação aceita</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.SolicitacaoServicoController.Concluir(System.Int32,MasterErp.Api.Controllers.ConcluirSolicitacaoPayload)">
+            <summary>
+            Conclui uma solicitação de serviço (registra os usuários responsáveis)
+            </summary>
+            <param name="id">ID da solicitação</param>
+            <param name="payload">Lista de usuários responsáveis pela conclusão</param>
+            <returns>Solicitação concluída</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.SolicitacaoServicoController.Delete(System.Int32)">
+            <summary>
+            Remove uma solicitação de serviço
+            </summary>
+            <param name="id">ID da solicitação</param>
+            <returns>NoContent se sucesso</returns>
+        </member>
+        <member name="T:MasterErp.Api.Controllers.ConcluirSolicitacaoPayload">
+            <summary>
+            Payload para o endpoint de conclusão
+            </summary>
+        </member>
         <member name="M:MasterErp.Api.Controllers.TarefasUsuariosController.Post(MasterErp.Domain.Models.TarefaUsuario)">
             <summary>
             Cria um relatório diário
@@ -439,6 +494,12 @@
             Reseta senha do usuário
             </summary>
             <param name="Usuario"></param>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.UsuariosController.ChangePassword(MasterErp.Api.Controllers.ChangePasswordRequest)">
+            <summary>
+            Permite que o usuário autenticado troque sua própria senha
+            </summary>
+            <param name="model">Senha atual e nova senha</param>
         </member>
         <member name="M:MasterErp.Api.Controllers.UsuariosController.TurnInactive(System.Int32)">
             <summary>

@@ -63,6 +63,16 @@ export interface IOrcamento {
     tipoPagamento?: string;
 }
 
+// Tipo para APR com conteÃºdo em JSON
+export interface IApr {
+    id?: number;
+    titulo?: string;
+    data?: string | Date;
+    conteudoJson: string;
+    criadoEm?: string | Date;
+    atualizadoEm?: string | Date | null;
+}
+
 export interface IMaterial {
     id?: number;
     categoria: string;

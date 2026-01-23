@@ -1,4 +1,4 @@
-import { Stack } from 'expo-router';
+﻿import { Stack } from 'expo-router';
 import { PaperProvider } from 'react-native-paper';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { lightTheme } from '../src/theme';
@@ -24,7 +24,7 @@ export default function RootLayout() {
             options={{ 
               presentation: 'modal',
               headerShown: true,
-              title: 'Detalhes da Solicitação' 
+              title: 'Detalhes da SolicitaÃ§Ã£o' 
             }} 
           />
           <Stack.Screen 
@@ -32,7 +32,7 @@ export default function RootLayout() {
             options={{ 
               presentation: 'modal',
               headerShown: true,
-              title: 'Nova Solicitação' 
+              title: 'Nova SolicitaÃ§Ã£o' 
             }} 
           />
           <Stack.Screen
@@ -40,7 +40,7 @@ export default function RootLayout() {
             options={{
               presentation: 'modal',
               headerShown: true,
-              title: 'Novo Orçamento',
+              title: 'Novo OrÃ§amento',
             }}
           />
           <Stack.Screen
@@ -48,7 +48,24 @@ export default function RootLayout() {
             options={{
               presentation: 'modal',
               headerShown: true,
-              title: 'Detalhes do Orçamento',
+              title: 'Detalhes do OrÃ§amento',
+            }}
+          />
+          {/* Rotas de APR */}
+          <Stack.Screen
+            name="apr/nova"
+            options={{
+              presentation: 'modal',
+              headerShown: true,
+              title: 'Nova APR',
+            }}
+          />
+          <Stack.Screen
+            name="apr/[id]"
+            options={{
+              presentation: 'modal',
+              headerShown: true,
+              title: 'Detalhes da APR',
             }}
           />
         </Stack>

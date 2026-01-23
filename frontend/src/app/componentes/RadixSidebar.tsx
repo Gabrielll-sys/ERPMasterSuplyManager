@@ -97,6 +97,14 @@ const RadixSidebar: React.FC<RadixSidebarProps> = ({ show, setShowSideBar }) => 
     },
     { label: 'Ordem de Separação', href: '/managing-os', icon: ClipboardList, adminOnly: true },
     { label: 'Solicitação de Serviço', href: '/managing-requests', icon: ClipboardCheck },
+    {
+      label: 'APR',
+      icon: ClipboardList,
+      children: [
+        { label: 'Nova APR', href: '/apr/nova', icon: PlusCircle },
+        { label: 'Gerenciar APR', href: '/apr', icon: List },
+      ]
+    },
     { label: 'Gerador QR Code', href: '/generateMaterialQrcode', icon: QrCode },
     { label: 'Registro de Ações', href: '/log-register', icon: ScrollText, adminOnly: true },
     {

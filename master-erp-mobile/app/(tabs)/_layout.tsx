@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Tabs } from 'expo-router';
 import { useTheme, IconButton } from 'react-native-paper';
 
@@ -23,17 +23,26 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="solicitacoes"
         options={{
-          title: 'Solicitações',
-          tabBarLabel: 'Solicitações',
+          title: 'SolicitaÃ§Ãµes',
+          tabBarLabel: 'SolicitaÃ§Ãµes',
           tabBarIcon: ({ color }) => <IconButton icon="clipboard-list" iconColor={color} size={20} />,
         }}
       />
       <Tabs.Screen
         name="orcamentos"
         options={{
-          title: 'Orçamentos',
-          tabBarLabel: 'Orçamentos',
+          title: 'OrÃ§amentos',
+          tabBarLabel: 'OrÃ§amentos',
           tabBarIcon: ({ color }) => <IconButton icon="file-document" iconColor={color} size={20} />,
+        }}
+      />
+      {/* Aba de APR */}
+      <Tabs.Screen
+        name="apr"
+        options={{
+          title: 'APR',
+          tabBarLabel: 'APR',
+          tabBarIcon: ({ color }) => <IconButton icon="clipboard-text" iconColor={color} size={20} />,
         }}
       />
       <Tabs.Screen

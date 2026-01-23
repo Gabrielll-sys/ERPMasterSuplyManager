@@ -1,5 +1,178 @@
- dotnet ef database update --startup-project MasterErp.Api --project MasterErp.Infraestructure
+# ===============================================
+# COMANDOS ÚTEIS - BACKEND ERP MASTER
+# ===============================================
 
- dotnet ef migrations add NomeDaSuaMigration --startup-project MasterErp.Api --project MasterErp.Infraestructure
+# -----------------------------------------------
+# MIGRATIONS - Entity Framework Core
+# -----------------------------------------------
 
- dotnet run --project MasterErp.Api --launch-profile http
+## 1. GERAR SCRIPT SQL PARA AZURE (Idempotente)
+## Uso: Gerar script completo de todas migrations para aplicar no Azure MySQL
+
+### CMD / PowerShell / Terminal (na pasta BackEnd):
+dotnet ef migrations script --project MasterErp.Infraestructure --startup-project MasterErp.Api --idempotent --output migration_azure.sql
+
+### Package Manager Console (Visual Studio):
+Script-Migration -Project MasterErp.Infraestructure -StartupProject MasterErp.Api -Idempotent -Output migration_azure.sql
+
+
+## 2. CRIAR NOVA MIGRATION
+
+### CMD / PowerShell / Terminal (na pasta BackEnd):
+dotnet ef migrations add NomeDaMigration --project MasterErp.Infraestructure --startup-project MasterErp.Api
+
+### Package Manager Console (Visual Studio):
+Add-Migration NomeDaMigration -Project MasterErp.Infraestructure -StartupProject MasterErp.Api
+
+
+## 3. APLICAR MIGRATIONS NO BANCO LOCAL
+
+### CMD / PowerShell / Terminal (na pasta BackEnd):
+dotnet ef database update --project MasterErp.Infraestructure --startup-project MasterErp.Api
+
+### Package Manager Console (Visual Studio):
+Update-Database -Project MasterErp.Infraestructure -StartupProject MasterErp.Api
+
+
+## 4. REMOVER ÚLTIMA MIGRATION (se ainda não aplicada)
+
+### CMD / PowerShell / Terminal (na pasta BackEnd):
+dotnet ef migrations remove --project MasterErp.Infraestructure --startup-project MasterErp.Api
+
+### Package Manager Console (Visual Studio):
+Remove-Migration -Project MasterErp.Infraestructure -StartupProject MasterErp.Api
+
+
+## 5. LISTAR MIGRATIONS
+
+### CMD / PowerShell / Terminal (na pasta BackEnd):
+dotnet ef migrations list --project MasterErp.Infraestructure --startup-project MasterErp.Api
+
+### Package Manager Console (Visual Studio):
+Get-Migration -Project MasterErp.Infraestructure -StartupProject MasterErp.Api
+
+
+## 6. REVERTER PARA MIGRATION ESPECÍFICA
+
+### CMD / PowerShell / Terminal (na pasta BackEnd):
+dotnet ef database update NomeDaMigration --project MasterErp.Infraestructure --startup-project MasterErp.Api
+
+### Package Manager Console (Visual Studio):
+Update-Database -Migration NomeDaMigration -Project MasterErp.Infraestructure -StartupProject MasterErp.Api
+
+
+## 7. GERAR SCRIPT SQL ENTRE MIGRATIONS ESPECÍFICAS
+
+### CMD / PowerShell / Terminal (na pasta BackEnd):
+dotnet ef migrations script MigrationInicial MigrationFinal --project MasterErp.Infraestructure --startup-project MasterErp.Api --output script_parcial.sql
+
+### Package Manager Console (Visual Studio):
+Script-Migration -From MigrationInicial -To MigrationFinal -Project MasterErp.Infraestructure -StartupProject MasterErp.Api -Output script_parcial.sql
+
+
+# -----------------------------------------------
+# EXECUTAR APLICAÇÃO
+# -----------------------------------------------
+
+## Desenvolvimento (HTTP - porta 5285)
+
+### CMD / PowerShell / Terminal (na pasta BackEnd/MasterErp.Api):
+dotnet run --launch-profile http 
+
+### Visual Studio:
+F5 (Debug) ou Ctrl+F5 (Sem Debug)
+
+
+## Build Release
+
+### CMD / PowerShell / Terminal (na pasta BackEnd):
+dotnet build -c Release
+
+### Visual Studio:
+Build > Build Solution (Ctrl+Shift+B) com configuração Release
+
+
+## Publicar para Produção
+
+### CMD / PowerShell / Terminal (na pasta BackEnd/MasterErp.Api):
+dotnet publish -c Release -o ./publish
+
+### Package Manager Console (Visual Studio):
+# Usar menu: Build > Publish > Selecionar perfil
+
+
+# -----------------------------------------------
+# TESTES
+# -----------------------------------------------
+
+## Executar Todos os Testes
+
+### CMD / PowerShell / Terminal (na pasta BackEnd):
+dotnet test
+
+### Visual Studio:
+Test > Run All Tests (Ctrl+R, A)
+
+
+# -----------------------------------------------
+# PACOTES NUGET
+# -----------------------------------------------
+
+## Restaurar Pacotes
+
+### CMD / PowerShell / Terminal (na pasta BackEnd):
+dotnet restore
+
+### Package Manager Console (Visual Studio):
+Update-Package -Reinstall
+
+
+## Adicionar Pacote
+
+### CMD / PowerShell / Terminal:
+dotnet add package NomeDoPacote --project MasterErp.Api
+
+### Package Manager Console (Visual Studio):
+Install-Package NomeDoPacote -Project MasterErp.Api
+
+
+# -----------------------------------------------
+# LIMPEZA
+# -----------------------------------------------
+
+## Limpar Build
+
+### CMD / PowerShell / Terminal (na pasta BackEnd):
+dotnet clean
+
+### Visual Studio:
+Build > Clean Solution
+
+
+# -----------------------------------------------
+# AZURE - APLICAR MIGRATION
+# -----------------------------------------------
+
+## Via Azure CLI + MySQL Client
+
+### 1. Gerar script (ver comando #1 acima)
+### 2. Conectar ao Azure MySQL:
+mysql -h SEU-SERVIDOR.mysql.database.azure.com -u usuario@servidor -p nome_database < migration_azure.sql
+
+## Via Azure Portal
+### 1. Acessar portal.azure.com
+### 2. Navegar até Azure Database for MySQL
+### 3. Query Editor
+### 4. Colar conteúdo do migration_azure.sql
+### 5. Executar
+
+
+# ===============================================
+# NOTAS IMPORTANTES
+# ===============================================
+
+# - Sempre faça backup antes de aplicar migrations em produção
+# - Use --idempotent para gerar scripts seguros que verificam se migration já foi aplicada
+# - O Package Manager Console precisa estar no projeto correto (Tools > NuGet Package Manager > Package Manager Console)
+# - Migrations são aplicadas na ordem de criação
+# - Nunca delete migrations que já foram aplicadas em produção

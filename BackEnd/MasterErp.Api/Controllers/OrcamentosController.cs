@@ -14,7 +14,7 @@ namespace MasterErp.Api.Controllers;
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class OrcamentosController: ControllerBase
     {
         public readonly SqlContext _context;

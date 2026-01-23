@@ -2,7 +2,7 @@
 import { Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { HiFilter, HiInbox, HiPencil, HiPencilAlt, HiQrcode, HiShoppingBag } from 'react-icons/hi';
+import { HiFilter, HiInbox, HiPencil, HiPencilAlt, HiQrcode, HiShoppingBag, HiClipboardList } from 'react-icons/hi';
 
 import IconReport from "../assets/icons/IconReport";
 import { createRelatorioDiario } from "../services/RelatorioDiario.Services";
@@ -75,6 +75,14 @@ export default function SideBarLFT(props : any) {
           <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/manage-budges" >
               Orçamentos
           </Sidebar.Item>
+          </Sidebar.Collapse>
+          <Sidebar.Collapse className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out"label=" APR" icon={HiClipboardList}>
+            <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/apr/nova" >
+                Nova APR
+            </Sidebar.Item>
+            <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/apr" >
+                Gerenciar APR
+            </Sidebar.Item>
           </Sidebar.Collapse>
               </>
           )}
