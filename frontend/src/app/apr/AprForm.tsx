@@ -2,6 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { IApr } from "../interfaces/IApr";
+import { getAllUsers } from "../services/User.Services";
+import { IUsuario } from "../interfaces/IUsuario";
+import { useAuth } from "@/contexts/AuthContext";
 
 type TriState = "S" | "N" | "NA";
 
@@ -237,7 +240,7 @@ const defaultChecklist = (epis: string[], riscos: string[]): AprChecklist => ({
 
 const createDefaultForm = (): AprFormData => ({
   titulo: "",
-  empresa: "",
+  empresa: "Brastorno",
   data: "",
   horaInicio: "",
   tipoTrabalho: {
@@ -318,7 +321,14 @@ interface AprFormProps {
 }
 
 export default function AprForm({ apr, onSave, saving }: AprFormProps) {
+  const { user } = useAuth();
   const [formData, setFormData] = useState<AprFormData>(createDefaultForm());
+  // Controle de feedback e bloqueio ao criar APR.
+  const [statusBadge, setStatusBadge] = useState("");
+  const [cooldown, setCooldown] = useState(false);
+  // Lista de usuarios para sugestao nos campos com digitacao livre.
+  const [users, setUsers] = useState<IUsuario[]>([]);
+  const isCreateMode = !apr?.id;
 
   useEffect(() => {
     if (!apr?.conteudoJson) return;
@@ -329,6 +339,70 @@ export default function AprForm({ apr, onSave, saving }: AprFormProps) {
       setFormData(createDefaultForm());
     }
   }, [apr]);
+
+  useEffect(() => {
+    // Carrega usuarios cadastrados para sugestoes de preenchimento.
+    const loadUsers = async () => {
+      try {
+        const data = await getAllUsers();
+        const filterUsers = data.filter(u => u.isActive === true);
+        setUsers(filterUsers);
+      } catch {
+        setUsers([]);
+      }
+    };
+
+    loadUsers();
+  }, []);
+
+  useEffect(() => {
+    // Emissor da APR deve ser o usuario criador e nao editavel.
+    if (!isCreateMode) return;
+    if (!user?.userName) return;
+    setFormData((prev) => ({
+      ...prev,
+      emissor: { ...prev.emissor, nome: user.userName },
+    }));
+  }, [isCreateMode, user?.userName]);
+
+  useEffect(() => {
+    // Mantem o emissor do encerramento alinhado ao emissor da APR.
+    if (!formData.emissor.nome) return;
+    if (formData.encerramento.emissorNome === formData.emissor.nome) return;
+    setFormData((prev) => ({
+      ...prev,
+      encerramento: { ...prev.encerramento, emissorNome: prev.emissor.nome },
+    }));
+  }, [formData.emissor.nome]);
+
+  useEffect(() => {
+    // Define data e hora automaticamente na criacao da APR.
+    if (!isCreateMode) return;
+    if (formData.data && formData.horaInicio) return;
+    const now = new Date();
+    const dateValue = now.toISOString().slice(0, 10);
+    const timeValue = now.toTimeString().slice(0, 5);
+    setFormData((prev) => ({
+      ...prev,
+      data: prev.data || dateValue,
+      horaInicio: prev.horaInicio || timeValue,
+    }));
+  }, [isCreateMode, formData.data, formData.horaInicio]);
+
+  const toDatetimeLocal = (value?: string) => {
+    if (!value) return "";
+    const parsed = new Date(value);
+    if (Number.isNaN(parsed.getTime())) return value;
+    const pad = (n: number) => n.toString().padStart(2, "0");
+    return `${parsed.getFullYear()}-${pad(parsed.getMonth() + 1)}-${pad(parsed.getDate())}T${pad(parsed.getHours())}:${pad(parsed.getMinutes())}`;
+  };
+
+  const fromDatetimeLocal = (value: string) => {
+    if (!value) return "";
+    const parsed = new Date(value);
+    if (Number.isNaN(parsed.getTime())) return value;
+    return parsed.toISOString();
+  };
 
   const tituloSugestao = useMemo(() => {
     const data = formData.data ? formData.data.split("-").reverse().join("/") : "sem data";
@@ -373,7 +447,28 @@ export default function AprForm({ apr, onSave, saving }: AprFormProps) {
       data: dataFinal,
       conteudoJson: JSON.stringify({ ...formData, titulo: tituloFinal }),
     };
+
+    const isCreateMode = !apr?.id;
+    if (isCreateMode) {
+      setCooldown(true);
+      setTimeout(() => {
+        setCooldown(false);
+      }, 3000);
+    }
+
     await onSave(payload);
+
+    if (isCreateMode) {
+      setStatusBadge("APR criada");
+      setTimeout(() => {
+        setStatusBadge("");
+      }, 3000);
+    } else {
+      setStatusBadge("APR autorizada");
+      setTimeout(() => {
+        setStatusBadge("");
+      }, 3000);
+    }
   };
 
   const renderChecklist = (
@@ -417,7 +512,7 @@ export default function AprForm({ apr, onSave, saving }: AprFormProps) {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div>
-          <p className="text-xs font-semibold text-slate-600 mb-2">EPI's Obrigatórios</p>
+          <p className="text-xs font-semibold text-slate-600 mb-2">EPIs Obrigatórios</p>
           <div className="space-y-2">
             {formData[section].epis.map((item, index) => (
               <div key={`${item.label}-${index}`} className="flex items-center justify-between gap-3">
@@ -526,24 +621,30 @@ export default function AprForm({ apr, onSave, saving }: AprFormProps) {
               onChange={(e) => setFormData((prev) => ({ ...prev, empresa: e.target.value }))}
             />
           </div>
-          <div>
-            <label className="text-xs font-semibold text-slate-600">Data</label>
-            <input
-              type="date"
-              className="mt-1 w-full rounded-lg border border-slate-200 p-2 text-sm"
-              value={formData.data}
-              onChange={(e) => setFormData((prev) => ({ ...prev, data: e.target.value }))}
-            />
-          </div>
-          <div>
-            <label className="text-xs font-semibold text-slate-600">Hora Início</label>
-            <input
-              type="time"
-              className="mt-1 w-full rounded-lg border border-slate-200 p-2 text-sm"
-              value={formData.horaInicio}
-              onChange={(e) => setFormData((prev) => ({ ...prev, horaInicio: e.target.value }))}
-            />
-          </div>
+          {!isCreateMode && (
+            <div>
+              <label className="text-xs font-semibold text-slate-600">Data</label>
+              <input
+                type="date"
+                className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-100 p-2 text-sm text-slate-600"
+                value={formData.data}
+                disabled
+                readOnly
+              />
+            </div>
+          )}
+          {!isCreateMode && (
+            <div>
+              <label className="text-xs font-semibold text-slate-600">Hora Início</label>
+              <input
+                type="time"
+                className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-100 p-2 text-sm text-slate-600"
+                value={formData.horaInicio}
+                disabled
+                readOnly
+              />
+            </div>
+          )}
         </div>
       </div>
 
@@ -641,12 +742,11 @@ export default function AprForm({ apr, onSave, saving }: AprFormProps) {
           <div className="rounded-xl border border-slate-200 p-3">
             <p className="text-xs font-semibold text-slate-600 mb-2">Emissor da APR</p>
             <input
-              className="w-full rounded-lg border border-slate-200 p-2 text-sm mb-2"
+              className="w-full rounded-lg border border-slate-200 bg-slate-100 p-2 text-sm text-slate-600 mb-2"
               placeholder="Nome"
               value={formData.emissor.nome}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, emissor: { ...prev.emissor, nome: e.target.value } }))
-              }
+              readOnly
+              disabled
             />
             <input
               className="w-full rounded-lg border border-slate-200 p-2 text-sm"
@@ -665,6 +765,13 @@ export default function AprForm({ apr, onSave, saving }: AprFormProps) {
       {formData.tipoTrabalho.trabalhoQuente && renderChecklist("Trabalho à Quente", "trabalhoQuente")}
       {formData.tipoTrabalho.eletricidade && renderChecklist("Trabalho com Eletricidade", "eletricidade")}
 
+      {/* Sugestoes de usuarios cadastrados com digitacao livre */}
+      <datalist id="apr-users-list">
+        {users.map((user) => (
+          <option key={user.id} value={user.nome || ""} />
+        ))}
+      </datalist>
+
       <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
         <h2 className="text-lg font-semibold text-slate-900 mb-4">Trabalhadores autorizados</h2>
         <div className="space-y-3">
@@ -673,6 +780,7 @@ export default function AprForm({ apr, onSave, saving }: AprFormProps) {
               <input
                 className="md:col-span-2 rounded-lg border border-slate-200 p-2 text-sm"
                 placeholder={`Nome ${index + 1}`}
+                list="apr-users-list"
                 value={trabalhador.nome}
                 onChange={(e) => {
                   const workers = [...formData.trabalhadores];
@@ -726,6 +834,7 @@ export default function AprForm({ apr, onSave, saving }: AprFormProps) {
           <input
             className="w-full rounded-lg border border-slate-200 p-2 text-sm"
             placeholder="Solicitante da atividade"
+            list="apr-users-list"
             value={formData.encerramento.solicitanteNome}
             onChange={(e) =>
               setFormData((prev) => ({
@@ -735,35 +844,31 @@ export default function AprForm({ apr, onSave, saving }: AprFormProps) {
             }
           />
           <input
-            type="date"
+            type="datetime-local"
             className="w-full rounded-lg border border-slate-200 p-2 text-sm"
-            value={formData.encerramento.solicitanteData}
+            value={toDatetimeLocal(formData.encerramento.solicitanteData)}
             onChange={(e) =>
               setFormData((prev) => ({
                 ...prev,
-                encerramento: { ...prev.encerramento, solicitanteData: e.target.value },
+                encerramento: { ...prev.encerramento, solicitanteData: fromDatetimeLocal(e.target.value) },
               }))
             }
           />
           <input
-            className="w-full rounded-lg border border-slate-200 p-2 text-sm"
+            className="w-full rounded-lg border border-slate-200 bg-slate-100 p-2 text-sm text-slate-600"
             placeholder="Emissor da APR"
+            disabled
+            readOnly
             value={formData.encerramento.emissorNome}
-            onChange={(e) =>
-              setFormData((prev) => ({
-                ...prev,
-                encerramento: { ...prev.encerramento, emissorNome: e.target.value },
-              }))
-            }
           />
           <input
-            type="date"
+            type="datetime-local"
             className="w-full rounded-lg border border-slate-200 p-2 text-sm"
-            value={formData.encerramento.emissorData}
+            value={toDatetimeLocal(formData.encerramento.emissorData)}
             onChange={(e) =>
               setFormData((prev) => ({
                 ...prev,
-                encerramento: { ...prev.encerramento, emissorData: e.target.value },
+                encerramento: { ...prev.encerramento, emissorData: fromDatetimeLocal(e.target.value) },
               }))
             }
           />
@@ -807,9 +912,14 @@ export default function AprForm({ apr, onSave, saving }: AprFormProps) {
       </div>
 
       <div className="flex items-center justify-end gap-3">
+        {statusBadge && (
+          <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+            {statusBadge}
+          </span>
+        )}
         <button
           type="button"
-          disabled={saving}
+          disabled={saving || cooldown}
           onClick={handleSave}
           className="px-5 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 disabled:opacity-60"
         >

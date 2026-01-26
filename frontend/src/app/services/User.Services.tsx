@@ -1,6 +1,9 @@
 import { fetcher, poster, putter } from "../lib/api";
 import { IUsuario } from "../interfaces/IUsuario";
 
+// Payload para criar usuario no sistema.
+export type CreateSystemUserPayload = Pick<IUsuario, "nome" | "email" | "cargo">;
+
 /**
  * NOTA: Esta função cria um inventário, não um usuário.
  * Parece ser um erro de nomenclatura, mas mantida para compatibilidade.
@@ -30,6 +33,11 @@ export const updateInfosUser = async (model: IUsuario) => {
 
 export const getAllUsers = async (): Promise<IUsuario[]> => {
   return fetcher<IUsuario[]>(`/Usuarios`);
+}
+
+// Cria um usuario no sistema.
+export const createSystemUser = async (payload: CreateSystemUserPayload): Promise<IUsuario> => {
+  return poster<IUsuario, CreateSystemUserPayload>(`/Usuarios`, payload);
 }
 
 export const resetUserPassword = async (id: number): Promise<void> => {

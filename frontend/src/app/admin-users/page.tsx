@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
-import { getAllUsers, resetUserPassword, turnUserInactive, turnUserActive } from "../services/User.Services";
+import { createSystemUser, getAllUsers, resetUserPassword, turnUserInactive, turnUserActive } from "../services/User.Services";
 import { IUsuario } from "../interfaces/IUsuario";
 import { toast } from "sonner";
 
@@ -15,7 +15,6 @@ import {
     TableRow,
     TableCell,
     Button,
-    Chip,
     Modal,
     ModalContent,
     ModalHeader,
@@ -26,6 +25,8 @@ import {
     Card,
     CardHeader,
     CardBody,
+    Input,
+    Chip,
 } from "@nextui-org/react";
 
 import IconUsers from "../assets/icons/IconUsers";
@@ -41,6 +42,13 @@ export default function AdminUsersPage() {
     const [selectedUser, setSelectedUser] = useState<IUsuario | null>(null);
     const [resetting, setResetting] = useState(false);
     const [deactivating, setDeactivating] = useState(false);
+    // Estado do formulario de criacao de usuario.
+    const [newUserName, setNewUserName] = useState("");
+    const [newUserEmail, setNewUserEmail] = useState("");
+    const [isCreating, setIsCreating] = useState(false);
+    // Controle de feedback e bloqueio apos criacao.
+    const [createdBadge, setCreatedBadge] = useState(false);
+    const [cooldown, setCooldown] = useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     // Verifica autorização
@@ -153,6 +161,49 @@ export default function AdminUsersPage() {
         );
     };
 
+    // Valida o formulario antes de enviar para API.
+    const validateNewUser = () => {
+        const emailRegex = /\S+@\S+\.\S+/;
+        if (!newUserName.trim()) {
+            toast.error("Nome e obrigatorio");
+            return false;
+        }
+        if (!emailRegex.test(newUserEmail)) {
+            toast.error("Email invalido");
+            return false;
+        }
+        return true;
+    };
+
+    // Cria usuario no sistema com cargo padrao.
+    const handleCreateUser = async () => {
+        if (!validateNewUser()) return;
+
+        try {
+            setIsCreating(true);
+            await createSystemUser({
+                nome: newUserName.trim(),
+                email: newUserEmail.trim(),
+                cargo: "Usuario",
+            });
+            toast.success("Usuario criado com sucesso");
+            setNewUserName("");
+            setNewUserEmail("");
+            setCreatedBadge(true);
+            setCooldown(true);
+            setTimeout(() => {
+                setCreatedBadge(false);
+                setCooldown(false);
+            }, 3000);
+            await loadUsers();
+        } catch (error) {
+            toast.error("Erro ao criar usuario");
+        } finally {
+            setIsCreating(false);
+        }
+    };
+
+
     // Se não autenticado ou sem permissão, não renderiza
     if (!isAuthenticated || (user && !ALLOWED_ROLES.includes(user.role))) {
         return (
@@ -164,6 +215,57 @@ export default function AdminUsersPage() {
 
     return (
         <div className="container mx-auto p-6 max-w-6xl">
+
+            {/* Formulario de criacao de usuario para perfis autorizados. */}
+            <Card className="shadow-lg mb-6">
+                <CardHeader className="flex gap-3 bg-gradient-to-r from-master_black to-gray-800 text-white rounded-t-lg">
+                    <IconUsers className="text-2xl" />
+                    <div className="flex flex-col">
+                        <h2 className="text-lg font-bold">Criar Usuario</h2>
+                        <p className="text-small text-white/70">
+                            Informe nome e email. Cargo padrao: Usuario.
+                        </p>
+                    </div>
+                </CardHeader>
+                <CardBody>
+                    <div className="grid gap-4 md:grid-cols-2">
+                        {/* Campo de nome do usuario. */}
+                        <Input
+                            label="Nome"
+                            placeholder="Ex: Maria Silva"
+                            value={newUserName}
+                            onValueChange={setNewUserName}
+                            isRequired
+                        />
+                        {/* Campo de email do usuario. */}
+                        <Input
+                            label="Email"
+                            placeholder="exemplo@empresa.com"
+                            type="email"
+                            value={newUserEmail}
+                            onValueChange={setNewUserEmail}
+                            isRequired
+                        />
+                    </div>
+                    {/* Acao de criacao com senha padrao no backend. */}
+                    <div className="flex items-center justify-end gap-3 mt-4">
+                        {createdBadge && (
+                            <Chip color="success" variant="flat" size="sm">
+                                Usuario criado
+                            </Chip>
+                        )}
+                        <Button
+                            color="primary"
+                            onPress={handleCreateUser}
+                            isLoading={isCreating}
+                            isDisabled={cooldown || isCreating}
+                        >
+                            Criar Usuario
+                        </Button>
+                    </div>
+                </CardBody>
+            </Card>
+
             <Card className="shadow-lg">
                 <CardHeader className="flex gap-3 bg-gradient-to-r from-master_black to-gray-800 text-white rounded-t-lg">
                     <IconUsers className="text-2xl" />

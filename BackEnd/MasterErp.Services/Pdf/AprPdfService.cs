@@ -151,9 +151,9 @@ internal sealed class AprPdfDocument : IDocument
         container.Page(page =>
         {
             page.Size(PageSizes.A4);
-            page.Margin(20);
+            page.Margin(24);
             page.PageColor(Colors.White);
-            page.DefaultTextStyle(x => x.FontFamily("Helvetica").FontSize(8).FontColor(Gray800));
+            page.DefaultTextStyle(x => x.FontFamily("Helvetica").FontSize(8.5f).FontColor(Gray800));
 
             page.Content().Column(column =>
             {
@@ -185,10 +185,12 @@ internal sealed class AprPdfDocument : IDocument
 
             row.ConstantItem(140).AlignRight().Column(col =>
             {
-                var aprNumero = _apr.Id > 0 ? _apr.Id.ToString() : DocCode;
+                var aprNumero = _apr.Id > 0
+                    ? $"{_apr.Id:0000}-{_apr.Data.ToString("yy", _culture)}"
+                    : DocCode;
                 // Exibe o número da APR conforme o modelo da planilha.
-                col.Item().Text($"Rev. {Revision}").FontSize(7).FontColor(Gray500);
-                col.Item().Text($"APR N°: {WithPlaceholder(aprNumero)}").FontSize(8).FontColor(Gray700).SemiBold();
+                col.Item().AlignRight().Text($"Rev. {Revision}").FontSize(7).FontColor(Gray500);
+                col.Item().AlignRight().Text($"APR N°: {WithPlaceholder(aprNumero)}").FontSize(9).FontColor(Gray700).SemiBold();
             });
         });
     }
@@ -227,7 +229,7 @@ internal sealed class AprPdfDocument : IDocument
                     columns.RelativeColumn(7);
                     columns.ConstantColumn(18);
                     columns.ConstantColumn(18);
-                    columns.ConstantColumn(24);
+                    columns.ConstantColumn(30);
                     columns.RelativeColumn(3);
                 });
 
@@ -285,43 +287,57 @@ internal sealed class AprPdfDocument : IDocument
     // Checklists de EPI, riscos e recomendações por categoria.
     private void ComposeChecklistSections(IContainer container)
     {
+        // Exibe apenas checklists dos tipos de trabalho selecionados.
+        var tipos = _data.TipoTrabalho;
         container.Column(col =>
         {
-            col.Item().Element(c => ComposeChecklistSection(
-                c,
-                "TRABALHO EM ALTURA",
-                _data.TrabalhoAltura,
-                "2- PRECAUÇÕES EM TRABALHO EM ALTURA – (Obs: Anexar a PTA)",
-                AlturaRecomendacoes,
-                "É obrigatório o uso e a realização do check list de cinto de segurança tipo paraquedista com 02 (dois) talabartes e/ou Trava quedas para trabalhos acima de 02 metros."
-            ));
+            if (tipos?.Altura == true)
+            {
+                col.Item().Element(c => ComposeChecklistSection(
+                    c,
+                    "TRABALHO EM ALTURA",
+                    _data.TrabalhoAltura,
+                    "2- PRECAUÇÕES EM TRABALHO EM ALTURA – (Obs: Anexar a PTA)",
+                    AlturaRecomendacoes,
+                    "É obrigatório o uso e a realização do check list de cinto de segurança tipo paraquedista com 02 (dois) talabartes e/ou Trava quedas para trabalhos acima de 02 metros."
+                ));
+            }
 
-            col.Item().PaddingTop(8).Element(c => ComposeChecklistSection(
-                c,
-                "ESPAÇO CONFINADO",
-                _data.EspacoConfinado,
-                "3- PRECAUÇÕES EM ESPAÇO CONFINADO – (Obs: Anexar a PET)",
-                EspacoConfinadoRecomendacoes,
-                null
-            ));
+            if (tipos?.EspacoConfinado == true)
+            {
+                col.Item().PaddingTop(8).Element(c => ComposeChecklistSection(
+                    c,
+                    "ESPAÇO CONFINADO",
+                    _data.EspacoConfinado,
+                    "3- PRECAUÇÕES EM ESPAÇO CONFINADO – (Obs: Anexar a PET)",
+                    EspacoConfinadoRecomendacoes,
+                    null
+                ));
+            }
 
-            col.Item().PaddingTop(8).Element(c => ComposeChecklistSection(
-                c,
-                "TRABALHO À QUENTE",
-                _data.TrabalhoQuente,
-                "4- PRECAUÇÕES EM TRABALHO À QUENTE – (Obs: Anexar a PTQ)",
-                TrabalhoQuenteRecomendacoes,
-                null
-            ));
+            if (tipos?.TrabalhoQuente == true)
+            {
+                col.Item().PaddingTop(8).Element(c => ComposeChecklistSection(
+                    c,
+                    "TRABALHO À QUENTE",
+                    _data.TrabalhoQuente,
+                    "4- PRECAUÇÕES EM TRABALHO À QUENTE – (Obs: Anexar a PTQ)",
+                    TrabalhoQuenteRecomendacoes,
+                    null
+                ));
+            }
 
-            col.Item().PaddingTop(8).Element(c => ComposeChecklistSection(
-                c,
-                "ELETRICIDADE",
-                _data.Eletricidade,
-                "5- PRECAUÇÕES TRABALHO COM ELETRICIDADE – (Obs: Anexar a PTE)",
-                EletricidadeRecomendacoes,
-                null
-            ));
+            if (tipos?.Eletricidade == true)
+            {
+                col.Item().PaddingTop(8).Element(c => ComposeChecklistSection(
+                    c,
+                    "ELETRICIDADE",
+                    _data.Eletricidade,
+                    "5- PRECAUÇÕES TRABALHO COM ELETRICIDADE – (Obs: Anexar a PTE)",
+                    EletricidadeRecomendacoes,
+                    null
+                ));
+            }
         });
     }
 
@@ -372,7 +388,7 @@ internal sealed class AprPdfDocument : IDocument
             {
                 columns.ConstantColumn(18);
                 columns.ConstantColumn(18);
-                columns.ConstantColumn(24);
+                columns.ConstantColumn(30);
                 columns.RelativeColumn(8);
             });
 
@@ -414,7 +430,7 @@ internal sealed class AprPdfDocument : IDocument
                 columns.RelativeColumn(8);
                 columns.ConstantColumn(18);
                 columns.ConstantColumn(18);
-                columns.ConstantColumn(24);
+                columns.ConstantColumn(30);
             });
 
             table.Header(header =>
@@ -482,16 +498,17 @@ internal sealed class AprPdfDocument : IDocument
                     header.Cell().Element(CellHeader).Text("Assinatura");
                 });
 
-                var trabalhadores = _data.Trabalhadores ?? new List<AprWorker>();
-                var totalRows = Math.Max(12, trabalhadores.Count);
+                var trabalhadores = (_data.Trabalhadores ?? new List<AprWorker>())
+                    .Where(worker => !string.IsNullOrWhiteSpace(worker?.Nome) || !string.IsNullOrWhiteSpace(worker?.Funcao))
+                    .ToList();
 
-                for (var i = 0; i < totalRows; i++)
+                for (var i = 0; i < trabalhadores.Count; i++)
                 {
-                    var worker = i < trabalhadores.Count ? trabalhadores[i] : null;
+                    var worker = trabalhadores[i];
                     table.Cell().Element(CellBody).AlignCenter().Text((i + 1).ToString());
                     table.Cell().Element(CellBody).Text(WithPlaceholder(worker?.Nome));
                     table.Cell().Element(CellBody).Text(WithPlaceholder(worker?.Funcao));
-                    table.Cell().Element(CellBody).Text(WithPlaceholder(null));
+                    table.Cell().Element(SignatureLineCell);
                 }
             });
         });
@@ -559,10 +576,10 @@ internal sealed class AprPdfDocument : IDocument
                 header.Cell().Element(CellHeader).Text("Assinatura");
             });
 
-            table.Cell().Element(CellBody).Text(WithPlaceholder(null));
+            table.Cell().Element(CellBody).Text(string.Empty);
             table.Cell().Element(CellBody).AlignCenter().Text(WithPlaceholder(date));
             table.Cell().Element(CellBody).Text(WithPlaceholder(name));
-            table.Cell().Element(CellBody).Text(WithPlaceholder(null));
+            table.Cell().Element(SignatureLineCell);
         });
     }
 
@@ -591,8 +608,8 @@ internal sealed class AprPdfDocument : IDocument
     {
         container.Row(row =>
         {
-            row.ConstantItem(18).Height(18).Background(Accent);
-            row.AutoItem().PaddingLeft(6).Text(title).FontSize(10).FontColor(Primary).SemiBold();
+            row.ConstantItem(20).Height(20).Background(Accent);
+            row.AutoItem().PaddingLeft(6).Text(title).FontSize(10.5f).FontColor(Primary).SemiBold();
         });
     }
 
@@ -606,8 +623,26 @@ internal sealed class AprPdfDocument : IDocument
             .Column(col =>
             {
                 col.Item().Text(label).FontSize(7).FontColor(Gray500);
-                col.Item().Text(WithPlaceholder(value)).FontSize(8).FontColor(Gray800);
+                if (label.StartsWith("Assinatura", StringComparison.OrdinalIgnoreCase) && string.IsNullOrWhiteSpace(value))
+                {
+                    col.Item().PaddingTop(16).Element(SignatureLine);
+                }
+                else
+                {
+                    col.Item().Text(WithPlaceholder(value)).FontSize(8).FontColor(Gray800);
+                }
             });
+    }
+
+    // Linha sutil para campos de assinatura.
+    private static IContainer SignatureLine(IContainer container)
+    {
+        return container.Height(1).Background(Gray400);
+    }
+
+    private static IContainer SignatureLineCell(IContainer container)
+    {
+        return CellBody(container).PaddingTop(16).Element(SignatureLine);
     }
 
     // Campo multiline com nota auxiliar.
@@ -654,24 +689,24 @@ internal sealed class AprPdfDocument : IDocument
     private static IContainer CellHeader(IContainer container)
     {
         return container.Background(Primary)
-            .PaddingVertical(4)
+            .PaddingVertical(5)
             .PaddingHorizontal(6)
-            .DefaultTextStyle(x => x.FontColor(Colors.White).FontSize(7).SemiBold());
+            .DefaultTextStyle(x => x.FontColor(Colors.White).FontSize(7.5f).SemiBold());
     }
 
     private static IContainer CellHeaderSmall(IContainer container)
     {
         return container.Background(Gray700)
-            .PaddingVertical(3)
+            .PaddingVertical(4)
             .PaddingHorizontal(6)
-            .DefaultTextStyle(x => x.FontColor(Colors.White).FontSize(6).SemiBold());
+            .DefaultTextStyle(x => x.FontColor(Colors.White).FontSize(6.5f).SemiBold());
     }
 
     private static IContainer CellBody(IContainer container)
     {
         return container.BorderBottom(1)
             .BorderColor(Gray200)
-            .PaddingVertical(4)
+            .PaddingVertical(5)
             .PaddingHorizontal(6);
     }
 
@@ -681,10 +716,20 @@ internal sealed class AprPdfDocument : IDocument
         if (!string.IsNullOrWhiteSpace(dateText))
         {
             if (DateTime.TryParse(dateText, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out var parsedInvariant))
+            {
+                if (dateText.Contains(":"))
+                    return parsedInvariant.ToString("dd/MM/yyyy HH:mm", _culture);
+
                 return parsedInvariant.ToString("dd/MM/yyyy", _culture);
+            }
 
             if (DateTime.TryParse(dateText, _culture, DateTimeStyles.AssumeLocal, out var parsedCulture))
+            {
+                if (dateText.Contains(":"))
+                    return parsedCulture.ToString("dd/MM/yyyy HH:mm", _culture);
+
                 return parsedCulture.ToString("dd/MM/yyyy", _culture);
+            }
         }
 
         if (fallbackDate.HasValue)

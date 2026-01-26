@@ -86,7 +86,9 @@ export default function AprEditPage({ params }: { params: { id: string } }) {
         </div>
         <AprForm
           apr={apr}
-          onSave={async (payload) => mutation.mutateAsync(payload)}
+          onSave={async (payload) => {
+            await mutation.mutateAsync(payload);
+          }}
           saving={mutation.isPending}
         />
       </div>

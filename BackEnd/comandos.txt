@@ -64,8 +64,7 @@ Update-Database -Migration NomeDaMigration -Project MasterErp.Infraestructure -S
 ## 7. GERAR SCRIPT SQL ENTRE MIGRATIONS ESPECÍFICAS
 
 ### CMD / PowerShell / Terminal (na pasta BackEnd):
-dotnet ef migrations script MigrationInicial MigrationFinal --project MasterErp.Infraestructure --startup-project MasterErp.Api --output script_parcial.sql
-
+dotnet ef migrations script --project MasterErp.Infraestructure --startup-project MasterErp.Api --idempotent --output migration_azure.sql
 ### Package Manager Console (Visual Studio):
 Script-Migration -From MigrationInicial -To MigrationFinal -Project MasterErp.Infraestructure -StartupProject MasterErp.Api -Output script_parcial.sql
 

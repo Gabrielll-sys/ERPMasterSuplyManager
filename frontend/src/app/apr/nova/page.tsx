@@ -30,7 +30,9 @@ export default function AprCreatePage() {
           <p className="text-sm text-slate-500">Preencha os dados abaixo</p>
         </div>
         <AprForm
-          onSave={async (payload) => mutation.mutateAsync(payload)}
+          onSave={async (payload) => {
+            await mutation.mutateAsync(payload);
+          }}
           saving={mutation.isPending}
         />
       </div>

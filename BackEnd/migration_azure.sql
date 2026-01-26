@@ -640,3 +640,44 @@ DROP PROCEDURE MigrationsScript;
 
 COMMIT;
 
+START TRANSACTION;
+
+DROP PROCEDURE IF EXISTS MigrationsScript;
+DELIMITER //
+CREATE PROCEDURE MigrationsScript()
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260123181153_AddApr') THEN
+
+    CREATE TABLE `Aprs` (
+        `Id` int NOT NULL AUTO_INCREMENT,
+        `Titulo` longtext CHARACTER SET utf8mb4 NULL,
+        `Data` datetime(6) NOT NULL,
+        `ConteudoJson` longtext CHARACTER SET utf8mb4 NOT NULL,
+        `CriadoEm` datetime(6) NOT NULL,
+        `AtualizadoEm` datetime(6) NULL,
+        CONSTRAINT `PK_Aprs` PRIMARY KEY (`Id`)
+    ) CHARACTER SET=utf8mb4;
+
+    END IF;
+END //
+DELIMITER ;
+CALL MigrationsScript();
+DROP PROCEDURE MigrationsScript;
+
+DROP PROCEDURE IF EXISTS MigrationsScript;
+DELIMITER //
+CREATE PROCEDURE MigrationsScript()
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260123181153_AddApr') THEN
+
+    INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+    VALUES ('20260123181153_AddApr', '8.0.5');
+
+    END IF;
+END //
+DELIMITER ;
+CALL MigrationsScript();
+DROP PROCEDURE MigrationsScript;
+
+COMMIT;
+
