@@ -420,7 +420,15 @@ export default function AprForm({ apr, onSave, saving }: AprFormProps) {
       const items = prev[section][group].map((item, i) =>
         i === index ? { ...item, status } : item
       );
-      return { ...prev, [section]: { ...prev[section], [group]: items } };
+      const next = { ...prev, [section]: { ...prev[section], [group]: items } };
+      // Se selecionar risco em eletricidade, habilita automaticamente trabalho em altura.
+      if (section === "eletricidade" && group === "riscos") {
+        return {
+          ...next,
+          tipoTrabalho: { ...next.tipoTrabalho, altura: true },
+        };
+      }
+      return next;
     });
   };
 
