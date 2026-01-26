@@ -1,10 +1,30 @@
+/**
+ * Formulário de APR - Análise Preliminar de Riscos
+ * 
+ * Componente principal para criação e edição de APRs.
+ * Suporta 4 tipos de trabalho:
+ * - Trabalho em Altura
+ * - Espaço Confinado
+ * - Trabalho à Quente
+ * - Trabalho com Eletricidade
+ * 
+ * Para cada tipo, há checklists de EPIs e Riscos configuráveis.
+ * 
+ * @module AprForm
+ * @version 2.0.0 - Documentação e UI melhoradas
+ */
+
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { IApr } from "../interfaces/IApr";
 import { getAllUsers } from "../services/User.Services";
 import { IUsuario } from "../interfaces/IUsuario";
 import { useAuth } from "@/contexts/AuthContext";
+
+// ============================================
+// TIPOS E INTERFACES
+// ============================================
 
 type TriState = "S" | "N" | "NA";
 
@@ -58,9 +78,17 @@ interface AprFormData {
   };
 }
 
+// ============================================
+// DADOS DE CHECKLIST
+// Os arrays abaixo definem os itens de cada tipo de trabalho.
+// Para adicionar/remover itens, edite os arrays correspondentes.
+// ============================================
+
+/** Cria array de itens de checklist a partir de labels */
 const buildChecklist = (labels: string[]): ChecklistItem[] =>
   labels.map((label) => ({ label, status: "NA" }));
 
+/** Normaliza checklist salvo, mantendo novos itens e removendo obsoletos */
 const normalizeChecklist = (saved: ChecklistItem[] | undefined, labels: string[]): ChecklistItem[] => {
   const map = new Map(saved?.map((item) => [item.label, item.status]));
   return labels.map((label) => ({
@@ -231,6 +259,11 @@ const eletricidadeRiscos = [
   "Arco elétrico",
 ];
 
+// ============================================
+// FUNÇÕES DE INICIALIZAÇÃO
+// ============================================
+
+/** Cria checklist padrão para um tipo de trabalho */
 const defaultChecklist = (epis: string[], riscos: string[]): AprChecklist => ({
   epis: buildChecklist(epis),
   riscos: buildChecklist(riscos),
@@ -238,6 +271,7 @@ const defaultChecklist = (epis: string[], riscos: string[]): AprChecklist => ({
   outrosRiscos: "",
 });
 
+/** Cria formulário vazio com valores padrão */
 const createDefaultForm = (): AprFormData => ({
   titulo: "",
   empresa: "Brastorno",
@@ -273,6 +307,10 @@ const createDefaultForm = (): AprFormData => ({
   },
 });
 
+/**
+ * Mescla dados salvos com o formulário padrão.
+ * Garante que novos campos sejam adicionados e itens de checklist normalizados.
+ */
 const mergeForm = (saved: Partial<AprFormData>): AprFormData => {
   const base = createDefaultForm();
   return {
@@ -314,20 +352,30 @@ const mergeForm = (saved: Partial<AprFormData>): AprFormData => {
   };
 };
 
+// ============================================
+// COMPONENTE PRINCIPAL
+// ============================================
+
 interface AprFormProps {
+  /** APR existente para edição (null = criação) */
   apr?: IApr | null;
+  /** Callback de salvamento */
   onSave: (payload: IApr) => Promise<void>;
+  /** Indica se está salvando */
   saving?: boolean;
 }
 
 export default function AprForm({ apr, onSave, saving }: AprFormProps) {
   const { user } = useAuth();
   const [formData, setFormData] = useState<AprFormData>(createDefaultForm());
-  // Controle de feedback e bloqueio ao criar APR.
+  
+  // Controle de feedback e bloqueio ao criar APR
   const [statusBadge, setStatusBadge] = useState("");
   const [cooldown, setCooldown] = useState(false);
-  // Lista de usuarios para sugestao nos campos com digitacao livre.
+  
+  // Lista de usuários para sugestão nos campos com digitação livre
   const [users, setUsers] = useState<IUsuario[]>([]);
+  
   const isCreateMode = !apr?.id;
 
   useEffect(() => {
@@ -919,19 +967,19 @@ export default function AprForm({ apr, onSave, saving }: AprFormProps) {
         </div>
       </div>
 
-      <div className="flex items-center justify-end gap-3">
+      <div className="flex items-center justify-end gap-3 mt-6">
         {statusBadge && (
-          <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-            {statusBadge}
+          <span className="rounded-full bg-emerald-50 border border-emerald-200 px-4 py-2 text-sm font-medium text-emerald-700 flex items-center gap-2">
+            <span>✓</span> {statusBadge}
           </span>
         )}
         <button
           type="button"
           disabled={saving || cooldown}
           onClick={handleSave}
-          className="px-5 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 disabled:opacity-60"
+          className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-red-600 text-white text-sm font-semibold hover:from-rose-600 hover:to-red-700 disabled:opacity-60 transition-all shadow-lg shadow-rose-500/20"
         >
-          {saving ? "Salvando..." : "Salvar APR"}
+          {saving ? "Salvando..." : isCreateMode ? "Criar APR" : "Salvar APR"}
         </button>
       </div>
     </div>

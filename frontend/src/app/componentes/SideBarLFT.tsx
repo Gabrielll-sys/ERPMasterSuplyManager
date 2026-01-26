@@ -84,6 +84,15 @@ export default function SideBarLFT(props : any) {
                 Gerenciar APR
             </Sidebar.Item>
           </Sidebar.Collapse>
+          {/* Links de checklist separados. */}
+          <Sidebar.Collapse className=" mt-7 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out"label=" Checklists" icon={HiClipboardList}>
+            <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/checklist-montagem" >
+                Checklist Montagem
+            </Sidebar.Item>
+            <Sidebar.Item className=" mt-3 hover:font-bold hover:-translate-y-1 hover:bg-master_yellow transition duration-75  ease-in-out" href="/checklist-teste" >
+                Checklist Teste
+            </Sidebar.Item>
+          </Sidebar.Collapse>
               </>
           )}
             {conditionsRoles && (

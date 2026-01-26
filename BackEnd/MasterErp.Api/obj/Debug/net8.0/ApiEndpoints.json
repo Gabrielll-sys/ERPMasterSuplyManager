@@ -1,5 +1,100 @@
 [
   {
+    "ContainingType": "MasterErp.Api.Controllers.AprsController",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/Aprs",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.AprsController",
+    "Method": "Create",
+    "RelativePath": "api/v1/Aprs",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "MasterErp.Domain.Models.Apr",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.AprsController",
+    "Method": "GetById",
+    "RelativePath": "api/v1/Aprs/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.AprsController",
+    "Method": "Update",
+    "RelativePath": "api/v1/Aprs/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "model",
+        "Type": "MasterErp.Domain.Models.Apr",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.AprsController",
+    "Method": "Delete",
+    "RelativePath": "api/v1/Aprs/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.AprsController",
+    "Method": "GetPdf",
+    "RelativePath": "api/v1/Aprs/{id}/pdf",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MasterErp.Api.Controllers.AtividadesRdController",
     "Method": "GetAll",
     "RelativePath": "api/v1/AtividadesRd",
@@ -123,6 +218,101 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.ChecklistsInspecaoController",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/ChecklistsInspecao",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.ChecklistsInspecaoController",
+    "Method": "Create",
+    "RelativePath": "api/v1/ChecklistsInspecao",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "MasterErp.Domain.Models.ChecklistInspecao",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.ChecklistsInspecaoController",
+    "Method": "GetById",
+    "RelativePath": "api/v1/ChecklistsInspecao/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.ChecklistsInspecaoController",
+    "Method": "Update",
+    "RelativePath": "api/v1/ChecklistsInspecao/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "model",
+        "Type": "MasterErp.Domain.Models.ChecklistInspecao",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.ChecklistsInspecaoController",
+    "Method": "Delete",
+    "RelativePath": "api/v1/ChecklistsInspecao/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.ChecklistsInspecaoController",
+    "Method": "GetPdf",
+    "RelativePath": "api/v1/ChecklistsInspecao/{id}/pdf",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "MasterErp.Api.Controllers.ClientesController",

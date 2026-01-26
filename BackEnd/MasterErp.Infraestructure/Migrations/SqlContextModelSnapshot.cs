@@ -84,6 +84,29 @@ namespace MasterErp.Infraestructure.Migrations
                     b.ToTable("AtividadesRd");
                 });
 
+            modelBuilder.Entity("MasterErp.Domain.Models.ChecklistInspecao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("AtualizadoEm")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ConteudoJson")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CriadoEm")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ChecklistsInspecao");
+                });
+
             modelBuilder.Entity("MasterErp.Domain.Models.Cliente", b =>
                 {
                     b.Property<int>("Id")

@@ -1120,7 +1120,6 @@ C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\staticwebassets.build.json.cache
-C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\swae.build.ex.cache
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net8.0\LatoFont\Lato-Black.ttf
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net8.0\LatoFont\Lato-BlackItalic.ttf
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net8.0\LatoFont\Lato-Bold.ttf
@@ -1163,3 +1162,4 @@ C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net8.0\runtimes\win-x86\native\libwinpthread-1.dll
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net8.0\runtimes\win-x86\native\qpdf.dll
 C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\bin\Debug\net8.0\runtimes\win-x86\native\zlib1.dll
+C:\Users\gabri\Desktop\ERPMasterSuplyManager\BackEnd\MasterErp.Api\obj\Debug\net8.0\swae.build.ex.cache

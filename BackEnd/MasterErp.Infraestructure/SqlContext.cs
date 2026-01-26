@@ -31,6 +31,7 @@ namespace MasterErp.Infraestructure.Context
 
         public DbSet<SolicitacaoServico> SolicitacoesServico { get; set; } 
         public DbSet<Apr> Aprs { get; set; }
+        public DbSet<ChecklistInspecao> ChecklistsInspecao { get; set; } // Checklists digitais.
         public SqlContext(DbContextOptions<SqlContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
