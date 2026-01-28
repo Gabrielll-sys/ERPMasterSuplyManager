@@ -1317,6 +1317,42 @@
   },
   {
     "ContainingType": "MasterErp.Api.Controllers.InventariosController",
+    "Method": "GetPaged",
+    "RelativePath": "api/v1/Inventarios/paged",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "SearchTerm",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MasterErp.Domain.Models.Pagination.PagedResult\u00601[[MasterErp.Domain.Models.Inventario, MasterErp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.InventariosController",
     "Method": "PopulateDb",
     "RelativePath": "api/v1/Inventarios/populate",
     "HttpMethod": "POST",
@@ -1915,7 +1951,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "MasterErp.Domain.Models.ItemOrcamento",
+        "Type": "System.Collections.Generic.List\u00601[[MasterErp.Domain.Models.ItemOrcamento, MasterErp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -2388,6 +2424,42 @@
     ]
   },
   {
+    "ContainingType": "MasterErp.Api.Controllers.MateriaisController",
+    "Method": "GetPaged",
+    "RelativePath": "api/v1/Materiais/paged",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "SearchTerm",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MasterErp.Domain.Models.Pagination.PagedResult\u00601[[MasterErp.Domain.Models.Material, MasterErp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "MasterErp.Api.Controllers.OrcamentosController",
     "Method": "GetAll",
     "RelativePath": "api/v1/Orcamentos",
@@ -2555,6 +2627,42 @@
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.List\u00601[[MasterErp.Domain.Models.Orcamento, MasterErp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.OrcamentosController",
+    "Method": "GetPaged",
+    "RelativePath": "api/v1/Orcamentos/paged",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "SearchTerm",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MasterErp.Domain.Models.Pagination.PagedResult\u00601[[MasterErp.Domain.Models.Orcamento, MasterErp.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -2910,6 +3018,38 @@
         "StatusCode": 500
       }
     ]
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.R2Controller",
+    "Method": "GetPresignedUrl",
+    "RelativePath": "api/v1/R/presigned-url",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MasterErp.Api.Controllers.R2Controller\u002BPreSignedUrlRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MasterErp.Api.Controllers.R2Controller",
+    "Method": "Upload",
+    "RelativePath": "api/v1/R/upload",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "MasterErp.Api.Controllers.RelatoriosDiariosController",

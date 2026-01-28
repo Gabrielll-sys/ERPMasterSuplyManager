@@ -2,6 +2,7 @@
 using MasterErp.Domain.Interfaces.Repository;
 using MasterErp.Domain.Interfaces.Services;
 using MasterErp.Domain.Models;
+using MasterErp.Domain.Models.Pagination;
 using Microsoft.AspNetCore.Http;
 namespace MasterErp.Services
 {
@@ -10,22 +11,49 @@ namespace MasterErp.Services
         private readonly IMaterialRepository _materialRepository;
 
         private readonly ILogAcoesUsuarioService _logAcoesUsuarioService;
-
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public MaterialService(IMaterialRepository materialRepository,ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor)
+        private readonly ICacheService _cacheService;
+        private const string MaterialsCacheKey = "AllMaterials";
+
+        public MaterialService(IMaterialRepository materialRepository, ILogAcoesUsuarioService logAcoesUsuarioService, IHttpContextAccessor httpContextAccessor, ICacheService cacheService)
         {
             _materialRepository = materialRepository;
-
             _logAcoesUsuarioService = logAcoesUsuarioService;
-
             _httpContextAccessor = httpContextAccessor;
+            _cacheService = cacheService;
         }
         
+         /// <summary>
+         /// Busca todos os materiais utilizando cache em memória.
+         /// Reduz carga no banco para uma das listagens mais acessadas.
+         /// </summary>
          public async Task<List<Material>> GetAllAsync()
         {
             try
             {
-                return await _materialRepository.GetAllAsync();
+                // Tenta obter do cache primeiro
+                var cachedMaterials = _cacheService.Get<List<Material>>(MaterialsCacheKey);
+                if (cachedMaterials != null)
+                {
+                    return cachedMaterials;
+                }
+
+                // Se não estiver no cache, busca no banco e armazena por 10 minutos
+                var materials = await _materialRepository.GetAllAsync();
+                _cacheService.Set(MaterialsCacheKey, materials, TimeSpan.FromMinutes(10));
+                return materials;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<PagedResult<Material>> GetPagedAsync(PaginationParams paginationParams)
+        {
+            try
+            {
+                return await _materialRepository.GetPagedAsync(paginationParams);
             }
             catch
             {
@@ -56,9 +84,6 @@ namespace MasterErp.Services
         {
             try
             {
-                var all = await _materialRepository.GetAllAsync();
-
-
                 var m1 = new Material(
                             model.CodigoInterno,
                             model.CodigoFabricante,
@@ -75,8 +100,6 @@ namespace MasterErp.Services
                         );
 
                 var material = await _materialRepository.CreateAsync(m1);
-
-                var lastItem = all.TakeLast(1).ToList(); 
                 
                 var userName = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
                 
@@ -85,7 +108,7 @@ namespace MasterErp.Services
                 
                 await _logAcoesUsuarioService.CreateAsync(log);
 
-                material.Id = lastItem[0].Id + 1;
+                _cacheService.Remove(MaterialsCacheKey);
 
                 return material;
 
@@ -244,6 +267,7 @@ namespace MasterErp.Services
                
 
                 await _materialRepository.UpdateAsync(material);
+                _cacheService.Remove(MaterialsCacheKey);
 
                 return material;
 
@@ -259,6 +283,7 @@ namespace MasterErp.Services
             {
 
             await _materialRepository.DeleteAsync(id);
+            _cacheService.Remove(MaterialsCacheKey);
             }
             catch
             {

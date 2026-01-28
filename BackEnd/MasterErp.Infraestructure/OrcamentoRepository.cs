@@ -3,6 +3,7 @@ using MasterErp.Domain.Interfaces.Repository;
 using MasterErp.Domain.Models;
 using MasterErp.Infraestructure.Context;
 using MasterErp.Domain.Interfaces.Services;
+using MasterErp.Domain.Models.Pagination;
 namespace MasterErp.Infraestructure
 {
     
@@ -29,15 +30,40 @@ public class OrcamentoRepository : IOrcamentoRepository, IScopedService
                     throw;
                 }
             }
+
+            /// <summary>
+            /// Realiza a paginação de orçamentos.
+            /// Filtra por nome do cliente, email, documento ou nome do orçamento.
+            /// </summary>
+            public async Task<PagedResult<Orcamento>> GetPagedAsync(PaginationParams paginationParams)
+            {
+                var query = _context.Orcamentos.AsNoTracking().AsQueryable();
+
+                if (!string.IsNullOrEmpty(paginationParams.SearchTerm))
+                {
+                    var searchTerm = paginationParams.SearchTerm.ToUpper();
+                    query = query.Where(x => 
+                        x.NomeCliente.ToUpper().Contains(searchTerm) || 
+                        x.EmailCliente.ToUpper().Contains(searchTerm) || 
+                        x.CpfOrCnpj.ToUpper().Contains(searchTerm) ||
+                        x.NomeOrcamento.ToUpper().Contains(searchTerm));
+                }
+
+                var totalItems = await query.CountAsync();
+                var items = await query
+                    .OrderByDescending(x => x.DataOrcamento)
+                    .Skip((paginationParams.PageNumber - 1) * paginationParams.PageSize)
+                    .Take(paginationParams.PageSize)
+                    .ToListAsync();
+
+                return new PagedResult<Orcamento>(items, totalItems, paginationParams.PageNumber, paginationParams.PageSize);
+            }
     
             public async Task<Orcamento> GetByIdAsync(int? id)
             {
-    
                 try
                 {
-                    return await _context.Orcamentos.FindAsync(id);
-    
-    
+                    return await _context.Orcamentos.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
                 }
                 catch (Exception)
                 {

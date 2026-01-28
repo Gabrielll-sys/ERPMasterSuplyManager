@@ -1,8 +1,13 @@
 import { fetcher, poster, putter } from "../lib/api";
 import IMaterial from "../interfaces/IMaterial";
 import { createInventario } from "./Inventario.Services";
+import { PagedResult, PaginationParams } from "../interfaces/IPagination";
 
 
+
+export const getPagedMaterials = async (params: PaginationParams) => {
+  return fetcher<PagedResult<IMaterial>>(`/Materiais/paged`, { params });
+}
 
 export const getMaterialById = async (id: number) => {
   return fetcher<IMaterial>(`/Materiais/${id}`);

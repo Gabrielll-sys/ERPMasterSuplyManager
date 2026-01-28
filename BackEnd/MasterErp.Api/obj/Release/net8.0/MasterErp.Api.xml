@@ -106,6 +106,12 @@
             </summary>
             <returns>Todos os registros de inventário </returns>
         </member>
+        <member name="M:MasterErp.Api.Controllers.InventariosController.GetPaged(MasterErp.Domain.Models.Pagination.PaginationParams)">
+            <summary>
+            Endpoint para listagem paginada de inventário.
+            Retorna o histórico de movimentações com suporte a busca.
+            </summary>
+        </member>
         <member name="M:MasterErp.Api.Controllers.InventariosController.GetInventario(System.Int32)">
             <summary>
             Busca uma registro de inventário pelo seu Id
@@ -294,6 +300,13 @@
             Busca todos os materiais
             </summary>
             <returns>Lista de todos os materiais</returns>
+        </member>
+        <member name="M:MasterErp.Api.Controllers.MateriaisController.GetPaged(MasterErp.Domain.Models.Pagination.PaginationParams)">
+            <summary>
+            Busca materiais paginados
+            </summary>
+            <param name="paginationParams">Parâmetros de paginação e busca</param>
+            <returns>Resultado paginado de materiais</returns>
         </member>
         <member name="M:MasterErp.Api.Controllers.MateriaisController.GetMaterial(System.Int32)">
             <summary>

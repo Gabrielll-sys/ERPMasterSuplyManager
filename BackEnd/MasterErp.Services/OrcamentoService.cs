@@ -2,6 +2,7 @@ using System.Security.Claims;
 using MasterErp.Domain.Interfaces.Repository;
 using MasterErp.Domain.Interfaces.Services;
 using MasterErp.Domain.Models;
+using MasterErp.Domain.Models.Pagination;
 using Microsoft.AspNetCore.Http;
 namespace MasterErp.Services;
 
@@ -27,6 +28,18 @@ public class OrcamentoService : IOrcamentoService, IScopedService
             try
             {
                 return await _orcamentoRepository.GetAllAsync();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<PagedResult<Orcamento>> GetPagedAsync(PaginationParams paginationParams)
+        {
+            try
+            {
+                return await _orcamentoRepository.GetPagedAsync(paginationParams);
             }
             catch
             {

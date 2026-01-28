@@ -29,7 +29,9 @@ import { useQuery } from '@tanstack/react-query';
 
 // Serviços e Interfaces
 import { IOrcamento } from '@/app/interfaces/IOrcamento';
-import { getAllOrcamentos, getOrcamentoById } from '@/app/services/Orcamentos.Service';
+import { getPagedOrcamentos, getOrcamentoById } from '@/app/services/Orcamentos.Service';
+import { PagedResult } from '@/app/interfaces/IPagination';
+import { Pagination } from '@/app/componentes/common/Pagination';
 
 dayjs.locale("pt-br");
 
@@ -65,54 +67,95 @@ const cardVariants = {
 export default function ManageBudgesPage() {
   const router = useRouter();
 
+  // ========================================
+  // ESTADOS DE BUSCA E PAGINAÇÃO
+  // ========================================
+  
+  // Campos de busca (inputs do usuário)
   const [inputNumeroOrcamento, setInputNumeroOrcamento] = useState<string>("");
   const [inputCliente, setInputCliente] = useState<string>("");
+  
+  // Paginação: página atual (começa em 1)
+  const [paginaAtual, setPaginaAtual] = useState(1);
+  
+  // Quantidade de itens por página (ajuste conforme necessário)
+  const itensPorPagina = 6;
 
+  // Debounce: aguarda o usuário parar de digitar antes de buscar
   const debouncedNumeroOrcamento = useDebounce(inputNumeroOrcamento, 500);
   const debouncedCliente = useDebounce(inputCliente, 500);
 
+  // ========================================
+  // RESETAR PÁGINA QUANDO BUSCA MUDAR
+  // ========================================
+  // Quando o usuário digita algo novo, volta para a página 1
+  useEffect(() => {
+    setPaginaAtual(1);
+  }, [debouncedCliente, debouncedNumeroOrcamento]);
+
+  // ========================================
+  // BUSCA DE DADOS (React Query)
+  // ========================================
   const {
-    data: orcamentosData,
+    data: dadosPaginados,
     isLoading,
     isFetching,
     isError,
     error,
-  } = useQuery<IOrcamento[], Error>({
-    queryKey: ['orcamentos', { cliente: debouncedCliente, numero: debouncedNumeroOrcamento }],
+  } = useQuery<PagedResult<IOrcamento>, Error>({
+    // Chave única para cache: inclui página e termos de busca
+    queryKey: ['orcamentos-paginados', paginaAtual, debouncedCliente, debouncedNumeroOrcamento],
+    
     queryFn: async () => {
+      // Caso 1: Busca por número específico do orçamento
       if (debouncedNumeroOrcamento && debouncedNumeroOrcamento.length > 0) {
         const id = parseInt(debouncedNumeroOrcamento);
         if (!isNaN(id)) {
-          const orc = await getOrcamentoById(id);
-          return orc ? [orc] : [];
+          const orcamento = await getOrcamentoById(id);
+          // Retorna no formato PagedResult para manter consistência
+          return {
+            items: orcamento ? [orcamento] : [],
+            totalCount: orcamento ? 1 : 0,
+            currentPage: 1,
+            pageSize: 1,
+            totalPages: 1,
+            hasNext: false,
+            hasPrevious: false
+          };
         }
-        return [];
       }
-      return getAllOrcamentos();
+      
+      // Caso 2: Busca paginada normal (com filtro por cliente opcional)
+      // O backend filtra por 'searchTerm' e retorna apenas os itens da página solicitada
+      return getPagedOrcamentos({
+        pageNumber: paginaAtual,
+        pageSize: itensPorPagina,
+        searchTerm: debouncedCliente || undefined
+      });
     },
+    
+    // Cache válido por 1 minuto
     staleTime: 1000 * 60 * 1,
   });
 
-  const orcamentosExibidos: IOrcamento[] = useMemo(() => {
-    let data = orcamentosData || [];
-    if (debouncedCliente) {
-      data = data.filter(orc => 
-        orc.nomeCliente?.toLowerCase().includes(debouncedCliente.toLowerCase())
-      );
-    }
-    return data.sort((a, b) => (b.id || 0) - (a.id || 0));
-  }, [orcamentosData, debouncedCliente]);
-
-  // Estatísticas
-  const stats = useMemo(() => {
-    const total = orcamentosExibidos.length;
-    const abertos = orcamentosExibidos.filter(o => !o.isPayed).length;
-    const concluidos = orcamentosExibidos.filter(o => o.isPayed).length;
-    const valorTotal = orcamentosExibidos.reduce((acc, o) => 
+  // ========================================
+  // DADOS PARA EXIBIÇÃO
+  // ========================================
+  
+  // Lista de orçamentos da página atual
+  const orcamentosExibidos = dadosPaginados?.items || [];
+  
+  // Estatísticas baseadas nos dados da página atual
+  // NOTA: Para estatísticas globais, seria necessário um endpoint separado no backend
+  const stats = useMemo(() => ({
+    total: dadosPaginados?.totalCount || 0,        // Total geral de registros
+    naPagina: orcamentosExibidos.length,           // Quantidade nesta página
+    abertos: orcamentosExibidos.filter(o => !o.isPayed).length,
+    concluidos: orcamentosExibidos.filter(o => o.isPayed).length,
+    valorPagina: orcamentosExibidos.reduce((acc, o) => 
       acc + (o.precoVendaComDesconto || o.precoVendaTotal || 0), 0
-    );
-    return { total, abertos, concluidos, valorTotal };
-  }, [orcamentosExibidos]);
+    ),
+  }), [dadosPaginados, orcamentosExibidos]);
 
   const formatCurrency = (value: number) => {
     return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -196,8 +239,8 @@ export default function ManageBudgesPage() {
                   <TrendingUp className="w-5 h-5 text-purple-400" />
                 </div>
                 <div>
-                  <p className="text-lg sm:text-xl font-bold truncate">{formatCurrency(stats.valorTotal)}</p>
-                  <p className="text-xs text-gray-400">Valor Total</p>
+                  <p className="text-lg sm:text-xl font-bold truncate">{formatCurrency(stats.valorPagina)}</p>
+                  <p className="text-xs text-gray-400">Valor (Página)</p>
                 </div>
               </div>
             </div>
@@ -306,106 +349,120 @@ export default function ManageBudgesPage() {
 
         {/* Grid de Orçamentos */}
         {!isLoading && !isError && orcamentosExibidos.length > 0 && (
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"
-          >
-            {orcamentosExibidos.map((orc) => (
-              <motion.div
-                key={orc.id}
-                variants={cardVariants}
-                whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                className="group"
-              >
-                <div className={`
-                  relative bg-white rounded-2xl shadow-sm border overflow-hidden
-                  hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300
-                  ${orc.isPayed ? 'border-emerald-100' : 'border-amber-100'}
-                `}>
-                  {/* Status Bar */}
+          <>
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"
+            >
+              {orcamentosExibidos.map((orc) => (
+                <motion.div
+                  key={orc.id}
+                  variants={cardVariants}
+                  whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                  className="group"
+                >
                   <div className={`
-                    h-1 w-full
-                    ${orc.isPayed 
-                      ? 'bg-gradient-to-r from-emerald-400 to-green-500' 
-                      : 'bg-gradient-to-r from-amber-400 to-orange-500'
-                    }
-                  `} />
+                    relative bg-white rounded-2xl shadow-sm border overflow-hidden
+                    hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300
+                    ${orc.isPayed ? 'border-emerald-100' : 'border-amber-100'}
+                  `}>
+                    {/* Status Bar */}
+                    <div className={`
+                      h-1 w-full
+                      ${orc.isPayed 
+                        ? 'bg-gradient-to-r from-emerald-400 to-green-500' 
+                        : 'bg-gradient-to-r from-amber-400 to-orange-500'
+                      }
+                    `} />
 
-                  <div className="p-5">
-                    {/* Header */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className={`
-                          w-11 h-11 rounded-xl flex items-center justify-center
+                    <div className="p-5">
+                      {/* Header */}
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className={`
+                            w-11 h-11 rounded-xl flex items-center justify-center
+                            ${orc.isPayed 
+                              ? 'bg-gradient-to-br from-emerald-50 to-green-100' 
+                              : 'bg-gradient-to-br from-amber-50 to-orange-100'
+                            }
+                          `}>
+                            <FileText className={`w-5 h-5 ${orc.isPayed ? 'text-emerald-600' : 'text-amber-600'}`} />
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">Orçamento</p>
+                            <h3 className="text-xl font-bold text-gray-900">#{orc.id}</h3>
+                          </div>
+                        </div>
+                        <span className={`
+                          inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold
                           ${orc.isPayed 
-                            ? 'bg-gradient-to-br from-emerald-50 to-green-100' 
-                            : 'bg-gradient-to-br from-amber-50 to-orange-100'
+                            ? 'bg-emerald-100 text-emerald-700' 
+                            : 'bg-amber-100 text-amber-700'
                           }
                         `}>
-                          <FileText className={`w-5 h-5 ${orc.isPayed ? 'text-emerald-600' : 'text-amber-600'}`} />
+                          {orc.isPayed ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Clock className="w-3.5 h-3.5" />}
+                          {orc.isPayed ? 'Concluído' : 'Em Aberto'}
+                        </span>
+                      </div>
+
+                      {/* Client */}
+                      <div className="flex items-center gap-2 mb-3 p-2.5 bg-gray-50 rounded-xl">
+                        <User className="w-4 h-4 text-gray-400" />
+                        <span className="text-sm font-medium text-gray-700 truncate">
+                          {orc.nomeCliente || "Cliente não informado"}
+                        </span>
+                      </div>
+
+                      {/* Info Grid */}
+                      <div className="grid grid-cols-2 gap-2 mb-4">
+                        <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
+                          <Calendar className="w-4 h-4 text-gray-400" />
+                          <div>
+                            <p className="text-[10px] text-gray-400 uppercase">Data</p>
+                            <p className="text-xs font-semibold text-gray-700">
+                              {dayjs(orc.dataOrcamento).format("DD/MM/YY")}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">Orçamento</p>
-                          <h3 className="text-xl font-bold text-gray-900">#{orc.id}</h3>
+                        <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
+                          <DollarSign className="w-4 h-4 text-gray-400" />
+                          <div>
+                            <p className="text-[10px] text-gray-400 uppercase">Valor</p>
+                            <p className="text-xs font-semibold text-gray-700">
+                              {formatCurrency(orc.precoVendaComDesconto || orc.precoVendaTotal || 0)}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                      <span className={`
-                        inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold
-                        ${orc.isPayed 
-                          ? 'bg-emerald-100 text-emerald-700' 
-                          : 'bg-amber-100 text-amber-700'
-                        }
-                      `}>
-                        {orc.isPayed ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Clock className="w-3.5 h-3.5" />}
-                        {orc.isPayed ? 'Concluído' : 'Em Aberto'}
-                      </span>
-                    </div>
 
-                    {/* Client */}
-                    <div className="flex items-center gap-2 mb-3 p-2.5 bg-gray-50 rounded-xl">
-                      <User className="w-4 h-4 text-gray-400" />
-                      <span className="text-sm font-medium text-gray-700 truncate">
-                        {orc.nomeCliente || "Cliente não informado"}
-                      </span>
+                      {/* Action Button */}
+                      <Link 
+                        href={`/edit-budge/${orc.id}`}
+                        className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-gray-100 hover:bg-blue-500 text-gray-600 hover:text-white font-medium transition-all group-hover:bg-blue-500 group-hover:text-white"
+                      >
+                        <span>Ver Detalhes</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
                     </div>
-
-                    {/* Info Grid */}
-                    <div className="grid grid-cols-2 gap-2 mb-4">
-                      <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
-                        <Calendar className="w-4 h-4 text-gray-400" />
-                        <div>
-                          <p className="text-[10px] text-gray-400 uppercase">Data</p>
-                          <p className="text-xs font-semibold text-gray-700">
-                            {dayjs(orc.dataOrcamento).format("DD/MM/YY")}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
-                        <DollarSign className="w-4 h-4 text-gray-400" />
-                        <div>
-                          <p className="text-[10px] text-gray-400 uppercase">Valor</p>
-                          <p className="text-xs font-semibold text-gray-700">
-                            {formatCurrency(orc.precoVendaComDesconto || orc.precoVendaTotal || 0)}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Action Button */}
-                    <Link 
-                      href={`/edit-budge/${orc.id}`}
-                      className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-gray-100 hover:bg-blue-500 text-gray-600 hover:text-white font-medium transition-all group-hover:bg-blue-500 group-hover:text-white"
-                    >
-                      <span>Ver Detalhes</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* ========================================
+                COMPONENTE DE PAGINAÇÃO
+                ======================================== 
+                Exibe controles para navegar entre as páginas.
+            */}
+            <Pagination
+              currentPage={paginaAtual}
+              totalPages={dadosPaginados?.totalPages || 1}
+              onPageChange={setPaginaAtual}
+              isDisabled={isFetching}
+            />
+          </>
         )}
       </div>
     </div>

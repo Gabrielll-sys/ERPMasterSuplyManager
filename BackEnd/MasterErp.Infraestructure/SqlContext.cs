@@ -38,7 +38,41 @@ namespace MasterErp.Infraestructure.Context
         {
             base.OnModelCreating(modelBuilder); // Chame o base primeiro
 
-      
+            // Índices para Orcamento
+            modelBuilder.Entity<Orcamento>(entity =>
+            {
+                entity.HasIndex(e => e.DataOrcamento);
+                entity.HasIndex(e => e.NomeCliente);
+                entity.HasIndex(e => e.CpfOrCnpj);
+            });
+
+            // Índices para Material
+            modelBuilder.Entity<Material>(entity =>
+            {
+                entity.HasIndex(e => e.Descricao);
+                entity.HasIndex(e => e.CodigoFabricante);
+                entity.HasIndex(e => e.CodigoInterno);
+            });
+
+            // Índices para Item
+            modelBuilder.Entity<Item>(entity =>
+            {
+                entity.HasIndex(e => e.MaterialId);
+                entity.HasIndex(e => e.OrdemSeparacaoId);
+            });
+
+            // Índices para ItemOrcamento
+            modelBuilder.Entity<ItemOrcamento>(entity =>
+            {
+                entity.HasIndex(e => e.MaterialId);
+                entity.HasIndex(e => e.OrcamentoId);
+            });
+
+            // Índices para Inventario
+            modelBuilder.Entity<Inventario>(entity =>
+            {
+                entity.HasIndex(e => e.MaterialId);
+            });
         }
     }
 }

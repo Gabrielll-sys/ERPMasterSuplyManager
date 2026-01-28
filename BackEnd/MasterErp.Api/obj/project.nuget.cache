@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "qoCyWpboSFw=",
+  "dgSpecHash": "OyvpfpccEhU=",
   "success": true,
   "projectFilePath": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\MasterErp.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gabri\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\awssdk.core\\4.0.3.10\\awssdk.core.4.0.3.10.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\awssdk.s3\\4.0.17.3\\awssdk.s3.4.0.17.3.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\fluentvalidation\\12.0.0\\fluentvalidation.12.0.0.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",

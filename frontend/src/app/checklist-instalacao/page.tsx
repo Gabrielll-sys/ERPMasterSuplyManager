@@ -78,7 +78,7 @@ const defaultInstalacaoChecklist: InstalacaoChecklistData = {
       { item: "Cabo de alimentação e tomada", feito: false },
       { item: "Painel instalado no equipamento – suporte OK", feito: false },
       { item: "Tomada está dentro do painel", feito: false },
-      { item: "Furação da botoeira foi feita e conectada no inversor", feito: false },
+      { item: "Medição da Rotação do motor foi feita e parametrizada no inversor", feito: false },
     ],
     // Itens de verificação dos testes funcionais
     testes: [

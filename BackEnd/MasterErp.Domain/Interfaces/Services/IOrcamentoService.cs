@@ -1,10 +1,12 @@
 
 using MasterErp.Domain.Models;
+using MasterErp.Domain.Models.Pagination;
 
 namespace MasterErp.Domain.Interfaces.Services;
 public interface IOrcamentoService
 {
     Task<List<Orcamento>> GetAllAsync();
+    Task<PagedResult<Orcamento>> GetPagedAsync(PaginationParams paginationParams);
     
     Task<Orcamento> GetByIdAsync(int? id);
 

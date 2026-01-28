@@ -7,8 +7,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Toaster, toast } from 'sonner';
 import { Card, Flex, Box, Heading, Text, Separator, TextField, Button, Badge, Table, Select } from '@radix-ui/themes';
 import { 
-    Search, Plus, Edit3, Eye, ChevronDown, Hash, Package, Building2, MapPin, DollarSign, TrendingUp, Archive 
+    Search, Plus, Edit3, Eye, ChevronDown, Hash, Package, Building2, MapPin, DollarSign, TrendingUp, Archive,
+    ChevronLeft, ChevronRight
 } from 'lucide-react';
+import { Pagination } from '../componentes/common/Pagination';
 
 import { IInventario } from '../interfaces/IInventarios';
 import { createMaterial } from "../services/Material.Services";
@@ -36,8 +38,13 @@ export default function CreateMaterialPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
+  // ========================================
+  // HOOK DE BUSCA COM PAGINAÇÃO
+  // ========================================
+  // O hook retorna: termo de busca, paginação, materiais e estados de loading
   const {
-    searchDescription, setSearchDescription, searchCode, setSearchCode,
+    searchTerm, setSearchTerm,
+    currentPage, setCurrentPage, totalPages, totalCount,
     materials, isLoading, hasNoResults, isInitialState
   } = useMaterialSearch();
 
@@ -197,10 +204,31 @@ export default function CreateMaterialPage() {
         <motion.div variants={fadeInUp}>
             <Card className="shadow-md">
             <Box p="5">
+                {/* ========================================
+                    CAMPO DE BUSCA UNIFICADO
+                    ======================================== 
+                    Um único campo que busca por descrição, código ou marca.
+                    O backend filtra via searchTerm no endpoint /paged.
+                */}
                 <Heading size="5" className="text-slate-800 mb-4">Buscar Materiais Existentes</Heading>
-                <Flex direction={{ initial: 'column', sm: 'row' }} gap="4">
-                <TextField.Root><TextField.Slot><Search className="text-slate-500" /></TextField.Slot><TextField.Input size="3" value={searchDescription} onChange={(e) => setSearchDescription(e.target.value)} placeholder="Buscar por Descrição (mín. 4 caracteres)" /></TextField.Root>
-                <TextField.Root><TextField.Slot><Hash className="text-slate-500" /></TextField.Slot><TextField.Input size="3" value={searchCode} onChange={(e) => setSearchCode(e.target.value)} placeholder="Buscar por Código (mín. 4 caracteres)" /></TextField.Root>
+                <Flex direction={{ initial: 'column', sm: 'row' }} gap="4" align="end">
+                    <Box className="flex-1">
+                        <TextField.Root>
+                            <TextField.Slot><Search className="text-slate-500" /></TextField.Slot>
+                            <TextField.Input 
+                                size="3" 
+                                value={searchTerm} 
+                                onChange={(e) => setSearchTerm(e.target.value)} 
+                                placeholder="Buscar por descrição, código ou marca (mín. 3 caracteres)" 
+                            />
+                        </TextField.Root>
+                    </Box>
+                    {/* Contador de resultados */}
+                    {totalCount > 0 && (
+                        <Text size="2" className="text-slate-500 whitespace-nowrap">
+                            {totalCount} {totalCount === 1 ? 'material encontrado' : 'materiais encontrados'}
+                        </Text>
+                    )}
                 </Flex>
             </Box>
             <Box className="p-1 min-h-[300px] relative">
@@ -208,7 +236,7 @@ export default function CreateMaterialPage() {
                 {isLoading && <motion.div key="loading" {...fadeInUp} className="absolute inset-0 flex justify-center items-center bg-white/50 z-10"><Text>Buscando...</Text></motion.div>}
                 {isInitialState && !isLoading && (
                     <motion.div key="initial" {...fadeInUp} className="text-center py-16 px-4">
-                    <Eye className="w-12 h-12 mx-auto text-slate-400 mb-4" /><Heading size="4" className="text-slate-600">Comece a sua busca</Heading><Text size="2" className="text-slate-500">Digite na descrição ou código para encontrar materiais.</Text>
+                    <Eye className="w-12 h-12 mx-auto text-slate-400 mb-4" /><Heading size="4" className="text-slate-600">Comece a sua busca</Heading><Text size="2" className="text-slate-500">Digite pelo menos 3 caracteres para encontrar materiais.</Text>
                     </motion.div>
                 )}
                 {hasNoResults && (
@@ -245,6 +273,20 @@ export default function CreateMaterialPage() {
                         ))}
                         </Table.Body>
                     </Table.Root>
+                    
+                    {/* ========================================
+                        COMPONENTE DE PAGINAÇÃO
+                        ======================================== 
+                        Exibe controles para navegar entre páginas.
+                    */}
+                    {totalPages > 1 && (
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={setCurrentPage}
+                            isDisabled={isLoading}
+                        />
+                    )}
                     </motion.div>
                 )}
                 </AnimatePresence>

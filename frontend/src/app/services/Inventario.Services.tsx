@@ -1,6 +1,11 @@
 import { fetcher, poster } from "../lib/api";
 import { url } from "../api/webApiUrl";
 import { IInventario } from "../interfaces/IInventarios";
+import { PagedResult, PaginationParams } from "../interfaces/IPagination";
+
+export const getPagedInventario = async (params: PaginationParams) => {
+  return fetcher<PagedResult<IInventario>>(`${url}/Inventarios/paged`, { params });
+}
 
 export const createInventario = async (idMaterial: number) => {
   const inventario = {

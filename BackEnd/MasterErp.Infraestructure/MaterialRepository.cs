@@ -3,6 +3,7 @@ using MasterErp.Domain.Interfaces.Repository;
 using MasterErp.Domain.Models;
 using MasterErp.Infraestructure.Context;
 using MasterErp.Domain.Interfaces.Services;
+using MasterErp.Domain.Models.Pagination;
 
 
 namespace MasterErp.Infraestructure;
@@ -28,6 +29,33 @@ namespace MasterErp.Infraestructure;
             {
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Realiza a paginação de materiais no banco de dados.
+        /// Filtra por termo de busca se fornecido e utiliza AsNoTracking para performance.
+        /// </summary>
+        public async Task<PagedResult<Material>> GetPagedAsync(PaginationParams paginationParams)
+        {
+            var query = _context.Materiais.AsNoTracking().AsQueryable();
+
+            if (!string.IsNullOrEmpty(paginationParams.SearchTerm))
+            {
+                var searchTerm = paginationParams.SearchTerm.ToUpper();
+                query = query.Where(x => 
+                    x.Descricao.ToUpper().Contains(searchTerm) || 
+                    x.CodigoFabricante.ToUpper().Contains(searchTerm) || 
+                    x.CodigoInterno.ToUpper().Contains(searchTerm));
+            }
+
+            var totalItems = await query.CountAsync();
+            var items = await query
+                .OrderBy(x => x.Id)
+                .Skip((paginationParams.PageNumber - 1) * paginationParams.PageSize)
+                .Take(paginationParams.PageSize)
+                .ToListAsync();
+
+            return new PagedResult<Material>(items, totalItems, paginationParams.PageNumber, paginationParams.PageSize);
         }
 
         public async Task<Material> GetByIdAsync(int? id)

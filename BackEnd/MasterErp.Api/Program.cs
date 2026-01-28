@@ -46,8 +46,9 @@ builder.Services.AddDbContext<SqlContext>(options =>
     .MigrationsAssembly(typeof(SqlContext).Assembly.FullName))
 );
 
-// Registro do IHttpContextAccessor
+// Registro do IHttpContextAccessor e MemoryCache
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddMemoryCache();
 
 // Configuração de Autenticação JWT
 var secretKeyString = builder.Configuration["JwtSettings:SecretKey"];

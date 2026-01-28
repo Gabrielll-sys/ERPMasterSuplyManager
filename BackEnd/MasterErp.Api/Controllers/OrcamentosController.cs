@@ -6,6 +6,7 @@ using MasterErp.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using MasterErp.Infraestructure.Context;
 using System.Security.Claims;
+using MasterErp.Domain.Models.Pagination;
 
 namespace MasterErp.Api.Controllers;
     ///<summary>
@@ -42,6 +43,21 @@ namespace MasterErp.Api.Controllers;
             return Ok(await _orcamentoService.GetAllAsync());
 
 
+        }
+
+        [HttpGet("paged")]
+        [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
+        public async Task<ActionResult<PagedResult<Orcamento>>> GetPaged([FromQuery] PaginationParams paginationParams)
+        {
+            try
+            {
+                var result = await _orcamentoService.GetPagedAsync(paginationParams);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
         [HttpGet("buscaNomeCliente")]
         //         [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
@@ -191,51 +207,44 @@ namespace MasterErp.Api.Controllers;
                 var inventarios = await _context.Inventarios.ToListAsync();
 
                 var orcamento = await _context.Orcamentos.FirstOrDefaultAsync(x => x.Id == id);
+                if (orcamento == null) return NotFound();
 
+                orcamento.DataVenda = DateTime.UtcNow.AddHours(-3);
+                orcamento.IsPayed = true;
+
+                // Fetch items WITH Materials to avoid N+1 in the loop
+                var itensDoOrcamento = await _context.ItensOrcamento
+                    .Where(x => x.OrcamentoId == id)
+                    .ToListAsync();
+
+                // Group inventarios by material to quickly get the last balance
+                var materialIds = itensDoOrcamento.Select(i => i.MaterialId).Distinct().Cast<int?>().ToList();
+                var lastInventarios = await _context.Inventarios
+                    .Where(i => i.MaterialId.HasValue && materialIds.Contains(i.MaterialId))
+                    .GroupBy(i => i.MaterialId)
+                    .Select(g => g.OrderByDescending(x => x.Id).FirstOrDefault())
+                    .ToListAsync();
+
+                var inventarioMap = lastInventarios.ToDictionary(i => i.MaterialId);
+
+                foreach (var item in itensDoOrcamento)
                 {
-
-                    orcamento.DataVenda = DateTime.UtcNow.AddHours(-3);
-                    orcamento.IsPayed = true;
-
-                }
-
-
-
-
-     
-
-
-                foreach (var item in itens)
-                {
-                    //Quando o item tiver o id da ordem de serviço a ser autorizada 
-                    if (item.OrcamentoId == id)
+                    if (inventarioMap.TryGetValue(item.MaterialId, out var lastInv))
                     {
-                        //Busca o material presente no item para pegar a unidade 
-                        var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == item.MaterialId);
-
-                    //Procura todos os inventários do material da tabela item,para posteriormente  subtrair do inventário a quantidade a ser utilizad na OS
-                    List<Inventario> inventario = inventarios
-                            .Where(x => x.MaterialId == item.MaterialId)
-                            .ToList();
-
-
-                        //Instacia um novo inventário para criar um novo inventário com a atualização de quantidade utilizada no orcamento e o motivo,a descricação da os
                         Inventario i1 = new Inventario
                          (
-                        $"Utilizado Orcamento Nº {orcamento.Id}",
-                         inventario[inventario.Count - 1].SaldoFinal,
-                         inventario[inventario.Count - 1].Movimentacao,
-                         inventario[inventario.Count - 1].SaldoFinal,
-                         inventario[inventario.Count - 1].Responsavel,
-                        item.MaterialId
-                    );
-                    
+                            $"Utilizado Orcamento Nº {orcamento.Id}",
+                            lastInv.SaldoFinal,
+                            lastInv.Movimentacao,
+                            lastInv.SaldoFinal,
+                            lastInv.Responsavel,
+                            item.MaterialId
+                        );
 
                         i1.MovimentacaoOrdemSeparacao((float)item.QuantidadeMaterial, $"Utilizado Orcamento Nº {orcamento.Id} De {orcamento.NomeCliente} ");
 
                         await _context.Inventarios.AddAsync(i1);
                     }
-
                 }
 
 

@@ -1,5 +1,6 @@
 ﻿
 using MasterErp.Domain.Models;
+using MasterErp.Domain.Models.Pagination;
 
 namespace MasterErp.Domain.Interfaces.Services;
 
@@ -7,6 +8,7 @@ namespace MasterErp.Domain.Interfaces.Services;
     {
 
         Task<List<Material>> GetAllAsync();
+        Task<PagedResult<Material>> GetPagedAsync(PaginationParams paginationParams);
         Task<Material> GetByIdAsync(int id);
         
         Task<Material> CreateAsync(Material model);

@@ -1,5 +1,6 @@
 ﻿
 using MasterErp.Domain.Models;
+using MasterErp.Domain.Models.Pagination;
 
 namespace MasterErp.Domain.Interfaces.Services;
 
@@ -8,6 +9,7 @@ namespace MasterErp.Domain.Interfaces.Services;
     {
 
         Task <List<Inventario>> GetAllInventarioAsync();
+        Task<PagedResult<Inventario>> GetPagedAsync(PaginationParams paginationParams);
         Task <Inventario> GetByIdAsync (int id);
         /// <summary>
         /// Get the last move register os move of some material

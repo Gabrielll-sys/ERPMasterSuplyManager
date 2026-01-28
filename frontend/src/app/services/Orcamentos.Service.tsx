@@ -1,6 +1,11 @@
 import { fetcher, poster, putter } from "../lib/api";
 import { url } from "../api/webApiUrl";
 import { IOrcamento } from "../interfaces/IOrcamento";
+import { PagedResult, PaginationParams } from "../interfaces/IPagination";
+
+export const getPagedOrcamentos = async (params: PaginationParams) => {
+  return fetcher<PagedResult<IOrcamento>>(`${url}/Orcamentos/paged`, { params });
+}
 
 export const getOrcamentoById = async (id: number) => {
   return fetcher<IOrcamento>(`${url}/Orcamentos/${id}`);

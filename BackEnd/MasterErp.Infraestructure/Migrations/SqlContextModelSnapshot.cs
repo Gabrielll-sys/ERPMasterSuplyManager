@@ -314,10 +314,10 @@ namespace MasterErp.Infraestructure.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("CodigoFabricante")
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("CodigoInterno")
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Corrente")
                         .HasColumnType("longtext");
@@ -326,7 +326,7 @@ namespace MasterErp.Infraestructure.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Descricao")
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Localizacao")
                         .HasColumnType("longtext");
@@ -354,6 +354,12 @@ namespace MasterErp.Infraestructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CodigoFabricante");
+
+                    b.HasIndex("CodigoInterno");
+
+                    b.HasIndex("Descricao");
+
                     b.ToTable("Materiais");
                 });
 
@@ -369,7 +375,7 @@ namespace MasterErp.Infraestructure.Migrations
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("CpfOrCnpj")
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime?>("DataOrcamento")
                         .HasColumnType("datetime(6)");
@@ -393,7 +399,7 @@ namespace MasterErp.Infraestructure.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("NomeCliente")
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("NomeOrcamento")
                         .HasColumnType("longtext");
@@ -420,6 +426,12 @@ namespace MasterErp.Infraestructure.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CpfOrCnpj");
+
+                    b.HasIndex("DataOrcamento");
+
+                    b.HasIndex("NomeCliente");
 
                     b.ToTable("Orcamentos");
                 });

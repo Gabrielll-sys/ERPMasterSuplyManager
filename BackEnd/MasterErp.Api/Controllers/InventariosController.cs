@@ -8,6 +8,7 @@ using MasterErp.Domain.Interfaces.Services;
 using MasterErp.Domain.Models;
 using MasterErp.Domain.Validations.InventarioValidations;
 using MasterErp.Infraestructure.Context;
+using MasterErp.Domain.Models.Pagination;
 namespace MasterErp.Api.Controllers;
 
 ///<summary>
@@ -40,44 +41,40 @@ namespace MasterErp.Api.Controllers;
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<List<Inventario>>> GetAllInventarios()
         {
-  
             try
             {
+                // Efficiently get the latest inventory record for each material using a subquery or group by
+                var result = await _context.Inventarios
+                    .Include(x => x.Material)
+                    .AsNoTracking()
+                    .GroupBy(x => x.MaterialId)
+                    .Select(g => g.OrderByDescending(x => x.Id).FirstOrDefault())
+                    .ToListAsync();
 
-            var allItens = await _context.Inventarios.Include(x=>x.Material).AsNoTracking().ToListAsync();
-
-            List<Inventario> result = new List<Inventario>();
-            
-                foreach (var i in allItens)
-                {
-                    var invetoryWithMaterial = allItens
-                        .Where(x => x.MaterialId == i.MaterialId)
-                        .TakeLast(1)
-                        .ToList();
-
-                    if (!result.Contains(invetoryWithMaterial[0]))
-                    {
-
-                    result.Add(invetoryWithMaterial[0]);
-
-                    }
-
-                }
-            
                 return Ok(result);
-               
-            }
-
-            catch (KeyNotFoundException)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest);
             }
             catch (Exception exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
             }
+        }
 
-
+        /// <summary>
+        /// Endpoint para listagem paginada de inventário.
+        /// Retorna o histórico de movimentações com suporte a busca.
+        /// </summary>
+        [HttpGet("paged")]
+        public async Task<ActionResult<PagedResult<Inventario>>> GetPaged([FromQuery] PaginationParams paginationParams)
+        {
+            try
+            {
+                var result = await _inventarioService.GetPagedAsync(paginationParams);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
         /// <summary>
         /// Busca uma registro de inventário pelo seu Id

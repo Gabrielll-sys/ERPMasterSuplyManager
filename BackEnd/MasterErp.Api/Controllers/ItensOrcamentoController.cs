@@ -93,47 +93,24 @@ namespace MasterErp.Api.Controllers;
 
         [Authorize(Roles = "Administrador,Diretor,SuporteTecnico")]
 
-        public async Task<ActionResult<ItemOrcamento>> GetAllMateriasOrcamento(int id)
+        public async Task<ActionResult<List<ItemOrcamento>>> GetAllMateriasOrcamento(int id)
         {
-
-            List<ItemOrcamento> itensWithMaterial = new List<ItemOrcamento>();
-
-            var materias = _context.Materiais;
-            var orcamento = _context.Orcamentos;
-            var itens = await _context.ItensOrcamento.Include(x=>x.Material).OrderBy(x=>x.Material.Descricao).ToListAsync();
-
-
-            foreach (var item in itens)
+            try
             {
-                if (item.OrcamentoId == id)
-                {
+                var itensWithMaterial = await _context.ItensOrcamento
+                    .AsNoTracking()
+                    .Include(x => x.Material)
+                    .Include(x => x.Orcamento)
+                    .Where(x => x.OrcamentoId == id)
+                    .OrderBy(x => x.Material != null ? x.Material.Descricao : string.Empty)
+                    .ToListAsync();
 
-                    var material = await _context.Materiais.FirstOrDefaultAsync(x => x.Id == item.MaterialId);
-
-                    var OrdemSeparacao = await _context.Orcamentos.FirstOrDefaultAsync(x => x.Id == item.OrcamentoId);
-
-                    item.Material = material;
-
-                    item.Orcamento = OrdemSeparacao;
-
-
-                    itensWithMaterial.Add(item);
-
-                }
-               
-
-
-
-
-
-
+                return Ok(itensWithMaterial);
             }
-
-
-            return Ok(itensWithMaterial);
-
-
-
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
         }
         /// <summary>
         /// Cria novo item

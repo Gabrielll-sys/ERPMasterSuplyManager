@@ -2,6 +2,7 @@
 using MasterErp.Domain.Interfaces.Repository;
 using MasterErp.Domain.Interfaces.Services;
 using MasterErp.Domain.Models;
+using MasterErp.Domain.Models.Pagination;
 
 namespace MasterErp.Services
 {
@@ -26,8 +27,18 @@ namespace MasterErp.Services
             {
                 throw;
             }
+        }
 
-
+        public async Task<PagedResult<Inventario>> GetPagedAsync(PaginationParams paginationParams)
+        {
+            try
+            {
+                return await _inventarioRepository.GetPagedAsync(paginationParams);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         
@@ -49,34 +60,29 @@ namespace MasterErp.Services
 
         public async Task<Inventario> GetLastRegister(int id)
         {
-
             try
             {
-                var i1 = await _inventarioRepository.GetAllAsync();
-
-                var lastRegister = i1.Where(x => x.MaterialId == id).OrderBy(x=>x.Id).Last();
-
-                return lastRegister;
-
-
-           
+                var inventory = await _inventarioRepository.GetByMaterialIdAsync(id);
+                return inventory.OrderBy(x => x.Id).LastOrDefault();
             }
             catch (Exception)
             {
                 throw;
             }
         }
+
         public async Task<Inventario> CreateAsync(Inventario model)
         {
             try
             {
-                var all = await _inventarioRepository.GetAllAsync();
+                // Verifica se MaterialId é válido antes de prosseguir
+                if (!model.MaterialId.HasValue)
+                    throw new ArgumentException("MaterialId é obrigatório");
+                    
+                var invetory = await _inventarioRepository.GetByMaterialIdAsync(model.MaterialId.Value);
 
-                var invetory = all.Where(x => x.MaterialId == model.MaterialId).OrderBy(x => x.Id).ToList();
-
-                if(invetory.Count <=1)
+                if (invetory.Count == 0)
                 {
-
                     Inventario invetory1 = new Inventario
                         (
                         model.Razao,
@@ -84,18 +90,14 @@ namespace MasterErp.Services
                         model.Movimentacao,
                         model.SaldoFinal,
                         model.Responsavel,
-                        model.MaterialId
+                        model.MaterialId.Value
                         );
-
 
                     invetory1.EstoqueMovimentacao(model.SaldoFinal);
                     await _inventarioRepository.CreateAsync(invetory1);
-         
-
-                    return (invetory1);
-
-
+                    return invetory1;
                 }
+
                 Inventario i1 = new Inventario
                                    (
                                    model.Razao,
@@ -103,19 +105,13 @@ namespace MasterErp.Services
                                    model.Movimentacao,
                                    model.SaldoFinal,
                                    model.Responsavel,
-                                   model.MaterialId
+                                   model.MaterialId.Value
                                    );
 
-                var a = i1.EstoqueMovimentacao(model.SaldoFinal);
-
-
-
+                i1.EstoqueMovimentacao(model.SaldoFinal);
                 await _inventarioRepository.CreateAsync(i1);
-
-                return (i1);
-
+                return i1;
             }
-
             catch (Exception)
             {
                 throw;
@@ -132,7 +128,7 @@ namespace MasterErp.Services
                   model.Movimentacao,
                   model.SaldoFinal,
                   model.Responsavel,
-                  model.MaterialId
+                  model.MaterialId.Value
                   );
 
                 await _inventarioRepository.CreateAsync(i1);

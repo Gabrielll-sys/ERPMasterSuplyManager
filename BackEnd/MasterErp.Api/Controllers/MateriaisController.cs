@@ -9,6 +9,7 @@ using MasterErp.Domain.Validations.MateriaisValidations;
 using MasterErp.Api.ViewModels;
 using MasterErp.Api.Extensions;
 using MasterErp.Infraestructure.Context;
+using MasterErp.Domain.Models.Pagination;
 
 namespace MasterErp.Api.Controllers;
 
@@ -58,6 +59,29 @@ public class MateriaisController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Erro ao buscar todos os materiais");
+            return StatusCode((int)HttpStatusCode.InternalServerError, "Erro interno do servidor");
+        }
+    }
+
+    /// <summary>
+    /// Busca materiais paginados
+    /// </summary>
+    /// <param name="paginationParams">Parâmetros de paginação e busca</param>
+    /// <returns>Resultado paginado de materiais</returns>
+    [HttpGet("paged")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(PagedResult<Material>), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<PagedResult<Material>>> GetPaged([FromQuery] PaginationParams paginationParams)
+    {
+        try
+        {
+            _logger.LogInformation("Iniciando busca paginada de materiais");
+            var result = await _materialService.GetPagedAsync(paginationParams);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao buscar materiais paginados");
             return StatusCode((int)HttpStatusCode.InternalServerError, "Erro interno do servidor");
         }
     }
