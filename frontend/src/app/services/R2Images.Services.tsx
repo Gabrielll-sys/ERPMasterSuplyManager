@@ -1,5 +1,4 @@
-import axios from "axios";
-import { url as apiUrl } from "../api/webApiUrl";
+import api from "../lib/api";
 
 // ==========================================================
 // SERVIÇO: R2Images.Services
@@ -58,8 +57,8 @@ export const uploadImageToR2 = async (
     // PASSO 1: Obter a URL pré-assinada do Back-end
     // ----------------------------------------------------------
     console.log("[R2] Solicitando URL pré-assinada...");
-    const presignedResponse = await axios.post<R2PresignedResponse>(
-      `${apiUrl}/r2/presigned-url`,
+    const presignedResponse = await api.post<R2PresignedResponse>(
+      `/r2/presigned-url`,
       {
         fileName: fileName,
         contentType: contentType
@@ -134,8 +133,8 @@ export const uploadImageViaProxy = async (
     formData.append('file', imageBlob, fileName);
 
     console.log("[Proxy] Enviando para o servidor...");
-    const response = await axios.post<{ publicUrl: string; fileKey: string }>(
-      `${apiUrl}/r/upload`,
+    const response = await api.post<{ publicUrl: string; fileKey: string }>(
+      `/r/upload`,
       formData,
       {
         headers: {
@@ -172,8 +171,8 @@ export const uploadFileToR2 = async (
     // ----------------------------------------------------------
     // PASSO 1: Obter URL pré-assinada
     // ----------------------------------------------------------
-    const presignedResponse = await axios.post<R2PresignedResponse>(
-      `${apiUrl}/r/presigned-url`,
+    const presignedResponse = await api.post<R2PresignedResponse>(
+      `/r/presigned-url`,
       {
         fileName: file.name,
         contentType: file.type
