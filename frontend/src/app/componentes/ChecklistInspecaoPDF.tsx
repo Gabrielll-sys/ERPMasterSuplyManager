@@ -247,7 +247,7 @@ const InfoGrid = ({ fields }: { fields: { label: string; value: string }[] }) =>
   </View>
 );
 
-// Tabela de checklist.
+// Tabela de checklist com indicadores visuais otimizados para impressão P&B.
 const ChecklistTable = ({ items }: { items: ChecklistItem[] }) => (
   <View style={styles.table}>
     <View style={styles.tableHeader}>
@@ -258,10 +258,22 @@ const ChecklistTable = ({ items }: { items: ChecklistItem[] }) => (
       const done = item?.feito === true;
       return (
         <View key={`${item.item}-${index}`} style={styles.tableRow}>
-          <View style={[styles.statusBox, { backgroundColor: done ? colors.success : colors.pending }]}>
-            <Text style={styles.statusText}>{done ? "✓" : "✕"}</Text>
+          {/* Indicador visual otimizado para impressão P&B */}
+          <View style={[
+            styles.statusBox, 
+            done ? styles.statusDone : styles.statusPending
+          ]}>
+            {/* Checkbox preenchido para concluído, vazio para pendente */}
+            <Text style={done ? styles.statusTextDone : styles.statusTextPending}>
+              {done ? "[■] OK" : "[  ] X"}
+            </Text>
           </View>
-          <Text style={styles.tableCell}>{safeText(item.item, "Não informado")}</Text>
+          <Text style={[
+            styles.tableCell,
+            done ? {} : styles.tableCellPending
+          ]}>
+            {safeText(item.item, "Não informado")}
+          </Text>
         </View>
       );
     })}
@@ -343,16 +355,38 @@ const styles = StyleSheet.create({
   },
   tableRow: { flexDirection: "row", borderBottomWidth: 1, borderBottomColor: colors.gray200 },
   tableCell: { flex: 1, paddingVertical: 6, paddingHorizontal: 8, fontSize: 8.5 },
+  tableCellPending: { fontFamily: "Helvetica-Oblique", color: colors.gray500 },
   statusBox: {
-    width: 24,
-    height: 12,
-    marginVertical: 6,
-    marginHorizontal: 8,
+    width: 50,
+    height: 18,
+    marginVertical: 4,
+    marginHorizontal: 4,
     borderRadius: 2,
     alignItems: "center",
     justifyContent: "center",
   },
-  statusText: { color: "#ffffff", fontSize: 8, fontFamily: "Helvetica-Bold" },
+  // Estilo para item CONCLUÍDO - fundo escuro para bom contraste em P&B
+  statusDone: {
+    backgroundColor: colors.primary,
+    borderWidth: 2,
+    borderColor: colors.primary,
+  },
+  // Estilo para item PENDENTE - fundo claro com borda para contraste em P&B
+  statusPending: {
+    backgroundColor: "#ffffff",
+    borderWidth: 2,
+    borderColor: colors.pending,
+  },
+  statusTextDone: { 
+    color: "#ffffff", 
+    fontSize: 7, 
+    fontFamily: "Helvetica-Bold" 
+  },
+  statusTextPending: { 
+    color: colors.pending, 
+    fontSize: 7, 
+    fontFamily: "Helvetica-Bold" 
+  },
 
   observationsBox: {
     backgroundColor: colors.gray50,
