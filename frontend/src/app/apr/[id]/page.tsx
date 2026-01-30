@@ -1,10 +1,11 @@
 /**
  * Página de Edição de APR
- * 
+ *
  * Carrega APR existente para edição e permite download do PDF.
- * 
+ * Suporta APR Completa e APR Rápida.
+ *
  * @module APREdit
- * @version 2.0.0 - UI/UX modernizada
+ * @version 3.0.0 - Suporte a APR Rápida
  */
 
 "use client";
@@ -13,6 +14,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import AprForm from "../AprForm";
+import AprRapidaForm from "../AprRapidaForm";
 import { downloadAprPdf, getAprById, updateApr } from "../../services/Aprs.Service";
 import { IApr } from "../../interfaces/IApr";
 
@@ -70,6 +72,33 @@ export default function AprEditPage({ params }: { params: { id: string } }) {
     }
   };
 
+  /**
+   * Determina se é APR Rápida.
+   * Fallback: verifica estrutura do conteudoJson se campo tipo não estiver definido.
+   */
+  const detectarTipoRapida = (): boolean => {
+    // Verifica campo tipo diretamente
+    if (apr?.tipo === "rapida") return true;
+    if (apr?.tipo === "completa") return false;
+
+    // Fallback: verifica se conteudoJson tem estrutura de APR Rápida
+    // (possui campos específicos como localSetor, horaInicio que não existem em APR Completa)
+    if (apr?.conteudoJson) {
+      try {
+        const parsed = JSON.parse(apr.conteudoJson);
+        // APR Rápida tem estes campos específicos
+        if (parsed.localSetor !== undefined || parsed.horaInicio !== undefined) {
+          return true;
+        }
+      } catch {
+        // Se não conseguir parsear, assume completa
+      }
+    }
+    return false;
+  };
+
+  const isRapida = detectarTipoRapida();
+
   // Loading State
   if (isLoading) {
     return (
@@ -120,9 +149,15 @@ export default function AprEditPage({ params }: { params: { id: string } }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
-            
+
             {/* Ícone + Título */}
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-rose-500 to-red-600 flex items-center justify-center shadow-lg shadow-rose-500/20">
+            <div
+              className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-lg ${
+                isRapida
+                  ? "bg-gradient-to-br from-amber-500 to-orange-600 shadow-amber-500/20"
+                  : "bg-gradient-to-br from-rose-500 to-red-600 shadow-rose-500/20"
+              }`}
+            >
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg>
@@ -130,8 +165,12 @@ export default function AprEditPage({ params }: { params: { id: string } }) {
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="text-xl font-bold text-slate-900">Editar APR</h1>
-                <span className="px-2 py-0.5 rounded-full bg-rose-100 text-rose-600 text-xs font-semibold">
-                  #{apr.id?.toString().padStart(4, "0")}
+                <span
+                  className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
+                    isRapida ? "bg-amber-100 text-amber-600" : "bg-rose-100 text-rose-600"
+                  }`}
+                >
+                  {isRapida ? "⚡ RÁPIDA" : `#${apr.id?.toString().padStart(4, "0")}`}
                 </span>
               </div>
               <p className="text-sm text-slate-500 truncate max-w-md">{apr.titulo || "Sem título"}</p>
@@ -172,15 +211,26 @@ export default function AprEditPage({ params }: { params: { id: string } }) {
           </div>
         )}
 
-        {/* Formulário */}
-        <AprForm
-          apr={apr}
-          onSave={async (payload) => {
-            await mutation.mutateAsync(payload);
-          }}
-          saving={mutation.isPending}
-        />
+        {/* Formulário baseado no tipo */}
+        {isRapida ? (
+          <AprRapidaForm
+            apr={apr}
+            onSave={async (payload) => {
+              await mutation.mutateAsync(payload);
+            }}
+            saving={mutation.isPending}
+          />
+        ) : (
+          <AprForm
+            apr={apr}
+            onSave={async (payload) => {
+              await mutation.mutateAsync(payload);
+            }}
+            saving={mutation.isPending}
+          />
+        )}
       </main>
     </div>
   );
 }
+

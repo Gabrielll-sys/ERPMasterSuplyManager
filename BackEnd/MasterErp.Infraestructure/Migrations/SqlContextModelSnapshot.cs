@@ -43,6 +43,19 @@ namespace MasterErp.Infraestructure.Migrations
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<bool>("Fechada")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("FechadaEm")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("FechadaPor")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Titulo")
                         .HasColumnType("longtext");
 
@@ -105,6 +118,35 @@ namespace MasterErp.Infraestructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ChecklistsInspecao");
+                });
+
+            modelBuilder.Entity("MasterErp.Domain.Models.ChecklistInspecaoImagem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ChecklistInspecaoId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CriadoEm")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ImageKey")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChecklistInspecaoId");
+
+                    b.ToTable("ChecklistsInspecaoImagens");
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.Cliente", b =>
@@ -633,6 +675,17 @@ namespace MasterErp.Infraestructure.Migrations
                         .HasForeignKey("RelatorioRdId");
 
                     b.Navigation("RelatorioDiario");
+                });
+
+            modelBuilder.Entity("MasterErp.Domain.Models.ChecklistInspecaoImagem", b =>
+                {
+                    b.HasOne("MasterErp.Domain.Models.ChecklistInspecao", "ChecklistInspecao")
+                        .WithMany()
+                        .HasForeignKey("ChecklistInspecaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ChecklistInspecao");
                 });
 
             modelBuilder.Entity("MasterErp.Domain.Models.Cliente", b =>

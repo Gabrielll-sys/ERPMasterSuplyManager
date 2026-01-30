@@ -8,16 +8,43 @@ using QuestPDF.Infrastructure;
 
 namespace MasterErp.Services.Pdf;
 
-// Serviço responsável por gerar o PDF da APR usando o QuestPDF.
+/// <summary>
+/// Serviço responsável por gerar o PDF da APR usando o QuestPDF.
+/// Suporta dois tipos de APR: "completa" e "rapida".
+/// </summary>
 public class AprPdfService : IAprPdfService, IScopedService
 {
-    // Gera o PDF da APR a partir do JSON salvo no banco.
+    /// <summary>
+    /// Gera o PDF da APR a partir do JSON salvo no banco.
+    /// Roteia para o documento correto baseado no tipo da APR.
+    /// </summary>
     public Task<byte[]> GenerateAsync(Apr apr)
     {
         QuestPDF.Settings.License = LicenseType.Community;
-        var data = AprFormData.FromJson(apr.ConteudoJson);
-        var document = new AprPdfDocument(apr, data);
-        return Task.FromResult(document.GeneratePdf());
+
+        try
+        {
+            // Verifica o tipo da APR para escolher o documento correto
+            if (apr.Tipo == "rapida")
+            {
+                var dataRapida = AprRapidaFormData.FromJson(apr.ConteudoJson);
+                var docRapida = new AprRapidaPdfDocument(apr, dataRapida);
+                return Task.FromResult(docRapida.GeneratePdf());
+            }
+
+            // APR Completa (padrão)
+            var data = AprFormData.FromJson(apr.ConteudoJson);
+            var document = new AprPdfDocument(apr, data);
+            return Task.FromResult(document.GeneratePdf());
+        }
+        catch (QuestPDF.Drawing.Exceptions.DocumentLayoutException ex)
+        {
+            // Log detalhado do erro de layout
+            Console.WriteLine($"[APR PDF ERROR] DocumentLayoutException para APR {apr.Id} (Tipo: {apr.Tipo})");
+            Console.WriteLine($"[APR PDF ERROR] Message: {ex.Message}");
+            Console.WriteLine($"[APR PDF ERROR] JSON Preview: {apr.ConteudoJson?[..Math.Min(500, apr.ConteudoJson?.Length ?? 0)]}...");
+            throw;
+        }
     }
 }
 
@@ -849,3 +876,439 @@ internal sealed class AprClosingInterruption
     public bool PorRazoesSeguranca { get; set; }
     public string? AprContinuacao { get; set; }
 }
+
+// ============================================
+// APR RÁPIDA - DOCUMENTO PDF COMPACTO
+// ============================================
+
+/// <summary>
+/// Documento PDF para APR Rápida - layout compacto de 1 página.
+/// </summary>
+internal sealed class AprRapidaPdfDocument : IDocument
+{
+    private const string Placeholder = "Não informado";
+
+    // Cores do tema amber/laranja para APR Rápida
+    private static readonly string Primary = "#1a1a2e";
+    private static readonly string Accent = "#f59e0b"; // amber-500
+    private static readonly string Gray50 = "#f9fafb";
+    private static readonly string Gray200 = "#e5e7eb";
+    private static readonly string Gray400 = "#9ca3af";
+    private static readonly string Gray500 = "#6b7280";
+    private static readonly string Gray700 = "#374151";
+    private static readonly string Gray800 = "#1f2937";
+
+    private readonly Apr _apr;
+    private readonly AprRapidaFormData _data;
+    private readonly CultureInfo _culture = new("pt-BR");
+
+    public AprRapidaPdfDocument(Apr apr, AprRapidaFormData data)
+    {
+        _apr = apr;
+        _data = data;
+    }
+
+    public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
+
+    public void Compose(IDocumentContainer container)
+    {
+        container.Page(page =>
+        {
+            page.Size(PageSizes.A4);
+            page.Margin(24);
+            page.PageColor(Colors.White);
+            page.DefaultTextStyle(x => x.FontFamily("Helvetica").FontSize(9f).FontColor(Gray800));
+
+            page.Content().Column(column =>
+            {
+                column.Item().Element(ComposeHeader);
+                column.Item().PaddingTop(10).Element(ComposeIdentification);
+                column.Item().PaddingTop(10).Element(ComposeChecklists);
+                column.Item().PaddingTop(10).Element(ComposeWorkers);
+                column.Item().PaddingTop(10).Element(ComposeSignatures);
+            });
+
+            page.Footer().Element(ComposeFooter);
+        });
+    }
+
+    /// <summary>
+    /// Cabeçalho profissional com logo, título e referência NR-10.
+    /// </summary>
+    private void ComposeHeader(IContainer container)
+    {
+        container.BorderBottom(2).BorderColor(Accent).PaddingBottom(8).Row(row =>
+        {
+            row.ConstantItem(90).AlignLeft().Image(GetLogoBytes()).FitWidth();
+
+            row.RelativeItem().AlignCenter().Column(col =>
+            {
+                col.Item().Text("ANÁLISE PRELIMINAR DE RISCOS").FontSize(14).FontColor(Primary).SemiBold();
+                col.Item().Text("Trabalho com Eletricidade - NR-10").FontSize(9).FontColor(Gray500);
+            });
+
+            row.ConstantItem(140).AlignRight().Column(col =>
+            {
+                var aprNumero = _apr.Id > 0
+                    ? $"{_apr.Id:0000}/{_apr.Data.ToString("yyyy", _culture)}"
+                    : "----";
+                col.Item().AlignRight().Text($"APR N° {aprNumero}").FontSize(10).FontColor(Primary).SemiBold();
+                col.Item().AlignRight().Text($"Data: {FormatDate(_data.Data)}").FontSize(8).FontColor(Gray500);
+                col.Item().AlignRight().Text($"Hora: {_data.HoraInicio ?? "--:--"}").FontSize(8).FontColor(Gray500);
+            });
+        });
+    }
+
+    /// <summary>
+    /// Bloco de identificação: Local, Atividade, Empresa, Emissor.
+    /// </summary>
+    private void ComposeIdentification(IContainer container)
+    {
+        container.Column(col =>
+        {
+            col.Item().Element(c => ComposeSectionTitle(c, "IDENTIFICAÇÃO"));
+
+            col.Item().PaddingTop(4).Row(row =>
+            {
+                row.RelativeItem(2).Element(c => ComposeFieldBox(c, "Local / Setor:", _data.LocalSetor));
+                row.RelativeItem().Element(c => ComposeFieldBox(c, "Empresa:", _data.Empresa));
+            });
+
+            col.Item().PaddingTop(4).Element(c => ComposeFieldBox(c, "Atividade a ser realizada:", _data.Atividade));
+
+            col.Item().PaddingTop(4).Row(row =>
+            {
+                row.RelativeItem().Element(c => ComposeFieldBox(c, "Emissor:", _data.Emissor));
+                row.RelativeItem().Element(c => ComposeFieldBox(c, "Supervisor:", _data.Supervisor));
+                row.RelativeItem().Element(c => ComposeFieldBox(c, "Hora Início:", _data.HoraInicio));
+            });
+        });
+    }
+
+    /// <summary>
+    /// Checklists de EPIs e Riscos lado a lado com layout melhorado.
+    /// </summary>
+    private void ComposeChecklists(IContainer container)
+    {
+        var episList = _data.Epis ?? new List<AprRapidaChecklistItem>();
+        var riscosList = _data.Riscos ?? new List<AprRapidaChecklistItem>();
+        var outrosRiscosValidos = (_data.OutrosRiscos ?? new List<string>())
+            .Where(r => !string.IsNullOrWhiteSpace(r))
+            .ToList();
+
+        container.Table(table =>
+        {
+            table.ColumnsDefinition(columns =>
+            {
+                columns.RelativeColumn();
+                columns.ConstantColumn(8); // gap
+                columns.RelativeColumn();
+            });
+
+            // EPIs - NR-10
+            table.Cell().Column(col =>
+            {
+                col.Item().Element(c => ComposeSectionTitle(c, "EPIs OBRIGATÓRIOS (NR-10)"));
+                col.Item().PaddingTop(4).Background(Gray50).Border(1).BorderColor(Gray200).Padding(8).Column(items =>
+                {
+                    if (episList.Count == 0)
+                    {
+                        items.Item().Text("Nenhum EPI registrado").FontSize(8).FontColor(Gray400).Italic();
+                    }
+                    else
+                    {
+                        foreach (var epi in episList)
+                        {
+                            var checkIcon = epi.Checked ? "☑" : "☐";
+                            var checkColor = epi.Checked ? "#059669" : Gray400;
+                            items.Item().PaddingBottom(3).Text(text =>
+                            {
+                                text.Span(checkIcon + " ").FontSize(10).FontColor(checkColor);
+                                text.Span(epi.Label ?? "").FontSize(8.5f).FontColor(Gray700);
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Gap
+            table.Cell();
+
+            // Riscos
+            table.Cell().Column(col =>
+            {
+                col.Item().Element(c => ComposeSectionTitle(c, "RISCOS IDENTIFICADOS"));
+                col.Item().PaddingTop(4).Background(Gray50).Border(1).BorderColor(Gray200).Padding(8).Column(items =>
+                {
+                    if (riscosList.Count == 0 && outrosRiscosValidos.Count == 0)
+                    {
+                        items.Item().Text("Nenhum risco registrado").FontSize(8).FontColor(Gray400).Italic();
+                    }
+                    else
+                    {
+                        foreach (var risco in riscosList)
+                        {
+                            var checkIcon = risco.Checked ? "☑" : "☐";
+                            var checkColor = risco.Checked ? "#dc2626" : Gray400;
+                            items.Item().PaddingBottom(3).Text(text =>
+                            {
+                                text.Span(checkIcon + " ").FontSize(10).FontColor(checkColor);
+                                text.Span(risco.Label ?? "").FontSize(8.5f).FontColor(Gray700);
+                            });
+                        }
+
+                        // Exibe outros riscos se houver algum
+                        if (outrosRiscosValidos.Count > 0)
+                        {
+                            items.Item().PaddingTop(6).BorderTop(1).BorderColor(Gray200);
+                            items.Item().PaddingTop(4).Text("Outros riscos:").FontSize(7).FontColor(Gray500).Italic();
+                            
+                            foreach (var outroRisco in outrosRiscosValidos)
+                            {
+                                items.Item().PaddingTop(2).Text(text =>
+                                {
+                                    text.Span("• ").FontSize(10).FontColor("#dc2626");
+                                    text.Span(outroRisco).FontSize(8.5f).FontColor(Gray700);
+                                });
+                            }
+                        }
+                    }
+                });
+            });
+        });
+
+        // Observações
+        if (!string.IsNullOrWhiteSpace(_data.Observacoes))
+        {
+            container.PaddingTop(8).Element(c => ComposeFieldBox(c, "Observações:", _data.Observacoes));
+        }
+    }
+
+    /// <summary>
+    /// Lista de trabalhadores.
+    /// </summary>
+    private void ComposeWorkers(IContainer container)
+    {
+        var trabalhadores = (_data.Trabalhadores ?? new List<string>())
+            .Where(t => !string.IsNullOrWhiteSpace(t))
+            .ToList();
+
+        container.Column(col =>
+        {
+            col.Item().Element(c => ComposeSectionTitle(c, "TRABALHADORES"));
+            col.Item().PaddingTop(4).Background(Gray50).Border(1).BorderColor(Gray200).Padding(6).Table(table =>
+            {
+                table.ColumnsDefinition(columns =>
+                {
+                    columns.ConstantColumn(24);
+                    columns.RelativeColumn(6);
+                    columns.RelativeColumn(4);
+                });
+
+                table.Header(header =>
+                {
+                    header.Cell().Element(CellHeader).AlignCenter().Text("Nº");
+                    header.Cell().Element(CellHeader).Text("Nome");
+                    header.Cell().Element(CellHeader).Text("Assinatura");
+                });
+
+                // Se não houver trabalhadores, mostra linha placeholder
+                if (trabalhadores.Count == 0)
+                {
+                    table.Cell().Element(CellBody).AlignCenter().Text("1");
+                    table.Cell().Element(CellBody).Text(Placeholder);
+                    table.Cell().Element(SignatureLineCell);
+                }
+                else
+                {
+                    for (var i = 0; i < trabalhadores.Count; i++)
+                    {
+                        table.Cell().Element(CellBody).AlignCenter().Text((i + 1).ToString());
+                        table.Cell().Element(CellBody).Text(trabalhadores[i] ?? Placeholder);
+                        table.Cell().Element(SignatureLineCell);
+                    }
+                }
+            });
+        });
+    }
+
+    /// <summary>
+    /// Área de assinaturas de emissor e supervisor.
+    /// </summary>
+    private void ComposeSignatures(IContainer container)
+    {
+        container.Column(col =>
+        {
+            col.Item().Element(c => ComposeSectionTitle(c, "ASSINATURAS"));
+            col.Item().PaddingTop(4).Background(Gray50).Border(1).BorderColor(Gray200).Padding(6).Row(row =>
+            {
+                row.RelativeItem().Column(c =>
+                {
+                    c.Item().Text("Emissor da APR").FontSize(7).FontColor(Gray500);
+                    c.Item().Text(WithPlaceholder(_data.Emissor)).FontSize(8).FontColor(Gray800);
+                    c.Item().PaddingTop(20).Element(SignatureLine);
+                });
+
+                row.RelativeItem().Column(c =>
+                {
+                    c.Item().Text("Supervisor da Área").FontSize(7).FontColor(Gray500);
+                    c.Item().Text(WithPlaceholder(_data.Supervisor)).FontSize(8).FontColor(Gray800);
+                    c.Item().PaddingTop(20).Element(SignatureLine);
+                });
+            });
+        });
+    }
+
+    /// <summary>
+    /// Rodapé profissional com informações da empresa.
+    /// </summary>
+    private void ComposeFooter(IContainer container)
+    {
+        container.Column(col =>
+        {
+            col.Item().LineHorizontal(1).LineColor(Accent);
+            col.Item().PaddingTop(4).Row(row =>
+            {
+                row.RelativeItem().Column(c =>
+                {
+                    c.Item().Text("Master Elétrica Comércio e Serviço LTDA").FontSize(7).FontColor(Gray500).SemiBold();
+                    c.Item().Text("Documento gerado eletronicamente - APR válida após assinaturas").FontSize(6).FontColor(Gray400);
+                });
+                row.ConstantItem(80).AlignRight().Text(text =>
+                {
+                    text.Span("Página ").FontSize(7).FontColor(Gray400);
+                    text.CurrentPageNumber().FontSize(7).FontColor(Gray400);
+                    text.Span(" de ").FontSize(7).FontColor(Gray400);
+                    text.TotalPages().FontSize(7).FontColor(Gray400);
+                });
+            });
+        });
+    }
+
+    // ============================================
+    // HELPERS
+    // ============================================
+
+    private static void ComposeSectionTitle(IContainer container, string title)
+    {
+        container.Row(row =>
+        {
+            row.ConstantItem(16).Height(16).Background(Accent);
+            row.AutoItem().PaddingLeft(6).Text(title).FontSize(9f).FontColor(Primary).SemiBold();
+        });
+    }
+
+    private static void ComposeFieldBox(IContainer container, string label, string? value)
+    {
+        container.Background(Gray50)
+            .Border(1)
+            .BorderColor(Gray200)
+            .Padding(6)
+            .Column(col =>
+            {
+                col.Item().Text(label).FontSize(7).FontColor(Gray500);
+                col.Item().Text(WithPlaceholder(value)).FontSize(8).FontColor(Gray800);
+            });
+    }
+
+    private static IContainer SignatureLine(IContainer container)
+    {
+        return container.Height(1).Background(Gray400);
+    }
+
+    private static IContainer SignatureLineCell(IContainer container)
+    {
+        return CellBody(container).PaddingTop(12).Element(SignatureLine);
+    }
+
+    private static IContainer CellHeader(IContainer container)
+    {
+        return container.Background(Primary)
+            .PaddingVertical(4)
+            .PaddingHorizontal(6)
+            .DefaultTextStyle(x => x.FontColor(Colors.White).FontSize(7f).SemiBold());
+    }
+
+    private static IContainer CellBody(IContainer container)
+    {
+        return container.BorderBottom(1)
+            .BorderColor(Gray200)
+            .PaddingVertical(4)
+            .PaddingHorizontal(6);
+    }
+
+    private string FormatDate(string? dateText)
+    {
+        if (string.IsNullOrWhiteSpace(dateText)) return Placeholder;
+        if (DateTime.TryParse(dateText, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out var parsed))
+            return parsed.ToString("dd/MM/yyyy", _culture);
+        return dateText;
+    }
+
+    private static string WithPlaceholder(string? value)
+    {
+        return string.IsNullOrWhiteSpace(value) ? Placeholder : value;
+    }
+
+    private static byte[] GetLogoBytes()
+    {
+        var base64 = LogoBase64.Value;
+        var commaIndex = base64.IndexOf(',');
+        if (commaIndex >= 0)
+            base64 = base64[(commaIndex + 1)..];
+        return Convert.FromBase64String(base64);
+    }
+}
+
+// ============================================
+// MODELO DE DADOS - APR RÁPIDA
+// ============================================
+
+/// <summary>
+/// Dados do formulário de APR Rápida para deserialização do JSON.
+/// </summary>
+internal sealed class AprRapidaFormData
+{
+    public string? LocalSetor { get; set; }
+    public string? Atividade { get; set; }
+    public string? Empresa { get; set; }
+    public string? Data { get; set; }
+    public string? HoraInicio { get; set; }
+    public string? Emissor { get; set; }
+    public string? Supervisor { get; set; }
+    public string? Observacoes { get; set; }
+    public List<AprRapidaChecklistItem>? Epis { get; set; }
+    public List<AprRapidaChecklistItem>? Riscos { get; set; }
+    /// <summary>Lista de riscos adicionais não listados</summary>
+    public List<string>? OutrosRiscos { get; set; }
+    public List<string>? Trabalhadores { get; set; }
+
+    public static AprRapidaFormData FromJson(string? json)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+            return new AprRapidaFormData();
+
+        try
+        {
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            return JsonSerializer.Deserialize<AprRapidaFormData>(json, options) ?? new AprRapidaFormData();
+        }
+        catch
+        {
+            return new AprRapidaFormData();
+        }
+    }
+}
+
+/// <summary>
+/// Item de checklist simples (checked/unchecked).
+/// </summary>
+internal sealed class AprRapidaChecklistItem
+{
+    public string? Label { get; set; }
+    public bool Checked { get; set; }
+}
+

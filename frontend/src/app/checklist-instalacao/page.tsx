@@ -23,11 +23,22 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createChecklistInspecao,
   deleteChecklistInspecao,
-  downloadChecklistInspecaoPdf,
   getAllChecklistsInspecao,
   updateChecklistInspecao,
 } from "../services/ChecklistInspecao.Service";
 import { IChecklistInspecao } from "../interfaces/IChecklistInspecao";
+import { pdf } from "@react-pdf/renderer";
+import ChecklistInspecaoPDF from "../componentes/ChecklistInspecaoPDF";
+import { preloadImagesWithCache } from "../lib/imageCache";
+import { uploadFileToR2 } from "../services/R2Images.Services";
+import {
+  addChecklistInspecaoImagem,
+  deleteChecklistInspecaoImagem,
+  getChecklistInspecaoImagens,
+} from "../services/ChecklistInspecaoImagens.Service";
+import { IChecklistInspecaoImagem } from "../interfaces/IChecklistInspecaoImagem";
+import { compressChecklistImage } from "../lib/compressChecklistImage";
+import ImageGallerySection from "../componentes/ImageGallerySection";
 
 /**
  * Item individual do checklist
@@ -171,10 +182,19 @@ export default function ChecklistInstalacaoPage() {
   const [errors, setErrors] = useState<string[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [notification, setNotification] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  // Controle do progresso de geração do PDF.
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
   const { data: items = [], isLoading } = useQuery<IChecklistInspecao[]>({
     queryKey: ["checklists-inspecao"],
     queryFn: getAllChecklistsInspecao,
+  });
+
+  const { data: checklistImages = [], isLoading: isLoadingImages } = useQuery<IChecklistInspecaoImagem[]>({
+    queryKey: ["checklist-imagens", selectedId],
+    queryFn: () => getChecklistInspecaoImagens(selectedId as number),
+    enabled: !!selectedId,
   });
 
   const createMutation = useMutation({
@@ -190,6 +210,17 @@ export default function ChecklistInstalacaoPage() {
   const deleteMutation = useMutation({
     mutationFn: deleteChecklistInspecao,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["checklists-inspecao"] }),
+  });
+
+  const addImageMutation = useMutation({
+    mutationFn: (payload: Pick<IChecklistInspecaoImagem, "imageUrl" | "imageKey">) =>
+      addChecklistInspecaoImagem(selectedId as number, payload),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["checklist-imagens", selectedId] }),
+  });
+
+  const deleteImageMutation = useMutation({
+    mutationFn: (id: number) => deleteChecklistInspecaoImagem(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["checklist-imagens", selectedId] }),
   });
 
   const instalacaoItems = useMemo(() => {
@@ -221,6 +252,7 @@ export default function ChecklistInstalacaoPage() {
     setSelectedId(item.id);
     setData(parseInstalacaoJson(item.conteudoJson));
     setErrors([]);
+    setIsGeneratingPdf(false);
   }, []);
 
   const handleReset = useCallback(() => {
@@ -228,6 +260,8 @@ export default function ChecklistInstalacaoPage() {
     setData(structuredClone(defaultInstalacaoChecklist));
     setErrors([]);
     setNotification(null);
+    setIsUploadingImage(false);
+    setIsGeneratingPdf(false);
   }, []);
 
   const showNotification = useCallback((type: "success" | "error", message: string) => {
@@ -269,7 +303,27 @@ export default function ChecklistInstalacaoPage() {
   const handleDownloadPdf = async (id?: number) => {
     if (!id) return;
     try {
-      const blob = await downloadChecklistInspecaoPdf(id);
+      setIsGeneratingPdf(true);
+      const checklist = items.find((item) => item.id === id);
+      if (!checklist) {
+        showNotification("error", "Checklist não encontrado.");
+        return;
+      }
+
+      const imagens = await getChecklistInspecaoImagens(id);
+      const base64Map = await preloadImagesWithCache(
+        imagens.map((img) => img.imageUrl),
+        5,
+        undefined,
+        "no-store"
+      );
+      const imagensPdf = imagens.map((img) => ({
+        ...img,
+        imageBase64: base64Map.get(img.imageUrl) ?? null,
+      }));
+      const doc = <ChecklistInspecaoPDF checklist={checklist} imagens={imagensPdf} />;
+      const blob = await pdf(doc).toBlob();
+
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
@@ -277,7 +331,9 @@ export default function ChecklistInstalacaoPage() {
       link.click();
       window.URL.revokeObjectURL(url);
     } catch {
-      showNotification("error", "Erro ao baixar PDF.");
+      showNotification("error", "Erro ao gerar PDF.");
+    } finally {
+      setIsGeneratingPdf(false);
     }
   };
 
@@ -287,6 +343,39 @@ export default function ChecklistInstalacaoPage() {
     await deleteMutation.mutateAsync(id);
     if (selectedId === id) handleReset();
     showNotification("success", "Checklist excluído.");
+  };
+
+  const handleImageUpload = async (file: File) => {
+    if (!selectedId) {
+      showNotification("error", "Salve o checklist antes de adicionar fotos.");
+      return;
+    }
+
+    setIsUploadingImage(true);
+
+    try {
+      // Comprime para garantir 3MB no maximo.
+      const compressed = await compressChecklistImage(file);
+
+      if (compressed.size > 3 * 1024 * 1024) {
+        throw new Error("Imagem acima de 3MB mesmo após compressão.");
+      }
+
+      const { publicUrl, fileKey } = await uploadFileToR2(compressed);
+      await addImageMutation.mutateAsync({ imageUrl: publicUrl, imageKey: fileKey });
+      showNotification("success", "Imagem adicionada ao checklist.");
+    } catch (error) {
+      console.error(error);
+      showNotification("error", "Erro ao enviar imagem.");
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
+
+  const handleImageDelete = async (image: IChecklistInspecaoImagem) => {
+    if (!image.id) return;
+    await deleteImageMutation.mutateAsync(image.id);
+    showNotification("success", "Imagem excluída.");
   };
 
   const instalacaoProgress = getProgress(data.instalacaoTeste.instalacao);
@@ -467,6 +556,17 @@ export default function ChecklistInstalacaoPage() {
                 onChange={(e) => handleFieldChange("observacoes", e.target.value)}
               />
             </div>
+
+            {/* Fotos do Checklist */}
+            <ImageGallerySection
+              images={checklistImages}
+              isLoadingImages={isLoadingImages}
+              isUploading={isUploadingImage}
+              canUpload={!!selectedId}
+              accentColor="blue"
+              onFileSelect={handleImageUpload}
+              onDeleteImage={handleImageDelete}
+            />
           </div>
 
           {/* Sidebar - Histórico */}
@@ -506,6 +606,21 @@ export default function ChecklistInstalacaoPage() {
           </aside>
         </div>
       </main>
+
+      {/* Modal de status de geração do PDF */}
+      {isGeneratingPdf && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-full border-2 border-blue-600 border-t-transparent animate-spin" />
+              <div>
+                <p className="text-sm font-semibold text-slate-900">Gerando PDF...</p>
+                <p className="text-xs text-slate-500">Carregando imagens e montando o arquivo.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

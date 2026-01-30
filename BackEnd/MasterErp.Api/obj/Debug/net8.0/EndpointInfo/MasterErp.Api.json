@@ -518,6 +518,94 @@
         }
       }
     },
+    "/api/v1/ChecklistsInspecaoImagens/checklist/{checklistId}": {
+      "get": {
+        "tags": [
+          "ChecklistsInspecaoImagens"
+        ],
+        "parameters": [
+          {
+            "name": "checklistId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/ChecklistsInspecaoImagens/{checklistId}": {
+      "post": {
+        "tags": [
+          "ChecklistsInspecaoImagens"
+        ],
+        "parameters": [
+          {
+            "name": "checklistId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChecklistInspecaoImagem"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChecklistInspecaoImagem"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChecklistInspecaoImagem"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/api/v1/ChecklistsInspecaoImagens/{id}": {
+      "delete": {
+        "tags": [
+          "ChecklistsInspecaoImagens"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
     "/api/v1/Clientes": {
       "get": {
         "tags": [
@@ -6306,6 +6394,10 @@
             "type": "string",
             "format": "date-time"
           },
+          "tipo": {
+            "type": "string",
+            "nullable": true
+          },
           "conteudoJson": {
             "type": "string",
             "nullable": true
@@ -6315,6 +6407,18 @@
             "format": "date-time"
           },
           "atualizadoEm": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "fechada": {
+            "type": "boolean"
+          },
+          "fechadaPor": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechadaEm": {
             "type": "string",
             "format": "date-time",
             "nullable": true
@@ -6396,6 +6500,35 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ChecklistInspecaoImagem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "checklistInspecaoId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "criadoEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "checklistInspecao": {
+            "$ref": "#/components/schemas/ChecklistInspecao"
           }
         },
         "additionalProperties": false

@@ -30,10 +30,13 @@ public class AprRepository : IAprRepository, IScopedService
 
     public async Task<Apr> CreateAsync(Apr model)
     {
+        // Cria nova APR com todos os campos, incluindo Tipo
         var apr = new Apr
         {
             Titulo = model.Titulo,
             Data = model.Data == default ? DateTime.UtcNow.AddHours(-3) : model.Data,
+            // Tipo: "completa" (padrão) ou "rapida" para formulário simplificado
+            Tipo = string.IsNullOrWhiteSpace(model.Tipo) ? "completa" : model.Tipo,
             ConteudoJson = string.IsNullOrWhiteSpace(model.ConteudoJson) ? "{}" : model.ConteudoJson,
             CriadoEm = DateTime.UtcNow.AddHours(-3),
         };
@@ -50,8 +53,22 @@ public class AprRepository : IAprRepository, IScopedService
 
         apr.Titulo = model.Titulo;
         apr.Data = model.Data == default ? apr.Data : model.Data;
+        // Mantém o Tipo existente se não for informado, ou atualiza se fornecido
+        if (!string.IsNullOrWhiteSpace(model.Tipo))
+        {
+            apr.Tipo = model.Tipo;
+        }
         apr.ConteudoJson = string.IsNullOrWhiteSpace(model.ConteudoJson) ? apr.ConteudoJson : model.ConteudoJson;
         apr.AtualizadoEm = DateTime.UtcNow.AddHours(-3);
+
+        // Atualiza campos de fechamento se fornecidos
+        // Uma vez fechada, a APR mantém o status (não pode ser reaberta via update normal)
+        if (model.Fechada && !apr.Fechada)
+        {
+            apr.Fechada = true;
+            apr.FechadaPor = model.FechadaPor;
+            apr.FechadaEm = DateTime.UtcNow.AddHours(-3);
+        }
 
         _context.Aprs.Update(apr);
         await _context.SaveChangesAsync();

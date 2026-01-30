@@ -558,8 +558,7 @@
               "RelativeToolTip": "MasterErp.Services\\AprService.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T17:03:03.427Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-27T17:03:03.427Z"
             },
             {
               "$type": "Document",
@@ -571,8 +570,7 @@
               "RelativeToolTip": "MasterErp.Api\\Controllers\\R2Controller.cs",
               "ViewState": "AgIAACIAAAAAAAAAAAAUwHMAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T14:28:56.475Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-27T14:28:56.475Z"
             },
             {
               "$type": "Document",
@@ -610,8 +608,7 @@
               "RelativeToolTip": "MasterErp.Api\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAHkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-22T19:50:38.181Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-22T19:50:38.181Z"
             },
             {
               "$type": "Document",
@@ -623,8 +620,7 @@
               "RelativeToolTip": "MasterErp.Services\\Pdf\\OrcamentoPdfService.cs",
               "ViewState": "AgIAABMBAAAAAAAAAAAswAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-23T16:35:24.908Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-23T16:35:24.908Z"
             },
             {
               "$type": "Document",
@@ -634,7 +630,7 @@
               "RelativeDocumentMoniker": "MasterErp.Api\\appsettings.json",
               "ToolTip": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\appsettings.json",
               "RelativeToolTip": "MasterErp.Api\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAATAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2024-05-23T22:59:22.547Z",
               "EditorCaption": ""
@@ -649,8 +645,7 @@
               "RelativeToolTip": "MasterErp.Services\\Pdf\\LogoBase64.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T17:03:13.544Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-27T17:03:13.544Z"
             },
             {
               "$type": "Document",
@@ -662,8 +657,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\ChecklistInspecaoRepository.cs",
               "ViewState": "AgIAACIAAAAAAAAAAAAYwDMAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T16:42:09.232Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-26T16:42:09.232Z"
             },
             {
               "$type": "Document",
@@ -675,8 +669,7 @@
               "RelativeToolTip": "MasterErp.Api\\Controllers\\ChecklistsInspecaoController.cs",
               "ViewState": "AgIAAFEAAAAAAAAAAAAYwGIAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T16:42:26.626Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-26T16:42:26.626Z"
             },
             {
               "$type": "Document",
@@ -688,8 +681,7 @@
               "RelativeToolTip": "MasterErp.Services\\Pdf\\ChecklistInspecaoPdfService.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAUwBcAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T16:45:18.139Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-26T16:45:18.139Z"
             },
             {
               "$type": "Document",
@@ -714,8 +706,7 @@
               "RelativeToolTip": "..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
               "ViewState": "AgIAAMUTAAAAAAAAAAArwOkTAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2026-01-26T16:25:51.373Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-26T16:25:51.373Z"
             },
             {
               "$type": "Document",
@@ -727,8 +718,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Interfaces\\Services\\LifetimeInterfaces.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-28T23:49:42.455Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-28T23:49:42.455Z"
             },
             {
               "$type": "Document",
@@ -751,8 +741,7 @@
               "RelativeToolTip": "MasterErp.Api\\Properties\\launchSettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-05-23T22:59:09.637Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T22:59:09.637Z"
             },
             {
               "$type": "Document",
@@ -764,8 +753,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\DesignTimeDbContextFactory.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAgwBsAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-06T21:11:37.531Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-06T21:11:37.531Z"
             },
             {
               "$type": "Document",
@@ -799,8 +787,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\Migrations\\20260122104527_AddSolicitacaoServico.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-23T11:50:16.468Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-23T11:50:16.468Z"
             },
             {
               "$type": "Document",
@@ -812,8 +799,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\Migrations\\20260122233402_AddUsuariosDesignados.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-23T11:50:12.783Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-23T11:50:12.783Z"
             },
             {
               "$type": "Document",
@@ -869,8 +855,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\Migrations\\20250629124104_v1.cs",
               "ViewState": "AgIAAGwAAAAAAAAAAAAUwH4AAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-29T12:41:04.987Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-29T12:41:04.987Z"
             },
             {
               "$type": "Document",
@@ -882,8 +867,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\Migrations\\20250629125139_v2.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-29T12:51:39.978Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-29T12:51:39.978Z"
             },
             {
               "$type": "Document",
@@ -895,8 +879,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Interfaces\\Repository\\IOrdemSeparacaoRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-22T18:58:49.231Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-22T18:58:49.231Z"
             },
             {
               "$type": "Document",
@@ -908,8 +891,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Interfaces\\Services\\IOrdemSeparacaoService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-22T18:57:10.885Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-22T18:57:10.885Z"
             },
             {
               "$type": "Document",
@@ -921,8 +903,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\InventarioDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-22T18:39:52.445Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-22T18:39:52.445Z"
             },
             {
               "$type": "Document",
@@ -934,8 +915,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\ItemDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-22T18:20:57.959Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-22T18:20:57.959Z"
             },
             {
               "$type": "Document",
@@ -947,8 +927,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\ItemOrcamento.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-08T18:21:43.863Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-08T18:21:43.863Z"
             },
             {
               "$type": "Document",
@@ -960,8 +939,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\Forms\\FormTemplate.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-06T23:43:56.391Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-06T23:43:56.391Z"
             },
             {
               "$type": "Document",
@@ -973,8 +951,7 @@
               "RelativeToolTip": "comandos.txt",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2025-05-06T23:41:19.972Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-06T23:41:19.972Z"
             },
             {
               "$type": "Document",
@@ -997,8 +974,7 @@
               "RelativeToolTip": "FunctionApp2\\local.settings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-03-03T23:35:38.653Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-03T23:35:38.653Z"
             },
             {
               "$type": "Document",
@@ -1021,8 +997,7 @@
               "RelativeToolTip": "FunctionApp1\\local.settings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-03-03T23:10:48.394Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-03T23:10:48.394Z"
             },
             {
               "$type": "Document",
@@ -1045,8 +1020,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Interfaces\\Services\\IRelatorioDiarioService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-10T12:15:09.977Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-10T12:15:09.977Z"
             },
             {
               "$type": "Document",
@@ -1179,8 +1153,7 @@
               "RelativeToolTip": "MasterErp.Services\\MaterialService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-29T23:12:53.173Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-29T23:12:53.173Z"
             },
             {
               "$type": "Document",
@@ -1192,8 +1165,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\MaterialDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-26T00:41:35.668Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-26T00:41:35.668Z"
             },
             {
               "$type": "Document",
@@ -1205,8 +1177,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\OrdemSeparacao.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAgwC4AAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-26T00:35:13.34Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-26T00:35:13.34Z"
             },
             {
               "$type": "Document",
@@ -1218,8 +1189,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\Orcamento.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-26T00:34:26.386Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-26T00:34:26.386Z"
             },
             {
               "$type": "Document",
@@ -1230,8 +1200,7 @@
               "ToolTip": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Api\\MasterErp.Api.csproj",
               "RelativeToolTip": "MasterErp.Api\\MasterErp.Api.csproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-06-24T16:23:07.481Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-24T16:23:07.481Z"
             },
             {
               "$type": "Document",
@@ -1253,8 +1222,7 @@
               "ToolTip": "C:\\Users\\gabri\\Desktop\\ERPMasterSuplyManager\\BackEnd\\MasterErp.Services\\MasterErp.Services.csproj",
               "RelativeToolTip": "MasterErp.Services\\MasterErp.Services.csproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-06-24T13:23:58.398Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-24T13:23:58.398Z"
             },
             {
               "$type": "Document",
@@ -1266,8 +1234,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\OrdemSeparacaoDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAIBJwAoAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-13T18:01:12.216Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-13T18:01:12.216Z"
             },
             {
               "$type": "Document",
@@ -1279,8 +1246,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\Usuario.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-13T18:00:34.249Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-13T18:00:34.249Z"
             },
             {
               "$type": "Document",
@@ -1292,8 +1258,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\Fornecedor.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-13T17:51:21.712Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-13T17:51:21.712Z"
             },
             {
               "$type": "Document",
@@ -1305,8 +1270,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\ImagemAtividadeRd.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T17:08:02.032Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-29T17:08:02.032Z"
             },
             {
               "$type": "Document",
@@ -1318,8 +1282,7 @@
               "RelativeToolTip": "MasterErp.Domain\\MasterErp.Domain.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-05-29T01:27:58.014Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-29T01:27:58.014Z"
             },
             {
               "$type": "Document",
@@ -1331,8 +1294,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Interfaces\\Services\\IUsuarioService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T01:22:21.083Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-29T01:22:21.083Z"
             },
             {
               "$type": "Document",
@@ -1377,8 +1339,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\MasterErp.Infraestructure.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-05-29T01:09:05.789Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-29T01:09:05.789Z"
             },
             {
               "$type": "Document",
@@ -1403,8 +1364,7 @@
               "RelativeToolTip": "MasterErp.Services\\TarefaUsuarioService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAFkAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T00:37:47.06Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-29T00:37:47.06Z"
             },
             {
               "$type": "Document",
@@ -1416,8 +1376,7 @@
               "RelativeToolTip": "MasterErp.Services\\OrcamentoService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T00:33:42.167Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-29T00:33:42.167Z"
             },
             {
               "$type": "Document",
@@ -1429,8 +1388,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Interfaces\\Services\\ITarefaUsuarioService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T00:30:03.659Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-29T00:30:03.659Z"
             },
             {
               "$type": "Document",
@@ -1453,8 +1411,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\TarefaUsuarioRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-28T19:31:44.746Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-28T19:31:44.746Z"
             },
             {
               "$type": "Document",
@@ -1466,8 +1423,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Interfaces\\Repository\\ITarefaUsuarioRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-28T19:28:02.872Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-28T19:28:02.872Z"
             },
             {
               "$type": "Document",
@@ -1479,8 +1435,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Interfaces\\Repository\\IUsuarioRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-28T19:28:01.674Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-28T19:28:01.674Z"
             },
             {
               "$type": "Document",
@@ -1492,8 +1447,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\Inventario.cs",
               "ViewState": "AgIAAEEAAAAAAAAAAAAAwEwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-28T19:24:44.592Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-28T19:24:44.592Z"
             },
             {
               "$type": "Document",
@@ -1505,8 +1459,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\Material.cs",
               "ViewState": "AgIAABQAAAAAAAAAAAAowA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-28T19:24:39.028Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-28T19:24:39.028Z"
             },
             {
               "$type": "Document",
@@ -1518,8 +1471,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\TarefaUsuario.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAAewBgAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-27T18:09:59.662Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-27T18:09:59.662Z"
             },
             {
               "$type": "Document",
@@ -1531,8 +1483,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\Cliente.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-26T13:34:59.578Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-26T13:34:59.578Z"
             },
             {
               "$type": "Document",
@@ -1544,8 +1495,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Validations\\MateriaisValidations\\MaterialIdValidator.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:58:39.807Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:58:39.807Z"
             },
             {
               "$type": "Document",
@@ -1557,8 +1507,7 @@
               "RelativeToolTip": "MasterErp.Services\\RelatorioDiarioService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:57:40.032Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:57:40.032Z"
             },
             {
               "$type": "Document",
@@ -1581,8 +1530,7 @@
               "RelativeToolTip": "MasterErp.Services\\LogAcoesUsuariosService.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAAAuwEQAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:57:35.207Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:57:35.207Z"
             },
             {
               "$type": "Document",
@@ -1594,8 +1542,7 @@
               "RelativeToolTip": "MasterErp.Services\\ItemService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:57:34.44Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:57:34.44Z"
             },
             {
               "$type": "Document",
@@ -1618,8 +1565,7 @@
               "RelativeToolTip": "MasterErp.Services\\InventarioService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:57:28.955Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:57:28.955Z"
             },
             {
               "$type": "Document",
@@ -1631,8 +1577,7 @@
               "RelativeToolTip": "MasterErp.Services\\ClienteService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:56:33.474Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:56:33.474Z"
             },
             {
               "$type": "Document",
@@ -1644,8 +1589,7 @@
               "RelativeToolTip": "MasterErp.Services\\OrdemSeparacaoService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:56:22.303Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:56:22.303Z"
             },
             {
               "$type": "Document",
@@ -1657,8 +1601,7 @@
               "RelativeToolTip": "MasterErp.Services\\UsuarioService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:55:21.453Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:55:21.453Z"
             },
             {
               "$type": "Document",
@@ -1670,8 +1613,7 @@
               "RelativeToolTip": "MasterErp.Services\\ImagemAtividadeRdService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:54:17.902Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:54:17.902Z"
             },
             {
               "$type": "Document",
@@ -1683,8 +1625,7 @@
               "RelativeToolTip": "MasterErp.Services\\MasterErp.Services.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-05-23T23:53:59.173Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:53:59.173Z"
             },
             {
               "$type": "Document",
@@ -1696,8 +1637,7 @@
               "RelativeToolTip": "MasterErp.Services\\AtividadeRdService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:51:05.277Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:51:05.277Z"
             },
             {
               "$type": "Document",
@@ -1709,8 +1649,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Interfaces\\Services\\IImagemAtividadeRdService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:50:22.233Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:50:22.233Z"
             },
             {
               "$type": "Document",
@@ -1722,8 +1661,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Interfaces\\Services\\IClienteService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:50:21.408Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:50:21.408Z"
             },
             {
               "$type": "Document",
@@ -1735,8 +1673,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Interfaces\\Services\\IAtividadeRdService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:50:16.869Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:50:16.869Z"
             },
             {
               "$type": "Document",
@@ -1748,8 +1685,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\UserRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:46:28.935Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:46:28.935Z"
             },
             {
               "$type": "Document",
@@ -1861,8 +1797,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\RelatorioDiario.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAAYwCMAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:39:18.593Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:39:18.593Z"
             },
             {
               "$type": "Document",
@@ -1874,8 +1809,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\LogAcoesUsuario.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:38:24.227Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:38:24.227Z"
             },
             {
               "$type": "Document",
@@ -1887,8 +1821,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\Item.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAA2wBoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:38:22.957Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:38:22.957Z"
             },
             {
               "$type": "Document",
@@ -1900,8 +1833,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\RelatorioDiarioRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAIBJwAgAAABRAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:37:46.04Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:37:46.04Z"
             },
             {
               "$type": "Document",
@@ -1913,8 +1845,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\OrdemSepacaoRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABTAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:37:41.963Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:37:41.963Z"
             },
             {
               "$type": "Document",
@@ -1937,8 +1868,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\OrcamentoRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:36:58.411Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:36:58.411Z"
             },
             {
               "$type": "Document",
@@ -1974,8 +1904,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\LogAcoesUsuarioRepository.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAADwvwwAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:36:54.36Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:36:54.36Z"
             },
             {
               "$type": "Document",
@@ -1987,8 +1916,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\ItemRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:36:53.191Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:36:53.191Z"
             },
             {
               "$type": "Document",
@@ -2011,8 +1939,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\InventarioRepository.cs",
               "ViewState": "AgIAAGUAAAAAAAAAAAAmwAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:36:49.311Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:36:49.311Z"
             },
             {
               "$type": "Document",
@@ -2024,8 +1951,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\AuthenticateDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:36:21.239Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:36:21.239Z"
             },
             {
               "$type": "Document",
@@ -2037,8 +1963,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\ClienteRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:34:49.539Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:34:49.539Z"
             },
             {
               "$type": "Document",
@@ -2050,8 +1975,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Interfaces\\Repository\\IImagemAtividadeRdRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:33:57.721Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:33:57.721Z"
             },
             {
               "$type": "Document",
@@ -2063,8 +1987,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Validations\\UsuariosValidations\\UsuarioPostValidator.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:30:25.824Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:30:25.824Z"
             },
             {
               "$type": "Document",
@@ -2076,8 +1999,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Validations\\UsuariosValidations\\UsuarioIdValidator.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:30:24.085Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:30:24.085Z"
             },
             {
               "$type": "Document",
@@ -2089,8 +2011,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Validations\\MateriaisValidations\\MaterialPostValidator.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:30:07.446Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:30:07.446Z"
             },
             {
               "$type": "Document",
@@ -2115,8 +2036,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Models\\AtividadeRd.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:20:58.532Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:20:58.532Z"
             },
             {
               "$type": "Document",
@@ -2128,8 +2048,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\UsuarioRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T23:15:28.502Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T23:15:28.502Z"
             },
             {
               "$type": "Document",
@@ -2167,8 +2086,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\SqlContext.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAABQwBwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T22:57:53.284Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T22:57:53.284Z"
             },
             {
               "$type": "Document",
@@ -2206,8 +2124,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\AtividadeRdRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAwAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T22:56:44.689Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T22:56:44.689Z"
             },
             {
               "$type": "Document",
@@ -2219,8 +2136,7 @@
               "RelativeToolTip": "MasterErp.Domain\\Interfaces\\Repository\\IAtividadeRdRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T22:56:01.73Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T22:56:01.73Z"
             },
             {
               "$type": "Document",
@@ -2232,8 +2148,7 @@
               "RelativeToolTip": "MasterErp.Infraestructure\\ImagemAtividadeRdRepository.cs",
               "ViewState": "AgIAACMAAAAAAAAAAAAhwDIAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-23T22:54:51.314Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-23T22:54:51.314Z"
             },
             {
               "$type": "Document",
@@ -2245,8 +2160,7 @@
               "RelativeToolTip": "MasterErp.Api\\MasterErp.Api.csproj",
               "ViewState": "AgIAAAcAAAAAAAAAAGBnwCQAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-05-22T19:51:01.484Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-22T19:51:01.484Z"
             },
             {
               "$type": "Document",
@@ -2258,8 +2172,7 @@
               "RelativeToolTip": "MasterErp.Api\\MasterErp.Api.http",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
-              "WhenOpened": "2024-05-22T19:50:38.183Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-22T19:50:38.183Z"
             }
           ]
         }

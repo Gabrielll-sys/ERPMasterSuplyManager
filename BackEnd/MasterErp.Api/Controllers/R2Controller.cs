@@ -19,7 +19,7 @@ namespace MasterErp.Api.Controllers
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/R")]
     [ApiController]
-    //[Authorize]  Apenas usuários logados podem gerar URLs de upload
+    [Authorize]  // Apenas usuários logados podem gerar URLs de upload
     public class R2Controller : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -44,7 +44,7 @@ namespace MasterErp.Api.Controllers
         {
             try
             {
-                Console.WriteLine($"[R2] FileName: {request.FileName}, ContentType: {request.ContentType}");
+
 
                 // 1. Carrega configurações
                 var accountId = _configuration["CloudflareR2:AccountId"];

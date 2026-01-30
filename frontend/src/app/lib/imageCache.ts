@@ -8,7 +8,10 @@ const imageCachePromises = new Map<string, Promise<string | null>>();
  * Converte URL de imagem para base64 com cache
  * Evita múltiplas chamadas ao Azure Storage para a mesma imagem
  */
-export const imageUrlToBase64Cached = async (url: string | undefined): Promise<string | null> => {
+export const imageUrlToBase64Cached = async (
+  url: string | undefined,
+  cacheMode: RequestCache = "force-cache"
+): Promise<string | null> => {
   if (!url) return null;
 
   // Verifica se já está em cache
@@ -27,7 +30,8 @@ export const imageUrlToBase64Cached = async (url: string | undefined): Promise<s
   const loadPromise = (async (): Promise<string | null> => {
     try {
       const response = await fetch(url, {
-        cache: 'force-cache', // Usa cache do navegador
+        cache: cacheMode,
+        mode: "cors",
       });
 
       if (!response.ok) {
@@ -74,7 +78,8 @@ export const imageUrlToBase64Cached = async (url: string | undefined): Promise<s
 export const preloadImagesWithCache = async (
   urls: (string | undefined)[],
   concurrencyLimit: number = 5,
-  onProgress?: (loaded: number, total: number) => void
+  onProgress?: (loaded: number, total: number) => void,
+  cacheMode: RequestCache = "force-cache"
 ): Promise<Map<string, string | null>> => {
   const validUrls = urls.filter((url): url is string => !!url);
   const results = new Map<string, string | null>();
@@ -83,7 +88,7 @@ export const preloadImagesWithCache = async (
   // Função para processar URLs em lotes
   const processBatch = async (batch: string[]) => {
     const promises = batch.map(async (url) => {
-      const base64 = await imageUrlToBase64Cached(url);
+      const base64 = await imageUrlToBase64Cached(url, cacheMode);
       results.set(url, base64);
       loadedCount++;
       onProgress?.(loadedCount, validUrls.length);

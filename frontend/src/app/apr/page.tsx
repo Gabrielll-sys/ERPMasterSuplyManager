@@ -188,8 +188,10 @@ function AprCard({ apr, onClick }: { apr: IApr; onClick: () => void }) {
       className="text-left bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-lg hover:border-rose-200 transition-all group"
     >
       <div className="flex items-start justify-between mb-3">
-        <span className="px-2.5 py-1 rounded-full bg-rose-100 text-rose-600 text-xs font-semibold">
-          APR #{apr.id?.toString().padStart(4, "0")}
+        <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
+          apr.tipo === "rapida" ? "bg-amber-100 text-amber-600" : "bg-rose-100 text-rose-600"
+        }`}>
+          {apr.tipo === "rapida" ? "⚡ RÁPIDA" : `APR #${apr.id?.toString().padStart(4, "0")}`}
         </span>
         <svg className="w-5 h-5 text-slate-400 group-hover:text-rose-500 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

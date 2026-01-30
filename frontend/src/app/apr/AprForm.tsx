@@ -378,6 +378,13 @@ export default function AprForm({ apr, onSave, saving }: AprFormProps) {
   
   const isCreateMode = !apr?.id;
 
+  // Cargos que podem fechar e editar APR fechada
+  const cargosPermitidos = ["Diretor", "Administrador", "SuporteTecnico", "SuporteTécnico"];
+  const userPodeFechar = cargosPermitidos.includes(user?.role || "");
+  const aprFechada = apr?.fechada === true;
+  // Se APR está fechada e usuário não tem permissão, bloqueia edição
+  const bloqueiaEdicao = aprFechada && !userPodeFechar;
+
   useEffect(() => {
     if (!apr?.conteudoJson) return;
     try {
@@ -393,7 +400,8 @@ export default function AprForm({ apr, onSave, saving }: AprFormProps) {
     const loadUsers = async () => {
       try {
         const data = await getAllUsers();
-        const filterUsers = data.filter(u => u.isActive === true);
+        const filterUsers = data.filter(u => u.isActive === true && u.id  != user?.id);
+
         setUsers(filterUsers);
       } catch {
         setUsers([]);
@@ -657,6 +665,33 @@ export default function AprForm({ apr, onSave, saving }: AprFormProps) {
 
   return (
     <div className="space-y-6">
+      {/* Banner de APR fechada */}
+      {aprFechada && (
+        <div className={`rounded-xl p-4 border ${
+          userPodeFechar ? "bg-rose-50 border-rose-200" : "bg-slate-100 border-slate-300"
+        }`}>
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">🔒</span>
+            <div>
+              <p className={`font-semibold ${
+                userPodeFechar ? "text-rose-800" : "text-slate-700"
+              }`}>
+                APR Fechada
+              </p>
+              <p className="text-sm text-slate-600">
+                Fechada por {apr?.fechadaPor || "usuário"}
+                {apr?.fechadaEm && ` em ${new Date(apr.fechadaEm).toLocaleDateString("pt-BR")}`}
+              </p>
+              {!userPodeFechar && (
+                <p className="text-xs text-rose-600 mt-1">
+                  Somente Diretor, Administrador ou Suporte Técnico podem editar.
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
         <h2 className="text-lg font-semibold text-slate-900 mb-4">Identificação</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -973,9 +1008,37 @@ export default function AprForm({ apr, onSave, saving }: AprFormProps) {
             <span>✓</span> {statusBadge}
           </span>
         )}
+
+        {/* Botão Fechar APR - só aparece para usuários autorizados e APR não fechada */}
+        {!isCreateMode && userPodeFechar && !aprFechada && (
+          <button
+            type="button"
+            disabled={saving || cooldown}
+            onClick={async () => {
+              if (!confirm("Tem certeza que deseja FECHAR esta APR? APRs fechadas só podem ser editadas por Diretor, Administrador ou Suporte Técnico.")) return;
+              const payload: IApr = {
+                id: apr?.id,
+                titulo: apr?.titulo,
+                data: apr?.data,
+                tipo: "completa",
+                conteudoJson: apr?.conteudoJson || "{}",
+                fechada: true,
+                fechadaPor: user?.userName || "Usuário",
+              };
+              await onSave(payload);
+              setStatusBadge("APR Fechada com sucesso");
+              setTimeout(() => setStatusBadge(""), 3000);
+            }}
+            className="px-6 py-2.5 rounded-xl border-2 border-rose-500 text-rose-600 text-sm font-semibold hover:bg-rose-50 disabled:opacity-60 transition-all"
+          >
+            🔒 Fechar APR
+          </button>
+        )}
+
+        {/* Botão Salvar */}
         <button
           type="button"
-          disabled={saving || cooldown}
+          disabled={saving || cooldown || bloqueiaEdicao}
           onClick={handleSave}
           className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-red-600 text-white text-sm font-semibold hover:from-rose-600 hover:to-red-700 disabled:opacity-60 transition-all shadow-lg shadow-rose-500/20"
         >
